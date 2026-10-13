@@ -1,62 +1,40 @@
-# Essex data access: verified v13
+# Essex data access: Figshare v13
 
-**Primary source:** https://doi.org/10.6084/m9.figshare.30225739  
-**Live inventory verified:** 13 October 2026 from the maintainer's Windows terminal. Version 13; six files. See [file inventory](DATA_MANIFEST_ESSEX_V13.md).
+**Source:** https://doi.org/10.6084/m9.figshare.30225739
 
-## Step 1: Small supporting files (complete on the maintainer's Windows machine, 13 October 2026)
+## Verified locally on 13 October 2026
+- Official file inventory: Figshare version 13, six files.
+- Support files: `README.md` and `SubCharacteristics.xlsx`, downloaded and inspected.
+- `MATLAB.zip`: downloaded and verified; 42 ZIP entries, including 40 MAT files, 224.79 MiB uncompressed, no archive-path warnings.
+- Extracted MAT files: 40 under `data/raw/essex_femoral_neck_loading/MATLAB/Processed Data/`.
+- Five top-level MAT headers: `subj04`, `subj05`, `subj06`, `subj08`, `subj09`. All report MAT v5-compatible files with `Data` and `__function_workspace__`.
+- The `Data` field's **nested layout and values are not yet inspected**.
 
-In PowerShell from the repository root:
+See [verified v13 manifest](DATA_MANIFEST_ESSEX_V13.md), [metadata audit](../studies/biomechanical_load_estimation/SUBJECT_METADATA_AUDIT.md) and [pipeline design](../studies/biomechanical_load_estimation/DATA_PIPELINE_DESIGN.md).
+
+## Next: inspect nested MATLAB structures
+
+From the repository root on the maintainer's Windows system:
 
 ```powershell
 git pull origin main
-python scripts/figshare_inventory.py --download-file "README.md" --destination data/raw/essex_femoral_neck_loading
-python scripts/figshare_inventory.py --download-file "SubCharacteristics.xlsx" --destination data/raw/essex_femoral_neck_loading
+python scripts/inspect_mat_nested.py --root data/raw/essex_femoral_neck_loading --subjects subj04 subj16 --report outputs/essex_nested_mat_schema.json
 ```
 
-They are about 0.01 and 0.03 MiB. **Both files were downloaded and byte-count/checksum-verified successfully.** Their actual contents are not available to the GitHub assistant yet; the next step is to privately supply these two small files for inspection (or provide a sanitised worksheet schema). Do not treat the successful download as a completed data dictionary.
+The script loads **only** the named `Data` variable, not `__function_workspace__`. It records field names, array shapes and data types. Object arrays are sampled at their **first element**; this does **not** validate all trials. Numeric signal values are **not** included in the report.
 
-## Step 2: MATLAB.zip after documentation review
-
-The official dataset README and participant spreadsheet have now been directly reviewed. See [the metadata audit](../studies/biomechanical_load_estimation/SUBJECT_METADATA_AUDIT.md). The local MATLAB archive has now been downloaded and inventoried. Its 42 members comprise 40 MAT files and 2 directories, totalling 224.79 MiB uncompressed. The ZIP inspector found no path-safety warnings; the actual contents of the MAT files are not yet inspected.
+If the first inspection terminates early because of node/depth limits, an explicitly deeper run may be appropriate after reviewing its initial structure:
 
 ```powershell
-python scripts/figshare_inventory.py --download-file "MATLAB.zip" --destination data/raw/essex_femoral_neck_loading --max-mb 512
+python scripts/inspect_mat_nested.py --subjects subj04 subj16 --max-depth 8 --max-nodes 800 --report outputs/essex_nested_mat_schema_deep.json
 ```
 
-This file is about 224.68 MiB. Inspect ZIP member filenames and uncompressed size **before** extraction:
+Send the printed console output and the JSON report for next-step analysis. These reports remain under ignored local `outputs/`. Do not upload raw MAT data, credentials or personal participant-level information to public GitHub.
 
-```powershell
-python scripts/inspect_zip.py --archive data/raw/essex_femoral_neck_loading/MATLAB.zip --report outputs/essex_matlab_zip_inventory.json
-```
+## Data principles
 
-The archive inspection completed successfully on the maintainer's Windows machine. The ZIP member paths begin with `MATLAB/Processed Data/` and include non-contiguous `subjXX.mat` participant IDs.
-
-### Step 2a — Extract the inspected archive (PowerShell)
-
-```powershell
-Expand-Archive -LiteralPath .\data\raw\essex_femoral_neck_loading\MATLAB.zip -DestinationPath .\data\raw\essex_femoral_neck_loading
-(Get-ChildItem .\data\raw\essex_femoral_neck_loading -Recurse -File -Filter *.mat).Count
-```
-
-The expected count after extraction is **40**. This command extracts only the already-inspected local ZIP; do not use `-Force` or overwrite an existing extraction without reviewing it. This action has not been executed by the assistant. Never commit raw data.
-
-## Step 3: MATLAB header inspection
-
-Once `.mat` files are extracted:
-
-```powershell
-python -m pip install -r requirements-data.txt
-python scripts/inspect_mat.py --root data/raw/essex_femoral_neck_loading --max-files 5 --report outputs/essex_mat_headers.json
-```
-
-This reports only top-level variable names and shapes. A dedicated loader comes after nested arrays, units and trial keys are confirmed.
-
-## Not needed yet
-
-- `angles.xlsx` (29.73 MiB): later kinematic analysis.
-- `OpenSim.zip` (10.40 MiB): optional model files.
-- `Visual3D.zip` (18,414.04 MiB): not needed for first baseline.
-
-## Research integrity
-
-The authors' separate GitHub `labels.csv` is a derivative, not the primary Figshare trial manifest. Its subject/activity/trial combinations are not unique and must not be joined naively. Subject-independent splitting, train-only preprocessing, explicit units and provenance are required. No model results are available yet.
+- Do not assume any participant has an `e1/e3` field until checked.
+- Cross-check actual subject identifiers with `SubCharacteristics.xlsx` before defining a cohort.
+- 101-point movement trajectories and every-tenth-point FE outputs must not be treated as identical grids until verified.
+- Baseline modelling must use subject-independent splits, training-only fitted transforms and an explicit target definition.
+- Avoid downloading `Visual3D.zip` (approximately 18 GiB) for the first baseline.
