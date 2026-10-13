@@ -1,0 +1,4 @@
+# Python-only BoneNet derivative pilot
+numpy>=1.24
+scipy>=1.10
+scikit-learn>=1.3

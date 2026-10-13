@@ -48,3 +48,13 @@
 - [ ] Co-recorded multimodal sensing when suitable datasets are available.
 
 A model or scientific result is only called implemented/validated after actual execution. **Next action:** use native MATLAB (if available) to inspect IMU/ID/e1e3 class and variable names for two subjects; do not train a model with opaque object references.
+
+
+## Python-first implementation decision (13 October 2026)
+- [x] Set Python as the default computational stack; MATLAB-native inspection is optional and not required for the next step.
+- [x] Implement a Python-only download, structural audit and opt-in subject-held-out Ridge baseline for the authors' numeric BoneNet derivative.
+- [x] Pass five unit tests with synthetic source-shaped MAT data.
+- [ ] Verify actual BoneNet Data.mat/labels.csv tensors and pairing through one reproducible Python audit.
+- [ ] Evaluate a separate Python MCOS decoding adapter for the *original* Figshare files without assuming support for this particular object type.
+
+See [Python-only pipeline](PYTHON_FIRST_PIPELINE.md). No authentic-data model metrics have been reported.

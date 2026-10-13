@@ -6,6 +6,7 @@ on:
       - "scripts/**"
       - "tests/**"
       - "requirements-data.txt"
+      - "requirements-pilot.txt"
       - ".github/workflows/data-tools-checks.yml"
   pull_request:
     paths:
@@ -23,7 +24,7 @@ jobs:
         with:
           python-version: "3.11"
       - name: Install inspection dependencies
-        run: python -m pip install -r requirements-data.txt
+        run: python -m pip install -r requirements-data.txt -r requirements-pilot.txt
       - name: Check syntax
         run: python -m compileall -q scripts tests
       - name: Run offline tests
