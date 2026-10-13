@@ -8,7 +8,7 @@
 - `MATLAB.zip`: downloaded and verified; 42 ZIP entries, including 40 MAT files, 224.79 MiB uncompressed, no archive-path warnings.
 - Extracted MAT files: 40 under `data/raw/essex_femoral_neck_loading/MATLAB/Processed Data/`.
 - Five top-level MAT headers: `subj04`, `subj05`, `subj06`, `subj08`, `subj09`. All report MAT v5-compatible files with `Data` and `__function_workspace__`.
-- The `Data` field's **nested layout and values are not yet inspected**.
+- The bounded nested inspector has run on `subj04` and `subj16`. Each contains a `[48,1]` `Data` array; the **first record** in each has 13 fields: `SubjID`, `Task`, `SubTask`, `TrialNum`, `TrialNumUpdated`, `UpdatedTrialID`, `Cycle`, `IMU`, `ID`, `FP`, `e1e3`, `JCF`, `MuscleF`. This is *not* yet an audit of every element or target completeness.
 
 See [verified v13 manifest](DATA_MANIFEST_ESSEX_V13.md), [metadata audit](../studies/biomechanical_load_estimation/SUBJECT_METADATA_AUDIT.md) and [pipeline design](../studies/biomechanical_load_estimation/DATA_PIPELINE_DESIGN.md).
 
@@ -29,7 +29,7 @@ If the first inspection terminates early because of node/depth limits, an explic
 python scripts/inspect_mat_nested.py --subjects subj04 subj16 --max-depth 8 --max-nodes 800 --report outputs/essex_nested_mat_schema_deep.json
 ```
 
-Send the printed console output and the JSON report for next-step analysis. These reports remain under ignored local `outputs/`. Do not upload raw MAT data, credentials or personal participant-level information to public GitHub.
+The console output has been received. Next, share `outputs/essex_nested_mat_schema.json` from the local machine so the first-element nested IMU, ID, JCF and e1e3 shape/dtype metadata can be examined. Only after this review should the all-record audit be finalised. These reports remain under ignored local `outputs/`. Do not upload raw MAT data, credentials or personal participant-level information to public GitHub.
 
 ## Data principles
 

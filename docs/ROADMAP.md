@@ -1,6 +1,6 @@
 # Implementation roadmap
 
-**Current status (13 October 2026):** Figshare v13 inventory and 40 participant records inspected. The downloaded MATLAB archive has been safely extracted on the maintainer's Windows machine (40 MAT files); top-level headers in five files contain `Data` and `__function_workspace__`. **Nested arrays and trial mappings are not yet validated.** No model has been trained.
+**Current status (13 October 2026):** Figshare v13 inventory and 40 participant records inspected. The downloaded MATLAB archive has been safely extracted on the maintainer's Windows machine (40 MAT files); top-level headers in five files contain `Data` and `__function_workspace__`. First-element nested fields were inspected for `subj04` and `subj16` (`Data` shape `[48,1]` in both). Full-record shapes and trial mappings are not yet validated. No model has been trained.
 
 ## Phase 0 — Repository foundation
 - [x] Confirm broad independent scope and repository name.
@@ -18,8 +18,9 @@
 - [x] Extract 40 MAT files into an ignored local directory.
 - [x] Inspect top-level MAT variable headers in five subjects.
 - [x] Add a bounded nested-MAT metadata inspector and synthetic-data tests.
-- [ ] Run nested field/shape inspection on actual subj04 and subj16 files.
-- [ ] Determine actual IMU, ID, JCF and e1/e3 nested structures and available trials.
+- [x] Run first-element nested field/shape inspection on actual subj04 and subj16 files (both have `Data` shape `[48,1]` and the same 13 first-element field names).
+- [ ] Review generated nested schema JSON for actual IMU, ID, JCF and e1e3 shapes/dtypes.
+- [ ] Audit all 48 Data elements per inspected file for field consistency and target completeness; determine valid trial/cycle identifiers.
 - [ ] Validate all 40 subject IDs against the workbook, target coverage and exclusions.
 - [ ] Produce dataset schema, missingness audit and quality report.
 - [ ] Finalise one well-defined input/target contract and source-record keys.
@@ -45,4 +46,4 @@
 - [ ] Neurorehabilitation and motor signals.
 - [ ] Co-recorded multimodal sensing when suitable datasets are available.
 
-A model or scientific result is only called implemented/validated after actual execution. **Next action:** run the nested MATLAB schema inspector and examine its generated JSON report.
+A model or scientific result is only called implemented/validated after actual execution. **Next action:** examine the generated `outputs/essex_nested_mat_schema.json` from the user's local machine before implementing a whole-record audit.
