@@ -3,7 +3,7 @@
 **Primary source:** https://doi.org/10.6084/m9.figshare.30225739  
 **Live inventory verified:** 13 October 2026 from the maintainer's Windows terminal. Version 13; six files. See [file inventory](DATA_MANIFEST_ESSEX_V13.md).
 
-## Step 1: Small supporting files
+## Step 1: Small supporting files (complete on the maintainer's Windows machine, 13 October 2026)
 
 In PowerShell from the repository root:
 
@@ -13,7 +13,7 @@ python scripts/figshare_inventory.py --download-file "README.md" --destination d
 python scripts/figshare_inventory.py --download-file "SubCharacteristics.xlsx" --destination data/raw/essex_femoral_neck_loading
 ```
 
-They are about 0.01 and 0.03 MiB. Send the README text and metadata column names (without personal data), or share the two downloaded files privately for inspection.
+They are about 0.01 and 0.03 MiB. **Both files were downloaded and byte-count/checksum-verified successfully.** Their actual contents are not available to the GitHub assistant yet; the next step is to privately supply these two small files for inspection (or provide a sanitised worksheet schema). Do not treat the successful download as a completed data dictionary.
 
 ## Step 2: MATLAB.zip after documentation review
 
