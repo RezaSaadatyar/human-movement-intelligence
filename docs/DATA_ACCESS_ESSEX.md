@@ -17,11 +17,19 @@ They are about 0.01 and 0.03 MiB. **Both files were downloaded and byte-count/ch
 
 ## Step 2: MATLAB.zip after documentation review
 
+The official dataset README and participant spreadsheet have now been directly reviewed. See [the metadata audit](../studies/biomechanical_load_estimation/SUBJECT_METADATA_AUDIT.md). Download the MATLAB archive as the next data-acquisition step.
+
 ```powershell
 python scripts/figshare_inventory.py --download-file "MATLAB.zip" --destination data/raw/essex_femoral_neck_loading --max-mb 512
 ```
 
-This file is about 224.68 MiB. Inspect ZIP member filenames and uncompressed size **before** extraction. Extract to a local folder under `data/raw/essex_femoral_neck_loading/`. Never commit raw data.
+This file is about 224.68 MiB. Inspect ZIP member filenames and uncompressed size **before** extraction:
+
+```powershell
+python scripts/inspect_zip.py --archive data/raw/essex_femoral_neck_loading/MATLAB.zip --report outputs/essex_matlab_zip_inventory.json
+```
+
+Send the command output for review before extracting. The inspection does not unpack files. Extract to a local folder under `data/raw/essex_femoral_neck_loading/`. Never commit raw data.
 
 ## Step 3: MATLAB header inspection
 
