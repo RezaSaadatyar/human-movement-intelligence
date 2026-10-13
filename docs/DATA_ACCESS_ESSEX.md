@@ -17,7 +17,7 @@ They are about 0.01 and 0.03 MiB. **Both files were downloaded and byte-count/ch
 
 ## Step 2: MATLAB.zip after documentation review
 
-The official dataset README and participant spreadsheet have now been directly reviewed. See [the metadata audit](../studies/biomechanical_load_estimation/SUBJECT_METADATA_AUDIT.md). Download the MATLAB archive as the next data-acquisition step.
+The official dataset README and participant spreadsheet have now been directly reviewed. See [the metadata audit](../studies/biomechanical_load_estimation/SUBJECT_METADATA_AUDIT.md). The local MATLAB archive has now been downloaded and inventoried. Its 42 members comprise 40 MAT files and 2 directories, totalling 224.79 MiB uncompressed. The ZIP inspector found no path-safety warnings; the actual contents of the MAT files are not yet inspected.
 
 ```powershell
 python scripts/figshare_inventory.py --download-file "MATLAB.zip" --destination data/raw/essex_femoral_neck_loading --max-mb 512
@@ -29,7 +29,16 @@ This file is about 224.68 MiB. Inspect ZIP member filenames and uncompressed siz
 python scripts/inspect_zip.py --archive data/raw/essex_femoral_neck_loading/MATLAB.zip --report outputs/essex_matlab_zip_inventory.json
 ```
 
-Send the command output for review before extracting. The inspection does not unpack files. Extract to a local folder under `data/raw/essex_femoral_neck_loading/`. Never commit raw data.
+The archive inspection completed successfully on the maintainer's Windows machine. The ZIP member paths begin with `MATLAB/Processed Data/` and include non-contiguous `subjXX.mat` participant IDs.
+
+### Step 2a — Extract the inspected archive (PowerShell)
+
+```powershell
+Expand-Archive -LiteralPath .\data\raw\essex_femoral_neck_loading\MATLAB.zip -DestinationPath .\data\raw\essex_femoral_neck_loading
+(Get-ChildItem .\data\raw\essex_femoral_neck_loading -Recurse -File -Filter *.mat).Count
+```
+
+The expected count after extraction is **40**. This command extracts only the already-inspected local ZIP; do not use `-Force` or overwrite an existing extraction without reviewing it. This action has not been executed by the assistant. Never commit raw data.
 
 ## Step 3: MATLAB header inspection
 
@@ -37,7 +46,7 @@ Once `.mat` files are extracted:
 
 ```powershell
 python -m pip install -r requirements-data.txt
-python scripts/inspect_mat.py --root data/raw/essex_femoral_neck_loading --report outputs/essex_mat_headers.json
+python scripts/inspect_mat.py --root data/raw/essex_femoral_neck_loading --max-files 5 --report outputs/essex_mat_headers.json
 ```
 
 This reports only top-level variable names and shapes. A dedicated loader comes after nested arrays, units and trial keys are confirmed.

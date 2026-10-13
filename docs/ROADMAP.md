@@ -1,6 +1,6 @@
 # Implementation roadmap
 
-**Current status (13 October 2026):** Repository foundation and Figshare v13 remote inventory confirmed; README.md and SubCharacteristics.xlsx downloaded and checksum-verified on the maintainer's Windows machine. Their contents have not yet been inspected. No modelling results are claimed.
+**Current status (13 October 2026):** Repository foundation and Figshare v13 remote inventory confirmed; README.md and SubCharacteristics.xlsx downloaded and checksum-verified on the maintainer's Windows machine. The README and participant workbook have been inspected. The local MATLAB.zip archive contains 40 MAT files (42 ZIP entries), and extraction/MAT header inspection are pending. No modelling results are claimed.
 
 ## Phase 0 — Repository foundation
 - [x] Confirm broad independent scope and repository name.
@@ -14,8 +14,9 @@
 - [x] Add a metadata inventory tool and MATLAB header inspection tool.
 - [x] Retrieve Figshare live article version (13) and all six remote file entries from the maintainer's machine.
 - [x] Download and checksum-verify README.md and SubCharacteristics.xlsx locally.
-- [ ] Inspect actual README text and spreadsheet worksheets/column definitions.
-- [ ] Download MATLAB.zip and audit archive member names, sizes and nested MAT schema.
+- [x] Inspect actual README text and spreadsheet worksheets/column definitions (see SUBJECT_METADATA_AUDIT.md).
+- [x] Download MATLAB.zip and inspect ZIP member names, sizes and basic path safety: 42 entries (40 MAT files), 224.79 MiB uncompressed, no warnings.
+- [ ] Extract the 40 MAT files to ignored local data/raw/ and inspect MATLAB variable headers and nested structure.
 - [x] Choose direct Figshare API retrieval into ignored local data/raw/ for selected files.
 - [ ] Confirm file types, subject IDs, sampling/normalisation conventions and feature/target availability.
 - [ ] Produce a data dictionary, missingness report and data-quality summary.

@@ -1,6 +1,6 @@
 # Data pipeline design: Biomechanical Load Estimation
 
-**Stage:** Source-verified planning and inspection utilities. **No Figshare source archive has been downloaded, no model trained and no result validated.**
+**Stage (13 October 2026):** The source README and 40-participant workbook were inspected, and MATLAB.zip was downloaded and inventoried (42 ZIP entries, 40 .mat files, 224.79 MiB uncompressed; no ZIP path-safety warnings). **MAT variables are still uninspected, and no model has been trained or validated.**
 
 ## 1. Research question and source boundary
 
@@ -25,7 +25,7 @@ The publication describes 40 healthy participants, with three additional exclusi
 
 The article reports recorded frequencies of IMU 225 Hz, angles 200 Hz and force plate 2000 Hz **before** normalisation. Time-normalised arrays should not be treated as raw 225/200/2000 Hz signals. The strain sequence may be sampled on an 11-point grid; **verify the actual count and indexes** before aligning with the 101-point predictors. Do not interpolate strain targets as if additional FE simulations had been conducted.
 
-The article describes participant MATLAB files such as `subj04.mat`, `SubCharacteristics.xlsx`, and `angles.csv` under a processed-data layout. The exact downloaded directory structure and nested MATLAB keys are unverified.
+The article describes participant MATLAB files such as `subj04.mat`, `SubCharacteristics.xlsx`, and `angles.csv` under a processed-data layout. The local ZIP inspector identified a `MATLAB/Processed Data/subjXX.mat` path prefix; individual MAT variable keys and participant coverage are still unverified.
 
 ## 3. Independently inspected secondary public material
 
