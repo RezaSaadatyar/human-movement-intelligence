@@ -20,7 +20,8 @@
 - [x] Add a bounded nested-MAT metadata inspector and synthetic-data tests.
 - [x] Run first-element nested field/shape inspection on actual subj04 and subj16 files (both have `Data` shape `[48,1]` and the same 13 first-element field names).
 - [ ] Review generated nested schema JSON for actual IMU, ID, JCF and e1e3 shapes/dtypes.
-- [ ] Audit all 48 Data elements per inspected file for field consistency and target completeness; determine valid trial/cycle identifiers.
+- [x] Audit all existing Data elements across 40 files: 1,897 records, 168 explicitly empty e1e3 fields and 1,729 nonempty opaque objects.
+- [ ] Recover MATLAB-native classes, numeric-variable shapes and usable target completeness.
 - [ ] Validate all 40 subject IDs against the workbook, target coverage and exclusions.
 - [ ] Produce dataset schema, missingness audit and quality report.
 - [ ] Finalise one well-defined input/target contract and source-record keys.
@@ -46,4 +47,4 @@
 - [ ] Neurorehabilitation and motor signals.
 - [ ] Co-recorded multimodal sensing when suitable datasets are available.
 
-A model or scientific result is only called implemented/validated after actual execution. **Next action:** examine the generated `outputs/essex_nested_mat_schema.json` from the user's local machine before implementing a whole-record audit.
+A model or scientific result is only called implemented/validated after actual execution. **Next action:** use native MATLAB (if available) to inspect IMU/ID/e1e3 class and variable names for two subjects; do not train a model with opaque object references.
