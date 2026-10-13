@@ -13,9 +13,9 @@
 | OpenSim.zip | 10.40 | 63190519 | Optional MSK modelling |
 | Visual3D.zip | 18414.04 | 63341380 | Defer, approximately 18 GiB |
 
-The remote filename, version, size and file IDs were verified from the user's actual command output. Contents, licence at the file level, metadata columns, actual MATLAB array shapes and archive subdirectories **have not yet been inspected**.
+The remote filename, version, size and file IDs were verified from the user's actual command output. The user subsequently downloaded **README.md** and **SubCharacteristics.xlsx** on 13 October 2026; the download script reported successful byte-count/checksum verification for both. Actual README contents, spreadsheet metadata columns, file-specific licence, MATLAB array shapes and archive subdirectories **have not yet been inspected**.
 
-## Next acquisition step
+## Completed acquisition step (local Windows machine)
 
 From the checked-out repository root on Windows:
 
@@ -25,4 +25,4 @@ python scripts/figshare_inventory.py --download-file "README.md" --destination d
 python scripts/figshare_inventory.py --download-file "SubCharacteristics.xlsx" --destination data/raw/essex_femoral_neck_loading
 ```
 
-The tool checks the official byte count and optional hash and will refuse to overwrite existing files. Keep downloaded data under ignored local `data/raw/`. Check README and spreadsheet contents before downloading the 225 MiB MATLAB archive. Avoid Visual3D.zip for the first baseline.
+The tool checks the official byte count and optional hash and will refuse to overwrite existing files. Keep downloaded data under ignored local `data/raw/`. The two small downloads have been verified. Inspect their contents before downloading the 225 MiB MATLAB archive. Avoid Visual3D.zip for the first baseline.
