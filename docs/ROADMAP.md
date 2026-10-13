@@ -1,17 +1,22 @@
 # Implementation roadmap
 
-**Current status:** Phase 0 architecture and data-source documentation. No modelling results are claimed.
+**Current status (13 October 2026):** Repository foundation and Figshare v13 remote inventory confirmed; README.md and SubCharacteristics.xlsx downloaded and checksum-verified on the maintainer's Windows machine. Their contents have not yet been inspected. No modelling results are claimed.
 
 ## Phase 0 — Repository foundation
 - [x] Confirm broad independent scope and repository name.
 - [x] Establish proposed architecture and initial study catalogue.
 - [x] Record data access and citation rules.
 - [x] Publish research and code-writing standards.
-- [ ] Select the first study and verify the actual data archive inventory.
+- [x] Select biomechanical load estimation and verify the six-file Figshare v13 remote inventory.
 
 ## Phase 1 — First dataset inspection
-- [x] Review the publication's Table 3 fields, participant exclusions and related authors' GitHub example.\n- [x] Add a metadata inventory tool and MATLAB header inspection tool.\n- [ ] Retrieve Figshare live article version and complete downloadable file inventory (requires accessible API).
-- [ ] Decide between local archive acquisition and a reproducible API-based fetch.
+- [x] Review the publication's Table 3 fields, participant exclusions and related authors' GitHub example.
+- [x] Add a metadata inventory tool and MATLAB header inspection tool.
+- [x] Retrieve Figshare live article version (13) and all six remote file entries from the maintainer's machine.
+- [x] Download and checksum-verify README.md and SubCharacteristics.xlsx locally.
+- [ ] Inspect actual README text and spreadsheet worksheets/column definitions.
+- [ ] Download MATLAB.zip and audit archive member names, sizes and nested MAT schema.
+- [x] Choose direct Figshare API retrieval into ignored local data/raw/ for selected files.
 - [ ] Confirm file types, subject IDs, sampling/normalisation conventions and feature/target availability.
 - [ ] Produce a data dictionary, missingness report and data-quality summary.
 - [ ] Decide one feasible initial research question and a genuinely available target.
