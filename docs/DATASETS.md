@@ -102,3 +102,11 @@ privacy_or_access_restrictions:
 ```
 
 **Next step:** inspect the real Figshare archive and decide which target can be predicted without using information derived from that target.
+
+## 7. October 2026 source inspection update
+
+The **primary publication's Table 3** and its subject exclusions have been checked; the authors' **secondary public GitHub** `labels.csv` was directly inspected (444 rows, 37 participants; 333 Running, 111 Walking). Its `SubjID + Task + TrialNum` combinations are not unique (222 unique combinations). This does **not** establish the nested structure of the main Figshare source files.
+
+The Figshare host could not be reached from the execution environment, so its **live file inventory, latest version and binary data schemas are still pending**. The NLM catalogue refers to DOI version `v13`, which must not be assumed to remain the latest.
+
+See [data-access commands](DATA_ACCESS_ESSEX.md), [the proposed pipeline](../studies/biomechanical_load_estimation/DATA_PIPELINE_DESIGN.md), and the read-only `scripts/figshare_inventory.py` metadata tool.

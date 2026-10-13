@@ -10,7 +10,7 @@
 - [ ] Select the first study and verify the actual data archive inventory.
 
 ## Phase 1 — First dataset inspection
-- [ ] Open the source landing page, check record version/licence and list files.
+- [x] Review the publication's Table 3 fields, participant exclusions and related authors' GitHub example.\n- [x] Add a metadata inventory tool and MATLAB header inspection tool.\n- [ ] Retrieve Figshare live article version and complete downloadable file inventory (requires accessible API).
 - [ ] Decide between local archive acquisition and a reproducible API-based fetch.
 - [ ] Confirm file types, subject IDs, sampling/normalisation conventions and feature/target availability.
 - [ ] Produce a data dictionary, missingness report and data-quality summary.

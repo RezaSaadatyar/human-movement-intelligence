@@ -58,7 +58,7 @@ Reproducible report and documented limitations
 
 - [Architecture](docs/ARCHITECTURE.md): planned reusable Python modules, study interfaces and experiment artefacts.
 - [Study catalogue](studies/README.md): separate research questions and evaluation design for each study.
-- [Datasets and access](docs/DATASETS.md): verified source links, direct-fetch options and local-data instructions.
+- [Datasets and access](docs/DATASETS.md): verified source links, direct-fetch options and local-data instructions.\n- [Essex 2026 practical access guide](docs/DATA_ACCESS_ESSEX.md): safe source-inventory and local-file inspection commands.\n- [Biomechanical load data pipeline design](studies/biomechanical_load_estimation/DATA_PIPELINE_DESIGN.md): reported schema, actual secondary CSV checks and leakage-safe study plan.
 - [Local data directory](data/README.md): expected data locations and privacy controls.
 - [Research standards](docs/RESEARCH_STANDARDS.md): leakage prevention, evaluation, reporting and reproducibility.
 - [Development and writing style](docs/DEVELOPMENT_STYLE.md): code and documentation conventions based on existing research repositories.
