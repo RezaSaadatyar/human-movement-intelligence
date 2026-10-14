@@ -13,3 +13,9 @@
 - No preprocessing is fitted and no model is trained. Full-benchmark subject-wise cross-validation remains future work.
 
 **Code:** `code/python/src/core/data_splitting.py` for generic grouping; `studies/wearable_activity_recognition/src/harth_data.py` remains dataset-specific.
+
+## Undocumented activity codes in the multi-participant example
+
+The maintainer's real Notebook 04 execution found `S032.csv` contains `10` and `11`. Neither appears in the [authors' HARTH v2.0 activity-code table](https://github.com/ntnu-ai-lab/harth-ml-experiments#harth-dataset). Although code 10 has a meaning in the **different HARChildren dataset**, we cannot transfer that definition to HARTH.
+
+The dataset adapter remains **strict by default**. Only the inspection notebook opts in to `allow_unmapped_labels=True`; it reports the codes and source-row counts and preserves values exactly. The activity distribution marks these codes `UNDOCUMENTED source code`. Do not report them as interpreted activity types or train a supervised classifier with them until their meaning is resolved or a defensible exclusion policy is designed. In particular, dropping rows before windowing would risk inadvertently bridging temporal gaps.

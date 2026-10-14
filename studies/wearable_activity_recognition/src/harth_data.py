@@ -5,6 +5,7 @@ from pathlib import Path
 from urllib.request import urlopen, Request
 
 import pandas as pd
+import warnings
 
 from core.data_loading import load_data
 
@@ -85,12 +86,14 @@ def ensure_harth_sample(data_dir, subject="S023"):
 
 
 # ================================ 3. Data Loading ================================
-def load_harth_subject(file_path):
+def load_harth_subject(file_path, allow_unmapped_labels=False):
     """
     Read and validate one subject's wearable accelerometer recording.
 
     Args:
         file_path (str | Path): HARTH subject CSV with eight required columns.
+        allow_unmapped_labels (bool): Explicit inspection-only option; unknown
+            labels are retained with a warning. Strict by default.
 
     Returns:
         data (pd.DataFrame): Timestamp, six acceleration channels and
@@ -118,8 +121,26 @@ def load_harth_subject(file_path):
     data["label"] = pd.to_numeric(data["label"], errors="raise")
     if data[REQUIRED_COLUMNS].isna().any().any():
         raise ValueError("Missing timestamps, sensor values or activity labels.")
-    if not data["label"].isin(ACTIVITY_NAMES).all():
-        unknown = data.loc[~data["label"].isin(ACTIVITY_NAMES), "label"].unique()
-        raise ValueError(f"Unexpected HARTH activity codes: {unknown.tolist()}")
+    # Check published HARTH labels without altering undocumented source codes.
+    unmapped_mask = ~data["label"].isin(ACTIVITY_NAMES)
+    if unmapped_mask.any():
+        unknown = sorted(data.loc[unmapped_mask, "label"].unique().tolist())
+        count = int(unmapped_mask.sum())
+        message = (
+            f"Unexpected HARTH activity codes: {unknown} "
+            f"({count:,} rows in {path.name}). "
+            "The HARTH v2.0 activity table does not define these codes."
+        )
+        if not allow_unmapped_labels:
+            raise ValueError(
+                message + " Use allow_unmapped_labels=True for inspection only."
+            )
+        # Never infer a label's meaning or silently include it for training.
+        warnings.warn(
+            message + " Source codes retained without reinterpretation; "
+            "resolve them before supervised training.",
+            UserWarning,
+            stacklevel=2,
+        )
     print(f"HARTH subject {path.stem}: {len(data):,} rows, {len(SENSOR_COLUMNS)} sensors")
     return data, SENSOR_COLUMNS.copy()

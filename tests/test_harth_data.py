@@ -62,6 +62,24 @@ class TestHarthData(unittest.TestCase):
             with self.assertRaisesRegex(ValueError, "Unexpected HARTH activity"):
                 load_harth_subject(path)
 
+    def test_audit_unmapped_labels_preserves_original_codes(self):
+        # Keep undocumented HARTH codes unchanged; never infer their meaning.
+        with tempfile.TemporaryDirectory() as tmp:
+            path = Path(tmp) / "S032.csv"
+            table = self.source_table()
+            table.loc[0, "label"] = 10
+            table.loc[1, "label"] = 11
+            table.to_csv(path, index=False)
+            with self.assertRaisesRegex(ValueError, "Unexpected HARTH activity"):
+                load_harth_subject(path)
+            with self.assertWarnsRegex(UserWarning, "retained without reinterpretation"):
+                data, channels = load_harth_subject(
+                    path, allow_unmapped_labels=True
+                )
+            self.assertEqual(data["label"].iloc[:2].tolist(), [10, 11])
+            self.assertEqual(data.shape, (20, 8))
+            self.assertEqual(len(channels), 6)
+
 
 if __name__ == "__main__":
     unittest.main()
