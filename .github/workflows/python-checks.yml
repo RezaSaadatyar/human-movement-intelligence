@@ -7,6 +7,8 @@ on:
       - "code/python/src/core/**"
       - "studies/biomechanical_load_estimation/src/**"
       - "studies/biomechanical_load_estimation/notebooks/**"
+      - "studies/wearable_activity_recognition/src/**"
+      - "studies/wearable_activity_recognition/notebooks/**"
       - "tests/**"
       - ".github/workflows/python-checks.yml"
   workflow_dispatch:
@@ -17,7 +19,7 @@ permissions:
 jobs:
   checks:
     runs-on: ubuntu-latest
-    timeout-minutes: 15
+    timeout-minutes: 18
     steps:
       - uses: actions/checkout@v4
       - uses: actions/setup-python@v5
@@ -26,22 +28,24 @@ jobs:
       - name: Install standard Python dependencies
         run: python -m pip install -r requirements.txt
       - name: Check Python syntax
-        run: python -m compileall -q code/python/src studies/biomechanical_load_estimation/src tests
+        run: python -m compileall -q code/python/src studies/biomechanical_load_estimation/src studies/wearable_activity_recognition/src tests
       - name: Run offline tests
         run: python -m unittest discover -s tests -v
-      - name: Execute the notebook with public BoneNet data
+      - name: Execute BoneNet notebook
         run: |
-          python -m jupyter nbconvert --to notebook --execute \
-            --ExecutePreprocessor.timeout=240 \
-            studies/biomechanical_load_estimation/notebooks/01_data_loading_and_inspection.ipynb \
-            --output /tmp/data_inspection_executed.ipynb
-      - name: Verify executed notebook
+          python -m jupyter nbconvert --to notebook --execute             --ExecutePreprocessor.timeout=240             studies/biomechanical_load_estimation/notebooks/01_data_loading_and_inspection.ipynb             --output /tmp/bonenet_inspection_executed.ipynb
+      - name: Execute HARTH notebook
+        run: |
+          python -m jupyter nbconvert --to notebook --execute             --ExecutePreprocessor.timeout=240             studies/wearable_activity_recognition/notebooks/01_data_loading_and_inspection.ipynb             --output /tmp/harth_inspection_executed.ipynb
+      - name: Confirm notebooks completed
         run: |
           python - <<'PY'
           import nbformat
-          nb=nbformat.read('/tmp/data_inspection_executed.ipynb',as_version=4)
-          cells=[cell for cell in nb.cells if cell.cell_type=='code']
-          assert cells and all(cell.get('execution_count') is not None for cell in cells)
-          assert not any(out.output_type=='error' for cell in cells for out in cell.get('outputs',[]))
-          print(f'PASS: {len(cells)} executed notebook code cells')
+          for name in ('bonenet', 'harth'):
+              path = f'/tmp/{name}_inspection_executed.ipynb'
+              nb=nbformat.read(path,as_version=4)
+              cells=[cell for cell in nb.cells if cell.cell_type=='code']
+              assert cells and all(c.get('execution_count') is not None for c in cells)
+              assert not any(o.output_type=='error' for c in cells for o in c.get('outputs',[]))
+              print(f'PASS: {name} ({len(cells)} code cells)')
           PY

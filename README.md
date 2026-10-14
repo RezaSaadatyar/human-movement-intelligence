@@ -29,6 +29,13 @@ Open `studies/biomechanical_load_estimation/notebooks/01_data_loading_and_inspec
 
 To run tests: `python -m unittest discover -s tests -v`.
 
+## Active research studies
+
+| Study | Current reproducible stage | Entry point |
+| --- | --- | --- |
+| Biomechanical Load Estimation | Real BoneNet data inspection (executed); exploratory earlier regression separately documented | [Notebook 01](studies/biomechanical_load_estimation/notebooks/01_data_loading_and_inspection.ipynb) |
+| Wearable Activity Recognition | HARTH v2.0 one-person data-inspection notebook (pending real execution review) | [Notebook 01](studies/wearable_activity_recognition/notebooks/01_data_loading_and_inspection.ipynb) |
+
 ## Studies and scientific limitations
 
 See [study catalogue](studies/README.md), [architecture](docs/ARCHITECTURE.md), [dataset sources](docs/DATASETS.md), [research standards](docs/RESEARCH_STANDARDS.md) and [roadmap](docs/ROADMAP.md).

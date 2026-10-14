@@ -7,7 +7,7 @@ Each study will have its own question, data availability check, unit of analysis
 - **Candidates:** UCI HAR, PAMAP2, HARTH and MHEALTH.
 - **Models to compare:** feature-engineered classical ML, 1D-CNN, BiLSTM and TCN.
 - **Protocol:** subject-held-out evaluation; per-class recall/F1, balanced accuracy, confusion matrix and group-level variability.
-- **Status:** Planned.
+- **Status:** HARTH data-inspection example implemented (v2.0 single participant). Full benchmark training and subject-independent evaluation remain planned. See [study README](wearable_activity_recognition/README.md).
 
 ## 2. Gait and Movement Analysis
 - **Question:** Which reproducible temporal and biomechanical descriptors characterise walking and running under varying conditions?

@@ -1,22 +1,27 @@
 # Current research development roadmap
 
-## Phase 1: simple data loading with visible outputs
+## Phase 1: BoneNet data loading with visible outputs
 
-- [x] Remove unnecessary custom HMI package from the active code.
-- [x] Create general CSV/Excel/TXT/DAT/standard MAT reader.
-- [x] Create data inspector and time-series plotter.
-- [x] Keep BoneNet mapping in one dataset-specific adapter.
-- [x] Prepare first notebook and tests on synthetic source files.
-- [ ] Run and review the first notebook in Cursor on real BoneNet data.
-- [ ] Confirm the new GitHub Actions notebook execution and tests.
+- [x] Use simple general Python readers and inspectors; no custom HMI package required.
+- [x] Load actual BoneNet IMU and model-derived FE strain arrays.
+- [x] Review **maintainer-executed** notebook in GitHub: 6 code cells, real labels, signal plots and quality gate; no model training.
+- [x] Preserve the version the maintainer committed, including cell outputs.
+- [ ] Independently verify BoneNet source-to-label row alignment before treating previous regression results as valid evidence.
 
-## Phase 2: verify generalisation of tools
-- [ ] Inspect actual HARTH files and develop only a needed adapter.
-- [ ] Run and review a second notebook using common functions.
+## Phase 2: demonstrate reuse across a second public dataset
 
-## Phase 3: scientific machine learning
-- [ ] Verify labels, subject/trial keys and leakage-safe splitting.
-- [ ] Add modular feature engineering and preprocessing with visible outputs.
-- [ ] Add classical ML baselines, then justified PyTorch models and evaluation.
+- [x] Review authoritative HARTH sources and versions: UCI v1.2 (22 participants), NTNU official v2.0 (31 participants).
+- [x] Keep existing reusable functions unchanged.
+- [x] Add a small HARTH adapter, one-participant data-inspection notebook and synthetic source tests.
+- [ ] Run the HARTH notebook on an actual authors' `S023.csv` and inspect results/plots.
+- [ ] Review notebook execution in Cursor with the maintainer.
+- [ ] Determine full-dataset subject-independent protocols before model training.
 
-Historical dataset audits and preliminary BoneNet regression evidence remain available in study documentation, but are not a verified full research workflow.
+## Phase 3: progressively build ML / DL tools
+
+- [ ] Develop justified signal preprocessing and windowing, with tests for sample/subject leakage.
+- [ ] Add reusable feature engineering, grouped train/validation/test splits and evaluation.
+- [ ] Run classical ML baselines followed by suitable PyTorch CNN/temporal architectures.
+- [ ] Document real per-subject outcomes and limitations.
+
+The repository remains modular: each study has a shareable study-specific notebook and README.
