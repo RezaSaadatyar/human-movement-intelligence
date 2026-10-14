@@ -29,6 +29,17 @@ class TestGroupCrossValidation(unittest.TestCase):
             self.assertFalse(train & held_out)
         self.assertTrue(subjects["macro_f1_fixed_task"].between(0, 1).all())
 
+    def test_original_case_preserved_in_reports(self):
+        # Input IDs are kept human-readable; group isolation is case-insensitive.
+        folds, subjects, _ = evaluate_group_cross_validation(
+            self.x, self.y, self.groups, [1, 2, 3], n_splits=3,
+        )
+        self.assertEqual(set(subjects["subject_id"]), set(self.groups))
+        for row in folds.itertuples(index=False):
+            self.assertTrue(all(
+                member.startswith("S") for member in row.validation_subjects.split(", ")
+            ))
+
     def test_bad_number_of_groups(self):
         with self.assertRaisesRegex(ValueError, "n_splits"):
             evaluate_group_cross_validation(
