@@ -1,0 +1,53 @@
+"""Offline checks for the HARTH multi-person cohort adapter."""
+import sys
+import tempfile
+import unittest
+from pathlib import Path
+from unittest.mock import patch
+import numpy as np
+import pandas as pd
+
+ROOT = Path(__file__).resolve().parents[1]
+sys.path.insert(0, str(ROOT / "code/python/src"))
+sys.path.insert(0, str(ROOT / "studies/wearable_activity_recognition/src"))
+import harth_data
+
+
+class TestHarthCohort(unittest.TestCase):
+    def test_reject_duplicate_people(self):
+        with self.assertRaisesRegex(ValueError, "duplicate"):
+            harth_data.prepare_harth_feature_cohort(["S023", "S023"], ".")
+
+    def test_reject_undocumented_task_labels(self):
+        with self.assertRaisesRegex(ValueError, "officially documented"):
+            harth_data.prepare_harth_feature_cohort(["S023"], ".", [1, 10])
+
+    def test_alignment_and_exclusion_without_network(self):
+        # Replace source download/loading, but exercise real windowing/features.
+        times = pd.date_range("2025-01-01", periods=350, freq="20ms")
+        def load_mock(path, allow_unmapped_labels=False):
+            subject = Path(path).stem
+            values = pd.DataFrame({"timestamp": times})
+            for channel in harth_data.SENSOR_COLUMNS:
+                values[channel] = np.arange(350, dtype=float) / 100
+            # Last 100 samples are excluded only AFTER windowing.
+            values["label"] = [1] * 200 + [2] * 50 + [13] * 100
+            return values, harth_data.SENSOR_COLUMNS.copy()
+
+        with patch.object(harth_data, "ensure_harth_sample",
+                          side_effect=lambda root, subject: Path(root) / f"{subject}.csv"):
+            with patch.object(harth_data, "load_harth_subject", side_effect=load_mock):
+                X, meta, overview, excluded = harth_data.prepare_harth_feature_cohort(
+                    ["S023", "S024"], ".", task_classes=[1, 2]
+                )
+        self.assertEqual(len(X), len(meta))
+        self.assertEqual(X.shape[1], 30)
+        self.assertEqual(meta["subject_id"].nunique(), 2)
+        self.assertEqual(set(meta["label"]), {1})
+        self.assertEqual(overview["excluded_windows"].sum(),
+                         excluded["excluded_windows"].sum())
+        self.assertTrue((excluded["source_code"] == 13).all())
+
+
+if __name__ == "__main__":
+    unittest.main()
