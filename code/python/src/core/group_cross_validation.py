@@ -61,7 +61,13 @@ def evaluate_group_cross_validation(
         raise ValueError("features, labels and group_ids must align by row.")
     if pd.isna(groups).any() or any(not str(s).strip() for s in groups):
         raise ValueError("Missing or empty participant IDs are not permitted.")
-    groups = np.asarray([str(value).strip().casefold() for value in groups])
+    # Keep original subject IDs for human-readable reporting.
+    # Case-folded keys are used only for disjoint-group comparisons.
+    display_groups = np.asarray([str(value).strip() for value in groups])
+    groups = np.asarray([subject.casefold() for subject in display_groups])
+    display_names = {}
+    for canonical_id, source_id in zip(groups, display_groups):
+        display_names.setdefault(canonical_id, source_id)
     if len(task_classes) < 2 or len(set(task_classes.tolist())) != len(task_classes):
         raise ValueError("classes must list at least two distinct labels.")
     if not np.isin(y, task_classes).all():
@@ -103,8 +109,12 @@ def evaluate_group_cross_validation(
         for result in comparison.to_dict(orient="records"):
             fold_records.append({
                 "fold": fold,
-                "train_subjects": ", ".join(sorted(train_groups)),
-                "validation_subjects": ", ".join(sorted(validation_groups)),
+                "train_subjects": ", ".join(
+                    sorted(display_names[name] for name in train_groups)
+                ),
+                "validation_subjects": ", ".join(
+                    sorted(display_names[name] for name in validation_groups)
+                ),
                 "validation_windows": len(validation_rows),
                 "validation_classes_present": len(np.unique(y[validation_rows])),
                 **result,
@@ -121,7 +131,7 @@ def evaluate_group_cross_validation(
                 subject_records.append({
                     "fold": fold,
                     "model": model_name,
-                    "subject_id": subject,
+                    "subject_id": display_names[subject],
                     "windows": int(mask.sum()),
                     "observed_classes": len(observed),
                     "macro_f1_fixed_task": f1_score(
