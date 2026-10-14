@@ -74,3 +74,10 @@ The repository remains modular: each study has a shareable study-specific notebo
 - [x] Add inverse-square-root training-only class weighting without changing the default unweighted CNN.
 - [x] Add offline weight/loss tests, Notebook 12, and scientific protocol.
 - [ ] Execute Notebook 12 on real development subjects and inspect all class-level and subject-level results.
+
+## Stage 13: matched development GroupKFold for model and loss robustness
+- [x] Inspect completed Notebook 12: Standard CNN Macro F1 0.6659, Weighted CNN 0.7968 on the same six Validation subjects; improvement is exploratory.
+- [x] Implement reusable subject-disjoint grouped comparison of RF, Standard CNN and Weighted CNN with out-of-fold prediction provenance.
+- [x] Add offline group-alignment tests, commented Notebook 13, and protocol documentation.
+- [ ] Execute Notebook 13 on actual bounded HARTH development data and analyse fold-, subject- and class-level outcomes.
+- [ ] Decide whether the weighted CNN warrants a fuller dataset/compute budget before any reserved Test scoring.
