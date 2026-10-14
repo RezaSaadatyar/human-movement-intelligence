@@ -43,3 +43,7 @@ The [second notebook](notebooks/02_signal_preprocessing_and_windowing.ipynb) cal
 ## Step 4: group-disjoint subject splits
 
 [Notebook 04](notebooks/04_subject_independent_splitting.ipynb) demonstrates the reusable [group split](../../code/python/src/core/data_splitting.py) using eight real HARTH v2.0 participants, with no overlapping subjects across Train, Validation and Test. See [split protocol](SUBJECT_SPLITTING_PROTOCOL.md). No model is trained.
+
+## Step 5: exploratory classical ML validation
+
+[Notebook 05](notebooks/05_classical_ml_baselines.ipynb) compares a majority-class DummyClassifier, train-scaled Logistic Regression, and Random Forest using the existing eight-person subject-disjoint split. **Only Train and Validation** arrays are used for fitting and selection; Test is reserved. The defined pilot task uses eight documented activity codes (1–8) and explicitly audits exclusion of cycling categories and undocumented HARTH codes after time-safe windowing. Main metric: Validation Macro F1. The purpose is reproducible model development, **not** final benchmark performance. Code: [ml_baselines.py](../../code/python/src/core/ml_baselines.py).
