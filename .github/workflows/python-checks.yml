@@ -1,0 +1,47 @@
+name: Python data loading and notebook checks
+
+on:
+  push:
+    paths:
+      - "requirements.txt"
+      - "code/python/src/core/**"
+      - "studies/biomechanical_load_estimation/src/**"
+      - "studies/biomechanical_load_estimation/notebooks/**"
+      - "tests/**"
+      - ".github/workflows/python-checks.yml"
+  workflow_dispatch:
+
+permissions:
+  contents: read
+
+jobs:
+  checks:
+    runs-on: ubuntu-latest
+    timeout-minutes: 15
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-python@v5
+        with:
+          python-version: "3.11"
+      - name: Install standard Python dependencies
+        run: python -m pip install -r requirements.txt
+      - name: Check Python syntax
+        run: python -m compileall -q code/python/src studies/biomechanical_load_estimation/src tests
+      - name: Run offline tests
+        run: python -m unittest discover -s tests -v
+      - name: Execute the notebook with public BoneNet data
+        run: |
+          python -m jupyter nbconvert --to notebook --execute \
+            --ExecutePreprocessor.timeout=240 \
+            studies/biomechanical_load_estimation/notebooks/01_data_loading_and_inspection.ipynb \
+            --output /tmp/data_inspection_executed.ipynb
+      - name: Verify executed notebook
+        run: |
+          python - <<'PY'
+          import nbformat
+          nb=nbformat.read('/tmp/data_inspection_executed.ipynb',as_version=4)
+          cells=[cell for cell in nb.cells if cell.cell_type=='code']
+          assert cells and all(cell.get('execution_count') is not None for cell in cells)
+          assert not any(out.output_type=='error' for cell in cells for out in cell.get('outputs',[]))
+          print(f'PASS: {len(cells)} executed notebook code cells')
+          PY
