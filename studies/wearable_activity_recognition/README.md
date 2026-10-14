@@ -47,3 +47,7 @@ The [second notebook](notebooks/02_signal_preprocessing_and_windowing.ipynb) cal
 ## Step 5: exploratory classical ML validation
 
 [Notebook 05](notebooks/05_classical_ml_baselines.ipynb) compares a majority-class DummyClassifier, train-scaled Logistic Regression, and Random Forest using the existing eight-person subject-disjoint split. **Only Train and Validation** arrays are used for fitting and selection; Test is reserved. The defined pilot task uses eight documented activity codes (1–8) and explicitly audits exclusion of cycling categories and undocumented HARTH codes after time-safe windowing. Main metric: Validation Macro F1. The purpose is reproducible model development, **not** final benchmark performance. Code: [ml_baselines.py](../../code/python/src/core/ml_baselines.py).
+
+## Step 6: Subject-level cross-validation
+
+[Notebook 06](notebooks/06_subject_level_cross_validation.ipynb) compares the three baselines across three held-out participant folds using only the six development subjects. The original two-subject Test partition stays reserved. See [Cross-Validation Protocol](CROSS_VALIDATION_PROTOCOL.md) for label exclusions, fold membership checks and limitations. Shared code: [group_cross_validation.py](../../code/python/src/core/group_cross_validation.py).
