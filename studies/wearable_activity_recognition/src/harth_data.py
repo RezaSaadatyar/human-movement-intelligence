@@ -4,6 +4,7 @@
 from pathlib import Path
 from urllib.request import urlopen, Request
 
+import numpy as np
 import pandas as pd
 import warnings
 
