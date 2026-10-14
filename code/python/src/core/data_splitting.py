@@ -96,3 +96,117 @@ def split_group_indices(
     for name, members in partitions.items():
         print(f"{name}: {len(members)} groups | {len(indices[name]):,} rows")
     return indices
+
+
+# ====================== 2. Subject/Class Coverage Audit ========================
+def audit_group_class_coverage(labels, group_ids, classes, n_splits=5):
+    """
+    Audit label availability in independent subjects and GroupKFold partitions.
+
+    Args:
+        labels (array-like): One documented class label per observation.
+        group_ids (array-like): One independent subject/group ID per observation.
+        classes (sequence): Fixed class codes for the scientific task.
+        n_splits (int): Number of participant-disjoint folds to inspect.
+
+    Returns:
+        participant_counts (pd.DataFrame): Per-person counts of each class.
+            Columns preserve the order of the declared classes.
+        fold_audit (pd.DataFrame): Train/validation group membership, window
+            counts, class coverage and missing-class codes for each fold.
+
+    Notes:
+        This is a READ-ONLY study-design audit. It does not fit a model,
+        inspect the reserved Test set, stratify labels or modify samples.
+        GroupKFold balances observations approximately, not class support.
+    """
+    from sklearn.model_selection import GroupKFold
+
+    # 1. Validate aligned input labels and independent participant IDs.
+    y = np.asarray(labels)
+    raw_groups = np.asarray(group_ids, dtype=object)
+    codes = list(classes)
+    if y.ndim != 1 or raw_groups.ndim != 1 or len(y) == 0:
+        raise ValueError("labels and group_ids must be non-empty 1D arrays.")
+    if len(y) != len(raw_groups):
+        raise ValueError("labels and group_ids must have the same length.")
+    if pd.isna(y).any() or any(
+        pd.isna(value) or not str(value).strip() for value in raw_groups
+    ):
+        raise ValueError("labels or group_ids contain missing values.")
+    if len(codes) < 2 or len(set(codes)) != len(codes):
+        raise ValueError("Provide at least two distinct declared class codes.")
+    if not np.isin(y, codes).all():
+        raise ValueError("Observed labels outside the declared classes.")
+    if isinstance(n_splits, bool) or not isinstance(
+        n_splits, (int, np.integer)
+    ):
+        raise ValueError("n_splits must be an integer.")
+
+    # 2. Normalise group identity but retain original spelling in the report.
+    original_ids = [str(value).strip() for value in raw_groups]
+    groups = np.asarray([value.casefold() for value in original_ids])
+    display_names = {}
+    for canonical, original in zip(groups, original_ids):
+        display_names.setdefault(canonical, original)
+    unique_groups = np.unique(groups)
+    if n_splits < 2 or n_splits > len(unique_groups):
+        raise ValueError("n_splits must be between 2 and the subject count.")
+
+    # 3. Count all declared classes for every independent participant.
+    participant_counts = pd.crosstab(
+        pd.Series(groups, name="subject_id"),
+        pd.Series(y, name="class_code"),
+    ).reindex(index=unique_groups, columns=codes, fill_value=0)
+    participant_counts.index = [
+        display_names[value] for value in participant_counts.index
+    ]
+
+    # 4. Audit each possible fold BEFORE fitting any classifier.
+    splitter = GroupKFold(n_splits=n_splits)
+    fold_records = []
+    held_out = []
+    for fold, (train_indices, valid_indices) in enumerate(
+        splitter.split(np.zeros(len(y)), y, groups), start=1
+    ):
+        train_group_ids = set(groups[train_indices])
+        valid_group_ids = set(groups[valid_indices])
+        if train_group_ids & valid_group_ids:
+            raise RuntimeError("Subject leakage in grouped fold audit.")
+        held_out.extend(valid_indices.tolist())
+
+        train_classes = set(np.unique(y[train_indices]).tolist())
+        valid_classes = set(np.unique(y[valid_indices]).tolist())
+        fold_records.append({
+            "fold": fold,
+            "train_subjects": ", ".join(
+                sorted(display_names[g] for g in train_group_ids)
+            ),
+            "validation_subjects": ", ".join(
+                sorted(display_names[g] for g in valid_group_ids)
+            ),
+            "train_windows": len(train_indices),
+            "validation_windows": len(valid_indices),
+            "training_classes_present": len(train_classes),
+            "validation_classes_present": len(valid_classes),
+            "missing_train_classes": tuple(
+                code for code in codes if code not in train_classes
+            ),
+            "missing_validation_classes": tuple(
+                code for code in codes if code not in valid_classes
+            ),
+        })
+
+    if sorted(held_out) != list(range(len(y))):
+        raise RuntimeError("Validation folds do not cover each row exactly once.")
+
+    fold_audit = pd.DataFrame(fold_records)
+    print(
+        f"Group audit: {len(unique_groups)} subjects, {len(y):,} windows, "
+        f"{len(codes)} declared classes, {n_splits} folds"
+    )
+    print(
+        "Folds missing training classes:",
+        int(fold_audit["missing_train_classes"].map(bool).sum()),
+    )
+    return participant_counts, fold_audit
