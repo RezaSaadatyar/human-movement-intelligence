@@ -43,15 +43,31 @@ jobs:
             --ExecutePreprocessor.timeout=240 \
             studies/wearable_activity_recognition/notebooks/02_signal_preprocessing_and_windowing.ipynb \
             --output /tmp/harth_windowing_executed.ipynb
-      - name: Confirm notebooks completed
+      - name: Execute HARTH feature engineering notebook
+        run: |
+          python -m jupyter nbconvert --to notebook --execute \
+            --ExecutePreprocessor.timeout=240 \
+            studies/wearable_activity_recognition/notebooks/03_statistical_feature_engineering.ipynb \
+            --output /tmp/harth_features_executed.ipynb
+      - name: Confirm executed notebooks
         run: |
           python - <<'PY'
+          from pathlib import Path
           import nbformat
-          for name in ('bonenet', 'harth', 'harth_windowing'):
-              path = f'/tmp/{name}_inspection_executed.ipynb'
-              nb=nbformat.read(path,as_version=4)
-              cells=[cell for cell in nb.cells if cell.cell_type=='code']
-              assert cells and all(c.get('execution_count') is not None for c in cells)
-              assert not any(o.output_type=='error' for c in cells for o in c.get('outputs',[]))
-              print(f'PASS: {name} ({len(cells)} code cells)')
+          reports = {
+              "bonenet_loading": "/tmp/bonenet_inspection_executed.ipynb",
+              "harth_loading": "/tmp/harth_inspection_executed.ipynb",
+              "harth_windowing": "/tmp/harth_windowing_executed.ipynb",
+              "harth_features": "/tmp/harth_features_executed.ipynb",
+          }
+          for name, filename in reports.items():
+              assert Path(filename).is_file(), f"Missing notebook output: {filename}"
+              notebook = nbformat.read(filename, as_version=4)
+              cells = [c for c in notebook.cells if c.cell_type == "code"]
+              assert cells and all(c.get("execution_count") is not None for c in cells)
+              assert not any(
+                  output.output_type == "error"
+                  for cell in cells for output in cell.get("outputs", [])
+              )
+              print(f"PASS: {name} ({len(cells)} code cells)")
           PY

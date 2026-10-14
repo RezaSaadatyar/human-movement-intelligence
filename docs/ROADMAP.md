@@ -16,7 +16,9 @@
 - [ ] Run the HARTH notebook on an actual authors' `S023.csv` and inspect results/plots.
 - [ ] Review notebook execution in Cursor with the maintainer.
 - [x] Implement a reusable, annotation-safe signal windowing function and add an interactive HARTH Notebook 02.
-- [ ] Execute and review Notebook 02 with actual HARTH windows and visual output.
+- [x] Execute and review Notebook 02 on actual HARTH: 2,751 candidate windows, 2,567 retained, 184 rejected, six channels × 100 points.
+- [x] Implement shared, stateless feature extraction and prepare Notebook 03 with commented Python cells.
+- [ ] Execute and review Notebook 03 on real HARTH feature tables and figures.
 - [ ] Determine full-dataset subject-independent protocols before model training.
 
 ## Phase 3: progressively build ML / DL tools

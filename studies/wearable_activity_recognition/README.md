@@ -35,3 +35,7 @@ Open `notebooks/01_data_loading_and_inspection.ipynb` in Cursor and execute cell
 ## Step 2: annotation-safe signal windowing
 
 The [second notebook](notebooks/02_signal_preprocessing_and_windowing.ipynb) calls the reusable [signal preprocessing function](../../code/python/src/core/signal_preprocessing.py) to make 2-second, 50%-overlap candidate windows at 50 Hz. It discards windows crossing label transitions or timestamp gaps, prints retained-window metadata and plots real signals. It does **not** train a classifier or perform a train/test split. See [protocol](WINDOWING_PROTOCOL.md).
+
+## Step 3: Statistical feature engineering
+
+[Notebook 03](notebooks/03_statistical_feature_engineering.ipynb) demonstrates reusable mean, standard deviation, RMS, peak-to-peak and waveform-length features on real 2-second HARTH windows. It shows the resulting 30-feature matrix and activity-dependent plots, without fitting or evaluating a model. See the [feature protocol](FEATURE_ENGINEERING_PROTOCOL.md). All new notebook code cells include concise English purpose comments.
