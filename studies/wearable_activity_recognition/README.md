@@ -51,3 +51,7 @@ The [second notebook](notebooks/02_signal_preprocessing_and_windowing.ipynb) cal
 ## Step 6: Subject-level cross-validation
 
 [Notebook 06](notebooks/06_subject_level_cross_validation.ipynb) compares the three baselines across three held-out participant folds using only the six development subjects. The original two-subject Test partition stays reserved. See [Cross-Validation Protocol](CROSS_VALIDATION_PROTOCOL.md) for label exclusions, fold membership checks and limitations. Shared code: [group_cross_validation.py](../../code/python/src/core/group_cross_validation.py).
+
+## Step 7: expanded ten-subject development evaluation
+
+[Notebook 07](notebooks/07_expanded_subject_evaluation.ipynb) evaluates the **ten-person development cohort** through five subject-held-out folds, leaving both original Test people untouched. The new [cohort helper](src/harth_data.py) reuses the previous common windowing and feature methods. It displays the source-class coverage heatmap, exclusions, fold scores and person-level variation. Four additional public CSVs are downloaded on demand; no model results are claimed before execution. See [Expanded Development Protocol](EXPANDED_DEVELOPMENT_PROTOCOL.md).
