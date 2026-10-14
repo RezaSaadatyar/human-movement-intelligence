@@ -28,7 +28,9 @@
 - [ ] Develop justified signal preprocessing and windowing, with tests for sample/subject leakage.
 - [ ] Add reusable feature engineering, grouped train/validation/test splits and evaluation.
 - [x] Implement three exploratory classification baselines and commented Notebook 05 for Validation-only comparison.
-- [ ] Execute and inspect Notebook 05; audit class exclusions, Macro F1 and confusion matrix.
+- [x] Execute and inspect Notebook 05: Logistic Regression Validation Macro F1 = 0.8343; 1,400 excluded out-of-task windows; final Test untouched.
+- [x] Implement GroupKFold diagnostics with commented Notebook 06 and unit tests.
+- [ ] Execute Notebook 06 on real six-person development set and review per-fold/per-subject metrics.
 - [ ] Expand full-cohort subject-independent assessment before PyTorch CNN/temporal experiments.
 - [ ] Document real per-subject outcomes and limitations.
 
