@@ -169,3 +169,90 @@ def evaluate_group_cross_validation(
         .reset_index(drop=True)
     )
     return fold_results, subject_results, summary
+
+
+# ========================= 2. Paired Participant Comparison =========================
+def compare_models_by_subject(
+    subject_results,
+    model_a,
+    model_b,
+    score_column="macro_f1_fixed_task",
+):
+    """
+    Compare two models on the SAME held-out independent participants.
+
+    Args:
+        subject_results (pd.DataFrame): Per-model, per-subject CV results.
+            Must contain model, subject_id and the selected numeric score.
+        model_a (str): First model's name in the results table.
+        model_b (str): Second model's name in the results table.
+        score_column (str): Metric with the same scientific definition for
+            each participant, e.g. macro_f1_fixed_task.
+
+    Returns:
+        paired (pd.DataFrame): One row per common participant, with model_a,
+            model_b and their score difference (model_a - model_b).
+        summary (dict): Participant count, mean/median paired difference,
+            and number of wins for each model and ties.
+
+    Notes:
+        This comparison weights every participant equally rather than
+        treating overlapping windows as independent observations. It is
+        descriptive, NOT a significance test or a confidence interval.
+    """
+    # 1. Require one comparable score from each model for every subject.
+    required = {"model", "subject_id", score_column}
+    if not isinstance(subject_results, pd.DataFrame) or not required.issubset(
+        subject_results.columns
+    ):
+        raise ValueError("subject_results does not contain the required columns.")
+    if model_a == model_b or not model_a or not model_b:
+        raise ValueError("Select two distinct model names.")
+
+    selected = subject_results.loc[
+        subject_results["model"].isin([model_a, model_b]),
+        ["model", "subject_id", score_column],
+    ].copy()
+    if selected["model"].nunique() != 2:
+        raise ValueError("Both selected models must be present.")
+    if selected.duplicated(["model", "subject_id"]).any():
+        raise ValueError("Each model must have only one score per subject.")
+    if selected["subject_id"].isna().any() or selected[score_column].isna().any():
+        raise ValueError("Missing subjects or score values are not permitted.")
+    if not pd.api.types.is_numeric_dtype(selected[score_column]):
+        raise ValueError("Model comparison scores must be numeric.")
+    if not np.isfinite(selected[score_column].to_numpy()).all():
+        raise ValueError("Model comparison scores must be finite.")
+
+    # 2. Check matching participant coverage before joining the scores.
+    a = selected.loc[selected["model"] == model_a].set_index("subject_id")
+    b = selected.loc[selected["model"] == model_b].set_index("subject_id")
+    if set(a.index) != set(b.index):
+        raise ValueError("The models must be evaluated on identical subjects.")
+
+    # 3. Calculate signed paired differences, one per held-out subject.
+    paired = pd.DataFrame({
+        "subject_id": sorted(a.index),
+    })
+    paired["score_a"] = [
+        float(a.at[subject, score_column]) for subject in paired["subject_id"]
+    ]
+    paired["score_b"] = [
+        float(b.at[subject, score_column]) for subject in paired["subject_id"]
+    ]
+    paired["difference_a_minus_b"] = paired["score_a"] - paired["score_b"]
+    differences = paired["difference_a_minus_b"].to_numpy()
+
+    # 4. Report descriptive differences without unsupported p-values.
+    summary = {
+        "model_a": model_a,
+        "model_b": model_b,
+        "metric": score_column,
+        "participants": int(len(paired)),
+        "mean_difference": float(differences.mean()),
+        "median_difference": float(np.median(differences)),
+        "model_a_wins": int((differences > 1e-12).sum()),
+        "model_b_wins": int((differences < -1e-12).sum()),
+        "ties": int((np.abs(differences) <= 1e-12).sum()),
+    }
+    return paired, summary
