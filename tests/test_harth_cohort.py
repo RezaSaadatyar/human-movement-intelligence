@@ -48,6 +48,33 @@ class TestHarthCohort(unittest.TestCase):
                          excluded["excluded_windows"].sum())
         self.assertTrue((excluded["source_code"] == 13).all())
 
+    def test_raw_window_cohort_executes_with_mocked_source(self):
+        # Exercise the new temporal cohort function, including NumPy sampling.
+        timestamps = pd.date_range("2025-01-01", periods=350, freq="20ms")
+        def load_mock(path, allow_unmapped_labels=False):
+            data = pd.DataFrame({"timestamp": timestamps})
+            for channel in harth_data.SENSOR_COLUMNS:
+                data[channel] = np.arange(350, dtype=float) / 100
+            data["label"] = [1] * 200 + [2] * 50 + [13] * 100
+            return data, harth_data.SENSOR_COLUMNS.copy()
+
+        with patch.object(
+            harth_data, "ensure_harth_sample",
+            side_effect=lambda root, subject: Path(root) / f"{subject}.csv",
+        ):
+            with patch.object(harth_data, "load_harth_subject", side_effect=load_mock):
+                windows, labels, metadata, overview = (
+                    harth_data.prepare_harth_window_cohort(
+                        ["S023", "S024"], ".", task_classes=[1, 2],
+                        max_windows_per_subject=2,
+                    )
+                )
+        self.assertEqual(windows.shape, (4, 6, 100))
+        self.assertEqual(len(labels), len(metadata))
+        self.assertEqual(metadata["subject_id"].nunique(), 2)
+        self.assertTrue(np.isfinite(windows).all())
+        self.assertTrue((overview["sampled_windows"] == 2).all())
+
 
 if __name__ == "__main__":
     unittest.main()
