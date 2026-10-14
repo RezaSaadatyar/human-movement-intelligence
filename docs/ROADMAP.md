@@ -42,3 +42,10 @@ The repository remains modular: each study has a shareable study-specific notebo
 - [x] Add offline cohort tests, annotated Notebook 07, and a documented label/coverage protocol.
 - [ ] Execute Notebook 07 and review actual subject coverage and 5-fold CV outcomes in Cursor before interpreting model performance.
 - [ ] Design full-cohort evaluation and a final locked-test policy before expanding to deep learning.
+
+## Stage 8: HARTH full-development cohort audit
+- [x] Review executed Notebook 07: ten development subjects, 31,903 windows; Random Forest 5-fold Macro F1 0.7235, Logistic Regression 0.7188 (exploratory).
+- [x] Prepare a reusable subject/class coverage and GroupKFold feasibility audit with offline tests.
+- [x] Add Notebook 08 with 29 development participants, separate pre-download inventory, class coverage and fold audit.
+- [ ] Execute Notebook 08 on real data and review coverage, errors and missing classes before any further model training.
+- [ ] Freeze full-cohort evaluation strategy and report reproducibility limitations.
