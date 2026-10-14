@@ -19,7 +19,7 @@ permissions:
 jobs:
   checks:
     runs-on: ubuntu-latest
-    timeout-minutes: 18
+    timeout-minutes: 25
     steps:
       - uses: actions/checkout@v4
       - uses: actions/setup-python@v5
@@ -49,6 +49,12 @@ jobs:
             --ExecutePreprocessor.timeout=240 \
             studies/wearable_activity_recognition/notebooks/03_statistical_feature_engineering.ipynb \
             --output /tmp/harth_features_executed.ipynb
+      - name: Execute HARTH subject splitting notebook
+        run: |
+          python -m jupyter nbconvert --to notebook --execute \
+            --ExecutePreprocessor.timeout=360 \
+            studies/wearable_activity_recognition/notebooks/04_subject_independent_splitting.ipynb \
+            --output /tmp/harth_split_executed.ipynb
       - name: Confirm executed notebooks
         run: |
           python - <<'PY'
@@ -59,6 +65,7 @@ jobs:
               "harth_loading": "/tmp/harth_inspection_executed.ipynb",
               "harth_windowing": "/tmp/harth_windowing_executed.ipynb",
               "harth_features": "/tmp/harth_features_executed.ipynb",
+              "harth_split": "/tmp/harth_split_executed.ipynb",
           }
           for name, filename in reports.items():
               assert Path(filename).is_file(), f"Missing notebook output: {filename}"
