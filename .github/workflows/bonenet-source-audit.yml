@@ -1,0 +1,46 @@
+name: BoneNet source data audit
+
+on:
+  push:
+    paths:
+      - ".github/workflows/bonenet-source-audit.yml"
+  workflow_dispatch:
+
+permissions:
+  contents: read
+
+jobs:
+  numerical-source-audit:
+    runs-on: ubuntu-latest
+    timeout-minutes: 12
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-python@v5
+        with:
+          python-version: "3.11"
+      - name: Install Python-only pilot dependencies
+        run: python -m pip install -r requirements-pilot.txt
+      - name: Fetch public derivative and validate numeric tensors
+        run: python scripts/bonenet_python_pilot.py --download
+      - name: Print concise safe audit summary
+        run: |
+          python - <<'PY'
+          import json
+          from pathlib import Path
+          p = Path("outputs/bonenet_python_pilot_audit.json")
+          d = json.loads(p.read_text())
+          print("SOURCE AUDIT (not a trained-model evaluation)")
+          print("MAT fields:", [(x["name"], x["shape"]) for x in d["mat_fields"]])
+          print("Labels:", d["labels"])
+          print("Numeric tensor audit:", d.get("numeric_arrays", "NOT AVAILABLE"))
+          print("Numeric contract ready:", d["training_ready"])
+          print("Remaining blockers:", d["blockers"])
+          PY
+      - name: Upload metadata-only JSON report (never upload raw MAT or labels)
+        if: always()
+        uses: actions/upload-artifact@v4
+        with:
+          name: bonenet-public-source-metadata
+          path: outputs/bonenet_python_pilot_audit.json
+          if-no-files-found: warn
+          retention-days: 7

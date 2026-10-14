@@ -20,9 +20,13 @@ class MatAuditTests(unittest.TestCase):
         self.assertEqual(classify_field(np.empty((0, 0))), "empty")
 
     def test_all_records_and_duplicate_ids(self):
-        records = np.empty((2, 1), dtype=object)
+        field_names = (
+            'SubjID', 'Task', 'SubTask', 'TrialNum', 'TrialNumUpdated',
+            'UpdatedTrialID', 'Cycle', 'IMU', 'ID', 'FP', 'e1e3', 'JCF', 'MuscleF'
+        )
+        records = np.empty((2, 1), dtype=[(f, object) for f in field_names])
         for i in range(2):
-            records[i, 0] = {
+            fields = {
                 "SubjID": "subj04", "Task": "Walking", "SubTask": "low",
                 "TrialNum": str(i + 1), "TrialNumUpdated": 1,
                 "UpdatedTrialID": "duplicate", "Cycle": 1,
@@ -30,6 +34,8 @@ class MatAuditTests(unittest.TestCase):
                 "FP": np.empty((0, 0)), "e1e3": np.empty((0, 0)),
                 "JCF": np.ones((2, 101)), "MuscleF": np.empty((0, 0))
             }
+            for name, value in fields.items():
+                records[name][i, 0] = value
         with tempfile.TemporaryDirectory() as temp:
             path = Path(temp) / "subj04.mat"
             savemat(path, {"Data": records})

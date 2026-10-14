@@ -52,3 +52,9 @@ The original `data/raw/essex_femoral_neck_loading/MATLAB/Processed Data/` files 
 The initial Python-only pipeline was exercised locally against **synthetic** MAT files and artificial participant arrays. Five offline unit tests passed. It has **not** been executed against the source authors' `Data.mat` in this session. The GitHub CI status must be checked separately.
 
 Next: inspect the one JSON audit from the first run, then make any source-specific adjustments, rather than asking the maintainer to repeatedly inspect MAT variables by hand.
+
+## Automated public-source audit (GitHub Actions)
+
+A metadata-only audit is configured under `.github/workflows/bonenet-source-audit.yml`. This workflow downloads the authors' **public** 14 MB derivative into a temporary GitHub Actions runner and executes `python scripts/bonenet_python_pilot.py --download`, without running any training. The raw MAT and label files are **not** uploaded to GitHub or workflow artifacts. Only the resulting JSON metadata report is uploaded. It triggers on changes to its workflow definition (and can also be triggered manually).
+
+The output must be inspected before the opt-in `--train` stage is considered. If GitHub Actions is disabled, the same single command can be run locally. Workflow execution and success are not assumed merely from committing this file.
