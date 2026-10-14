@@ -62,3 +62,9 @@ The repository remains modular: each study has a shareable study-specific notebo
 - [x] Add source-specific bounded raw-window cohort loader and general 1D-CNN/training-only scaling utilities.
 - [x] Add optional PyTorch dependencies, offline unit tests, documented training protocol and commented Notebook 10.
 - [ ] Execute Notebook 10 on genuine HARTH source windows, review model outputs and validation plots, and then plan a matched CNN vs classical ML comparison.
+
+## Stage 11: matched Random Forest vs temporal CNN validation
+- [x] Inspect completed Notebook 10: 14,201 sampled windows, last-epoch CNN Validation Macro F1 0.6659, Shuffling F1 0, subject-disjoint data.
+- [x] Add reusable per-subject prediction evaluation and alignment tests.
+- [x] Add Notebook 11 with identical development windows and splits for Random Forest and CNN, plus paired subject diagnostics.
+- [ ] Execute Notebook 11 on real source data, review performance and rare-class failures before pursuing larger CNNs.
