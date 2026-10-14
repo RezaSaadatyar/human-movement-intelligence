@@ -37,11 +37,17 @@ jobs:
       - name: Execute HARTH notebook
         run: |
           python -m jupyter nbconvert --to notebook --execute             --ExecutePreprocessor.timeout=240             studies/wearable_activity_recognition/notebooks/01_data_loading_and_inspection.ipynb             --output /tmp/harth_inspection_executed.ipynb
+      - name: Execute HARTH preprocessing notebook
+        run: |
+          python -m jupyter nbconvert --to notebook --execute \
+            --ExecutePreprocessor.timeout=240 \
+            studies/wearable_activity_recognition/notebooks/02_signal_preprocessing_and_windowing.ipynb \
+            --output /tmp/harth_windowing_executed.ipynb
       - name: Confirm notebooks completed
         run: |
           python - <<'PY'
           import nbformat
-          for name in ('bonenet', 'harth'):
+          for name in ('bonenet', 'harth', 'harth_windowing'):
               path = f'/tmp/{name}_inspection_executed.ipynb'
               nb=nbformat.read(path,as_version=4)
               cells=[cell for cell in nb.cells if cell.cell_type=='code']

@@ -31,3 +31,7 @@ Open `notebooks/01_data_loading_and_inspection.ipynb` in Cursor and execute cell
 - Tests: `tests/test_harth_data.py`
 
 **Research limits:** No supervised model has been trained; a one-person example cannot be used for participant-independent evaluation. Activity class counts will be computed by the notebook, not assumed. Future steps must build sample windows carefully and hold out entire participants.
+
+## Step 2: annotation-safe signal windowing
+
+The [second notebook](notebooks/02_signal_preprocessing_and_windowing.ipynb) calls the reusable [signal preprocessing function](../../code/python/src/core/signal_preprocessing.py) to make 2-second, 50%-overlap candidate windows at 50 Hz. It discards windows crossing label transitions or timestamp gaps, prints retained-window metadata and plots real signals. It does **not** train a classifier or perform a train/test split. See [protocol](WINDOWING_PROTOCOL.md).
