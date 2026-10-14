@@ -68,3 +68,9 @@ The repository remains modular: each study has a shareable study-specific notebo
 - [x] Add reusable per-subject prediction evaluation and alignment tests.
 - [x] Add Notebook 11 with identical development windows and splits for Random Forest and CNN, plus paired subject diagnostics.
 - [ ] Execute Notebook 11 on real source data, review performance and rare-class failures before pursuing larger CNNs.
+
+## Stage 12: training-only class-weighted temporal CNN
+- [x] Inspect executed Notebook 11: matched Validation Macro F1 Random Forest 0.8266, CNN 0.6659; Shuffling CNN F1 0.
+- [x] Add inverse-square-root training-only class weighting without changing the default unweighted CNN.
+- [x] Add offline weight/loss tests, Notebook 12, and scientific protocol.
+- [ ] Execute Notebook 12 on real development subjects and inspect all class-level and subject-level results.
