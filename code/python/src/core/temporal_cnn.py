@@ -79,11 +79,58 @@ def standardise_imu_train_only(train, validation):
     )
 
 
-# =========================== 3. Training and Evaluation =========================
+# ========================= 3. Training-Only Class Weights =======================
+def compute_training_class_weights(
+    y_train, classes, method="inverse_sqrt",
+):
+    """
+    Calculate class-loss weights using TRAIN labels only.
+
+    Args:
+        y_train (array-like): Training-only documented activity labels.
+        classes (sequence): Ordered, unique activity codes, all in Train.
+        method (str): 'inverse_sqrt' or 'none'. The square-root approach
+            moderates the influence of classes with very few observations.
+
+    Returns:
+        np.ndarray: float32 weights in the exact class order, normalised
+            to have unweighted arithmetic mean one.
+
+    Notes:
+        No validation/test labels are used to compute these weights.
+        These are window-frequency weights, not patient/subject-level
+        prevalence estimates, and do not guarantee improved minority F1.
+    """
+    # 1. Require a complete documented training label set.
+    labels = np.asarray(y_train)
+    codes = list(classes)
+    if labels.ndim != 1 or not len(labels):
+        raise ValueError("y_train must be a non-empty 1D label vector.")
+    if len(codes) < 2 or len(set(codes)) != len(codes):
+        raise ValueError("classes must contain at least two distinct codes.")
+    if not np.isin(labels, codes).all():
+        raise ValueError("Training labels outside the declared classes.")
+    counts = np.asarray([(labels == code).sum() for code in codes], dtype=np.float64)
+    if (counts == 0).any():
+        raise ValueError("Every declared class must be present in Train.")
+
+    # 2. Compute a moderate inverse-square-root weighting from Train only.
+    if method == "inverse_sqrt":
+        weights = 1.0 / np.sqrt(counts)
+        weights /= weights.mean()
+    elif method == "none":
+        weights = np.ones(len(codes), dtype=np.float64)
+    else:
+        raise ValueError("method must be 'inverse_sqrt' or 'none'.")
+    return weights.astype(np.float32)
+
+
+# =========================== 4. Training and Evaluation =========================
 def train_temporal_cnn(
     X_train, y_train, X_validation, y_validation,
     classes=tuple(range(1, 9)), epochs=5, batch_size=128,
     learning_rate=1e-3, seed=42, device="cpu",
+    class_weighting="none",
 ):
     """
     Train one 1D-CNN using a subject-disjoint Train/Validation assignment.
@@ -97,6 +144,8 @@ def train_temporal_cnn(
         learning_rate (float): Adam learning rate.
         seed (int): Python, NumPy and PyTorch seed.
         device (str): CPU default; CUDA may be specified if available.
+        class_weighting (str): 'none' for unweighted Cross-Entropy or
+            'inverse_sqrt' for weights derived from Train class counts only.
 
     Returns:
         model (nn.Module): Last-epoch trained model.
@@ -108,6 +157,8 @@ def train_temporal_cnn(
         The function never sees reserved Test data. It reports the last epoch,
         rather than selecting a checkpoint with Validation and then claiming
         a separate independent validation score.
+        Weighting is the ONLY training intervention in Stage 12; models
+        otherwise retain the same seed, optimiser, data and architecture.
     """
     # 1. Verify class definitions and aligned input arrays.
     codes = list(classes)
@@ -143,12 +194,19 @@ def train_temporal_cnn(
     training = TensorDataset(
         torch.from_numpy(train_scaled), torch.from_numpy(train_labels)
     )
+    # 4. Make a loss-weight tensor using training labels only.
+    class_weights = compute_training_class_weights(
+        y_train, codes, method=class_weighting
+    )
+    loss_weights = torch.as_tensor(
+        class_weights, dtype=torch.float32, device=device
+    )
     generator = torch.Generator().manual_seed(seed)
     loader = DataLoader(training, batch_size=batch_size, shuffle=True, generator=generator)
     model = TemporalCNN(train_scaled.shape[1], len(codes)).to(device)
     optimiser = torch.optim.Adam(model.parameters(), lr=learning_rate)
 
-    # 4. Learn the network on the training participant windows only.
+    # 5. Learn the network on training participants with the chosen loss.
     log = []
     for epoch in range(1, epochs + 1):
         model.train()
@@ -156,12 +214,14 @@ def train_temporal_cnn(
         for signals, labels in loader:
             signals, labels = signals.to(device), labels.to(device)
             optimiser.zero_grad(set_to_none=True)
-            loss = nn.functional.cross_entropy(model(signals), labels)
+            loss = nn.functional.cross_entropy(
+                model(signals), labels, weight=loss_weights
+            )
             loss.backward()
             optimiser.step()
             total_loss += float(loss.detach().cpu()) * len(labels)
 
-        # 5. Evaluate on disjoint Validation participants only.
+        # 6. Evaluate on disjoint Validation participants only.
         model.eval()
         predicted_indices = []
         with torch.no_grad():
