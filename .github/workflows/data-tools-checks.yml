@@ -24,7 +24,7 @@ jobs:
         with:
           python-version: "3.11"
       - name: Install inspection dependencies
-        run: python -m pip install -r requirements-data.txt -r requirements-pilot.txt
+        run: python -m pip install -e ".[pilot]" -r requirements-data.txt
       - name: Check syntax
         run: python -m compileall -q scripts tests
       - name: Run offline tests
