@@ -71,3 +71,7 @@ The [second notebook](notebooks/02_signal_preprocessing_and_windowing.ipynb) cal
 ## Step 11: matched Random Forest and temporal CNN
 
 [Notebook 11](notebooks/11_matched_cnn_random_forest.ipynb) runs the existing Random Forest and PyTorch temporal CNN on identical HARTH v2.0 development-window rows, participant split and labels. It displays class-wise F1, two confusion matrices and participant-paired differences. **The RF uses deterministic statistical features derived from the same CNN windows, while CNN uses raw sequences.** Original Test subjects remain excluded. See the [comparison protocol](MATCHED_MODEL_COMPARISON_PROTOCOL.md). Results are pending maintainer execution.
+
+## Step 12: train-only weighted-loss temporal CNN
+
+[Notebook 12](notebooks/12_class_weighted_temporal_cnn.ipynb) compares the same temporal CNN using unweighted and training-frequency inverse-square-root-weighted Cross-Entropy. All windows, subjects, architecture and training settings match the Stage 10/11 development split. The class-weighting utility is in [temporal_cnn.py](../../code/python/src/core/temporal_cnn.py), with tests in `tests/test_weighted_temporal_cnn.py`. See [Class-Weighted CNN Protocol](CLASS_WEIGHTED_CNN_PROTOCOL.md). Results are pending real-data execution and must not be described as improvements in advance.
