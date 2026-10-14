@@ -1,0 +1,6 @@
+# Optional dependencies for temporal Deep Learning (Notebook 10).
+# Install separately from the classical-ML requirements.
+-r requirements.txt
+# On Windows, use the official PyTorch installer selector if a specialised
+# CUDA build is needed. The default install is adequate for CPU execution.
+torch>=2.3
