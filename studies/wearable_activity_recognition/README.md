@@ -39,3 +39,7 @@ The [second notebook](notebooks/02_signal_preprocessing_and_windowing.ipynb) cal
 ## Step 3: Statistical feature engineering
 
 [Notebook 03](notebooks/03_statistical_feature_engineering.ipynb) demonstrates reusable mean, standard deviation, RMS, peak-to-peak and waveform-length features on real 2-second HARTH windows. It shows the resulting 30-feature matrix and activity-dependent plots, without fitting or evaluating a model. See the [feature protocol](FEATURE_ENGINEERING_PROTOCOL.md). All new notebook code cells include concise English purpose comments.
+
+## Step 4: group-disjoint subject splits
+
+[Notebook 04](notebooks/04_subject_independent_splitting.ipynb) demonstrates the reusable [group split](../../code/python/src/core/data_splitting.py) using eight real HARTH v2.0 participants, with no overlapping subjects across Train, Validation and Test. See [split protocol](SUBJECT_SPLITTING_PROTOCOL.md). No model is trained.
