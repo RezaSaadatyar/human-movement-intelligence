@@ -67,3 +67,11 @@ See [Python-only pipeline](PYTHON_FIRST_PIPELINE.md). No authentic-data model me
 - [ ] Review exploratory grouped Mean/Ridge results and verify source sample-to-label pairing before making any scientific generalisation claim.
 
 See [actual-data validation record](../studies/biomechanical_load_estimation/BONENET_REAL_DATA_AUDIT.md).
+
+
+## Phase 1 of reusable HMI Framework (14 October 2026)
+- [x] Create installable Python package `hmi`, first structural `DatasetBundle` contract and seven offline tests.
+- [ ] Execute the interactive contract notebook on actual BoneNet data and review outputs.
+- [ ] Implement generic readers, dataset adapters and modality-aware profiling, then validate against a second dataset.
+
+See [data contract](DATA_CONTRACT.md). The earlier BoneNet baseline remains exploratory and is not a completed general ML framework.
