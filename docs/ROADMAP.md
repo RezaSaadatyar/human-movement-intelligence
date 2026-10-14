@@ -56,3 +56,9 @@ The repository remains modular: each study has a shareable study-specific notebo
 - [x] Add Notebook 09 for five-fold grouped CV, subject-level model comparison and visual audit, with original Test subjects excluded.
 - [ ] Run Notebook 09 on the full development cohort in Cursor and review real results before advancing.
 - [ ] Decide model-selection/final test-reporting protocol without presenting the reserved Test as previously unseen.
+
+## Stage 10: raw IMU temporal CNN with PyTorch
+- [x] Verify executed Notebook 09: 29 development subjects; 5-fold Random Forest Macro F1 0.8339 and Logistic Regression 0.7710, with protected Test excluded.
+- [x] Add source-specific bounded raw-window cohort loader and general 1D-CNN/training-only scaling utilities.
+- [x] Add optional PyTorch dependencies, offline unit tests, documented training protocol and commented Notebook 10.
+- [ ] Execute Notebook 10 on genuine HARTH source windows, review model outputs and validation plots, and then plan a matched CNN vs classical ML comparison.
