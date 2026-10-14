@@ -18,8 +18,10 @@
 - [x] Implement a reusable, annotation-safe signal windowing function and add an interactive HARTH Notebook 02.
 - [x] Execute and review Notebook 02 on actual HARTH: 2,751 candidate windows, 2,567 retained, 184 rejected, six channels × 100 points.
 - [x] Implement shared, stateless feature extraction and prepare Notebook 03 with commented Python cells.
-- [ ] Execute and review Notebook 03 on real HARTH feature tables and figures.
-- [ ] Determine full-dataset subject-independent protocols before model training.
+- [x] Execute and review Notebook 03 on real HARTH: 2,567 windows and 30 finite features.
+- [x] Add Notebook 04 and reusable subject-disjoint split function for eight verified HARTH participants.
+- [ ] Run Notebook 04, review all participant/group partitions and activity coverage.
+- [ ] Determine full-dataset subject-independent validation before model training.
 
 ## Phase 3: progressively build ML / DL tools
 
