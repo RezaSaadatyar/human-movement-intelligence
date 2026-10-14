@@ -144,3 +144,125 @@ def load_harth_subject(file_path, allow_unmapped_labels=False):
         )
     print(f"HARTH subject {path.stem}: {len(data):,} rows, {len(SENSOR_COLUMNS)} sensors")
     return data, SENSOR_COLUMNS.copy()
+
+
+# ========================= 4. Multi-Subject Cohort Preparation ======================
+def prepare_harth_feature_cohort(
+    subjects,
+    data_dir,
+    task_classes=tuple(range(1, 9)),
+    window_size=100,
+    step_size=50,
+    sampling_rate=50,
+):
+    """
+    Assemble a labelled HARTH feature cohort from independent subject CSVs.
+
+    Args:
+        subjects (sequence[str]): Distinct, official HARTH v2.0 subject IDs.
+        data_dir (str | Path): Local source cache; files downloaded if absent.
+        task_classes (sequence[int]): Predefined, documented activity codes.
+            Labels outside the task are excluded ONLY AFTER windowing.
+        window_size (int): Source samples per signal window.
+        step_size (int): Source samples between candidate window starts.
+        sampling_rate (float): Acquisition rate (Hz) for time-gap checks.
+
+    Returns:
+        features (pd.DataFrame): Aligned (eligible_windows, signal_features).
+        metadata (pd.DataFrame): Original subject, window indices and labels.
+        overview (pd.DataFrame): Per-person raw, retained and excluded counts.
+        excluded (pd.DataFrame): Excluded-window counts by person/source code.
+
+    Notes:
+        Generic windowing and feature engineering are reused unchanged.
+        Undocumented HARTH codes are kept for an explicit source audit;
+        they are never silently mapped to a documented activity class.
+        The returned arrays must still be partitioned by SUBJECT before
+        fitting any scaler or machine-learning model.
+    """
+    # 1. Validate the scientific cohort and target labels before downloading.
+    from core.feature_engineering import extract_signal_features
+    from core.signal_preprocessing import create_signal_windows
+
+    subject_list = list(subjects)
+    if not subject_list or len(set(subject_list)) != len(subject_list):
+        raise ValueError("subjects must be non-empty and have no duplicate IDs.")
+    if any(subject not in HARTH_SUBJECTS for subject in subject_list):
+        raise ValueError("The cohort includes unknown HARTH v2.0 subject IDs.")
+    class_list = list(task_classes)
+    if not class_list or len(set(class_list)) != len(class_list):
+        raise ValueError("task_classes must contain distinct documented labels.")
+    if not set(class_list).issubset(ACTIVITY_NAMES):
+        raise ValueError("Every selected task class must be officially documented.")
+
+    # 2. Build windows and deterministic features independently for each person.
+    feature_parts, metadata_parts, overview_rows, excluded_rows = [], [], [], []
+    for subject in subject_list:
+        source_path = ensure_harth_sample(data_dir, subject=subject)
+        data, channels = load_harth_subject(
+            source_path, allow_unmapped_labels=True
+        )
+        windows, _, info = create_signal_windows(
+            signals=data[channels].to_numpy(),
+            labels=data["label"].to_numpy(),
+            window_size=window_size,
+            step_size=step_size,
+            timestamps=data["timestamp"],
+            sampling_rate=sampling_rate,
+            min_label_purity=1.0,
+            subject_id=subject,
+        )
+        if not len(windows):
+            raise ValueError(f"No valid source windows for {subject}.")
+
+        features_for_subject = extract_signal_features(
+            windows, channel_names=channels
+        )
+
+        # 3. Audit and exclude out-of-task labels AFTER windowing.
+        eligible = info["label"].isin(class_list).to_numpy()
+        excluded_counts = info.loc[~eligible, "label"].value_counts().sort_index()
+        for code, count in excluded_counts.items():
+            excluded_rows.append({
+                "subject_id": subject,
+                "source_code": int(code),
+                "source_activity": ACTIVITY_NAMES.get(
+                    int(code), "UNDOCUMENTED source code"
+                ),
+                "excluded_windows": int(count),
+            })
+        unknown_rows = int((~data["label"].isin(ACTIVITY_NAMES)).sum())
+        overview_rows.append({
+            "subject_id": subject,
+            "raw_samples": len(data),
+            "retained_windows": len(info),
+            "eligible_windows": int(eligible.sum()),
+            "excluded_windows": int((~eligible).sum()),
+            "undocumented_raw_rows": unknown_rows,
+            "task_classes_present": int(info.loc[eligible, "label"].nunique()),
+        })
+        if not eligible.any():
+            raise ValueError(f"No windows with the predefined task labels: {subject}.")
+        feature_parts.append(
+            features_for_subject.loc[eligible].reset_index(drop=True)
+        )
+        metadata_parts.append(info.loc[eligible].reset_index(drop=True))
+
+    # 4. Preserve identical row order between the shared feature and ID tables.
+    features = pd.concat(feature_parts, ignore_index=True)
+    metadata = pd.concat(metadata_parts, ignore_index=True)
+    overview = pd.DataFrame(overview_rows)
+    excluded = pd.DataFrame(
+        excluded_rows,
+        columns=["subject_id", "source_code", "source_activity", "excluded_windows"]
+    )
+    if len(features) != len(metadata):
+        raise RuntimeError("Feature and metadata rows have become misaligned.")
+    if metadata["subject_id"].nunique() != len(subject_list):
+        raise RuntimeError("A participant is missing from the eligible cohort.")
+
+    print(
+        f"Eligible dataset: {len(subject_list)} subjects, "
+        f"{len(features):,} windows, {features.shape[1]} features"
+    )
+    return features, metadata, overview, excluded
