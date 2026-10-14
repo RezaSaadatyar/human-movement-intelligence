@@ -75,3 +75,7 @@ The [second notebook](notebooks/02_signal_preprocessing_and_windowing.ipynb) cal
 ## Step 12: train-only weighted-loss temporal CNN
 
 [Notebook 12](notebooks/12_class_weighted_temporal_cnn.ipynb) compares the same temporal CNN using unweighted and training-frequency inverse-square-root-weighted Cross-Entropy. All windows, subjects, architecture and training settings match the Stage 10/11 development split. The class-weighting utility is in [temporal_cnn.py](../../code/python/src/core/temporal_cnn.py), with tests in `tests/test_weighted_temporal_cnn.py`. See [Class-Weighted CNN Protocol](CLASS_WEIGHTED_CNN_PROTOCOL.md). Results are pending real-data execution and must not be described as improvements in advance.
+
+## Step 13: matched GroupKFold with Random Forest, Standard CNN and Weighted CNN
+
+[Notebook 13](notebooks/13_matched_grouped_model_comparison.ipynb) uses a three-fold independent-participant evaluation of the bounded HARTH development cohort. All three classifiers are fitted and evaluated on identical sampled windows and subject partitions. The shared [temporal_comparison.py](../../code/python/src/core/temporal_comparison.py) reports fold metrics, per-person scores, per-class out-of-fold metrics and source-row provenance. Original Test IDs remain excluded. See [evaluation protocol](MATCHED_GROUP_CV_PROTOCOL.md). Notebook execution results are pending.
