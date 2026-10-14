@@ -59,3 +59,7 @@ The [second notebook](notebooks/02_signal_preprocessing_and_windowing.ipynb) cal
 ## Step 8: full development-cohort audit
 
 [Notebook 08](notebooks/08_full_development_audit.ipynb) uses the existing pipeline to inspect all **29 development subjects** from HARTH v2.0, with the same two Test subjects excluded. It separates a download inventory from the data-processing cell and displays subject/class coverage, exclusions and GroupKFold feasibility. **No model is trained.** The 19 additional public source CSVs total approximately 775 MiB. See [full development audit protocol](FULL_DEVELOPMENT_AUDIT_PROTOCOL.md) and shared [class coverage audit](../../code/python/src/core/data_splitting.py).
+
+## Step 9: full-development subject-independent classical ML comparison
+
+[Notebook 09](notebooks/09_full_development_cross_validation.ipynb) refits the existing Dummy, Logistic Regression and Random Forest baselines across five GroupKFold partitions of **all 29 development subjects**. The source recordings are reused from Notebook 08's local cache. The notebook compares validation-fold Macro F1 and balanced accuracy, then examines paired Random Forest/Logistic Regression scores per participant. No data from reserved Test IDs S023 and S032 are loaded or scored. See [Stage 9 Protocol](FULL_DEVELOPMENT_CV_PROTOCOL.md). Results are not claimed until execution.
