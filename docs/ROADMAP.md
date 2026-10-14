@@ -35,3 +35,10 @@
 - [ ] Document real per-subject outcomes and limitations.
 
 The repository remains modular: each study has a shareable study-specific notebook and README.
+
+## Stage 7: expanded HARTH development evaluation (14 October 2026)
+- [x] Verify maintainer-executed Notebook 06: quality gate passed, 6 development subjects, 2 protected Test subjects.
+- [x] Extend the HARTH study adapter to prepare ten development subjects without loading original Test subjects.
+- [x] Add offline cohort tests, annotated Notebook 07, and a documented label/coverage protocol.
+- [ ] Execute Notebook 07 and review actual subject coverage and 5-fold CV outcomes in Cursor before interpreting model performance.
+- [ ] Design full-cohort evaluation and a final locked-test policy before expanding to deep learning.
