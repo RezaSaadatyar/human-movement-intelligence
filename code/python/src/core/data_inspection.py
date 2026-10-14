@@ -1,4 +1,4 @@
-# ======================== Presented by: Reza Saadatyar (2026) ========================
+# ======================== Presented by: Reza Saadatyar (2026) ================
 """Reusable data summaries and visualisations for scientific arrays and tables."""
 
 import matplotlib.pyplot as plt
@@ -6,7 +6,7 @@ import numpy as np
 import pandas as pd
 
 
-# ============================= 1. Dataset Summary ================================
+# ============================= 1. Dataset Summary ============================
 def inspect_data(data, name='Dataset', preview_rows=5):
     """
     Display a concise structural summary of a table or numeric array.
@@ -49,7 +49,7 @@ def inspect_data(data, name='Dataset', preview_rows=5):
     return report
 
 
-# ========================== 2. Signal Visualisation ==============================
+# ========================== 2. Signal Visualisation ==========================
 def plot_signal(signal, title='Example signal', channel_names=None):
     """
     Plot one 2D (channels, time) signal or a 1D sequence.

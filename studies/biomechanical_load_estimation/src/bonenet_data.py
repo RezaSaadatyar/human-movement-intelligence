@@ -1,4 +1,4 @@
-# ======================== Presented by: Reza Saadatyar (2026) ========================
+# ======================== Presented by: Reza Saadatyar (2026) ================
 """Read the authors' processed BoneNet IMU and FE-strain arrays with Python."""
 
 from pathlib import Path
@@ -16,7 +16,7 @@ SOURCE = (
 )
 
 
-# ============================== 1. Data Acquisition ==============================
+# ============================== 1. Data Acquisition ==========================
 def ensure_bonenet_files(data_dir):
     """
     Download two public source files only when absent locally.
@@ -44,7 +44,7 @@ def ensure_bonenet_files(data_dir):
     return root
 
 
-# ================================ 2. Data Loading ================================
+# ================================ 2. Data Loading ============================
 def load_bonenet_data(data_dir):
     """
     Decode numeric IMU trajectories and model-derived FE targets.
