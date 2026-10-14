@@ -175,3 +175,81 @@ def classification_class_report(y_true, y_pred, classes, class_names=None):
 def classification_confusion(y_true, y_pred, classes):
     """Return the validation confusion matrix with fixed class order."""
     return confusion_matrix(y_true, y_pred, labels=list(classes))
+
+
+# ====================== 4. Participant-Level Evaluation ========================
+def evaluate_predictions_by_subject(y_true, y_pred, subject_ids, classes, model_name):
+    """
+    Report one held-out validation score per independent participant.
+
+    Args:
+        y_true (array-like): Source activity code per validation window.
+        y_pred (array-like): Predicted activity code in identical row order.
+        subject_ids (array-like): Original source participant ID per window.
+        classes (sequence): Fixed, documented task codes for Macro F1.
+        model_name (str): Model label for merging and paired comparison.
+
+    Returns:
+        pd.DataFrame: Model, participant, window/class counts, accuracy,
+            fixed-task Macro F1 and observed-class Macro F1.
+
+    Notes:
+        - Counts independent participants instead of interpreting temporally
+          overlapping windows as independent experimental replicates.
+        - Both metrics use explicit class denominators: fixed-task considers
+          all task classes; observed-class includes true classes present in
+          that participant's recording.
+        - It is a descriptive validation report, not a significance test.
+    """
+    # 1. Validate aligned predictions and scientific class definitions.
+    observed = np.asarray(y_true)
+    predicted = np.asarray(y_pred)
+    ids = np.asarray(subject_ids, dtype=object)
+    codes = list(classes)
+    if (
+        observed.ndim != 1 or predicted.ndim != 1 or ids.ndim != 1
+        or not len(observed) or len(observed) != len(predicted)
+        or len(observed) != len(ids)
+    ):
+        raise ValueError("Labels, predictions and subject IDs must be aligned 1D arrays.")
+    if not codes or len(set(codes)) != len(codes):
+        raise ValueError("Task classes must be distinct, non-empty codes.")
+    if not isinstance(model_name, str) or not model_name.strip():
+        raise ValueError("model_name must be a non-empty string.")
+    if pd.isna(observed).any() or pd.isna(predicted).any():
+        raise ValueError("Missing true or predicted labels are not permitted.")
+    if not np.isin(observed, codes).all() or not np.isin(predicted, codes).all():
+        raise ValueError("True and predicted labels must use declared task classes.")
+    if any(pd.isna(value) or not str(value).strip() for value in ids):
+        raise ValueError("Empty or missing subject identifiers are not permitted.")
+
+    # 2. Canonical IDs prevent case/whitespace differences splitting a person.
+    original_ids = [str(value).strip() for value in ids]
+    canonical = np.asarray([value.casefold() for value in original_ids])
+    names = {}
+    for key, name in zip(canonical, original_ids):
+        names.setdefault(key, name)
+
+    # 3. Compute metrics independently for each held-out participant.
+    rows = []
+    for key in sorted(set(canonical)):
+        mask = canonical == key
+        true_subject = observed[mask]
+        prediction_subject = predicted[mask]
+        present_codes = [code for code in codes if code in set(true_subject)]
+        rows.append({
+            "model": model_name,
+            "subject_id": names[key],
+            "windows": int(mask.sum()),
+            "observed_classes": len(present_codes),
+            "accuracy": accuracy_score(true_subject, prediction_subject),
+            "macro_f1_fixed_task": f1_score(
+                true_subject, prediction_subject,
+                labels=codes, average="macro", zero_division=0
+            ),
+            "macro_f1_observed_classes": f1_score(
+                true_subject, prediction_subject,
+                labels=present_codes, average="macro", zero_division=0
+            ),
+        })
+    return pd.DataFrame(rows)
