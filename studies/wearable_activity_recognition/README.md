@@ -63,3 +63,7 @@ The [second notebook](notebooks/02_signal_preprocessing_and_windowing.ipynb) cal
 ## Step 9: full-development subject-independent classical ML comparison
 
 [Notebook 09](notebooks/09_full_development_cross_validation.ipynb) refits the existing Dummy, Logistic Regression and Random Forest baselines across five GroupKFold partitions of **all 29 development subjects**. The source recordings are reused from Notebook 08's local cache. The notebook compares validation-fold Macro F1 and balanced accuracy, then examines paired Random Forest/Logistic Regression scores per participant. No data from reserved Test IDs S023 and S032 are loaded or scored. See [Stage 9 Protocol](FULL_DEVELOPMENT_CV_PROTOCOL.md). Results are not claimed until execution.
+
+## Step 10: raw-signal 1D-CNN (PyTorch pilot)
+
+[Notebook 10](notebooks/10_pytorch_temporal_cnn.ipynb) introduces a compact temporal CNN on actual six-channel IMU windows from 29 development participants (bounded to at most 500 eligible windows per person). It uses subject-independent Train/Validation groups, training-only channel normalisation and five epochs of exploratory training; reserved final Test IDs are not loaded. The results are **not directly comparable** with the full-data Stage 9 classical ML baseline. Install optional [deep-learning requirements](../../requirements-dl.txt). See [Temporal CNN Protocol](TEMPORAL_CNN_PROTOCOL.md).
