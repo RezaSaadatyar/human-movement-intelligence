@@ -1,0 +1,10 @@
+# Step 1: reading scientific data and visualising outputs in Jupyter.
+# No custom package installation is required.
+numpy>=1.24
+scipy>=1.10
+pandas>=2.0
+matplotlib>=3.7
+openpyxl>=3.1
+jupyterlab>=4.0
+ipykernel>=6.0
+nbconvert>=7.0
