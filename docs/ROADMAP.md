@@ -20,14 +20,16 @@
 - [x] Implement shared, stateless feature extraction and prepare Notebook 03 with commented Python cells.
 - [x] Execute and review Notebook 03 on real HARTH: 2,567 windows and 30 finite features.
 - [x] Add Notebook 04 and reusable subject-disjoint split function for eight verified HARTH participants.
-- [ ] Run Notebook 04, review all participant/group partitions and activity coverage.
+- [x] Run and review Notebook 04 on eight participants; no subject overlap; 25,963 windows and missing-class analysis.
 - [ ] Determine full-dataset subject-independent validation before model training.
 
 ## Phase 3: progressively build ML / DL tools
 
 - [ ] Develop justified signal preprocessing and windowing, with tests for sample/subject leakage.
 - [ ] Add reusable feature engineering, grouped train/validation/test splits and evaluation.
-- [ ] Run classical ML baselines followed by suitable PyTorch CNN/temporal architectures.
+- [x] Implement three exploratory classification baselines and commented Notebook 05 for Validation-only comparison.
+- [ ] Execute and inspect Notebook 05; audit class exclusions, Macro F1 and confusion matrix.
+- [ ] Expand full-cohort subject-independent assessment before PyTorch CNN/temporal experiments.
 - [ ] Document real per-subject outcomes and limitations.
 
 The repository remains modular: each study has a shareable study-specific notebook and README.
