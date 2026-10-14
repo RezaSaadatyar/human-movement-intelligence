@@ -16,6 +16,7 @@ HARTH_SOURCE = (
     "https://raw.githubusercontent.com/ntnu-ai-lab/harth-ml-experiments/"
     f"{HARTH_REVISION}/harth/"
 )
+HARTH_SUBJECTS = frozenset("S006 S008 S009 S010 S012 S013 S014 S015 S016 S017 S018 S019 S020 S021 S022 S023 S024 S025 S026 S027 S028 S029 S030 S031 S032 S033 S034 S035 S036 S037 S038".split())
 SENSOR_COLUMNS = [
     "back_x", "back_y", "back_z",
     "thigh_x", "thigh_y", "thigh_z",
@@ -46,8 +47,8 @@ def ensure_harth_sample(data_dir, subject="S023"):
         The first study intentionally downloads one file (~12 MB), not the
         entire HARTH archive. The source revision is pinned above.
     """
-    if subject != "S023":
-        raise ValueError("This first example is limited to verified source file S023.csv.")
+    if subject not in HARTH_SUBJECTS:
+        raise ValueError(f"Unknown HARTH v2.0 subject: {subject}")
 
     destination = Path(data_dir)
     destination.mkdir(parents=True, exist_ok=True)
@@ -69,8 +70,8 @@ def ensure_harth_sample(data_dir, subject="S023"):
         with urlopen(request, timeout=90) as response, partial_path.open("xb") as stream:
             while chunk := response.read(1024 * 1024):
                 total_bytes += len(chunk)
-                if total_bytes > 30 * 1024 * 1024:
-                    raise ValueError("HARTH file exceeds the 30 MiB sample download limit.")
+                if total_bytes > 70 * 1024 * 1024:
+                    raise ValueError("HARTH file exceeds the 70 MiB download limit.")
                 stream.write(chunk)
         if total_bytes == 0:
             raise ValueError("Downloaded file is empty.")
