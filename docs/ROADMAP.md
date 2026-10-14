@@ -58,3 +58,12 @@ A model or scientific result is only called implemented/validated after actual e
 - [ ] Evaluate a separate Python MCOS decoding adapter for the *original* Figshare files without assuming support for this particular object type.
 
 See [Python-only pipeline](PYTHON_FIRST_PIPELINE.md). No authentic-data model metrics have been reported.
+
+
+## Confirmed Python-only BoneNet pilot (14 October 2026)
+- [x] Real authors' public Data.mat and labels.csv downloaded and inspected in GitHub Actions.
+- [x] Numeric tensors verified: X=(444,42,101), Y=(444,101,2), zero non-finite values.
+- [x] Fix synthetic MAT audit test fixture; CI passes 14/14 tests.
+- [ ] Review exploratory grouped Mean/Ridge results and verify source sample-to-label pairing before making any scientific generalisation claim.
+
+See [actual-data validation record](../studies/biomechanical_load_estimation/BONENET_REAL_DATA_AUDIT.md).
