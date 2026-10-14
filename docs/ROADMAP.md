@@ -49,3 +49,10 @@ The repository remains modular: each study has a shareable study-specific notebo
 - [x] Add Notebook 08 with 29 development participants, separate pre-download inventory, class coverage and fold audit.
 - [ ] Execute Notebook 08 on real data and review coverage, errors and missing classes before any further model training.
 - [ ] Freeze full-cohort evaluation strategy and report reproducibility limitations.
+
+## Stage 9: full-development classical ML Cross-Validation
+- [x] Verify executed Notebook 08: 29 development subjects, 132,397 eligible windows, 30 features, no missing training or validation classes in five audited folds.
+- [x] Add reusable paired-subject performance comparison and offline tests.
+- [x] Add Notebook 09 for five-fold grouped CV, subject-level model comparison and visual audit, with original Test subjects excluded.
+- [ ] Run Notebook 09 on the full development cohort in Cursor and review real results before advancing.
+- [ ] Decide model-selection/final test-reporting protocol without presenting the reserved Test as previously unseen.
