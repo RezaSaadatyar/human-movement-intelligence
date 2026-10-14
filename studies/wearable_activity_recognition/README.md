@@ -55,3 +55,7 @@ The [second notebook](notebooks/02_signal_preprocessing_and_windowing.ipynb) cal
 ## Step 7: expanded ten-subject development evaluation
 
 [Notebook 07](notebooks/07_expanded_subject_evaluation.ipynb) evaluates the **ten-person development cohort** through five subject-held-out folds, leaving both original Test people untouched. The new [cohort helper](src/harth_data.py) reuses the previous common windowing and feature methods. It displays the source-class coverage heatmap, exclusions, fold scores and person-level variation. Four additional public CSVs are downloaded on demand; no model results are claimed before execution. See [Expanded Development Protocol](EXPANDED_DEVELOPMENT_PROTOCOL.md).
+
+## Step 8: full development-cohort audit
+
+[Notebook 08](notebooks/08_full_development_audit.ipynb) uses the existing pipeline to inspect all **29 development subjects** from HARTH v2.0, with the same two Test subjects excluded. It separates a download inventory from the data-processing cell and displays subject/class coverage, exclusions and GroupKFold feasibility. **No model is trained.** The 19 additional public source CSVs total approximately 775 MiB. See [full development audit protocol](FULL_DEVELOPMENT_AUDIT_PROTOCOL.md) and shared [class coverage audit](../../code/python/src/core/data_splitting.py).
