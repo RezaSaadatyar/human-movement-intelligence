@@ -58,3 +58,22 @@ lightning_logs/
 *.log
 tmp/
 scratch/
+
+# Prevent accidental addition of portable but potentially unsafe model/data files
+*.joblib
+*.pkl
+*.pickle
+*.mat
+*.npy
+*.npz
+*.csv.gz
+*.zip
+*.tar
+*.tar.gz
+*.7z
+*.sqlite
+*.db
+
+# Private experiment outputs stored outside the tracked research source
+*.safetensors
+*.tflite
