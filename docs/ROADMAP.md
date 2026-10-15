@@ -148,3 +148,14 @@ The repository remains modular: each study has a shareable study-specific notebo
 - Compare architectures on **identical subject groups and window-row selection**; use explicitly documented Train-only scaling/weighting, fixed update budgets (with realistic model-specific compute reporting) and equal evaluation definitions. Parameter counts, compute and training stability must accompany scores; equal steps are NOT equal compute or proof of architectural causality.
 - Avoid comparing experiments with different cohorts/window caps as though they were directly matched. Do not cherry-pick the best epoch on Validation and then call it independent evaluation.
 - Report all models even if one is weak or too costly; if a run cannot complete, document the failure and reason rather than fabricate outcomes.
+
+### Stage 20 implementation checkpoint (awaiting local execution)
+
+- [x] Review and inventory all 19 historical HARTH notebooks and their saved outputs.
+- [x] Create comprehensive **bold-heading** Notebook 20 and source-linked 19-stage evidence register.
+- [x] Add reusable saved-notebook provenance utilities and offline regression tests.
+- [x] Document matched/unmatched experiments, rare-class evidence, and the original Test provenance limitation.
+- [ ] Run Notebook 20 locally, inspect inventory findings and execute its quality gate; commit and push real results.
+- [ ] Review that execution before opening Stage 21.
+
+**Formatting convention for all upcoming notebooks:** Use `**01. Section Title**` or equivalent **bold Markdown**, not hash-style headings. Preserve complete explanations, analysis and outputs despite notebook consolidation.
