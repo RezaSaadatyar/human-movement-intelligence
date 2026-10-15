@@ -98,3 +98,7 @@ A GitHub Release, if authorised later, means an immutable versioned reference (t
 ## Interpretation
 
 Do not claim clinical readiness, prospective evaluation, statistically significant superiority, independent population validation, or perfect class recall based on low sample support. Record rare classes honestly: Shuffling 3, ascending stairs 10, descending stairs 6 selected Test windows. Overlapping Test windows are correlated and are not independent subjects.
+
+## Saved Stage 27 execution metadata qualification
+
+The committed scientific **Notebook 27** contains saved tables, figures and a printed Quality Gate marked `PASSED`, but **five of its ten code cells have `execution_count: null` despite output content**. This is a provenance limitation in the pre-existing source file, not a reason to change counters by hand. The audit checks that each of those cells has actual saved outputs and no recorded error, keeps the missing-count evidence explicit, and does not claim that complete execution metadata has been independently verified. The frozen original file and all downstream SHA256 evidence remain untouched.

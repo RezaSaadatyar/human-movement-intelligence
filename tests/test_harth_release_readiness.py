@@ -50,8 +50,11 @@ class TestHarthReleaseReadiness(unittest.TestCase):
         saved = audit.notebook_execution_check(
             p, 10,
             "STAGE 27 | SOURCE-GROUNDED RESEARCH SYNTHESIS QUALITY GATE: PASSED",
+            allow_missing_counts_with_outputs=True,
         )
         self.assertEqual(saved["cells"], 10)
+        self.assertEqual(saved["saved_output_cells"], 10)
+        self.assertIsInstance(saved["missing_execution_counts"], list)
         self.assertEqual(len(saved["notebook_sha256"]), 64)
 
     def test_approval_lineage_cannot_be_silently_mutated(self):
