@@ -104,3 +104,9 @@ The repository remains modular: each study has a shareable study-specific notebo
 - [x] Implement opt-in fixed-step PyTorch trainer preserving existing epoch-based function, with regression tests.
 - [x] Add annotated Notebook 17 and predeclared four-checkpoint, 400-update training protocol.
 - [ ] Execute Notebook 17 and verify full outputs before designing the next experiment.
+
+## Stage 18: development-only out-of-fold CNN confidence audit
+- [x] Inspect executed Notebook 17: Weighted CNN 500/1000 fixed-400-step Macro F1 0.7746/0.7927 across three grouped folds, Shuffling still weak.
+- [x] Add train-statistics-only softmax inference and reusable prediction-confidence audit with synthetic tests.
+- [x] Add annotated Notebook 18 and confidence interpretation protocol.
+- [ ] Execute Notebook 18 and review reliability bins, per-class errors and participant-level variation before making any calibration or selective prediction claims.
