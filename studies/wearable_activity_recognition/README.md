@@ -87,3 +87,7 @@ The [second notebook](notebooks/02_signal_preprocessing_and_windowing.ipynb) cal
 ## Step 15: nested training-data scale experiment
 
 [Notebook 15](notebooks/15_nested_training_data_scaling.ipynb) compares Random Forest and Weighted CNN with 500 vs 1,000 training windows per person, while holding the original six-person, 2,701-window Validation cohort fixed. The larger Train sample contains every original 500-cap Train window, adding new eligible positions without using labels. Original Test people remain excluded. See [Nested Training Scale Protocol](NESTED_TRAINING_SCALE_PROTOCOL.md); reusable source sampling in [sampling_audit.py](../../code/python/src/core/sampling_audit.py) and [harth_data.py](src/harth_data.py).
+
+## Step 16: nested training-data size evaluated across subject-held-out folds
+
+[Notebook 16](notebooks/16_nested_training_group_cv.ipynb) compares RF and training-weighted CNN at 500 versus 1,000 training windows per person across three GroupKFold partitions. Every model uses the exact same original 500-cap Validation rows within each fold; 1,000-cap Train samples strictly contain their corresponding base samples. Original Test IDs remain excluded. Evaluation code: [training_scale_cv.py](../../code/python/src/core/training_scale_cv.py); see [Stage 16 protocol](NESTED_GROUP_CV_PROTOCOL.md).
