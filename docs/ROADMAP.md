@@ -116,3 +116,35 @@ The repository remains modular: each study has a shareable study-specific notebo
 - [x] Add reusable scalar-temperature fitting and multiclass held-out NLL with offline tests.
 - [x] Add documented Notebook 19 with independent Train, Calibration and outer Validation participant groups and top-1 invariance quality gate.
 - [ ] Execute Notebook 19, review real held-out fold-level calibration metrics, and avoid claims based on calibration-fit performance.
+
+
+## Agreed HARTH completion plan: Stages 20-27
+
+**Status:** Approved future study plan, not yet implemented. Stage 19 was executed and reviewed. The goal is to COMPLETE the HARTH study with purposeful experiments and reproducible reporting, rather than create one new notebook for every minor concern.
+
+### Notebook consolidation rules
+
+- Combine closely related investigations in one complete, readable numbered notebook; preserve full methodology, tables, visualisations, results and limitations. Do not reduce evidence just to shorten a notebook.
+- Keep reusable dataset adapters, neural architectures, training loops, evaluation functions and tests in documented Python modules. Notebooks call those modules, narrate the method and retain real executed outputs.
+- Implement and actually run **all four** additional temporal architectures: **Temporal Convolutional Network (TCN), Multi-Scale CNN / InceptionTime-style CNN, 1D-ResNet and Time-Series Transformer**. None of these is merely a suggested optional architecture.
+- Prefer **one combined architecture-study notebook** and **one matched multi-model evaluation notebook**, rather than a separate notebook per architecture. If a complete CPU experiment proves too costly, split model training into two coherent families with saved intermediate results, then retain one unified final comparison; do not silently omit a model.
+- Clearly distinguish implemented/smoke-tested models from those trained and empirically validated. No improvement should be claimed before actual outputs are reviewed.
+
+### Planned stages and deliverables
+
+- [ ] **Stage 20 – Evidence consolidation.** Summarise completed Stages 01–19 in a traceable table of source cohort, sampling cap, subject split, metric denominator, training budget, calibration scope, outcomes and limitations. Harmonise README/roadmap status. Prefer one analysis notebook or concise reproducible report, not rerun all models.
+- [ ] **Stage 21 – Minority-class and data-quality assessment.** Audit Shuffling, ascending/descending stairs, between-subject class availability, chronological sampling effects, and officially undocumented codes without guessing meanings. Combine coverage and error diagnostics into one coherent notebook where practical.
+- [ ] **Stage 22 – Four temporal-model implementations and smoke checks.** Create reusable PyTorch definitions/tests for TCN, Multi-Scale CNN, 1D-ResNet and Time-Series Transformer. Use **one** notebook for architecture diagrams/tensor flow, shape tests, parameter and resource counts, controlled tiny training runs and rationale, with full English code comments/documentation.
+- [ ] **Stage 23 – Unified matched subject-held-out architecture benchmark.** Actually train/evaluate **all four new models** alongside existing Random Forest, Standard CNN and Weighted CNN reference baselines using identical source participant identities, windowing, sampled rows, class specification, held-out folds and transparent compute budget. Save fold/person/class metrics, confusion matrices, inference latency and resource usage. Use **one** final comparison notebook; modular/cached training may be split only if computing constraints require it.
+- [ ] **Stage 24 – Robustness and imbalance follow-up.** Run multi-seed analysis on a justified shortlist and a targeted training-only Focal Loss / class-balanced loss or physically valid augmentation ablation as indicated by Stage 21/23 results. Keep losses and architecture/data changes isolated. Combine connected tests into one notebook where practical; do not claim a method improves results without evidence.
+- [ ] **Stage 25 – Freeze final model and evaluation protocol.** Select model(s) on Development only using subject-held-out Macro F1, minority-class outcomes, variability and compute/reproducibility. Lock code, hyperparameters, classes and preprocessing before any reserved-Test scoring. Document that reserved Test subjects S023/S032 were inspected in earlier exploratory stages and are NOT fully preregistered-unseen.
+- [ ] **Stage 26 – Final evaluation and reproducible inference.** After explicit protocol approval, fit under the frozen procedure and report transparently qualified held-out results (if using the reserved Test). Save compatible model weights, sensor order, label map and Train-fitted preprocessing; test loading and inference end to end.
+- [ ] **Stage 27 – Study report and GitHub release.** Reconcile all source-grounded figures and tables; write final methods, results, class-level errors, comparisons, limitations, lightweight tests/CI and README instructions. Archive or clearly label exploratory notebooks; deliver a coherent reproducible version-one HARTH study.
+
+### Fair comparison boundaries
+
+- Development: 29 HARTH v2.0 participants; protect original `S023` and `S032` from further model development and selection.
+- Predeclare the 8-class task and scientifically justified handling of undocumented source codes; keep patient/participant identity separated between Train and Validation and avoid raw-window leakage.
+- Compare architectures on **identical subject groups and window-row selection**; use explicitly documented Train-only scaling/weighting, fixed update budgets (with realistic model-specific compute reporting) and equal evaluation definitions. Parameter counts, compute and training stability must accompany scores; equal steps are NOT equal compute or proof of architectural causality.
+- Avoid comparing experiments with different cohorts/window caps as though they were directly matched. Do not cherry-pick the best epoch on Validation and then call it independent evaluation.
+- Report all models even if one is weak or too costly; if a run cannot complete, document the failure and reason rather than fabricate outcomes.
