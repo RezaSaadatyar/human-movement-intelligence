@@ -205,3 +205,14 @@ See [HARTH Notebook Authoring Standards](../studies/wearable_activity_recognitio
 - [x] Implement 36 source/code-fingerprinted resumable GPU fits and 12-section comprehensive Notebook 24 with numbered English comments, bold Markdown, real outcome plots and strict scientific Quality Gate.
 - [x] Add synthetic offline loss/gradient and reproducibility-integrity tests, scientific protocol and interpretation boundaries.
 - [ ] Run Notebook 24 in Google Colab GPU; inspect and push all genuine output tables/figures and final Quality Gate before Stage 25.
+
+
+### Stage 25 implementation checkpoint (proposed protocol, no Test access)
+
+- [x] Inspect executed Stage 24: 36/36 GPU model/fold jobs, 12 experiment conditions, no errors, final Quality Gate PASSED.
+- [x] Recover Stage 23/24 result evidence directly from complete saved notebook tables and matching Development fingerprint.
+- [x] Add a comprehensive 11-section selection Notebook 25 with bold Markdown titles, numbered explanatory code comments, comparison charts, code SHA256 and a review-required protocol JSON proposal.
+- [x] Document final ResNet Weighted CE development candidate, fixed RF comparison, sample cap, source class policy and reserved-Test interpretation limitations.
+- [x] Add read-only evidence parsing tests, model-selection protocol and explicit user approval boundary.
+- [ ] Run Notebook 25 and offline tests, review resulting `stage_25_protocol_proposal.json`, save and push real outputs.
+- [ ] User explicitly approves exact protocol before Stage 26 final model fitting / qualified held-out scoring.
