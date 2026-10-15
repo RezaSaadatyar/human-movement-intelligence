@@ -98,3 +98,9 @@ The repository remains modular: each study has a shareable study-specific notebo
 - [x] Inspect executed Notebook 15: RF Macro F1 0.8266→0.8644 (Train 500→1000), Weighted CNN 0.7968→0.7805 at last epoch on one fixed 6-person Validation group.
 - [x] Add reusable nested training-scale grouped CV module, synthetic group-alignment tests, Notebook 16 and protocol.
 - [ ] Run Notebook 16 on true data, review paired participant results and low-frequency class effects before changing architectures.
+
+## Stage 17: fixed-update temporal CNN training-size sensitivity
+- [x] Inspect executed Notebook 16: GroupKFold RF 500/1000 Macro F1 0.8076/0.8097; Weighted CNN 500/1000 0.7834/0.7962; Shuffling CNN pooled F1 0.1345/0.2513.
+- [x] Implement opt-in fixed-step PyTorch trainer preserving existing epoch-based function, with regression tests.
+- [x] Add annotated Notebook 17 and predeclared four-checkpoint, 400-update training protocol.
+- [ ] Execute Notebook 17 and verify full outputs before designing the next experiment.
