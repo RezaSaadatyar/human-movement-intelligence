@@ -246,3 +246,173 @@ def train_temporal_cnn(
         )
 
     return model, pd.DataFrame(log), prediction, statistics
+
+
+# ========================= 5. Step-Matched CNN Training =========================
+def train_temporal_cnn_fixed_steps(
+    X_train,
+    y_train,
+    X_validation,
+    y_validation,
+    classes=tuple(range(1, 9)),
+    max_steps=600,
+    eval_every=200,
+    batch_size=128,
+    learning_rate=1e-3,
+    seed=42,
+    device="cpu",
+    class_weighting="inverse_sqrt",
+):
+    """
+    Fit the existing TemporalCNN for an EXACT optimizer-update budget.
+
+    Args:
+        X_train (array-like): Training windows (N, channels, time).
+        y_train (array-like): Documented original Train class codes.
+        X_validation (array-like): Subject-disjoint validation windows.
+        y_validation (array-like): Validation labels; never used to fit.
+        classes (sequence): Fixed, distinct documented class codes.
+        max_steps (int): Total number of optimizer updates for this run.
+        eval_every (int): Evaluate after each number of updates and at end.
+        batch_size (int): Training mini-batch size (fixed across conditions).
+        learning_rate (float): Adam learning rate.
+        seed (int): Fixed initialisation/DataLoader seed for paired runs.
+        device (str): 'cpu' or available 'cuda'.
+        class_weighting (str): Train-only 'inverse_sqrt' or 'none'.
+
+    Returns:
+        model (nn.Module): Model after the final optimizer update.
+        history (pd.DataFrame): Optimizer step, recent Train loss, Validation
+            Macro F1/accuracy/balanced accuracy at each evaluation.
+        predictions (np.ndarray): Last-step validation source class codes.
+        statistics (dict): Channel mean/SD estimated using Train only.
+
+    Notes:
+        - No validation/test signals or labels fit model/scaler/weights.
+        - Mini-batch order reshuffles at the end of each DataLoader pass.
+        - Equal steps AND batch size approximately equate presentations,
+          not independent source windows nor unique observations.
+        - Models with larger Train have fewer revisits per observation.
+        - No checkpoint selection based on validation metrics.
+    """
+    # 1. Validate scientific task, aligned data and training controls.
+    codes = list(classes)
+    train_labels = np.asarray(y_train)
+    validation_labels = np.asarray(y_validation)
+    if len(codes) < 2 or len(set(codes)) != len(codes):
+        raise ValueError("At least two unique task classes are required.")
+    if (
+        train_labels.ndim != 1 or validation_labels.ndim != 1
+        or len(train_labels) != len(X_train)
+        or len(validation_labels) != len(X_validation)
+    ):
+        raise ValueError("Train and Validation window/label counts must align.")
+    if not np.isin(train_labels, codes).all() or not np.isin(
+        validation_labels, codes
+    ).all():
+        raise ValueError("Labels outside the declared task.")
+    if not set(codes).issubset(set(train_labels.tolist())):
+        raise ValueError("Every task class must be present in Train.")
+    for name, count in [("max_steps", max_steps), ("eval_every", eval_every),
+                        ("batch_size", batch_size)]:
+        if isinstance(count, (bool, np.bool_)) or not isinstance(
+            count, (int, np.integer)
+        ) or count < 1:
+            raise ValueError(f"{name} must be a positive integer.")
+    if not np.isfinite(learning_rate) or learning_rate <= 0:
+        raise ValueError("learning_rate must be finite and positive.")
+    if device not in ("cpu", "cuda") or (
+        device == "cuda" and not torch.cuda.is_available()
+    ):
+        raise ValueError("Requested PyTorch device is not available.")
+
+    # 2. Seed the same model architecture and train-only preprocessing.
+    random.seed(seed)
+    np.random.seed(seed)
+    torch.manual_seed(seed)
+    if torch.cuda.is_available():
+        torch.cuda.manual_seed_all(seed)
+    torch.backends.cudnn.deterministic = True
+    torch.backends.cudnn.benchmark = False
+
+    training, validation, statistics = standardise_imu_train_only(
+        X_train, X_validation
+    )
+    code_to_index = {code: index for index, code in enumerate(codes)}
+    encoded = np.asarray(
+        [code_to_index[code] for code in train_labels], dtype=np.int64
+    )
+    dataset = TensorDataset(
+        torch.from_numpy(training), torch.from_numpy(encoded)
+    )
+    loader = DataLoader(
+        dataset, batch_size=int(batch_size), shuffle=True,
+        generator=torch.Generator().manual_seed(seed),
+    )
+    iterator = iter(loader)
+
+    model = TemporalCNN(training.shape[1], len(codes)).to(device)
+    loss_weights = torch.as_tensor(
+        compute_training_class_weights(train_labels, codes, class_weighting),
+        dtype=torch.float32, device=device,
+    )
+    optimizer = torch.optim.Adam(model.parameters(), lr=learning_rate)
+
+    # 3. Run the requested number of parameter updates, reshuffling each pass.
+    log = []
+    recent_losses = []
+    predictions = None
+    for step in range(1, int(max_steps) + 1):
+        try:
+            batch_signals, batch_labels = next(iterator)
+        except StopIteration:
+            iterator = iter(loader)
+            batch_signals, batch_labels = next(iterator)
+        model.train()
+        batch_signals = batch_signals.to(device)
+        batch_labels = batch_labels.to(device)
+        optimizer.zero_grad(set_to_none=True)
+        loss = nn.functional.cross_entropy(
+            model(batch_signals), batch_labels, weight=loss_weights
+        )
+        loss.backward()
+        optimizer.step()
+        recent_losses.append(float(loss.detach().cpu()))
+
+        # 4. Evaluate only after predeclared training-update checkpoints.
+        if step % eval_every != 0 and step != max_steps:
+            continue
+        model.eval()
+        predicted_indices = []
+        with torch.no_grad():
+            val_tensor = torch.from_numpy(validation)
+            for start in range(0, len(val_tensor), batch_size):
+                logits = model(
+                    val_tensor[start:start + batch_size].to(device)
+                )
+                predicted_indices.extend(logits.argmax(dim=1).cpu().tolist())
+        predictions = np.asarray(
+            [codes[index] for index in predicted_indices]
+        )
+        record = {
+            "step": step,
+            "train_loss_recent": float(np.mean(recent_losses)),
+            "validation_macro_f1": f1_score(
+                validation_labels, predictions, labels=codes,
+                average="macro", zero_division=0
+            ),
+            "validation_accuracy": accuracy_score(
+                validation_labels, predictions
+            ),
+            "validation_balanced_accuracy": balanced_accuracy_score(
+                validation_labels, predictions
+            ),
+        }
+        log.append(record)
+        print(
+            f"Step {step}/{max_steps} | loss={record['train_loss_recent']:.4f}"
+            f" | Validation Macro F1={record['validation_macro_f1']:.4f}"
+        )
+        recent_losses.clear()
+
+    return model, pd.DataFrame(log), predictions, statistics
