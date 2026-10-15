@@ -99,3 +99,7 @@ The [second notebook](notebooks/02_signal_preprocessing_and_windowing.ipynb) cal
 ## Step 18: uncalibrated softmax and out-of-fold error diagnostics
 
 [Notebook 18](notebooks/18_oof_confidence_audit.ipynb) inspects fixed-step Weighted CNN 1000 softmax outputs and high-confidence errors across three subject-held-out development folds. Its [shared reliability audit](../../code/python/src/core/prediction_reliability.py) reports Brier score, fixed-bin ECE, confidence distributions and per-person/class errors. Original Test IDs remain excluded. See [Confidence Audit Protocol](CONFIDENCE_AUDIT_PROTOCOL.md). Outputs are **descriptive and uncalibrated**, not clinical uncertainty estimates.
+
+## Step 19: separate-subject temperature scaling
+
+[Notebook 19](notebooks/19_subject_disjoint_temperature_calibration.ipynb) fits scalar temperature on Calibration subjects excluded from CNN Train and evaluates NLL, Brier and ECE on different outer-fold Validation subjects. The previously reserved Test people remain excluded. The shared [temperature calibration module](../../code/python/src/core/temperature_calibration.py) only modifies softmax probabilities, not model classes; see [Calibration Protocol](TEMPERATURE_CALIBRATION_PROTOCOL.md). The actual results require local execution.
