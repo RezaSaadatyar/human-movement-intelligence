@@ -38,6 +38,23 @@ python scripts/check_harth_release_readiness.py
 
 The last command is a **read-only** source/provenance check. It does not open source HARTH CSVs, deserialize models or download any files. It checks frozen-module SHA256, aligned approved/proposed manifests, source fingerprint evidence and the actual saved final Quality Gates in Notebooks 23–27.
 
+### Windows checkout and source SHA256
+
+The six frozen Python modules in the **GitHub main tree** have been independently checked against the approved Stage 25 SHA256 entries and match **exactly**. On Windows, `git status` can be clean while `core.autocrlf` has converted Git's original LF text to CRLF in the working tree, which changes the raw-byte SHA256.
+
+The pre-release audit therefore performs a **strict CRLF-to-LF-only** equivalence test if and only if the exact raw-byte SHA256 does not match. It accepts only a byte-for-byte match to the historical approved hash after this single transformation. It reports affected paths as `Windows CRLF-to-LF-only verified paths`. Any other file modification is rejected; it neither rewrites the file nor relaxes or updates an approved scientific fingerprint.
+
+To diagnose on Windows PowerShell:
+
+```powershell
+git status --short
+git pull --ff-only origin main
+git config --show-origin --get core.autocrlf
+python .\scripts\check_harth_release_readiness.py
+```
+
+Never reset, overwrite or regenerate the frozen source/manifest merely to make the SHA256 test pass. If strict CRLF equivalence still fails, preserve the file and send the new error output for investigation.
+
 ### Optional local artefact inspection
 
 Three trusted, originally saved Colab outputs were generated in `outputs/harth_stage26_final/`:
