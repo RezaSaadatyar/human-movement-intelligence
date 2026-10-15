@@ -76,5 +76,30 @@ class TestHarthCohort(unittest.TestCase):
         self.assertTrue((overview["sampled_windows"] == 2).all())
 
 
+    def test_nested_raw_cohort_preserves_original_base_windows(self):
+        # Exercise source adapter end to end, with mocked local CSV contents.
+        times = pd.date_range("2025-01-01", periods=600, freq="20ms")
+        def load_mock(path, allow_unmapped_labels=False):
+            values = pd.DataFrame({"timestamp": times})
+            for column in harth_data.SENSOR_COLUMNS:
+                values[column] = np.arange(600, dtype=float) / 100
+            values["label"] = [1] * 400 + [2] * 100 + [13] * 100
+            return values, harth_data.SENSOR_COLUMNS.copy()
+
+        with patch.object(
+            harth_data, "ensure_harth_sample",
+            side_effect=lambda root, subject: Path(root) / f"{subject}.csv",
+        ):
+            with patch.object(harth_data, "load_harth_subject", side_effect=load_mock):
+                X, metadata, overview = harth_data.prepare_harth_nested_window_cohort(
+                    ["S023", "S024"], ".", task_classes=[1, 2],
+                    base_cap=2, expanded_cap=4,
+                )
+        self.assertEqual(len(X), len(metadata))
+        self.assertEqual(metadata["in_base_500"].sum(), 4)
+        self.assertEqual(len(X), 8)
+        self.assertEqual(overview["base_windows"].sum(), 4)
+
+
 if __name__ == "__main__":
     unittest.main()
