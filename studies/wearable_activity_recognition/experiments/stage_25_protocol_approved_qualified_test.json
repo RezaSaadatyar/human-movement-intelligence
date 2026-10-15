@@ -1,0 +1,118 @@
+{
+  "schema": "harth-final-protocol-v1",
+  "status": "APPROVED",
+  "source_development_sha256": "672d4109727a20ea30f2557f6b405445fce86be1898a58851fa976f8ed8bf297",
+  "stage23_saved_notebook_sha256": "3623e4317bff0b15bc58b9642923bee6d7b277bc509a3f6973b325466c1c92ec",
+  "stage24_saved_notebook_sha256": "0cb911b6c3fdc400ea185e9fc4184fac351c408f931beacaba9010a31ab73c6d",
+  "primary_model": {
+    "architecture": "1D-ResNet",
+    "hidden_channels": 32,
+    "in_channels": 6,
+    "classes": [
+      1,
+      2,
+      3,
+      4,
+      5,
+      6,
+      7,
+      8
+    ],
+    "training_loss": "inverse_sqrt_weighted_ce",
+    "random_seed": 42,
+    "optimizer": "Adam",
+    "learning_rate": 0.001,
+    "batch_size": 128,
+    "optimizer_steps": 400,
+    "checkpoint": "final_step",
+    "preprocessing": "Development-only per-channel mean and SD"
+  },
+  "reference_model": {
+    "architecture": "Random Forest",
+    "n_estimators": 120,
+    "min_samples_leaf": 3,
+    "class_weight": "balanced_subsample",
+    "seed": 42,
+    "features": [
+      "mean",
+      "std",
+      "rms",
+      "peak_to_peak",
+      "waveform_length"
+    ]
+  },
+  "source": {
+    "dataset": "HARTH v2.0",
+    "revision": "dad2cfbe89a26f72f19770419469ac037de200df",
+    "sampling_rate_hz": 50,
+    "window_size": 100,
+    "step_size": 50,
+    "annotation_purity": 1,
+    "timestamp_continuity": true,
+    "task_codes": [
+      1,
+      2,
+      3,
+      4,
+      5,
+      6,
+      7,
+      8
+    ],
+    "development_participants": 29,
+    "cap_per_development_person": 500,
+    "expected_development_windows": 14201,
+    "reserved_test_people": [
+      "S023",
+      "S032"
+    ],
+    "test_cap_per_person": 500,
+    "unknown_source_codes": "Preserve and exclude after time-safe windowing"
+  },
+  "evaluation": {
+    "main_metric": "Fixed-eight-class Macro F1",
+    "additional": [
+      "accuracy",
+      "balanced_accuracy",
+      "per-class precision/recall/F1/support",
+      "per-person fixed-task Macro F1",
+      "confusion matrices"
+    ],
+    "use_test_for_tuning": false,
+    "temperature_scaling": false,
+    "description": "Qualified previously-inspected reserved Test, not fully blind external validation"
+  },
+  "module_sha256": {
+    "code/python/src/core/advanced_temporal_models.py": "e3384a7f505c63c89d1412e3d354cc41ed0c5f58ed64e184f22cfc3032209de7",
+    "code/python/src/core/temporal_cnn.py": "ba4f6cd3fe300db6da4bf8c76e111b6cd43fb0b202ca44218a8b2894b12dcfc4",
+    "code/python/src/core/temporal_benchmark.py": "1bf2cf3f46f76db4fa20490c4da4fc33053bab3a394d2e21d2763dbbe64458a1",
+    "code/python/src/core/feature_engineering.py": "d0e87f1e6c547174c94b1f630857ef53939f993208410c67cb8550c442a2f931",
+    "code/python/src/core/robustness_experiments.py": "26d19fe5f12e04fe4bc090f7ef4da173f8e1dcaa6ba8bc4582885d4fc7aa6bfa",
+    "studies/wearable_activity_recognition/src/harth_data.py": "30cedcf4977db3fe78434bc4e3c857a1b4ab23a249b829c344d9f8d7c481614b"
+  },
+  "reconciliation": {
+    "type": "original-source-byte-fingerprint-mismatch",
+    "original_manifest_path": "studies/wearable_activity_recognition/experiments/stage_25_protocol_proposal.json",
+    "original_manifest_git_blob_sha": "4b2a48d5bf583161a7387a002c102f5cb43856d3",
+    "repository_head_before_reconciliation": "e2d49b110f845b4cfce125e9efc43b1af46f28d7",
+    "evidence": "2026-10-15 Colab audit: git status clean and all six source file SHA256 values agree with current GitHub main content.",
+    "scope": "SHA256 source pointers only; all dataset, architecture, training, class, metric and original Test conditions are unchanged.",
+    "original_module_sha256": {
+      "code/python/src/core/advanced_temporal_models.py": "56851855b40e0b8a5d7a123a5f5959c6df0f3296c69c3613e812cb6f8f0353f5",
+      "code/python/src/core/temporal_cnn.py": "6d444c7a2d8f7b6cc6d6e83525734ffd65169926059dc8aabe3431bd4c406f86",
+      "code/python/src/core/temporal_benchmark.py": "5d3fb5cdb641cb7994000190fc5e22a9458b67f4014ac51516c73c247ba67f22",
+      "code/python/src/core/feature_engineering.py": "9b71f3b259760bacd5fc7b3da62a24bddb7a98085838331bcae23474b0525969",
+      "code/python/src/core/robustness_experiments.py": "92c3fedfb0621a1016ed0cf7834e67298784acde28afd8c93aeec9ea0a2c6999",
+      "studies/wearable_activity_recognition/src/harth_data.py": "23523ed6ac4cef4a7304dce4ecad3d3ebd04b2bc6f9ab3a8dfedcf6738cd192a"
+    },
+    "root_cause": "Not conclusively identified; differing worktree byte representation or an earlier checkout is possible.",
+    "approval": "PENDING_USER_REVIEW; does not authorise Test access or scoring"
+  },
+  "approval_record": {
+    "approved_by": "Reza Saadatyar",
+    "approval_context": "Explicit user confirmation in 029 Essex / Human Movement Intelligence project conversation on 2026-10-15",
+    "scope": "One-time qualified same-study held-out S023/S032 evaluation; frozen ResNet and Random Forest only; never tune using Test",
+    "note": "Originally inspected individuals, not blind or external validation",
+    "parent_manifest": "studies/wearable_activity_recognition/experiments/stage_25_protocol_proposal_reconciled.json"
+  }
+}
