@@ -38,6 +38,36 @@ def file_sha256(path):
     return digest.hexdigest()
 
 
+def verify_approved_text_bytes(path, expected_sha256):
+    """
+    Strictly verify bytes against an approved SHA256 with Windows EOL allowance.
+
+    Args:
+        path (str | Path): Source or saved notebook that Git may check out as CRLF.
+        expected_sha256 (str): Approved hash from original LF-based evidence.
+
+    Returns:
+        str: EXACT or CRLF_TO_LF_ONLY.
+
+    Notes:
+        The only tolerated difference is converting CRLF newline pairs to LF.
+        No other whitespace, comments, code, characters or labels are changed.
+        Never replaces the stored file or the approved manifest hash.
+    """
+    path = Path(path)
+    raw = path.read_bytes()
+    if hashlib.sha256(raw).hexdigest() == expected_sha256:
+        return "EXACT"
+    if b"\r\n" in raw:
+        canonical = raw.replace(b"\r\n", b"\n")
+        if hashlib.sha256(canonical).hexdigest() == expected_sha256:
+            return "CRLF_TO_LF_ONLY"
+    raise ValueError(
+        "Frozen source checksum mismatch after strict CRLF-to-LF check: "
+        + str(path.relative_to(ROOT) if path.is_relative_to(ROOT) else path)
+    )
+
+
 def notebook_execution_check(path, expected_code_cells, final_marker):
     """Check saved execution evidence, not the validity of the model itself."""
     notebook = json.loads(Path(path).read_text(encoding="utf-8"))
@@ -88,12 +118,14 @@ def verify_recorded_evidence():
     recorded = approved["module_sha256"]
     if set(recorded) != set(FROZEN_FILES):
         raise ValueError("Six frozen source modules were not recorded.")
+    eol_adaptations = []
     for relative, expected in recorded.items():
         source = (ROOT / relative).resolve()
         if not source.is_relative_to(ROOT) or not source.is_file():
             raise ValueError("Missing/unsafe frozen module: " + relative)
-        if file_sha256(source) != expected:
-            raise ValueError("Frozen source-module checksum mismatch: " + relative)
+        status = verify_approved_text_bytes(source, expected)
+        if status == "CRLF_TO_LF_ONLY":
+            eol_adaptations.append(relative)
 
     notebooks = {}
     expected = {
@@ -108,10 +140,15 @@ def verify_recorded_evidence():
         if len(matches) != 1:
             raise ValueError(f"Missing or ambiguous notebook Stage {stage}")
         notebooks[str(stage)] = notebook_execution_check(matches[0], count, gate)
-    if notebooks["23"]["notebook_sha256"] != approved["stage23_saved_notebook_sha256"]:
-        raise ValueError("Stage 23 source notebook fingerprint differs.")
-    if notebooks["24"]["notebook_sha256"] != approved["stage24_saved_notebook_sha256"]:
-        raise ValueError("Stage 24 source notebook fingerprint differs.")
+    for stage, expected in (
+        (23, approved["stage23_saved_notebook_sha256"]),
+        (24, approved["stage24_saved_notebook_sha256"]),
+    ):
+        matched = verify_approved_text_bytes(
+            next(NOTEBOOKS.glob(f"{stage:02d}_*.ipynb")), expected
+        )
+        if matched == "CRLF_TO_LF_ONLY":
+            eol_adaptations.append(f"Notebook {stage}")
 
     required = [
         "README.md",
@@ -135,6 +172,7 @@ def verify_recorded_evidence():
         "development_cohort_sha256": approved["source_development_sha256"],
         "approved_manifest_sha256": file_sha256(approved_path),
         "frozen_module_hashes": len(recorded),
+        "verified_crlf_to_lf_paths": eol_adaptations,
         "saved_notebooks": notebooks,
         "original_test_reopened_by_this_audit": False,
     }
@@ -200,6 +238,13 @@ def main():
     print("HARTH | PRE-RELEASE REPRODUCIBILITY AUDIT")
     print("=" * 70)
     print("Saved research evidence and frozen source checks: VERIFIED")
+    adaptations = evidence["verified_crlf_to_lf_paths"]
+    if adaptations:
+        print("Windows CRLF-to-LF-only verified paths:", len(adaptations))
+        for path in adaptations:
+            print("  -", path)
+    else:
+        print("All approved byte fingerprints: EXACT")
     print("Development participants: 29 | original reserved Test: S023, S032")
     print("Executed notebooks validated: 23, 24, 25, 26, 27")
     print("Local model artefacts:", artifacts["status"])
