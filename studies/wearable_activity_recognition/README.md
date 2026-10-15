@@ -83,3 +83,7 @@ The [second notebook](notebooks/02_signal_preprocessing_and_windowing.ipynb) cal
 ## Step 14: sampling sensitivity and activity coverage
 
 [Notebook 14](notebooks/14_sampling_sensitivity_audit.ipynb) audits the previous **500-windows-per-participant** temporal sampling cap against 250, 1000 and the full eligible 29-person development cohort. It calculates class retention and independent-person support without model fitting. Reusable code: [sampling_audit.py](../../code/python/src/core/sampling_audit.py). See [Sampling Sensitivity Protocol](SAMPLING_SENSITIVITY_PROTOCOL.md). Original Test participants are not loaded.
+
+## Step 15: nested training-data scale experiment
+
+[Notebook 15](notebooks/15_nested_training_data_scaling.ipynb) compares Random Forest and Weighted CNN with 500 vs 1,000 training windows per person, while holding the original six-person, 2,701-window Validation cohort fixed. The larger Train sample contains every original 500-cap Train window, adding new eligible positions without using labels. Original Test people remain excluded. See [Nested Training Scale Protocol](NESTED_TRAINING_SCALE_PROTOCOL.md); reusable source sampling in [sampling_audit.py](../../code/python/src/core/sampling_audit.py) and [harth_data.py](src/harth_data.py).
