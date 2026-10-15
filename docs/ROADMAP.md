@@ -110,3 +110,9 @@ The repository remains modular: each study has a shareable study-specific notebo
 - [x] Add train-statistics-only softmax inference and reusable prediction-confidence audit with synthetic tests.
 - [x] Add annotated Notebook 18 and confidence interpretation protocol.
 - [ ] Execute Notebook 18 and review reliability bins, per-class errors and participant-level variation before making any calibration or selective prediction claims.
+
+## Stage 19: subject-disjoint scalar temperature calibration
+- [x] Inspect executed Notebook 18: 14,201 OOF development windows, ECE 0.0453, Brier 0.0905, 40 incorrect predictions with maximum softmax >=0.90; Shuffling recall 0.1233.
+- [x] Add reusable scalar-temperature fitting and multiclass held-out NLL with offline tests.
+- [x] Add documented Notebook 19 with independent Train, Calibration and outer Validation participant groups and top-1 invariance quality gate.
+- [ ] Execute Notebook 19, review real held-out fold-level calibration metrics, and avoid claims based on calibration-fit performance.
