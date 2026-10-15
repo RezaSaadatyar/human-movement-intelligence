@@ -91,3 +91,7 @@ The [second notebook](notebooks/02_signal_preprocessing_and_windowing.ipynb) cal
 ## Step 16: nested training-data size evaluated across subject-held-out folds
 
 [Notebook 16](notebooks/16_nested_training_group_cv.ipynb) compares RF and training-weighted CNN at 500 versus 1,000 training windows per person across three GroupKFold partitions. Every model uses the exact same original 500-cap Validation rows within each fold; 1,000-cap Train samples strictly contain their corresponding base samples. Original Test IDs remain excluded. Evaluation code: [training_scale_cv.py](../../code/python/src/core/training_scale_cv.py); see [Stage 16 protocol](NESTED_GROUP_CV_PROTOCOL.md).
+
+## Step 17: fixed optimiser-update budget for Weighted CNN
+
+[Notebook 17](notebooks/17_fixed_step_training_budget.ipynb) evaluates the same weighted 1D-CNN at 500 and nested 1,000 training windows/person across three subject-held-out development folds, with **400 optimizer steps per run** rather than a fixed epoch count. Validation windows and source people are identical within each paired fold; reserved original Test IDs remain excluded. The fixed-step function is in [temporal_cnn.py](../../code/python/src/core/temporal_cnn.py) and the scientific protocol is in [FIXED_STEP_TRAINING_PROTOCOL.md](FIXED_STEP_TRAINING_PROTOCOL.md). Real outcomes pending execution.
