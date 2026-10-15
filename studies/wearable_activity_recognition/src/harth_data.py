@@ -372,3 +372,85 @@ def prepare_harth_window_cohort(
         raise ValueError("The selected signal windows contain nonfinite values.")
     print(f"Temporal cohort: {len(subject_list)} subjects, X={windows.shape}")
     return windows, labels, metadata, overview
+
+
+# ==================== 6. Nested Temporal Training Cohort ========================
+def prepare_harth_nested_window_cohort(
+    subjects, data_dir, task_classes=tuple(range(1, 9)),
+    base_cap=500, expanded_cap=1000, window_size=100,
+    step_size=50, sampling_rate=50,
+):
+    """
+    Load source IMU windows once and build strictly nested training samples.
+
+    Args:
+        subjects (sequence[str]): Unique official HARTH development subjects.
+        data_dir (str | Path): Cached official source CSV folder.
+        task_classes (sequence[int]): Documented original target labels.
+        base_cap (int): Per-person size of the previously evaluated pilot.
+        expanded_cap (int): Larger per-person training sample size.
+        window_size (int): Samples per annotation-pure source window.
+        step_size (int): Samples between consecutive candidate windows.
+        sampling_rate (float): Hertz, checked against source timestamps.
+
+    Returns:
+        X (np.ndarray): Float32 (N, channels, time), union of expanded samples.
+        metadata (pd.DataFrame): Aligned person, label and base membership.
+        overview (pd.DataFrame): Per-subject eligible, base and expanded sizes.
+
+    Notes:
+        Base windows exactly match the Stage 10-13 500-cap selection.
+        Expanded windows contain every base source row and are selected
+        chronologically without consulting activity labels. Source files are
+        never concatenated before windowing. Excluded annotation codes
+        remain excluded after safe segmentation.
+    """
+    from core.sampling_audit import select_nested_window_indices
+    from core.signal_preprocessing import create_signal_windows
+
+    members = list(subjects)
+    labels = tuple(task_classes)
+    if not members or len(set(members)) != len(members):
+        raise ValueError("subjects must be distinct and nonempty.")
+    if not set(members).issubset(HARTH_SUBJECTS):
+        raise ValueError("Unknown HARTH participant ID.")
+    if not labels or len(set(labels)) != len(labels) or not set(labels).issubset(ACTIVITY_NAMES):
+        raise ValueError("task_classes must contain documented, distinct labels.")
+
+    # Window each participant separately to avoid crossing source boundaries.
+    arrays, records, overview = [], [], []
+    for member in members:
+        path = ensure_harth_sample(data_dir, subject=member)
+        data, channels = load_harth_subject(path, allow_unmapped_labels=True)
+        windows, _, info = create_signal_windows(
+            signals=data[channels].to_numpy(),
+            labels=data["label"].to_numpy(),
+            timestamps=data["timestamp"], sampling_rate=sampling_rate,
+            window_size=window_size, step_size=step_size,
+            min_label_purity=1.0, subject_id=member,
+        )
+        eligible = np.flatnonzero(info["label"].isin(labels).to_numpy())
+        if not len(eligible):
+            raise ValueError(f"No eligible windows for {member}.")
+        base, expanded = select_nested_window_indices(
+            len(eligible), base_cap=base_cap, expanded_cap=expanded_cap
+        )
+        chosen = eligible[expanded]
+        subset_info = info.iloc[chosen].copy().reset_index(drop=True)
+        subset_info["in_base_500"] = np.isin(expanded, base)
+        arrays.append(windows[chosen].astype(np.float32, copy=False))
+        records.append(subset_info)
+        overview.append({
+            "subject_id": member,
+            "eligible_windows": len(eligible),
+            "base_windows": len(base),
+            "expanded_windows": len(expanded),
+            "new_training_windows": len(expanded) - len(base),
+        })
+
+    X = np.concatenate(arrays)
+    metadata = pd.concat(records, ignore_index=True)
+    report = pd.DataFrame(overview)
+    if len(X) != len(metadata) or not np.isfinite(X).all():
+        raise RuntimeError("Nested source-window alignment failed.")
+    return X, metadata, report
