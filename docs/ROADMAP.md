@@ -164,3 +164,13 @@ The repository remains modular: each study has a shareable study-specific notebo
 ### Notebook presentation and review standard (Stages 21–27)
 
 See [HARTH Notebook Authoring Standards](../studies/wearable_activity_recognition/NOTEBOOK_AUTHORING_STANDARDS.md): comprehensive `**Bold Markdown**` section names, clearly labelled and numbered English code comments, readable tables/figures, separated printed summaries and source-grounded quality gates. Do not compress methodological detail merely to reduce the number of notebooks. Every stage must have its locally executed results pushed and reviewed before beginning the next stage.
+
+
+### Stage 21 implementation checkpoint (awaiting local source-data execution)
+
+- [x] Confirm saved Stage 20 Quality Gate displays PASSED; note its final cell's GitHub `execution_count` is still null despite the saved successful output.
+- [x] Implement official HARTH source-only data quality, activity-label, annotation-bout and timestamp-boundary utilities.
+- [x] Add complete 11-section Notebook 21 with bold Markdown titles, numbered scientific code comments, detailed tables, coherent figures and descriptive Quality Gate.
+- [x] Add synthetic offline audit tests and the Stage 21 scientific protocol.
+- [ ] Execute Notebook 21 in Cursor on real official development CSVs, review all errors and outputs, then Save/Commit/Push.
+- [ ] Inspect its saved real-data results and Quality Gate before starting Stage 22 (TCN, Multi-Scale CNN, 1D-ResNet and Transformer).
