@@ -159,3 +159,8 @@ The repository remains modular: each study has a shareable study-specific notebo
 - [ ] Review that execution before opening Stage 21.
 
 **Formatting convention for all upcoming notebooks:** Use `**01. Section Title**` or equivalent **bold Markdown**, not hash-style headings. Preserve complete explanations, analysis and outputs despite notebook consolidation.
+
+
+### Notebook presentation and review standard (Stages 21–27)
+
+See [HARTH Notebook Authoring Standards](../studies/wearable_activity_recognition/NOTEBOOK_AUTHORING_STANDARDS.md): comprehensive `**Bold Markdown**` section names, clearly labelled and numbered English code comments, readable tables/figures, separated printed summaries and source-grounded quality gates. Do not compress methodological detail merely to reduce the number of notebooks. Every stage must have its locally executed results pushed and reviewed before beginning the next stage.
