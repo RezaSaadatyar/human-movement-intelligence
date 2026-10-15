@@ -1,7 +1,6 @@
 """Source-safe offline tests for HARTH Stage 26 frozen inference gates."""
 import json
 import sys
-import json
 import tempfile
 import unittest
 from pathlib import Path
@@ -42,18 +41,29 @@ class TestHarthFinalInference(unittest.TestCase):
             {"status":"APPROVED"},final.TEST_CONFIRMATION
         ))
 
-    def test_current_proposal_remains_unapproved(self):
+    def test_original_and_reconciled_proposals(self):
         root=Path(__file__).resolve().parents[1]
-        proposal=root/"studies/wearable_activity_recognition/experiments/stage_25_protocol_proposal.json"
-        self.assertTrue(proposal.is_file())
-        pending=json.loads(proposal.read_text(encoding="utf-8"))
-        self.assertEqual(pending["status"],"PENDING_USER_REVIEW")
-        with self.assertRaises(PermissionError):
-            final.load_final_protocol(proposal,root,require_approval=True)
-        # Code SHA256 mismatch must not be silently ignored: this
-        # expected mismatch blocks Development fitting until reviewed.
+        directory=root/"studies/wearable_activity_recognition/experiments"
+        original=directory/"stage_25_protocol_proposal.json"
+        revised=directory/"stage_25_protocol_proposal_reconciled.json"
+        assert original.is_file() and revised.is_file()
+        old=json.loads(original.read_text(encoding="utf-8"))
+        new=json.loads(revised.read_text(encoding="utf-8"))
+        self.assertEqual(old["status"],"PENDING_USER_REVIEW")
+        self.assertEqual(new["status"],"PENDING_USER_REVIEW")
+        # Scientific configuration must be identical; only recorded hashes
+        # and an explicit explanatory provenance entry may be added.
+        self.assertEqual(
+            {k:v for k,v in old.items() if k!="module_sha256"},
+            {k:v for k,v in new.items() if k not in ("module_sha256","reconciliation")}
+        )
+        self.assertNotEqual(old["module_sha256"],new["module_sha256"])
         with self.assertRaisesRegex(ValueError,"Frozen code was modified"):
-            final.load_final_protocol(proposal,root,require_approval=False)
+            final.load_final_protocol(original,root,require_approval=False)
+        accepted=final.load_final_protocol(revised,root,require_approval=False)
+        self.assertEqual(accepted["status"],"PENDING_USER_REVIEW")
+        with self.assertRaises(PermissionError):
+            final.load_final_protocol(revised,root,require_approval=True)
 
     def test_qualified_scoring_validates_original_subjects(self):
         with self.assertRaises(ValueError):
