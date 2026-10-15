@@ -184,3 +184,14 @@ See [HARTH Notebook Authoring Standards](../studies/wearable_activity_recognitio
 - [x] Record detailed Stage 22 protocol, engineering scope, limitations and Stage 23 controls.
 - [ ] Run Stage 22 locally on real development source windows, inspect saved outputs and final Quality Gate, then commit/push executed notebook.
 - [ ] Check GitHub Actions for the full latest head and resolve errors if any before Stage 23.
+
+
+### Stage 23 implementation checkpoint (pending benchmark execution)
+
+- [x] Inspect Stage 22 pushed notebook: ten executed source and engineering cells, four architectures, final Quality Gate PASSED.
+- [x] Add source-and-code-fingerprinted seven-model/three-fold matched benchmarking functions with safe local JSON resume.
+- [x] Create comprehensive Notebook 23 with bold Markdown, numbered code comments, actual training loop, source-aligned fold/class/person diagnostics and strict complete-result Quality Gate.
+- [x] Add offline synthetic integrity tests and formal Stage 23 scientific protocol.
+- [ ] Execute all 21 model-fold jobs on actual bounded Development HARTH recordings; verify local PyTorch tests and all final notebook outputs.
+- [ ] Review GitHub CI for latest head and resolve issues before treating Stage 23 as completed.
+- [ ] Commit/push the executed Notebook 23. Inspect genuine class and participant outcomes before designing Stage 24.
