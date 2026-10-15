@@ -87,3 +87,9 @@ The repository remains modular: each study has a shareable study-specific notebo
 - [x] Add reusable source-window sampling audit and offline source-index integrity tests.
 - [x] Add Notebook 14 to compare per-subject caps 250, 500 and 1000 against full eligible development data, without fitting models.
 - [ ] Run Notebook 14 and review minority-activity retention and independent-person support before increasing deep-learning compute.
+
+## Stage 15: nested training-data scaling on fixed participant validation
+- [x] Verify executed Notebook 14: 29 development people, full 132,397 valid windows; cap 500 retains 219 Shuffling windows and cap 1000 retains 386.
+- [x] Add nested chronological 500/1000 sample utility and HARTH source adapter with offline tests.
+- [x] Add Notebook 15 comparing Random Forest and Weighted CNN at two nested Train sizes on the original fixed six-person Validation set.
+- [ ] Execute Notebook 15 and inspect actual class/person effects before selecting the next data-volume experiment.
