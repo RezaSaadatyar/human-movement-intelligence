@@ -23,6 +23,28 @@ class TestHarthReleaseReadiness(unittest.TestCase):
         record = audit.inspect_optional_artifacts(None, "unused_sha256")
         self.assertEqual(record["status"], "NOT_CHECKED")
 
+    def test_windows_crlf_equivalence_is_strict_and_read_only(self):
+        """CRLF checkout may match the frozen LF content, but code edits must fail."""
+        import hashlib
+        import tempfile
+        canonical = b"def example():\n    return 42\n"
+        expected = hashlib.sha256(canonical).hexdigest()
+        with tempfile.TemporaryDirectory() as temp:
+            path = Path(temp) / "example.py"
+            path.write_bytes(canonical.replace(b"\n", b"\r\n"))
+            before = path.read_bytes()
+            self.assertEqual(
+                audit.verify_approved_text_bytes(path, expected), "CRLF_TO_LF_ONLY"
+            )
+            self.assertEqual(path.read_bytes(), before)
+            path.write_bytes(canonical)
+            self.assertEqual(
+                audit.verify_approved_text_bytes(path, expected), "EXACT"
+            )
+            path.write_bytes(b"def example():\r\n    return 43\r\n")
+            with self.assertRaisesRegex(ValueError, "checksum mismatch"):
+                audit.verify_approved_text_bytes(path, expected)
+
     def test_stage27_quality_gate_must_exist_in_executed_notebook(self):
         p = ROOT / "studies/wearable_activity_recognition/notebooks/27_final_research_evidence_and_report.ipynb"
         saved = audit.notebook_execution_check(
