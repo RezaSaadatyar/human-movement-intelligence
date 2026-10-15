@@ -79,3 +79,7 @@ The [second notebook](notebooks/02_signal_preprocessing_and_windowing.ipynb) cal
 ## Step 13: matched GroupKFold with Random Forest, Standard CNN and Weighted CNN
 
 [Notebook 13](notebooks/13_matched_grouped_model_comparison.ipynb) uses a three-fold independent-participant evaluation of the bounded HARTH development cohort. All three classifiers are fitted and evaluated on identical sampled windows and subject partitions. The shared [temporal_comparison.py](../../code/python/src/core/temporal_comparison.py) reports fold metrics, per-person scores, per-class out-of-fold metrics and source-row provenance. Original Test IDs remain excluded. See [evaluation protocol](MATCHED_GROUP_CV_PROTOCOL.md). Notebook execution results are pending.
+
+## Step 14: sampling sensitivity and activity coverage
+
+[Notebook 14](notebooks/14_sampling_sensitivity_audit.ipynb) audits the previous **500-windows-per-participant** temporal sampling cap against 250, 1000 and the full eligible 29-person development cohort. It calculates class retention and independent-person support without model fitting. Reusable code: [sampling_audit.py](../../code/python/src/core/sampling_audit.py). See [Sampling Sensitivity Protocol](SAMPLING_SENSITIVITY_PROTOCOL.md). Original Test participants are not loaded.
