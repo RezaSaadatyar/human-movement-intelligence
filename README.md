@@ -50,3 +50,7 @@ Data are acquired from their original providers into ignored local `data/raw/` d
 - [HARTH study documentation](studies/wearable_activity_recognition/README.md) and [Stage 27 reporting protocol](studies/wearable_activity_recognition/STAGE_27_FINAL_REPORT_PROTOCOL.md)
 
 **Status:** HARTH research execution and Stage 27 evidence synthesis are complete; documentation checks and any versioned GitHub Release remain separate follow-up work. Other proposed studies are not represented as implemented results.
+
+## Reproducibility and release preflight
+
+Before an optional versioned release, review the [HARTH reproducibility audit](docs/HARTH_REPRODUCIBILITY.md) and run `python scripts/check_harth_release_readiness.py` from the repository root. This read-only check verifies saved research evidence and frozen code/manifest provenance without retraining models or re-opening Test data. Original Stage 26 model files are local and must be checked separately if retained; no release is implied.
