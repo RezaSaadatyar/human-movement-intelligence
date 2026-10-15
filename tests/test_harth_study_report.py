@@ -44,19 +44,44 @@ class TestHarthStage27Evidence(unittest.TestCase):
         self.assertEqual(len(digest),64)
         self.assertTrue(notebook["cells"])
 
-    def test_read_only_reporting_notebook_is_unexecuted_template(self):
+    def test_stage27_saved_report_is_executed_and_read_only(self):
+        """Executed notebook outputs are evidence; a draft-only assertion is obsolete."""
         import json
-        nb=json.loads(
-            (self.dir/"27_final_research_evidence_and_report.ipynb").read_text(
-                encoding="utf-8"
-            )
+        path = self.dir / "27_final_research_evidence_and_report.ipynb"
+        nb = json.loads(path.read_text(encoding="utf-8"))
+        self.assertEqual(nb["nbformat"], 4)
+        codes = [cell for cell in nb["cells"] if cell["cell_type"] == "code"]
+        self.assertEqual(len(codes), 10)
+        self.assertTrue(all(cell.get("execution_count") is not None for cell in codes))
+        self.assertTrue(all(cell.get("outputs") for cell in codes))
+        self.assertFalse(any(
+            out.get("output_type") == "error"
+            for cell in codes for out in cell.get("outputs", [])
+        ))
+        last_stream = "\\n".join(
+            "".join(out.get("text", []))
+            if isinstance(out.get("text"), list) else out.get("text", "")
+            for out in codes[-1].get("outputs", [])
+            if out.get("output_type") == "stream"
         )
-        self.assertEqual(nb["nbformat"],4)
-        codes=[c for c in nb["cells"] if c["cell_type"]=="code"]
-        self.assertEqual(len(codes),10)
-        self.assertTrue(all(not c["outputs"] for c in codes))
-        self.assertNotIn("prepare_harth_window_cohort(",
-                         "\n".join("".join(c["source"]) for c in codes))
+        self.assertIn(
+            "STAGE 27 | SOURCE-GROUNDED RESEARCH SYNTHESIS QUALITY GATE: PASSED",
+            last_stream,
+        )
+        source = "\\n".join(
+            "".join(cell["source"]) if isinstance(cell.get("source"), list)
+            else cell.get("source", "")
+            for cell in codes
+        )
+        for prohibited in (
+            "prepare_harth_window_cohort(",
+            "ensure_harth_sample(",
+            "fit_final_resnet(",
+            "score_qualified_heldout(",
+            "infer_source_windows(",
+        ):
+            self.assertNotIn(prohibited, source)
+        # This test validates saved research evidence, never re-executes Test data.
 
 if __name__=="__main__":
     unittest.main()
