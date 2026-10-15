@@ -416,3 +416,76 @@ def train_temporal_cnn_fixed_steps(
         recent_losses.clear()
 
     return model, pd.DataFrame(log), predictions, statistics
+
+
+# =========================== 6. Softmax Inference ================================
+def predict_temporal_cnn_probabilities(
+    model, windows, train_statistics, classes,
+    batch_size=256, device="cpu",
+):
+    """
+    Obtain class-aligned softmax scores without fitting on inference data.
+
+    Args:
+        model (nn.Module): Already trained temporal classifier.
+        windows (array-like): Held-out signal tensor (N, channels, time).
+        train_statistics (dict): Train-only channel_mean/channel_std from
+            train_temporal_cnn_fixed_steps() or train_temporal_cnn().
+        classes (sequence): Ordered source class codes used during training.
+        batch_size (int): Inference mini-batch size.
+        device (str): Existing CPU or available CUDA device.
+
+    Returns:
+        np.ndarray: Float32 probabilities (N, classes), with columns in
+            the supplied class-code order.
+
+    Notes:
+        Softmax values are NOT automatically calibrated probabilities,
+        clinical certainty or measures of model epistemic uncertainty.
+        No Validation/Test data are used to estimate the scaler or fit
+        model parameters during inference.
+    """
+    # 1. Verify source tensor, class order and fitted Train statistics.
+    X = np.asarray(windows, dtype=np.float32)
+    codes = list(classes)
+    if X.ndim != 3 or len(X) == 0 or not np.isfinite(X).all():
+        raise ValueError("windows must be a non-empty finite 3D array.")
+    if len(codes) < 2 or len(set(codes)) != len(codes):
+        raise ValueError("classes must contain at least two unique codes.")
+    if not isinstance(model, nn.Module):
+        raise ValueError("model must be a fitted PyTorch nn.Module.")
+    if not isinstance(train_statistics, dict) or not {
+        "channel_mean", "channel_std"
+    }.issubset(train_statistics):
+        raise ValueError("Train-only channel statistics are required.")
+    mean = np.asarray(train_statistics["channel_mean"], dtype=np.float64)
+    sd = np.asarray(train_statistics["channel_std"], dtype=np.float64)
+    if mean.shape != (X.shape[1],) or sd.shape != (X.shape[1],):
+        raise ValueError("Channel statistics do not match the input channels.")
+    if not np.isfinite(mean).all() or not np.isfinite(sd).all() or (sd <= 0).any():
+        raise ValueError("Channel means/standard deviations must be valid.")
+    if isinstance(batch_size, (bool, np.bool_)) or not isinstance(
+        batch_size, (int, np.integer)
+    ) or batch_size < 1:
+        raise ValueError("batch_size must be a positive integer.")
+    if device not in ("cpu", "cuda") or (
+        device == "cuda" and not torch.cuda.is_available()
+    ):
+        raise ValueError("Requested PyTorch device is unavailable.")
+
+    # 2. Transform with Train-only channel statistics and forward in eval mode.
+    scaled = ((X.astype(np.float64) - mean[None, :, None]) /
+              sd[None, :, None]).astype(np.float32)
+    model.eval()
+    scores = []
+    with torch.no_grad():
+        for start in range(0, len(scaled), batch_size):
+            batch = torch.from_numpy(scaled[start:start + batch_size]).to(device)
+            logits = model(batch)
+            if logits.ndim != 2 or logits.shape[1] != len(codes):
+                raise ValueError("Model logits do not match class ordering.")
+            scores.append(torch.softmax(logits, dim=1).cpu().numpy())
+    probabilities = np.concatenate(scores, axis=0)
+    if not np.isfinite(probabilities).all():
+        raise ValueError("Model returned non-finite softmax values.")
+    return probabilities
