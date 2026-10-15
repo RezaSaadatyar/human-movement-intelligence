@@ -1,13 +1,13 @@
 # Research study catalogue
 
-Each study will have its own question, data availability check, unit of analysis, modelling protocol, evaluation and limitations. **All studies below are planned unless explicitly stated otherwise.** Do not confuse a proposal with completed research.
+Each study will have its own question, data availability check, unit of analysis, modelling protocol, evaluation and limitations. **Implementation status is study-specific. HARTH has completed a saved-evidence synthesis; other studies must not be described as completed without their own verified execution.** Do not confuse a proposal with completed research.
 
 ## 1. Wearable Activity Recognition
 - **Question:** How well can wearable motion signals classify activities for people not seen during training?
 - **Candidates:** UCI HAR, PAMAP2, HARTH and MHEALTH.
 - **Models to compare:** feature-engineered classical ML, 1D-CNN, BiLSTM and TCN.
 - **Protocol:** subject-held-out evaluation; per-class recall/F1, balanced accuracy, confusion matrix and group-level variability.
-- **Status:** HARTH data-inspection example implemented (v2.0 single participant). Full benchmark training and subject-independent evaluation remain planned. See [study README](wearable_activity_recognition/README.md).
+- **Status:** Executed HARTH v2.0 research Stages 01–27, including seven-model Development benchmark, multi-seed robustness, frozen-model fitting, qualified same-study two-person held-out evaluation and read-only evidence synthesis. Two Test participants had been descriptively inspected earlier; no blind external validation is established. See [study README](wearable_activity_recognition/README.md).
 
 ## 2. Gait and Movement Analysis
 - **Question:** Which reproducible temporal and biomechanical descriptors characterise walking and running under varying conditions?
@@ -21,7 +21,7 @@ Each study will have its own question, data availability check, unit of analysis
 - **Candidate:** 2026 Hollinger et al. femoral-neck loading dataset.
 - **Models:** transparent regression baseline, tree-based regression, 1D-CNN/BiLSTM, optional data-efficient adaptation.
 - **Protocol:** no derived-target leakage; subject-held-out results, physical units, MAE/RMSE, target-specific curve and peak errors.
-- **Status:** Data-source review; actual keys and targets unconfirmed.
+- **Status:** Public BoneNet derivative inspected and exploratory baseline documented. This is not a confirmed full-cohort femoral-neck loading benchmark, and source-to-label linkage limitations remain.
 
 ## 4. Markerless Motion Capture
 - **Question:** How reliable are video-derived body keypoints and joint-angle trajectories under varying acquisition conditions?
