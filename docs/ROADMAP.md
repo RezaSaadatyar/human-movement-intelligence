@@ -216,3 +216,14 @@ See [HARTH Notebook Authoring Standards](../studies/wearable_activity_recognitio
 - [x] Add read-only evidence parsing tests, model-selection protocol and explicit user approval boundary.
 - [ ] Run Notebook 25 and offline tests, review resulting `stage_25_protocol_proposal.json`, save and push real outputs.
 - [ ] User explicitly approves exact protocol before Stage 26 final model fitting / qualified held-out scoring.
+
+
+### Stage 26 safe Development fit and inference implementation (approval pending)
+
+- [x] Inspect executed Stage 25: 11/11 code cells with stored successful outputs; proposed final manifest still `PENDING_USER_REVIEW`.
+- [x] Create final Development-only ResNet training and fixed RF reference, Train-only scaling, complete trusted inference artefacts, SHA256 checks and tests.
+- [x] Add complete Notebook 26 with ten substantial bold Markdown sections, numbered code comments and a readable Development-only quality gate; **no Test loading cell**.
+- [x] Document two explicit Test authorisation barriers and original reserved-subject interpretive limits.
+- [ ] Run Notebook 26 on Colab GPU, verify saved model reload, retain local artefacts and push executed notebook.
+- [ ] Obtain specific user review/approval before any original reserved Test load or score.
+- [ ] Implement and run one qualified held-out evaluation only after that approval; review real results before Stage 27.
