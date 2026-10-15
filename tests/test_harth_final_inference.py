@@ -65,6 +65,18 @@ class TestHarthFinalInference(unittest.TestCase):
         with self.assertRaises(PermissionError):
             final.load_final_protocol(revised,root,require_approval=True)
 
+    def test_stage26_notebook_uses_reconciled_manifest(self):
+        root=Path(__file__).resolve().parents[1]
+        notebook=root/"studies/wearable_activity_recognition/notebooks/26_final_development_training_and_inference.ipynb"
+        nb=json.loads(notebook.read_text(encoding="utf-8"))
+        code="\\n".join(
+            "".join(cell["source"]) if isinstance(cell.get("source"),list)
+            else cell.get("source","")
+            for cell in nb["cells"] if cell["cell_type"]=="code"
+        )
+        self.assertIn("stage_25_protocol_proposal_reconciled.json",code)
+        self.assertNotIn('stage_25_protocol_proposal.json"',code)
+
     def test_qualified_scoring_validates_original_subjects(self):
         with self.assertRaises(ValueError):
             final.score_qualified_heldout(
