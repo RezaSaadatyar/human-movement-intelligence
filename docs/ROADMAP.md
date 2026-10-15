@@ -93,3 +93,8 @@ The repository remains modular: each study has a shareable study-specific notebo
 - [x] Add nested chronological 500/1000 sample utility and HARTH source adapter with offline tests.
 - [x] Add Notebook 15 comparing Random Forest and Weighted CNN at two nested Train sizes on the original fixed six-person Validation set.
 - [ ] Execute Notebook 15 and inspect actual class/person effects before selecting the next data-volume experiment.
+
+## Stage 16: grouped evaluation of nested training scale
+- [x] Inspect executed Notebook 15: RF Macro F1 0.8266→0.8644 (Train 500→1000), Weighted CNN 0.7968→0.7805 at last epoch on one fixed 6-person Validation group.
+- [x] Add reusable nested training-scale grouped CV module, synthetic group-alignment tests, Notebook 16 and protocol.
+- [ ] Run Notebook 16 on true data, review paired participant results and low-frequency class effects before changing architectures.
