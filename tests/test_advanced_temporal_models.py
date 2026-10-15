@@ -2,14 +2,18 @@
 import sys
 import unittest
 from pathlib import Path
-import torch
-from torch import nn
 sys.path.insert(0, str(Path(__file__).resolve().parents[1]/"code/python/src"))
-from core.advanced_temporal_models import (
-    ARCHITECTURES, build_temporal_model, count_trainable_parameters,
-    TimeSeriesTransformer,
-)
+try:
+    import torch
+    from torch import nn
+    from core.advanced_temporal_models import (
+        ARCHITECTURES, build_temporal_model, count_trainable_parameters,
+        TimeSeriesTransformer,
+    )
+except ImportError:
+    torch = None
 
+@unittest.skipIf(torch is None, "Optional PyTorch not installed in standard CI")
 class TestAdvancedTemporalModels(unittest.TestCase):
     def test_shapes_finite_logits_and_gradients(self):
         torch.manual_seed(42)
