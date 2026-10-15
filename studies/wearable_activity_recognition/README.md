@@ -103,3 +103,7 @@ The [second notebook](notebooks/02_signal_preprocessing_and_windowing.ipynb) cal
 ## Step 19: separate-subject temperature scaling
 
 [Notebook 19](notebooks/19_subject_disjoint_temperature_calibration.ipynb) fits scalar temperature on Calibration subjects excluded from CNN Train and evaluates NLL, Brier and ECE on different outer-fold Validation subjects. The previously reserved Test people remain excluded. The shared [temperature calibration module](../../code/python/src/core/temperature_calibration.py) only modifies softmax probabilities, not model classes; see [Calibration Protocol](TEMPERATURE_CALIBRATION_PROTOCOL.md). The actual results require local execution.
+
+## Step 20: comprehensive research evidence consolidation
+
+[Notebook 20](notebooks/20_research_evidence_consolidation.ipynb) summarises all 19 completed experimental stages, audits **saved** execution counts and output provenance, distinguishes matched from incomparable model scores and reviews data/class-label, calibration and reserved-Test limitations. It contains ten substantial sections with **bold Markdown titles rather than hash headings**. The [evidence register](experiments/stage_01_19_evidence_register.csv) links each historical result to its source notebook; [research protocol](STAGE_20_EVIDENCE_CONSOLIDATION_PROTOCOL.md) explains the method. No HARTH CSV download, model refitting or final Test evaluation is performed in this stage. Stage 20 still requires local execution and outcome review before proceeding to Stage 21.
