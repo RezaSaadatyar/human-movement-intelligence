@@ -81,3 +81,9 @@ The repository remains modular: each study has a shareable study-specific notebo
 - [x] Add offline group-alignment tests, commented Notebook 13, and protocol documentation.
 - [ ] Execute Notebook 13 on actual bounded HARTH development data and analyse fold-, subject- and class-level outcomes.
 - [ ] Decide whether the weighted CNN warrants a fuller dataset/compute budget before any reserved Test scoring.
+
+## Stage 14: temporal sampling and minority-class coverage
+- [x] Inspect executed Notebook 13: 29-person 3-fold Macro F1 mean Random Forest 0.8076, Weighted CNN 0.7834 and Standard CNN 0.6301; Shuffling weighted CNN pooled F1 0.1345.
+- [x] Add reusable source-window sampling audit and offline source-index integrity tests.
+- [x] Add Notebook 14 to compare per-subject caps 250, 500 and 1000 against full eligible development data, without fitting models.
+- [ ] Run Notebook 14 and review minority-activity retention and independent-person support before increasing deep-learning compute.
