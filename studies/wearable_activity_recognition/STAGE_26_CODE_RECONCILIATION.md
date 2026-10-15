@@ -18,3 +18,11 @@ The Stage 26 notebook currently points at the **original** protocol and should c
 A synthetic-test assertion for constant-variance channel standardisation was also corrected: the true behaviour of the Train-only scaler replaces zero SD by 1e-6, so a constant training channel with changed inference magnitude scales to a large, finite value. The revised test now uses a nonconstant Development source signal instead.
 
 **Status:** Stage 26 implementation committed; **not yet cleared for final execution**; qualified Test evaluation **not authorised**.
+
+## Reconciliation completed after user's clean-Colab audit (2026-10-15)
+
+The user's Colab checkout at `e2d49b1` reported `git status --short` clean and all six SHA256 mismatches. Comparing its hashes with current GitHub source content confirmed all six bytes matched the committed source files. No uncommitted local editing explains the difference. **The underlying historical cause of the original mismatched recorded hashes has not been conclusively established.**
+
+The original `experiments/stage_25_protocol_proposal.json` remains unchanged for provenance. A new `experiments/stage_25_protocol_proposal_reconciled.json` records all six verified GitHub source SHA256 values, the original hashes, the clean-audit context, and the unchanged source cohort, model, seed, batch size, optimiser, loss, metrics and Test constraints. Its status remains **PENDING_USER_REVIEW**. The Stage 26 Development-only notebook now points to this pending reconciled proposal. Test evaluation remains disabled.
+
+After `git pull origin main`, run `python -m unittest discover -s tests -p "test_harth_final_inference.py" -v` and the first notebook cell. If the manifest validation succeeds, continue with Development-only training. **Do not mark the proposal APPROVED automatically or load reserved Test subjects**.
