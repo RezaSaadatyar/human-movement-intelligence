@@ -195,3 +195,13 @@ See [HARTH Notebook Authoring Standards](../studies/wearable_activity_recognitio
 - [ ] Execute all 21 model-fold jobs on actual bounded Development HARTH recordings; verify local PyTorch tests and all final notebook outputs.
 - [ ] Review GitHub CI for latest head and resolve issues before treating Stage 23 as completed.
 - [ ] Commit/push the executed Notebook 23. Inspect genuine class and participant outcomes before designing Stage 24.
+
+
+### Stage 24 implementation checkpoint (awaiting genuine Colab GPU results)
+
+- [x] Inspect executed Stage 23: all 21 matched jobs complete on Tesla T4; all 12 code cells executed and final Quality Gate PASSED.
+- [x] Predeclare ResNet/TCN multi-seed comparison (42, 123, 2026), paired Fold membership and original Weighted Cross-Entropy.
+- [x] Add controlled ResNet Weighted CE vs Focal Loss vs effective-number Class-Balanced CE comparison; share original Weighted CE runs between analyses.
+- [x] Implement 36 source/code-fingerprinted resumable GPU fits and 12-section comprehensive Notebook 24 with numbered English comments, bold Markdown, real outcome plots and strict scientific Quality Gate.
+- [x] Add synthetic offline loss/gradient and reproducibility-integrity tests, scientific protocol and interpretation boundaries.
+- [ ] Run Notebook 24 in Google Colab GPU; inspect and push all genuine output tables/figures and final Quality Gate before Stage 25.
