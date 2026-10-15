@@ -174,3 +174,13 @@ See [HARTH Notebook Authoring Standards](../studies/wearable_activity_recognitio
 - [x] Add synthetic offline audit tests and the Stage 21 scientific protocol.
 - [ ] Execute Notebook 21 in Cursor on real official development CSVs, review all errors and outputs, then Save/Commit/Push.
 - [ ] Inspect its saved real-data results and Quality Gate before starting Stage 22 (TCN, Multi-Scale CNN, 1D-ResNet and Transformer).
+
+
+### Stage 22 engineering implementation checkpoint
+
+- [x] Verify saved Stage 21 results: 11/11 executed cells, no stored errors, original 29-person development source audit 132,397 eight-class windows, Quality Gate PASSED.
+- [x] Implement all four mandatory PyTorch architectures (TCN, Multi-Scale CNN, 1D-ResNet, Time-Series Transformer) with one shared source-tensor interface.
+- [x] Add parameter counter, controlled tensor/graduation tests, one-step optimiser smoke checks and Notebook 22 using professional bold Markdown and numbered Python comments.
+- [x] Record detailed Stage 22 protocol, engineering scope, limitations and Stage 23 controls.
+- [ ] Run Stage 22 locally on real development source windows, inspect saved outputs and final Quality Gate, then commit/push executed notebook.
+- [ ] Check GitHub Actions for the full latest head and resolve errors if any before Stage 23.
