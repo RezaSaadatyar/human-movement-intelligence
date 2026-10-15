@@ -88,3 +88,7 @@ Useful code: [temporal architectures](../../code/python/src/core/advanced_tempor
 See the [Stage 25 selection protocol](STAGE_25_MODEL_SELECTION_PROTOCOL.md), [Stage 26 original Development/inference protocol](STAGE_26_FINAL_INFERENCE_PROTOCOL.md), [Stage 27 evidence protocol](STAGE_27_FINAL_REPORT_PROTOCOL.md) and [research standards](../../docs/RESEARCH_STANDARDS.md).
 
 **Current status:** All 27 notebook stages are committed; the final research evidence synthesis passed. Source code/CI, documentation and any subsequent release are managed separately. No independent manuscript or additional Test-derived research is implied.
+
+## Reproducibility and release preflight
+
+See the [HARTH reproducibility guide](../../docs/HARTH_REPRODUCIBILITY.md). From the repository root, run `python scripts/check_harth_release_readiness.py` for a read-only verification of saved notebook outputs and frozen scientific provenance. Optional trusted local model files can be checked separately using `--artifact-dir`; this does not deserialise them. A GitHub Release is a later, user-approved action, not part of the executed study.
