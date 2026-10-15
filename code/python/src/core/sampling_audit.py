@@ -164,3 +164,54 @@ def audit_temporal_sampling(
     if sorted(full_rows.tolist()) != list(range(len(original))):
         raise RuntimeError("The complete eligible corpus was not preserved.")
     return selected, per_subject, class_counts
+
+
+# ======================== 3. Nested Training-Data Caps ===========================
+def select_nested_window_indices(eligible_count, base_cap=500, expanded_cap=1000):
+    """
+    Build two deterministic sampling policies with STRICT source-row nesting.
+
+    Args:
+        eligible_count (int): Number of time-ordered eligible source windows.
+        base_cap (int): Original maximum windows per person (e.g. 500).
+        expanded_cap (int): Larger maximum windows per person (e.g. 1000).
+
+    Returns:
+        base (np.ndarray): Original evenly spaced source-local window positions.
+        expanded (np.ndarray): Sorted source-local positions containing EVERY
+            member of base, plus new positions evenly selected from the
+            otherwise unselected eligible windows.
+
+    Notes:
+        - base reproduces Stages 10-13 EXACTLY for identical source windows.
+        - expanded differs from a separate, non-nested 1000-point linspace:
+          it preserves the original 500 windows, then adds new windows.
+        - Source labels are not examined, so sampling is not class-stratified.
+        - This helper operates on already-windowed, eligible source records.
+    """
+    base = select_evenly_spaced_indices(eligible_count, base_cap)
+    if (
+        isinstance(expanded_cap, (bool, np.bool_))
+        or not isinstance(expanded_cap, (int, np.integer))
+        or expanded_cap <= base_cap
+    ):
+        raise ValueError("expanded_cap must be an integer greater than base_cap.")
+
+    # 1. Select extra eligible positions from those absent in the base.
+    target_count = min(int(eligible_count), int(expanded_cap))
+    remaining_needed = target_count - len(base)
+    if remaining_needed == 0:
+        return base, base.copy()
+    remaining = np.setdiff1d(
+        np.arange(eligible_count, dtype=np.int64),
+        base, assume_unique=True
+    )
+    new_locations = select_evenly_spaced_indices(
+        len(remaining), remaining_needed
+    )
+
+    # 2. Keep chronology and prohibit duplicated source-window positions.
+    expanded = np.sort(np.concatenate([base, remaining[new_locations]]))
+    if len(expanded) != target_count or not np.isin(base, expanded).all():
+        raise RuntimeError("Expanded sampling lost base rows or repeated windows.")
+    return base, expanded
