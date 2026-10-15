@@ -21,8 +21,8 @@
 - [x] Stages 23–27 executed evidence exists in GitHub and final notebook Quality Gates were reviewed.
 - [x] Align root and HARTH study README with the actual results and historical Test limitations.
 - [x] Correct obsolete Stage 27 offline test assumption that the notebook should be unexecuted. **A successful latest CI run must still be independently verified.**
-- [ ] Optional reproducibility audit: check trusted model-artifact retention, environment pinning, fresh-environment instructions, licensing and security before any public release. This is a verification pass, not another model-training stage.
-- [ ] Decide whether to create a versioned GitHub Release (a named snapshot/tag plus concise release notes). **No release is authorised or created merely by these documentation changes.**
+- [x] Read-only reproducibility/provenance audit implemented and checked by offline CI; reviewed dataset/source and model-artifact limits. The three original local model files and byte-for-byte GPU reproduction remain **unverified**, not silently declared resolved. See [the audit guide](HARTH_REPRODUCIBILITY.md).
+- [x] Close superseded draft PR #1 without merging or deleting history.\n- [ ] Decide whether to create a versioned GitHub Release (a named snapshot/tag plus concise release notes). **No release is authorised or created merely by these documentation changes.**
 - [ ] Decide the next independent study (e.g. biomechanical load estimation), with separate datasets, protocol, baselines, models and evaluation. Do not blend its outcomes into HARTH.
 
 ---
