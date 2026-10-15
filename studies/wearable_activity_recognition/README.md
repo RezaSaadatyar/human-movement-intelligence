@@ -92,3 +92,7 @@ See the [Stage 25 selection protocol](STAGE_25_MODEL_SELECTION_PROTOCOL.md), [St
 ## Reproducibility and release preflight
 
 See the [HARTH reproducibility guide](../../docs/HARTH_REPRODUCIBILITY.md). From the repository root, run `python scripts/check_harth_release_readiness.py` for a read-only verification of saved notebook outputs and frozen scientific provenance. Optional trusted local model files can be checked separately using `--artifact-dir`; this does not deserialise them. A GitHub Release is a later, user-approved action, not part of the executed study.
+
+## Consistent notebook layouts and landscape diagrams
+
+All 27 study stages have a landscape workflow SVG under [images/](images/README.md), referenced from the notebook opening Markdown. Code comments and import grouping have been formatted consistently while preserving scientific execution statements. The original [notebooks 01–22](notebooks/) have the in-place visual format; frozen Stages 23–27 have separately browsable [presentation notebooks](presentation_notebooks/README.md) so the original SHA256-linked evidence stays unchanged. See the [notebook authoring standard](NOTEBOOK_AUTHORING_STANDARDS.md). Saving or running a presentation copy does not create an independent new experiment.

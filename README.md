@@ -54,3 +54,5 @@ Data are acquired from their original providers into ignored local `data/raw/` d
 ## Reproducibility and release preflight
 
 Before an optional versioned release, review the [HARTH reproducibility audit](docs/HARTH_REPRODUCIBILITY.md) and run `python scripts/check_harth_release_readiness.py` from the repository root. This read-only check verifies saved research evidence and frozen code/manifest provenance without retraining models or re-opening Test data. Original Stage 26 model files are local and must be checked separately if retained; no release is implied.
+
+Notebook presentation: [HARTH horizontal workflow illustrations](studies/wearable_activity_recognition/images/README.md), [formatted research notebooks 23–27](studies/wearable_activity_recognition/presentation_notebooks/README.md) and [notebook formatting rules](studies/wearable_activity_recognition/NOTEBOOK_AUTHORING_STANDARDS.md). Core frozen Stage 23–27 evidence remains intact.
