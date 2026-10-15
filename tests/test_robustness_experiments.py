@@ -6,10 +6,10 @@ from pathlib import Path
 from unittest.mock import patch
 
 import numpy as np
-import torch
 
 sys.path.insert(0,str(Path(__file__).resolve().parents[1]/"code/python/src"))
 try:
+    import torch
     from core import robustness_experiments as rob
     from core.temporal_benchmark import make_benchmark_plan
 except ImportError:
