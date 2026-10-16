@@ -1,1 +1,137 @@
-<svg xmlns="http://www.w3.org/2000/svg" width="1610" height="293" viewBox="0 0 1610 293" role="img" aria-labelledby="title desc"><title id="title">Notebook 9: horizontal scientific workflow</title><desc id="desc">29-person source cohort to Import existing reusable methods to Audit every fold before training to Run the three model families across all five folds to Compare the two leading models on identical participants to Compare class support and participant performance to Five-fold baseline CV</desc><defs><marker id="a" markerWidth="10" markerHeight="10" refX="8" refY="3" orient="auto"><path d="M0 0 L0 6 L9 3 Z" fill="#4C879D"/></marker></defs><rect width="1610" height="293" rx="20" fill="#F3F8FC"/><text x="28" y="38" font-family="DejaVu Sans, Arial, sans-serif" font-weight="700" font-size="22" fill="#173453">HARTH  |  NOTEBOOK 09  |  RESEARCH WORKFLOW</text><text x="28" y="69" font-family="DejaVu Sans, Arial, sans-serif" font-size="15" fill="#54738A">Participant-aware source processing, analysis and transparent outputs</text><g font-family="DejaVu Sans, Arial, sans-serif"><path d="M224 167 H241" stroke="#4C879D" stroke-width="3" marker-end="url(#a)"/><path d="M448 167 H465" stroke="#4C879D" stroke-width="3" marker-end="url(#a)"/><path d="M672 167 H689" stroke="#4C879D" stroke-width="3" marker-end="url(#a)"/><path d="M896 167 H913" stroke="#4C879D" stroke-width="3" marker-end="url(#a)"/><path d="M1120 167 H1137" stroke="#4C879D" stroke-width="3" marker-end="url(#a)"/><path d="M1344 167 H1361" stroke="#4C879D" stroke-width="3" marker-end="url(#a)"/><g><rect x="22" y="97" width="196" height="140" rx="15" fill="#173453" stroke="#173453" stroke-width="2"/><text x="120" y="123" text-anchor="middle" font-size="13" font-weight="700" fill="#B6F0E7">INPUT</text><text x="120" y="153" text-anchor="middle" font-size="16" font-weight="600" fill="white">29-person source</text><text x="120" y="176" text-anchor="middle" font-size="16" font-weight="600" fill="white">cohort</text></g><g><rect x="246" y="97" width="196" height="140" rx="15" fill="white" stroke="#B9CEDF" stroke-width="2"/><text x="344" y="123" text-anchor="middle" font-size="13" font-weight="700" fill="#426F89">01</text><text x="344" y="153" text-anchor="middle" font-size="16" font-weight="600" fill="#173453">Import existing</text><text x="344" y="176" text-anchor="middle" font-size="16" font-weight="600" fill="#173453">reusable methods</text></g><g><rect x="470" y="97" width="196" height="140" rx="15" fill="white" stroke="#B9CEDF" stroke-width="2"/><text x="568" y="123" text-anchor="middle" font-size="13" font-weight="700" fill="#426F89">02</text><text x="568" y="153" text-anchor="middle" font-size="16" font-weight="600" fill="#173453">Audit every fold</text><text x="568" y="176" text-anchor="middle" font-size="16" font-weight="600" fill="#173453">before training</text></g><g><rect x="694" y="97" width="196" height="140" rx="15" fill="white" stroke="#B9CEDF" stroke-width="2"/><text x="792" y="123" text-anchor="middle" font-size="13" font-weight="700" fill="#426F89">03</text><text x="792" y="141" text-anchor="middle" font-size="14" font-weight="600" fill="#173453">Run the three model</text><text x="792" y="164" text-anchor="middle" font-size="14" font-weight="600" fill="#173453">families across all</text><text x="792" y="187" text-anchor="middle" font-size="16" font-weight="600" fill="#173453">five folds</text></g><g><rect x="918" y="97" width="196" height="140" rx="15" fill="white" stroke="#B9CEDF" stroke-width="2"/><text x="1016" y="123" text-anchor="middle" font-size="13" font-weight="700" fill="#426F89">04</text><text x="1016" y="141" text-anchor="middle" font-size="16" font-weight="600" fill="#173453">Compare the two</text><text x="1016" y="164" text-anchor="middle" font-size="16" font-weight="600" fill="#173453">leading models on</text><text x="1016" y="187" text-anchor="middle" font-size="16" font-weight="600" fill="#173453">identical</text></g><g><rect x="1142" y="97" width="196" height="140" rx="15" fill="white" stroke="#B9CEDF" stroke-width="2"/><text x="1240" y="123" text-anchor="middle" font-size="13" font-weight="700" fill="#426F89">05</text><text x="1240" y="141" text-anchor="middle" font-size="14" font-weight="600" fill="#173453">Compare class support</text><text x="1240" y="164" text-anchor="middle" font-size="16" font-weight="600" fill="#173453">and participant</text><text x="1240" y="187" text-anchor="middle" font-size="16" font-weight="600" fill="#173453">performance</text></g><g><rect x="1366" y="97" width="196" height="140" rx="15" fill="#173453" stroke="#173453" stroke-width="2"/><text x="1464" y="123" text-anchor="middle" font-size="13" font-weight="700" fill="#B6F0E7">OUTPUT</text><text x="1464" y="165" text-anchor="middle" font-size="14" font-weight="600" fill="white">Five-fold baseline CV</text></g></g><text x="28" y="270" font-family="DejaVu Sans, Arial, sans-serif" font-size="14" fill="#54738A">Original executable statements and saved evidence are retained</text></svg>
+<svg xmlns="http://www.w3.org/2000/svg" width="1700" height="480" viewBox="0 0 1700 480" role="img" aria-labelledby="title desc">
+<title id="title">HARTH Notebook 09: Full Development Grouped Cross-Validation</title>
+<desc id="desc">An illustrated research workflow for 29 HARTH Development participants, 132397 label-pure windows and 30 statistical features. Five group-held-out folds compare Dummy, Logistic Regression and Random Forest. A paired Random Forest minus Logistic Regression analysis is performed across the same 29 Development subjects. S023 and S032 are excluded from this Notebook; no independent final Test inference or clinical claims are made.</desc>
+<defs><marker id="small-arrow" markerUnits="userSpaceOnUse" markerWidth="6" markerHeight="6" refX="5.5" refY="3" orient="auto"><path d="M0 0 L6 3 L0 6 Z" fill="#245E9D"/></marker></defs>
+<rect width="1700" height="480" rx="20" fill="#F4F9FD"/>
+<g font-family="DejaVu Sans, Arial, sans-serif">
+ <text x="30" y="38" font-size="23" font-weight="700" fill="#173453">STAGE 09 | FULL DEVELOPMENT GROUPED CROSS-VALIDATION</text>
+ <text x="30" y="67" font-size="15" fill="#54738A">29 Development people · 5 GroupKFold splits · 3 classical models · Original reserved Test never loaded</text>
+ <rect x="24" y="84" width="1652" height="160" rx="16" fill="#EAF3FA" stroke="#C7D9E6" stroke-width="2"/>
+ <rect x="24" y="262" width="1652" height="174" rx="16" fill="#EAF3FA" stroke="#C7D9E6" stroke-width="2"/>
+ <g aria-label="Professional rear-view lower-back and thigh accelerometer schematic, fully enclosed">
+  <text x="50" y="105" font-size="11.5" font-weight="700" fill="#53738A">REAR-VIEW SENSOR PLACEMENT</text>
+  <g stroke="#7298B0" stroke-width="2.8" stroke-linecap="round" stroke-linejoin="round">
+   <circle cx="95" cy="128" r="12" fill="#FFFFFF"/>
+   <path d="M91 140 L91 147 M99 140 L99 147" fill="none"/>
+   <path d="M77 149 Q95 143 113 149 L116 174 Q109 187 95 189 Q81 187 74 174 Z" fill="#D9E7F1"/>
+   <path d="M77 153 L65 178 L67 193 M113 153 L125 178 L123 193" fill="none"/>
+   <path d="M84 189 L80 213 L79 226 M106 189 L111 214 L112 226" fill="none"/>
+   <path d="M79 226 L88 227 M112 226 L120 227" fill="none"/>
+  </g>
+  <rect x="86" y="171" width="18" height="11" rx="2.5" fill="#245E9D" stroke="#FFFFFF" stroke-width="1.3"/>
+  <rect x="77" y="199" width="16" height="11" rx="2.5" fill="#22A0A0" stroke="#FFFFFF" stroke-width="1.3"/>
+  <path d="M104 176 H140" stroke="#245E9D" stroke-width="1.5"/><text x="146" y="180" font-size="12.8" fill="#173453">Lower back</text>
+  <path d="M93 204 H140" stroke="#15938F" stroke-width="1.5"/><text x="146" y="208" font-size="12.8" fill="#173453">Thigh</text>
+ </g>
+ <g>
+  <text x="337" y="115" font-size="15" font-weight="700" fill="#173453">Original Source Cohort</text>
+  <text x="337" y="145" font-size="13.5" fill="#506C7E">29 Development participants</text>
+  <text x="337" y="167" font-size="13.5" fill="#506C7E">S023 / S032 reserved outside CV</text>
+  <text x="337" y="189" font-size="13.5" fill="#506C7E">Six accelerometer axes · 50 Hz</text>
+ </g>
+ <g>
+  <text x="648" y="115" font-size="15" font-weight="700" fill="#173453">Feature and Task Protocol</text>
+  <text x="648" y="145" font-size="13.5" fill="#506C7E">2 s windows · 50% overlap</text>
+  <text x="648" y="167" font-size="13.5" fill="#506C7E">132,397 windows · 30 features</text>
+  <text x="648" y="189" font-size="13.5" fill="#506C7E">Eight documented activity labels</text>
+ </g>
+ <g>
+  <text x="984" y="115" font-size="15" font-weight="700" fill="#173453">Cross-Validation Models</text>
+  <text x="984" y="145" font-size="13.5" fill="#506C7E">Dummy · Logistic Regression</text>
+  <text x="984" y="167" font-size="13.5" fill="#506C7E">Random Forest · fold-only fitting</text>
+  <text x="984" y="189" font-size="13.5" fill="#506C7E">Per-person paired Macro F1</text>
+ </g>
+ <g aria-label="Five actual group-held-out fold participant counts">
+  <text x="1275" y="115" font-size="14" font-weight="700" fill="#173453">5-FOLD SUBJECT-DISJOINT DESIGN</text>
+  <g aria-label="Fold 1: 23 training subjects and 6 validation subjects">
+ <rect x="1275" y="138" width="138" height="12" rx="2" fill="#245E9D"/>
+ <rect x="1415" y="138" width="36" height="12" rx="2" fill="#22A0A0"/>
+ <text x="1499" y="148" font-size="11.6" fill="#486779">Fold 1: 23 / 6</text>
+ </g>
+<g aria-label="Fold 2: 23 training subjects and 6 validation subjects">
+ <rect x="1275" y="158" width="138" height="12" rx="2" fill="#245E9D"/>
+ <rect x="1415" y="158" width="36" height="12" rx="2" fill="#22A0A0"/>
+ <text x="1499" y="168" font-size="11.6" fill="#486779">Fold 2: 23 / 6</text>
+ </g>
+<g aria-label="Fold 3: 23 training subjects and 6 validation subjects">
+ <rect x="1275" y="178" width="138" height="12" rx="2" fill="#245E9D"/>
+ <rect x="1415" y="178" width="36" height="12" rx="2" fill="#22A0A0"/>
+ <text x="1499" y="188" font-size="11.6" fill="#486779">Fold 3: 23 / 6</text>
+ </g>
+<g aria-label="Fold 4: 23 training subjects and 6 validation subjects">
+ <rect x="1275" y="198" width="138" height="12" rx="2" fill="#245E9D"/>
+ <rect x="1415" y="198" width="36" height="12" rx="2" fill="#22A0A0"/>
+ <text x="1499" y="208" font-size="11.6" fill="#486779">Fold 4: 23 / 6</text>
+ </g>
+<g aria-label="Fold 5: 24 training subjects and 5 validation subjects">
+ <rect x="1275" y="218" width="144" height="12" rx="2" fill="#245E9D"/>
+ <rect x="1421" y="218" width="30" height="12" rx="2" fill="#22A0A0"/>
+ <text x="1499" y="228" font-size="11.6" fill="#486779">Fold 5: 24 / 5</text>
+ </g>
+  <text x="1275" y="238" font-size="11.5" fill="#53738A">Blue: Train · Teal: Validation · counts denote people</text>
+ </g>
+ <g aria-label="Six uniform miniature right-facing connectors"><path d="M252 353 H266" fill="none" stroke="#245E9D" stroke-width="2.2" stroke-linecap="round" marker-end="url(#small-arrow)"/>
+<path d="M488 353 H502" fill="none" stroke="#245E9D" stroke-width="2.2" stroke-linecap="round" marker-end="url(#small-arrow)"/>
+<path d="M724 353 H738" fill="none" stroke="#245E9D" stroke-width="2.2" stroke-linecap="round" marker-end="url(#small-arrow)"/>
+<path d="M960 353 H974" fill="none" stroke="#245E9D" stroke-width="2.2" stroke-linecap="round" marker-end="url(#small-arrow)"/>
+<path d="M1196 353 H1210" fill="none" stroke="#245E9D" stroke-width="2.2" stroke-linecap="round" marker-end="url(#small-arrow)"/>
+<path d="M1432 353 H1446" fill="none" stroke="#245E9D" stroke-width="2.2" stroke-linecap="round" marker-end="url(#small-arrow)"/></g>
+ <g aria-label="Seven scientific source-to-results process blocks"><g class="process-block">
+  <rect x="38" y="287" width="208" height="132" rx="15" fill="#173453" stroke="#173453" stroke-width="1.8"/>
+  <text x="142" y="310" text-anchor="middle" font-size="12.5" font-weight="700" fill="#A7E9DF">INPUT</text>
+  <text x="142" y="336" text-anchor="middle" font-size="15" font-weight="700" fill="#FFFFFF">HARTH v2.0</text>
+  <text x="142" y="358" text-anchor="middle" font-size="12.6" fill="#DFEDF4">29 Development people</text>
+  <text x="142" y="378" text-anchor="middle" font-size="12.6" fill="#DFEDF4">Lower back + thigh</text>
+  <text x="142" y="398" text-anchor="middle" font-size="12.6" fill="#DFEDF4">6 axes · 50 Hz</text>
+ </g>
+<g class="process-block">
+  <rect x="274" y="287" width="208" height="132" rx="15" fill="#FFFFFF" stroke="#B8CFDE" stroke-width="1.8"/>
+  <text x="378" y="310" text-anchor="middle" font-size="12.5" font-weight="700" fill="#497992">01</text>
+  <text x="378" y="336" text-anchor="middle" font-size="15" font-weight="700" fill="#173453">Prepare Cohort</text>
+  <text x="378" y="358" text-anchor="middle" font-size="12.6" fill="#506C7E">2 s · stride 50</text>
+  <text x="378" y="378" text-anchor="middle" font-size="12.6" fill="#506C7E">132,397 eligible windows</text>
+  <text x="378" y="398" text-anchor="middle" font-size="12.6" fill="#506C7E">30 statistical features</text>
+ </g>
+<g class="process-block">
+  <rect x="510" y="287" width="208" height="132" rx="15" fill="#FFFFFF" stroke="#B8CFDE" stroke-width="1.8"/>
+  <text x="614" y="310" text-anchor="middle" font-size="12.5" font-weight="700" fill="#497992">02</text>
+  <text x="614" y="336" text-anchor="middle" font-size="15" font-weight="700" fill="#173453">Check Fold Audit</text>
+  <text x="614" y="358" text-anchor="middle" font-size="12.6" fill="#506C7E">Five group-held-out folds</text>
+  <text x="614" y="378" text-anchor="middle" font-size="12.6" fill="#506C7E">8 classes in each split</text>
+  <text x="614" y="398" text-anchor="middle" font-size="12.6" fill="#506C7E">No person leakage</text>
+ </g>
+<g class="process-block">
+  <rect x="746" y="287" width="208" height="132" rx="15" fill="#FFFFFF" stroke="#B8CFDE" stroke-width="1.8"/>
+  <text x="850" y="310" text-anchor="middle" font-size="12.5" font-weight="700" fill="#497992">03</text>
+  <text x="850" y="336" text-anchor="middle" font-size="15" font-weight="700" fill="#173453">Train Baselines</text>
+  <text x="850" y="358" text-anchor="middle" font-size="12.6" fill="#506C7E">Dummy · Logistic Reg.</text>
+  <text x="850" y="378" text-anchor="middle" font-size="12.6" fill="#506C7E">Random Forest</text>
+  <text x="850" y="398" text-anchor="middle" font-size="12.6" fill="#506C7E">Fold Train-only fitting</text>
+ </g>
+<g class="process-block">
+  <rect x="982" y="287" width="208" height="132" rx="15" fill="#FFFFFF" stroke="#B8CFDE" stroke-width="1.8"/>
+  <text x="1086" y="310" text-anchor="middle" font-size="12.5" font-weight="700" fill="#497992">04</text>
+  <text x="1086" y="336" text-anchor="middle" font-size="15" font-weight="700" fill="#173453">Inspect Fold F1</text>
+  <text x="1086" y="358" text-anchor="middle" font-size="12.6" fill="#506C7E">Five validation folds</text>
+  <text x="1086" y="378" text-anchor="middle" font-size="12.6" fill="#506C7E">23/6 or 24/5 subjects</text>
+  <text x="1086" y="398" text-anchor="middle" font-size="12.6" fill="#506C7E">Macro F1 and balance</text>
+ </g>
+<g class="process-block">
+  <rect x="1218" y="287" width="208" height="132" rx="15" fill="#FFFFFF" stroke="#B8CFDE" stroke-width="1.8"/>
+  <text x="1322" y="310" text-anchor="middle" font-size="12.5" font-weight="700" fill="#497992">05</text>
+  <text x="1322" y="336" text-anchor="middle" font-size="15" font-weight="700" fill="#173453">Pair Model Scores</text>
+  <text x="1322" y="358" text-anchor="middle" font-size="12.6" fill="#506C7E">RF minus Logistic Reg.</text>
+  <text x="1322" y="378" text-anchor="middle" font-size="12.6" fill="#506C7E">29 held-out subjects</text>
+  <text x="1322" y="398" text-anchor="middle" font-size="12.6" fill="#506C7E">Class support audit</text>
+ </g>
+<g class="process-block">
+  <rect x="1454" y="287" width="208" height="132" rx="15" fill="#173453" stroke="#173453" stroke-width="1.8"/>
+  <text x="1558" y="310" text-anchor="middle" font-size="12.5" font-weight="700" fill="#A7E9DF">OUTPUT</text>
+  <text x="1558" y="336" text-anchor="middle" font-size="15" font-weight="700" fill="#FFFFFF">Quality Gate</text>
+  <text x="1558" y="358" text-anchor="middle" font-size="12.6" fill="#DFEDF4">15 model-fold scores</text>
+  <text x="1558" y="378" text-anchor="middle" font-size="12.6" fill="#DFEDF4">Reserved Test not used</text>
+  <text x="1558" y="398" text-anchor="middle" font-size="12.6" fill="#DFEDF4">No final benchmark claim</text>
+ </g></g>
+ <text x="30" y="465" font-size="13.1" fill="#54738A">Original HARTH → time-safe features → fold class audit → train three models → five-fold validation → paired person-level F1 → quality gate</text>
+</g>
+</svg>
