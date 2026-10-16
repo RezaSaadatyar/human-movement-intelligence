@@ -1,12 +1,120 @@
-<svg xmlns="http://www.w3.org/2000/svg" width="1610" height="293" viewBox="0 0 1610 293" role="img" aria-labelledby="title desc"><title id="title">Stage 2 horizontal data-to-results workflow</title><desc id="desc">S023 raw accelerometer to Signal Preprocessing: Windowing and Quality Controls to Load the same real HARTH recording to Define a transparent windowing protocol to Inspect activity distribution after windowing to Visualise an actual preprocessed window to Clean signal windows</desc><defs><marker id="a" markerWidth="10" markerHeight="10" refX="8" refY="3" orient="auto"><path d="M0 0 L0 6 L9 3 Z" fill="#4C879D"/></marker></defs><rect width="1610" height="293" rx="20" fill="#F3F8FC"/><text x="28" y="38" font-family="DejaVu Sans, Arial, sans-serif" font-size="22" font-weight="700" fill="#173453">HARTH  |  NOTEBOOK 02  |  RESEARCH WORKFLOW</text><text x="28" y="69" font-family="DejaVu Sans, Arial, sans-serif" font-size="15" fill="#54738A">Source input → staged analysis → reported output · Original methodology retained</text><g font-family="DejaVu Sans, Arial, sans-serif"><path d="M222 167 H241" stroke="#4C879D" stroke-width="3" marker-end="url(#a)"/>
-<path d="M446 167 H465" stroke="#4C879D" stroke-width="3" marker-end="url(#a)"/>
-<path d="M670 167 H689" stroke="#4C879D" stroke-width="3" marker-end="url(#a)"/>
-<path d="M894 167 H913" stroke="#4C879D" stroke-width="3" marker-end="url(#a)"/>
-<path d="M1118 167 H1137" stroke="#4C879D" stroke-width="3" marker-end="url(#a)"/>
-<path d="M1342 167 H1361" stroke="#4C879D" stroke-width="3" marker-end="url(#a)"/><g><rect x="22" y="97" width="196" height="140" rx="15" fill="#173453" stroke="#173453" stroke-width="2"/><text x="120" y="123" font-size="13" font-weight="700" fill="#9FE9E2" text-anchor="middle">INPUT</text><text x="120" y="153" font-size="16" font-weight="600" fill="#FFFFFF" text-anchor="middle">S023 raw</text><text x="120" y="176" font-size="16" font-weight="600" fill="#FFFFFF" text-anchor="middle">accelerometer</text></g>
-<g><rect x="246" y="97" width="196" height="140" rx="15" fill="#FFFFFF" stroke="#B9CEDF" stroke-width="2"/><text x="344" y="123" font-size="13" font-weight="700" fill="#4A788F" text-anchor="middle">01</text><text x="344" y="141" font-size="16" font-weight="600" fill="#173453" text-anchor="middle">Signal</text><text x="344" y="164" font-size="16" font-weight="600" fill="#173453" text-anchor="middle">Preprocessing:</text><text x="344" y="187" font-size="16" font-weight="600" fill="#173453" text-anchor="middle">Windowing and</text></g>
-<g><rect x="470" y="97" width="196" height="140" rx="15" fill="#FFFFFF" stroke="#B9CEDF" stroke-width="2"/><text x="568" y="123" font-size="13" font-weight="700" fill="#4A788F" text-anchor="middle">02</text><text x="568" y="153" font-size="16" font-weight="600" fill="#173453" text-anchor="middle">Load the same real</text><text x="568" y="176" font-size="16" font-weight="600" fill="#173453" text-anchor="middle">HARTH recording</text></g>
-<g><rect x="694" y="97" width="196" height="140" rx="15" fill="#FFFFFF" stroke="#B9CEDF" stroke-width="2"/><text x="792" y="123" font-size="13" font-weight="700" fill="#4A788F" text-anchor="middle">03</text><text x="792" y="153" font-size="14" font-weight="600" fill="#173453" text-anchor="middle">Define a transparent</text><text x="792" y="176" font-size="16" font-weight="600" fill="#173453" text-anchor="middle">windowing protocol</text></g>
-<g><rect x="918" y="97" width="196" height="140" rx="15" fill="#FFFFFF" stroke="#B9CEDF" stroke-width="2"/><text x="1016" y="123" font-size="13" font-weight="700" fill="#4A788F" text-anchor="middle">04</text><text x="1016" y="141" font-size="16" font-weight="600" fill="#173453" text-anchor="middle">Inspect activity</text><text x="1016" y="164" font-size="16" font-weight="600" fill="#173453" text-anchor="middle">distribution after</text><text x="1016" y="187" font-size="16" font-weight="600" fill="#173453" text-anchor="middle">windowing</text></g>
-<g><rect x="1142" y="97" width="196" height="140" rx="15" fill="#FFFFFF" stroke="#B9CEDF" stroke-width="2"/><text x="1240" y="123" font-size="13" font-weight="700" fill="#4A788F" text-anchor="middle">05</text><text x="1240" y="153" font-size="14" font-weight="600" fill="#173453" text-anchor="middle">Visualise an actual</text><text x="1240" y="176" font-size="14" font-weight="600" fill="#173453" text-anchor="middle">preprocessed window</text></g>
-<g><rect x="1366" y="97" width="196" height="140" rx="15" fill="#173453" stroke="#173453" stroke-width="2"/><text x="1464" y="123" font-size="13" font-weight="700" fill="#9FE9E2" text-anchor="middle">OUTPUT</text><text x="1464" y="165" font-size="14" font-weight="600" fill="#FFFFFF" text-anchor="middle">Clean signal windows</text></g></g><text x="28" y="270" font-family="DejaVu Sans, Arial, sans-serif" font-size="14" fill="#54738A">Horizontal workflow overview · Process names are drawn from the notebook section headings</text></svg>
+<svg xmlns="http://www.w3.org/2000/svg" width="1700" height="480" viewBox="0 0 1700 480" role="img" aria-labelledby="title desc">
+<title id="title">HARTH Notebook 02 | Signal Windowing and Quality Controls</title>
+<desc id="desc">Two tri-axial wearable accelerometers, sampling at 50 Hz, are used to create 100-sample windows with 50-sample stride, strict label purity and continuity constraints. Seven horizontal blocks link source data to quality-controlled signal windows and a final quality gate.</desc>
+<defs><marker id="small-arrow" markerUnits="userSpaceOnUse" markerWidth="6" markerHeight="6" refX="5.5" refY="3" orient="auto"><path d="M0 0 L6 3 L0 6 Z" fill="#245E9D"/></marker></defs>
+<rect width="1700" height="480" rx="20" fill="#F4F9FD"/>
+<g font-family="DejaVu Sans, Arial, sans-serif">
+ <text x="30" y="38" font-size="23" font-weight="700" fill="#173453">STAGE 02 | SIGNAL PREPROCESSING AND WINDOWING</text>
+ <text x="30" y="67" font-size="15" fill="#54738A">Time-continuous, label-pure HARTH windows · Original sensor values · No fitted scaling or classifier</text>
+ <!-- Both panels share the same precisely aligned horizontal edges. -->
+ <rect x="24" y="84" width="1652" height="160" rx="16" fill="#EAF3FA" stroke="#C7D9E6" stroke-width="2"/>
+ <rect x="24" y="262" width="1652" height="174" rx="16" fill="#EAF3FA" stroke="#C7D9E6" stroke-width="2"/>
+ <!-- Full rear-view sensor placement illustration contained inside context panel. -->
+ <g aria-label="Lower-back and thigh sensors">
+  <text x="50" y="105" font-size="11.5" font-weight="700" fill="#53738A">REAR-VIEW SENSOR PLACEMENT</text>
+  <g stroke="#7298B0" stroke-width="2.8" stroke-linecap="round" stroke-linejoin="round">
+   <circle cx="95" cy="128" r="12" fill="#FFFFFF"/>
+   <path d="M91 140 L91 147 M99 140 L99 147" fill="none"/>
+   <path d="M77 149 Q95 143 113 149 L116 174 Q109 187 95 189 Q81 187 74 174 Z" fill="#D9E7F1"/>
+   <path d="M77 153 L65 178 L67 193 M113 153 L125 178 L123 193" fill="none"/>
+   <path d="M84 189 L80 213 L79 226 M106 189 L111 214 L112 226" fill="none"/>
+   <path d="M79 226 L88 227 M112 226 L120 227" fill="none"/>
+  </g>
+  <rect x="86" y="171" width="18" height="11" rx="2.5" fill="#245E9D" stroke="#FFFFFF" stroke-width="1.3"/>
+  <rect x="77" y="199" width="16" height="11" rx="2.5" fill="#22A0A0" stroke="#FFFFFF" stroke-width="1.3"/>
+  <path d="M104 176 H140" stroke="#245E9D" stroke-width="1.5"/><text x="146" y="180" font-size="12.8" fill="#173453">Lower back</text>
+  <path d="M93 204 H140" stroke="#15938F" stroke-width="1.5"/><text x="146" y="208" font-size="12.8" fill="#173453">Thigh</text>
+ </g>
+ <g>
+  <text x="340" y="115" font-size="15" font-weight="700" fill="#173453">Sensor Inputs</text>
+  <text x="340" y="145" font-size="13.5" fill="#506C7E">HARTH v2.0 / S023.csv</text>
+  <text x="340" y="167" font-size="13.5" fill="#506C7E">Back x/y/z + thigh x/y/z</text>
+  <text x="340" y="189" font-size="13.5" fill="#506C7E">Six acceleration channels (g)</text>
+ </g>
+ <g>
+  <text x="605" y="115" font-size="15" font-weight="700" fill="#173453">Sliding Windows</text>
+  <text x="605" y="145" font-size="13.5" fill="#506C7E">50 Hz · 100 samples (2 s)</text>
+  <text x="605" y="167" font-size="13.5" fill="#506C7E">Step: 50 samples</text>
+  <text x="605" y="189" font-size="13.5" fill="#506C7E">Overlap: 50%</text>
+ </g>
+ <g>
+  <text x="900" y="115" font-size="15" font-weight="700" fill="#173453">Eligibility Controls</text>
+  <text x="900" y="145" font-size="13.5" fill="#506C7E">All 100 labels must agree</text>
+  <text x="900" y="167" font-size="13.5" fill="#506C7E">No gaps &gt; 1.5× sample period</text>
+  <text x="900" y="189" font-size="13.5" fill="#506C7E">Keep original sample indices</text>
+ </g>
+ <g aria-label="Illustrative accelerometer waveform and two overlapping windows">
+  <text x="1255" y="115" font-size="14" font-weight="700" fill="#173453">OVERLAPPING WINDOW SCHEMATIC</text>
+  <rect x="1260" y="138" width="165" height="68" rx="6" fill="#D0E4F2" opacity="0.9"/>
+  <rect x="1342" y="138" width="165" height="68" rx="6" fill="#D7F0ED" opacity="0.8"/>
+  <line x1="1256" y1="177" x2="1608" y2="177" stroke="#95B1C5" stroke-width="1"/>
+  <path d="M1268.0 180.0 L1275.2 190.0 L1282.4 186.0 L1289.6 181.1 L1296.8 179.9 L1304.0 171.3 L1311.2 164.1 L1318.4 172.3 L1325.6 181.4 L1332.8 179.7 L1340.0 179.3 L1347.2 180.2 L1354.4 170.6 L1361.6 162.5 L1368.8 170.0 L1376.0 178.7 L1383.2 179.8 L1390.4 184.8 L1397.6 188.7 L1404.8 178.9 L1412.0 169.4 L1419.2 173.6 L1426.4 178.0 L1433.6 178.1 L1440.8 185.1 L1448.0 190.1 L1455.2 179.8 L1462.4 169.2 L1469.6 169.9 L1476.8 169.7 L1484.0 168.6 L1491.2 178.3 L1498.4 186.4 L1505.6 179.5 L1512.8 172.1 L1520.0 172.7 L1527.2 169.7 L1534.4 167.9 L1541.6 179.4 L1548.8 189.7 L1556.0 185.8 L1563.2 181.4 L1570.4 180.9 L1577.6 173.2 L1584.8 167.6 L1592.0 176.7 L1599.2 185.5 L1606.4 182.7" fill="none" stroke="#245E9D" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"/>
+  <text x="1280" y="151" font-size="11.5" fill="#245E9D">Window A</text>
+  <text x="1452" y="151" font-size="11.5" fill="#116D70">Window B</text>
+  <text x="1260" y="226" font-size="12" fill="#53738A">Illustrative trace, not an observed patient recording</text>
+ </g>
+ <g aria-label="Six compact identical arrows"><path d="M252 353 H266" fill="none" stroke="#245E9D" stroke-width="2.2" stroke-linecap="round" marker-end="url(#small-arrow)"/>
+<path d="M488 353 H502" fill="none" stroke="#245E9D" stroke-width="2.2" stroke-linecap="round" marker-end="url(#small-arrow)"/>
+<path d="M724 353 H738" fill="none" stroke="#245E9D" stroke-width="2.2" stroke-linecap="round" marker-end="url(#small-arrow)"/>
+<path d="M960 353 H974" fill="none" stroke="#245E9D" stroke-width="2.2" stroke-linecap="round" marker-end="url(#small-arrow)"/>
+<path d="M1196 353 H1210" fill="none" stroke="#245E9D" stroke-width="2.2" stroke-linecap="round" marker-end="url(#small-arrow)"/>
+<path d="M1432 353 H1446" fill="none" stroke="#245E9D" stroke-width="2.2" stroke-linecap="round" marker-end="url(#small-arrow)"/></g>
+ <g aria-label="Seven sequential, source-grounded workflow blocks"><g class="process-block">
+   <rect x="38" y="287" width="208" height="132" rx="15" fill="#173453" stroke="#173453" stroke-width="1.8"/>
+   <text x="142" y="310" text-anchor="middle" font-size="12.5" font-weight="700" fill="#A7E9DF">INPUT</text>
+   <text x="142" y="336" text-anchor="middle" font-size="15" font-weight="700" fill="#FFFFFF">HARTH v2.0</text>
+   <text x="142" y="358" text-anchor="middle" font-size="12.6" fill="#DFEDF4">S023.csv · 50 Hz</text>
+   <text x="142" y="378" text-anchor="middle" font-size="12.6" fill="#DFEDF4">Back + thigh sensors</text>
+   <text x="142" y="398" text-anchor="middle" font-size="12.6" fill="#DFEDF4">6-axis source signals</text>
+  </g>
+<g class="process-block">
+   <rect x="274" y="287" width="208" height="132" rx="15" fill="#FFFFFF" stroke="#B8CFDE" stroke-width="1.8"/>
+   <text x="378" y="310" text-anchor="middle" font-size="12.5" font-weight="700" fill="#497992">01</text>
+   <text x="378" y="336" text-anchor="middle" font-size="15" font-weight="700" fill="#173453">Load Recording</text>
+   <text x="378" y="358" text-anchor="middle" font-size="12.6" fill="#506C7E">Official CSV or cache</text>
+   <text x="378" y="378" text-anchor="middle" font-size="12.6" fill="#506C7E">Time, labels and axes</text>
+   <text x="378" y="398" text-anchor="middle" font-size="12.6" fill="#506C7E">Continuous samples</text>
+  </g>
+<g class="process-block">
+   <rect x="510" y="287" width="208" height="132" rx="15" fill="#FFFFFF" stroke="#B8CFDE" stroke-width="1.8"/>
+   <text x="614" y="310" text-anchor="middle" font-size="12.5" font-weight="700" fill="#497992">02</text>
+   <text x="614" y="336" text-anchor="middle" font-size="15" font-weight="700" fill="#173453">Window Protocol</text>
+   <text x="614" y="358" text-anchor="middle" font-size="12.6" fill="#506C7E">2 s · 100 samples</text>
+   <text x="614" y="378" text-anchor="middle" font-size="12.6" fill="#506C7E">Stride 50 samples</text>
+   <text x="614" y="398" text-anchor="middle" font-size="12.6" fill="#506C7E">50% overlap</text>
+  </g>
+<g class="process-block">
+   <rect x="746" y="287" width="208" height="132" rx="15" fill="#FFFFFF" stroke="#B8CFDE" stroke-width="1.8"/>
+   <text x="850" y="310" text-anchor="middle" font-size="12.5" font-weight="700" fill="#497992">03</text>
+   <text x="850" y="336" text-anchor="middle" font-size="15" font-weight="700" fill="#173453">Build Windows</text>
+   <text x="850" y="358" text-anchor="middle" font-size="12.6" fill="#506C7E">Reject label changes</text>
+   <text x="850" y="378" text-anchor="middle" font-size="12.6" fill="#506C7E">Reject time gaps</text>
+   <text x="850" y="398" text-anchor="middle" font-size="12.6" fill="#506C7E">Tensor: N × 6 × 100</text>
+  </g>
+<g class="process-block">
+   <rect x="982" y="287" width="208" height="132" rx="15" fill="#FFFFFF" stroke="#B8CFDE" stroke-width="1.8"/>
+   <text x="1086" y="310" text-anchor="middle" font-size="12.5" font-weight="700" fill="#497992">04</text>
+   <text x="1086" y="336" text-anchor="middle" font-size="15" font-weight="700" fill="#173453">Class Support</text>
+   <text x="1086" y="358" text-anchor="middle" font-size="12.6" fill="#506C7E">Original vs retained</text>
+   <text x="1086" y="378" text-anchor="middle" font-size="12.6" fill="#506C7E">Per-activity counts</text>
+   <text x="1086" y="398" text-anchor="middle" font-size="12.6" fill="#506C7E">Distribution chart</text>
+  </g>
+<g class="process-block">
+   <rect x="1218" y="287" width="208" height="132" rx="15" fill="#FFFFFF" stroke="#B8CFDE" stroke-width="1.8"/>
+   <text x="1322" y="310" text-anchor="middle" font-size="12.5" font-weight="700" fill="#497992">05</text>
+   <text x="1322" y="336" text-anchor="middle" font-size="15" font-weight="700" fill="#173453">Signal Preview</text>
+   <text x="1322" y="358" text-anchor="middle" font-size="12.6" fill="#506C7E">First eligible window</text>
+   <text x="1322" y="378" text-anchor="middle" font-size="12.6" fill="#506C7E">Back x/y/z in g</text>
+   <text x="1322" y="398" text-anchor="middle" font-size="12.6" fill="#506C7E">Unscaled source trace</text>
+  </g>
+<g class="process-block">
+   <rect x="1454" y="287" width="208" height="132" rx="15" fill="#173453" stroke="#173453" stroke-width="1.8"/>
+   <text x="1558" y="310" text-anchor="middle" font-size="12.5" font-weight="700" fill="#A7E9DF">OUTPUT</text>
+   <text x="1558" y="336" text-anchor="middle" font-size="15" font-weight="700" fill="#FFFFFF">Quality Gate</text>
+   <text x="1558" y="358" text-anchor="middle" font-size="12.6" fill="#DFEDF4">100% label purity</text>
+   <text x="1558" y="378" text-anchor="middle" font-size="12.6" fill="#DFEDF4">Source indices checked</text>
+   <text x="1558" y="398" text-anchor="middle" font-size="12.6" fill="#DFEDF4">No model training</text>
+  </g></g>
+ <text x="30" y="466" font-size="13.5" fill="#54738A">Source signals → trusted HARTH loading → 2-second window specification → label/time-safe segmentation → class support → original signal plot → quality gate</text>
+</g>
+</svg>
