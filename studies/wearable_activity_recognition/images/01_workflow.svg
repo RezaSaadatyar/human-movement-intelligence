@@ -1,21 +1,139 @@
-<svg xmlns="http://www.w3.org/2000/svg" width="1610" height="293" viewBox="0 0 1610 293" role="img" aria-labelledby="title desc">
-<title id="title">Notebook 01: Data Loading and Inspection, left-to-right workflow</title>
-<desc id="desc">HARTH v2.0 S023 CSV, cached retrieval, raw inspection, HARTH validation, activity distribution, source acceleration plot and quality gate.</desc>
-<defs><marker id="arrow" markerWidth="10" markerHeight="10" refX="8" refY="3" orient="auto"><path d="M0 0 L0 6 L9 3 Z" fill="#4C879D"/></marker></defs>
-<rect width="1610" height="293" fill="#F3F8FC" rx="20"/>
-<text x="30" y="39" font-family="DejaVu Sans, Arial, sans-serif" font-weight="700" font-size="22" fill="#173453">STAGE 01  |  DATA LOADING &amp; INSPECTION</text>
-<text x="30" y="69" font-family="DejaVu Sans, Arial, sans-serif" font-size="15" fill="#54738A">Research workflow · Original sensor data only · No model training</text>
-<g font-family="DejaVu Sans, Arial, sans-serif"><path d="M226 167 H241" stroke="#4C879D" stroke-width="3" stroke-linecap="round" marker-end="url(#arrow)"/>
-<path d="M450 167 H465" stroke="#4C879D" stroke-width="3" stroke-linecap="round" marker-end="url(#arrow)"/>
-<path d="M674 167 H689" stroke="#4C879D" stroke-width="3" stroke-linecap="round" marker-end="url(#arrow)"/>
-<path d="M898 167 H913" stroke="#4C879D" stroke-width="3" stroke-linecap="round" marker-end="url(#arrow)"/>
-<path d="M1122 167 H1137" stroke="#4C879D" stroke-width="3" stroke-linecap="round" marker-end="url(#arrow)"/>
-<path d="M1346 167 H1361" stroke="#4C879D" stroke-width="3" stroke-linecap="round" marker-end="url(#arrow)"/><g><rect x="24" y="101" width="198" height="132" rx="16" fill="#173453" stroke="#173453" stroke-width="2"/><text x="123" y="128" text-anchor="middle" font-size="13" font-weight="700" fill="#BDEBE3">INPUT</text><text x="123" y="158" text-anchor="middle" font-size="17" font-weight="700" fill="#FFFFFF">HARTH v2.0</text><text x="123" y="184" text-anchor="middle" font-size="14" fill="#D6E9F2">S023.csv</text></g>
-<g><rect x="248" y="101" width="198" height="132" rx="16" fill="#FFFFFF" stroke="#B9CEDF" stroke-width="2"/><text x="347" y="128" text-anchor="middle" font-size="13" font-weight="700" fill="#537A94">01</text><text x="347" y="158" text-anchor="middle" font-size="17" font-weight="700" fill="#173453">Source retrieval</text><text x="347" y="184" text-anchor="middle" font-size="14" fill="#42667C">Cached public CSV</text></g>
-<g><rect x="472" y="101" width="198" height="132" rx="16" fill="#FFFFFF" stroke="#B9CEDF" stroke-width="2"/><text x="571" y="128" text-anchor="middle" font-size="13" font-weight="700" fill="#537A94">02</text><text x="571" y="158" text-anchor="middle" font-size="17" font-weight="700" fill="#173453">Raw inspection</text><text x="571" y="184" text-anchor="middle" font-size="14" fill="#42667C">Columns and rows</text></g>
-<g><rect x="696" y="101" width="198" height="132" rx="16" fill="#FFFFFF" stroke="#B9CEDF" stroke-width="2"/><text x="795" y="128" text-anchor="middle" font-size="13" font-weight="700" fill="#537A94">03</text><text x="795" y="158" text-anchor="middle" font-size="17" font-weight="700" fill="#173453">HARTH validation</text><text x="795" y="184" text-anchor="middle" font-size="14" fill="#42667C">Time and channels</text></g>
-<g><rect x="920" y="101" width="198" height="132" rx="16" fill="#FFFFFF" stroke="#B9CEDF" stroke-width="2"/><text x="1019" y="128" text-anchor="middle" font-size="13" font-weight="700" fill="#537A94">04</text><text x="1019" y="158" text-anchor="middle" font-size="17" font-weight="700" fill="#173453">Activity distribution</text><text x="1019" y="184" text-anchor="middle" font-size="14" fill="#42667C">Counts and chart</text></g>
-<g><rect x="1144" y="101" width="198" height="132" rx="16" fill="#FFFFFF" stroke="#B9CEDF" stroke-width="2"/><text x="1243" y="128" text-anchor="middle" font-size="13" font-weight="700" fill="#537A94">05</text><text x="1243" y="158" text-anchor="middle" font-size="17" font-weight="700" fill="#173453">Signal visualisation</text><text x="1243" y="184" text-anchor="middle" font-size="14" fill="#42667C">Original acceleration</text></g>
-<g><rect x="1368" y="101" width="198" height="132" rx="16" fill="#173453" stroke="#173453" stroke-width="2"/><text x="1467" y="128" text-anchor="middle" font-size="13" font-weight="700" fill="#BDEBE3">OUTPUT</text><text x="1467" y="158" text-anchor="middle" font-size="17" font-weight="700" fill="#FFFFFF">Quality Gate</text><text x="1467" y="184" text-anchor="middle" font-size="14" fill="#D6E9F2">Tables and plots</text></g></g>
-<text x="30" y="270" font-family="DejaVu Sans, Arial, sans-serif" font-size="14" fill="#54738A">Input → reproducible source checks → descriptive evidence → source data quality gate</text>
+<svg xmlns="http://www.w3.org/2000/svg" width="1700" height="480"
+     viewBox="0 0 1700 480" role="img" aria-labelledby="figure-title figure-description">
+ <title id="figure-title">HARTH Stage 01: Sensor Context and Source Inspection Workflow</title>
+ <desc id="figure-description">A horizontal research workflow diagram with the lower-back and thigh accelerometer positions entirely inside a sensor context panel, followed by seven evenly spaced blocks connected with six small uniform arrows. All panels are aligned and enclosed.</desc>
+ <defs>
+  <marker id="small-arrow" markerUnits="userSpaceOnUse" markerWidth="6" markerHeight="6"
+          refX="5.5" refY="3" orient="auto">
+   <path d="M0 0 L6 3 L0 6 Z" fill="#245E9D"/>
+  </marker>
+ </defs>
+ <rect width="1700" height="480" rx="20" fill="#F4F9FD"/>
+ <g font-family="DejaVu Sans, Arial, sans-serif">
+  <text x="30" y="38" font-size="23" font-weight="700" fill="#173453">STAGE 01 | DATA LOADING AND INSPECTION</text>
+  <text x="30" y="67" font-size="15" fill="#54738A">Original HARTH v2.0 participant recording · Two wearable accelerometers · No model fitting</text>
+
+  <!-- Both full-width panels have identical horizontal edges: x=24 to x=1676. -->
+  <rect x="24" y="84" width="1652" height="160"
+        rx="16" fill="#EAF3FA" stroke="#C7D9E6" stroke-width="2"/>
+  <rect x="24" y="262" width="1652" height="174"
+        rx="16" fill="#EAF3FA" stroke="#C7D9E6" stroke-width="2"/>
+
+  <!-- Sensor placement schematic: complete rear-view body inside top panel. -->
+  <g aria-label="Rear-view body with two sensor locations">
+   <text x="50" y="105" font-size="11.5" font-weight="700" fill="#53738A">REAR-VIEW SENSOR PLACEMENT</text>
+   <g stroke="#7298B0" stroke-width="2.8" stroke-linecap="round" stroke-linejoin="round">
+    <circle cx="95" cy="128" r="12" fill="#FFFFFF"/>
+    <path d="M91 140 L91 147 M99 140 L99 147" fill="none"/>
+    <path d="M77 149 Q95 143 113 149 L116 174 Q109 187 95 189 Q81 187 74 174 Z"
+          fill="#D9E7F1"/>
+    <path d="M77 153 L65 178 L67 193 M113 153 L125 178 L123 193" fill="none"/>
+    <path d="M84 189 L80 213 L79 226 M106 189 L111 214 L112 226" fill="none"/>
+    <path d="M79 226 L88 227 M112 226 L120 227" fill="none"/>
+   </g>
+   <rect x="86" y="171" width="18" height="11" rx="2.5" fill="#245E9D" stroke="#FFFFFF" stroke-width="1.3"/>
+   <rect x="77" y="199" width="16" height="11" rx="2.5" fill="#22A0A0" stroke="#FFFFFF" stroke-width="1.3"/>
+   <path d="M104 176 H140" stroke="#245E9D" stroke-width="1.5"/>
+   <circle cx="104" cy="176" r="2" fill="#245E9D"/>
+   <text x="146" y="180" font-size="12.8" fill="#173453">Lower back</text>
+   <path d="M93 204 H140" stroke="#15938F" stroke-width="1.5"/>
+   <circle cx="93" cy="204" r="2" fill="#15938F"/>
+   <text x="146" y="208" font-size="12.8" fill="#173453">Thigh</text>
+  </g>
+
+  <!-- Source and modality details contained inside the same top panel. -->
+  <g>
+   <text x="350" y="115" font-size="15" font-weight="700" fill="#173453">Source Data</text>
+   <text x="350" y="145" font-size="13.5" fill="#506C7E">HARTH v2.0</text>
+   <text x="350" y="167" font-size="13.5" fill="#506C7E">Participant: S023</text>
+   <text x="350" y="189" font-size="13.5" fill="#506C7E">File: S023.csv</text>
+  </g>
+  <g>
+   <text x="595" y="115" font-size="15" font-weight="700" fill="#173453">Recording Modalities</text>
+   <text x="595" y="145" font-size="13.5" fill="#506C7E">Lower-back accelerometer</text>
+   <text x="595" y="167" font-size="13.5" fill="#506C7E">Thigh accelerometer</text>
+   <text x="595" y="189" font-size="13.5" fill="#506C7E">Tri-axial acceleration · 50 Hz</text>
+  </g>
+  <g>
+   <text x="912" y="115" font-size="15" font-weight="700" fill="#173453">Signal Channels</text>
+   <text x="912" y="145" font-size="13.5" fill="#506C7E">back_x, back_y, back_z</text>
+   <text x="912" y="167" font-size="13.5" fill="#506C7E">thigh_x, thigh_y, thigh_z</text>
+   <text x="912" y="189" font-size="13.5" fill="#506C7E">Acceleration unit: g</text>
+  </g>
+  <g>
+   <text x="1250" y="115" font-size="15" font-weight="700" fill="#173453">Notebook Scope</text>
+   <text x="1250" y="145" font-size="13.5" fill="#506C7E">Source retrieval and inspection</text>
+   <text x="1250" y="167" font-size="13.5" fill="#506C7E">Activity counts and signal plots</text>
+   <text x="1250" y="189" font-size="13.5" fill="#506C7E">Data-quality checks only</text>
+  </g>
+
+  <!-- Same six compact arrows: identical length, stroke, position and head size. -->
+  <g aria-label="Six equal left-to-right connectors">
+  <path d="M252 353 H266" fill="none" stroke="#245E9D" stroke-width="2.2" stroke-linecap="round" marker-end="url(#small-arrow)"/>
+<path d="M488 353 H502" fill="none" stroke="#245E9D" stroke-width="2.2" stroke-linecap="round" marker-end="url(#small-arrow)"/>
+<path d="M724 353 H738" fill="none" stroke="#245E9D" stroke-width="2.2" stroke-linecap="round" marker-end="url(#small-arrow)"/>
+<path d="M960 353 H974" fill="none" stroke="#245E9D" stroke-width="2.2" stroke-linecap="round" marker-end="url(#small-arrow)"/>
+<path d="M1196 353 H1210" fill="none" stroke="#245E9D" stroke-width="2.2" stroke-linecap="round" marker-end="url(#small-arrow)"/>
+<path d="M1432 353 H1446" fill="none" stroke="#245E9D" stroke-width="2.2" stroke-linecap="round" marker-end="url(#small-arrow)"/>
+  </g>
+  <g aria-label="Seven source-to-output processing blocks">
+  <g class="process-block">
+  <rect x="38" y="287" width="208" height="132" rx="15" fill="#173453" stroke="#173453" stroke-width="1.8"/>
+  <text x="142" y="310" text-anchor="middle" font-size="12.5" font-weight="700" fill="#A7E9DF">INPUT</text>
+  <text x="142" y="336" text-anchor="middle" font-size="15" font-weight="700" fill="#FFFFFF">HARTH v2.0</text>
+  <text x="142" y="358" text-anchor="middle" font-size="12.6" fill="#DFEDF4">S023.csv · 50 Hz</text>
+  <text x="142" y="378" text-anchor="middle" font-size="12.6" fill="#DFEDF4">6-axis acceleration</text>
+  <text x="142" y="398" text-anchor="middle" font-size="12.6" fill="#DFEDF4">Timestamp + labels</text>
+ </g>
+<g class="process-block">
+  <rect x="274" y="287" width="208" height="132" rx="15" fill="#FFFFFF" stroke="#B8CFDE" stroke-width="1.8"/>
+  <text x="378" y="310" text-anchor="middle" font-size="12.5" font-weight="700" fill="#497992">01</text>
+  <text x="378" y="336" text-anchor="middle" font-size="15" font-weight="700" fill="#173453">Retrieve Source</text>
+  <text x="378" y="358" text-anchor="middle" font-size="12.6" fill="#506C7E">Pinned public CSV</text>
+  <text x="378" y="378" text-anchor="middle" font-size="12.6" fill="#506C7E">Fetch or reuse cache</text>
+  <text x="378" y="398" text-anchor="middle" font-size="12.6" fill="#506C7E">Preserve original file</text>
+ </g>
+<g class="process-block">
+  <rect x="510" y="287" width="208" height="132" rx="15" fill="#FFFFFF" stroke="#B8CFDE" stroke-width="1.8"/>
+  <text x="614" y="310" text-anchor="middle" font-size="12.5" font-weight="700" fill="#497992">02</text>
+  <text x="614" y="336" text-anchor="middle" font-size="15" font-weight="700" fill="#173453">Inspect Raw Data</text>
+  <text x="614" y="358" text-anchor="middle" font-size="12.6" fill="#506C7E">Rows and columns</text>
+  <text x="614" y="378" text-anchor="middle" font-size="12.6" fill="#506C7E">Missingness checks</text>
+  <text x="614" y="398" text-anchor="middle" font-size="12.6" fill="#506C7E">No preprocessing</text>
+ </g>
+<g class="process-block">
+  <rect x="746" y="287" width="208" height="132" rx="15" fill="#FFFFFF" stroke="#B8CFDE" stroke-width="1.8"/>
+  <text x="850" y="310" text-anchor="middle" font-size="12.5" font-weight="700" fill="#497992">03</text>
+  <text x="850" y="336" text-anchor="middle" font-size="15" font-weight="700" fill="#173453">Validate Schema</text>
+  <text x="850" y="358" text-anchor="middle" font-size="12.6" fill="#506C7E">Timestamp parsing</text>
+  <text x="850" y="378" text-anchor="middle" font-size="12.6" fill="#506C7E">Six sensor axes (g)</text>
+  <text x="850" y="398" text-anchor="middle" font-size="12.6" fill="#506C7E">Original label codes</text>
+ </g>
+<g class="process-block">
+  <rect x="982" y="287" width="208" height="132" rx="15" fill="#FFFFFF" stroke="#B8CFDE" stroke-width="1.8"/>
+  <text x="1086" y="310" text-anchor="middle" font-size="12.5" font-weight="700" fill="#497992">04</text>
+  <text x="1086" y="336" text-anchor="middle" font-size="15" font-weight="700" fill="#173453">Activity Summary</text>
+  <text x="1086" y="358" text-anchor="middle" font-size="12.6" fill="#506C7E">Count source labels</text>
+  <text x="1086" y="378" text-anchor="middle" font-size="12.6" fill="#506C7E">Map activity codes</text>
+  <text x="1086" y="398" text-anchor="middle" font-size="12.6" fill="#506C7E">Plot class support</text>
+ </g>
+<g class="process-block">
+  <rect x="1218" y="287" width="208" height="132" rx="15" fill="#FFFFFF" stroke="#B8CFDE" stroke-width="1.8"/>
+  <text x="1322" y="310" text-anchor="middle" font-size="12.5" font-weight="700" fill="#497992">05</text>
+  <text x="1322" y="336" text-anchor="middle" font-size="15" font-weight="700" fill="#173453">Signal Preview</text>
+  <text x="1322" y="358" text-anchor="middle" font-size="12.6" fill="#506C7E">First 250 samples</text>
+  <text x="1322" y="378" text-anchor="middle" font-size="12.6" fill="#506C7E">Lower-back x/y/z</text>
+  <text x="1322" y="398" text-anchor="middle" font-size="12.6" fill="#506C7E">Original values (g)</text>
+ </g>
+<g class="process-block">
+  <rect x="1454" y="287" width="208" height="132" rx="15" fill="#173453" stroke="#173453" stroke-width="1.8"/>
+  <text x="1558" y="310" text-anchor="middle" font-size="12.5" font-weight="700" fill="#A7E9DF">OUTPUT</text>
+  <text x="1558" y="336" text-anchor="middle" font-size="15" font-weight="700" fill="#FFFFFF">Quality Gate</text>
+  <text x="1558" y="358" text-anchor="middle" font-size="12.6" fill="#DFEDF4">Required fields checked</text>
+  <text x="1558" y="378" text-anchor="middle" font-size="12.6" fill="#DFEDF4">Tables and visual plots</text>
+  <text x="1558" y="398" text-anchor="middle" font-size="12.6" fill="#DFEDF4">No model training</text>
+ </g>
+  </g>
+  <text x="30" y="466" font-size="13.5" fill="#54738A">Input → original source retrieval → raw inspection → schema validation → activity summary → lower-back signal preview → quality gate</text>
+ </g>
 </svg>
