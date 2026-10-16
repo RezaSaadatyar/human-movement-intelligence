@@ -22,7 +22,42 @@ class TestHarthNotebookPresentation(unittest.TestCase):
                 height = int(doc.attrib["height"])
                 self.assertGreater(width, height * 3)
                 self.assertIn("viewBox", doc.attrib)
-                self.assertEqual(len(doc.findall(".//{http://www.w3.org/2000/svg}rect")), 8)
+                # Richer scientific diagrams can include sensor silhouettes,
+                # overlapping-window illustrations and aligned context panels.
+                # Validate the seven *actual process blocks* rather than
+                # assuming every SVG rectangle is a process block.
+                process = [
+                    element for element in doc.iter()
+                    if element.attrib.get("class") == "process-block"
+                ]
+                if process:
+                    self.assertEqual(len(process), 7)
+                    self.assertTrue(all(
+                        len(group.findall("{http://www.w3.org/2000/svg}rect")) == 1
+                        for group in process
+                    ))
+                    arrow_paths = [
+                        element for element in doc.iter()
+                        if element.tag == "{http://www.w3.org/2000/svg}path"
+                        and element.attrib.get("marker-end") == "url(#small-arrow)"
+                    ]
+                    self.assertEqual(len(arrow_paths), 6)
+                    self.assertEqual(len({
+                        element.attrib.get("stroke-width")
+                        for element in arrow_paths
+                    }), 1)
+                    panels = [
+                        element for element in doc.iter()
+                        if element.tag == "{http://www.w3.org/2000/svg}rect"
+                        and element.attrib.get("x") == "24"
+                        and element.attrib.get("width") == "1652"
+                    ]
+                    self.assertEqual(len(panels), 2)
+                else:
+                    # Earlier stage schematics: background plus 7 blocks.
+                    self.assertEqual(
+                        len(doc.findall(".//{http://www.w3.org/2000/svg}rect")), 8
+                    )
 
                 notebook_root = "notebooks" if n <= 22 else "presentation_notebooks"
                 path = list((STUDY / notebook_root).glob(f"{name}_*.ipynb"))
