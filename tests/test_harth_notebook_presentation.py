@@ -59,7 +59,7 @@ class TestHarthNotebookPresentation(unittest.TestCase):
                         len(doc.findall(".//{http://www.w3.org/2000/svg}rect")), 8
                     )
 
-                notebook_root = "notebooks" if n <= 22 else "presentation_notebooks"
+                notebook_root = "notebooks" if n <= 23 else "presentation_notebooks"
                 path = list((STUDY / notebook_root).glob(f"{name}_*.ipynb"))
                 self.assertEqual(len(path), 1)
                 notebook = json.loads(path[0].read_text(encoding="utf-8"))
@@ -69,8 +69,20 @@ class TestHarthNotebookPresentation(unittest.TestCase):
                 source = "".join(first["source"]) if isinstance(first["source"], list) else first["source"]
                 self.assertIn(f"../images/{name}_workflow.svg", source)
 
-    def test_original_frozen_notebooks_and_approved_protocol_stay_in_place(self):
-        for n in range(23, 28):
+    def test_original_evidence_archive_and_remaining_frozen_notebooks(self):
+        # Stage 23 is formatted in the primary notebook with explicit
+        # maintainer approval. Keep its original executed bytes archived.
+        original_23 = STUDY / "notebooks/23_unified_matched_model_benchmark.ipynb"
+        archived_23 = (STUDY / "experiments/frozen_notebook_evidence" /
+                       original_23.name)
+        self.assertTrue(original_23.is_file())
+        self.assertTrue(archived_23.is_file())
+        self.assertFalse(
+            (STUDY / "presentation_notebooks" / original_23.name).exists()
+        )
+
+        # Unauthorised scientific originals 24–27 remain untouched.
+        for n in range(24, 28):
             with self.subTest(stage=n):
                 self.assertEqual(
                     len(list((STUDY / "notebooks").glob(f"{n:02d}_*.ipynb"))), 1
