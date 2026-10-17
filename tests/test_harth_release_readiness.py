@@ -19,6 +19,36 @@ class TestHarthReleaseReadiness(unittest.TestCase):
         self.assertEqual(set(record["saved_notebooks"]), {"23", "24", "25", "26", "27"})
         self.assertFalse(record["original_test_reopened_by_this_audit"])
 
+    def test_in_place_stage23_formatting_preserves_approved_evidence(self):
+        """The readable Notebook 23 must match the archived historic execution."""
+        import hashlib
+        import sys
+        notebooks = ROOT / "studies/wearable_activity_recognition/notebooks"
+        study = notebooks.parent
+        active = notebooks / "23_unified_matched_model_benchmark.ipynb"
+        archive = (study / "experiments/frozen_notebook_evidence" /
+                   active.name)
+        manifest = json.loads(
+            (study / "experiments/stage_25_protocol_approved_qualified_test.json")
+            .read_text(encoding="utf-8")
+        )
+        expected = manifest["stage23_saved_notebook_sha256"]
+        self.assertEqual(
+            audit.verify_approved_text_bytes(archive, expected), "EXACT"
+        )
+        self.assertTrue(audit.verify_stage23_visual_format(active, archive))
+        self.assertNotEqual(
+            hashlib.sha256(active.read_bytes()).hexdigest(), expected
+        )
+        # Stage 27 reads the approved historic evidence through this loader.
+        sys.path.insert(0, str(ROOT / "code/python/src"))
+        from core.harth_selection_evidence import load_selection_evidence
+        evidence = load_selection_evidence(
+            active, notebooks / "24_multiseed_and_imbalance_robustness.ipynb"
+        )
+        self.assertEqual(evidence["notebook23_sha256"], expected)
+        self.assertEqual(len(evidence["stage23"]), 7)
+
     def test_local_model_artifacts_are_optional_without_deserialisation(self):
         record = audit.inspect_optional_artifacts(None, "unused_sha256")
         self.assertEqual(record["status"], "NOT_CHECKED")
