@@ -17,7 +17,7 @@ How do classical machine learning and deep temporal neural networks compare for 
 
 ## Executed evidence and model development
 
-**Notebook viewing:** For Stage 23 and later, open the linked **presentation-formatted notebook** to see the standardised Markdown, numbered code comments and workflow figure. The separately linked **original executed notebook must remain unchanged** because its SHA256 is part of the approved research evidence chain. For Stages 01–22, open the original notebooks directly.
+**Notebook viewing:** Stages **01–23** use their primary notebooks directly, with standardised code-section comments and SVG workflow figures. Stage 23 was reformatted in place with explicit maintainer authorisation; its exact original executed version is archived for the approved Stage 25 SHA256 and is checked against the primary version for identical executable statements, saved outputs and execution counts. Original scientific Stages **24–27** remain untouched pending equivalent approval; presentation copies are available separately.
 
 | Stages | Objective | Evidence |
 | --- | --- | --- |
