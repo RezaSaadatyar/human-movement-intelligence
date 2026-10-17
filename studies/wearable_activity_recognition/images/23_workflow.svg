@@ -1,6 +1,6 @@
 <svg xmlns="http://www.w3.org/2000/svg" width="1700" height="480" viewBox="0 0 1700 480" role="img" aria-labelledby="title desc">
 <title id="title">HARTH Stage 23: Unified Seven-Model Participant-Matched Benchmark</title>
-<desc id="desc">Scientific source-aligned development benchmark of seven models across three participant-held-out GroupKFold splits. All 29 HARTH Development people contribute 14201 identical original source windows, 6 raw channels and 100 samples per window. Twenty-one model-fold jobs compare Random Forest, Standard CNN, Weighted CNN, Temporal Convolutional Network, Multi-Scale CNN, 1D-ResNet and Time-Series Transformer. Neural models use 400 optimiser updates; Random Forest uses 120 trees with 30 engineered features. Mean three-fold Macro F1 results include 1D-ResNet 0.8328, TCN 0.8138, Random Forest 0.8094 and Standard CNN 0.6664. Source fingerprint and exact participant/source-row integrity checks pass. Original Test S023 and S032 are excluded. No final Test or independent generalisation claim is supported.</desc>
+<desc id="desc">Scientific source-aligned development benchmark of seven models across three participant-held-out GroupKFold splits. All 29 HARTH Development people contribute 14201 identical original source windows, 6 raw channels and 100 samples per window. Twenty-one model-fold jobs compare Random Forest, Standard CNN, Weighted CNN, Temporal Convolutional Network, Multi-Scale CNN, 1D-ResNet and Time-Series Transformer. Neural models use 400 optimiser updates; Random Forest uses 120 trees with 30 engineered features. Mean three-fold Macro F1 results include 1D-ResNet 0.8328, TCN 0.8138, Random Forest 0.8094 and Standard CNN 0.6664. Source fingerprint and exact participant/source-row integrity checks pass. S023 and S032 are excluded from this Development benchmark. No final Test or independent generalisation claim is supported.</desc>
 <defs><marker id="small-arrow" markerUnits="userSpaceOnUse" markerWidth="6" markerHeight="6" refX="5.5" refY="3" orient="auto"><path d="M0 0 L6 3 L0 6 Z" fill="#245E9D"/></marker></defs>
 <rect width="1700" height="480" rx="20" fill="#F4F9FD"/>
 <g font-family="DejaVu Sans, Arial, sans-serif">
@@ -23,17 +23,47 @@
   <path d="M104 176 H140" stroke="#245E9D" stroke-width="1.5"/><text x="146" y="180" font-size="12.8" fill="#173453">Lower back</text>
   <path d="M93 204 H140" stroke="#15938F" stroke-width="1.5"/><text x="146" y="208" font-size="12.8" fill="#173453">Thigh</text>
  </g>
- <g><text x="338" y="115" font-size="15" font-weight="700" fill="#173453">Source-Grounded Cohort</text><text x="338" y="145" font-size="13.5" fill="#506C7E">29 HARTH Development people</text><text x="338" y="167" font-size="13.5" fill="#506C7E">14,201 matched signal windows</text><text x="338" y="189" font-size="13.5" fill="#506C7E">S023 / S032 outside the study</text></g>
- <g><text x="658" y="115" font-size="15" font-weight="700" fill="#173453">Matched Evaluation</text><text x="658" y="145" font-size="13.5" fill="#506C7E">3 participant-disjoint folds</text><text x="658" y="167" font-size="13.5" fill="#506C7E">5000 / 4701 / 4500 Val rows</text><text x="658" y="189" font-size="13.5" fill="#506C7E">Same original labels for 7 models</text></g>
- <g><text x="985" y="115" font-size="15" font-weight="700" fill="#173453">Training Controls</text><text x="985" y="145" font-size="13.5" fill="#506C7E">Six neural models · 400 updates</text><text x="985" y="167" font-size="13.5" fill="#506C7E">Random Forest · 120 trees</text><text x="985" y="189" font-size="13.5" fill="#506C7E">Source SHA256 · resumable jobs</text></g>
- <g aria-label="Observed three-fold mean Macro F1 for selected model contrasts on Development data">
-<text x="1272" y="115" font-size="14" font-weight="700" fill="#173453">DEV FOLD-MEAN MACRO F1</text>
-<text x="1274" y="142" font-size="11.5" fill="#173453">1D-ResNet</text><rect x="1397" y="132" width="99.9" height="12" rx="3" fill="#245E9D"/><text x="1531" y="142" font-size="11.8" font-weight="700" fill="#173453">0.8328</text>
-<text x="1274" y="163" font-size="11.5" fill="#173453">TCN</text><rect x="1397" y="153" width="97.7" height="12" rx="3" fill="#4876A6"/><text x="1531" y="163" font-size="11.8" font-weight="700" fill="#173453">0.8138</text>
-<text x="1274" y="184" font-size="11.5" fill="#173453">Random Forest</text><rect x="1397" y="174" width="97.1" height="12" rx="3" fill="#22A0A0"/><text x="1531" y="184" font-size="11.8" font-weight="700" fill="#173453">0.8094</text>
-<text x="1274" y="205" font-size="11.5" fill="#173453">Standard CNN</text><rect x="1397" y="195" width="80.0" height="12" rx="3" fill="#8793B0"/><text x="1531" y="205" font-size="11.8" font-weight="700" fill="#173453">0.6664</text>
-<text x="1275" y="232" font-size="11.6" fill="#54738A">Descriptive Development only · no Test</text>
-</g>
+
+ <g aria-label="Pinned HARTH accelerometer modality and channel provenance">
+  <text x="338" y="115" font-size="15" font-weight="700" fill="#173453">Signal Provenance</text>
+  <text x="338" y="145" font-size="13.5" fill="#506C7E">HARTH v2.0 · 50 Hz</text>
+  <text x="338" y="167" font-size="13.5" fill="#506C7E">back_x, back_y, back_z</text>
+  <text x="338" y="189" font-size="13.5" fill="#506C7E">thigh_x, thigh_y, thigh_z</text>
+  <text x="338" y="220" font-size="11.6" fill="#54738A">Lower back and thigh · two sensors</text>
+ </g>
+ <g aria-label="Shared windows and participant-disjoint validation">
+  <text x="658" y="115" font-size="15" font-weight="700" fill="#173453">Matched Development Design</text>
+  <text x="658" y="145" font-size="13.5" fill="#506C7E">29 participants · 14,201 windows</text>
+  <text x="658" y="167" font-size="13.5" fill="#506C7E">100 points · 8 activity classes</text>
+  <text x="658" y="189" font-size="13.5" fill="#506C7E">3 subject-disjoint GroupKFold splits</text>
+  <text x="658" y="220" font-size="11.6" fill="#54738A">S023 / S032 excluded from this stage</text>
+ </g>
+ <g aria-label="Fixed evaluation protocol and model training budgets">
+  <text x="985" y="115" font-size="15" font-weight="700" fill="#173453">Model and Training Controls</text>
+  <text x="985" y="145" font-size="13.5" fill="#506C7E">7 models × 3 folds = 21 jobs</text>
+  <text x="985" y="167" font-size="13.5" fill="#506C7E">6 neural models · 400 updates each</text>
+  <text x="985" y="189" font-size="13.5" fill="#506C7E">RF · 120 trees · 30 features</text>
+  <text x="985" y="220" font-size="11.6" fill="#54738A">Frozen settings · source fingerprints</text>
+ </g>
+ <g aria-label="All seven observed development three-fold Macro F1 means">
+  <text x="1272" y="115" font-size="14" font-weight="700" fill="#173453">DEVELOPMENT MACRO F1</text>
+  <line x1="1465" y1="132" x2="1465" y2="213" stroke="#BED2E1" stroke-width="1.4"/>
+  <text x="1275" y="146" font-size="12.5" font-weight="700" fill="#173453">1D-ResNet</text>
+  <text x="1446" y="146" text-anchor="end" font-size="12.5" font-weight="700" fill="#245E9D">0.8328</text>
+  <text x="1275" y="167" font-size="12.5" fill="#173453">TCN</text>
+  <text x="1446" y="167" text-anchor="end" font-size="12.5" fill="#173453">0.8138</text>
+  <text x="1275" y="188" font-size="12.5" fill="#173453">Random Forest</text>
+  <text x="1446" y="188" text-anchor="end" font-size="12.5" fill="#173453">0.8094</text>
+  <text x="1275" y="209" font-size="12.5" fill="#173453">Transformer</text>
+  <text x="1446" y="209" text-anchor="end" font-size="12.5" fill="#173453">0.8006</text>
+  <text x="1480" y="146" font-size="12.3" fill="#173453">Multi-Scale CNN</text>
+  <text x="1660" y="146" text-anchor="end" font-size="12.3" fill="#173453">0.7946</text>
+  <text x="1480" y="167" font-size="12.3" fill="#173453">Weighted CNN</text>
+  <text x="1660" y="167" text-anchor="end" font-size="12.3" fill="#173453">0.7725</text>
+  <text x="1480" y="188" font-size="12.3" fill="#173453">Standard CNN</text>
+  <text x="1660" y="188" text-anchor="end" font-size="12.3" fill="#173453">0.6664</text>
+  <text x="1275" y="232" font-size="11.5" fill="#54738A">Three-fold means only · no final Test or uncertainty claim</text>
+ </g>
  <g aria-label="Six identical short inter-block arrows"><path d="M252 353 H266" fill="none" stroke="#245E9D" stroke-width="2.2" stroke-linecap="round" marker-end="url(#small-arrow)"/>
 <path d="M488 353 H502" fill="none" stroke="#245E9D" stroke-width="2.2" stroke-linecap="round" marker-end="url(#small-arrow)"/>
 <path d="M724 353 H738" fill="none" stroke="#245E9D" stroke-width="2.2" stroke-linecap="round" marker-end="url(#small-arrow)"/>
