@@ -212,12 +212,41 @@ def verify_recorded_evidence():
     if historic23 == "CRLF_TO_LF_ONLY":
         eol_adaptations.append("Archived Notebook 23")
 
-    historic24 = verify_approved_text_bytes(
-        next(NOTEBOOKS.glob("24_*.ipynb")),
-        approved["stage24_saved_notebook_sha256"],
-    )
-    if historic24 == "CRLF_TO_LF_ONLY":
-        eol_adaptations.append("Notebook 24")
+    # Stage 24's original scientific bytes are stored by Git history itself;
+    # no duplicate local or repository notebook is needed.
+    import subprocess
+    stage24 = next(NOTEBOOKS.glob("24_*.ipynb"))
+    original24_bytes = subprocess.run(
+        ["git", "show",
+         "c4548596656acaffad4b024203e554c2c3aa3da0:"
+         + stage24.relative_to(ROOT).as_posix()],
+        cwd=ROOT, capture_output=True, check=True,
+    ).stdout
+    if hashlib.sha256(original24_bytes).hexdigest() != (
+        approved["stage24_saved_notebook_sha256"]
+    ):
+        raise ValueError("Historical Stage 24 checksum does not match.")
+    original24 = json.loads(original24_bytes.decode("utf-8"))
+    formatted24 = json.loads(stage24.read_text(encoding="utf-8"))
+    if len(original24["cells"]) != len(formatted24["cells"]):
+        raise ValueError("Stage 24 cell count changed during formatting.")
+    def executable_lines(cell):
+        source = cell.get("source", "")
+        if isinstance(source, list):
+            source = "".join(source)
+        return [
+            line for line in source.splitlines()
+            if line.strip() and not line.lstrip().startswith("#")
+        ]
+    for previous, present in zip(original24["cells"], formatted24["cells"]):
+        if previous.get("cell_type") != present.get("cell_type"):
+            raise ValueError("Stage 24 cell type changed during formatting.")
+        if previous.get("cell_type") != "code":
+            continue
+        if (executable_lines(previous) != executable_lines(present)
+            or previous.get("outputs") != present.get("outputs")
+            or previous.get("execution_count") != present.get("execution_count")):
+            raise ValueError("Stage 24 scientific data changed during formatting.")
 
     required = [
         "README.md",
