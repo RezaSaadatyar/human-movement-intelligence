@@ -17,7 +17,7 @@ How do classical machine learning and deep temporal neural networks compare for 
 
 ## Executed evidence and model development
 
-**Notebook viewing:** Stages **01–23** use their primary notebooks directly, with standardised code-section comments and SVG workflow figures. Stage 23 was reformatted in place with explicit maintainer authorisation; its exact original executed version is archived for the approved Stage 25 SHA256 and is checked against the primary version for identical executable statements, saved outputs and execution counts. Original scientific Stages **24–27** remain untouched pending equivalent approval; presentation copies are available separately.
+**Notebook viewing:** Stages **01–25** use their primary notebooks directly, with standardised code-section comments and stage-specific SVG figures. Stages 23–25 were formatted in place with explicit maintainer authorisation, preserving executable statements, saved outputs and execution counts. Stages 26–27 remain unchanged pending further approval; their presentation copies are separate.
 
 | Stages | Objective | Evidence |
 | --- | --- | --- |
@@ -97,4 +97,4 @@ See the [HARTH reproducibility guide](../../docs/HARTH_REPRODUCIBILITY.md). From
 
 ## Consistent notebook layouts and landscape diagrams
 
-All 27 study stages have a landscape workflow SVG under [images/](images/README.md), referenced from the notebook opening Markdown. Code comments and import grouping have been formatted consistently while preserving scientific execution statements. Primary [notebooks 01–23](notebooks/) have the in-place visual format; the original Stage 23 evidence remains in [the archived notebook](experiments/frozen_notebook_evidence/23_unified_matched_model_benchmark.ipynb) and passes code/output equivalence checks. Frozen originals 24–27 have separate [presentation copies](presentation_notebooks/README.md) pending authorisation. See the [notebook authoring standard](NOTEBOOK_AUTHORING_STANDARDS.md). Saving or running a presentation copy does not create an independent new experiment.
+All 27 study stages have a landscape workflow SVG under [images/](images/README.md), referenced from the notebook opening Markdown. Code comments and import grouping have been formatted consistently while preserving scientific execution statements. Primary [notebooks 01–25](notebooks/) have the in-place visual format. Stage 23's original evidence and Stage 24's historic Git revision remain verifiable while their primary copies retain the same scientific code and saved outputs. Stages 26–27 have separate [presentation copies](presentation_notebooks/README.md) pending authorisation. See the [notebook authoring standard](NOTEBOOK_AUTHORING_STANDARDS.md). Saving or running a presentation copy does not create an independent new experiment.
