@@ -125,6 +125,51 @@ def _source_fingerprint(nb,label):
     return next(iter(observed))
 
 
+
+def _load_stage23_with_verified_visual_format(path):
+    """
+    Read immutable saved Stage 23 evidence after user-approved format changes.
+
+    The active notebook is the primary readable copy. Its executable lines,
+    execution counts and saved outputs must match the exact archived notebook.
+    The returned SHA256 is that of the historically executed archive because
+    the approved Stage 25 manifest fingerprints those original bytes.
+    """
+    path = Path(path)
+    archive = (
+        path.parent.parent / "experiments" / "frozen_notebook_evidence" / path.name
+    )
+    if not archive.is_file():
+        return _load_executed(path, 23)
+
+    current, _ = _load_executed(path, 23)
+    historic, original_sha = _load_executed(archive, 23)
+    if len(current["cells"]) != len(historic["cells"]):
+        raise ValueError("Stage 23 format edit changed notebook cell count.")
+
+    def executable_lines(cell):
+        source = _joined(cell.get("source", ""))
+        return [
+            line for line in source.splitlines()
+            if line.strip() and not line.lstrip().startswith("#")
+        ]
+
+    for current_cell, historic_cell in zip(
+        current["cells"], historic["cells"]
+    ):
+        if current_cell.get("cell_type") != historic_cell.get("cell_type"):
+            raise ValueError("Stage 23 format edit changed notebook cell types.")
+        if current_cell.get("cell_type") != "code":
+            continue
+        if executable_lines(current_cell) != executable_lines(historic_cell):
+            raise ValueError("Stage 23 format edit changed executable code.")
+        if (current_cell.get("outputs") != historic_cell.get("outputs")
+            or current_cell.get("execution_count") !=
+                historic_cell.get("execution_count")):
+            raise ValueError("Stage 23 format edit changed saved evidence.")
+    return historic, original_sha
+
+
 def load_selection_evidence(stage23_path,stage24_path):
     """
     Recover evidence linked to completed original notebooks.
@@ -142,7 +187,7 @@ def load_selection_evidence(stage23_path,stage24_path):
         NOT substitutes for full-precision model predictions.
     """
     # 1. Verify both notebooks were fully executed without saved errors.
-    n23,h23=_load_executed(stage23_path,23)
+    n23,h23=_load_stage23_with_verified_visual_format(stage23_path)
     n24,h24=_load_executed(stage24_path,24)
     sha23=_source_fingerprint(n23,"Source SHA256")
     sha24=_source_fingerprint(n24,"Development source SHA256")
