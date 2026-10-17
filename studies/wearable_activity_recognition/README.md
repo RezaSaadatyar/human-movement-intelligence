@@ -17,13 +17,15 @@ How do classical machine learning and deep temporal neural networks compare for 
 
 ## Executed evidence and model development
 
+**Notebook viewing:** For Stage 23 and later, open the linked **presentation-formatted notebook** to see the standardised Markdown, numbered code comments and workflow figure. The separately linked **original executed notebook must remain unchanged** because its SHA256 is part of the approved research evidence chain. For Stages 01–22, open the original notebooks directly.
+
 | Stages | Objective | Evidence |
 | --- | --- | --- |
 | 01–04 | Source inspection, time-safe windowing, features and participant grouping | [Notebooks](notebooks/) and [historical evidence register](experiments/stage_01_19_evidence_register.csv) |
 | 05–09 | Classical ML and progressive Development group CV | [Historical evidence register](experiments/stage_01_19_evidence_register.csv) |
 | 10–19 | Temporal CNNs, matched comparisons, sample size, confidence and calibration explorations | [Historical evidence register](experiments/stage_01_19_evidence_register.csv) |
 | 20–22 | Evidence consolidation, rare-class/data-quality audit, TCN / Multi-Scale CNN / 1D-ResNet / Transformer engineering checks | [Notebook 20](notebooks/20_research_evidence_consolidation.ipynb) · [21](notebooks/21_minority_class_and_data_quality.ipynb) · [22](notebooks/22_advanced_temporal_architectures.ipynb) |
-| **23** | Seven-model matched 3-fold Development benchmark (21 fits) | [Executed Notebook 23](notebooks/23_unified_matched_model_benchmark.ipynb) |
+| **23** | Seven-model matched 3-fold Development benchmark (21 fits) | **[Formatted Notebook 23](presentation_notebooks/23_unified_matched_model_benchmark.ipynb)** · [Frozen executed research evidence](notebooks/23_unified_matched_model_benchmark.ipynb) · [Workflow SVG](images/23_workflow.svg) |
 | **24** | 3 seeds, paired folds and selected loss ablations (36 fits) | [Executed Notebook 24](notebooks/24_multiseed_and_imbalance_robustness.ipynb) |
 | **25** | Development-only primary/reference selection and frozen protocol proposal | [Executed Notebook 25](notebooks/25_model_selection_and_protocol_freeze.ipynb) |
 | **26** | Development-only fitting of two fixed models, trusted inference checks, **approved qualified held-out scoring** | [Executed Notebook 26](notebooks/26_final_development_training_and_inference.ipynb) |
