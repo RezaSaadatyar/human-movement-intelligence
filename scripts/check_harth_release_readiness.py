@@ -115,6 +115,35 @@ def notebook_execution_check(
     }
 
 
+
+def verify_stage23_visual_format(current_path, archive_path):
+    """Require unchanged executed Python and saved evidence after formatting."""
+    active = json.loads(Path(current_path).read_text(encoding="utf-8"))
+    archived = json.loads(Path(archive_path).read_text(encoding="utf-8"))
+    if len(active["cells"]) != len(archived["cells"]):
+        raise ValueError("Stage 23 visual format altered cell count.")
+
+    def source_code(cell):
+        source = cell.get("source", "")
+        if isinstance(source, list):
+            source = "".join(source)
+        return [
+            line for line in source.splitlines()
+            if line.strip() and not line.lstrip().startswith("#")
+        ]
+
+    for a, b in zip(active["cells"], archived["cells"]):
+        if a.get("cell_type") != b.get("cell_type"):
+            raise ValueError("Stage 23 visual format altered cell type.")
+        if a.get("cell_type") == "code":
+            if source_code(a) != source_code(b):
+                raise ValueError("Stage 23 visual format altered Python code.")
+            if (a.get("outputs") != b.get("outputs") or
+                a.get("execution_count") != b.get("execution_count")):
+                raise ValueError("Stage 23 visual format altered saved evidence.")
+    return True
+
+
 def verify_recorded_evidence():
     """
     Validate approved protocol and exact frozen code, without source/model access.
@@ -168,15 +197,27 @@ def verify_recorded_evidence():
         notebooks[str(stage)] = notebook_execution_check(
             matches[0], count, gate, allow_missing_counts_with_outputs=(stage == 27)
         )
-    for stage, expected in (
-        (23, approved["stage23_saved_notebook_sha256"]),
-        (24, approved["stage24_saved_notebook_sha256"]),
-    ):
-        matched = verify_approved_text_bytes(
-            next(NOTEBOOKS.glob(f"{stage:02d}_*.ipynb")), expected
-        )
-        if matched == "CRLF_TO_LF_ONLY":
-            eol_adaptations.append(f"Notebook {stage}")
+    # Stage 23 was visually standardised in the primary notebook with user
+    # authorisation. Its exact historical executed bytes remain archived.
+    stage23_active = next(NOTEBOOKS.glob("23_*.ipynb"))
+    stage23_archive = (
+        MANIFESTS / "frozen_notebook_evidence" / stage23_active.name
+    )
+    if not stage23_archive.is_file():
+        raise ValueError("Original executed Stage 23 archive missing.")
+    historic23 = verify_approved_text_bytes(
+        stage23_archive, approved["stage23_saved_notebook_sha256"]
+    )
+    verify_stage23_visual_format(stage23_active, stage23_archive)
+    if historic23 == "CRLF_TO_LF_ONLY":
+        eol_adaptations.append("Archived Notebook 23")
+
+    historic24 = verify_approved_text_bytes(
+        next(NOTEBOOKS.glob("24_*.ipynb")),
+        approved["stage24_saved_notebook_sha256"],
+    )
+    if historic24 == "CRLF_TO_LF_ONLY":
+        eol_adaptations.append("Notebook 24")
 
     required = [
         "README.md",
