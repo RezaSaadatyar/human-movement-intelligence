@@ -44,29 +44,29 @@
  <g aria-label="Five actual group-held-out fold participant counts">
   <text x="1275" y="115" font-size="14" font-weight="700" fill="#173453">5-FOLD SUBJECT-DISJOINT DESIGN</text>
   <g aria-label="Fold 1: 23 training subjects and 6 validation subjects">
- <rect x="1275" y="138" width="138" height="12" rx="2" fill="#245E9D"/>
- <rect x="1415" y="138" width="36" height="12" rx="2" fill="#22A0A0"/>
- <text x="1499" y="148" font-size="11.6" fill="#486779">Fold 1: 23 / 6</text>
+ <rect x="1275" y="130" width="138" height="12" rx="2" fill="#245E9D"/>
+ <rect x="1415" y="130" width="36" height="12" rx="2" fill="#22A0A0"/>
+ <text x="1499" y="140" font-size="11.6" fill="#486779">Fold 1: 23 / 6</text>
  </g>
 <g aria-label="Fold 2: 23 training subjects and 6 validation subjects">
- <rect x="1275" y="158" width="138" height="12" rx="2" fill="#245E9D"/>
- <rect x="1415" y="158" width="36" height="12" rx="2" fill="#22A0A0"/>
- <text x="1499" y="168" font-size="11.6" fill="#486779">Fold 2: 23 / 6</text>
+ <rect x="1275" y="147" width="138" height="12" rx="2" fill="#245E9D"/>
+ <rect x="1415" y="147" width="36" height="12" rx="2" fill="#22A0A0"/>
+ <text x="1499" y="157" font-size="11.6" fill="#486779">Fold 2: 23 / 6</text>
  </g>
 <g aria-label="Fold 3: 23 training subjects and 6 validation subjects">
- <rect x="1275" y="178" width="138" height="12" rx="2" fill="#245E9D"/>
- <rect x="1415" y="178" width="36" height="12" rx="2" fill="#22A0A0"/>
- <text x="1499" y="188" font-size="11.6" fill="#486779">Fold 3: 23 / 6</text>
+ <rect x="1275" y="164" width="138" height="12" rx="2" fill="#245E9D"/>
+ <rect x="1415" y="164" width="36" height="12" rx="2" fill="#22A0A0"/>
+ <text x="1499" y="174" font-size="11.6" fill="#486779">Fold 3: 23 / 6</text>
  </g>
 <g aria-label="Fold 4: 23 training subjects and 6 validation subjects">
- <rect x="1275" y="198" width="138" height="12" rx="2" fill="#245E9D"/>
- <rect x="1415" y="198" width="36" height="12" rx="2" fill="#22A0A0"/>
- <text x="1499" y="208" font-size="11.6" fill="#486779">Fold 4: 23 / 6</text>
+ <rect x="1275" y="181" width="138" height="12" rx="2" fill="#245E9D"/>
+ <rect x="1415" y="181" width="36" height="12" rx="2" fill="#22A0A0"/>
+ <text x="1499" y="191" font-size="11.6" fill="#486779">Fold 4: 23 / 6</text>
  </g>
 <g aria-label="Fold 5: 24 training subjects and 5 validation subjects">
- <rect x="1275" y="218" width="144" height="12" rx="2" fill="#245E9D"/>
- <rect x="1421" y="218" width="30" height="12" rx="2" fill="#22A0A0"/>
- <text x="1499" y="228" font-size="11.6" fill="#486779">Fold 5: 24 / 5</text>
+ <rect x="1275" y="198" width="144" height="12" rx="2" fill="#245E9D"/>
+ <rect x="1421" y="198" width="30" height="12" rx="2" fill="#22A0A0"/>
+ <text x="1499" y="208" font-size="11.6" fill="#486779">Fold 5: 24 / 5</text>
  </g>
   <text x="1275" y="238" font-size="11.5" fill="#53738A">Blue: Train · Teal: Validation · counts denote people</text>
  </g>
