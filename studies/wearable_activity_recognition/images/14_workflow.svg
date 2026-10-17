@@ -31,7 +31,7 @@
 <text x="1274" y="148" font-size="12.3" fill="#173453">Cap 250</text><rect x="1377" y="138" width="33.7" height="12" rx="3" fill="#8793B0"/><text x="1522" y="148" font-size="12.5" font-weight="700" fill="#173453">7,201</text>
 <text x="1274" y="177" font-size="12.3" fill="#173453">Cap 500</text><rect x="1377" y="167" width="66.5" height="12" rx="3" fill="#245E9D"/><text x="1522" y="177" font-size="12.5" font-weight="700" fill="#173453">14,201</text>
 <text x="1274" y="206" font-size="12.3" fill="#173453">Cap 1,000</text><rect x="1377" y="196" width="132.0" height="12" rx="3" fill="#22A0A0"/><text x="1522" y="206" font-size="12.5" font-weight="700" fill="#173453">28,201</text>
-<text x="1274" y="237" font-size="11.8" fill="#54738A">Sampling counts only; no accuracy or F1</text>
+<text x="1274" y="232" font-size="11.8" fill="#54738A">Sampling counts only; no accuracy or F1</text>
 </g>
  <g aria-label="Six identical short inter-block arrows"><path d="M252 353 H266" fill="none" stroke="#245E9D" stroke-width="2.2" stroke-linecap="round" marker-end="url(#small-arrow)"/>
 <path d="M488 353 H502" fill="none" stroke="#245E9D" stroke-width="2.2" stroke-linecap="round" marker-end="url(#small-arrow)"/>
