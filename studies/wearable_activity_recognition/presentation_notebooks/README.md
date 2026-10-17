@@ -1,4 +1,4 @@
-# HARTH Stages 23–27 | Presentation-formatted notebooks
+# HARTH Stages 24–27 | Presentation-formatted notebooks
 
 These are **formatting-only copies**, prepared so the study has consistent bold Markdown headings, grouped import comments, numbered code-section headings and a horizontal SVG workflow on the first Markdown cell. **All original numerical code statements, dataset assumptions, model parameters, and saved notebook outputs remain unchanged.** Some original execution-count metadata fields are missing; this is preserved rather than backfilled.
 
