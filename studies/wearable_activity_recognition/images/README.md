@@ -8,6 +8,7 @@ These **27 SVG illustrations** are landscape, left-to-right source → process �
 | 07–12 | `07_workflow.svg` through `12_workflow.svg` | [Active notebooks](../notebooks/) |
 | 13–18 | `13_workflow.svg` through `18_workflow.svg` | [Active notebooks](../notebooks/) |
 | 19–22 | `19_workflow.svg` through `22_workflow.svg` | [Active notebooks](../notebooks/) |
-| 23–27 | `23_workflow.svg` through `27_workflow.svg` | [Presentation copies](../presentation_notebooks/README.md); scientific originals protected |
+| 23 | `23_workflow.svg` | [Primary Notebook 23](../notebooks/23_unified_matched_model_benchmark.ipynb); exact historical evidence separately archived |
+| 24–27 | `24_workflow.svg` through `27_workflow.svg` | [Presentation copies](../presentation_notebooks/README.md); scientific originals protected |
 
 Images use SVG text/paths, so they remain sharp at different screen sizes and are not stock illustrations. Do not delete these paths without first updating the related Markdown reference.
