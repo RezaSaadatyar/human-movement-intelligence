@@ -1,6 +1,6 @@
 <svg xmlns="http://www.w3.org/2000/svg" width="1700" height="480" viewBox="0 0 1700 480" role="img" aria-labelledby="title desc">
 <title id="title">HARTH Notebook 02 | Signal Windowing and Quality Controls</title>
-<desc id="desc">Two tri-axial wearable accelerometers, sampling at 50 Hz, are used to create 100-sample windows with 50-sample stride, strict label purity and continuity constraints. Seven horizontal blocks link source data to quality-controlled signal windows and a final quality gate.</desc>
+<desc id="desc">Two tri-axial wearable accelerometers, sampling at 50 Hz, are used to create 100-sample windows with 50-sample stride, strict label purity and continuity constraints. Seven aligned blocks summarise source loading, label-pure segmentation, activity support, signal inspection and the final quality gate.</desc>
 <defs><marker id="small-arrow" markerUnits="userSpaceOnUse" markerWidth="6" markerHeight="6" refX="5.5" refY="3" orient="auto"><path d="M0 0 L6 3 L0 6 Z" fill="#245E9D"/></marker></defs>
 <rect width="1700" height="480" rx="20" fill="#F4F9FD"/>
 <g font-family="DejaVu Sans, Arial, sans-serif">
@@ -51,7 +51,7 @@
   <path d="M1268.0 180.0 L1275.2 190.0 L1282.4 186.0 L1289.6 181.1 L1296.8 179.9 L1304.0 171.3 L1311.2 164.1 L1318.4 172.3 L1325.6 181.4 L1332.8 179.7 L1340.0 179.3 L1347.2 180.2 L1354.4 170.6 L1361.6 162.5 L1368.8 170.0 L1376.0 178.7 L1383.2 179.8 L1390.4 184.8 L1397.6 188.7 L1404.8 178.9 L1412.0 169.4 L1419.2 173.6 L1426.4 178.0 L1433.6 178.1 L1440.8 185.1 L1448.0 190.1 L1455.2 179.8 L1462.4 169.2 L1469.6 169.9 L1476.8 169.7 L1484.0 168.6 L1491.2 178.3 L1498.4 186.4 L1505.6 179.5 L1512.8 172.1 L1520.0 172.7 L1527.2 169.7 L1534.4 167.9 L1541.6 179.4 L1548.8 189.7 L1556.0 185.8 L1563.2 181.4 L1570.4 180.9 L1577.6 173.2 L1584.8 167.6 L1592.0 176.7 L1599.2 185.5 L1606.4 182.7" fill="none" stroke="#245E9D" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"/>
   <text x="1280" y="151" font-size="11.5" fill="#245E9D">Window A</text>
   <text x="1452" y="151" font-size="11.5" fill="#116D70">Window B</text>
-  <text x="1260" y="226" font-size="12" fill="#53738A">Illustrative trace, not an observed patient recording</text>
+  <text x="1260" y="226" font-size="12" fill="#53738A">Illustrative sensor trace, not observed source data</text>
  </g>
  <g aria-label="Six compact identical arrows"><path d="M252 353 H266" fill="none" stroke="#245E9D" stroke-width="2.2" stroke-linecap="round" marker-end="url(#small-arrow)"/>
 <path d="M488 353 H502" fill="none" stroke="#245E9D" stroke-width="2.2" stroke-linecap="round" marker-end="url(#small-arrow)"/>
