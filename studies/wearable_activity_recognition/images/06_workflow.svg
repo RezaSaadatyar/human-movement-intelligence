@@ -30,7 +30,7 @@
   <text x="338" y="189" font-size="13.5" fill="#506C7E">2-second windows · 30 features</text>
  </g>
  <g>
-  <text x="650" y="115" font-size="15" font-weight="700" fill="#173453">Frozen Historical Split</text>
+  <text x="650" y="115" font-size="15" font-weight="700" fill="#173453">Exploratory Cohort Split</text>
   <text x="650" y="145" font-size="13.5" fill="#506C7E">Development: 6 people · 18,959 windows</text>
   <text x="650" y="167" font-size="13.5" fill="#506C7E">Reserved: S023 and S032</text>
   <text x="650" y="189" font-size="13.5" fill="#506C7E">Only classes 1–8 included after windowing</text>
@@ -106,7 +106,7 @@
  <rect x="1454" y="287" width="208" height="132" rx="15" fill="#173453" stroke="#173453" stroke-width="1.8"/>
  <text x="1558" y="310" text-anchor="middle" font-size="12.5" font-weight="700" fill="#A7E9DF">OUTPUT</text>
  <text x="1558" y="336" text-anchor="middle" font-size="15" font-weight="700" fill="#FFFFFF">Quality Gate</text>
- <text x="1558" y="358" text-anchor="middle" font-size="12.6" fill="#DFEDF4">9 fold × model scores</text>
+ <text x="1558" y="358" text-anchor="middle" font-size="12.6" fill="#DFEDF4">3 folds × 3 models</text>
  <text x="1558" y="378" text-anchor="middle" font-size="12.6" fill="#DFEDF4">Reserved Test not scored</text>
  <text x="1558" y="398" text-anchor="middle" font-size="12.6" fill="#DFEDF4">No external validity</text>
  </g></g>
