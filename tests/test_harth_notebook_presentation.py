@@ -59,7 +59,7 @@ class TestHarthNotebookPresentation(unittest.TestCase):
                         len(doc.findall(".//{http://www.w3.org/2000/svg}rect")), 8
                     )
 
-                notebook_root = "notebooks" if n <= 25 else "presentation_notebooks"
+                notebook_root = "notebooks"
                 path = list((STUDY / notebook_root).glob(f"{name}_*.ipynb"))
                 self.assertEqual(len(path), 1)
                 notebook = json.loads(path[0].read_text(encoding="utf-8"))
@@ -81,24 +81,14 @@ class TestHarthNotebookPresentation(unittest.TestCase):
             (STUDY / "presentation_notebooks" / original_23.name).exists()
         )
 
-        # The original notebooks are now the sole viewing files for 24–25.
-        for n in (24, 25):
+        # All primary Stages 24–27 are now formatted in place.
+        for n in range(24, 28):
             with self.subTest(stage=n):
                 self.assertEqual(
                     len(list((STUDY / "notebooks").glob(f"{n:02d}_*.ipynb"))), 1
                 )
                 self.assertEqual(
                     len(list((STUDY / "presentation_notebooks").glob(f"{n:02d}_*.ipynb"))), 0
-                )
-
-        # Stages 26 and 27 retain their separate presentation copies.
-        for n in (26, 27):
-            with self.subTest(stage=n):
-                self.assertEqual(
-                    len(list((STUDY / "notebooks").glob(f"{n:02d}_*.ipynb"))), 1
-                )
-                self.assertEqual(
-                    len(list((STUDY / "presentation_notebooks").glob(f"{n:02d}_*.ipynb"))), 1
                 )
 
 
