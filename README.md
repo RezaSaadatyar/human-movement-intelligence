@@ -2,6 +2,10 @@
 
 **AI for Human Movement, Biomechanics, Wearable Sensing and Rehabilitation**
 
+![Research portfolio overview: completed HARTH, exploratory BoneNet and planned research](images/repository_overview.svg)
+
+*Portfolio-level map of the research workflow and study-specific completion status. This is not a single experiment shared across all research areas.*
+
 A Python-first, multi-study research repository maintained by **Reza Saadatyar**. The project combines reproducible data processing, machine learning, deep learning and participant-aware evaluation for human movement and biomedical signals. Each research study has its own evidence and implementation status. This repository is **not an Essex-specific project** and does not claim all planned studies are complete.
 
 ## Research studies
@@ -9,7 +13,7 @@ A Python-first, multi-study research repository maintained by **Reza Saadatyar**
 | Study | Verified status | Where to start |
 | --- | --- | --- |
 | **Wearable Activity Recognition (HARTH v2.0)** | **Executed research study, Stages 01–27; final evidence synthesis complete.** Seven-model Development benchmark, repeated-seed experiments, two frozen final models and qualified same-study held-out evaluation. Documentation/release audit ongoing. | [Study README](studies/wearable_activity_recognition/README.md) · [Notebook 27](studies/wearable_activity_recognition/notebooks/27_final_research_evidence_and_report.ipynb) |
-| **Biomechanical Load Estimation** | Source inspection and exploratory derivative-data regression documented; not a verified comprehensive femoral-neck-load benchmark. | [Study files](studies/biomechanical_load_estimation/) · [Notebook 01](studies/biomechanical_load_estimation/notebooks/01_data_loading_and_inspection.ipynb) |
+| **Biomechanical Load Estimation** | Source inspection and exploratory derivative-data regression documented; not a verified comprehensive femoral-neck-load benchmark. | [Study README](studies/biomechanical_load_estimation/README.md) · [Notebook 01](studies/biomechanical_load_estimation/notebooks/01_data_loading_and_inspection.ipynb) |
 | Gait and Movement Analysis; Markerless Motion Capture; Neurorehabilitation; Multimodal Movement Learning | Future research directions, **not completed studies**. | [Study catalogue](studies/README.md) |
 
 ## HARTH research at a glance
@@ -42,6 +46,8 @@ Open [Notebook 27](studies/wearable_activity_recognition/notebooks/27_final_rese
 Data are acquired from their original providers into ignored local `data/raw/` directories; local models and generated outputs in `outputs/` are excluded from version control. **Executed notebooks and documented rounded tables are evidence, not a substitute for archived model artefacts or independent reproduction.** The MIT licence applies to original repository code; external datasets keep their own terms.
 
 ## Project structure and standards
+
+**Visual documentation:** [Portfolio-level workflow](images/repository_overview.svg) describes the repository; each implemented study has an independent [study overview](studies/README.md) and each HARTH Notebook retains its own stage-specific SVG. See [research figure hierarchy and design rules](docs/RESEARCH_VISUAL_STANDARDS.md).
 
 - [Research study catalogue](studies/README.md) and [research roadmap](docs/ROADMAP.md)
 - [Research standards](docs/RESEARCH_STANDARDS.md), [development style](docs/DEVELOPMENT_STYLE.md) and [architecture](docs/ARCHITECTURE.md)
