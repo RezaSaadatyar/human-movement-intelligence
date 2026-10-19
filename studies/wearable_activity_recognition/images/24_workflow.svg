@@ -1,11 +1,11 @@
 <svg xmlns="http://www.w3.org/2000/svg" width="1700" height="480" viewBox="0 0 1700 480" role="img" aria-labelledby="title desc">
 <title id="title">HARTH Stage 24: Multi-Seed Stability and Class-Imbalance Loss Ablation</title>
-<desc id="desc">HARTH v2.0 Development-only robustness study. The same 29 participants and 14201 source windows are evaluated across 3 participant-disjoint folds with 3 random seeds. Thirty-six model-loss-seed-fold training jobs compare weighted ResNet, weighted TCN, focal-loss ResNet and class-balanced ResNet. Stage 24 reports matched Development Macro F1, seed variability, rare-class metrics and person-level performance; no reserved Test participants or independent clinical validation.</desc>
+<desc id="desc">HARTH v2.0 Development-only robustness study. The same 29 participants and 14201 source windows are evaluated across 3 participant-disjoint folds with 3 random seeds. Thirty-six recorded model-loss-seed-fold jobs compare weighted ResNet, weighted TCN, focal-loss ResNet and class-balanced ResNet. Stage 24 reports matched Development Macro F1, seed variability, rare-class metrics and person-level performance; no reserved Test scoring or independent generalisation claim.</desc>
 <defs><marker id="small-arrow" markerUnits="userSpaceOnUse" markerWidth="6" markerHeight="6" refX="5.5" refY="3" orient="auto"><path d="M0 0 L6 3 L0 6 Z" fill="#245E9D"/></marker></defs>
 <rect width="1700" height="480" rx="20" fill="#F4F9FD"/>
 <g font-family="DejaVu Sans, Arial, sans-serif">
  <text x="30" y="38" font-size="23" font-weight="700" fill="#173453">STAGE 24 | MULTI-SEED ROBUSTNESS AND LOSS ABLATION</text>
- <text x="30" y="67" font-size="15" fill="#54738A">29 Development people · 3 held-out folds · 3 seeds · 36 completed fits · No Test evaluation</text>
+ <text x="30" y="67" font-size="15" fill="#54738A">29 Development people · 3 held-out folds · 3 seeds · 36 recorded fits · No Test evaluation</text>
  <rect x="24" y="84" width="1652" height="160" rx="16" fill="#EAF3FA" stroke="#C7D9E6" stroke-width="2"/>
  <rect x="24" y="262" width="1652" height="174" rx="16" fill="#EAF3FA" stroke="#C7D9E6" stroke-width="2"/>
  <g aria-label="Rear-view two-sensor placement, completely within context panel">
