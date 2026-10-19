@@ -1,5 +1,9 @@
 # Wearable Activity Recognition | HARTH v2.0
 
+![HARTH v2.0: complete scientific study workflow across 27 stages](images/study_overview.svg)
+
+*Study-level workflow from source accelerometers through Development modelling and separately approved qualified held-out evaluation to read-only evidence synthesis. The two evaluated participants were previously inspected; this is not blind external validation.*
+
 **Executed study: Stages 01–27.** Final Development model fitting, approved qualified held-out evaluation and read-only research evidence synthesis have been run and committed. This is a research portfolio study, not externally validated clinical software.
 
 ## Research question
@@ -96,5 +100,7 @@ See the [Stage 25 selection protocol](STAGE_25_MODEL_SELECTION_PROTOCOL.md), [St
 See the [HARTH reproducibility guide](../../docs/HARTH_REPRODUCIBILITY.md). From the repository root, run `python scripts/check_harth_release_readiness.py` for a read-only verification of saved notebook outputs and frozen scientific provenance. Optional trusted local model files can be checked separately using `--artifact-dir`; this does not deserialise them. A GitHub Release is a later, user-approved action, not part of the executed study.
 
 ## Consistent notebook layouts and landscape diagrams
+
+The [overall study workflow](images/study_overview.svg) summarises the full HARTH research design, while the **27 notebook-specific workflows** each show only the operations performed at that stage. These figures serve different purposes and are not substitutes for the executed analyses. See [repository visual documentation rules](../../docs/RESEARCH_VISUAL_STANDARDS.md).
 
 All 27 study stages have a landscape workflow SVG under [images/](images/README.md), referenced from the notebook opening Markdown. Code comments and import grouping have been formatted consistently while preserving scientific execution statements. All [primary notebooks 01–27](notebooks/) now have their approved in-place visual format. Original Stage 23 evidence is retained in the existing archive and Stage 24's historic Git revision remains available for the already-approved historical SHA256. Stages 26–27 received comment- and figure-only edits; their saved results and their original execution metadata, including five missing Stage 27 execution counts, remain unchanged. No duplicate presentation notebooks remain. See the [notebook authoring standard](NOTEBOOK_AUTHORING_STANDARDS.md). Saving or running a presentation copy does not create an independent new experiment.
