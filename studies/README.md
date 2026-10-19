@@ -2,6 +2,8 @@
 
 Each study will have its own question, data availability check, unit of analysis, modelling protocol, evaluation and limitations. **Implementation status is study-specific. HARTH has completed a saved-evidence synthesis; other studies must not be described as completed without their own verified execution.** Do not confuse a proposal with completed research.
 
+**Study diagrams:** [HARTH scientific workflow](wearable_activity_recognition/README.md) · [BoneNet exploratory workflow](biomechanical_load_estimation/README.md). Each diagram reports its own scientific scope and verified status; planned directions do not have completed-result diagrams.
+
 ## 1. Wearable Activity Recognition
 - **Question:** How well can wearable motion signals classify activities for people not seen during training?
 - **Candidates:** UCI HAR, PAMAP2, HARTH and MHEALTH.
@@ -21,7 +23,7 @@ Each study will have its own question, data availability check, unit of analysis
 - **Candidate:** 2026 Hollinger et al. femoral-neck loading dataset.
 - **Models:** transparent regression baseline, tree-based regression, 1D-CNN/BiLSTM, optional data-efficient adaptation.
 - **Protocol:** no derived-target leakage; subject-held-out results, physical units, MAE/RMSE, target-specific curve and peak errors.
-- **Status:** Public BoneNet derivative inspected and exploratory baseline documented. This is not a confirmed full-cohort femoral-neck loading benchmark, and source-to-label linkage limitations remain.
+- **Status:** Public BoneNet derivative inspected and exploratory baseline documented. This is not a confirmed full-cohort femoral-neck loading benchmark, and source-to-label linkage limitations remain. See [study README and figure](biomechanical_load_estimation/README.md).
 
 ## 4. Markerless Motion Capture
 - **Question:** How reliable are video-derived body keypoints and joint-angle trajectories under varying acquisition conditions?
@@ -54,4 +56,4 @@ Every implemented study will eventually contain:
 - Real result tables and failure analysis
 - Clear scope of any scientific and clinical claims
 
-See [research standards](../docs/RESEARCH_STANDARDS.md) and [roadmap](../docs/ROADMAP.md).
+See [research standards](../docs/RESEARCH_STANDARDS.md), [visual documentation rules](../docs/RESEARCH_VISUAL_STANDARDS.md) and [roadmap](../docs/ROADMAP.md).
