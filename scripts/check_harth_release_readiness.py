@@ -15,7 +15,7 @@ import sys
 ROOT = Path(__file__).resolve().parents[1]
 STUDY = ROOT / "studies" / "wearable_activity_recognition"
 NOTEBOOKS = STUDY / "notebooks"
-MANIFESTS = STUDY / "experiments"
+MANIFESTS = STUDY / "research_outputs"
 EXPECTED_MODELS = ("resnet_state_dict.pt", "random_forest.joblib", "inference_config.json")
 EXPECTED_CLASSES = list(range(1, 9))
 EXPECTED_TEST_SUBJECTS = ["S023", "S032"]
@@ -27,6 +27,10 @@ FROZEN_FILES = (
     "code/python/src/core/robustness_experiments.py",
     "studies/wearable_activity_recognition/src/harth_data.py",
 )
+
+
+sys.path.insert(0, str(ROOT / "code/python/src"))
+from core.harth_provenance import read_historical_stage23_bytes
 
 
 def file_sha256(path):
@@ -116,10 +120,10 @@ def notebook_execution_check(
 
 
 
-def verify_stage23_visual_format(current_path, archive_path):
-    """Require unchanged executed Python and saved evidence after formatting."""
+def verify_stage23_visual_format(current_path, historic_bytes):
+    """Compare the active notebook with its hash-verified Git predecessor."""
     active = json.loads(Path(current_path).read_text(encoding="utf-8"))
-    archived = json.loads(Path(archive_path).read_text(encoding="utf-8"))
+    archived = json.loads(historic_bytes.decode("utf-8"))
     if len(active["cells"]) != len(archived["cells"]):
         raise ValueError("Stage 23 visual format altered cell count.")
 
@@ -197,20 +201,13 @@ def verify_recorded_evidence():
         notebooks[str(stage)] = notebook_execution_check(
             matches[0], count, gate, allow_missing_counts_with_outputs=(stage == 27)
         )
-    # Stage 23 was visually standardised in the primary notebook with user
-    # authorisation. Its exact historical executed bytes remain archived.
+    # Recover the original Stage 23 execution from a pinned Git revision.
+    # Do not weaken byte-level approval checks or create duplicate notebooks.
     stage23_active = next(NOTEBOOKS.glob("23_*.ipynb"))
-    stage23_archive = (
-        MANIFESTS / "frozen_notebook_evidence" / stage23_active.name
+    historical23 = read_historical_stage23_bytes(
+        ROOT, approved["stage23_saved_notebook_sha256"]
     )
-    if not stage23_archive.is_file():
-        raise ValueError("Original executed Stage 23 archive missing.")
-    historic23 = verify_approved_text_bytes(
-        stage23_archive, approved["stage23_saved_notebook_sha256"]
-    )
-    verify_stage23_visual_format(stage23_active, stage23_archive)
-    if historic23 == "CRLF_TO_LF_ONLY":
-        eol_adaptations.append("Archived Notebook 23")
+    verify_stage23_visual_format(stage23_active, historical23)
 
     # Stage 24's original scientific bytes are stored by Git history itself;
     # no duplicate local or repository notebook is needed.
