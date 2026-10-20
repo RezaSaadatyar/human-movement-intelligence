@@ -132,7 +132,7 @@ class TestHarthReleaseReadiness(unittest.TestCase):
             elif change == "outputs":
                 first["outputs"] = []
             else:
-                first["execution_count"] = 2
+                first["execution_count"] = 999
             with tempfile.TemporaryDirectory() as tmp:
                 trial = Path(tmp) / "stage24_check.ipynb"
                 trial.write_text(json.dumps(notebook), encoding="utf-8")
