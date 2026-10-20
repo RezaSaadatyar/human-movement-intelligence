@@ -41,3 +41,5 @@ This directory provides navigation for the original experimental protocols. **Hi
 - [Versioned evidence records](../evidence/): preserved source manifests and stage evidence register.
 
 Moving these historical documents does not constitute a rerun, new model result, new validation or update to approved research evidence.
+
+**Stage 24 presentation caveat:** The approved historical execution contained 13 code cells including Colab setup; the current reading copy has 12 matched scientific code cells and two missing execution counts, checked against immutable Git evidence. See the [reproducibility guide](../../../docs/HARTH_REPRODUCIBILITY.md).

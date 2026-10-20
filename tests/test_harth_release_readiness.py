@@ -46,6 +46,72 @@ class TestHarthReleaseReadiness(unittest.TestCase):
         self.assertEqual(evidence["notebook23_sha256"], expected)
         self.assertEqual(len(evidence["stage23"]), 7)
 
+    def test_stage24_current_presentation_matches_approved_history(self):
+        """Compare 12 readable study cells with 13 original Colab code cells."""
+        root = ROOT
+        from core.harth_provenance import (
+            read_historical_stage24_bytes, verify_stage24_visual_format,
+        )
+        current = (
+            root / "studies/wearable_activity_recognition/notebooks/"
+            "24_multiseed_and_imbalance_robustness.ipynb"
+        )
+        manifest = json.loads(
+            (root / "studies/wearable_activity_recognition/evidence/"
+             "stage_25_protocol_approved_qualified_test.json").read_text(
+                encoding="utf-8"
+            )
+        )
+        original = read_historical_stage24_bytes(
+            root, manifest["stage24_saved_notebook_sha256"]
+        )
+        result = verify_stage24_visual_format(current, original)
+        self.assertEqual(result["current_code_cells"], 12)
+        self.assertEqual(result["historical_code_cells"], 13)
+        self.assertEqual(result["missing_execution_counts"], [1, 10])
+        self.assertFalse(result["execution_metadata_complete"])
+        self.assertTrue(result["historical_execution_verified"])
+
+    def test_stage24_rejects_modified_code_outputs_or_metadata(self):
+        """Never mask changes to original executed scientific results."""
+        import tempfile
+        from core.harth_provenance import (
+            read_historical_stage24_bytes, verify_stage24_visual_format,
+        )
+        current = (
+            ROOT / "studies/wearable_activity_recognition/notebooks/"
+            "24_multiseed_and_imbalance_robustness.ipynb"
+        )
+        approved = json.loads(
+            (ROOT / "studies/wearable_activity_recognition/evidence/"
+             "stage_25_protocol_approved_qualified_test.json").read_text(
+                encoding="utf-8"
+            )
+        )
+        historical = read_historical_stage24_bytes(
+            ROOT, approved["stage24_saved_notebook_sha256"]
+        )
+        baseline = json.loads(current.read_text(encoding="utf-8"))
+        positions = [
+            i for i, cell in enumerate(baseline["cells"])
+            if cell.get("cell_type") == "code"
+        ]
+        for change in ("code", "outputs", "metadata"):
+            notebook = json.loads(json.dumps(baseline))
+            first = notebook["cells"][positions[0]]
+            if change == "code":
+                first["source"].append("print('altered executable statement')\n")
+            elif change == "outputs":
+                first["outputs"] = []
+            else:
+                first["execution_count"] = 2
+            with tempfile.TemporaryDirectory() as tmp:
+                trial = Path(tmp) / "stage24_check.ipynb"
+                trial.write_text(json.dumps(notebook), encoding="utf-8")
+                with self.subTest(change=change):
+                    with self.assertRaises(ValueError):
+                        verify_stage24_visual_format(trial, historical)
+
     def test_local_model_artifacts_are_optional_without_deserialisation(self):
         record = audit.inspect_optional_artifacts(None, "unused_sha256")
         self.assertEqual(record["status"], "NOT_CHECKED")

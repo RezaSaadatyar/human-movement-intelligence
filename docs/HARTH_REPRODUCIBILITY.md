@@ -23,6 +23,17 @@ against the unchanged approved Stage 25 manifest, and compares the active
 Notebook 23's executable statements, saved outputs and execution counts. This
 requires a full Git checkout, rather than a source ZIP without history.
 
+Stage 24's **original** executed notebook is retained at Git commit
+`c4548596656acaffad4b024203e554c2c3aa3da0` and verified against its
+unchanged approved SHA256. It contains 13 executed code cells including an
+initial Google Colab clone/setup cell. The current readable Stage 24 notebook
+omits that setup cell, leaving 12 study code cells. Two of those 12 cells
+(positions 1 and 10) have missing `execution_count` metadata although their
+saved outputs remain. The provenance audit verifies executable code and saved
+output identity for every study cell against the 12 corresponding original
+executed cells; it does not invent execution counts, rewrite notebooks or
+describe the current file as a complete independently executed run.
+
 Stage 24's original executed bytes are verified through a separate pinned
 historical revision. The approved protocol records and six frozen model modules
 remain unchanged. Stages 26–27 were standardised in place without changing
@@ -113,7 +124,7 @@ If the directory no longer exists, report the artefacts as **unverified**, not a
 
 - [x] All central Stage 23–27 executed notebooks available; frozen source/approval lineage documented.
 - [x] Main and HARTH README updated to report observed results and limitations accurately.
-- [x] GitHub Actions CPU/offline tests passed on the previous checked source revision; re-check the latest CI after audit commits.
+- [ ] Re-check GitHub Actions after the Stage 24 presentation/provenance reconciliation. An October 20 run failed because the current 12-cell presentation was incorrectly required to have 13 fully counted code cells. The new audit checks historical execution and explicitly reports two missing current execution counts; it requires user-run confirmation.
 - [x] Pre-release, read-only source provenance and optional local artifact audit tool implemented.
 - [ ] Re-run/verify the new audit script on the final GitHub head and confirm latest CI success.
 - [ ] User confirms whether the three original trusted Stage 26 model files are retained and where (local secure storage only).

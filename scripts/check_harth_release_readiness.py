@@ -30,7 +30,11 @@ FROZEN_FILES = (
 
 
 sys.path.insert(0, str(ROOT / "code/python/src"))
-from core.harth_provenance import read_historical_stage23_bytes
+from core.harth_provenance import (
+    read_historical_stage23_bytes,
+    read_historical_stage24_bytes,
+    verify_stage24_visual_format,
+)
 
 
 def file_sha256(path):
@@ -198,9 +202,26 @@ def verify_recorded_evidence():
         matches = list(NOTEBOOKS.glob(f"{stage:02d}_*.ipynb"))
         if len(matches) != 1:
             raise ValueError(f"Missing or ambiguous notebook Stage {stage}")
-        notebooks[str(stage)] = notebook_execution_check(
-            matches[0], count, gate, allow_missing_counts_with_outputs=(stage == 27)
-        )
+        if stage == 24:
+            historical = read_historical_stage24_bytes(
+                ROOT, approved["stage24_saved_notebook_sha256"]
+            )
+            verified = verify_stage24_visual_format(matches[0], historical)
+            notebooks[str(stage)] = {
+                "cells": verified["current_code_cells"],
+                "historical_executed_code_cells": verified["historical_code_cells"],
+                "notebook_sha256": file_sha256(matches[0]),
+                "historical_notebook_sha256": approved["stage24_saved_notebook_sha256"],
+                "saved_output_cells": verified["saved_output_cells"],
+                "missing_execution_counts": verified["missing_execution_counts"],
+                "execution_metadata_complete": False,
+                "historical_execution_verified": True,
+            }
+        else:
+            notebooks[str(stage)] = notebook_execution_check(
+                matches[0], count, gate,
+                allow_missing_counts_with_outputs=(stage == 27),
+            )
     # Recover the original Stage 23 execution from a pinned Git revision.
     # Do not weaken byte-level approval checks or create duplicate notebooks.
     stage23_active = next(NOTEBOOKS.glob("23_*.ipynb"))
@@ -209,46 +230,10 @@ def verify_recorded_evidence():
     )
     verify_stage23_visual_format(stage23_active, historical23)
 
-    # Stage 24's original scientific bytes are stored by Git history itself;
-    # no duplicate local or repository notebook is needed.
-    import subprocess
-    stage24 = next(NOTEBOOKS.glob("24_*.ipynb"))
-    original24_bytes = subprocess.run(
-        ["git", "show",
-         "c4548596656acaffad4b024203e554c2c3aa3da0:"
-         + stage24.relative_to(ROOT).as_posix()],
-        cwd=ROOT, capture_output=True, check=True,
-    ).stdout
-    if hashlib.sha256(original24_bytes).hexdigest() != (
-        approved["stage24_saved_notebook_sha256"]
-    ):
-        raise ValueError("Historical Stage 24 checksum does not match.")
-    original24 = json.loads(original24_bytes.decode("utf-8"))
-    formatted24 = json.loads(stage24.read_text(encoding="utf-8"))
-    if len(original24["cells"]) != len(formatted24["cells"]):
-        raise ValueError("Stage 24 cell count changed during formatting.")
-    def executable_lines(cell):
-        source = cell.get("source", "")
-        if isinstance(source, list):
-            source = "".join(source)
-        return [
-            line for line in source.splitlines()
-            if line.strip() and not line.lstrip().startswith("#")
-        ]
-    for previous, present in zip(original24["cells"], formatted24["cells"]):
-        if previous.get("cell_type") != present.get("cell_type"):
-            raise ValueError("Stage 24 cell type changed during formatting.")
-        if previous.get("cell_type") != "code":
-            continue
-        if (executable_lines(previous) != executable_lines(present)
-            or previous.get("outputs") != present.get("outputs")
-            or previous.get("execution_count") != present.get("execution_count")):
-            raise ValueError("Stage 24 scientific data changed during formatting.")
-
     required = [
         "README.md",
         "studies/wearable_activity_recognition/README.md",
-        "studies/wearable_activity_recognition/STAGE_27_FINAL_REPORT_PROTOCOL.md",
+        "studies/wearable_activity_recognition/docs/protocols/STAGE_27_FINAL_REPORT_PROTOCOL.md",
         "docs/ROADMAP.md",
         "docs/HARTH_REPRODUCIBILITY.md",
         "LICENSE",

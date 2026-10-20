@@ -9,7 +9,11 @@ from html.parser import HTMLParser
 from pathlib import Path
 import pandas as pd
 
-from core.harth_provenance import read_historical_stage23_bytes
+from core.harth_provenance import (
+    read_historical_stage23_bytes,
+    read_historical_stage24_bytes,
+    verify_stage24_visual_format,
+)
 
 
 class _SavedTable(HTMLParser):
@@ -186,53 +190,25 @@ def _load_stage23_with_verified_visual_format(path):
 
 
 
-# The original Stage 24 executed blob remains reachable through Git history.
-# In-place comment/figure changes are checked against that original, without
-# creating duplicate notebooks or changing the approved historical manuscript.
-STAGE24_EXECUTED_COMMIT = "c4548596656acaffad4b024203e554c2c3aa3da0"
-
-
+# Stage 24's approved executed notebook remains in pinned Git history.
+# Its current presentation omits only Colab setup and has two missing counters.
+# Verify study code, outputs, and unchanged metadata before using the archive.
 def _load_stage24_with_verified_visual_format(path):
-    """Read the recorded Stage 24 evidence from Git after format-only edits."""
-    import subprocess
-
+    """Return hash-approved historical Stage 24 evidence after strict comparison."""
     path = Path(path)
-    active, _ = _load_executed(path, 24)
     root = path.resolve().parents[3]
-    relative = path.resolve().relative_to(root).as_posix()
-    history = subprocess.run(
-        ["git", "show", STAGE24_EXECUTED_COMMIT + ":" + relative],
-        cwd=root, capture_output=True, check=True,
-    ).stdout
-    historic_sha = hashlib.sha256(history).hexdigest()
     approved = json.loads(
         (root / "studies/wearable_activity_recognition/evidence/"
          "stage_25_protocol_approved_qualified_test.json").read_text(
             encoding="utf-8"
         )
     )
-    if historic_sha != approved["stage24_saved_notebook_sha256"]:
-        raise ValueError("Historical Stage 24 checksum differs from approval.")
-    historic = json.loads(history.decode("utf-8"))
-
-    def code_lines(cell):
-        return [
-            line for line in _joined(cell.get("source", "")).splitlines()
-            if line.strip() and not line.lstrip().startswith("#")
-        ]
-
-    if len(active["cells"]) != len(historic["cells"]):
-        raise ValueError("Stage 24 visual revision changed cell count.")
-    for present, previous in zip(active["cells"], historic["cells"]):
-        if present["cell_type"] != previous["cell_type"]:
-            raise ValueError("Stage 24 visual revision changed cell types.")
-        if present["cell_type"] != "code":
-            continue
-        if (code_lines(present) != code_lines(previous) or
-            present.get("outputs") != previous.get("outputs") or
-            present.get("execution_count") != previous.get("execution_count")):
-            raise ValueError("Stage 24 visual revision altered scientific evidence.")
-    return historic, historic_sha
+    expected_sha = approved["stage24_saved_notebook_sha256"]
+    historical = read_historical_stage24_bytes(root, expected_sha)
+    verify_stage24_visual_format(path, historical)
+    executed = json.loads(historical.decode("utf-8"))
+    _validate_executed_notebook(executed, 24)
+    return executed, expected_sha
 
 
 def load_selection_evidence(stage23_path,stage24_path):
