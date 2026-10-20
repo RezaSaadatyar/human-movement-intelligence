@@ -20,23 +20,20 @@ class TestHarthReleaseReadiness(unittest.TestCase):
         self.assertFalse(record["original_test_reopened_by_this_audit"])
 
     def test_in_place_stage23_formatting_preserves_approved_evidence(self):
-        """The readable Notebook 23 must match the archived historic execution."""
+        """Readable Stage 23 must match hash-approved Git history."""
         import hashlib
         import sys
         notebooks = ROOT / "studies/wearable_activity_recognition/notebooks"
         study = notebooks.parent
         active = notebooks / "23_unified_matched_model_benchmark.ipynb"
-        archive = (study / "experiments/frozen_notebook_evidence" /
-                   active.name)
         manifest = json.loads(
-            (study / "experiments/stage_25_protocol_approved_qualified_test.json")
+            (study / "research_outputs/stage_25_protocol_approved_qualified_test.json")
             .read_text(encoding="utf-8")
         )
         expected = manifest["stage23_saved_notebook_sha256"]
-        self.assertEqual(
-            audit.verify_approved_text_bytes(archive, expected), "EXACT"
-        )
-        self.assertTrue(audit.verify_stage23_visual_format(active, archive))
+        source_bytes = audit.read_historical_stage23_bytes(ROOT, expected)
+        self.assertEqual(hashlib.sha256(source_bytes).hexdigest(), expected)
+        self.assertTrue(audit.verify_stage23_visual_format(active, source_bytes))
         self.assertNotEqual(
             hashlib.sha256(active.read_bytes()).hexdigest(), expected
         )
@@ -88,7 +85,7 @@ class TestHarthReleaseReadiness(unittest.TestCase):
         self.assertEqual(len(saved["notebook_sha256"]), 64)
 
     def test_approval_lineage_cannot_be_silently_mutated(self):
-        path = ROOT / "studies/wearable_activity_recognition/experiments/stage_25_protocol_approved_qualified_test.json"
+        path = ROOT / "studies/wearable_activity_recognition/research_outputs/stage_25_protocol_approved_qualified_test.json"
         manifest = json.loads(path.read_text(encoding="utf-8"))
         self.assertEqual(manifest["status"], "APPROVED")
         self.assertFalse(manifest["evaluation"]["use_test_for_tuning"])
