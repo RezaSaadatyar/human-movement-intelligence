@@ -31,7 +31,7 @@ Stage 23 Random Forest is a fixed classical reference, not a multi-seed replicat
 - `notebooks/25_model_selection_and_protocol_freeze.ipynb`: eleven complete, explanatory sections with Bold Markdown and numbered code comments. It **does not load raw HARTH recordings or train a model**.
 - `code/python/src/core/harth_selection_evidence.py`: strict read-only parser for original executed Stage 23/24 notebook HTML results, including source SHA256 alignment and expected model/Fold evidence completeness.
 - `tests/test_harth_selection_evidence.py`: offline tests for saved HTML parsing and the **actual committed executed research notebooks**.
-- The Notebook creates `studies/wearable_activity_recognition/evidence/stage_25_protocol_proposal.json` with immutable source-module digests and `PENDING_USER_REVIEW` status. No overwrite if an existing JSON differs.
+- The original `evidence/stage_25_protocol_proposal.json` remains an immutable historical pending record. On replay, Notebook 25 verifies the reconstructed Development proposal against the existing `stage_25_protocol_proposal_reconciled.json` and separate `stage_25_protocol_approved_qualified_test.json`, including frozen source-module SHA256. No manifest is written, and no new qualified-Test authorisation is created.
 
 ## Running Stage 25
 
@@ -42,7 +42,7 @@ python -m pip install -r requirements.txt
 python -m unittest discover -s tests -p "test_harth_selection_evidence.py" -v
 ```
 
-Run Notebook 25 in order, inspect its figures, numerical tables and approval-pending manifest, and commit/push actual executed outputs and the generated proposal JSON if reviewed. Stage 26 is **not** authorised merely by a passing code quality gate. The user reviews the proposed source/sample/test scope and explicitly approves (or requests changes) before any held-out Test access.
+Run Notebook 25 in order, inspect its figures and numerical tables, then verify that Section 09 reports `MATCHED`, `VERIFIED_EXISTING_ONLY`, and `Protocol files written: 0`. The original pending, reconciled and already approved historical manifests are never regenerated. Commit the newly executed Notebook 25 only after inspecting its actual outputs. A passing replay is **not** a new permission to score the original Test again.
 
 ## Interpretation
 
