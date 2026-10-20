@@ -4,7 +4,7 @@
 
 | Area | Verified present status | Evidence |
 | --- | --- | --- |
-| HARTH Stages 01–19 | Historical executed exploratory analyses; different cohort sizes and model protocols | [Evidence register](../studies/wearable_activity_recognition/experiments/stage_01_19_evidence_register.csv) |
+| HARTH Stages 01–19 | Historical executed exploratory analyses; different cohort sizes and model protocols | [Evidence register](../studies/wearable_activity_recognition/research_outputs/stage_01_19_evidence_register.csv) |
 | Stage 20–22 | Executed evidence consolidation, quality audit and temporal architecture checks | [Notebooks](../studies/wearable_activity_recognition/notebooks/) |
 | Stage 23 | Executed seven-model, 3-fold matched 29-person Development benchmark; 21 jobs | [Notebook 23](../studies/wearable_activity_recognition/notebooks/23_unified_matched_model_benchmark.ipynb) |
 | Stage 24 | Executed multi-seed/loss robustness, 36 Development fits | [Notebook 24](../studies/wearable_activity_recognition/notebooks/24_multiseed_and_imbalance_robustness.ipynb) |
