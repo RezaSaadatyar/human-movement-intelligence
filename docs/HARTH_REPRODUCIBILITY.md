@@ -15,7 +15,29 @@ This is a practical pre-release audit for the completed HARTH activity-recogniti
 
 With the maintainer's explicit approval, the **primary** `notebooks/23_unified_matched_model_benchmark.ipynb` was visually standardised. It now includes the stage-specific SVG and numbered, centred comment headings directly in the notebook used for reading. **No executable Python statements, saved outputs or execution-count metadata changed.** Its newly generated file SHA256 is not the same as the original historical byte-level SHA256 recorded in the approved Stage 25 manifest.
 
-The **unaltered original executed notebook** is permanently retained in `studies/wearable_activity_recognition/experiments/frozen_notebook_evidence/23_unified_matched_model_benchmark.ipynb`. Provenance checks compare its exact historical SHA256 against the frozen manifest and independently verify that the readable primary notebook has the same ordered executable Python statements, saved outputs and execution counts. The evidence loader continues to derive Stage 23 selection evidence from the archived executed original; it verifies correspondence to the readable primary notebook first. The approved manifest, six frozen modelling modules and all qualified Test evidence remain unchanged. The original Stage 24 executed bytes are retained in repository Git history and checked against the format-only primary Notebook 24. No separate Stage 24 archive has been created. The final Stages 26–27 have also received in-place code-comment and scientific-figure-only formatting with explicit maintainer authorisation. Their executable statements, saved outputs and execution-count metadata are unchanged. Stage 27's five historically missing execution counts have not been fabricated. These formatting updates do not constitute any new training, evaluation or independent replication.
+The original executed Stage 23 notebook is retained in **pinned repository Git
+history**, rather than as a second file in the current project tree. The
+provenance audit reads its historical bytes from commit
+`433f972676a3a0a39c05b34612f201bb27366d36`, verifies the exact SHA256
+against the unchanged approved Stage 25 manifest, and compares the active
+Notebook 23's executable statements, saved outputs and execution counts. This
+requires a full Git checkout, rather than a source ZIP without history.
+
+Stage 24's original executed bytes are verified through a separate pinned
+historical revision. The approved protocol records and six frozen model modules
+remain unchanged. Stages 26–27 were standardised in place without changing
+their previously saved scientific outputs or execution-count metadata. Stage
+27 retains five missing historical execution counts; these were not invented.
+This review does not rerun model training, qualified Test scoring or independent
+replication.
+
+The historical evidence register and three Stage 25 protocol records are
+available under
+[`research_outputs/`](../studies/wearable_activity_recognition/research_outputs/).
+These files retain their original bytes. Historical paths embedded in approved
+JSON records describe past provenance and are not updated to current locations.
+The primary notebooks contain saved visible results, while large generated
+model and report artefacts remain in Git-ignored `outputs/`.
 
 ## Reproduction levels and what is available
 
