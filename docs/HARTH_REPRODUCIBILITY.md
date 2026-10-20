@@ -33,7 +33,7 @@ replication.
 
 The historical evidence register and three Stage 25 protocol records are
 available under
-[`research_outputs/`](../studies/wearable_activity_recognition/research_outputs/).
+[`evidence/`](../studies/wearable_activity_recognition/evidence/).
 These files retain their original bytes. Historical paths embedded in approved
 JSON records describe past provenance and are not updated to current locations.
 The primary notebooks contain saved visible results, while large generated

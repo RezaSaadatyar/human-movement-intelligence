@@ -1,6 +1,6 @@
 # HARTH documentation and protocols
 
-[Study overview and current results](../README.md) · [Executed notebooks](../notebooks/) · [Historical research records](../research_outputs/) · [Research reproducibility](../../../docs/HARTH_REPRODUCIBILITY.md)
+[Study overview and current results](../README.md) · [Executed notebooks](../notebooks/) · [Historical research records](../evidence/) · [Research reproducibility](../../../docs/HARTH_REPRODUCIBILITY.md)
 
 This directory provides navigation for the original experimental protocols. **Historical stage-specific status statements are not the current study completion status.** The study README summarises the executed 27-stage result; the original protocol text is retained unmodified for provenance.
 
@@ -38,6 +38,6 @@ This directory provides navigation for the original experimental protocols. **Hi
 
 - [Notebook Authoring Standards](NOTEBOOK_AUTHORING_STANDARDS.md): formatting, figures, execution provenance and source integrity.
 - [Stage 26 Code Reconciliation](STAGE_26_CODE_RECONCILIATION.md): historical SHA256 mismatch, reconciliation and safeguards; do not interpret its initial pending status as the current state.
-- [Versioned evidence records](../research_outputs/): preserved source manifests and stage evidence register.
+- [Versioned evidence records](../evidence/): preserved source manifests and stage evidence register.
 
 Moving these historical documents does not constitute a rerun, new model result, new validation or update to approved research evidence.

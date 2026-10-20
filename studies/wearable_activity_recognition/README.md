@@ -6,7 +6,7 @@
 
 **Executed study: Stages 01–27.** Final Development model fitting, approved qualified held-out evaluation and read-only research evidence synthesis have been run and committed. This is a research portfolio study, not externally validated clinical software.
 
-**Study navigation:** [Notebooks](notebooks/) · [Stage protocols and documentation](docs/) · [Versioned research records](research_outputs/) · [Workflow figures](images/).
+**Study navigation:** [Notebooks](notebooks/) · [Stage protocols and documentation](docs/) · [Versioned research records](evidence/) · [Workflow figures](images/).
 
 ## Research question
 
@@ -27,9 +27,9 @@ How do classical machine learning and deep temporal neural networks compare for 
 
 | Stages | Objective | Evidence |
 | --- | --- | --- |
-| 01–04 | Source inspection, time-safe windowing, features and participant grouping | [Notebooks](notebooks/) and [historical evidence register](research_outputs/stage_01_19_evidence_register.csv) |
-| 05–09 | Classical ML and progressive Development group CV | [Historical evidence register](research_outputs/stage_01_19_evidence_register.csv) |
-| 10–19 | Temporal CNNs, matched comparisons, sample size, confidence and calibration explorations | [Historical evidence register](research_outputs/stage_01_19_evidence_register.csv) |
+| 01–04 | Source inspection, time-safe windowing, features and participant grouping | [Notebooks](notebooks/) and [historical evidence register](evidence/stage_01_19_evidence_register.csv) |
+| 05–09 | Classical ML and progressive Development group CV | [Historical evidence register](evidence/stage_01_19_evidence_register.csv) |
+| 10–19 | Temporal CNNs, matched comparisons, sample size, confidence and calibration explorations | [Historical evidence register](evidence/stage_01_19_evidence_register.csv) |
 | 20–22 | Evidence consolidation, rare-class/data-quality audit, TCN / Multi-Scale CNN / 1D-ResNet / Transformer engineering checks | [Notebook 20](notebooks/20_research_evidence_consolidation.ipynb) · [21](notebooks/21_minority_class_and_data_quality.ipynb) · [22](notebooks/22_advanced_temporal_architectures.ipynb) |
 | **23** | Seven-model matched 3-fold Development benchmark (21 fits) | **[Primary formatted Notebook 23](notebooks/23_unified_matched_model_benchmark.ipynb)** · [Git-history source verification](../../docs/HARTH_REPRODUCIBILITY.md) · [Workflow SVG](images/23_workflow.svg) |
 | **24** | 3 seeds, paired folds and selected loss ablations (36 fits) | [Executed Notebook 24](notebooks/24_multiseed_and_imbalance_robustness.ipynb) |

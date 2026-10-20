@@ -31,7 +31,7 @@ Stage 23 Random Forest is a fixed classical reference, not a multi-seed replicat
 - `notebooks/25_model_selection_and_protocol_freeze.ipynb`: eleven complete, explanatory sections with Bold Markdown and numbered code comments. It **does not load raw HARTH recordings or train a model**.
 - `code/python/src/core/harth_selection_evidence.py`: strict read-only parser for original executed Stage 23/24 notebook HTML results, including source SHA256 alignment and expected model/Fold evidence completeness.
 - `tests/test_harth_selection_evidence.py`: offline tests for saved HTML parsing and the **actual committed executed research notebooks**.
-- The Notebook creates `studies/wearable_activity_recognition/research_outputs/stage_25_protocol_proposal.json` with immutable source-module digests and `PENDING_USER_REVIEW` status. No overwrite if an existing JSON differs.
+- The Notebook creates `studies/wearable_activity_recognition/evidence/stage_25_protocol_proposal.json` with immutable source-module digests and `PENDING_USER_REVIEW` status. No overwrite if an existing JSON differs.
 
 ## Running Stage 25
 

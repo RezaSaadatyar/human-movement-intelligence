@@ -1,6 +1,6 @@
 # HARTH Research Outputs and Approved Records
 
-This directory contains small, version-controlled research records produced
+This directory contains small, version-controlled research evidence and approval records produced
 during the HARTH study. It is not a cache of fitted models, raw signals,
 full-precision predictions or newly calculated performance results.
 
