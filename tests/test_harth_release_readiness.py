@@ -46,6 +46,32 @@ class TestHarthReleaseReadiness(unittest.TestCase):
         self.assertEqual(evidence["notebook23_sha256"], expected)
         self.assertEqual(len(evidence["stage23"]), 7)
 
+    def test_stage23_rejects_changed_predictive_metric(self):
+        """Replays may vary in runtime, but not in frozen scientific scores."""
+        import tempfile
+        from core.harth_provenance import verify_stage23_visual_format
+        folder = ROOT/"studies/wearable_activity_recognition"
+        current = folder/"notebooks/23_unified_matched_model_benchmark.ipynb"
+        approved = json.loads(
+            (folder/"evidence/stage_25_protocol_approved_qualified_test.json")
+            .read_text(encoding="utf-8")
+        )
+        historical = audit.read_historical_stage23_bytes(
+            ROOT, approved["stage23_saved_notebook_sha256"]
+        )
+        notebook = json.loads(current.read_text(encoding="utf-8"))
+        code = [c for c in notebook["cells"] if c["cell_type"] == "code"]
+        displayed = code[5]["outputs"][1]
+        html_part = displayed["data"]["text/html"]
+        markup = "".join(html_part) if isinstance(html_part,list) else html_part
+        self.assertIn("0.8328", markup)
+        displayed["data"]["text/html"] = [markup.replace("0.8328","0.9999",1)]
+        with tempfile.TemporaryDirectory() as tmp:
+            corrupted = Path(tmp)/"stage23_corrupted.ipynb"
+            corrupted.write_text(json.dumps(notebook),encoding="utf-8")
+            with self.assertRaisesRegex(ValueError,"predictive displayed values"):
+                verify_stage23_visual_format(corrupted,historical)
+
     def test_stage24_current_presentation_matches_approved_history(self):
         """Compare 12 readable study cells with 13 original Colab code cells."""
         root = ROOT

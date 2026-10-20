@@ -13,7 +13,7 @@ This is a practical pre-release audit for the completed HARTH activity-recogniti
 
 ## Historical Stage 23 evidence and in-place notebook formatting
 
-With the maintainer's explicit approval, the **primary** `notebooks/23_unified_matched_model_benchmark.ipynb` was visually standardised. It now includes the stage-specific SVG and numbered, centred comment headings directly in the notebook used for reading. **No executable Python statements, saved outputs or execution-count metadata changed.** Its newly generated file SHA256 is not the same as the original historical byte-level SHA256 recorded in the approved Stage 25 manifest.
+With the maintainer's explicit approval, the **primary** `notebooks/23_unified_matched_model_benchmark.ipynb` was visually standardised. It now includes the stage-specific SVG and numbered, centred comment headings directly in the notebook used for reading. **The original formatting revision preserved executable statements, outputs and execution counts. The user's subsequent replay changed nondeterministic runtime and Colab rendering metadata; scientific tables are checked against the immutable historical execution.** Its newly generated file SHA256 is not the same as the original historical byte-level SHA256 recorded in the approved Stage 25 manifest.
 
 The original executed Stage 23 notebook is retained in **pinned repository Git
 history**, rather than as a second file in the current project tree. The
