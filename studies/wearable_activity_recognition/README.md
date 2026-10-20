@@ -6,6 +6,8 @@
 
 **Executed study: Stages 01–27.** Final Development model fitting, approved qualified held-out evaluation and read-only research evidence synthesis have been run and committed. This is a research portfolio study, not externally validated clinical software.
 
+**Study navigation:** [Notebooks](notebooks/) · [Stage protocols and documentation](docs/) · [Versioned research records](research_outputs/) · [Workflow figures](images/).
+
 ## Research question
 
 How do classical machine learning and deep temporal neural networks compare for eight-class activity recognition from wearable accelerometer sequences under **participant-disjoint Development evaluation** and a **qualified same-study held-out check**?
@@ -91,7 +93,7 @@ Useful code: [temporal architectures](../../code/python/src/core/advanced_tempor
 6. The notebook collection includes exploratory comparisons with different cohorts, caps and training budgets. **Only explicitly matched experiments should be compared directly.**
 7. Accuracy alone does not reflect minority-class performance. Neither clinical utility, external generalisation, clinical deployment nor statistical superiority is established.
 
-See the [Stage 25 selection protocol](STAGE_25_MODEL_SELECTION_PROTOCOL.md), [Stage 26 original Development/inference protocol](STAGE_26_FINAL_INFERENCE_PROTOCOL.md), [Stage 27 evidence protocol](STAGE_27_FINAL_REPORT_PROTOCOL.md) and [research standards](../../docs/RESEARCH_STANDARDS.md).
+See the [Stage 25 selection protocol](docs/protocols/STAGE_25_MODEL_SELECTION_PROTOCOL.md), [Stage 26 original Development/inference protocol](docs/protocols/STAGE_26_FINAL_INFERENCE_PROTOCOL.md), [Stage 27 evidence protocol](docs/protocols/STAGE_27_FINAL_REPORT_PROTOCOL.md) and [research standards](../../docs/RESEARCH_STANDARDS.md).
 
 **Current status:** All 27 notebook stages are committed; the final research evidence synthesis passed. Source code/CI, documentation and any subsequent release are managed separately. No independent manuscript or additional Test-derived research is implied.
 
@@ -103,4 +105,4 @@ See the [HARTH reproducibility guide](../../docs/HARTH_REPRODUCIBILITY.md). From
 
 The [overall study workflow](images/study_overview.svg) summarises the full HARTH research design, while the **27 notebook-specific workflows** each show only the operations performed at that stage. These figures serve different purposes and are not substitutes for the executed analyses. See [repository visual documentation rules](../../docs/RESEARCH_VISUAL_STANDARDS.md).
 
-All 27 study stages have a landscape workflow SVG under [images/](images/), referenced from the notebook opening Markdown. Code comments and import grouping have been formatted consistently while preserving scientific execution statements. All [primary notebooks 01–27](notebooks/) now have their approved in-place visual format. Original Stage 23 and Stage 24 execution bytes are verified through pinned Git history against their unchanged approved SHA256 values; no duplicate notebook is stored. Stages 26–27 received comment- and figure-only edits; their saved results and their original execution metadata, including five missing Stage 27 execution counts, remain unchanged. No duplicate presentation notebooks remain. See the [notebook authoring standard](NOTEBOOK_AUTHORING_STANDARDS.md). Saving or running a presentation copy does not create an independent new experiment.
+All 27 study stages have a landscape workflow SVG under [images/](images/), referenced from the notebook opening Markdown. Code comments and import grouping have been formatted consistently while preserving scientific execution statements. All [primary notebooks 01–27](notebooks/) now have their approved in-place visual format. Original Stage 23 and Stage 24 execution bytes are verified through pinned Git history against their unchanged approved SHA256 values; no duplicate notebook is stored. Stages 26–27 received comment- and figure-only edits; their saved results and their original execution metadata, including five missing Stage 27 execution counts, remain unchanged. No duplicate presentation notebooks remain. See the [notebook authoring standard](docs/NOTEBOOK_AUTHORING_STANDARDS.md). Saving or running a presentation copy does not create an independent new experiment.
