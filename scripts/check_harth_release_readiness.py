@@ -34,6 +34,7 @@ from core.harth_provenance import (
     read_historical_stage23_bytes,
     read_historical_stage24_bytes,
     verify_stage24_visual_format,
+    verify_stage23_visual_format as verified_stage23_replay,
 )
 
 
@@ -125,31 +126,8 @@ def notebook_execution_check(
 
 
 def verify_stage23_visual_format(current_path, historic_bytes):
-    """Compare the active notebook with its hash-verified Git predecessor."""
-    active = json.loads(Path(current_path).read_text(encoding="utf-8"))
-    archived = json.loads(historic_bytes.decode("utf-8"))
-    if len(active["cells"]) != len(archived["cells"]):
-        raise ValueError("Stage 23 visual format altered cell count.")
-
-    def source_code(cell):
-        source = cell.get("source", "")
-        if isinstance(source, list):
-            source = "".join(source)
-        return [
-            line for line in source.splitlines()
-            if line.strip() and not line.lstrip().startswith("#")
-        ]
-
-    for a, b in zip(active["cells"], archived["cells"]):
-        if a.get("cell_type") != b.get("cell_type"):
-            raise ValueError("Stage 23 visual format altered cell type.")
-        if a.get("cell_type") == "code":
-            if source_code(a) != source_code(b):
-                raise ValueError("Stage 23 visual format altered Python code.")
-            if (a.get("outputs") != b.get("outputs") or
-                a.get("execution_count") != b.get("execution_count")):
-                raise ValueError("Stage 23 visual format altered saved evidence.")
-    return True
+    """Delegate strict science-aware replay checks to the common verifier."""
+    return verified_stage23_replay(current_path, historic_bytes)
 
 
 def verify_recorded_evidence():
@@ -214,7 +192,7 @@ def verify_recorded_evidence():
                 "historical_notebook_sha256": approved["stage24_saved_notebook_sha256"],
                 "saved_output_cells": verified["saved_output_cells"],
                 "missing_execution_counts": verified["missing_execution_counts"],
-                "execution_metadata_complete": False,
+                "execution_metadata_complete": verified["execution_metadata_complete"],
                 "historical_execution_verified": True,
             }
         else:

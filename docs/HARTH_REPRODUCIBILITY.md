@@ -13,7 +13,7 @@ This is a practical pre-release audit for the completed HARTH activity-recogniti
 
 ## Historical Stage 23 evidence and in-place notebook formatting
 
-With the maintainer's explicit approval, the **primary** `notebooks/23_unified_matched_model_benchmark.ipynb` was visually standardised. It now includes the stage-specific SVG and numbered, centred comment headings directly in the notebook used for reading. **No executable Python statements, saved outputs or execution-count metadata changed.** Its newly generated file SHA256 is not the same as the original historical byte-level SHA256 recorded in the approved Stage 25 manifest.
+With the maintainer's explicit approval, the **primary** `notebooks/23_unified_matched_model_benchmark.ipynb` was visually standardised. It now includes the stage-specific SVG and numbered, centred comment headings directly in the notebook used for reading. **The original formatting revision preserved executable statements, outputs and execution counts. The user's subsequent replay changed nondeterministic runtime and Colab rendering metadata; scientific tables are checked against the immutable historical execution.** Its newly generated file SHA256 is not the same as the original historical byte-level SHA256 recorded in the approved Stage 25 manifest.
 
 The original executed Stage 23 notebook is retained in **pinned repository Git
 history**, rather than as a second file in the current project tree. The
@@ -27,12 +27,14 @@ Stage 24's **original** executed notebook is retained at Git commit
 `c4548596656acaffad4b024203e554c2c3aa3da0` and verified against its
 unchanged approved SHA256. It contains 13 executed code cells including an
 initial Google Colab clone/setup cell. The current readable Stage 24 notebook
-omits that setup cell, leaving 12 study code cells. Two of those 12 cells
-(positions 1 and 10) have missing `execution_count` metadata although their
-saved outputs remain. The provenance audit verifies executable code and saved
-output identity for every study cell against the 12 corresponding original
-executed cells; it does not invent execution counts, rewrite notebooks or
-describe the current file as a complete independently executed run.
+omits that setup cell, leaving 12 study code cells. The previous presentation copy had two missing
+`execution_count` values (positions 1 and 10); the user's latest
+Stage 24 replay now has all 12 recorded counts. The audit compares the replay
+against original executed scientific code, complete tables and saved figures.
+It allows only documented non-scientific differences (cached-download logging,
+Colab HTML element identifiers and measured GPU/CPU wall times), while rejecting
+changed predictive metrics, incorrect code or unexpected execution metadata.
+This does not rewrite historical evidence or assert GPU reproducibility of timing.
 
 Stage 24's original executed bytes are verified through a separate pinned
 historical revision. The approved protocol records and six frozen model modules

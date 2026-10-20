@@ -13,6 +13,7 @@ from core.harth_provenance import (
     read_historical_stage23_bytes,
     read_historical_stage24_bytes,
     verify_stage24_visual_format,
+    verify_stage23_visual_format,
 )
 
 
@@ -163,29 +164,7 @@ def _load_stage23_with_verified_visual_format(path):
     _validate_executed_notebook(historic, 23)
     original_sha = hashlib.sha256(original_bytes).hexdigest()
     current, _ = _load_executed(path, 23)
-    if len(current["cells"]) != len(historic["cells"]):
-        raise ValueError("Stage 23 format edit changed notebook cell count.")
-
-    def executable_lines(cell):
-        source = _joined(cell.get("source", ""))
-        return [
-            line for line in source.splitlines()
-            if line.strip() and not line.lstrip().startswith("#")
-        ]
-
-    for current_cell, historic_cell in zip(
-        current["cells"], historic["cells"]
-    ):
-        if current_cell.get("cell_type") != historic_cell.get("cell_type"):
-            raise ValueError("Stage 23 format edit changed notebook cell types.")
-        if current_cell.get("cell_type") != "code":
-            continue
-        if executable_lines(current_cell) != executable_lines(historic_cell):
-            raise ValueError("Stage 23 format edit changed executable code.")
-        if (current_cell.get("outputs") != historic_cell.get("outputs")
-            or current_cell.get("execution_count") !=
-                historic_cell.get("execution_count")):
-            raise ValueError("Stage 23 format edit changed saved evidence.")
+    verify_stage23_visual_format(path, original_bytes)
     return historic, original_sha
 
 
