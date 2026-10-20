@@ -9,6 +9,8 @@ from html.parser import HTMLParser
 from pathlib import Path
 import pandas as pd
 
+from core.harth_provenance import read_historical_stage23_bytes
+
 
 class _SavedTable(HTMLParser):
     """Read single-header Pandas HTML tables without optional HTML dependencies."""
@@ -79,18 +81,25 @@ def _joined(item):
     return "".join(item) if isinstance(item,list) else str(item)
 
 
-def _load_executed(path,stage):
-    path=Path(path)
-    nb=json.loads(path.read_text(encoding="utf-8"))
-    cells=[c for c in nb["cells"] if c.get("cell_type")=="code"]
+def _validate_executed_notebook(nb, stage):
+    """Require saved executed code cells and an explicit final Quality Gate."""
+    cells = [c for c in nb["cells"] if c.get("cell_type") == "code"]
     if not cells or any(c.get("execution_count") is None for c in cells):
         raise ValueError(f"Stage {stage} contains unexecuted code.")
-    if any(o.get("output_type")=="error" for c in cells for o in c.get("outputs",[])):
+    if any(o.get("output_type") == "error"
+           for c in cells for o in c.get("outputs", [])):
         raise ValueError(f"Stage {stage} contains saved errors.")
-    text="".join(_joined(o.get("text","")) for o in cells[-1].get("outputs",[]))
+    text = "".join(_joined(o.get("text", "")) for o in cells[-1].get("outputs", []))
     if f"Stage {stage} scientific quality gate: PASSED" not in text:
         raise ValueError(f"Stage {stage} final quality gate missing.")
-    return nb,hashlib.sha256(path.read_bytes()).hexdigest()
+
+
+def _load_executed(path, stage):
+    path = Path(path)
+    raw = path.read_bytes()
+    nb = json.loads(raw.decode("utf-8"))
+    _validate_executed_notebook(nb, stage)
+    return nb, hashlib.sha256(raw).hexdigest()
 
 
 def _find_frame(nb,section,columns):
@@ -131,19 +140,25 @@ def _load_stage23_with_verified_visual_format(path):
     Read immutable saved Stage 23 evidence after user-approved format changes.
 
     The active notebook is the primary readable copy. Its executable lines,
-    execution counts and saved outputs must match the exact archived notebook.
-    The returned SHA256 is that of the historically executed archive because
-    the approved Stage 25 manifest fingerprints those original bytes.
+    execution counts and saved outputs must match the original executed
+    notebook recovered from pinned Git history. The historical SHA256 is
+    checked against the unchanged approved Stage 25 manifest.
     """
     path = Path(path)
-    archive = (
-        path.parent.parent / "experiments" / "frozen_notebook_evidence" / path.name
+    root = path.resolve().parents[3]
+    approved = json.loads(
+        (root / "studies/wearable_activity_recognition/research_outputs/"
+         "stage_25_protocol_approved_qualified_test.json").read_text(
+            encoding="utf-8"
+        )
     )
-    if not archive.is_file():
-        return _load_executed(path, 23)
-
+    original_bytes = read_historical_stage23_bytes(
+        root, approved["stage23_saved_notebook_sha256"]
+    )
+    historic = json.loads(original_bytes.decode("utf-8"))
+    _validate_executed_notebook(historic, 23)
+    original_sha = hashlib.sha256(original_bytes).hexdigest()
     current, _ = _load_executed(path, 23)
-    historic, original_sha = _load_executed(archive, 23)
     if len(current["cells"]) != len(historic["cells"]):
         raise ValueError("Stage 23 format edit changed notebook cell count.")
 
@@ -191,7 +206,7 @@ def _load_stage24_with_verified_visual_format(path):
     ).stdout
     historic_sha = hashlib.sha256(history).hexdigest()
     approved = json.loads(
-        (root / "studies/wearable_activity_recognition/experiments/"
+        (root / "studies/wearable_activity_recognition/research_outputs/"
          "stage_25_protocol_approved_qualified_test.json").read_text(
             encoding="utf-8"
         )
