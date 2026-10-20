@@ -69,14 +69,13 @@ class TestHarthNotebookPresentation(unittest.TestCase):
                 source = "".join(first["source"]) if isinstance(first["source"], list) else first["source"]
                 self.assertIn(f"../images/{name}_workflow.svg", source)
 
-    def test_original_evidence_archive_and_remaining_frozen_notebooks(self):
-        # Stage 23 is formatted in the primary notebook with explicit
-        # maintainer approval. Keep its original executed bytes archived.
+    def test_primary_notebooks_and_no_duplicate_stage23_archive(self):
+        # Stage 23 is the only active notebook copy; historical source bytes
+        # remain verifiable through the pinned Git commit and approved hash.
         original_23 = STUDY / "notebooks/23_unified_matched_model_benchmark.ipynb"
-        archived_23 = (STUDY / "experiments/frozen_notebook_evidence" /
-                       original_23.name)
+        archived_23 = STUDY / "experiments/frozen_notebook_evidence"
         self.assertTrue(original_23.is_file())
-        self.assertTrue(archived_23.is_file())
+        self.assertFalse(archived_23.exists())
         self.assertFalse(
             (STUDY / "presentation_notebooks" / original_23.name).exists()
         )
