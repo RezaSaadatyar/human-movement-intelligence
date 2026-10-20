@@ -7,7 +7,7 @@ Provide a complete, traceable scientific record of **Stages 01–19** of the HAR
 ## Deliverables
 
 - `notebooks/20_research_evidence_consolidation.ipynb`: ten full analysis sections, including source cohort protocol, notebook execution-state audit, 19-stage evidence register, scientific comparison groups, class-retention plots, probabilistic diagnostics and research limitations. All user-facing Markdown section titles use **bold Markdown** instead of heading hashes.
-- `experiments/stage_01_19_evidence_register.csv`: one row for each previous stage with exact notebook filename, question, protocol, reported evidence and major limitations. Figures are manually transcribed from saved source outputs and remain subject to cross-check.
+- `research_outputs/stage_01_19_evidence_register.csv`: one row for each previous stage with exact notebook filename, question, protocol, reported evidence and major limitations. Figures are manually transcribed from saved source outputs and remain subject to cross-check.
 - `code/python/src/core/notebook_evidence.py`: reusable read-only inventory of saved .ipynb JSON; never executes a notebook or downloads data.
 - `tests/test_notebook_evidence.py`: offline checks for saved execution counts, output-bearing cells, error objects and registry linkage.
 
