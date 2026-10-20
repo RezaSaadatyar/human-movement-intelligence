@@ -21,8 +21,8 @@ class TestHarthStage27Evidence(unittest.TestCase):
         )
         final=load_final_harth_evidence(
             self.dir/"26_final_development_training_and_inference.ipynb",
-            self.study/"research_outputs/stage_25_protocol_proposal_reconciled.json",
-            self.study/"research_outputs/stage_25_protocol_approved_qualified_test.json",
+            self.study/"evidence/stage_25_protocol_proposal_reconciled.json",
+            self.study/"evidence/stage_25_protocol_approved_qualified_test.json",
             development["development_sha256"],
         )
         self.assertEqual(len(development["stage23"]),7)

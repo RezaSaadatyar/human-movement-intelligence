@@ -43,7 +43,7 @@ class TestHarthFinalInference(unittest.TestCase):
 
     def test_original_and_reconciled_proposals(self):
         root=Path(__file__).resolve().parents[1]
-        directory=root/"studies/wearable_activity_recognition/research_outputs"
+        directory=root/"studies/wearable_activity_recognition/evidence"
         original=directory/"stage_25_protocol_proposal.json"
         revised=directory/"stage_25_protocol_proposal_reconciled.json"
         assert original.is_file() and revised.is_file()

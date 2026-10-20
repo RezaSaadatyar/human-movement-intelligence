@@ -15,7 +15,7 @@ import sys
 ROOT = Path(__file__).resolve().parents[1]
 STUDY = ROOT / "studies" / "wearable_activity_recognition"
 NOTEBOOKS = STUDY / "notebooks"
-MANIFESTS = STUDY / "research_outputs"
+MANIFESTS = STUDY / "evidence"
 EXPECTED_MODELS = ("resnet_state_dict.pt", "random_forest.joblib", "inference_config.json")
 EXPECTED_CLASSES = list(range(1, 9))
 EXPECTED_TEST_SUBJECTS = ["S023", "S032"]

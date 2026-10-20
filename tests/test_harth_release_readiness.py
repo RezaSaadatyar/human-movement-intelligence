@@ -27,7 +27,7 @@ class TestHarthReleaseReadiness(unittest.TestCase):
         study = notebooks.parent
         active = notebooks / "23_unified_matched_model_benchmark.ipynb"
         manifest = json.loads(
-            (study / "research_outputs/stage_25_protocol_approved_qualified_test.json")
+            (study / "evidence/stage_25_protocol_approved_qualified_test.json")
             .read_text(encoding="utf-8")
         )
         expected = manifest["stage23_saved_notebook_sha256"]
@@ -85,7 +85,7 @@ class TestHarthReleaseReadiness(unittest.TestCase):
         self.assertEqual(len(saved["notebook_sha256"]), 64)
 
     def test_approval_lineage_cannot_be_silently_mutated(self):
-        path = ROOT / "studies/wearable_activity_recognition/research_outputs/stage_25_protocol_approved_qualified_test.json"
+        path = ROOT / "studies/wearable_activity_recognition/evidence/stage_25_protocol_approved_qualified_test.json"
         manifest = json.loads(path.read_text(encoding="utf-8"))
         self.assertEqual(manifest["status"], "APPROVED")
         self.assertFalse(manifest["evaluation"]["use_test_for_tuning"])
