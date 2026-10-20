@@ -68,8 +68,10 @@ class TestHarthReleaseReadiness(unittest.TestCase):
         result = verify_stage24_visual_format(current, original)
         self.assertEqual(result["current_code_cells"], 12)
         self.assertEqual(result["historical_code_cells"], 13)
-        self.assertEqual(result["missing_execution_counts"], [1, 10])
-        self.assertFalse(result["execution_metadata_complete"])
+        # Current GitHub Stage 24 is a real replay with all 12 counts restored.
+        # An older pre-replay checkout may retain the two documented gaps.
+        self.assertEqual(result["missing_execution_counts"], [])
+        self.assertTrue(result["execution_metadata_complete"])
         self.assertTrue(result["historical_execution_verified"])
 
     def test_stage24_rejects_modified_code_outputs_or_metadata(self):
@@ -111,6 +113,39 @@ class TestHarthReleaseReadiness(unittest.TestCase):
                 with self.subTest(change=change):
                     with self.assertRaises(ValueError):
                         verify_stage24_visual_format(trial, historical)
+
+    def test_stage24_rejects_modified_scientific_table(self):
+        """Runtime variation is allowed, a changed predictive metric is not."""
+        import tempfile
+        from core.harth_provenance import (
+            read_historical_stage24_bytes, verify_stage24_visual_format,
+        )
+        current = (
+            ROOT / "studies/wearable_activity_recognition/notebooks/"
+            "24_multiseed_and_imbalance_robustness.ipynb"
+        )
+        approved = json.loads(
+            (ROOT / "studies/wearable_activity_recognition/evidence/"
+             "stage_25_protocol_approved_qualified_test.json").read_text(
+                encoding="utf-8"
+            )
+        )
+        original = read_historical_stage24_bytes(
+            ROOT, approved["stage24_saved_notebook_sha256"]
+        )
+        current_nb = json.loads(current.read_text(encoding="utf-8"))
+        cells = [c for c in current_nb["cells"] if c.get("cell_type") == "code"]
+        result = cells[10]["outputs"][0]
+        html_rows = result["data"]["text/html"]
+        html_text = "".join(html_rows) if isinstance(html_rows, list) else html_rows
+        assert "0.8286" in html_text
+        modified = html_text.replace("0.8286", "0.9999", 1)
+        result["data"]["text/html"] = [modified]
+        with tempfile.TemporaryDirectory() as folder:
+            bad = Path(folder)/"stage24_modified.ipynb"
+            bad.write_text(json.dumps(current_nb), encoding="utf-8")
+            with self.assertRaisesRegex(ValueError, "scientific displayed values"):
+                verify_stage24_visual_format(bad, original)
 
     def test_local_model_artifacts_are_optional_without_deserialisation(self):
         record = audit.inspect_optional_artifacts(None, "unused_sha256")

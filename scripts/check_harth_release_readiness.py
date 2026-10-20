@@ -214,7 +214,7 @@ def verify_recorded_evidence():
                 "historical_notebook_sha256": approved["stage24_saved_notebook_sha256"],
                 "saved_output_cells": verified["saved_output_cells"],
                 "missing_execution_counts": verified["missing_execution_counts"],
-                "execution_metadata_complete": False,
+                "execution_metadata_complete": verified["execution_metadata_complete"],
                 "historical_execution_verified": True,
             }
         else:

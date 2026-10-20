@@ -27,12 +27,14 @@ Stage 24's **original** executed notebook is retained at Git commit
 `c4548596656acaffad4b024203e554c2c3aa3da0` and verified against its
 unchanged approved SHA256. It contains 13 executed code cells including an
 initial Google Colab clone/setup cell. The current readable Stage 24 notebook
-omits that setup cell, leaving 12 study code cells. Two of those 12 cells
-(positions 1 and 10) have missing `execution_count` metadata although their
-saved outputs remain. The provenance audit verifies executable code and saved
-output identity for every study cell against the 12 corresponding original
-executed cells; it does not invent execution counts, rewrite notebooks or
-describe the current file as a complete independently executed run.
+omits that setup cell, leaving 12 study code cells. The previous presentation copy had two missing
+`execution_count` values (positions 1 and 10); the user's latest
+Stage 24 replay now has all 12 recorded counts. The audit compares the replay
+against original executed scientific code, complete tables and saved figures.
+It allows only documented non-scientific differences (cached-download logging,
+Colab HTML element identifiers and measured GPU/CPU wall times), while rejecting
+changed predictive metrics, incorrect code or unexpected execution metadata.
+This does not rewrite historical evidence or assert GPU reproducibility of timing.
 
 Stage 24's original executed bytes are verified through a separate pinned
 historical revision. The approved protocol records and six frozen model modules
