@@ -1,4 +1,4 @@
-# HARTH v2.0 | Research Methods and Experimental Evidence
+# HARTH | Research Methods and Experimental Evidence
 
 **Study:** Wearable Activity Recognition in Human Movement Intelligence  
 **Research scope:** Eight-class activity recognition from two wearable accelerometers, with participant-disjoint Development experiments and a qualified same-study held-out evaluation.  
