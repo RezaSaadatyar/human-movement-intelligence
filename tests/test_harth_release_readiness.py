@@ -208,6 +208,39 @@ class TestHarthReleaseReadiness(unittest.TestCase):
             ):
                 verify_stage24_visual_format(bad, original)
 
+    def test_stage24_multiindex_rowspan_metric_change_is_rejected(self):
+        """A folded MultiIndex seed column must not hide a changed score."""
+        import tempfile
+        from core.harth_provenance import (
+            read_historical_stage24_bytes, verify_stage24_visual_format,
+        )
+        folder = ROOT / "studies/wearable_activity_recognition"
+        current = folder / "notebooks/24_multiseed_and_imbalance_robustness.ipynb"
+        approved = json.loads(
+            (folder / "evidence/stage_25_protocol_approved_qualified_test.json")
+            .read_text(encoding="utf-8")
+        )
+        historical = read_historical_stage24_bytes(
+            ROOT, approved["stage24_saved_notebook_sha256"]
+        )
+        notebook = json.loads(current.read_text(encoding="utf-8"))
+        code = [c for c in notebook["cells"] if c.get("cell_type") == "code"]
+        pivot = code[6]["outputs"][0]
+        original_html = pivot["data"]["text/html"]
+        text = "".join(original_html) if isinstance(original_html, list) else original_html
+        self.assertIn('rowspan="3"', text)
+        self.assertIn(">0.8360<", text)
+        pivot["data"]["text/html"] = [
+            text.replace(">0.8360<", ">0.9999<", 1)
+        ]
+        with tempfile.TemporaryDirectory() as tmp:
+            modified = Path(tmp) / "stage24_pivot_changed.ipynb"
+            modified.write_text(json.dumps(notebook), encoding="utf-8")
+            with self.assertRaisesRegex(
+                ValueError, r"cell 7, output 1: row 2, column"
+            ):
+                verify_stage24_visual_format(modified, historical)
+
     def test_local_model_artifacts_are_optional_without_deserialisation(self):
         record = audit.inspect_optional_artifacts(None, "unused_sha256")
         self.assertEqual(record["status"], "NOT_CHECKED")

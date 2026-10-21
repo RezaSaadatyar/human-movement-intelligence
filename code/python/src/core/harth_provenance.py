@@ -84,7 +84,13 @@ def verify_stage24_visual_format(active_path, historical_bytes):
         return "".join(value) if isinstance(value, list) else str(value or "")
 
     def _table_values(markup):
-        """Extract actual HTML table cells, ignoring Colab's random wrapper ids."""
+        """Read a Pandas HTML table, expanding HTML rowspan/colspan cells.
+
+        Pandas MultiIndex tables omit a spanned index cell from subsequent
+        <tr> elements (e.g., seed 42 spans folds 1, 2 and 3). Retain that
+        index value in every logical data row before comparing scientific
+        metrics. The original HTML and saved notebook are never rewritten.
+        """
         table = re.search(r"<table\b[^>]*>(.*?)</table>", markup, re.DOTALL)
         if table is None:
             return None
@@ -97,14 +103,53 @@ def verify_stage24_visual_format(active_path, historical_bytes):
             if match is None:
                 return []
             rows = []
-            for row in re.findall(r"<tr\b[^>]*>(.*?)</tr>", match.group(1), re.DOTALL):
-                values = [
-                    html.unescape(re.sub(r"<[^>]+>", "", entry)).strip()
-                    for entry in re.findall(
-                        r"<(?:th|td)\b[^>]*>(.*?)</(?:th|td)>", row, re.DOTALL
+            pending = {}
+            for raw_row in re.findall(
+                r"<tr\b[^>]*>(.*?)</tr>", match.group(1), re.DOTALL
+            ):
+                values = []
+
+                def take_spanned_columns():
+                    while len(values) in pending:
+                        column = len(values)
+                        value, remaining = pending[column]
+                        values.append(value)
+                        if remaining == 1:
+                            del pending[column]
+                        else:
+                            pending[column] = (value, remaining - 1)
+
+                for attrs, entry in re.findall(
+                    r"<(?:th|td)\b([^>]*)>(.*?)</(?:th|td)>",
+                    raw_row, re.DOTALL,
+                ):
+                    take_spanned_columns()
+                    value = html.unescape(
+                        re.sub(r"<[^>]+>", "", entry)
+                    ).strip()
+                    row_match = re.search(
+                        r"\browspan\s*=\s*['\"]?(\d+)", attrs
                     )
-                ]
+                    col_match = re.search(
+                        r"\bcolspan\s*=\s*['\"]?(\d+)", attrs
+                    )
+                    rowspan = int(row_match.group(1)) if row_match else 1
+                    colspan = int(col_match.group(1)) if col_match else 1
+                    if not 1 <= rowspan <= 1000 or not 1 <= colspan <= 1000:
+                        raise ValueError("Invalid HTML table span in Stage 24.")
+                    for _ in range(colspan):
+                        column = len(values)
+                        values.append(value)
+                        if rowspan > 1:
+                            if column in pending:
+                                raise ValueError(
+                                    "Overlapping HTML table row spans in Stage 24."
+                                )
+                            pending[column] = (value, rowspan - 1)
+                take_spanned_columns()
                 rows.append(values)
+            if pending:
+                raise ValueError("Truncated HTML rowspan in Stage 24 table.")
             return rows
 
         headings = section_rows("thead")
