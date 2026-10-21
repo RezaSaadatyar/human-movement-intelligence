@@ -58,8 +58,22 @@ class TestHarthFinalInference(unittest.TestCase):
             {k:v for k,v in new.items() if k not in ("module_sha256","reconciliation")}
         )
         self.assertNotEqual(old["module_sha256"],new["module_sha256"])
-        with self.assertRaisesRegex(ValueError,"Frozen code was modified"):
-            final.load_final_protocol(original,root,require_approval=False)
+        # The original historical source fingerprints may match a native
+        # Windows CRLF checkout, but not the same sources checked out with LF.
+        # Either result is legitimate: only approved bytes (or strict CRLF-to-LF
+        # equivalents) can pass the production fingerprint check. Never treat
+        # successful loading of a PENDING historical proposal as Test approval.
+        try:
+            historical=final.load_final_protocol(
+                original,root,require_approval=False
+            )
+        except ValueError as error:
+            self.assertIn("Frozen code was modified:",str(error))
+        else:
+            self.assertEqual(historical["status"],"PENDING_USER_REVIEW")
+        with self.assertRaises(PermissionError):
+            final.load_final_protocol(original,root,require_approval=True)
+
         accepted=final.load_final_protocol(revised,root,require_approval=False)
         self.assertEqual(accepted["status"],"PENDING_USER_REVIEW")
         with self.assertRaises(PermissionError):
