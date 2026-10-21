@@ -400,7 +400,12 @@ def verify_stage23_visual_format(active_path, historical_bytes):
                     # Only remove elapsed GPU/CPU time, not validation scores.
                     a=re.sub(r"(\| Train=)[0-9]+(?:\.[0-9]+)?( s)",r"\1RUNTIME\2",a)
                     b=re.sub(r"(\| Train=)[0-9]+(?:\.[0-9]+)?( s)",r"\1RUNTIME\2",b)
-                if a!=b:
+                # Execution reruns can add/remove blank presentation lines.
+                # Compare all non-empty lines verbatim to retain scientific
+                # scores, cohort counts, warnings and quality-gate evidence.
+                if [line for line in a.splitlines() if line.strip()] != [
+                    line for line in b.splitlines() if line.strip()
+                ]:
                     raise ValueError(f"Stage 23 logged scientific values changed in cell {index}.")
             elif before!=after:
                 raise ValueError(f"Stage 23 unsupported output changed in cell {index}.")

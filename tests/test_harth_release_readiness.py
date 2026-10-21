@@ -46,6 +46,38 @@ class TestHarthReleaseReadiness(unittest.TestCase):
         self.assertEqual(evidence["notebook23_sha256"], expected)
         self.assertEqual(len(evidence["stage23"]), 7)
 
+    def test_stage23_allows_blank_stream_lines_only(self):
+        """Presentation-only empty lines cannot invalidate saved Stage 23."""
+        import tempfile
+        from core.harth_provenance import verify_stage23_visual_format
+        directory = ROOT / "studies/wearable_activity_recognition"
+        active = directory / "notebooks/23_unified_matched_model_benchmark.ipynb"
+        approved = json.loads(
+            (directory / "evidence/stage_25_protocol_approved_qualified_test.json")
+            .read_text(encoding="utf-8")
+        )
+        historical = audit.read_historical_stage23_bytes(
+            ROOT, approved["stage23_saved_notebook_sha256"]
+        )
+        current = json.loads(active.read_text(encoding="utf-8"))
+        cells = [c for c in current["cells"] if c.get("cell_type") == "code"]
+        printed = next(
+            output for output in cells[4]["outputs"]
+            if output.get("output_type") == "stream"
+        )
+        # Add another empty line without changing any scored or cohort content.
+        original = printed["text"]
+        text = "".join(original) if isinstance(original, list) else original
+        printed["text"] = text.replace(
+            "ALL 21 SOURCE-MATCHED EXPERIMENT JOBS COMPLETED",
+            "\nALL 21 SOURCE-MATCHED EXPERIMENT JOBS COMPLETED",
+            1,
+        )
+        with tempfile.TemporaryDirectory() as tmp:
+            checked = Path(tmp) / "stage23_formatting_only.ipynb"
+            checked.write_text(json.dumps(current), encoding="utf-8")
+            self.assertTrue(verify_stage23_visual_format(checked, historical))
+
     def test_stage23_rejects_changed_predictive_metric(self):
         """Replays may vary in runtime, but not in frozen scientific scores."""
         import tempfile
