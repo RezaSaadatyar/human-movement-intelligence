@@ -67,10 +67,9 @@ All relative links below point to the current repository locations. Plain reposi
 
 ## Supporting technical records
 
-- [Notebook Authoring Standards](NOTEBOOK_AUTHORING_STANDARDS.md): notebook presentation, scientific caveats and preservation of saved outputs.
-- [Stage 26 Source-Code Reconciliation](STAGE_26_CODE_RECONCILIATION.md): why an initial source SHA256 guard blocked progress and how the later reconciled candidate was recorded. Earlier *pending* notices in this record are historical, not current blockers.
+- [Coding and documentation style guide](../../../docs/DEVELOPMENT_STYLE.md): the retained HARTH presentation conventions and general research code style.
 - [Version-controlled evidence](../evidence/): original evidence register, historical candidates and distinct approval record.
-- [HARTH reproducibility and provenance guide](../../../docs/HARTH_REPRODUCIBILITY.md): pinned historical execution, checkout requirements, integrity checks and release readiness.
+- [HARTH reproducibility and provenance guide](../../../docs/HARTH_REPRODUCIBILITY.md): Stage 26 source-hash reconciliation history, pinned historical execution, checkout requirements, integrity checks and release readiness.
 - [Primary project overview](../README.md): interpretation, actual metric tables, limitations and local execution instructions.
 
 Historical records are preserved; this navigation update does not create new model outcomes, rerun a notebook or renew permission to access the qualified Test.
