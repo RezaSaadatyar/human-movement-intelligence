@@ -50,7 +50,7 @@ Data are acquired from their original providers into ignored local `data/raw/` d
 **Visual documentation:** [Portfolio-level workflow](images/repository_overview.svg) describes the repository; each implemented study has an independent [study overview](studies/README.md) and each HARTH Notebook retains its own stage-specific SVG. See [research figure hierarchy and design rules](docs/RESEARCH_VISUAL_STANDARDS.md).
 
 - [Research study catalogue](studies/README.md) and [research roadmap](docs/ROADMAP.md)
-- [Research standards](docs/RESEARCH_STANDARDS.md), [development style](docs/DEVELOPMENT_STYLE.md) and [architecture](docs/ARCHITECTURE.md)
+- [Research standards](docs/RESEARCH_STANDARDS.md) and [architecture](docs/ARCHITECTURE.md)
 - Shared Python modules: [code/python/src/core](code/python/src/core/)
 - Reusable unit tests: [tests](tests/) and [CI workflow](.github/workflows/python-checks.yml)
 - [HARTH study documentation](studies/wearable_activity_recognition/README.md) and [Stage 27 reporting protocol](studies/wearable_activity_recognition/docs/protocols/STAGE_27_FINAL_REPORT_PROTOCOL.md)
@@ -61,4 +61,4 @@ Data are acquired from their original providers into ignored local `data/raw/` d
 
 Before an optional versioned release, review the [HARTH reproducibility audit](docs/HARTH_REPRODUCIBILITY.md) and run `python scripts/check_harth_release_readiness.py` from the repository root. This read-only check verifies saved research evidence and frozen code/manifest provenance without retraining models or re-opening Test data. Original Stage 26 model files are local and must be checked separately if retained; no release is implied.
 
-Notebook presentation: [HARTH workflow diagrams](studies/wearable_activity_recognition/images/), [directly formatted primary Notebooks 01–27](studies/wearable_activity_recognition/notebooks/) and [coding and documentation style guide](docs/DEVELOPMENT_STYLE.md). The original executed Stage 23 bytes remain accessible through pinned Git history, rather than a separate file in the current project tree, to preserve the historical approved SHA256.
+HARTH research evidence: [executed Notebooks 01–27](studies/wearable_activity_recognition/notebooks/), [workflow figures](studies/wearable_activity_recognition/images/) and the [provenance audit](docs/HARTH_REPRODUCIBILITY.md). Original approved Stage 23 evidence remains verifiable through pinned Git history.
