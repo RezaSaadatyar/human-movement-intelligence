@@ -10,7 +10,7 @@
 | Stage 24 | Executed multi-seed/loss robustness, 36 Development fits | [Notebook 24](../studies/wearable_activity_recognition/notebooks/24_multiseed_and_imbalance_robustness.ipynb) |
 | Stage 25 | Executed Development-only model selection and source-fingerprinted protocol | [Notebook 25](../studies/wearable_activity_recognition/notebooks/25_model_selection_and_protocol_freeze.ipynb) |
 | Stage 26 | Executed Development final fitting, approved one-time qualified evaluation on S023/S032; final gate PASSED | [Notebook 26](../studies/wearable_activity_recognition/notebooks/26_final_development_training_and_inference.ipynb) |
-| Stage 27 | Executed saved-evidence synthesis, ten scientific sections plus Colab setup (eleven code cells), final gate PASSED; no raw/Test reloading | [Notebook 27](../studies/wearable_activity_recognition/notebooks/27_final_research_evidence_and_report.ipynb) |
+| Stage 27 | Completed read-only saved-evidence synthesis, final gate PASSED; no raw/Test reloading | [Notebook 27](../studies/wearable_activity_recognition/notebooks/27_final_research_evidence_and_report.ipynb) |
 | Biomechanical Load Estimation | Original data inspection and separately documented preliminary exploratory results, not completed robust load-estimation benchmark | [Study notes](../studies/biomechanical_load_estimation/) |
 | Other movement science studies | Planned, not yet implemented | [Study catalogue](../studies/README.md) |
 
@@ -18,7 +18,6 @@
 
 ## Remaining repository hygiene and release decisions
 
-- [x] Close obsolete execution-count presentation warnings. Saved-output inventories remain historical facts, not outstanding experiment reruns.
 
 - [x] Review Stages 01–27 and their saved outputs; all current notebook Quality Gates have been checked, including Stages 23–27.
 - [x] Align root and HARTH study README with the actual results and historical Test limitations.
@@ -191,14 +190,6 @@ The repository remains modular: each study has a shareable study-specific notebo
 - [x] Document matched/unmatched experiments, rare-class evidence, and the original Test provenance limitation.
 - [ ] Run Notebook 20 locally, inspect inventory findings and execute its quality gate; commit and push real results.
 - [ ] Review that execution before opening Stage 21.
-
-**Formatting convention for all upcoming notebooks:** Use `**01. Section Title**` or equivalent **bold Markdown**, not hash-style headings. Preserve complete explanations, analysis and outputs despite notebook consolidation.
-
-
-### Notebook presentation and review standard (Stages 21–27)
-
-The [coding and documentation style guide](DEVELOPMENT_STYLE.md) records the retained HARTH presentation conventions: bold Markdown section labels, numbered English code comments, clear figures/tables and source-grounded quality gates. All 27 HARTH stages have been executed and committed; the former sequential execute-push-review workflow is a historical development record, not an outstanding task.
-
 
 ### Stage 21 implementation checkpoint (awaiting local source-data execution)
 
