@@ -51,7 +51,11 @@ class TestHarthStage27Evidence(unittest.TestCase):
         nb = json.loads(path.read_text(encoding="utf-8"))
         self.assertEqual(nb["nbformat"], 4)
         codes = [cell for cell in nb["cells"] if cell["cell_type"] == "code"]
-        self.assertEqual(len(codes), 10)
+        self.assertEqual(len(codes), 11)  # one safe Colab setup + ten research cells
+        bootstrap = "".join(codes[0]["source"])
+        self.assertIn('["git", "-C", str(repo), "pull", "--ff-only", "origin", "main"]', bootstrap)
+        research_codes = codes[1:]
+        self.assertEqual(len(research_codes), 10)
         missing_counts = [
             i + 1 for i, cell in enumerate(codes)
             if cell.get("execution_count") is None
