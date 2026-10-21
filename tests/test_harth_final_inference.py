@@ -76,6 +76,15 @@ class TestHarthFinalInference(unittest.TestCase):
         )
         self.assertIn("stage_25_protocol_proposal_reconciled.json",code)
         self.assertNotIn('stage_25_protocol_proposal.json"',code)
+        self.assertNotIn("research_outputs", code)
+        self.assertIn(
+            "studies/wearable_activity_recognition/evidence/"
+            "stage_25_protocol_proposal_reconciled.json", code,
+        )
+        self.assertIn(
+            "studies/wearable_activity_recognition/evidence/"
+            "stage_25_protocol_approved_qualified_test.json", code,
+        )
 
     def test_qualified_scoring_validates_original_subjects(self):
         with self.assertRaises(ValueError):
