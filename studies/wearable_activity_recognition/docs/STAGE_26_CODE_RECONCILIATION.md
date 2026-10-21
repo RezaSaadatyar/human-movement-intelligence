@@ -2,6 +2,18 @@
 
 > **Historical engineering record (15 October 2026), resolved.** The descriptions below of a blocked Stage 26, pending user approval and an unimplemented Test workflow reflect earlier checkpoints. Subsequently, the original proposal was preserved unchanged, a separate reconciled pending proposal was recorded, and a distinct [approved qualified-Test manifest](../evidence/stage_25_protocol_approved_qualified_test.json) authorised the one-time S023/S032 assessment. [Notebook 26](../notebooks/26_final_development_training_and_inference.ipynb) now contains executed Development training and approved qualified Test results; [Notebook 27](../notebooks/27_final_research_evidence_and_report.ipynb) contains the executed read-only research synthesis. **Neither historical proposal has been retrospectively marked APPROVED.** Do not follow the old instructions to redo Test scoring. See the [current study summary](../README.md) and [reproducibility guide](../../../docs/HARTH_REPRODUCIBILITY.md).
 
+## Approved manifest parent-reference clarification (21 October 2026)
+
+The immutable approved manifest records `approval_record.parent_manifest` as
+`studies/wearable_activity_recognition/experiments/stage_25_protocol_proposal_reconciled.json`.
+The corresponding reconciled proposal in the current repository is located at
+`studies/wearable_activity_recognition/evidence/stage_25_protocol_proposal_reconciled.json`.
+The stored parent string is a historical metadata pointer, not the path used by the current
+Stage 25 lineage verifier, which loads the three protocol files explicitly from `evidence/`.
+No changes were made to the approved manifest, its SHA256, the original proposal or the
+qualified held-out evaluation. For the actual reconciled file, use the
+[version-controlled evidence record](../evidence/stage_25_protocol_proposal_reconciled.json).
+
 The committed Stage 25 `stage_25_protocol_proposal.json` records **PENDING_USER_REVIEW** and a SHA256 fingerprint for six source modules. A Stage 26 CI run (38772427888) determined that the committed `advanced_temporal_models.py` bytes do **not** match the fingerprint embedded in that proposal. Other files may also differ; review all six.
 
 **Do not delete this guard, modify source checks to always pass, mark the proposal APPROVED automatically, train final models on unverified code, or load S023/S032.**
