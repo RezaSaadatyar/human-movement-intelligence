@@ -45,11 +45,9 @@ JSON records describe past provenance and are not updated to current locations.
 The primary notebooks contain saved visible results, while large generated
 model and report artefacts remain in Git-ignored `outputs/`.
 
-## Historical Stage 26 source-code reconciliation
+## Frozen model selection and qualified evaluation
 
-During the initial Stage 26 preflight on 15 October 2026, the original pending Stage 25 proposal's six recorded module fingerprints did not match the checked-out code. A subsequent clean-checkout review confirmed the six GitHub source hashes; the precise cause of the earlier mismatch was not conclusively established. The original `evidence/stage_25_protocol_proposal.json` was retained unchanged. A separate `evidence/stage_25_protocol_proposal_reconciled.json` recorded the reconciled source fingerprints without altering the proposed scientific settings, and its historical status remained `PENDING_USER_REVIEW`. The distinct `evidence/stage_25_protocol_approved_qualified_test.json` records the later explicit one-time qualified-Test approval.
-
-The approved manifest's `approval_record.parent_manifest` is a historical pointer under `studies/wearable_activity_recognition/experiments/`; the current reconciled file is under [`evidence/`](../studies/wearable_activity_recognition/evidence/). The Stage 25 lineage verifier reads the expected files directly from `evidence/`. These versioned records and approved SHA256 values must not be rewritten to normalise old paths or approval states. Original troubleshooting details remain recoverable from Git history.
+The final models and evaluation settings were selected using Development evidence alone. The historical Stage 25 proposal records remain at their original `PENDING_USER_REVIEW` status; a separate `APPROVED` manifest documents the specific one-time qualified held-out evaluation reported in Notebook 26. All three immutable files remain under [study evidence](../studies/wearable_activity_recognition/evidence/). Their source and approval integrity is checked without altering model parameters or re-evaluating the protected participants. For scientific methods and results, see the [consolidated study report](../studies/wearable_activity_recognition/docs/HARTH_RESEARCH_METHODS_AND_EVIDENCE.md).
 
 ## Reproduction levels and what is available
 
