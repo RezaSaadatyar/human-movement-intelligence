@@ -60,14 +60,13 @@ All relative links below point to the current repository locations. Plain reposi
 | [Original Stage 25 proposal](../evidence/stage_25_protocol_proposal.json) | Historical `PENDING_USER_REVIEW`, preserved unchanged |
 | [Reconciled Stage 25 proposal](../evidence/stage_25_protocol_proposal_reconciled.json) | Historical `PENDING_USER_REVIEW`, with separately reconciled source-code fingerprints |
 | [Qualified-Test approval](../evidence/stage_25_protocol_approved_qualified_test.json) | Separate `APPROVED` record for the original one-time same-study held-out evaluation |
-| [Stage 26 notebook](../notebooks/26_final_development_training_and_inference.ipynb) | 13 executed code cells; qualified held-out gate `PASSED` |
-| [Stage 27 notebook](../notebooks/27_final_research_evidence_and_report.ipynb) | 11 executed code cells, including one Colab setup cell; read-only synthesis gate `PASSED` |
+| [Stage 26 notebook](../notebooks/26_final_development_training_and_inference.ipynb) | Completed approved qualified held-out evaluation; final gate `PASSED` |
+| [Stage 27 notebook](../notebooks/27_final_research_evidence_and_report.ipynb) | Completed read-only evidence synthesis; final gate `PASSED` |
 
 **Do not** overwrite original or reconciled manifests, infer a new Test approval from a passed replay, or re-score protected Test data merely to review documentation. Neither the Development evaluation nor the qualified same-study held-out check establishes blind external generalisation, prospective validation or clinical readiness.
 
 ## Supporting technical records
 
-- [Coding and documentation style guide](../../../docs/DEVELOPMENT_STYLE.md): the retained HARTH presentation conventions and general research code style.
 - [Version-controlled evidence](../evidence/): original evidence register, historical candidates and distinct approval record.
 - [HARTH reproducibility and provenance guide](../../../docs/HARTH_REPRODUCIBILITY.md): Stage 26 source-hash reconciliation history, pinned historical execution, checkout requirements, integrity checks and release readiness.
 - [Primary project overview](../README.md): interpretation, actual metric tables, limitations and local execution instructions.
