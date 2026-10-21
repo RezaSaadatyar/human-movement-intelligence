@@ -65,6 +65,40 @@ class TestHarthFinalInference(unittest.TestCase):
         with self.assertRaises(PermissionError):
             final.load_final_protocol(revised,root,require_approval=True)
 
+    def test_stage26_accepts_only_crlf_checkout_of_approved_modules(self):
+        """Validate a simulated Windows checkout without altering any manifests.
+
+        Use the six real frozen source files and their approved hashes, create
+        temporary CRLF copies, then reject any actual source-byte change.
+        This test does not import raw recordings, train, or score Test data.
+        """
+        root = Path(__file__).resolve().parents[1]
+        proposal = (
+            root / "studies/wearable_activity_recognition/evidence/"
+            "stage_25_protocol_proposal_reconciled.json"
+        )
+        manifest = json.loads(proposal.read_text(encoding="utf-8"))
+        with tempfile.TemporaryDirectory() as temp_dir:
+            simulated_root = Path(temp_dir)
+            for relative in manifest["module_sha256"]:
+                original = (root / relative).read_bytes()
+                # Collapse only checkout line-ending conversion before
+                # reproducing the Windows representation of approved source.
+                source_bytes = original.replace(b"\r\n", b"\n")
+                target = simulated_root / relative
+                target.parent.mkdir(parents=True, exist_ok=True)
+                target.write_bytes(source_bytes.replace(b"\n", b"\r\n"))
+            accepted = final.load_final_protocol(
+                proposal, simulated_root, require_approval=False
+            )
+            self.assertEqual(accepted["status"], "PENDING_USER_REVIEW")
+            frozen_file = simulated_root / next(iter(manifest["module_sha256"]))
+            frozen_file.write_bytes(frozen_file.read_bytes() + b"\r\n# modified")
+            with self.assertRaisesRegex(ValueError, "Frozen code was modified"):
+                final.load_final_protocol(
+                    proposal, simulated_root, require_approval=False
+                )
+
     def test_stage26_notebook_uses_reconciled_manifest(self):
         root=Path(__file__).resolve().parents[1]
         notebook=root/"studies/wearable_activity_recognition/notebooks/26_final_development_training_and_inference.ipynb"

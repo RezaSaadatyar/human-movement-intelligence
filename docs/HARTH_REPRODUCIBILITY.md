@@ -83,7 +83,10 @@ The last command is a **read-only** source/provenance check. It does not open so
 
 The six frozen Python modules in the **GitHub main tree** have been independently checked against the approved Stage 25 SHA256 entries and match **exactly**. On Windows, `git status` can be clean while `core.autocrlf` has converted Git's original LF text to CRLF in the working tree, which changes the raw-byte SHA256.
 
-The pre-release audit therefore performs a **strict CRLF-to-LF-only** equivalence test if and only if the exact raw-byte SHA256 does not match. It accepts only a byte-for-byte match to the historical approved hash after this single transformation. It reports affected paths as `Windows CRLF-to-LF-only verified paths`. Any other file modification is rejected; it neither rewrites the file nor relaxes or updates an approved scientific fingerprint.
+The pre-release audit therefore performs a **strict CRLF-to-LF-only** equivalence test if and only if the exact raw-byte SHA256 does not match.
+
+**Stage 26 frozen-protocol loading uses the same strict source-file rule.** On Windows, it accepts the original approved SHA256 or the exact same SHA256 after CRLF-to-LF conversion of a Git checkout. It does not change the approved JSON manifest, model source, settings, or any model artefact. The separate `sha256_file()` helper continues to check saved artefact bytes without line-ending normalisation. A mismatch after the permitted conversion remains a genuine stop condition: inspect local changes rather than altering the frozen record.
+ It accepts only a byte-for-byte match to the historical approved hash after this single transformation. It reports affected paths as `Windows CRLF-to-LF-only verified paths`. Any other file modification is rejected; it neither rewrites the file nor relaxes or updates an approved scientific fingerprint.
 
 To diagnose on Windows PowerShell:
 

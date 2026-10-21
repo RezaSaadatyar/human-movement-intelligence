@@ -18,6 +18,8 @@ from sklearn.metrics import accuracy_score, balanced_accuracy_score, f1_score
 from sklearn.metrics import classification_report, confusion_matrix
 import joblib
 
+from core.harth_protocol_lineage import verified_module_sha256
+
 try:
     import torch
     from torch import nn
@@ -89,8 +91,15 @@ def load_final_protocol(path, repository_root, *, require_approval=False):
         target = (root / relative).resolve()
         if not target.is_relative_to(root) or not target.is_file():
             raise FileNotFoundError("Missing or unsafe frozen code path.")
-        if sha256_file(target) != expected:
-            raise ValueError(f"Frozen code was modified: {relative}")
+        # A Windows checkout can convert the original LF source to CRLF.
+        # Match the immutable approved hash either byte-for-byte or after
+        # CRLF-to-LF ONLY. All other edits remain prohibited.
+        try:
+            verified_module_sha256(target, expected)
+        except ValueError as error:
+            raise ValueError(
+                f"Frozen code was modified: {relative}. {error}"
+            ) from error
 
     # 3. Enforce approved HARTH task and development settings.
     source = manifest["source"]
