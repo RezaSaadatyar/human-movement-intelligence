@@ -6,7 +6,7 @@
 
 **Executed study: Stages 01–27.** Final Development model fitting, approved qualified held-out evaluation and read-only research evidence synthesis have been run and committed. This is a research portfolio study, not externally validated clinical software.
 
-**Study navigation:** [Notebooks](notebooks/) · [Stage protocols and documentation](docs/) · [Versioned research records](evidence/) · [Workflow figures](images/).
+**Study navigation:** [Notebooks](notebooks/) · [Research methods and evidence](docs/HARTH_RESEARCH_METHODS_AND_EVIDENCE.md) · [Versioned research records](evidence/) · [Workflow figures](images/).
 
 ## Research question
 
@@ -79,7 +79,7 @@ python -m unittest discover -s tests -v
 
 **To review actual evidence without GPU or HARTH downloads:** open [Notebook 27](notebooks/27_final_research_evidence_and_report.ipynb). In **Google Colab**, run its checkout/setup cell and then the ten research code sections (eleven code cells in total). In **Cursor, Windows or local Jupyter**, skip the Colab-specific `%cd /content` setup cell, start in the repository root with full Git history and run the ten research sections. The report reads already committed notebooks, checks provenance and produces ignored `outputs/harth_stage27_report/` CSV/provenance files; it does **not** reload Test recordings or refit models. The current committed Stage 27 notebook has all eleven code cells executed with a saved `PASSED` gate.
 
-**For historical training / neural model re-execution:** use [`requirements-dl.txt`](../../requirements-dl.txt) and the relevant numbered notebook/protocol. Reproducing GPU results requires acquiring original HARTH source files and compatible hardware. The frozen final model artefacts (`resnet_state_dict.pt`, `random_forest.joblib`, `inference_config.json`) are **not committed**; they were generated in ignored local `outputs/harth_stage26_final/`. Do not treat a freshly cloned repository as including those files. Never repeat qualified Test scoring to tune model choices.
+**For historical training / neural model re-execution:** use [`requirements-dl.txt`](../../requirements-dl.txt) and the relevant numbered notebook. Reproducing GPU results requires acquiring original HARTH source files and compatible hardware. The frozen final model artefacts (`resnet_state_dict.pt`, `random_forest.joblib`, `inference_config.json`) are **not committed**; they were generated in ignored local `outputs/harth_stage26_final/`. Do not treat a freshly cloned repository as including those files. Never repeat qualified Test scoring to tune model choices.
 
 Useful code: [temporal architectures](../../code/python/src/core/advanced_temporal_models.py), [benchmarking](../../code/python/src/core/temporal_benchmark.py), [final inference](../../code/python/src/core/harth_final_inference.py), [qualified metrics](../../code/python/src/core/harth_qualified_test_report.py), [read-only evidence report](../../code/python/src/core/harth_study_report.py) and [offline tests](../../tests/).
 
@@ -93,7 +93,7 @@ Useful code: [temporal architectures](../../code/python/src/core/advanced_tempor
 6. The notebook collection includes exploratory comparisons with different cohorts, caps and training budgets. **Only explicitly matched experiments should be compared directly.**
 7. Accuracy alone does not reflect minority-class performance. Neither clinical utility, external generalisation, clinical deployment nor statistical superiority is established.
 
-See the [Stage 25 selection protocol](docs/protocols/STAGE_25_MODEL_SELECTION_PROTOCOL.md), [Stage 26 original Development/inference protocol](docs/protocols/STAGE_26_FINAL_INFERENCE_PROTOCOL.md), [Stage 27 evidence protocol](docs/protocols/STAGE_27_FINAL_REPORT_PROTOCOL.md) and [research standards](../../docs/RESEARCH_STANDARDS.md).
+For the complete method and evidence synthesis, see [Research Methods and Experimental Evidence](docs/HARTH_RESEARCH_METHODS_AND_EVIDENCE.md) and the [research standards](../../docs/RESEARCH_STANDARDS.md).
 
 **Current status:** All 27 notebook stages are committed; the final research evidence synthesis passed. Source code/CI, documentation and any subsequent release are managed separately. No independent manuscript or additional Test-derived research is implied.
 
