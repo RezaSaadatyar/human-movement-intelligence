@@ -23,7 +23,7 @@ How do classical machine learning and deep temporal neural networks compare for 
 
 ## Executed evidence and model development
 
-**Notebook viewing:** All **27 research notebooks** are formatted directly in their primary `notebooks/` paths, with matched comment conventions and individual, scientific, two-layer SVG workflows. The original executed Stage 23/24 evidence is preserved through pinned Git history, while subsequent genuine notebook replays may update runtime logs, rendered figures or execution counts without altering the approved methodological protocol. No separate presentation-only notebook copies are needed.
+**Research evidence:** All 27 numbered notebooks contain saved study results and linked stage-specific workflow figures. Original approved Stage 23/24 evidence remains verifiable through pinned Git history; later notebook replays do not replace the original approval records.
 
 | Stages | Objective | Evidence |
 | --- | --- | --- |
@@ -101,8 +101,8 @@ See the [Stage 25 selection protocol](docs/protocols/STAGE_25_MODEL_SELECTION_PR
 
 See the [HARTH reproducibility guide](../../docs/HARTH_REPRODUCIBILITY.md). From the repository root, run `python scripts/check_harth_release_readiness.py` for a read-only verification of saved notebook outputs and frozen scientific provenance. Optional trusted local model files can be checked separately using `--artifact-dir`; this does not deserialise them. A GitHub Release is a later, user-approved action, not part of the executed study.
 
-## Consistent notebook layouts and landscape diagrams
+## Research workflow figures
 
-The [overall study workflow](images/study_overview.svg) summarises the full HARTH research design, while the **27 notebook-specific workflows** each show only the operations performed at that stage. These figures serve different purposes and are not substitutes for the executed analyses. See [repository visual documentation rules](../../docs/RESEARCH_VISUAL_STANDARDS.md).
+The [study-level workflow](images/study_overview.svg) outlines the full research process. The [27 stage-specific figures](images/) illustrate the corresponding investigations and do not substitute for their saved experimental evidence.
 
-All 27 study stages have a landscape workflow SVG under [images/](images/), referenced from the notebook opening Markdown. Code comments and import grouping follow consistent presentation conventions while preserving scientific execution statements. All [primary notebooks 01–27](notebooks/) retain saved outputs and their current Quality Gates, and the 49 code cells in Stages 01–07 now have recorded execution counts following genuine reruns. Approved Stage 23/24 historical evidence is independently pinned through Git history and unchanged SHA256 values. Stages 26–27 contain the completed final qualified evaluation and source-grounded report synthesis. No duplicate presentation notebooks remain. See the [coding and documentation style guide](../../docs/DEVELOPMENT_STYLE.md). Notebook replay is not independent external validation.
+The [primary notebooks 01–27](notebooks/) preserve study results and scientific limitations. Original Stage 23/24 approved evidence can be checked against pinned Git-history records, and Stages 26–27 document the qualified same-study held-out evaluation and read-only report synthesis. No notebook replay establishes independent external validation.
