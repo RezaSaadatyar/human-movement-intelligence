@@ -83,10 +83,11 @@ def notebook_execution_check(
 ):
     """Audit committed output evidence and report missing execution metadata.
 
-    Stage 27 in the current source has five code cells with saved visible
-    output but no recorded execution_count. Preserve and report that gap:
-    the saved output cannot independently prove the precise execution run.
-    Missing metadata must never be silently invented or called fully executed.
+    Historical Stage 27 copies may contain output-bearing code cells without
+    an execution_count. Report the exact missing counts without inventing
+    execution metadata. The current pre-run notebook has a separate Colab
+    setup cell and ten research code cells: it must pass the saved-output
+    and Quality Gate checks only after the user actually executes it.
     """
     path = Path(path)
     notebook = json.loads(path.read_text(encoding="utf-8"))
@@ -174,7 +175,7 @@ def verify_recorded_evidence():
         24: (13, "Stage 24 scientific quality gate: PASSED"),
         25: (11, "Stage 25 development selection audit: PASSED"),
         26: (13, "STAGE 26 | QUALIFIED HELD-OUT EVALUATION: PASSED"),
-        27: (10, "STAGE 27 | SOURCE-GROUNDED RESEARCH SYNTHESIS QUALITY GATE: PASSED"),
+        27: (11, "STAGE 27 | SOURCE-GROUNDED RESEARCH SYNTHESIS QUALITY GATE: PASSED"),
     }
     for stage, (count, gate) in expected.items():
         matches = list(NOTEBOOKS.glob(f"{stage:02d}_*.ipynb"))

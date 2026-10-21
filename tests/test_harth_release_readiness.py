@@ -241,6 +241,28 @@ class TestHarthReleaseReadiness(unittest.TestCase):
             ):
                 verify_stage24_visual_format(modified, historical)
 
+    def test_stage27_has_one_colab_setup_and_ten_research_code_cells(self):
+        """Structural check that does not require Stage 27 to have run yet."""
+        import json
+        notebook = (
+            ROOT / "studies/wearable_activity_recognition/notebooks/"
+            "27_final_research_evidence_and_report.ipynb"
+        )
+        record = json.loads(notebook.read_text(encoding="utf-8"))
+        cells = [
+            c for c in record["cells"] if c.get("cell_type") == "code"
+        ]
+        self.assertEqual(len(cells), 11)
+        setup = "".join(cells[0].get("source", []))
+        self.assertIn('"pull", "--ff-only", "origin", "main"', setup)
+        sections = [
+            "".join(c.get("source", []))
+            for c in cells[1:]
+        ]
+        self.assertEqual(len(sections), 10)
+        for index, source in enumerate(sections, start=1):
+            self.assertIn(f"{index:02d}.", source.splitlines()[0])
+
     def test_local_model_artifacts_are_optional_without_deserialisation(self):
         record = audit.inspect_optional_artifacts(None, "unused_sha256")
         self.assertEqual(record["status"], "NOT_CHECKED")
