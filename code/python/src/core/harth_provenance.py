@@ -256,6 +256,98 @@ def verify_stage24_visual_format(active_path, historical_bytes):
         )
         return old_stream == new_stream
 
+    def _cached_jobs_match_approved_execution(historical, replay):
+        """Verify that RESTORED logs replace only hash-approved completed jobs.
+
+        A warm cache omits per-step training logs. Reconstruct the exact
+        expected replay stream from the original completed 36-job run, replacing
+        *only* the six-line blocks whose model, loss, seed and fold are marked
+        RESTORED in the new stream. All other console output (including logged
+        Macro F1 for freshly completed jobs) must match byte-for-byte.
+        Saved metric tables are independently compared in subsequent cells.
+        """
+        restored_pattern = re.compile(
+            r"RESTORED: (1D-ResNet|TCN) \| "
+            r"(weighted_ce|focal|class_balanced) \| "
+            r"seed=(42|123|2026) \| fold=([123])"
+        )
+        running_pattern = re.compile(
+            r"RUNNING: (1D-ResNet|TCN) \| "
+            r"(weighted_ce|focal|class_balanced) \| "
+            r"seed=(42|123|2026) \| fold=([123])"
+        )
+        complete_pattern = re.compile(
+            r"COMPLETED: (1D-ResNet|TCN) \| "
+            r"(weighted_ce|focal|class_balanced) \| "
+            r"seed (42|123|2026) \| fold ([123])"
+            r" \| Macro F1=(0(?:\.\d+)?|1(?:\.0+)?)"
+        )
+        step_pattern = re.compile(
+            r"  (1D-ResNet|TCN) \| "
+            r"(weighted_ce|focal|class_balanced) \| "
+            r"seed (42|123|2026) \| Fold ([123]): "
+            r"(\d+)/400, Train loss=\d+(?:\.\d+)?"
+        )
+        replay_lines = replay.splitlines()
+        requested = [
+            match.groups() for line in replay_lines
+            if (match := restored_pattern.fullmatch(line))
+        ]
+        if not requested or len(set(requested)) != len(requested):
+            return False
+        if any(
+            line.startswith("RESTORED: ")
+            and restored_pattern.fullmatch(line) is None
+            for line in replay_lines
+        ):
+            return False
+        restored = set(requested)
+        original_lines = historical.splitlines()
+        expected_lines = []
+        approved_keys = set()
+        index = 0
+        complete_count = 0
+        while index < len(original_lines):
+            line = original_lines[index]
+            running = running_pattern.fullmatch(line)
+            if running is None:
+                if line.startswith(("RUNNING:", "RESTORED:")):
+                    return False
+                if complete_pattern.fullmatch(line):
+                    complete_count += 1
+                expected_lines.append(line)
+                index += 1
+                continue
+            key = running.groups()
+            if key not in restored:
+                expected_lines.append(line)
+                index += 1
+                continue
+
+            # Original archived evidence must contain all four training steps
+            # and the final, scored completion for this exact condition.
+            if index + 5 >= len(original_lines):
+                return False
+            for offset, step_value in enumerate(("100", "200", "300", "400"), 1):
+                step = step_pattern.fullmatch(original_lines[index + offset])
+                if step is None or step.groups()[:4] != key or (
+                    step.group(5) != step_value
+                ):
+                    return False
+            completed = complete_pattern.fullmatch(original_lines[index + 5])
+            if completed is None or completed.groups()[:4] != key:
+                return False
+            approved_keys.add(key)
+            complete_count += 1
+            expected_lines.append(
+                f"RESTORED: {key[0]} | {key[1]} | "
+                f"seed={key[2]} | fold={key[3]}"
+            )
+            index += 6
+        if complete_count != 36 or approved_keys != restored:
+            return False
+        return expected_lines == replay_lines
+
     archived = json.loads(historical_bytes.decode("utf-8"))
     current = json.loads(Path(active_path).read_text(encoding="utf-8"))
     old_code = [c for c in archived["cells"] if c.get("cell_type") == "code"]
@@ -305,7 +397,10 @@ def verify_stage24_visual_format(active_path, historical_bytes):
             elif typ == "stream":
                 first, second = joined(before.get("text")), joined(after.get("text"))
                 if first != second and not (
-                    index == 2 and _cached_download_equivalent(first, second)
+                    (index == 2 and _cached_download_equivalent(first, second))
+                    or (index == 5 and _cached_jobs_match_approved_execution(
+                        first, second
+                    ))
                 ):
                     raise ValueError(
                         f"Stage 24 saved stream differs in cell {index}."

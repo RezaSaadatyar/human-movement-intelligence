@@ -241,6 +241,54 @@ class TestHarthReleaseReadiness(unittest.TestCase):
             ):
                 verify_stage24_visual_format(modified, historical)
 
+    def test_stage24_restored_cache_logs_are_checked_against_original_jobs(self):
+        """Allow only cache restoration of original fully scored experiments."""
+        import tempfile
+        from core.harth_provenance import (
+            read_historical_stage24_bytes, verify_stage24_visual_format,
+        )
+        study = ROOT / "studies/wearable_activity_recognition"
+        current = study / "notebooks/24_multiseed_and_imbalance_robustness.ipynb"
+        manifest = json.loads(
+            (study / "evidence/stage_25_protocol_approved_qualified_test.json")
+            .read_text(encoding="utf-8")
+        )
+        original = read_historical_stage24_bytes(
+            ROOT, manifest["stage24_saved_notebook_sha256"]
+        )
+        # Passing verifies all original source statements, metric tables
+        # and the actual RESTORED job identifiers, not just the log format.
+        self.assertTrue(verify_stage24_visual_format(current, original)[
+            "historical_execution_verified"
+        ])
+        baseline = json.loads(current.read_text(encoding="utf-8"))
+        cells = [c for c in baseline["cells"] if c["cell_type"] == "code"]
+        stream = cells[4]["outputs"][0]
+        raw = stream["text"]
+        visible = "".join(raw) if isinstance(raw, list) else raw
+        self.assertIn("RESTORED: 1D-ResNet | weighted_ce | seed=42 | fold=1", visible)
+        self.assertIn("COMPLETED:", visible)
+        for label, corrupted_text in (
+            ("unknown_cached_fold", visible.replace(
+                "RESTORED: 1D-ResNet | weighted_ce | seed=42 | fold=1",
+                "RESTORED: 1D-ResNet | weighted_ce | seed=42 | fold=9", 1
+            )),
+            ("changed_scored_job", visible.replace(
+                "Macro F1=0.7687", "Macro F1=0.9999", 1
+            )),
+        ):
+            notebook = json.loads(json.dumps(baseline))
+            code = [c for c in notebook["cells"] if c["cell_type"] == "code"]
+            code[4]["outputs"][0]["text"] = [corrupted_text]
+            with tempfile.TemporaryDirectory() as tmp:
+                modified = Path(tmp) / "stage24_modified_cache_log.ipynb"
+                modified.write_text(json.dumps(notebook), encoding="utf-8")
+                with self.subTest(label=label):
+                    with self.assertRaisesRegex(
+                        ValueError, "Stage 24 saved stream differs in cell 5"
+                    ):
+                        verify_stage24_visual_format(modified, original)
+
     def test_stage27_has_one_colab_setup_and_ten_research_code_cells(self):
         """Structural check that does not require Stage 27 to have run yet."""
         import json

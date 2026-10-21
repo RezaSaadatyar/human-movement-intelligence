@@ -29,7 +29,7 @@ unchanged approved SHA256. It contains 13 executed code cells including an
 initial Google Colab clone/setup cell. The current readable Stage 24 notebook
 omits that setup cell, leaving 12 study code cells. The previous presentation copy had two missing
 `execution_count` values (positions 1 and 10); the user's latest
-Stage 24 replay now has all 12 recorded counts. The audit compares the replay
+Stage 24 replay now has all 12 recorded counts. A later replay reused cached results for 18 of the 36 Development jobs, producing `RESTORED` messages instead of the earlier per-step training logs. The source code and frozen scored outputs remain subject to strict historical verification: a `RESTORED` log is accepted only when its model, loss, seed and fold match a fully completed, scored archived job, and all saved scientific tables must still agree. Cached results are not represented as newly trained fits. The audit compares the replay
 against original executed scientific code, complete tables and saved figures.
 It allows only documented non-scientific differences (cached-download logging,
 Colab HTML element identifiers and measured GPU/CPU wall times), while rejecting
