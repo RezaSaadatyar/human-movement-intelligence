@@ -30,6 +30,8 @@ Preferred sequential layout:
 
 Use explanatory Markdown before substantive code cells. Notebook cells should call package functions for shared training/inference logic. Document expected artefacts, upstream dependencies, model configurations and dataset preconditions.
 
+**Completed HARTH study conventions:** The 27 HARTH notebooks use bold Markdown section labels rather than hash headings, linked landscape SVG workflows, visually delimited 79-character code-comment headings with numbered purpose comments, and final scientific Quality Gates. Preserve this established presentation and its genuine saved outputs. These study-specific conventions are not requirements for every future study. Do not fabricate execution metadata or retroactively change protected Test approval records.
+
 ## 4. Research outputs
 Use descriptive, stable experiment identifiers. When results are actually produced, keep:
 - run configuration and software versions
