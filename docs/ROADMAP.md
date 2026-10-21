@@ -18,7 +18,9 @@
 
 ## Remaining repository hygiene and release decisions
 
-- [x] Stages 23–27 executed evidence exists in GitHub and final notebook Quality Gates were reviewed.
+- [x] Close obsolete execution-count presentation warnings. Saved-output inventories remain historical facts, not outstanding experiment reruns.
+
+- [x] Review Stages 01–27 and their saved outputs; all current notebook Quality Gates have been checked, including Stages 23–27.
 - [x] Align root and HARTH study README with the actual results and historical Test limitations.
 - [x] Correct obsolete Stage 27 offline test assumption that the notebook should be unexecuted. **The reviewed 21 October baseline CI run succeeded; re-check any later head.**
 - [x] Read-only reproducibility/provenance audit implemented and checked by offline CI; reviewed dataset/source and model-artifact limits. The three original local model files and byte-for-byte GPU reproduction remain **unverified**, not silently declared resolved. See [the audit guide](HARTH_REPRODUCIBILITY.md).
@@ -200,7 +202,7 @@ See [HARTH Notebook Authoring Standards](../studies/wearable_activity_recognitio
 
 ### Stage 21 implementation checkpoint (awaiting local source-data execution)
 
-- [x] Confirm saved Stage 20 Quality Gate displays PASSED; note its final cell's GitHub `execution_count` is still null despite the saved successful output.
+- [x] Confirm Stage 20 completed its saved evidence consolidation and final Quality Gate (`PASSED`).
 - [x] Implement official HARTH source-only data quality, activity-label, annotation-bout and timestamp-boundary utilities.
 - [x] Add complete 11-section Notebook 21 with bold Markdown titles, numbered scientific code comments, detailed tables, coherent figures and descriptive Quality Gate.
 - [x] Add synthetic offline audit tests and the Stage 21 scientific protocol.

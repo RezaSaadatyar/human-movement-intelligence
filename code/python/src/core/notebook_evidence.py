@@ -30,7 +30,9 @@ def collect_notebook_inventory(notebook_dir):
     Notes:
         Execution counts and saved outputs are evidence of saved runs,
         not proof of scientific correctness or reproducibility on new data.
-        Missing execution counts are retained as an explicit audit finding.
+        Cell-count metadata is inventoried without alteration. An absent
+        counter alongside saved output is not, by itself, a failed research
+        Quality Gate; source/result validity requires separate checks.
     """
     folder = Path(notebook_dir)
     if not folder.is_dir():

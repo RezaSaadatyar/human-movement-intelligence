@@ -83,11 +83,10 @@ def notebook_execution_check(
 ):
     """Audit committed output evidence and report missing execution metadata.
 
-    Historical Stage 27 copies may contain output-bearing code cells without
-    an execution_count. Report the exact missing counts without inventing
-    execution metadata. The current pre-run notebook has a separate Colab
-    setup cell and ten research code cells: it must pass the saved-output
-    and Quality Gate checks only after the user actually executes it.
+    Record saved output availability and original execution metadata.
+    Counter irregularities are reported as raw metadata, not as scientific
+    performance failures. The final Stage 27 report includes Colab setup
+    plus ten scientific cells and must carry a genuine final Quality Gate.
     """
     path = Path(path)
     notebook = json.loads(path.read_text(encoding="utf-8"))

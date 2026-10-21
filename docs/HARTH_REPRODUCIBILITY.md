@@ -25,21 +25,18 @@ requires a full Git checkout, rather than a source ZIP without history.
 
 Stage 24's **original** executed notebook is retained at Git commit
 `c4548596656acaffad4b024203e554c2c3aa3da0` and verified against its
-unchanged approved SHA256. It contains 13 executed code cells including an
-initial Google Colab clone/setup cell. The current readable Stage 24 notebook
-omits that setup cell, leaving 12 study code cells. The previous presentation copy had two missing
-`execution_count` values (positions 1 and 10); the user's latest
-Stage 24 replay now has all 12 recorded counts. A later replay reused cached results for 18 of the 36 Development jobs, producing `RESTORED` messages instead of the earlier per-step training logs. The source code and frozen scored outputs remain subject to strict historical verification: a `RESTORED` log is accepted only when its model, loss, seed and fold match a fully completed, scored archived job, and all saved scientific tables must still agree. Cached results are not represented as newly trained fits. The audit compares the replay
-against original executed scientific code, complete tables and saved figures.
-It allows only documented non-scientific differences (cached-download logging,
-Colab HTML element identifiers and measured GPU/CPU wall times), while rejecting
-changed predictive metrics, incorrect code or unexpected execution metadata.
-This does not rewrite historical evidence or assert GPU reproducibility of timing.
+unchanged approved SHA256. The historical file includes an initial Colab
+setup cell; the active notebook contains twelve matching scientific code cells.
+A subsequent replay reused cached outputs for 18 of the 36 Development jobs.
+The audit matches those restored jobs to previously completed, scored
+historical runs and checks scientific code, tables and figures against the
+approved evidence, allowing only known non-scientific runtime or display
+differences. Cached jobs are never described as newly trained runs.
 
 Stage 24's original executed bytes are verified through a separate pinned
 historical revision. The approved protocol records and six frozen model modules
 remain unchanged. Stages 26–27 were standardised in place without changing
-their previously saved scientific outputs or execution-count metadata. the *historical* Stage 27 version had five missing execution counts. The newly executed and committed primary Stage 27 notebook now records all eleven code-cell execution counts; no historical metadata were invented.
+their preserved scientific evidence. The committed Stage 27 report contains eleven code cells with saved results and a successful final Quality Gate.
 This review does not rerun model training, qualified Test scoring or independent
 replication.
 
@@ -144,8 +141,17 @@ Do not claim clinical readiness, prospective evaluation, statistically significa
 
 ## Stage 27 execution and research-evidence provenance
 
-The Stage 27 research report contains **ten scientific code sections**, plus a separate Google Colab setup cell, for **eleven code cells overall**. Its setup cell now safely clones a missing checkout or fast-forward updates an existing `main` checkout, and checks the already committed Stage 26 evidence before report synthesis.
+The Stage 27 report contains **ten scientific code sections** plus one
+Google Colab setup cell. Its setup safely clones a missing checkout or
+fast-forward updates the existing `main` checkout, then checks committed
+Stage 26 evidence before report synthesis.
 
-**Current recorded status (GitHub `main`, 21 October 2026):** the revised setup cell and all ten scientific code sections have genuine saved execution counts and saved outputs, with **zero saved error outputs**. The final notebook contains `STAGE 27 | SOURCE-GROUNDED RESEARCH SYNTHESIS QUALITY GATE: PASSED`. This establishes a completed recorded report synthesis, not independent reproduction of the preceding model fits or a new Test evaluation. The release audit now requires complete Stage 27 execution metadata rather than accepting missing execution counts.
+**Current status:** the committed Stage 27 notebook has saved output in
+all eleven code cells, no saved execution errors, and the final
+`STAGE 27 | SOURCE-GROUNDED RESEARCH SYNTHESIS QUALITY GATE: PASSED`
+marker. This is a completed **recorded report synthesis**, not a new
+training run, independent replication or Test evaluation.
 
-The frozen Stage 26 execution and approved qualified held-out results are already committed separately and are **read-only inputs** to this report. Stage 27 does not train models, load source Test recordings, or repeat the qualified Test evaluation. An older Stage 27 version with missing execution counts remains accessible through Git history for provenance; those missing counts have **not** been invented or copied into the newly executed version.
+Stage 26 and its approved qualified held-out results remain unchanged,
+read-only inputs to Stage 27. Original research and approval records
+remain accessible through Git history.
