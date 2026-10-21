@@ -113,24 +113,43 @@ def verify_stage24_visual_format(active_path, historical_bytes):
             raise ValueError("Stage 24 displayed HTML table is incomplete.")
         return headings, body
 
-    def _display_equal(historic, replayed):
+    def _display_difference(historic, replayed):
+        """Explain the first scientific mismatch without relaxing the gate.
+
+        DataFrame HTML may contain ephemeral Colab IDs; compare the underlying
+        header and row values. Only explicitly declared runtime columns are
+        exempt from exact comparison.
+        """
         old_data = historic.get("data", {})
         new_data = replayed.get("data", {})
         if set(old_data) != set(new_data):
-            return False
+            return (
+                "MIME output types differ: "
+                f"historical={sorted(old_data)}, current={sorted(new_data)}"
+            )
 
         old_html = joined(old_data.get("text/html"))
         new_html = joined(new_data.get("text/html"))
+        compared_structured_table = False
         if old_html or new_html:
             old_table = _table_values(old_html)
             new_table = _table_values(new_html)
             if (old_table is None) != (new_table is None):
-                return False
+                return "a DataFrame HTML table is missing from one version"
             if old_table is not None:
+                compared_structured_table = True
                 headings, old_rows = old_table
                 newer_headings, new_rows = new_table
-                if headings != newer_headings or len(old_rows) != len(new_rows):
-                    return False
+                if headings != newer_headings:
+                    return (
+                        "table column headings or index labels changed: "
+                        f"historical={headings!r}, current={newer_headings!r}"
+                    )
+                if len(old_rows) != len(new_rows):
+                    return (
+                        "table row count changed: "
+                        f"historical={len(old_rows)}, current={len(new_rows)}"
+                    )
                 columns = headings[-1]
                 timing_columns = {
                     "train_seconds", "total_train_s", "total_inference_s",
@@ -140,29 +159,43 @@ def verify_stage24_visual_format(active_path, historical_bytes):
                     index for index, column in enumerate(columns)
                     if column not in timing_columns
                 ]
-                if not keep or any(
-                    len(old_row) != len(columns) or len(new_row) != len(columns)
-                    for old_row, new_row in zip(old_rows, new_rows)
+                if not keep:
+                    return "there are no scientific table columns to compare"
+                for row_index, (historical_row, current_row) in enumerate(
+                    zip(old_rows, new_rows), start=1
                 ):
-                    return False
-                if any(
-                    [row[index] for index in keep]
-                    != [other[index] for index in keep]
-                    for row, other in zip(old_rows, new_rows)
-                ):
-                    return False
+                    if (len(historical_row) != len(columns) or
+                            len(current_row) != len(columns)):
+                        return (
+                            f"table row {row_index} width differs from "
+                            f"{len(columns)} column headings: "
+                            f"historical={len(historical_row)}, "
+                            f"current={len(current_row)}"
+                        )
+                    for column_index in keep:
+                        before = historical_row[column_index]
+                        after = current_row[column_index]
+                        if before != after:
+                            column = columns[column_index] or (
+                                f"index/column position {column_index + 1}"
+                            )
+                            return (
+                                f"row {row_index}, column {column!r}: "
+                                f"historical={before!r}, current={after!r}"
+                            )
             elif old_html != new_html:
-                return False
+                return "non-tabular HTML content changed"
 
         for key in old_data:
             if key == "text/html":
                 continue
-            if key == "text/plain" and old_html and new_html:
-                # Every data cell is compared in the structured HTML table.
+            if key == "text/plain" and compared_structured_table:
+                # Ignore Pandas console formatting, but only after every
+                # scientific table cell has been checked above.
                 continue
             if joined(old_data[key]) != joined(new_data[key]):
-                return False
-        return True
+                return f"{key} content differs (check saved plot/output bytes)"
+        return None
 
     def _cached_download_equivalent(old_stream, new_stream):
         """Normalise only cache messages; never drop printed cohort statistics."""
@@ -209,16 +242,20 @@ def verify_stage24_visual_format(active_path, historical_bytes):
         originals, replayed = old.get("outputs", []), new.get("outputs", [])
         if len(originals) != len(replayed):
             raise ValueError(f"Stage 24 output count changed in cell {index}.")
-        for before, after in zip(originals, replayed):
+        for output_index, (before, after) in enumerate(
+            zip(originals, replayed), start=1
+        ):
             if before.get("output_type") != after.get("output_type"):
                 raise ValueError("Stage 24 output type changed.")
             typ = before.get("output_type")
             if typ == "error":
                 raise ValueError("Stage 24 contains a recorded execution error.")
             if typ == "display_data":
-                if not _display_equal(before, after):
+                difference = _display_difference(before, after)
+                if difference is not None:
                     raise ValueError(
-                        f"Stage 24 scientific displayed values changed in cell {index}."
+                        "Stage 24 scientific displayed values changed in "
+                        f"cell {index}, output {output_index}: {difference}"
                     )
             elif typ == "stream":
                 first, second = joined(before.get("text")), joined(after.get("text"))

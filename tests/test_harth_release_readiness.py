@@ -202,7 +202,10 @@ class TestHarthReleaseReadiness(unittest.TestCase):
         with tempfile.TemporaryDirectory() as folder:
             bad = Path(folder)/"stage24_modified.ipynb"
             bad.write_text(json.dumps(current_nb), encoding="utf-8")
-            with self.assertRaisesRegex(ValueError, "scientific displayed values"):
+            with self.assertRaisesRegex(
+                ValueError, r"cell 11, output 1: row 1, column "
+                            r"'mean_across_seed_fold_macro_f1'"
+            ):
                 verify_stage24_visual_format(bad, original)
 
     def test_local_model_artifacts_are_optional_without_deserialisation(self):
