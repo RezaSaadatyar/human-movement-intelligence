@@ -1,5 +1,7 @@
 # Stage 25 | Development-Only Model Selection and Proposed Protocol Freeze
 
+> **As-executed status:** The original and reconciled Stage 25 proposal files retain historical `PENDING_USER_REVIEW` status. A different, explicit [qualified-Test approval record](../../evidence/stage_25_protocol_approved_qualified_test.json) authorised the subsequent Stage 26 evaluation. The [current Stage 25 notebook](../../notebooks/25_model_selection_and_protocol_freeze.ipynb) performs a **read-only replay** and has a saved `PASSED` selection gate; its execution does not grant new Test access. The proposal wording below preserves the methodology at the time of selection.
+
 ## Evidence basis
 
 Stage 23 ran seven classifiers across three subject-disjoint HARTH development folds on precisely 14,201 genuine source windows from 29 people, with no use of originally reserved S023/S032 in model fitting or scoring. Stage 24 ran 36 GPU jobs over three seeds (42, 123, 2026) and three folds. Both fully executed source notebooks are read by SHA256 and source-row fingerprint. Rounded metrics in displayed notebook tables are linked to the saved sources, not recomputed from missing or inaccessible local Colab caches.

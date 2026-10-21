@@ -72,12 +72,12 @@ The primary **1D-ResNet Weighted CE** has six input channels, eight output class
 From the repository root:
 
 ```powershell
-git pull origin main
+git pull --ff-only origin main
 python -m pip install -r requirements.txt
 python -m unittest discover -s tests -v
 ```
 
-**To review actual evidence without GPU or HARTH downloads:** open [Notebook 27](notebooks/27_final_research_evidence_and_report.ipynb) in Cursor/Jupyter and execute its Colab setup cell plus ten scientific code sections (eleven code cells total). It reads existing committed notebooks, checks fingerprints, reports tables/figures and writes ignored `outputs/harth_stage27_report/` CSV/provenance files. No source Test recording is reloaded.
+**To review actual evidence without GPU or HARTH downloads:** open [Notebook 27](notebooks/27_final_research_evidence_and_report.ipynb). In **Google Colab**, run its checkout/setup cell and then the ten research code sections (eleven code cells in total). In **Cursor, Windows or local Jupyter**, skip the Colab-specific `%cd /content` setup cell, start in the repository root with full Git history and run the ten research sections. The report reads already committed notebooks, checks provenance and produces ignored `outputs/harth_stage27_report/` CSV/provenance files; it does **not** reload Test recordings or refit models. The current committed Stage 27 notebook has all eleven code cells executed with a saved `PASSED` gate.
 
 **For historical training / neural model re-execution:** use [`requirements-dl.txt`](../../requirements-dl.txt) and the relevant numbered notebook/protocol. Reproducing GPU results requires acquiring original HARTH source files and compatible hardware. The frozen final model artefacts (`resnet_state_dict.pt`, `random_forest.joblib`, `inference_config.json`) are **not committed**; they were generated in ignored local `outputs/harth_stage26_final/`. Do not treat a freshly cloned repository as including those files. Never repeat qualified Test scoring to tune model choices.
 
@@ -105,4 +105,4 @@ See the [HARTH reproducibility guide](../../docs/HARTH_REPRODUCIBILITY.md). From
 
 The [overall study workflow](images/study_overview.svg) summarises the full HARTH research design, while the **27 notebook-specific workflows** each show only the operations performed at that stage. These figures serve different purposes and are not substitutes for the executed analyses. See [repository visual documentation rules](../../docs/RESEARCH_VISUAL_STANDARDS.md).
 
-All 27 study stages have a landscape workflow SVG under [images/](images/), referenced from the notebook opening Markdown. Code comments and import grouping follow consistent presentation conventions while preserving scientific execution statements. All [primary notebooks 01–27](notebooks/) retain saved results and their current Quality Gates; approved Stage 23/24 historical evidence is independently pinned through Git history and unchanged SHA256 values. Stages 26–27 contain the completed final qualified evaluation and source-grounded report synthesis. No duplicate presentation notebooks remain. See the [notebook authoring standard](docs/NOTEBOOK_AUTHORING_STANDARDS.md). Notebook replay is not independent external validation.
+All 27 study stages have a landscape workflow SVG under [images/](images/), referenced from the notebook opening Markdown. Code comments and import grouping follow consistent presentation conventions while preserving scientific execution statements. All [primary notebooks 01–27](notebooks/) retain saved outputs and their current Quality Gates, but 15 historic code-cell execution counts in Stages 01–07 are absent and must not be fabricated. Approved Stage 23/24 historical evidence is independently pinned through Git history and unchanged SHA256 values. Stages 26–27 contain the completed final qualified evaluation and source-grounded report synthesis. No duplicate presentation notebooks remain. See the [notebook authoring standard](docs/NOTEBOOK_AUTHORING_STANDARDS.md). Notebook replay is not independent external validation.

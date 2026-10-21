@@ -1,5 +1,7 @@
 # Stage 26 | Final Development Training and Qualified-Test Approval Gate
 
+> **As-executed status, superseding the earlier proposal-time checklist below:** The original and reconciled Stage 25 proposals remain pending as historical records; the [separate approved manifest](../../evidence/stage_25_protocol_approved_qualified_test.json) granted the one-time qualified held-out evaluation of S023/S032. The [current executed Notebook 26](../../notebooks/26_final_development_training_and_inference.ipynb) has **13 executed code cells**, frozen Development model training, saved qualified same-study held-out results and a `PASSED` final gate. The sections below headed *no Test access*, *not yet authorised* and *remaining completion boundary* are the **initial implementation plan**, not the present state. No new Test evaluation is authorised by reading this document.
+
 ## Purpose and verified upstream evidence
 
 The executed Stage 25 notebook has all eleven code cells executed and its final research gate PASSED. The protocol JSON is still **PENDING_USER_REVIEW**, and that status must not be misrepresented as an authorised Test evaluation.
