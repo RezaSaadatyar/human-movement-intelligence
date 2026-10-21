@@ -60,7 +60,7 @@ Prepare just one complete stage; commit Python modules, tests, protocol and note
 
 ## 6. Approved 2026 notebook visual-format standard
 
-**Applies to all 27 HARTH study stages.** Sections use bold Markdown labels (for example `**05. Model Evaluation**`) rather than hash headings. Every notebook begins with a concise introduction and an **accessible, landscape left-to-right SVG workflow** from source input to scientific output. The diagrams are stored as separate editable vector files in [study images](images/) and linked by relative paths from the first Markdown cell. Never imply a skipped experimental step or clinical validation in the diagram.
+**Applies to all 27 HARTH study stages.** Sections use bold Markdown labels (for example `**05. Model Evaluation**`) rather than hash headings. Every notebook begins with a concise introduction and an **accessible, landscape left-to-right SVG workflow** from source input to scientific output. The diagrams are stored as separate editable vector files in [study images](../images/) and linked by relative paths from the first Markdown cell. Never imply a skipped experimental step or clinical validation in the diagram.
 
 Python cells use a visibly delimited research-stage comment header, meaningful numbered purpose comments and, where useful, import blocks organised by **Python standard library**, **data and machine learning**, **figures and notebook display**, **deep learning**, and **local research utilities**. Do not introduce unused imports or ML packages from another project simply for visual symmetry. Preserve runtime import order, especially local `sys.path` configuration.
 

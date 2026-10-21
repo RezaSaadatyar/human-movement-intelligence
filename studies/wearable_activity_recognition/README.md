@@ -23,7 +23,7 @@ How do classical machine learning and deep temporal neural networks compare for 
 
 ## Executed evidence and model development
 
-**Notebook viewing:** All **27 research notebooks** are formatted directly in their primary `notebooks/` paths, with matched comment conventions and individual, scientific, two-layer SVG workflows. The authorised Stage 23–27 edits preserve original executable statements, saved outputs and execution-count metadata. No separate presentation copies are needed.
+**Notebook viewing:** All **27 research notebooks** are formatted directly in their primary `notebooks/` paths, with matched comment conventions and individual, scientific, two-layer SVG workflows. The original executed Stage 23/24 evidence is preserved through pinned Git history, while subsequent genuine notebook replays may update runtime logs, rendered figures or execution counts without altering the approved methodological protocol. No separate presentation-only notebook copies are needed.
 
 | Stages | Objective | Evidence |
 | --- | --- | --- |
@@ -77,7 +77,7 @@ python -m pip install -r requirements.txt
 python -m unittest discover -s tests -v
 ```
 
-**To review actual evidence without GPU or HARTH downloads:** open [Notebook 27](notebooks/27_final_research_evidence_and_report.ipynb) in Cursor/Jupyter and execute its ten code cells. It reads existing committed notebooks, checks fingerprints, reports tables/figures and writes ignored `outputs/harth_stage27_report/` CSV/provenance files. No source Test recording is reloaded.
+**To review actual evidence without GPU or HARTH downloads:** open [Notebook 27](notebooks/27_final_research_evidence_and_report.ipynb) in Cursor/Jupyter and execute its Colab setup cell plus ten scientific code sections (eleven code cells total). It reads existing committed notebooks, checks fingerprints, reports tables/figures and writes ignored `outputs/harth_stage27_report/` CSV/provenance files. No source Test recording is reloaded.
 
 **For historical training / neural model re-execution:** use [`requirements-dl.txt`](../../requirements-dl.txt) and the relevant numbered notebook/protocol. Reproducing GPU results requires acquiring original HARTH source files and compatible hardware. The frozen final model artefacts (`resnet_state_dict.pt`, `random_forest.joblib`, `inference_config.json`) are **not committed**; they were generated in ignored local `outputs/harth_stage26_final/`. Do not treat a freshly cloned repository as including those files. Never repeat qualified Test scoring to tune model choices.
 

@@ -1,4 +1,4 @@
-# Current Research Status (15 October 2026)
+# Current Research Status (21 October 2026)
 
 **The original planning/checkpoint log below is preserved as a historical record. Its earlier unchecked items and "pending" descriptions reflect their status when written, not the latest GitHub execution state.** For current results, see [the executed HARTH study](../studies/wearable_activity_recognition/README.md).
 
@@ -10,7 +10,7 @@
 | Stage 24 | Executed multi-seed/loss robustness, 36 Development fits | [Notebook 24](../studies/wearable_activity_recognition/notebooks/24_multiseed_and_imbalance_robustness.ipynb) |
 | Stage 25 | Executed Development-only model selection and source-fingerprinted protocol | [Notebook 25](../studies/wearable_activity_recognition/notebooks/25_model_selection_and_protocol_freeze.ipynb) |
 | Stage 26 | Executed Development final fitting, approved one-time qualified evaluation on S023/S032; final gate PASSED | [Notebook 26](../studies/wearable_activity_recognition/notebooks/26_final_development_training_and_inference.ipynb) |
-| Stage 27 | Executed saved-evidence synthesis, ten code cells, final gate PASSED; no raw/Test reloading | [Notebook 27](../studies/wearable_activity_recognition/notebooks/27_final_research_evidence_and_report.ipynb) |
+| Stage 27 | Executed saved-evidence synthesis, ten scientific sections plus Colab setup (eleven code cells), final gate PASSED; no raw/Test reloading | [Notebook 27](../studies/wearable_activity_recognition/notebooks/27_final_research_evidence_and_report.ipynb) |
 | Biomechanical Load Estimation | Original data inspection and separately documented preliminary exploratory results, not completed robust load-estimation benchmark | [Study notes](../studies/biomechanical_load_estimation/) |
 | Other movement science studies | Planned, not yet implemented | [Study catalogue](../studies/README.md) |
 
@@ -20,9 +20,10 @@
 
 - [x] Stages 23–27 executed evidence exists in GitHub and final notebook Quality Gates were reviewed.
 - [x] Align root and HARTH study README with the actual results and historical Test limitations.
-- [x] Correct obsolete Stage 27 offline test assumption that the notebook should be unexecuted. **A successful latest CI run must still be independently verified.**
+- [x] Correct obsolete Stage 27 offline test assumption that the notebook should be unexecuted. **The reviewed 21 October baseline CI run succeeded; re-check any later head.**
 - [x] Read-only reproducibility/provenance audit implemented and checked by offline CI; reviewed dataset/source and model-artifact limits. The three original local model files and byte-for-byte GPU reproduction remain **unverified**, not silently declared resolved. See [the audit guide](HARTH_REPRODUCIBILITY.md).
-- [x] Close superseded draft PR #1 without merging or deleting history.\n- [ ] Decide whether to create a versioned GitHub Release (a named snapshot/tag plus concise release notes). **No release is authorised or created merely by these documentation changes.**
+- [x] Close superseded draft PR #1 without merging or deleting history.
+- [ ] Decide whether to create a versioned GitHub Release (a named snapshot/tag plus concise release notes). **No release is authorised or created merely by these documentation changes.**
 - [ ] Decide the next independent study (e.g. biomechanical load estimation), with separate datasets, protocol, baselines, models and evaluation. Do not blend its outcomes into HARTH.
 
 ---

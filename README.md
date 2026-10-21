@@ -53,7 +53,7 @@ Data are acquired from their original providers into ignored local `data/raw/` d
 - [Research standards](docs/RESEARCH_STANDARDS.md), [development style](docs/DEVELOPMENT_STYLE.md) and [architecture](docs/ARCHITECTURE.md)
 - Shared Python modules: [code/python/src/core](code/python/src/core/)
 - Reusable unit tests: [tests](tests/) and [CI workflow](.github/workflows/python-checks.yml)
-- [HARTH study documentation](studies/wearable_activity_recognition/README.md) and [Stage 27 reporting protocol](studies/wearable_activity_recognition/STAGE_27_FINAL_REPORT_PROTOCOL.md)
+- [HARTH study documentation](studies/wearable_activity_recognition/README.md) and [Stage 27 reporting protocol](studies/wearable_activity_recognition/docs/protocols/STAGE_27_FINAL_REPORT_PROTOCOL.md)
 
 **Status:** HARTH research execution and Stage 27 evidence synthesis are complete; documentation checks and any versioned GitHub Release remain separate follow-up work. Other proposed studies are not represented as implemented results.
 
@@ -61,4 +61,4 @@ Data are acquired from their original providers into ignored local `data/raw/` d
 
 Before an optional versioned release, review the [HARTH reproducibility audit](docs/HARTH_REPRODUCIBILITY.md) and run `python scripts/check_harth_release_readiness.py` from the repository root. This read-only check verifies saved research evidence and frozen code/manifest provenance without retraining models or re-opening Test data. Original Stage 26 model files are local and must be checked separately if retained; no release is implied.
 
-Notebook presentation: [HARTH workflow diagrams](studies/wearable_activity_recognition/images/), [directly formatted primary Notebooks 01–27](studies/wearable_activity_recognition/notebooks/) and [notebook formatting rules](studies/wearable_activity_recognition/docs/NOTEBOOK_AUTHORING_STANDARDS.md). The original executed Stage 23 bytes remain in a separate archived evidence file to protect the historical approved SHA256.
+Notebook presentation: [HARTH workflow diagrams](studies/wearable_activity_recognition/images/), [directly formatted primary Notebooks 01–27](studies/wearable_activity_recognition/notebooks/) and [notebook formatting rules](studies/wearable_activity_recognition/docs/NOTEBOOK_AUTHORING_STANDARDS.md). The original executed Stage 23 bytes remain accessible through pinned Git history, rather than a separate file in the current project tree, to preserve the historical approved SHA256.

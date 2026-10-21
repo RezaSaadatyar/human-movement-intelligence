@@ -39,8 +39,7 @@ This does not rewrite historical evidence or assert GPU reproducibility of timin
 Stage 24's original executed bytes are verified through a separate pinned
 historical revision. The approved protocol records and six frozen model modules
 remain unchanged. Stages 26–27 were standardised in place without changing
-their previously saved scientific outputs or execution-count metadata. Stage
-27 retains five missing historical execution counts; these were not invented.
+their previously saved scientific outputs or execution-count metadata. the *historical* Stage 27 version had five missing execution counts. The newly executed and committed primary Stage 27 notebook now records all eleven code-cell execution counts; no historical metadata were invented.
 This review does not rerun model training, qualified Test scoring or independent
 replication.
 
@@ -129,12 +128,12 @@ If the directory no longer exists, report the artefacts as **unverified**, not a
 
 - [x] All central Stage 23–27 executed notebooks available; frozen source/approval lineage documented.
 - [x] Main and HARTH README updated to report observed results and limitations accurately.
-- [ ] Confirm a green GitHub Actions run on the final reviewed commit. The latest run examined (21 October 2026) failed two outdated test assertions: Stage 27's old ten-cell expectation and a Stage 25 approval-error message mismatch. These assertions are corrected in the QA phase; no successful post-fix CI run has yet been verified.
+- [x] GitHub Actions on reviewed scientific baseline `33d553e33705839b17f9f7190c8ec747d53956c1` succeeded on 21 October 2026 ([run 39601607708](https://github.com/RezaSaadatyar/human-movement-intelligence/actions/runs/39601607708)): 144 offline tests reported `OK` (30 skipped), and configured notebook checks succeeded. Verify CI again after any further commits; this is not an independent rerun of Stage 26 Test scoring.
 - [x] Pre-release, read-only source provenance and optional local artifact audit tool implemented.
-- [ ] Re-run/verify the new audit script on the final GitHub head and confirm latest CI success.
+- [ ] After the final documentation/QA commit, confirm a successful GitHub Actions run on that exact new head; the preceding reviewed baseline was green. Optional local model-artifact verification is separate.
 - [ ] User confirms whether the three original trusted Stage 26 model files are retained and where (local secure storage only).
 - [ ] Verify source/licence attribution and review history for secrets before promoting an archive.
-- [ ] Resolve or close [obsolete draft PR #1](https://github.com/RezaSaadatyar/human-movement-intelligence/pull/1).
+- [x] Obsolete [draft PR #1](https://github.com/RezaSaadatyar/human-movement-intelligence/pull/1) was closed without merge, preserving history.
 - [ ] **Only after user authorisation:** decide on a named GitHub release. Publishing a release is optional and separate from research execution.
 
 A GitHub Release, if authorised later, means an immutable versioned reference (tag) plus brief, scientifically bounded release notes. It **does not** mean publishing a paper or distributing private model/data files.
