@@ -11,16 +11,16 @@ This is a practical pre-release audit for the completed HARTH activity-recogniti
 - Stage 26 qualified pooled fixed-eight-class Macro F1: ResNet 0.7182; fixed Random Forest 0.6817. Accuracy 0.9020 / 0.9270. These are **not** an externally validated or historically blind result. S023/S032 were inspected descriptively during earlier exploration.
 - Primary evidence: [Notebook 23](../studies/wearable_activity_recognition/notebooks/23_unified_matched_model_benchmark.ipynb), [24](../studies/wearable_activity_recognition/notebooks/24_multiseed_and_imbalance_robustness.ipynb), [25](../studies/wearable_activity_recognition/notebooks/25_model_selection_and_protocol_freeze.ipynb), [26](../studies/wearable_activity_recognition/notebooks/26_final_development_training_and_inference.ipynb), [27](../studies/wearable_activity_recognition/notebooks/27_final_research_evidence_and_report.ipynb).
 
-## Historical Stage 23 evidence and in-place notebook formatting
+## Historical Stage 23/24 research evidence
 
-With the maintainer's explicit approval, the **primary** `notebooks/23_unified_matched_model_benchmark.ipynb` was visually standardised. It now includes the stage-specific SVG and numbered, centred comment headings directly in the notebook used for reading. **The original formatting revision preserved executable statements, outputs and execution counts. The user's subsequent replay changed nondeterministic runtime and Colab rendering metadata; scientific tables are checked against the immutable historical execution.** Its newly generated file SHA256 is not the same as the original historical byte-level SHA256 recorded in the approved Stage 25 manifest.
+The current `notebooks/23_unified_matched_model_benchmark.ipynb` is a later, presentation-updated version. The original approved execution is preserved in pinned Git history and its scientific results are verified against that historical record. The current file SHA256 differs from the byte-level fingerprint retained in the approved Stage 25 manifest; this does not replace or invalidate the historical record.
 
 The original executed Stage 23 notebook is retained in **pinned repository Git
 history**, rather than as a second file in the current project tree. The
 provenance audit reads its historical bytes from commit
 `433f972676a3a0a39c05b34612f201bb27366d36`, verifies the exact SHA256
 against the unchanged approved Stage 25 manifest, and compares the active
-Notebook 23's executable statements, saved outputs and execution counts. This
+Notebook 23's scientific code and recorded results. This
 requires a full Git checkout, rather than a source ZIP without history.
 
 Stage 24's **original** executed notebook is retained at Git commit
@@ -33,10 +33,7 @@ historical runs and checks scientific code, tables and figures against the
 approved evidence, allowing only known non-scientific runtime or display
 differences. Cached jobs are never described as newly trained runs.
 
-Stage 24's original executed bytes are verified through a separate pinned
-historical revision. The approved protocol records and six frozen model modules
-remain unchanged. Stages 26–27 were standardised in place without changing
-their preserved scientific evidence. The committed Stage 27 report contains eleven code cells with saved results and a successful final Quality Gate.
+Stage 24's original executed bytes are verified through a separate pinned historical revision. The approved protocol records and six frozen model modules remain unchanged. Stages 26–27 preserve their scientific evidence, and the committed Stage 27 report has a successful final Quality Gate.
 This review does not rerun model training, qualified Test scoring or independent
 replication.
 
@@ -153,7 +150,7 @@ fast-forward updates the existing `main` checkout, then checks committed
 Stage 26 evidence before report synthesis.
 
 **Current status:** the committed Stage 27 notebook has saved output in
-all eleven code cells, no saved execution errors, and the final
+its saved results, no recorded runtime errors, and the final
 `STAGE 27 | SOURCE-GROUNDED RESEARCH SYNTHESIS QUALITY GATE: PASSED`
 marker. This is a completed **recorded report synthesis**, not a new
 training run, independent replication or Test evaluation.
