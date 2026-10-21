@@ -66,7 +66,7 @@ class TestStage25HistoricalReplay(unittest.TestCase):
         candidate, original, reconciled, approved = records()
         bad_approved = copy.deepcopy(approved)
         bad_approved["approval_record"] = {}
-        with self.assertRaisesRegex(ValueError, "approval provenance"):
+        with self.assertRaisesRegex(ValueError, "approved evaluation provenance is missing"):
             validate_stage25_lineage(
                 candidate, original, reconciled, bad_approved
             )

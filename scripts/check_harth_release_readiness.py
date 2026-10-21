@@ -199,7 +199,7 @@ def verify_recorded_evidence():
         else:
             notebooks[str(stage)] = notebook_execution_check(
                 matches[0], count, gate,
-                allow_missing_counts_with_outputs=(stage == 27),
+                allow_missing_counts_with_outputs=False,
             )
     # Recover the original Stage 23 execution from a pinned Git revision.
     # Do not weaken byte-level approval checks or create duplicate notebooks.

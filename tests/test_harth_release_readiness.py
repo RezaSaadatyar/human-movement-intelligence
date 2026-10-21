@@ -338,15 +338,20 @@ class TestHarthReleaseReadiness(unittest.TestCase):
                 audit.verify_approved_text_bytes(path, expected)
 
     def test_stage27_quality_gate_must_exist_in_executed_notebook(self):
-        p = ROOT / "studies/wearable_activity_recognition/notebooks/27_final_research_evidence_and_report.ipynb"
-        saved = audit.notebook_execution_check(
-            p, 10,
-            "STAGE 27 | SOURCE-GROUNDED RESEARCH SYNTHESIS QUALITY GATE: PASSED",
-            allow_missing_counts_with_outputs=True,
+        """All 11 saved code cells must be genuinely executed and error-free."""
+        p = (
+            ROOT / "studies/wearable_activity_recognition/notebooks/"
+            "27_final_research_evidence_and_report.ipynb"
         )
-        self.assertEqual(saved["cells"], 10)
-        self.assertEqual(saved["saved_output_cells"], 10)
-        self.assertIsInstance(saved["missing_execution_counts"], list)
+        saved = audit.notebook_execution_check(
+            p, 11,
+            "STAGE 27 | SOURCE-GROUNDED RESEARCH SYNTHESIS QUALITY GATE: PASSED",
+            allow_missing_counts_with_outputs=False,
+        )
+        self.assertEqual(saved["cells"], 11)
+        self.assertEqual(saved["saved_output_cells"], 11)
+        self.assertEqual(saved["missing_execution_counts"], [])
+        self.assertTrue(saved["execution_metadata_complete"])
         self.assertEqual(len(saved["notebook_sha256"]), 64)
 
     def test_approval_lineage_cannot_be_silently_mutated(self):
