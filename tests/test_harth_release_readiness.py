@@ -23,7 +23,7 @@ class TestHarthReleaseReadiness(unittest.TestCase):
         """Readable Stage 23 must match hash-approved Git history."""
         import hashlib
         import sys
-        notebooks = ROOT / "wearable_activity_recognition/notebooks"
+        notebooks = ROOT / "wearable_activity_recognition/code/notebooks"
         study = notebooks.parent
         active = notebooks / "23_unified_matched_model_benchmark.ipynb"
         manifest = json.loads(
@@ -82,7 +82,7 @@ class TestHarthReleaseReadiness(unittest.TestCase):
         """Replays may vary in runtime, but not in frozen scientific scores."""
         import tempfile
         from core.harth_provenance import verify_stage23_visual_format
-        folder = ROOT/"studies/wearable_activity_recognition"
+        folder = ROOT/"wearable_activity_recognition"
         current = folder/"code/notebooks/23_unified_matched_model_benchmark.ipynb"
         approved = json.loads(
             (folder/"evidence/stage_25_protocol_approved_qualified_test.json")
