@@ -47,7 +47,7 @@ model and report artefacts remain in Git-ignored `outputs/`.
 
 ## Frozen model selection and qualified evaluation
 
-The final models and evaluation settings were selected using Development evidence alone. The historical Stage 25 proposal records remain at their original `PENDING_USER_REVIEW` status; a separate `APPROVED` manifest documents the specific one-time qualified held-out evaluation reported in Notebook 26. All three immutable files remain under [study evidence](../studies/wearable_activity_recognition/evidence/). Their source and approval integrity is checked without altering model parameters or re-evaluating the protected participants. For scientific methods and results, see the [consolidated study report](../studies/wearable_activity_recognition/docs/HARTH_RESEARCH_METHODS_AND_EVIDENCE.md).
+The final models and evaluation settings were selected using Development evidence alone. The historical Stage 25 proposal records remain at their original `PENDING_USER_REVIEW` status; a separate `APPROVED` manifest documents the specific one-time qualified held-out evaluation reported in Notebook 26. All three immutable files remain under [study evidence](../studies/wearable_activity_recognition/evidence/). Their source and approval integrity is checked without altering model parameters or re-evaluating the protected participants. For scientific methods and results, see the [consolidated study report](../studies/wearable_activity_recognition/HARTH_RESEARCH_METHODS_AND_EVIDENCE.md).
 
 ## Reproduction levels and what is available
 
