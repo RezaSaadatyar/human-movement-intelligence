@@ -12,7 +12,7 @@
 | Stage 26 | Executed Development final fitting, approved one-time qualified evaluation on S023/S032; final gate PASSED | [Notebook 26](../wearable_activity_recognition/code/notebooks/26_final_development_training_and_inference.ipynb) |
 | Stage 27 | Completed read-only saved-evidence synthesis, final gate PASSED; no raw/Test reloading | [Notebook 27](../wearable_activity_recognition/code/notebooks/27_final_research_evidence_and_report.ipynb) |
 | Biomechanical Load Estimation | Original data inspection and separately documented preliminary exploratory results, not completed robust load-estimation benchmark | [Study notes](../biomechanical_load_estimation/) |
-| Other movement science studies | Planned, not yet implemented | [Study catalogue](../studies/README.md) |
+| Other movement science studies | Planned, not yet implemented | [Research project overview](../README.md) |
 
 **Current scientific result:** 1D-ResNet Weighted CE / 120-tree Random Forest qualified pooled fixed-eight-class Macro F1 **0.7182 / 0.6817**, from only two historically inspected same-study held-out people and 1,000 overlapping windows. This is not independent external validation or clinical deployment evidence.
 
