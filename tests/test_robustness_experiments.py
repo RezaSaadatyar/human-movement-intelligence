@@ -7,7 +7,7 @@ from unittest.mock import patch
 
 import numpy as np
 
-sys.path.insert(0,str(Path(__file__).resolve().parents[1]/"code/python/src"))
+sys.path.insert(0,str(Path(__file__).resolve().parents[1]/"python_modules"))
 try:
     import torch
     from core import robustness_experiments as rob
