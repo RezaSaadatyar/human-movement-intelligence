@@ -1,3 +1,4 @@
+# ==================== Presented by: Reza Saadatyar (2026) ====================
 """Connect local Jupyter, VS Code and Google Colab to a research checkout.
 
 This module configures Python import paths. When explicitly given a public
@@ -16,6 +17,9 @@ from pathlib import Path
 from urllib.parse import urlparse
 
 
+# =========================== 1. Project Connection ===========================
+
+# ------------------ 1. Locate an Existing Research Checkout ------------------
 def _find_repository(start: Path) -> Path | None:
     """Find an ancestor containing the approved shared Python package."""
     current = start.expanduser().resolve()
@@ -30,6 +34,7 @@ def _find_repository(start: Path) -> Path | None:
     return None
 
 
+# ---------------- 2. Validate a Public GitHub Repository URL -----------------
 def _github_repository(url: str) -> tuple[str, str]:
     """Validate a public GitHub HTTPS clone URL and derive its folder name."""
     parsed = urlparse(url)
@@ -56,6 +61,7 @@ def _github_repository(url: str) -> tuple[str, str]:
     return f"https://github.com/{owner}/{name}.git", name
 
 
+# ------------------ 3. Set Up Research Project Import Paths ------------------
 def connect_project(
     study: str | None = None,
     *,
@@ -84,6 +90,7 @@ def connect_project(
           modifies an existing checkout.
         - Does not install dependencies or change model/device/plot settings.
     """
+    # -------------- 1. Discover or Clone the Research Checkout ---------------
     if project_root is not None:
         root = _find_repository(Path(project_root))
         if root is None:
@@ -125,10 +132,12 @@ def connect_project(
             "the repository from GitHub before importing this module."
         )
 
+    # ------------------ 2. Register Reusable Python Modules ------------------
     module_dir = root / "python_modules"
     if str(module_dir) not in sys.path:
         sys.path.insert(0, str(module_dir))
 
+    # ---------------- 3. Register the Requested Study Source -----------------
     if study is not None:
         if not isinstance(study, str) or study in {"", ".", ".."}:
             raise ValueError("study must be a non-empty subproject folder name.")
@@ -142,6 +151,7 @@ def connect_project(
         if str(study_src) not in sys.path:
             sys.path.insert(0, str(study_src))
 
+    # --------------- 4. Report the Active Research Environment ---------------
     environment = (
         "Google Colab" if "google.colab" in sys.modules
         or "COLAB_RELEASE_TAG" in os.environ else "Local Jupyter / VS Code"
