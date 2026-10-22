@@ -3,7 +3,7 @@ import sys
 import unittest
 from pathlib import Path
 import numpy as np
-sys.path.insert(0,str(Path(__file__).resolve().parents[1]/"code/python/src"))
+sys.path.insert(0,str(Path(__file__).resolve().parents[1]/"python_modules"))
 from core.data_splitting import audit_group_class_coverage
 
 class TestGroupCoverage(unittest.TestCase):

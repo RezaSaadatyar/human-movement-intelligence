@@ -13,23 +13,23 @@ import sys
 
 
 ROOT = Path(__file__).resolve().parents[1]
-STUDY = ROOT / "studies" / "wearable_activity_recognition"
-NOTEBOOKS = STUDY / "notebooks"
+STUDY = ROOT / "wearable_activity_recognition"
+NOTEBOOKS = STUDY / "code" / "notebooks"
 MANIFESTS = STUDY / "evidence"
 EXPECTED_MODELS = ("resnet_state_dict.pt", "random_forest.joblib", "inference_config.json")
 EXPECTED_CLASSES = list(range(1, 9))
 EXPECTED_TEST_SUBJECTS = ["S023", "S032"]
 FROZEN_FILES = (
-    "code/python/src/core/advanced_temporal_models.py",
-    "code/python/src/core/temporal_cnn.py",
-    "code/python/src/core/temporal_benchmark.py",
-    "code/python/src/core/feature_engineering.py",
-    "code/python/src/core/robustness_experiments.py",
-    "studies/wearable_activity_recognition/src/harth_data.py",
+    "python_modules/core/advanced_temporal_models.py",
+    "python_modules/core/temporal_cnn.py",
+    "python_modules/core/temporal_benchmark.py",
+    "python_modules/core/feature_engineering.py",
+    "python_modules/core/robustness_experiments.py",
+    "wearable_activity_recognition/code/src/harth_data.py",
 )
 
 
-sys.path.insert(0, str(ROOT / "code/python/src"))
+sys.path.insert(0, str(ROOT / "python_modules"))
 from core.harth_provenance import (
     read_historical_stage23_bytes,
     read_historical_stage24_bytes,
@@ -210,8 +210,8 @@ def verify_recorded_evidence():
 
     required = [
         "README.md",
-        "studies/wearable_activity_recognition/README.md",
-        "studies/wearable_activity_recognition/HARTH_RESEARCH_METHODS_AND_EVIDENCE.md",
+        "wearable_activity_recognition/README.md",
+        "wearable_activity_recognition/HARTH_RESEARCH_METHODS_AND_EVIDENCE.md",
         "docs/ROADMAP.md",
         "docs/HARTH_REPRODUCIBILITY.md",
         "LICENSE",
