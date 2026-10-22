@@ -53,7 +53,7 @@ Data are acquired from their original providers into ignored local `data/raw/` d
 - [Research standards](docs/RESEARCH_STANDARDS.md) and [architecture](docs/ARCHITECTURE.md)
 - Shared Python modules: [code/python/src/core](code/python/src/core/)
 - Reusable unit tests: [tests](tests/) and [CI workflow](.github/workflows/python-checks.yml)
-- [HARTH study overview](studies/wearable_activity_recognition/README.md) and [Research Methods and Experimental Evidence](studies/wearable_activity_recognition/docs/HARTH_RESEARCH_METHODS_AND_EVIDENCE.md)
+- [HARTH study overview](studies/wearable_activity_recognition/README.md) and [Research Methods and Experimental Evidence](studies/wearable_activity_recognition/HARTH_RESEARCH_METHODS_AND_EVIDENCE.md)
 
 **Status:** HARTH research execution and Stage 27 evidence synthesis are complete; documentation checks and any versioned GitHub Release remain separate follow-up work. Other proposed studies are not represented as implemented results.
 
