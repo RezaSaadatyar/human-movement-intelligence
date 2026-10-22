@@ -11,8 +11,8 @@ from core.harth_study_report import load_final_harth_evidence, _load_executed_no
 class TestHarthStage27Evidence(unittest.TestCase):
     @classmethod
     def setUpClass(cls):
-        cls.study=ROOT/"studies/wearable_activity_recognition"
-        cls.dir=cls.study/"notebooks"
+        cls.study=ROOT/"wearable_activity_recognition"
+        cls.dir=cls.study/"code/notebooks"
 
     def test_original_executed_and_approved_chain(self):
         development=load_selection_evidence(
