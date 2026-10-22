@@ -1,108 +1,75 @@
 # Wearable Activity Recognition | HARTH v2.0
 
-![HARTH v2.0: complete scientific study workflow across 27 stages](images/study_overview.svg)
+![HARTH research workflow](images/study_overview.svg)
 
-*Study-level workflow from source accelerometers through Development modelling and separately approved qualified held-out evaluation to read-only evidence synthesis. The two evaluated participants were previously inspected; this is not blind external validation.*
+## 1. Project Overview
 
-**Executed study: Stages 01–27.** Final Development model fitting, approved qualified held-out evaluation and read-only research evidence synthesis have been run and committed. This is a research portfolio study, not externally validated clinical software.
+This study investigates **eight-class human activity recognition** using wearable accelerometers. It compares classical machine learning with temporal deep learning, focusing on participant-disjoint evaluation, class imbalance, prediction confidence and model stability.
 
-**Study navigation:** [Notebooks](notebooks/) · [Research methods and evidence](docs/HARTH_RESEARCH_METHODS_AND_EVIDENCE.md) · [Versioned research records](evidence/) · [Workflow figures](images/).
+All **27 research notebooks** have been completed. The final models were assessed on two participants from the same HARTH collection. These participants had been inspected during early exploratory work, so this assessment is **not blind external validation** or evidence of clinical readiness.
 
-## Research question
+## 2. Dataset and Research Approach
 
-How do classical machine learning and deep temporal neural networks compare for eight-class activity recognition from wearable accelerometer sequences under **participant-disjoint Development evaluation** and a **qualified same-study held-out check**?
+- **Dataset:** [HARTH v2.0 from NTNU AI Lab](https://github.com/ntnu-ai-lab/harth-ml-experiments), separate from the older UCI HARTH v1.2 release.
+- **Signals:** Six accelerometer channels from the lower back and thigh, recorded at approximately **50 Hz**.
+- **Activity classes:** Walking, Running, Shuffling, Stairs ascending, Stairs descending, Standing, Sitting and Lying. Undocumented source codes 10, 11 and 17 are not assigned unverified labels.
+- **Preprocessing:** Two-second windows (100 samples), a 50-sample stride and checks for consistent activity labels and continuous timestamps.
+- **Development evaluation:** **29 participants**, **14,201 selected windows** and three-fold participant-disjoint GroupKFold comparisons.
+- **Final assessment:** Two originally reserved participants, **S023 and S032**, with **500 selected windows each**; the evaluation was separately authorised after model selection.
 
-## Dataset and experimental protocol
+Preprocessing and model fitting are restricted to the relevant training data. Earlier exploratory analyses used different participant groups, sampling limits and training budgets, so their scores are not always directly comparable.
 
-- **Data source:** HARTH v2.0, [NTNU AI Lab source repository](https://github.com/ntnu-ai-lab/harth-ml-experiments), pinned revision `dad2cfbe89a26f72f19770419469ac037de200df`. This is distinct from the older UCI HARTH v1.2 distribution.
-- **Inputs:** `back_x, back_y, back_z, thigh_x, thigh_y, thigh_z`; lower-back and thigh accelerometer signals at nominal 50 Hz.
-- **Target:** original documented activity source codes **1–8**. Source codes **10/11** were encountered but not assigned invented activities; out-of-task codes are excluded **after** time-safe segmentation.
-- **Windows:** 100 samples (2 s), 50-sample stride (50% overlap), timestamp continuity and 100% annotation purity.
-- **Development:** 29 people; 500-window label-independent chronological cap per person, yielding **14,201** selected windows. Participant-disjoint three-fold GroupKFold model comparison.
-- **Qualified Test:** `S023` and `S032`, 500 windows each, evaluated under the preapproved immutable model/settings. Both had been descriptively examined in earlier exploratory stages; not fully blind/external validation.
+## 3. Models and Experiments
 
-## Executed evidence and model development
+The research progresses from **Dummy, Logistic Regression and Random Forest** baselines to temporal models including **CNN, Weighted CNN, TCN, Multi-Scale CNN, 1D-ResNet and a Time-Series Transformer**.
 
-**Research evidence:** All 27 numbered notebooks contain saved study results and linked stage-specific workflow figures. Original approved Stage 23/24 evidence remains verifiable through pinned Git history; later notebook replays do not replace the original approval records.
+The main Development study compares seven model configurations on matched participant splits. Additional experiments examine the effects of training-set size, equal training-update budgets, three random seeds, class-weighted and alternative loss functions, confidence diagnostics and temperature scaling.
 
-| Stages | Objective | Evidence |
-| --- | --- | --- |
-| 01–04 | Source inspection, time-safe windowing, features and participant grouping | [Notebooks](notebooks/) and [historical evidence register](evidence/stage_01_19_evidence_register.csv) |
-| 05–09 | Classical ML and progressive Development group CV | [Historical evidence register](evidence/stage_01_19_evidence_register.csv) |
-| 10–19 | Temporal CNNs, matched comparisons, sample size, confidence and calibration explorations | [Historical evidence register](evidence/stage_01_19_evidence_register.csv) |
-| 20–22 | Evidence consolidation, rare-class/data-quality audit, TCN / Multi-Scale CNN / 1D-ResNet / Transformer engineering checks | [Notebook 20](notebooks/20_research_evidence_consolidation.ipynb) · [21](notebooks/21_minority_class_and_data_quality.ipynb) · [22](notebooks/22_advanced_temporal_architectures.ipynb) |
-| **23** | Seven-model matched 3-fold Development benchmark (21 fits) | **[Primary formatted Notebook 23](notebooks/23_unified_matched_model_benchmark.ipynb)** · [Git-history source verification](../../docs/HARTH_REPRODUCIBILITY.md) · [Workflow SVG](images/23_workflow.svg) |
-| **24** | 3 seeds, paired folds and selected loss ablations (36 fits) | [Executed Notebook 24](notebooks/24_multiseed_and_imbalance_robustness.ipynb) |
-| **25** | Development-only primary/reference selection and frozen protocol proposal | [Executed Notebook 25](notebooks/25_model_selection_and_protocol_freeze.ipynb) |
-| **26** | Development-only fitting of two fixed models, trusted inference checks, **approved qualified held-out scoring** | [Executed Notebook 26](notebooks/26_final_development_training_and_inference.ipynb) |
-| **27** | Read-only verification and synthesis of Stages 23–26 results | [Executed Notebook 27](notebooks/27_final_research_evidence_and_report.ipynb) |
+The full experimental design, model configurations and Development results are documented in [Research Methods and Experimental Evidence](HARTH_RESEARCH_METHODS_AND_EVIDENCE.md).
 
-The Stage 25 **original and reconciled proposal manifests remain pending** for historical provenance. A **separate approved manifest** documents explicit authorisation for Stage 26 qualified scoring. Original candidate files have not been overwritten.
+## 4. Key Results
 
-### Seven-model Development benchmark (Stage 23)
+The Development experiments supported the selection of **1D-ResNet with weighted cross-entropy** as the primary model and **Random Forest** as a fixed classical comparator. The final qualified same-study assessment recorded:
 
-| Model | Mean participant-held-out Macro F1 | Fold SD |
+| Model | Eight-class Macro F1 | Accuracy |
 | --- | ---: | ---: |
-| 1D-ResNet | 0.8328 | 0.0435 |
-| TCN | 0.8138 | 0.0658 |
-| Random Forest | 0.8094 | 0.0500 |
-| Time-Series Transformer | 0.8006 | 0.0602 |
-| Multi-Scale CNN | 0.7946 | 0.0459 |
-| Weighted CNN | 0.7725 | 0.0274 |
-| Standard CNN | 0.6664 | 0.0633 |
+| **1D-ResNet Weighted CE** | **0.7182** | 0.9020 |
+| Random Forest | 0.6817 | **0.9270** |
 
-Stage 24 selected-condition multi-seed Development Macro F1: **ResNet Weighted CE 0.8286**, TCN Weighted CE 0.8105, ResNet Focal Loss 0.8058 and ResNet Class-Balanced CE 0.7915. These are **Development** summaries and cannot be substituted for qualified Test scores or interpreted as statistical significance.
+These results describe **1,000 overlapping windows from only two participants**, not 1,000 independent cases. Shuffling appears in only **three** selected windows, and ascending and descending stairs in **ten** and **six**, respectively. The small held-out cohort and uneven class support limit generalisation; performance on new datasets or in clinical practice has not been established.
 
-### Final frozen models and qualified held-out results (Stage 26)
+See [Notebook 26](notebooks/26_final_development_training_and_inference.ipynb) for detailed per-class results and [Notebook 27](notebooks/27_final_research_evidence_and_report.ipynb) for the final summary of saved evidence.
 
-The primary **1D-ResNet Weighted CE** has six input channels, eight output classes, hidden width 32, Development-only channel scaling and inverse-square-root class weights. It used Adam (learning rate 0.001), batch size 128, 400 updates, seed 42 and final-step weights. The comparator is a predeclared Random Forest (120 trees, minimum leaf size 3, `balanced_subsample`, seed 42), trained on 30 deterministic per-window statistical features. No Test-driven adaptation or model selection was performed.
+## 5. Repository Structure
 
-| Metric | 1D-ResNet Weighted CE | Random Forest |
-| --- | ---: | ---: |
-| **Fixed-eight-class Macro F1** | **0.7182** | 0.6817 |
-| Accuracy | 0.9020 | **0.9270** |
-| Balanced accuracy (observed classes) | 0.9234 | 0.7599 |
-| S023 Macro F1 (500 windows) | 0.7384 | 0.7391 |
-| S032 Macro F1 (500 windows) | 0.5662 | 0.4597 |
+| Location | Contents |
+| --- | --- |
+| [Research Methods and Experimental Evidence](HARTH_RESEARCH_METHODS_AND_EVIDENCE.md) | Complete study methods, model comparisons, results and limitations |
+| [notebooks/](notebooks/) | Twenty-seven research notebooks with saved results |
+| [src/](src/) | HARTH-specific data loading and quality checks |
+| [images/](images/) | Study overview and stage-specific SVG workflows |
+| [evidence/](evidence/) | Research evidence register and historical approval records |
 
-**True class support (1,000 selected windows):** Walking 538; Running 86; Shuffling 3; Stairs ascending 10; Stairs descending 6; Standing 127; Sitting 115; Lying 115. Full per-class metrics, confusion matrices and plots are preserved in [Notebook 26](notebooks/26_final_development_training_and_inference.ipynb). The Stage 27 notebook extracts **rounded displayed values**, not hidden full-precision predictions.
+Reusable ML/DL implementations live in the repository's shared [Python core](../../code/python/src/core/), rather than in this study's `src/` directory.
 
-## How to run
+## 6. Getting Started
 
-From the repository root:
+From the repository root, install the general dependencies and run the offline test suite:
 
-```powershell
-git pull --ff-only origin main
+```bash
 python -m pip install -r requirements.txt
 python -m unittest discover -s tests -v
 ```
 
-**To review actual evidence without GPU or HARTH downloads:** open [Notebook 27](notebooks/27_final_research_evidence_and_report.ipynb). In **Google Colab**, run its checkout/setup cell and then the ten research code sections (eleven code cells in total). In **Cursor, Windows or local Jupyter**, skip the Colab-specific `%cd /content` setup cell, start in the repository root with full Git history and run the ten research sections. The report reads already committed notebooks, checks provenance and produces ignored `outputs/harth_stage27_report/` CSV/provenance files; it does **not** reload Test recordings or refit models. The current committed Stage 27 notebook has all eleven code cells executed with a saved `PASSED` gate.
+Start with the [notebook collection](notebooks/) or open [Notebook 27](notebooks/27_final_research_evidence_and_report.ipynb) to inspect the saved results. Re-running its read-only report requires the complete Git history and a compatible Python environment; it does **not** download held-out recordings or retrain models.
 
-**For historical training / neural model re-execution:** use [`requirements-dl.txt`](../../requirements-dl.txt) and the relevant numbered notebook. Reproducing GPU results requires acquiring original HARTH source files and compatible hardware. The frozen final model artefacts (`resnet_state_dict.pt`, `random_forest.joblib`, `inference_config.json`) are **not committed**; they were generated in ignored local `outputs/harth_stage26_final/`. Do not treat a freshly cloned repository as including those files. Never repeat qualified Test scoring to tune model choices.
+Training experiments require the original HARTH data, additional dependencies from [requirements-dl.txt](../../requirements-dl.txt) and suitable compute resources. Raw datasets and trained model files are not included in the public repository. Do not rerun the final held-out evaluation for further model selection.
 
-Useful code: [temporal architectures](../../code/python/src/core/advanced_temporal_models.py), [benchmarking](../../code/python/src/core/temporal_benchmark.py), [final inference](../../code/python/src/core/harth_final_inference.py), [qualified metrics](../../code/python/src/core/harth_qualified_test_report.py), [read-only evidence report](../../code/python/src/core/harth_study_report.py) and [offline tests](../../tests/).
+## 7. Research Documentation
 
-## Scientific limitations and provenance
+- [Research Methods and Experimental Evidence](HARTH_RESEARCH_METHODS_AND_EVIDENCE.md): full methodology and scientific interpretation.
+- [Notebook 23](notebooks/23_unified_matched_model_benchmark.ipynb) and [Notebook 24](notebooks/24_multiseed_and_imbalance_robustness.ipynb): matched Development comparison and robustness experiments.
+- [Notebook 25](notebooks/25_model_selection_and_protocol_freeze.ipynb), [Notebook 26](notebooks/26_final_development_training_and_inference.ipynb) and [Notebook 27](notebooks/27_final_research_evidence_and_report.ipynb): model selection, qualified evaluation and final report.
+- [HARTH Reproducibility Guide](../../docs/HARTH_REPRODUCIBILITY.md): source version, saved evidence and integrity checks.
 
-1. The two originally reserved people were inspected descriptively before protocol lock: the held-out assessment is **qualified same-study**, not historically blind or external.
-2. Only two individuals and heavily overlapping windows limit uncertainty estimation and population-level claims.
-3. Rare-class support is exceptionally sparse (Shuffling 3, ascending stairs 10, descending stairs 6); per-class precision/recall can be unstable.
-4. Class availability differs by participant: S023 contains eight true classes, S032 contains six.
-5. Unknown source codes 10/11 are not relabelled. Study results are conditional on explicit label exclusions, source revision and a bounded sampling scheme.
-6. The notebook collection includes exploratory comparisons with different cohorts, caps and training budgets. **Only explicitly matched experiments should be compared directly.**
-7. Accuracy alone does not reflect minority-class performance. Neither clinical utility, external generalisation, clinical deployment nor statistical superiority is established.
-
-For the complete method and evidence synthesis, see [Research Methods and Experimental Evidence](docs/HARTH_RESEARCH_METHODS_AND_EVIDENCE.md) and the [research standards](../../docs/RESEARCH_STANDARDS.md).
-
-**Current status:** All 27 notebook stages are committed; the final research evidence synthesis passed. Source code/CI, documentation and any subsequent release are managed separately. No independent manuscript or additional Test-derived research is implied.
-
-## Reproducibility and release preflight
-
-See the [HARTH reproducibility guide](../../docs/HARTH_REPRODUCIBILITY.md). From the repository root, run `python scripts/check_harth_release_readiness.py` for a read-only verification of saved notebook outputs and frozen scientific provenance. Optional trusted local model files can be checked separately using `--artifact-dir`; this does not deserialise them. A GitHub Release is a later, user-approved action, not part of the executed study.
-
-## Research workflow figures
-
-The [study-level workflow](images/study_overview.svg) outlines the full research process. The [27 stage-specific figures](images/) illustrate the corresponding investigations and do not substitute for their saved experimental evidence.
-
-The [primary notebooks 01–27](notebooks/) preserve study results and scientific limitations. Original Stage 23/24 approved evidence can be checked against pinned Git-history records, and Stages 26–27 document the qualified same-study held-out evaluation and read-only report synthesis. No notebook replay establishes independent external validation.
+**Status:** Research experiments and evidence reporting are complete. This project remains a research portfolio study, not an externally validated clinical system.
