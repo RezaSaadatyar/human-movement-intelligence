@@ -11,6 +11,7 @@ import numpy as np
 sys.path.insert(0,str(Path(__file__).resolve().parents[1]/"python_modules"))
 try:
     from core import harth_final_inference as final
+    from core.harth_protocol_lineage import resolve_frozen_source_path
 except ImportError:
     final=None
 
@@ -95,7 +96,7 @@ class TestHarthFinalInference(unittest.TestCase):
         with tempfile.TemporaryDirectory() as temp_dir:
             simulated_root = Path(temp_dir)
             for relative in manifest["module_sha256"]:
-                original = (root / relative).read_bytes()
+                original = resolve_frozen_source_path(root, relative).read_bytes()
                 # Collapse only checkout line-ending conversion before
                 # reproducing the Windows representation of approved source.
                 source_bytes = original.replace(b"\r\n", b"\n")
