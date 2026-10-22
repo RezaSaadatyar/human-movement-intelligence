@@ -20,16 +20,17 @@ EXPECTED_MODELS = ("resnet_state_dict.pt", "random_forest.joblib", "inference_co
 EXPECTED_CLASSES = list(range(1, 9))
 EXPECTED_TEST_SUBJECTS = ["S023", "S032"]
 FROZEN_FILES = (
-    "python_modules/core/advanced_temporal_models.py",
-    "python_modules/core/temporal_cnn.py",
-    "python_modules/core/temporal_benchmark.py",
-    "python_modules/core/feature_engineering.py",
-    "python_modules/core/robustness_experiments.py",
-    "wearable_activity_recognition/code/src/harth_data.py",
+    "code/python/src/core/advanced_temporal_models.py",
+    "code/python/src/core/temporal_cnn.py",
+    "code/python/src/core/temporal_benchmark.py",
+    "code/python/src/core/feature_engineering.py",
+    "code/python/src/core/robustness_experiments.py",
+    "studies/wearable_activity_recognition/src/harth_data.py",
 )
 
 
 sys.path.insert(0, str(ROOT / "python_modules"))
+from core.harth_protocol_lineage import resolve_frozen_source_path
 from core.harth_provenance import (
     read_historical_stage23_bytes,
     read_historical_stage24_bytes,
@@ -161,7 +162,7 @@ def verify_recorded_evidence():
         raise ValueError("Six frozen source modules were not recorded.")
     eol_adaptations = []
     for relative, expected in recorded.items():
-        source = (ROOT / relative).resolve()
+        source = resolve_frozen_source_path(ROOT, relative)
         if not source.is_relative_to(ROOT) or not source.is_file():
             raise ValueError("Missing/unsafe frozen module: " + relative)
         status = verify_approved_text_bytes(source, expected)
