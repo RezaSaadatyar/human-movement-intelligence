@@ -3,7 +3,7 @@ import sys
 import unittest
 from pathlib import Path
 import numpy as np
-sys.path.insert(0,str(Path(__file__).resolve().parents[1]/"code/python/src"))
+sys.path.insert(0,str(Path(__file__).resolve().parents[1]/"python_modules"))
 from core.ml_baselines import evaluate_predictions_by_subject
 from core.group_cross_validation import compare_models_by_subject
 

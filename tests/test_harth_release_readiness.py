@@ -23,7 +23,7 @@ class TestHarthReleaseReadiness(unittest.TestCase):
         """Readable Stage 23 must match hash-approved Git history."""
         import hashlib
         import sys
-        notebooks = ROOT / "studies/wearable_activity_recognition/notebooks"
+        notebooks = ROOT / "wearable_activity_recognition/notebooks"
         study = notebooks.parent
         active = notebooks / "23_unified_matched_model_benchmark.ipynb"
         manifest = json.loads(
@@ -38,7 +38,7 @@ class TestHarthReleaseReadiness(unittest.TestCase):
             hashlib.sha256(active.read_bytes()).hexdigest(), expected
         )
         # Stage 27 reads the approved historic evidence through this loader.
-        sys.path.insert(0, str(ROOT / "code/python/src"))
+        sys.path.insert(0, str(ROOT / "python_modules"))
         from core.harth_selection_evidence import load_selection_evidence
         evidence = load_selection_evidence(
             active, notebooks / "24_multiseed_and_imbalance_robustness.ipynb"
@@ -111,11 +111,11 @@ class TestHarthReleaseReadiness(unittest.TestCase):
             read_historical_stage24_bytes, verify_stage24_visual_format,
         )
         current = (
-            root / "studies/wearable_activity_recognition/notebooks/"
+            root / "wearable_activity_recognition/code/notebooks/"
             "24_multiseed_and_imbalance_robustness.ipynb"
         )
         manifest = json.loads(
-            (root / "studies/wearable_activity_recognition/evidence/"
+            (root / "wearable_activity_recognition/evidence/"
              "stage_25_protocol_approved_qualified_test.json").read_text(
                 encoding="utf-8"
             )
@@ -139,11 +139,11 @@ class TestHarthReleaseReadiness(unittest.TestCase):
             read_historical_stage24_bytes, verify_stage24_visual_format,
         )
         current = (
-            ROOT / "studies/wearable_activity_recognition/notebooks/"
+            ROOT / "wearable_activity_recognition/code/notebooks/"
             "24_multiseed_and_imbalance_robustness.ipynb"
         )
         approved = json.loads(
-            (ROOT / "studies/wearable_activity_recognition/evidence/"
+            (ROOT / "wearable_activity_recognition/evidence/"
              "stage_25_protocol_approved_qualified_test.json").read_text(
                 encoding="utf-8"
             )
@@ -179,11 +179,11 @@ class TestHarthReleaseReadiness(unittest.TestCase):
             read_historical_stage24_bytes, verify_stage24_visual_format,
         )
         current = (
-            ROOT / "studies/wearable_activity_recognition/notebooks/"
+            ROOT / "wearable_activity_recognition/code/notebooks/"
             "24_multiseed_and_imbalance_robustness.ipynb"
         )
         approved = json.loads(
-            (ROOT / "studies/wearable_activity_recognition/evidence/"
+            (ROOT / "wearable_activity_recognition/evidence/"
              "stage_25_protocol_approved_qualified_test.json").read_text(
                 encoding="utf-8"
             )
@@ -293,7 +293,7 @@ class TestHarthReleaseReadiness(unittest.TestCase):
         """Structural check that does not require Stage 27 to have run yet."""
         import json
         notebook = (
-            ROOT / "studies/wearable_activity_recognition/notebooks/"
+            ROOT / "wearable_activity_recognition/code/notebooks/"
             "27_final_research_evidence_and_report.ipynb"
         )
         record = json.loads(notebook.read_text(encoding="utf-8"))
@@ -340,7 +340,7 @@ class TestHarthReleaseReadiness(unittest.TestCase):
     def test_stage27_quality_gate_must_exist_in_executed_notebook(self):
         """All 11 saved code cells must be genuinely executed and error-free."""
         p = (
-            ROOT / "studies/wearable_activity_recognition/notebooks/"
+            ROOT / "wearable_activity_recognition/code/notebooks/"
             "27_final_research_evidence_and_report.ipynb"
         )
         saved = audit.notebook_execution_check(
@@ -355,7 +355,7 @@ class TestHarthReleaseReadiness(unittest.TestCase):
         self.assertEqual(len(saved["notebook_sha256"]), 64)
 
     def test_approval_lineage_cannot_be_silently_mutated(self):
-        path = ROOT / "studies/wearable_activity_recognition/evidence/stage_25_protocol_approved_qualified_test.json"
+        path = ROOT / "wearable_activity_recognition/evidence/stage_25_protocol_approved_qualified_test.json"
         manifest = json.loads(path.read_text(encoding="utf-8"))
         self.assertEqual(manifest["status"], "APPROVED")
         self.assertFalse(manifest["evaluation"]["use_test_for_tuning"])
