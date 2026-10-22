@@ -33,6 +33,48 @@ def verified_module_sha256(path, expected_sha256):
     )
 
 
+
+# Approved Stage 25 records retain original paths as historical evidence.
+# Relocation changes where files live, never their approved hash or identity.
+FROZEN_SOURCE_RELOCATIONS = {
+    "code/python/src/core/advanced_temporal_models.py":
+        "python_modules/core/advanced_temporal_models.py",
+    "code/python/src/core/temporal_cnn.py":
+        "python_modules/core/temporal_cnn.py",
+    "code/python/src/core/temporal_benchmark.py":
+        "python_modules/core/temporal_benchmark.py",
+    "code/python/src/core/feature_engineering.py":
+        "python_modules/core/feature_engineering.py",
+    "code/python/src/core/robustness_experiments.py":
+        "python_modules/core/robustness_experiments.py",
+    "studies/wearable_activity_recognition/src/harth_data.py":
+        "wearable_activity_recognition/code/src/harth_data.py",
+}
+
+
+def resolve_frozen_source_path(repository_root, recorded_relative):
+    """Resolve one explicitly pinned legacy source path after relocation.
+
+    The historical manifest key is retained; SHA256 verification remains
+    mandatory and is performed separately on the unchanged source bytes.
+    """
+    if recorded_relative not in FROZEN_SOURCE_RELOCATIONS:
+        raise ValueError(
+            "Unrecognised Stage 25 historical source path: "
+            + str(recorded_relative)
+        )
+    root = Path(repository_root).resolve()
+    original = (root / recorded_relative).resolve()
+    migrated = (root / FROZEN_SOURCE_RELOCATIONS[recorded_relative]).resolve()
+    for candidate in (original, migrated):
+        if candidate.is_relative_to(root) and candidate.is_file():
+            return candidate
+    raise FileNotFoundError(
+        "Frozen historical source missing at original and migrated paths: "
+        + str(recorded_relative)
+    )
+
+
 def validate_stage25_lineage(candidate, original, reconciled, approved):
     """Compare a replay candidate with immutable original and approved records."""
     for name, obj in (
