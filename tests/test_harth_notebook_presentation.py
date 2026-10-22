@@ -72,7 +72,7 @@ class TestHarthNotebookPresentation(unittest.TestCase):
     def test_primary_notebooks_and_no_duplicate_stage23_archive(self):
         # Stage 23 is the only active notebook copy; historical source bytes
         # remain verifiable through the pinned Git commit and approved hash.
-        original_23 = STUDY / "notebooks/23_unified_matched_model_benchmark.ipynb"
+        original_23 = STUDY / "code/notebooks/23_unified_matched_model_benchmark.ipynb"
         archived_23 = STUDY / "experiments/frozen_notebook_evidence"
         self.assertTrue(original_23.is_file())
         self.assertFalse(archived_23.exists())
