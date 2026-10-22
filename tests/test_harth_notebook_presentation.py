@@ -59,7 +59,7 @@ class TestHarthNotebookPresentation(unittest.TestCase):
                         len(doc.findall(".//{http://www.w3.org/2000/svg}rect")), 8
                     )
 
-                notebook_root = "notebooks"
+                notebook_root = "code/notebooks"
                 path = list((STUDY / notebook_root).glob(f"{name}_*.ipynb"))
                 self.assertEqual(len(path), 1)
                 notebook = json.loads(path[0].read_text(encoding="utf-8"))
