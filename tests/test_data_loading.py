@@ -11,7 +11,7 @@ from scipy.io import savemat
 
 ROOT = Path(__file__).resolve().parents[1]
 sys.path.insert(0, str(ROOT / 'python_modules'))
-sys.path.insert(0, str(ROOT / 'studies' / 'biomechanical_load_estimation' / 'src'))
+sys.path.insert(0, str(ROOT / 'biomechanical_load_estimation' / 'code' / 'src'))
 
 from core.data_loading import load_data
 from core.data_inspection import inspect_data, plot_signal
