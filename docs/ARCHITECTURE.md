@@ -3,10 +3,10 @@
 A minimal, understandable structure adapted from the maintainer's existing EEG and medical-LLM code conventions:
 
 ```text
-code/python/src/core/
+python_modules/core/
     data_loading.py
     data_inspection.py
-studies/biomechanical_load_estimation/
+biomechanical_load_estimation/
     src/bonenet_data.py
     notebooks/01_data_loading_and_inspection.ipynb
 tests/test_data_loading.py

@@ -7,7 +7,7 @@ from pathlib import Path
 
 import pandas as pd
 
-sys.path.insert(0, str(Path(__file__).resolve().parents[1] / "code/python/src"))
+sys.path.insert(0, str(Path(__file__).resolve().parents[1] / "python_modules"))
 from core.notebook_evidence import (
     collect_notebook_inventory, extract_saved_output_text,
     validate_evidence_register,

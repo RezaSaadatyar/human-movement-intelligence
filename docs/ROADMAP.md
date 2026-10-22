@@ -1,18 +1,18 @@
 # Current Research Status (21 October 2026)
 
-**The original planning/checkpoint log below is preserved as a historical record. Its earlier unchecked items and "pending" descriptions reflect their status when written, not the latest GitHub execution state.** For current results, see [the executed HARTH study](../studies/wearable_activity_recognition/README.md).
+**The original planning/checkpoint log below is preserved as a historical record. Its earlier unchecked items and "pending" descriptions reflect their status when written, not the latest GitHub execution state.** For current results, see [the executed HARTH study](../wearable_activity_recognition/README.md).
 
 | Area | Verified present status | Evidence |
 | --- | --- | --- |
-| HARTH Stages 01–19 | Historical executed exploratory analyses; different cohort sizes and model protocols | [Evidence register](../studies/wearable_activity_recognition/evidence/stage_01_19_evidence_register.csv) |
-| Stage 20–22 | Executed evidence consolidation, quality audit and temporal architecture checks | [Notebooks](../studies/wearable_activity_recognition/notebooks/) |
-| Stage 23 | Executed seven-model, 3-fold matched 29-person Development benchmark; 21 jobs | [Notebook 23](../studies/wearable_activity_recognition/notebooks/23_unified_matched_model_benchmark.ipynb) |
-| Stage 24 | Executed multi-seed/loss robustness, 36 Development fits | [Notebook 24](../studies/wearable_activity_recognition/notebooks/24_multiseed_and_imbalance_robustness.ipynb) |
-| Stage 25 | Executed Development-only model selection and source-fingerprinted protocol | [Notebook 25](../studies/wearable_activity_recognition/notebooks/25_model_selection_and_protocol_freeze.ipynb) |
-| Stage 26 | Executed Development final fitting, approved one-time qualified evaluation on S023/S032; final gate PASSED | [Notebook 26](../studies/wearable_activity_recognition/notebooks/26_final_development_training_and_inference.ipynb) |
-| Stage 27 | Completed read-only saved-evidence synthesis, final gate PASSED; no raw/Test reloading | [Notebook 27](../studies/wearable_activity_recognition/notebooks/27_final_research_evidence_and_report.ipynb) |
-| Biomechanical Load Estimation | Original data inspection and separately documented preliminary exploratory results, not completed robust load-estimation benchmark | [Study notes](../studies/biomechanical_load_estimation/) |
-| Other movement science studies | Planned, not yet implemented | [Study catalogue](../studies/README.md) |
+| HARTH Stages 01–19 | Historical executed exploratory analyses; different cohort sizes and model protocols | [Evidence register](../wearable_activity_recognition/evidence/stage_01_19_evidence_register.csv) |
+| Stage 20–22 | Executed evidence consolidation, quality audit and temporal architecture checks | [Notebooks](../wearable_activity_recognition/code/notebooks/) |
+| Stage 23 | Executed seven-model, 3-fold matched 29-person Development benchmark; 21 jobs | [Notebook 23](../wearable_activity_recognition/code/notebooks/23_unified_matched_model_benchmark.ipynb) |
+| Stage 24 | Executed multi-seed/loss robustness, 36 Development fits | [Notebook 24](../wearable_activity_recognition/code/notebooks/24_multiseed_and_imbalance_robustness.ipynb) |
+| Stage 25 | Executed Development-only model selection and source-fingerprinted protocol | [Notebook 25](../wearable_activity_recognition/code/notebooks/25_model_selection_and_protocol_freeze.ipynb) |
+| Stage 26 | Executed Development final fitting, approved one-time qualified evaluation on S023/S032; final gate PASSED | [Notebook 26](../wearable_activity_recognition/code/notebooks/26_final_development_training_and_inference.ipynb) |
+| Stage 27 | Completed read-only saved-evidence synthesis, final gate PASSED; no raw/Test reloading | [Notebook 27](../wearable_activity_recognition/code/notebooks/27_final_research_evidence_and_report.ipynb) |
+| Biomechanical Load Estimation | Original data inspection and separately documented preliminary exploratory results, not completed robust load-estimation benchmark | [Study notes](../biomechanical_load_estimation/) |
+| Other movement science studies | Planned, not yet implemented | [Research project overview](../README.md) |
 
 **Current scientific result:** 1D-ResNet Weighted CE / 120-tree Random Forest qualified pooled fixed-eight-class Macro F1 **0.7182 / 0.6817**, from only two historically inspected same-study held-out people and 1,000 overlapping windows. This is not independent external validation or clinical deployment evidence.
 

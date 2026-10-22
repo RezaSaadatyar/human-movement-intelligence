@@ -4,11 +4,11 @@ on:
   push:
     paths:
       - "requirements.txt"
-      - "code/python/src/core/**"
-      - "studies/biomechanical_load_estimation/src/**"
-      - "studies/biomechanical_load_estimation/notebooks/**"
-      - "studies/wearable_activity_recognition/src/**"
-      - "studies/wearable_activity_recognition/notebooks/**"
+      - "python_modules/core/**"
+      - "biomechanical_load_estimation/code/src/**"
+      - "biomechanical_load_estimation/code/notebooks/**"
+      - "wearable_activity_recognition/code/src/**"
+      - "wearable_activity_recognition/code/notebooks/**"
       - "tests/**"
       - ".github/workflows/python-checks.yml"
   workflow_dispatch:
@@ -30,44 +30,44 @@ jobs:
       - name: Install standard Python dependencies
         run: python -m pip install -r requirements.txt
       - name: Check Python syntax
-        run: python -m compileall -q code/python/src studies/biomechanical_load_estimation/src studies/wearable_activity_recognition/src tests
+        run: python -m compileall -q python_modules biomechanical_load_estimation/code/src wearable_activity_recognition/code/src tests
       - name: Run offline tests
         run: python -m unittest discover -s tests -v
       - name: Execute BoneNet notebook
         run: |
-          python -m jupyter nbconvert --to notebook --execute             --ExecutePreprocessor.timeout=240             studies/biomechanical_load_estimation/notebooks/01_data_loading_and_inspection.ipynb             --output /tmp/bonenet_inspection_executed.ipynb
+          python -m jupyter nbconvert --to notebook --execute             --ExecutePreprocessor.timeout=240             biomechanical_load_estimation/code/notebooks/01_data_loading_and_inspection.ipynb             --output /tmp/bonenet_inspection_executed.ipynb
       - name: Execute HARTH notebook
         run: |
-          python -m jupyter nbconvert --to notebook --execute             --ExecutePreprocessor.timeout=240             studies/wearable_activity_recognition/notebooks/01_data_loading_and_inspection.ipynb             --output /tmp/harth_inspection_executed.ipynb
+          python -m jupyter nbconvert --to notebook --execute             --ExecutePreprocessor.timeout=240             wearable_activity_recognition/code/notebooks/01_data_loading_and_inspection.ipynb             --output /tmp/harth_inspection_executed.ipynb
       - name: Execute HARTH preprocessing notebook
         run: |
           python -m jupyter nbconvert --to notebook --execute \
             --ExecutePreprocessor.timeout=240 \
-            studies/wearable_activity_recognition/notebooks/02_signal_preprocessing_and_windowing.ipynb \
+            wearable_activity_recognition/code/notebooks/02_signal_preprocessing_and_windowing.ipynb \
             --output /tmp/harth_windowing_executed.ipynb
       - name: Execute HARTH feature engineering notebook
         run: |
           python -m jupyter nbconvert --to notebook --execute \
             --ExecutePreprocessor.timeout=240 \
-            studies/wearable_activity_recognition/notebooks/03_statistical_feature_engineering.ipynb \
+            wearable_activity_recognition/code/notebooks/03_statistical_feature_engineering.ipynb \
             --output /tmp/harth_features_executed.ipynb
       - name: Execute HARTH subject splitting notebook
         run: |
           python -m jupyter nbconvert --to notebook --execute \
             --ExecutePreprocessor.timeout=360 \
-            studies/wearable_activity_recognition/notebooks/04_subject_independent_splitting.ipynb \
+            wearable_activity_recognition/code/notebooks/04_subject_independent_splitting.ipynb \
             --output /tmp/harth_split_executed.ipynb
       - name: Execute HARTH classical ML baseline notebook
         run: |
           python -m jupyter nbconvert --to notebook --execute \
             --ExecutePreprocessor.timeout=480 \
-            studies/wearable_activity_recognition/notebooks/05_classical_ml_baselines.ipynb \
+            wearable_activity_recognition/code/notebooks/05_classical_ml_baselines.ipynb \
             --output /tmp/harth_ml_executed.ipynb
       - name: Execute HARTH grouped cross-validation notebook
         run: |
           python -m jupyter nbconvert --to notebook --execute \
             --ExecutePreprocessor.timeout=720 \
-            studies/wearable_activity_recognition/notebooks/06_subject_level_cross_validation.ipynb \
+            wearable_activity_recognition/code/notebooks/06_subject_level_cross_validation.ipynb \
             --output /tmp/harth_cv_executed.ipynb
       - name: Confirm executed notebooks
         run: |

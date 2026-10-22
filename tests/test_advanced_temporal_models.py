@@ -2,7 +2,7 @@
 import sys
 import unittest
 from pathlib import Path
-sys.path.insert(0, str(Path(__file__).resolve().parents[1]/"code/python/src"))
+sys.path.insert(0, str(Path(__file__).resolve().parents[1]/"python_modules"))
 try:
     import torch
     from torch import nn

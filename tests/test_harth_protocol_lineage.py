@@ -8,13 +8,14 @@ import tempfile
 import unittest
 
 ROOT = Path(__file__).resolve().parents[1]
-sys.path.insert(0, str(ROOT/"code/python/src"))
+sys.path.insert(0, str(ROOT/"python_modules"))
 from core.harth_protocol_lineage import (
     validate_stage25_lineage, verified_module_sha256,
+    resolve_frozen_source_path,
     verify_preexisting_stage25_lineage,
 )
 
-EVIDENCE = ROOT/"studies/wearable_activity_recognition/evidence"
+EVIDENCE = ROOT/"wearable_activity_recognition/evidence"
 
 
 def records():
@@ -93,7 +94,7 @@ class TestStage25HistoricalReplay(unittest.TestCase):
         for relative, sha in reconciled["module_sha256"].items():
             with self.subTest(path=relative):
                 self.assertEqual(
-                    verified_module_sha256(ROOT/relative, sha), sha
+                    verified_module_sha256(resolve_frozen_source_path(ROOT, relative), sha), sha
                 )
 
 

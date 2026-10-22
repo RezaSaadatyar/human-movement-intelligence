@@ -4,15 +4,15 @@ import unittest
 from pathlib import Path
 
 ROOT = Path(__file__).resolve().parents[1]
-sys.path.insert(0,str(ROOT/"code/python/src"))
+sys.path.insert(0,str(ROOT/"python_modules"))
 from core.harth_selection_evidence import load_selection_evidence
 from core.harth_study_report import load_final_harth_evidence, _load_executed_notebook
 
 class TestHarthStage27Evidence(unittest.TestCase):
     @classmethod
     def setUpClass(cls):
-        cls.study=ROOT/"studies/wearable_activity_recognition"
-        cls.dir=cls.study/"notebooks"
+        cls.study=ROOT/"wearable_activity_recognition"
+        cls.dir=cls.study/"code/notebooks"
 
     def test_original_executed_and_approved_chain(self):
         development=load_selection_evidence(

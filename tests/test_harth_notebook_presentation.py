@@ -5,7 +5,7 @@ import unittest
 import xml.etree.ElementTree as ET
 
 ROOT = Path(__file__).resolve().parents[1]
-STUDY = ROOT / "studies" / "wearable_activity_recognition"
+STUDY = ROOT / "wearable_activity_recognition"
 SVG = {"http://www.w3.org/2000/svg"}
 
 
@@ -59,7 +59,7 @@ class TestHarthNotebookPresentation(unittest.TestCase):
                         len(doc.findall(".//{http://www.w3.org/2000/svg}rect")), 8
                     )
 
-                notebook_root = "notebooks"
+                notebook_root = "code/notebooks"
                 path = list((STUDY / notebook_root).glob(f"{name}_*.ipynb"))
                 self.assertEqual(len(path), 1)
                 notebook = json.loads(path[0].read_text(encoding="utf-8"))
@@ -67,12 +67,12 @@ class TestHarthNotebookPresentation(unittest.TestCase):
                 first = notebook["cells"][0]
                 self.assertEqual(first["cell_type"], "markdown")
                 source = "".join(first["source"]) if isinstance(first["source"], list) else first["source"]
-                self.assertIn(f"../images/{name}_workflow.svg", source)
+                self.assertIn(f"../../images/{name}_workflow.svg", source)
 
     def test_primary_notebooks_and_no_duplicate_stage23_archive(self):
         # Stage 23 is the only active notebook copy; historical source bytes
         # remain verifiable through the pinned Git commit and approved hash.
-        original_23 = STUDY / "notebooks/23_unified_matched_model_benchmark.ipynb"
+        original_23 = STUDY / "code/notebooks/23_unified_matched_model_benchmark.ipynb"
         archived_23 = STUDY / "experiments/frozen_notebook_evidence"
         self.assertTrue(original_23.is_file())
         self.assertFalse(archived_23.exists())
@@ -84,7 +84,7 @@ class TestHarthNotebookPresentation(unittest.TestCase):
         for n in range(24, 28):
             with self.subTest(stage=n):
                 self.assertEqual(
-                    len(list((STUDY / "notebooks").glob(f"{n:02d}_*.ipynb"))), 1
+                    len(list((STUDY / "code" / "notebooks").glob(f"{n:02d}_*.ipynb"))), 1
                 )
                 self.assertEqual(
                     len(list((STUDY / "presentation_notebooks").glob(f"{n:02d}_*.ipynb"))), 0

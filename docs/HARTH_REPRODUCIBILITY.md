@@ -9,7 +9,7 @@ This is a practical pre-release audit for the completed HARTH activity-recogniti
 - Development: 29 people; 14,201 bounded windows. Participants S023 and S032 were reserved for the qualified final report, 500 windows each.
 - Stage 23 development 1D-ResNet three-fold mean Macro F1: 0.8328 (fold SD 0.0435). Stage 24 repeated-seed weighted-CE ResNet mean Macro F1: 0.8286 (across-seed SD 0.0052).
 - Stage 26 qualified pooled fixed-eight-class Macro F1: ResNet 0.7182; fixed Random Forest 0.6817. Accuracy 0.9020 / 0.9270. These are **not** an externally validated or historically blind result. S023/S032 were inspected descriptively during earlier exploration.
-- Primary evidence: [Notebook 23](../studies/wearable_activity_recognition/notebooks/23_unified_matched_model_benchmark.ipynb), [24](../studies/wearable_activity_recognition/notebooks/24_multiseed_and_imbalance_robustness.ipynb), [25](../studies/wearable_activity_recognition/notebooks/25_model_selection_and_protocol_freeze.ipynb), [26](../studies/wearable_activity_recognition/notebooks/26_final_development_training_and_inference.ipynb), [27](../studies/wearable_activity_recognition/notebooks/27_final_research_evidence_and_report.ipynb).
+- Primary evidence: [Notebook 23](../wearable_activity_recognition/code/notebooks/23_unified_matched_model_benchmark.ipynb), [24](../wearable_activity_recognition/code/notebooks/24_multiseed_and_imbalance_robustness.ipynb), [25](../wearable_activity_recognition/code/notebooks/25_model_selection_and_protocol_freeze.ipynb), [26](../wearable_activity_recognition/code/notebooks/26_final_development_training_and_inference.ipynb), [27](../wearable_activity_recognition/code/notebooks/27_final_research_evidence_and_report.ipynb).
 
 ## Historical Stage 23/24 research evidence
 
@@ -39,7 +39,7 @@ replication.
 
 The historical evidence register and three Stage 25 protocol records are
 available under
-[`evidence/`](../studies/wearable_activity_recognition/evidence/).
+[`evidence/`](../wearable_activity_recognition/evidence/).
 These files retain their original bytes. Historical paths embedded in approved
 JSON records describe past provenance and are not updated to current locations.
 The primary notebooks contain saved visible results, while large generated
@@ -47,7 +47,7 @@ model and report artefacts remain in Git-ignored `outputs/`.
 
 ## Frozen model selection and qualified evaluation
 
-The final models and evaluation settings were selected using Development evidence alone. The historical Stage 25 proposal records remain at their original `PENDING_USER_REVIEW` status; a separate `APPROVED` manifest documents the specific one-time qualified held-out evaluation reported in Notebook 26. All three immutable files remain under [study evidence](../studies/wearable_activity_recognition/evidence/). Their source and approval integrity is checked without altering model parameters or re-evaluating the protected participants. For scientific methods and results, see the [consolidated study report](../studies/wearable_activity_recognition/HARTH_RESEARCH_METHODS_AND_EVIDENCE.md).
+The final models and evaluation settings were selected using Development evidence alone. The historical Stage 25 proposal records remain at their original `PENDING_USER_REVIEW` status; a separate `APPROVED` manifest documents the specific one-time qualified held-out evaluation reported in Notebook 26. All three immutable files remain under [study evidence](../wearable_activity_recognition/evidence/). Their source and approval integrity is checked without altering model parameters or re-evaluating the protected participants. For scientific methods and results, see the [consolidated study report](../wearable_activity_recognition/HARTH_RESEARCH_METHODS_AND_EVIDENCE.md).
 
 ## Reproduction levels and what is available
 

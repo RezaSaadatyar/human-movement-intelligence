@@ -8,8 +8,8 @@ import numpy as np
 import pandas as pd
 
 ROOT = Path(__file__).resolve().parents[1]
-sys.path.insert(0, str(ROOT / "code/python/src"))
-sys.path.insert(0, str(ROOT / "studies/wearable_activity_recognition/src"))
+sys.path.insert(0, str(ROOT / "python_modules"))
+sys.path.insert(0, str(ROOT / "wearable_activity_recognition/code/src"))
 import harth_data
 
 

@@ -8,7 +8,7 @@ from unittest.mock import patch
 import numpy as np
 import pandas as pd
 
-sys.path.insert(0, str(Path(__file__).resolve().parents[1]/"code/python/src"))
+sys.path.insert(0, str(Path(__file__).resolve().parents[1]/"python_modules"))
 try:
     from core import temporal_benchmark as bench
 except ImportError:

@@ -2,7 +2,7 @@
 import sys
 import unittest
 from pathlib import Path
-sys.path.insert(0,str(Path(__file__).resolve().parents[1]/"code/python/src"))
+sys.path.insert(0,str(Path(__file__).resolve().parents[1]/"python_modules"))
 from core.harth_selection_evidence import read_html_table,load_selection_evidence
 
 class TestSelectionEvidence(unittest.TestCase):
@@ -19,7 +19,7 @@ class TestSelectionEvidence(unittest.TestCase):
 
     def test_read_real_saved_research_notebooks_when_available(self):
         root=Path(__file__).resolve().parents[1]
-        p=root/"studies/wearable_activity_recognition/notebooks"
+        p=root/"wearable_activity_recognition/code/notebooks"
         n23=p/"23_unified_matched_model_benchmark.ipynb"
         n24=p/"24_multiseed_and_imbalance_robustness.ipynb"
         evidence=load_selection_evidence(n23,n24)
