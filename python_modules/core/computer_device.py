@@ -34,7 +34,7 @@ def computer_device(min_vram_gb=14.0):
 
     print('Compute device and system information')
 
-    # ------------------------ 1. Inspect System Resources ------------------------
+    # ---------------------- 1. Inspect System Resources ----------------------
     cpu_name = platform.processor() or platform.machine()
     print(f"OS: {platform.system()} {platform.release()}")
     print(f"CPU: {cpu_name}")
@@ -46,7 +46,7 @@ def computer_device(min_vram_gb=14.0):
         ram_gb = psutil.virtual_memory().total / (1024 ** 3)
         print(f"Installed RAM: {ram_gb:.1f} GiB")
 
-    # ------------------- 2. Inspect NVIDIA Driver Information --------------------
+    # ----------------- 2. Inspect NVIDIA Driver Information ------------------
     smi = shutil.which("nvidia-smi")
     if smi:
         try:
@@ -71,7 +71,7 @@ def computer_device(min_vram_gb=14.0):
     else:
         print("nvidia-smi is not available in this environment.")
 
-    # -------------------- 3. Check PyTorch and Select Device ---------------------
+    # ------------------ 3. Check PyTorch and Select Device -------------------
     print(f"PyTorch version: {torch.__version__}")
     if torch.cuda.is_available():
         device = torch.device("cuda")
