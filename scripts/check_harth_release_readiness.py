@@ -211,7 +211,7 @@ def verify_recorded_evidence():
     required = [
         "README.md",
         "studies/wearable_activity_recognition/README.md",
-        "studies/wearable_activity_recognition/docs/HARTH_RESEARCH_METHODS_AND_EVIDENCE.md",
+        "studies/wearable_activity_recognition/HARTH_RESEARCH_METHODS_AND_EVIDENCE.md",
         "docs/ROADMAP.md",
         "docs/HARTH_REPRODUCIBILITY.md",
         "LICENSE",
