@@ -17,7 +17,7 @@ are historical provenance, not current links. Do not rewrite an approved
 record merely to rename a directory.
 
 The actual executable notebooks and saved visible outputs remain in
-[`../notebooks/`](../notebooks/). Downloaded datasets and locally generated
+[`../code/notebooks/`](../code/notebooks/). Downloaded datasets and locally generated
 model artefacts, prediction tables and report files are stored under the
 repository's ignored `data/` or `outputs/` directories; they are **not**
 committed here.

@@ -38,19 +38,19 @@ The Development experiments supported the selection of **1D-ResNet with weighted
 
 These results describe **1,000 overlapping windows from only two participants**, not 1,000 independent cases. Shuffling appears in only **three** selected windows, and ascending and descending stairs in **ten** and **six**, respectively. The small held-out cohort and uneven class support limit generalisation; performance on new datasets or in clinical practice has not been established.
 
-See [Notebook 26](notebooks/26_final_development_training_and_inference.ipynb) for detailed per-class results and [Notebook 27](notebooks/27_final_research_evidence_and_report.ipynb) for the final summary of saved evidence.
+See [Notebook 26](code/notebooks/26_final_development_training_and_inference.ipynb) for detailed per-class results and [Notebook 27](code/notebooks/27_final_research_evidence_and_report.ipynb) for the final summary of saved evidence.
 
 ## 5. Repository Structure
 
 | Location | Contents |
 | --- | --- |
 | [Research Methods and Experimental Evidence](HARTH_RESEARCH_METHODS_AND_EVIDENCE.md) | Complete study methods, model comparisons, results and limitations |
-| [notebooks/](notebooks/) | Twenty-seven research notebooks with saved results |
-| [src/](src/) | HARTH-specific data loading and quality checks |
+| [notebooks/](code/notebooks/) | Twenty-seven research notebooks with saved results |
+| [src/](code/src/) | HARTH-specific data loading and quality checks |
 | [images/](images/) | Study overview and stage-specific SVG workflows |
 | [evidence/](evidence/) | Research evidence register and historical approval records |
 
-Reusable ML/DL implementations live in the repository's shared [Python core](../../code/python/src/core/), rather than in this study's `src/` directory.
+Reusable ML/DL implementations live in the repository's shared [Python core](../../python_modules/core/), rather than in this study's `code/src/` directory.
 
 ## 6. Getting Started
 
@@ -61,15 +61,15 @@ python -m pip install -r requirements.txt
 python -m unittest discover -s tests -v
 ```
 
-Start with the [notebook collection](notebooks/) or open [Notebook 27](notebooks/27_final_research_evidence_and_report.ipynb) to inspect the saved results. Re-running its read-only report requires the complete Git history and a compatible Python environment; it does **not** download held-out recordings or retrain models.
+Start with the [notebook collection](code/notebooks/) or open [Notebook 27](code/notebooks/27_final_research_evidence_and_report.ipynb) to inspect the saved results. Re-running its read-only report requires the complete Git history and a compatible Python environment; it does **not** download held-out recordings or retrain models.
 
 Training experiments require the original HARTH data, additional dependencies from [requirements-dl.txt](../../requirements-dl.txt) and suitable compute resources. Raw datasets and trained model files are not included in the public repository. Do not rerun the final held-out evaluation for further model selection.
 
 ## 7. Research Documentation
 
 - [Research Methods and Experimental Evidence](HARTH_RESEARCH_METHODS_AND_EVIDENCE.md): full methodology and scientific interpretation.
-- [Notebook 23](notebooks/23_unified_matched_model_benchmark.ipynb) and [Notebook 24](notebooks/24_multiseed_and_imbalance_robustness.ipynb): matched Development comparison and robustness experiments.
-- [Notebook 25](notebooks/25_model_selection_and_protocol_freeze.ipynb), [Notebook 26](notebooks/26_final_development_training_and_inference.ipynb) and [Notebook 27](notebooks/27_final_research_evidence_and_report.ipynb): model selection, qualified evaluation and final report.
+- [Notebook 23](code/notebooks/23_unified_matched_model_benchmark.ipynb) and [Notebook 24](code/notebooks/24_multiseed_and_imbalance_robustness.ipynb): matched Development comparison and robustness experiments.
+- [Notebook 25](code/notebooks/25_model_selection_and_protocol_freeze.ipynb), [Notebook 26](code/notebooks/26_final_development_training_and_inference.ipynb) and [Notebook 27](code/notebooks/27_final_research_evidence_and_report.ipynb): model selection, qualified evaluation and final report.
 - [HARTH Reproducibility Guide](../../docs/HARTH_REPRODUCIBILITY.md): source version, saved evidence and integrity checks.
 
 **Status:** Research experiments and evidence reporting are complete. This project remains a research portfolio study, not an externally validated clinical system.

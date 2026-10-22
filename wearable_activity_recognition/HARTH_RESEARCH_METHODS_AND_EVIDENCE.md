@@ -2,7 +2,7 @@
 
 **Study:** Wearable Activity Recognition in Human Movement Intelligence  
 **Research focus:** Recognising eight activities from wearable accelerometers, using participant-disjoint Development experiments and a qualified held-out evaluation within the same study.  
-**Evidence:** [Notebooks 01–27](notebooks/), [study overview](README.md) and [reproducibility guide](../../docs/HARTH_REPRODUCIBILITY.md).
+**Evidence:** [Notebooks 01–27](code/notebooks/), [study overview](README.md) and [reproducibility guide](../../docs/HARTH_REPRODUCIBILITY.md).
 
 This document summarises the main methods, results and interpretation limits of the completed HARTH study. It links the key findings to the saved notebooks and model code. Earlier experiments used different groups of participants and training settings, so their results cannot always be compared directly.
 
@@ -86,9 +86,9 @@ Stage 19 keeps Training, Calibration and outer Validation participants separate 
 | NLL | 0.2501 | 0.2580 |
 | Accuracy | 0.9277 | 0.9277 |
 
-The three fitted temperatures are **0.6322, 0.3943 and 0.5096**. Average ECE and Brier scores decrease after scaling, while NLL increases and accuracy stays the same. One fold worsens on all three probability measures, and ECE depends on the number of bins. These are Development findings, not evidence of clinical calibration. [Notebook 19](notebooks/19_subject_disjoint_temperature_calibration.ipynb) contains the current results; [Notebook 20](notebooks/20_research_evidence_consolidation.ipynb) retains an older snapshot.
+The three fitted temperatures are **0.6322, 0.3943 and 0.5096**. Average ECE and Brier scores decrease after scaling, while NLL increases and accuracy stays the same. One fold worsens on all three probability measures, and ECE depends on the number of bins. These are Development findings, not evidence of clinical calibration. [Notebook 19](code/notebooks/19_subject_disjoint_temperature_calibration.ipynb) contains the current results; [Notebook 20](code/notebooks/20_research_evidence_consolidation.ipynb) retains an older snapshot.
 
-**Seven-model Development benchmark (Stage 23).** All seven models use the same **29 participants, 14,201 selected windows and three participant-disjoint GroupKFold splits**. Random Forest uses statistical features from those windows; the neural models use raw sequences. The six neural models use training-only channel scaling, Adam at 0.001, batch size 128, **400 updates**, final-step evaluation and seed 42. The executed [Notebook 23](notebooks/23_unified_matched_model_benchmark.ipynb) reports the following mean fixed-eight-class Macro F1 values and fold standard deviations:
+**Seven-model Development benchmark (Stage 23).** All seven models use the same **29 participants, 14,201 selected windows and three participant-disjoint GroupKFold splits**. Random Forest uses statistical features from those windows; the neural models use raw sequences. The six neural models use training-only channel scaling, Adam at 0.001, batch size 128, **400 updates**, final-step evaluation and seed 42. The executed [Notebook 23](code/notebooks/23_unified_matched_model_benchmark.ipynb) reports the following mean fixed-eight-class Macro F1 values and fold standard deviations:
 
 | Model | Development Macro F1 (mean) | Fold SD |
 | --- | ---: | ---: |
@@ -102,7 +102,7 @@ The three fitted temperatures are **0.6322, 0.3943 and 0.5096**. Average ECE and
 
 Random Forest achieved the highest pooled Shuffling F1 (**0.5032**), compared with **0.3962** for 1D-ResNet and **0.3392** for TCN. Although ResNet has the highest overall Development Macro F1, it does not perform best on every activity.
 
-**Multi-seed and loss comparisons (Stage 24).** Stage 24 uses three seeds and the same three participant folds to examine ResNet and TCN stability and compare ResNet loss functions. The **36 distinct neural training runs** reuse existing weighted-cross-entropy results rather than repeating the same jobs. Executed [Notebook 24](notebooks/24_multiseed_and_imbalance_robustness.ipynb) reports:
+**Multi-seed and loss comparisons (Stage 24).** Stage 24 uses three seeds and the same three participant folds to examine ResNet and TCN stability and compare ResNet loss functions. The **36 distinct neural training runs** reuse existing weighted-cross-entropy results rather than repeating the same jobs. Executed [Notebook 24](code/notebooks/24_multiseed_and_imbalance_robustness.ipynb) reports:
 
 | Development condition | Mean Macro F1 across seed-level fold means | Across-seed SD |
 | --- | ---: | ---: |
@@ -115,11 +115,11 @@ The repeated Development results helped select the final model, but they do not 
 
 ## 05. Final Model Selection and Results
 
-**Model selection using Development data (Stage 25).** **1D-ResNet with inverse-square-root weighted cross-entropy** was selected as the primary model based on its Development Macro F1 and results across three random seeds. **Random Forest** remained the planned classical comparator, including because its performance differed across activity classes. Neither choice used the final held-out results. See [Notebook 25](notebooks/25_model_selection_and_protocol_freeze.ipynb).
+**Model selection using Development data (Stage 25).** **1D-ResNet with inverse-square-root weighted cross-entropy** was selected as the primary model based on its Development Macro F1 and results across three random seeds. **Random Forest** remained the planned classical comparator, including because its performance differed across activity classes. Neither choice used the final held-out results. See [Notebook 25](code/notebooks/25_model_selection_and_protocol_freeze.ipynb).
 
 **Final training settings.** The ResNet was trained on the fixed 29-person Development cohort, with six input channels, eight output classes, hidden width 32, training-only channel scaling and class weights, Adam at 0.001, batch size 128, **400 updates**, seed 42 and final-step weights. The Random Forest uses **120 trees**, minimum leaf size 3, `balanced_subsample` weighting, 30 statistical features and seed 42. Stage 19 temperature scaling was not included. The held-out people were not used to tune models, thresholds, sampling limits or loss functions.
 
-**Qualified held-out evaluation (Stage 26).** A separate approval permitted one evaluation on **S023 and S032**, with **500 windows from each participant**. Earlier Stage 25 proposal records still show their historical pending status; the later approval is stored separately. [Notebook 26](notebooks/26_final_development_training_and_inference.ipynb) records the evaluation. [Notebook 27](notebooks/27_final_research_evidence_and_report.ipynb) summarises those saved results without running the models again.
+**Qualified held-out evaluation (Stage 26).** A separate approval permitted one evaluation on **S023 and S032**, with **500 windows from each participant**. Earlier Stage 25 proposal records still show their historical pending status; the later approval is stored separately. [Notebook 26](code/notebooks/26_final_development_training_and_inference.ipynb) records the evaluation. [Notebook 27](code/notebooks/27_final_research_evidence_and_report.ipynb) summarises those saved results without running the models again.
 
 | Qualified held-out outcome | 1D-ResNet weighted CE | Random Forest |
 | --- | ---: | ---: |
@@ -142,7 +142,7 @@ The repeated Development results helped select the final model, but they do not 
 | Sitting | 115 |
 | Lying | 115 |
 
-S023 contains all eight true activity classes, while S032 contains six. Pooled and participant-level scores therefore describe different aspects of performance. The very small numbers of Shuffling and stair windows make per-class recall especially uncertain. For full precision, recall, F1 and confusion matrices, see the actual outputs in [Notebook 26](notebooks/26_final_development_training_and_inference.ipynb). Pooled accuracy alone is not sufficient to assess the rare classes.
+S023 contains all eight true activity classes, while S032 contains six. Pooled and participant-level scores therefore describe different aspects of performance. The very small numbers of Shuffling and stair windows make per-class recall especially uncertain. For full precision, recall, F1 and confusion matrices, see the actual outputs in [Notebook 26](code/notebooks/26_final_development_training_and_inference.ipynb). Pooled accuracy alone is not sufficient to assess the rare classes.
 
 **Final evidence report (Stage 27).** Notebook 27 reads and summarises saved results, approval records, tables, plots and limitations. It does **not** train models, reload S023 or S032, run new held-out predictions or repeat the GPU experiments. Reported values are rounded from saved Notebook 26 outputs; the full original predictions are not included in the public repository.
 
@@ -160,11 +160,11 @@ S023 contains all eight true activity classes, while S032 contains six. Pooled a
 
 **Research evidence and reproducibility.**
 
-- [Notebooks 01–27](notebooks/) contain the recorded experiments. The [Stages 01–19 evidence register](evidence/stage_01_19_evidence_register.csv) summarises the earlier saved results; subsequent reruns may produce different values.
-- [Notebook 21](notebooks/21_minority_class_and_data_quality.ipynb) examines rare activities and data quality. [Notebook 23](notebooks/23_unified_matched_model_benchmark.ipynb) reports the seven-model benchmark, and [Notebook 24](notebooks/24_multiseed_and_imbalance_robustness.ipynb) reports the multi-seed and loss experiments.
-- [Notebook 25](notebooks/25_model_selection_and_protocol_freeze.ipynb) records model selection, [Notebook 26](notebooks/26_final_development_training_and_inference.ipynb) the approved held-out evaluation, and [Notebook 27](notebooks/27_final_research_evidence_and_report.ipynb) the final report based on saved evidence.
+- [Notebooks 01–27](code/notebooks/) contain the recorded experiments. The [Stages 01–19 evidence register](evidence/stage_01_19_evidence_register.csv) summarises the earlier saved results; subsequent reruns may produce different values.
+- [Notebook 21](code/notebooks/21_minority_class_and_data_quality.ipynb) examines rare activities and data quality. [Notebook 23](code/notebooks/23_unified_matched_model_benchmark.ipynb) reports the seven-model benchmark, and [Notebook 24](code/notebooks/24_multiseed_and_imbalance_robustness.ipynb) reports the multi-seed and loss experiments.
+- [Notebook 25](code/notebooks/25_model_selection_and_protocol_freeze.ipynb) records model selection, [Notebook 26](code/notebooks/26_final_development_training_and_inference.ipynb) the approved held-out evaluation, and [Notebook 27](code/notebooks/27_final_research_evidence_and_report.ipynb) the final report based on saved evidence.
 - The [original proposal](evidence/stage_25_protocol_proposal.json), [reconciled proposal](evidence/stage_25_protocol_proposal_reconciled.json) and separate [approval record](evidence/stage_25_protocol_approved_qualified_test.json) document the model settings and the permitted scope of the final evaluation. They are preserved as historical records; reading the report does not permit new held-out testing.
-- [Model code](../../code/python/src/core/), [tests](../../tests/), [HARTH data-processing code](src/), [figures](images/) and the [reproducibility guide](../../docs/HARTH_REPRODUCIBILITY.md) explain how the results were produced and checked. The original Stage 23/24 approved versions remain available in Git history.
+- [Model code](../../python_modules/core/), [tests](../../tests/), [HARTH data-processing code](code/src/), [figures](images/) and the [reproducibility guide](../../docs/HARTH_REPRODUCIBILITY.md) explain how the results were produced and checked. The original Stage 23/24 approved versions remain available in Git history.
 - Raw CSV files, cached training runs and final model files are not included in the public repository. Full GPU reproduction and verification of the original local model files require separate checks. The [release-readiness audit](../../scripts/check_harth_release_readiness.py) examines saved evidence without repeating the held-out evaluation. The exact HARTH source revision is documented in the [study overview](README.md).
 
 **Research status.** The HARTH experiments and Stage 27 report are complete as a research portfolio study. Other movement-science studies in this repository have separate progress and results. Updating this document does not add a new held-out experiment or create a public release.

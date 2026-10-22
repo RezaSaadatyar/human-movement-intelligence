@@ -36,7 +36,7 @@ A Python-based exploratory pilot used one `GroupShuffleSplit` (seed 42) with 27 
 
 These values pool both targets and all time points in the source's as-yet-unverified target scale. Ridge performed worse than the training-mean comparator in **this particular unoptimised split**; that result does not establish the general superiority of the mean model or the limitations of linear methods.
 
-**Execution evidence:** [exploratory baseline report](BONENET_FIRST_BASELINE_RESULTS.md), which links to the original GitHub Actions run and describes its experimental procedure. The pilot's script is not currently present in the tracked `scripts/` directory, so its complete implementation cannot be reproduced from this checkout alone. The [initial source-inspection Notebook](notebooks/01_data_loading_and_inspection.ipynb) is separate from the later regression pilot.
+**Execution evidence:** [exploratory baseline report](BONENET_FIRST_BASELINE_RESULTS.md), which links to the original GitHub Actions run and describes its experimental procedure. The pilot's script is not currently present in the tracked `scripts/` directory, so its complete implementation cannot be reproduced from this checkout alone. The [initial source-inspection Notebook](code/notebooks/01_data_loading_and_inspection.ipynb) is separate from the later regression pilot.
 
 ## What remains to be done
 
