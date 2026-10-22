@@ -8,6 +8,18 @@ from pathlib import Path
 import subprocess
 
 
+# Only the three exact Stage 23/24 import-location edits are normalised.
+# Scientific computation and all other executable lines remain strictly checked.
+_APPROVED_IMPORT_RELOCATIONS = {
+    'while not (root/"python_modules/core/data_loading.py").is_file():':
+        'while not (root/"code/python/src/core/data_loading.py").is_file():',
+    'sys.path.insert(0,str(root/"python_modules"))':
+        'sys.path.insert(0,str(root/"code/python/src"))',
+    'sys.path.insert(0,str(root/"wearable_activity_recognition/code/src"))':
+        'sys.path.insert(0,str(root/"studies/wearable_activity_recognition/src"))',
+}
+
+
 STAGE23_EVIDENCE_COMMIT = "433f972676a3a0a39c05b34612f201bb27366d36"
 STAGE23_EVIDENCE_PATH = (
     "studies/wearable_activity_recognition/experiments/"
@@ -368,7 +380,14 @@ def verify_stage24_visual_format(active_path, historical_bytes):
     for index, (old, new) in enumerate(zip(old_code[1:], new_code), start=1):
         if old.get("execution_count") is None:
             raise ValueError("Original Stage 24 lacks execution metadata.")
-        if executable_lines(old) != executable_lines(new):
+        old_lines = executable_lines(old)
+        new_lines = executable_lines(new)
+        if index == 1:
+            new_lines = [
+                _APPROVED_IMPORT_RELOCATIONS.get(line, line)
+                for line in new_lines
+            ]
+        if old_lines != new_lines:
             raise ValueError(f"Stage 24 scientific code changed in cell {index}.")
         if new.get("execution_count") is None:
             if not new.get("outputs"):
@@ -551,6 +570,11 @@ def verify_stage23_visual_format(active_path, historical_bytes):
             line for line in joined(new.get("source")).splitlines()
             if line.strip() and not line.lstrip().startswith("#")
         ]
+        if index == 1:
+            right = [
+                _APPROVED_IMPORT_RELOCATIONS.get(line, line)
+                for line in right
+            ]
         if left != right:
             raise ValueError(f"Stage 23 executable code changed at cell {index}.")
         older, newer = old.get("outputs", []),new.get("outputs", [])
