@@ -3,7 +3,7 @@ import sys
 import unittest
 from pathlib import Path
 import numpy as np
-sys.path.insert(0, str(Path(__file__).resolve().parents[1] / "code/python/src"))
+sys.path.insert(0, str(Path(__file__).resolve().parents[1] / "python_modules"))
 try:
     from core.temporal_cnn import compute_training_class_weights, train_temporal_cnn
 except ImportError:
