@@ -6,16 +6,16 @@
 
 | Location | Required illustration | Scope and purpose | Timing |
 | --- | --- | --- | --- |
-| Root `README.md` | **Repository-wide research map** (`images/repository_overview.svg`) | Identify independently implemented, exploratory and planned studies; show reusable research engineering practice without suggesting all studies completed every step. | Update when the research catalogue or study status changes. |
-| Each implemented `<subproject_root>/README.md` | **Study-specific overview** (`studies/<study>/images/study_overview.svg`) | Show the actual source, research question, key protocol stages, model or audit scope, evaluation boundaries, observed evidence and limitations. | Create from verified study design and revise only when its evidence changes. |
-| Each study Notebook | **Stage-specific workflow** (`../images/NN_workflow.svg`) | Show only the operations performed in that Notebook, with a clear source-to-output workflow and stage-relevant scientific context. | Add as the **last content-development step**, after code execution, results review and scientific approval. |
+| Root `README.md` | **Optional repository-wide research map** | Identify independently implemented, exploratory and planned studies; show reusable research engineering practice without suggesting all studies completed every step. | Update when the research catalogue or study status changes. |
+| Each implemented `<subproject_root>/README.md` | **Study-specific overview** (`<subproject_root>/images/study_overview.svg`) | Show the actual source, research question, key protocol stages, model or audit scope, evaluation boundaries, observed evidence and limitations. | Create from verified study design and revise only when its evidence changes. |
+| Each study Notebook | **Stage-specific workflow** (`../../images/NN_workflow.svg`) | Show only the operations performed in that Notebook, with a clear source-to-output workflow and stage-relevant scientific context. | Add as the **last content-development step**, after code execution, results review and scientific approval. |
 | Executed research charts | **Evidence figures** | Show observations, metrics, cohorts, units and limitations from code output; do not conflate with explanatory SVGs. | Generate from executed analyses and preserve their outputs. |
 
 Planned directions do not require fictitious completed-experiment figures. Their planned status must remain explicit in overview diagrams.
 
 ## 2. Required scientific distinction
 
-The root image is a **portfolio map**, not a single experiment. A study README image summarises its **end-to-end scientific protocol**. A Notebook image summarises **one implementation stage**. They must not be the same image renamed or reproduced at different levels.
+If included, the optional root image is a **portfolio map**, not a single experiment. A study README image summarises its **end-to-end scientific protocol**. A Notebook image summarises **one implementation stage**. They must not be the same image renamed or reproduced at different levels.
 
 Study scope and verified status take precedence over visual symmetry. For example:
 
@@ -61,4 +61,4 @@ Do not embed large SVG source strings into Markdown. Save figures separately and
 6. Confirm relative links and data claims. Preserve unrelated source code, outputs, execution counts and evidence.
 7. For Notebook workflows, create the SVG **after** the notebook execution-review gate, then seek final image approval before continuing to the next notebook.
 
-Keep the root visual, individual study diagrams and Notebook illustrations separate. Do not silently revise previously approved numerical results to fit a diagram.
+Keep any optional root visual, individual study diagrams and Notebook illustrations separate. Do not silently revise previously approved numerical results to fit a diagram.
