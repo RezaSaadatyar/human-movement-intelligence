@@ -24,7 +24,7 @@ class TestHarthReleaseReadiness(unittest.TestCase):
         import hashlib
         import sys
         notebooks = ROOT / "wearable_activity_recognition/code/notebooks"
-        study = notebooks.parent
+        study = notebooks.parents[1]
         active = notebooks / "23_unified_matched_model_benchmark.ipynb"
         manifest = json.loads(
             (study / "evidence/stage_25_protocol_approved_qualified_test.json")
