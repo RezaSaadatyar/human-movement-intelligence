@@ -5,7 +5,7 @@ from pathlib import Path
 import numpy as np
 import pandas as pd
 sys.path.insert(0,str(Path(__file__).resolve().parents[1]/"python_modules"))
-sys.path.insert(0,str(Path(__file__).resolve().parents[1]/"wearable_activity_recognition/src"))
+sys.path.insert(0,str(Path(__file__).resolve().parents[1]/"wearable_activity_recognition/code/src"))
 from harth_quality import (window_rejection_reasons,
     characterise_annotation_bouts,inspect_raw_sensor_channels)
 
