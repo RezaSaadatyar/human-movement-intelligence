@@ -15,4 +15,4 @@ The `TrialNumUpdated` and `Cycle` fields also appear as opaque references. The `
 
 **Caveat:** The existing `inspect_mat_nested.py` sampled only the first element of each `Data` array. Consequently the table says nothing about the other 47 records, actual target completeness, distinct physical trials or modelling sample size.
 
-**Next:** run `scripts/audit_mat_records.py` to inspect all elements' source representations and task keys; then establish a MATLAB-native or otherwise verified conversion pathway before implementing tensor assembly. See [MATLAB decoding guide](../../docs/MATLAB_OBJECT_DECODING.md).
+**Next:** run `scripts/audit_mat_records.py` to inspect all elements' source representations and task keys; then establish a MATLAB-native or otherwise verified conversion pathway before implementing tensor assembly. See [data pipeline design](DATA_PIPELINE_DESIGN.md) for the planned conversion and schema-validation approach.
