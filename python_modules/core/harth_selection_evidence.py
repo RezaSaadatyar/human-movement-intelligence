@@ -152,7 +152,7 @@ def _load_stage23_with_verified_visual_format(path):
     path = Path(path)
     root = path.resolve().parents[3]
     approved = json.loads(
-        (root / "studies/wearable_activity_recognition/evidence/"
+        (root / "wearable_activity_recognition/evidence/"
          "stage_25_protocol_approved_qualified_test.json").read_text(
             encoding="utf-8"
         )
@@ -177,7 +177,7 @@ def _load_stage24_with_verified_visual_format(path):
     path = Path(path)
     root = path.resolve().parents[3]
     approved = json.loads(
-        (root / "studies/wearable_activity_recognition/evidence/"
+        (root / "wearable_activity_recognition/evidence/"
          "stage_25_protocol_approved_qualified_test.json").read_text(
             encoding="utf-8"
         )
