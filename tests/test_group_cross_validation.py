@@ -4,7 +4,7 @@ import unittest
 from pathlib import Path
 import numpy as np
 
-sys.path.insert(0, str(Path(__file__).resolve().parents[1] / "code/python/src"))
+sys.path.insert(0, str(Path(__file__).resolve().parents[1] / "python_modules"))
 from core.group_cross_validation import evaluate_group_cross_validation
 
 

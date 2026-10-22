@@ -4,7 +4,7 @@ import unittest
 from pathlib import Path
 
 ROOT = Path(__file__).resolve().parents[1]
-sys.path.insert(0, str(ROOT / "code/python/src"))
+sys.path.insert(0, str(ROOT / "python_modules"))
 from core.harth_qualified_test_report import (
     validate_final_test_inputs, summarise_qualified_heldout,
 )

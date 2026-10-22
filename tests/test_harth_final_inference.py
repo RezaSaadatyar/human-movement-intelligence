@@ -8,7 +8,7 @@ from unittest.mock import patch
 
 import numpy as np
 
-sys.path.insert(0,str(Path(__file__).resolve().parents[1]/"code/python/src"))
+sys.path.insert(0,str(Path(__file__).resolve().parents[1]/"python_modules"))
 try:
     from core import harth_final_inference as final
 except ImportError:
@@ -43,7 +43,7 @@ class TestHarthFinalInference(unittest.TestCase):
 
     def test_original_and_reconciled_proposals(self):
         root=Path(__file__).resolve().parents[1]
-        directory=root/"studies/wearable_activity_recognition/evidence"
+        directory=root/"wearable_activity_recognition/evidence"
         original=directory/"stage_25_protocol_proposal.json"
         revised=directory/"stage_25_protocol_proposal_reconciled.json"
         assert original.is_file() and revised.is_file()
@@ -88,7 +88,7 @@ class TestHarthFinalInference(unittest.TestCase):
         """
         root = Path(__file__).resolve().parents[1]
         proposal = (
-            root / "studies/wearable_activity_recognition/evidence/"
+            root / "wearable_activity_recognition/evidence/"
             "stage_25_protocol_proposal_reconciled.json"
         )
         manifest = json.loads(proposal.read_text(encoding="utf-8"))
@@ -115,7 +115,7 @@ class TestHarthFinalInference(unittest.TestCase):
 
     def test_stage26_notebook_uses_reconciled_manifest(self):
         root=Path(__file__).resolve().parents[1]
-        notebook=root/"studies/wearable_activity_recognition/notebooks/26_final_development_training_and_inference.ipynb"
+        notebook=root/"wearable_activity_recognition/code/notebooks/26_final_development_training_and_inference.ipynb"
         nb=json.loads(notebook.read_text(encoding="utf-8"))
         code="\\n".join(
             "".join(cell["source"]) if isinstance(cell.get("source"),list)
@@ -126,11 +126,11 @@ class TestHarthFinalInference(unittest.TestCase):
         self.assertNotIn('stage_25_protocol_proposal.json"',code)
         self.assertNotIn("research_outputs", code)
         self.assertIn(
-            "studies/wearable_activity_recognition/evidence/"
+            "wearable_activity_recognition/evidence/"
             "stage_25_protocol_proposal_reconciled.json", code,
         )
         self.assertIn(
-            "studies/wearable_activity_recognition/evidence/"
+            "wearable_activity_recognition/evidence/"
             "stage_25_protocol_approved_qualified_test.json", code,
         )
 

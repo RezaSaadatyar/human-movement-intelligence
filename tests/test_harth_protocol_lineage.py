@@ -8,13 +8,13 @@ import tempfile
 import unittest
 
 ROOT = Path(__file__).resolve().parents[1]
-sys.path.insert(0, str(ROOT/"code/python/src"))
+sys.path.insert(0, str(ROOT/"python_modules"))
 from core.harth_protocol_lineage import (
     validate_stage25_lineage, verified_module_sha256,
     verify_preexisting_stage25_lineage,
 )
 
-EVIDENCE = ROOT/"studies/wearable_activity_recognition/evidence"
+EVIDENCE = ROOT/"wearable_activity_recognition/evidence"
 
 
 def records():
