@@ -18,7 +18,9 @@ from sklearn.metrics import accuracy_score, balanced_accuracy_score, f1_score
 from sklearn.metrics import classification_report, confusion_matrix
 import joblib
 
-from core.harth_protocol_lineage import verified_module_sha256
+from core.harth_protocol_lineage import (
+    verified_module_sha256, resolve_frozen_source_path,
+)
 
 try:
     import torch
