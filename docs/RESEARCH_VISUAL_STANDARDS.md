@@ -7,7 +7,7 @@
 | Location | Required illustration | Scope and purpose | Timing |
 | --- | --- | --- | --- |
 | Root `README.md` | **Repository-wide research map** (`images/repository_overview.svg`) | Identify independently implemented, exploratory and planned studies; show reusable research engineering practice without suggesting all studies completed every step. | Update when the research catalogue or study status changes. |
-| Each implemented `studies/<study>/README.md` | **Study-specific overview** (`studies/<study>/images/study_overview.svg`) | Show the actual source, research question, key protocol stages, model or audit scope, evaluation boundaries, observed evidence and limitations. | Create from verified study design and revise only when its evidence changes. |
+| Each implemented `<subproject_root>/README.md` | **Study-specific overview** (`studies/<study>/images/study_overview.svg`) | Show the actual source, research question, key protocol stages, model or audit scope, evaluation boundaries, observed evidence and limitations. | Create from verified study design and revise only when its evidence changes. |
 | Each study Notebook | **Stage-specific workflow** (`../images/NN_workflow.svg`) | Show only the operations performed in that Notebook, with a clear source-to-output workflow and stage-relevant scientific context. | Add as the **last content-development step**, after code execution, results review and scientific approval. |
 | Executed research charts | **Evidence figures** | Show observations, metrics, cohorts, units and limitations from code output; do not conflate with explanatory SVGs. | Generate from executed analyses and preserve their outputs. |
 
