@@ -90,7 +90,7 @@ def load_final_protocol(path, repository_root, *, require_approval=False):
     if len(hashes) != 6:
         raise ValueError("Expected six exact frozen source module fingerprints.")
     for relative, expected in hashes.items():
-        target = (root / relative).resolve()
+        target = resolve_frozen_source_path(root, relative)
         if not target.is_relative_to(root) or not target.is_file():
             raise FileNotFoundError("Missing or unsafe frozen code path.")
         # A Windows checkout can convert the original LF source to CRLF.
