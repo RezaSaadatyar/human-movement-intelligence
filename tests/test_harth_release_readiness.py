@@ -50,8 +50,8 @@ class TestHarthReleaseReadiness(unittest.TestCase):
         """Presentation-only empty lines cannot invalidate saved Stage 23."""
         import tempfile
         from core.harth_provenance import verify_stage23_visual_format
-        directory = ROOT / "studies/wearable_activity_recognition"
-        active = directory / "notebooks/23_unified_matched_model_benchmark.ipynb"
+        directory = ROOT / "wearable_activity_recognition"
+        active = directory / "code/notebooks/23_unified_matched_model_benchmark.ipynb"
         approved = json.loads(
             (directory / "evidence/stage_25_protocol_approved_qualified_test.json")
             .read_text(encoding="utf-8")
@@ -83,7 +83,7 @@ class TestHarthReleaseReadiness(unittest.TestCase):
         import tempfile
         from core.harth_provenance import verify_stage23_visual_format
         folder = ROOT/"studies/wearable_activity_recognition"
-        current = folder/"notebooks/23_unified_matched_model_benchmark.ipynb"
+        current = folder/"code/notebooks/23_unified_matched_model_benchmark.ipynb"
         approved = json.loads(
             (folder/"evidence/stage_25_protocol_approved_qualified_test.json")
             .read_text(encoding="utf-8")
@@ -214,8 +214,8 @@ class TestHarthReleaseReadiness(unittest.TestCase):
         from core.harth_provenance import (
             read_historical_stage24_bytes, verify_stage24_visual_format,
         )
-        folder = ROOT / "studies/wearable_activity_recognition"
-        current = folder / "notebooks/24_multiseed_and_imbalance_robustness.ipynb"
+        folder = ROOT / "wearable_activity_recognition"
+        current = folder / "code/notebooks/24_multiseed_and_imbalance_robustness.ipynb"
         approved = json.loads(
             (folder / "evidence/stage_25_protocol_approved_qualified_test.json")
             .read_text(encoding="utf-8")
@@ -247,8 +247,8 @@ class TestHarthReleaseReadiness(unittest.TestCase):
         from core.harth_provenance import (
             read_historical_stage24_bytes, verify_stage24_visual_format,
         )
-        study = ROOT / "studies/wearable_activity_recognition"
-        current = study / "notebooks/24_multiseed_and_imbalance_robustness.ipynb"
+        study = ROOT / "wearable_activity_recognition"
+        current = study / "code/notebooks/24_multiseed_and_imbalance_robustness.ipynb"
         manifest = json.loads(
             (study / "evidence/stage_25_protocol_approved_qualified_test.json")
             .read_text(encoding="utf-8")

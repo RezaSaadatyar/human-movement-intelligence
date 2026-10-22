@@ -5,7 +5,7 @@ import unittest
 import xml.etree.ElementTree as ET
 
 ROOT = Path(__file__).resolve().parents[1]
-STUDY = ROOT / "studies" / "wearable_activity_recognition"
+STUDY = ROOT / "wearable_activity_recognition"
 SVG = {"http://www.w3.org/2000/svg"}
 
 
@@ -67,7 +67,7 @@ class TestHarthNotebookPresentation(unittest.TestCase):
                 first = notebook["cells"][0]
                 self.assertEqual(first["cell_type"], "markdown")
                 source = "".join(first["source"]) if isinstance(first["source"], list) else first["source"]
-                self.assertIn(f"../images/{name}_workflow.svg", source)
+                self.assertIn(f"../../images/{name}_workflow.svg", source)
 
     def test_primary_notebooks_and_no_duplicate_stage23_archive(self):
         # Stage 23 is the only active notebook copy; historical source bytes
@@ -84,7 +84,7 @@ class TestHarthNotebookPresentation(unittest.TestCase):
         for n in range(24, 28):
             with self.subTest(stage=n):
                 self.assertEqual(
-                    len(list((STUDY / "notebooks").glob(f"{n:02d}_*.ipynb"))), 1
+                    len(list((STUDY / "code" / "notebooks").glob(f"{n:02d}_*.ipynb"))), 1
                 )
                 self.assertEqual(
                     len(list((STUDY / "presentation_notebooks").glob(f"{n:02d}_*.ipynb"))), 0
