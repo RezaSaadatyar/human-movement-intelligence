@@ -78,6 +78,103 @@ def read_historical_stage24_bytes(repository_root, approved_sha256):
     return process.stdout
 
 
+# The study notebooks below were formatting-reviewed after model selection.
+# Compare their 12 research cells with a pinned pre-review Git revision.
+# The exact reviewed import/setup cells are separately pinned as Git blobs.
+_REVIEWED_PRESENTATION_COMMIT = "d654ab5b774c522fcb1fdf4962ce8d2df3811931"
+_REVIEWED_PRESENTATION_FILES = {
+    23: {
+        "path": "wearable_activity_recognition/code/notebooks/23_unified_matched_model_benchmark.ipynb",
+        "baseline_blob": "61740bee6c8585b5bbde1323da0136c974b90707",
+        "setup_blob": "e9c377d9d390860a2e1d53b66783c29ef568e48c",
+        "import_blob": "5968c8e60ac7de945ac60664ff404a50bac7e85c",
+        "baseline_code_cells": 13,
+    },
+    24: {
+        "path": "wearable_activity_recognition/code/notebooks/24_multiseed_and_imbalance_robustness.ipynb",
+        "baseline_blob": "7421fd1297673884dabe56702ce665be8b98ab9e",
+        "setup_blob": "cf426bffe7ed531e554bfb25a0ef4c48602e23bd",
+        "import_blob": "04fd1c7262717a8afedfc6f16a6d5f8e5451e68a",
+        "baseline_code_cells": 12,
+    },
+}
+
+
+def _git_blob_digest(data):
+    """Calculate the Git blob identity of exact UTF-8 source or file bytes."""
+    return hashlib.sha1(
+        b"blob " + str(len(data)).encode("ascii") + bytes([0]) + data
+    ).hexdigest()
+
+
+def _verified_reviewed_presentation(active_path, stage):
+    """Verify formatting against pinned pre-review saved research evidence.
+
+    The approved Stage 25 SHA256 values refer to immutable historical notebook
+    executions. This check never replaces those hashes or permits arbitrary
+    executable changes to the 12 scientific cells.
+    """
+    import json
+
+    cfg = _REVIEWED_PRESENTATION_FILES[stage]
+    active_path = Path(active_path).resolve()
+    root = active_path.parents[3]
+    if not (root / ".git").is_dir():
+        raise ValueError("Historical provenance needs the full Git repository.")
+    reference = _REVIEWED_PRESENTATION_COMMIT + ":" + cfg["path"]
+    result = subprocess.run(
+        ["git", "show", reference], cwd=root,
+        capture_output=True, check=False,
+    )
+    if result.returncode != 0 or (
+        _git_blob_digest(result.stdout) != cfg["baseline_blob"]
+    ):
+        raise ValueError("Pinned pre-review notebook source is unavailable.")
+    baseline = json.loads(result.stdout.decode("utf-8"))
+    current = json.loads(active_path.read_text(encoding="utf-8"))
+    older = [c for c in baseline["cells"] if c.get("cell_type") == "code"]
+    newer = [c for c in current["cells"] if c.get("cell_type") == "code"]
+    if len(older) != cfg["baseline_code_cells"] or len(newer) != 13:
+        raise ValueError("Unexpected scientific or setup cell count.")
+    setup = newer[0]
+    if "00. Colab Repository Setup" not in "".join(setup["source"]):
+        raise ValueError("Colab setup is not the first code cell.")
+    if setup.get("outputs") or (
+        any(o.get("output_type") == "error" for o in setup.get("outputs", []))
+    ):
+        raise ValueError("Checkout is not approved scientific evidence.")
+    for cell, expected, label in (
+        (setup, cfg["setup_blob"], "Colab checkout"),
+        (newer[1], cfg["import_blob"], "reviewed scientific imports"),
+    ):
+        data = "".join(cell["source"]).encode("utf-8")
+        if _git_blob_digest(data) != expected:
+            raise ValueError(label + " differs from the reviewed source.")
+    original_study = older[1:] if stage == 23 else older
+    current_study = newer[1:]
+    if len(original_study) != 12 or len(current_study) != 12:
+        raise ValueError("Research code-cell count is not preserved.")
+    for index, (old, new) in enumerate(zip(original_study, current_study)):
+        old_metadata = {k: v for k, v in old.items() if k != "source"}
+        new_metadata = {k: v for k, v in new.items() if k != "source"}
+        if old_metadata != new_metadata:
+            raise ValueError(
+                f"Stage {stage} saved results or cell metadata changed at {index + 1}."
+            )
+        if index == 0:
+            continue  # The reviewed import cell is pinned in full above.
+        def statements(cell):
+            return [
+                line for line in "".join(cell["source"]).splitlines()
+                if line.strip() and not line.lstrip().startswith("#")
+            ]
+        if statements(old) != statements(new):
+            raise ValueError(
+                f"Stage {stage} experimental code changed at cell {index + 1}."
+            )
+    return baseline
+
+
 def verify_stage24_visual_format(active_path, historical_bytes):
     """Compare an executed HARTH Stage 24 replay with hash-approved Git evidence.
 
@@ -361,7 +458,7 @@ def verify_stage24_visual_format(active_path, historical_bytes):
         return expected_lines == replay_lines
 
     archived = json.loads(historical_bytes.decode("utf-8"))
-    current = json.loads(Path(active_path).read_text(encoding="utf-8"))
+    current = _verified_reviewed_presentation(active_path, 24)
     old_code = [c for c in archived["cells"] if c.get("cell_type") == "code"]
     new_code = [c for c in current["cells"] if c.get("cell_type") == "code"]
     if len(old_code) != 13 or len(new_code) != 12:
@@ -552,7 +649,9 @@ def verify_stage23_visual_format(active_path, historical_bytes):
         )
 
     original = json.loads(historical_bytes.decode("utf-8"))
-    replay = json.loads(Path(active_path).read_text(encoding="utf-8"))
+    replay = _verified_reviewed_presentation(active_path, 23)
+    # Baseline Stage 23 contains an added, non-scientific setup pair.
+    replay["cells"] = [replay["cells"][0]] + replay["cells"][3:]
     if len(original["cells"]) != 25 or len(replay["cells"]) != 25:
         raise ValueError("Stage 23 expected 25 original/current cells.")
     old_codes = [c for c in original["cells"] if c.get("cell_type")=="code"]

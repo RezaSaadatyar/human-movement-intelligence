@@ -46,6 +46,14 @@ def _load_executed_notebook(path, gate_text):
     notebook = json.loads(raw)
     code_cells = [c for c in notebook.get("cells", [])
                   if c.get("cell_type") == "code"]
+    # A separately authored 00 checkout is preparation, not saved research.
+    if code_cells and "00. Colab Repository Setup" in _joined(
+        code_cells[0].get("source", "")
+    ):
+        checkout = code_cells.pop(0)
+        if any(o.get("output_type") == "error"
+               for o in checkout.get("outputs", [])):
+            raise ValueError(f"Colab setup contains saved errors: {path.name}")
     if not code_cells or any(c.get("execution_count") is None for c in code_cells):
         raise ValueError(f"Saved notebook has unexecuted code: {path.name}")
     if any(output.get("output_type") == "error"

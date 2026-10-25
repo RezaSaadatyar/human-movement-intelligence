@@ -163,7 +163,8 @@ def _load_stage23_with_verified_visual_format(path):
     historic = json.loads(original_bytes.decode("utf-8"))
     _validate_executed_notebook(historic, 23)
     original_sha = hashlib.sha256(original_bytes).hexdigest()
-    current, _ = _load_executed(path, 23)
+    # The reviewed Stage 23 contains a separate, unexecuted Colab checkout.
+    # Its twelve preserved research cells are checked against pinned Git history.
     verify_stage23_visual_format(path, original_bytes)
     return historic, original_sha
 
