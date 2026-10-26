@@ -88,6 +88,7 @@ _REVIEWED_PRESENTATION_FILES = {
         "baseline_blob": "61740bee6c8585b5bbde1323da0136c974b90707",
         "setup_blob": "e9c377d9d390860a2e1d53b66783c29ef568e48c",
         "import_blob": "5968c8e60ac7de945ac60664ff404a50bac7e85c",
+        "reviewed_reexecution_blob": "f178f13ece1c987f7deb7b02746ad77e606033aa",
         "baseline_code_cells": 13,
     },
     24: {
@@ -95,6 +96,7 @@ _REVIEWED_PRESENTATION_FILES = {
         "baseline_blob": "7421fd1297673884dabe56702ce665be8b98ab9e",
         "setup_blob": "cf426bffe7ed531e554bfb25a0ef4c48602e23bd",
         "import_blob": "04fd1c7262717a8afedfc6f16a6d5f8e5451e68a",
+        "reviewed_reexecution_blob": "44c5f79ffa0ee034eb8e0b13f728f2a0e2cb0876",
         "baseline_code_cells": 12,
     },
 }
@@ -139,6 +141,62 @@ def _verified_reviewed_presentation(active_path, stage):
     setup = newer[0]
     if "00. Colab Repository Setup" not in "".join(setup["source"]):
         raise ValueError("Colab setup is not the first code cell.")
+    # The 2026-10-26 standardisation was followed by saved Colab reruns.
+    # Pin the complete reviewed notebook bytes, including execution metadata
+    # and output payloads. Never replace approved historic notebook SHA256s.
+    # Source-code identity of every scientific cell is checked below; only
+    # the final decorative separator print may differ from the older review.
+    if _git_blob_digest(active_path.read_bytes()) == cfg["reviewed_reexecution_blob"]:
+        if any(
+            output.get("output_type") == "error"
+            for output in setup.get("outputs", [])
+        ):
+            raise ValueError("Reviewed Colab setup contains a saved error.")
+        original_study = older[1:] if stage == 23 else older
+        current_study = newer[1:]
+        if len(original_study) != 12 or len(current_study) != 12:
+            raise ValueError("Reviewed research cell count has changed.")
+
+        def active_statements(cell):
+            return [
+                line for line in "".join(cell["source"]).splitlines()
+                if line.strip() and not line.lstrip().startswith("#")
+            ]
+
+        for index, (previous, current_cell) in enumerate(
+            zip(original_study, current_study), start=1
+        ):
+            if previous.get("id") != current_cell.get("id"):
+                raise ValueError("Reviewed scientific cell identity differs.")
+            if any(
+                o.get("output_type") == "error"
+                for o in current_cell.get("outputs", [])
+            ):
+                raise ValueError("Reviewed scientific cell contains a saved error.")
+            if index == 1:
+                # Exact complete-file pin protects the revised imports/setup.
+                continue
+            old_statements = active_statements(previous)
+            new_statements = active_statements(current_cell)
+            if (
+                index == 12
+                and old_statements[-1:] == ['print("="*70)']
+                and old_statements[:-1] == new_statements
+            ):
+                continue
+            if old_statements != new_statements:
+                raise ValueError(
+                    f"Stage {stage} scientific code differs at cell {index}."
+                )
+        gate = "".join(
+            "".join(o.get("text", []))
+            if isinstance(o.get("text", []), list) else str(o.get("text", ""))
+            for o in current_study[-1].get("outputs", [])
+        )
+        if f"Stage {stage} scientific quality gate: PASSED" not in gate:
+            raise ValueError("Reviewed scientific Quality Gate is absent.")
+        return baseline
+
     if setup.get("outputs") or (
         any(o.get("output_type") == "error" for o in setup.get("outputs", []))
     ):
