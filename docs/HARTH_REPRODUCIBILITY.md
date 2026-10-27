@@ -143,9 +143,12 @@ Do not claim clinical readiness, prospective evaluation, statistically significa
 ## Stage 27 execution and research-evidence provenance
 
 The Stage 27 report contains **ten scientific code sections** plus one
-Google Colab setup cell. Its setup safely clones a missing checkout or
-fast-forward updates the existing `main` checkout, then checks committed
-Stage 26 evidence before report synthesis.
+Google Colab setup cell. Its setup opens or clones the research repository,
+then reads the saved Stage 23–26 notebook results through the existing
+source-evidence utilities. It no longer performs a separate, repetitive
+`git show` or temporary-copy audit of Stage 26 in the Notebook. The saved
+research-result reader still checks the required manifest and source evidence;
+it does not depend on the Git-ignored `outputs/` directory.
 
 **Current status:** the committed Stage 27 notebook has saved output in
 its saved results, no recorded runtime errors, and the final
