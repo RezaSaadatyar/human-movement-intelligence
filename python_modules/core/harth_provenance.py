@@ -264,6 +264,92 @@ def _verified_reviewed_presentation(active_path, stage):
     return baseline
 
 
+
+def _verify_presentation_setup(stage, archived_source, current_source):
+    """Audit explicitly approved runtime-only setup without relaxing science code.
+
+    Immutable research constants and model-module imports must match the
+    pinned executed source. Only repository bootstrap, device diagnostics and
+    human-readable setup logging may differ. No model fitting happens here.
+    """
+    import re
+
+    original = archived_source.splitlines()
+    current = current_source.splitlines()
+
+    def compact(line):
+        return re.sub(r"\s+", "", line)
+
+    def imports(lines, first, last):
+        start = next(i for i, line in enumerate(lines) if line.startswith(first))
+        end = next(i for i in range(start, len(lines)) if lines[i].startswith(last))
+        return [compact(line) for line in lines[start:end + 1]
+                if line.strip() and not line.lstrip().startswith("#")]
+
+    last_import = (
+        "from core.feature_engineering import extract_signal_features"
+        if stage == 23 else "from core.robustness_experiments import ("
+    )
+    if stage == 23:
+        # The complete set of source/model imports is immutable.
+        if imports(original, "from harth_data import (", last_import) != imports(
+            current, "from harth_data import (", last_import
+        ):
+            raise ValueError("Stage 23 frozen source/model imports changed.")
+    else:
+        def model_imports(lines):
+            start = next(i for i, line in enumerate(lines)
+                         if line.startswith("from harth_data import "))
+            end = next(i for i in range(start, len(lines))
+                       if lines[i].startswith("from core.robustness_experiments import ("))
+            end = next(i for i in range(end, len(lines)) if lines[i].strip() == ")")
+            return [compact(line) for line in lines[start:end + 1]
+                    if line.strip() and not line.lstrip().startswith("#")]
+        if model_imports(original) != model_imports(current):
+            raise ValueError("Stage 24 frozen source/model imports changed.")
+
+    keys = (
+        ["RESERVED_TEST=", "DEVELOPMENT_SUBJECTS=", "CLASSES=",
+         "FOLDS=", "MAX_WINDOWS_PER_SUBJECT=", "MAX_STEPS=",
+         "BATCH_SIZE=", "SEED=", "REQUIRE_CUDA", "CACHE_DIR=",
+         "assert len(DEVELOPMENT_SUBJECTS)", "assert len(MODEL_NAMES)"]
+        if stage == 23 else
+        ["SEEDS=", "CLASSES=", "RESERVED_TEST=", "DEVELOPMENT=",
+         "CACHE_DIR=", "MAX_STEPS=", "assert len(DEVELOPMENT)"]
+    )
+    for key in keys:
+        expected = [compact(line) for line in original
+                    if compact(line).startswith(compact(key))]
+        actual = [compact(line) for line in current
+                  if compact(line).startswith(compact(key))]
+        if not expected or actual != expected:
+            raise ValueError(f"Stage {stage} frozen protocol value changed: {key}")
+
+    joined = "\n".join(current)
+    required = (
+        'root = setup_colab("wearable_activity_recognition")',
+        "device = computer_device()",
+        "DEVICE = device.type",
+        'torch.set_float32_matmul_precision("highest")',
+        "torch.backends.cuda.matmul.allow_tf32 = False",
+        "torch.backends.cudnn.allow_tf32 = False",
+        ('if REQUIRE_CUDA and DEVICE != "cuda":' if stage == 23
+         else 'if DEVICE != "cuda":'),
+    )
+    if any(compact(value) not in compact(joined) for value in required):
+        raise ValueError(f"Stage {stage} required GPU or precision control missing.")
+    if ("from python_modules.core.colab_setup import setup_colab" not in joined or
+            "from core.computer_device import computer_device" not in joined):
+        raise ValueError(f"Stage {stage} approved shared setup utility missing.")
+    if "sys.path.insert" in joined or "Path.cwd().resolve()" in joined:
+        raise ValueError(f"Stage {stage} redundant manual repository setup returned.")
+
+
+def _approved_cosmetic_end_divider(before, after, index, last_index):
+    """Permit only removal of one final decorative console separator."""
+    return (index == last_index and before and
+            before[-1] == 'print("="*70)' and before[:-1] == after)
+
 def verify_stage24_visual_format(active_path, historical_bytes):
     """Compare an executed HARTH Stage 24 replay with hash-approved Git evidence.
 
@@ -550,8 +636,10 @@ def verify_stage24_visual_format(active_path, historical_bytes):
     current = _verified_reviewed_presentation(active_path, 24)
     old_code = [c for c in archived["cells"] if c.get("cell_type") == "code"]
     new_code = [c for c in current["cells"] if c.get("cell_type") == "code"]
-    if len(old_code) != 13 or len(new_code) != 12:
-        raise ValueError("Stage 24 code-cell counts must be 13 original/12 current.")
+    if len(old_code) != 13 or len(new_code) != 13:
+        raise ValueError("Stage 24 expects thirteen original/current code cells.")
+    if "00. Colab Repository Setup" not in joined(new_code[0].get("source")):
+        raise ValueError("Stage 24 approved Colab bootstrap is missing.")
     setup = joined(old_code[0].get("source"))
     if "%cd /content" not in setup or "!git clone " not in setup:
         raise ValueError("Original Stage 24 setup cell does not match protocol.")
@@ -563,24 +651,26 @@ def verify_stage24_visual_format(active_path, historical_bytes):
         ]
 
     missing_counts = []
-    for index, (old, new) in enumerate(zip(old_code[1:], new_code), start=1):
+    execution_shift = new_code[1].get("execution_count") - old_code[1].get("execution_count")
+    if execution_shift < 0:
+        raise ValueError("Stage 24 execution counters move backwards.")
+    for index, (old, new) in enumerate(zip(old_code[1:], new_code[1:]), start=1):
         if old.get("execution_count") is None:
             raise ValueError("Original Stage 24 lacks execution metadata.")
         old_lines = executable_lines(old)
         new_lines = executable_lines(new)
         if index == 1:
-            new_lines = [
-                _APPROVED_IMPORT_RELOCATIONS.get(line, line)
-                for line in new_lines
-            ]
-        if old_lines != new_lines:
+            _verify_presentation_setup(24, joined(old.get("source")), joined(new.get("source")))
+        elif old_lines != new_lines and not _approved_cosmetic_end_divider(
+            old_lines, new_lines, index, 12
+        ):
             raise ValueError(f"Stage 24 scientific code changed in cell {index}.")
         if new.get("execution_count") is None:
             if not new.get("outputs"):
                 raise ValueError(f"Stage 24 code cell {index} has no saved evidence.")
             missing_counts.append(index)
-        elif new["execution_count"] != old["execution_count"]:
-            raise ValueError(f"Stage 24 execution count changed in cell {index}.")
+        elif new["execution_count"] != old["execution_count"] + execution_shift:
+            raise ValueError(f"Stage 24 execution sequence changed in cell {index}.")
         originals, replayed = old.get("outputs", []), new.get("outputs", [])
         if len(originals) != len(replayed):
             raise ValueError(f"Stage 24 output count changed in cell {index}.")
@@ -590,6 +680,9 @@ def verify_stage24_visual_format(active_path, historical_bytes):
             if before.get("output_type") != after.get("output_type"):
                 raise ValueError("Stage 24 output type changed.")
             typ = before.get("output_type")
+            if index == 1:
+                # Device diagnostics changed, never trained model outputs.
+                continue
             if typ == "error":
                 raise ValueError("Stage 24 contains a recorded execution error.")
             if typ == "display_data":
@@ -601,6 +694,10 @@ def verify_stage24_visual_format(active_path, historical_bytes):
                     )
             elif typ == "stream":
                 first, second = joined(before.get("text")), joined(after.get("text"))
+                if index == 12:
+                    # A single trailing decorative divider is presentation-only.
+                    for_divider = lambda t: re.sub(r"={70}\n?$", "", t)
+                    first, second = for_divider(first), for_divider(second)
                 if first != second and not (
                     (index == 2 and _cached_download_equivalent(first, second))
                     or (index == 5 and _cached_jobs_match_approved_execution(
@@ -741,15 +838,20 @@ def verify_stage23_visual_format(active_path, historical_bytes):
     replay = _verified_reviewed_presentation(active_path, 23)
     # Baseline Stage 23 contains an added, non-scientific setup pair.
     replay["cells"] = [replay["cells"][0]] + replay["cells"][3:]
-    if len(original["cells"]) != 25 or len(replay["cells"]) != 25:
-        raise ValueError("Stage 23 expected 25 original/current cells.")
+    if len(original["cells"]) != 25 or len(replay["cells"]) != 27:
+        raise ValueError("Stage 23 expects 25 historical/27 current cells.")
     old_codes = [c for c in original["cells"] if c.get("cell_type")=="code"]
     new_codes = [c for c in replay["cells"] if c.get("cell_type")=="code"]
-    if len(old_codes) != 12 or len(new_codes) != 12:
-        raise ValueError("Stage 23 expected twelve scientific code cells.")
-    for index,(old,new) in enumerate(zip(old_codes,new_codes),start=1):
-        if old.get("execution_count") != new.get("execution_count"):
-            raise ValueError(f"Stage 23 code cell {index} execution count changed.")
+    if len(old_codes) != 12 or len(new_codes) != 13:
+        raise ValueError("Stage 23 expects twelve scientific cells plus Colab bootstrap.")
+    if "00. Colab Repository Setup" not in joined(new_codes[0].get("source")):
+        raise ValueError("Stage 23 Colab bootstrap is missing.")
+    execution_shift = new_codes[1].get("execution_count") - old_codes[0].get("execution_count")
+    if execution_shift < 0:
+        raise ValueError("Stage 23 execution counters move backwards.")
+    for index,(old,new) in enumerate(zip(old_codes,new_codes[1:]),start=1):
+        if old.get("execution_count") + execution_shift != new.get("execution_count"):
+            raise ValueError(f"Stage 23 execution order changed in cell {index}.")
         left = [
             line for line in joined(old.get("source")).splitlines()
             if line.strip() and not line.lstrip().startswith("#")
@@ -759,11 +861,10 @@ def verify_stage23_visual_format(active_path, historical_bytes):
             if line.strip() and not line.lstrip().startswith("#")
         ]
         if index == 1:
-            right = [
-                _APPROVED_IMPORT_RELOCATIONS.get(line, line)
-                for line in right
-            ]
-        if left != right:
+            _verify_presentation_setup(23, joined(old.get("source")), joined(new.get("source")))
+        elif left != right and not _approved_cosmetic_end_divider(
+            left, right, index, 12
+        ):
             raise ValueError(f"Stage 23 executable code changed at cell {index}.")
         older, newer = old.get("outputs", []),new.get("outputs", [])
         if len(older) != len(newer):
@@ -772,6 +873,9 @@ def verify_stage23_visual_format(active_path, historical_bytes):
             if before.get("output_type") != after.get("output_type"):
                 raise ValueError("Stage 23 changed output type.")
             typ=before.get("output_type")
+            if index == 1:
+                # Shared device diagnostics replace the historical setup summary.
+                continue
             if typ=="error":
                 raise ValueError("Stage 23 contains saved execution errors.")
             if typ=="display_data":
@@ -783,6 +887,9 @@ def verify_stage23_visual_format(active_path, historical_bytes):
                     )
             elif typ=="stream":
                 a,b=joined(before.get("text")),joined(after.get("text"))
+                if index == 12:
+                    a = re.sub(r"={70}\n?$", "", a)
+                    b = re.sub(r"={70}\n?$", "", b)
                 if index==2:
                     a,b=cache_normalized(a),cache_normalized(b)
                 elif index==5:
