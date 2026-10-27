@@ -213,3 +213,48 @@ def load_final_harth_evidence(stage26_path, reconciled_manifest_path,
         "coverage": coverage, "notebook26_sha256": notebook_hash,
         "approved_manifest": approved,
     }
+
+
+def load_committed_final_harth_evidence(
+    root, reconciled_manifest_path, approved_manifest_path,
+    expected_development_sha256,
+):
+    """Load committed Stage 26 evidence, regardless of active Git branch.
+
+    The checked-out working file is used only when byte-identical to HEAD.
+    Otherwise, an isolated temporary copy of the committed notebook is read.
+    This function never runs notebook cells, retrains models or scores Test.
+    Existing saved-execution, Quality Gate and manifest checks still apply.
+    """
+    import subprocess
+    import tempfile
+
+    root = Path(root).resolve()
+    relative = (
+        "wearable_activity_recognition/code/notebooks/"
+        "26_final_development_training_and_inference.ipynb"
+    )
+    result = subprocess.run(
+        ["git", "-C", str(root), "show", f"HEAD:{relative}"],
+        capture_output=True, check=False,
+    )
+    if result.returncode != 0 or not result.stdout:
+        raise ValueError(
+            "Committed Stage 26 notebook is unavailable; "
+            "a complete Git checkout is required."
+        )
+
+    working_file = root / relative
+    if working_file.is_file() and working_file.read_bytes() == result.stdout:
+        return load_final_harth_evidence(
+            working_file, reconciled_manifest_path, approved_manifest_path,
+            expected_development_sha256,
+        )
+
+    with tempfile.TemporaryDirectory(prefix="harth_stage27_") as directory:
+        snapshot = Path(directory) / Path(relative).name
+        snapshot.write_bytes(result.stdout)
+        return load_final_harth_evidence(
+            snapshot, reconciled_manifest_path, approved_manifest_path,
+            expected_development_sha256,
+        )
