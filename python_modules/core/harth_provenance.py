@@ -82,6 +82,8 @@ def read_historical_stage24_bytes(repository_root, approved_sha256):
 # Compare their 12 research cells with a pinned pre-review Git revision.
 # The exact reviewed import/setup cells are separately pinned as Git blobs.
 _REVIEWED_PRESENTATION_COMMIT = "d654ab5b774c522fcb1fdf4962ce8d2df3811931"
+_GUARDED_COLAB_REVIEW_COMMIT = "50fb7b6494df0956e824921fd4741f50fdaa77d3"
+
 _REVIEWED_PRESENTATION_FILES = {
     23: {
         "path": "wearable_activity_recognition/code/notebooks/23_unified_matched_model_benchmark.ipynb",
@@ -89,6 +91,7 @@ _REVIEWED_PRESENTATION_FILES = {
         "setup_blob": "e9c377d9d390860a2e1d53b66783c29ef568e48c",
         "import_blob": "5968c8e60ac7de945ac60664ff404a50bac7e85c",
         "reviewed_reexecution_blob": "f178f13ece1c987f7deb7b02746ad77e606033aa",
+        "guarded_colab_setup_blob": "4f96f44efe18761bea0599e343d0e27f2ac31bab",
         "baseline_code_cells": 13,
     },
     24: {
@@ -97,6 +100,7 @@ _REVIEWED_PRESENTATION_FILES = {
         "setup_blob": "cf426bffe7ed531e554bfb25a0ef4c48602e23bd",
         "import_blob": "04fd1c7262717a8afedfc6f16a6d5f8e5451e68a",
         "reviewed_reexecution_blob": "44c5f79ffa0ee034eb8e0b13f728f2a0e2cb0876",
+        "guarded_colab_setup_blob": "4f96f44efe18761bea0599e343d0e27f2ac31bab",
         "baseline_code_cells": 12,
     },
 }
@@ -141,6 +145,33 @@ def _verified_reviewed_presentation(active_path, stage):
     setup = newer[0]
     if "00. Colab Repository Setup" not in "".join(setup["source"]):
         raise ValueError("Colab setup is not the first code cell.")
+    # A new Colab checkout replaces only the previously reviewed setup cell.
+    # Verify every scientific cell, its saved results, and all other notebook
+    # metadata against the pinned completed rerun before accepting the change.
+    if _git_blob_digest("".join(setup["source"]).encode("utf-8")) == cfg.get(
+        "guarded_colab_setup_blob"
+    ):
+        reviewed_ref = _GUARDED_COLAB_REVIEW_COMMIT + ":" + cfg["path"]
+        reviewed_result = subprocess.run(
+            ["git", "show", reviewed_ref], cwd=root,
+            capture_output=True, check=False,
+        )
+        if reviewed_result.returncode != 0 or _git_blob_digest(
+            reviewed_result.stdout
+        ) != cfg["reviewed_reexecution_blob"]:
+            raise ValueError("Pinned reviewed scientific notebook is unavailable.")
+        reviewed = json.loads(reviewed_result.stdout.decode("utf-8"))
+        expected = json.loads(json.dumps(reviewed))
+        if len(expected["cells"]) <= 2:
+            raise ValueError("Pinned notebook lacks the Colab setup cell.")
+        expected["cells"][2]["source"] = setup["source"]
+        if current != expected:
+            raise ValueError(
+                "Only the reviewed Colab checkout may change; scientific "
+                "cells, saved outputs and notebook metadata must match exactly."
+            )
+        return baseline
+
     # The 2026-10-26 standardisation was followed by saved Colab reruns.
     # Pin the complete reviewed notebook bytes, including execution metadata
     # and output payloads. Never replace approved historic notebook SHA256s.
