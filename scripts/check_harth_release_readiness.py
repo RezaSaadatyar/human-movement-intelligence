@@ -171,10 +171,10 @@ def verify_recorded_evidence():
 
     notebooks = {}
     expected = {
-        23: (12, "Stage 23 scientific quality gate: PASSED"),
+        23: (13, "Stage 23 scientific quality gate: PASSED"),
         24: (13, "Stage 24 scientific quality gate: PASSED"),
-        25: (11, "Stage 25 development selection audit: PASSED"),
-        26: (13, "STAGE 26 | QUALIFIED HELD-OUT EVALUATION: PASSED"),
+        25: (12, "Stage 25 development selection audit: PASSED"),
+        26: (14, "STAGE 26 | QUALIFIED HELD-OUT EVALUATION: PASSED"),
         27: (11, "STAGE 27 | SOURCE-GROUNDED RESEARCH SYNTHESIS QUALITY GATE: PASSED"),
     }
     for stage, (count, gate) in expected.items():
