@@ -1,10 +1,10 @@
 <svg xmlns="http://www.w3.org/2000/svg" width="1700" height="480" viewBox="0 0 1700 480" role="img" aria-labelledby="title desc">
-<title id="title">HARTH Stage 26: Final Development Fitting and Qualified Held-Out Report</title>
+<title id="title">HARTH Final Development Fitting and Qualified Held-Out Report</title>
 <desc id="desc">Stage 26 implements the fixed Development fit for one 1D-ResNet and a Random Forest reference from six lower-back and thigh accelerometer channels. After separate approval it scores 1,000 windows from S023 and S032, participants previously inspected. No blind or external validation is claimed.</desc>
 <defs><marker id="small-arrow" markerUnits="userSpaceOnUse" markerWidth="6" markerHeight="6" refX="5.5" refY="3" orient="auto"><path d="M0 0 L6 3 L0 6 Z" fill="#245E9D"/></marker></defs>
 <rect width="1700" height="480" rx="20" fill="#F4F9FD"/>
 <g font-family="DejaVu Sans, Arial, sans-serif">
- <text x="30" y="38" font-size="23" font-weight="700" fill="#173453">STAGE 26 | FINAL DEVELOPMENT FITTING AND QUALIFIED HELD-OUT REPORT</text>
+ <text x="30" y="38" font-size="23" font-weight="700" fill="#173453">FINAL DEVELOPMENT FITTING AND QUALIFIED HELD-OUT REPORT</text>
  <text x="30" y="67" font-size="15" fill="#54738A">Frozen candidate models · Development-only fitting · separately approved Test scoring · no Test-driven tuning</text>
  <rect x="24" y="84" width="1652" height="160" rx="16" fill="#EAF3FA" stroke="#C7D9E6" stroke-width="2"/>
  <rect x="24" y="262" width="1652" height="174" rx="16" fill="#EAF3FA" stroke="#C7D9E6" stroke-width="2"/>
