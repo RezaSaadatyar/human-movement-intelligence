@@ -1,10 +1,10 @@
 <svg xmlns="http://www.w3.org/2000/svg" width="1700" height="480" viewBox="0 0 1700 480" role="img" aria-labelledby="title desc">
-<title id="title">HARTH Notebook 10: Bounded Raw-IMU Temporal CNN in PyTorch</title>
+<title id="title">HARTH Bounded Raw-IMU Temporal CNN in PyTorch</title>
 <desc id="desc">This scientific research workflow uses 29 HARTH Development subjects and a cap of 500 eligible windows per person, yielding 14201 six-axis by 100-time-point windows. Twenty subjects contribute 10000 Train windows, six subjects contribute 2701 Validation windows, and three Development subjects remain unused. The PyTorch 1D-CNN is trained over five epochs with scaling fitted on Train only. The final Validation Macro F1 is 0.6659; original reserved Test subjects S023 and S032 are not loaded. This is not a matched full-cohort comparison with feature-engineered baselines.</desc>
 <defs><marker id="small-arrow" markerUnits="userSpaceOnUse" markerWidth="6" markerHeight="6" refX="5.5" refY="3" orient="auto"><path d="M0 0 L6 3 L0 6 Z" fill="#245E9D"/></marker></defs>
 <rect width="1700" height="480" rx="20" fill="#F4F9FD"/>
 <g font-family="DejaVu Sans, Arial, sans-serif">
- <text x="30" y="38" font-size="23" font-weight="700" fill="#173453">STAGE 10 | RAW-IMU TEMPORAL CLASSIFICATION WITH PYTORCH</text>
+ <text x="30" y="38" font-size="23" font-weight="700" fill="#173453">RAW-IMU TEMPORAL CLASSIFICATION WITH PYTORCH</text>
  <text x="30" y="67" font-size="15" fill="#54738A">Bounded Development pilot · Subject-disjoint training · Train-only channel scaling · No reserved final Test inference</text>
  <rect x="24" y="84" width="1652" height="160" rx="16" fill="#EAF3FA" stroke="#C7D9E6" stroke-width="2"/>
  <rect x="24" y="262" width="1652" height="174" rx="16" fill="#EAF3FA" stroke="#C7D9E6" stroke-width="2"/>
