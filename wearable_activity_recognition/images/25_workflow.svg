@@ -1,10 +1,10 @@
 <svg xmlns="http://www.w3.org/2000/svg" width="1700" height="480" viewBox="0 0 1700 480" role="img" aria-labelledby="title desc">
-<title id="title">HARTH Stage 25: Development-Only Model Selection and Fixed Protocol Proposal</title>
+<title id="title">HARTH Development-Only Model Selection and Fixed Protocol Proposal</title>
 <desc id="desc">Stage 25 analyses the actual saved, participant-disjoint Stage 23 and Stage 24 Development results to select one 1D-ResNet weighted cross-entropy model with the predeclared Random Forest reference. It records the same HARTH 50 Hz lower-back and thigh signals, 29 Development participants, 14201 windows, source provenance, selected hyperparameters and original reserved Test boundary. This stage makes a documented protocol proposal; it does not train a new model or score Test participants.</desc>
 <defs><marker id="small-arrow" markerUnits="userSpaceOnUse" markerWidth="6" markerHeight="6" refX="5.5" refY="3" orient="auto"><path d="M0 0 L6 3 L0 6 Z" fill="#245E9D"/></marker></defs>
 <rect width="1700" height="480" rx="20" fill="#F4F9FD"/>
 <g font-family="DejaVu Sans, Arial, sans-serif">
- <text x="30" y="38" font-size="23" font-weight="700" fill="#173453">STAGE 25 | DEVELOPMENT MODEL SELECTION AND PROTOCOL</text>
+ <text x="30" y="38" font-size="23" font-weight="700" fill="#173453">DEVELOPMENT MODEL SELECTION AND PROTOCOL</text>
  <text x="30" y="67" font-size="15" fill="#54738A">Stage 23/24 saved evidence · Development-only selection · No retraining or Test access</text>
  <rect x="24" y="84" width="1652" height="160" rx="16" fill="#EAF3FA" stroke="#C7D9E6" stroke-width="2"/>
  <rect x="24" y="262" width="1652" height="174" rx="16" fill="#EAF3FA" stroke="#C7D9E6" stroke-width="2"/>
