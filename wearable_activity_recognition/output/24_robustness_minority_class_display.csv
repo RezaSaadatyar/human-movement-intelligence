@@ -1,0 +1,37 @@
+architecture,loss_method,seed,activity,support,precision,recall,f1
+1D-ResNet,weighted_ce,42,Shuffling,219,0.3422,0.4703,0.3962
+1D-ResNet,weighted_ce,42,Stairs ascending,192,0.5375,0.8594,0.6613
+1D-ResNet,weighted_ce,42,Stairs descending,182,0.6946,0.7747,0.7325
+1D-ResNet,weighted_ce,123,Shuffling,219,0.2759,0.5708,0.3720
+1D-ResNet,weighted_ce,123,Stairs ascending,192,0.5461,0.8021,0.6498
+1D-ResNet,weighted_ce,123,Stairs descending,182,0.7172,0.7802,0.7474
+1D-ResNet,weighted_ce,2026,Shuffling,219,0.2937,0.5982,0.3940
+1D-ResNet,weighted_ce,2026,Stairs ascending,192,0.4814,0.8750,0.6211
+1D-ResNet,weighted_ce,2026,Stairs descending,182,0.7683,0.6923,0.7283
+TCN,weighted_ce,42,Shuffling,219,0.2959,0.3973,0.3392
+TCN,weighted_ce,42,Stairs ascending,192,0.5385,0.8750,0.6667
+TCN,weighted_ce,42,Stairs descending,182,0.5468,0.8022,0.6503
+TCN,weighted_ce,123,Shuffling,219,0.2514,0.4201,0.3145
+TCN,weighted_ce,123,Stairs ascending,192,0.6698,0.7500,0.7076
+TCN,weighted_ce,123,Stairs descending,182,0.4343,0.7802,0.5580
+TCN,weighted_ce,2026,Shuffling,219,0.2469,0.4612,0.3217
+TCN,weighted_ce,2026,Stairs ascending,192,0.5709,0.8385,0.6793
+TCN,weighted_ce,2026,Stairs descending,182,0.6114,0.7692,0.6813
+1D-ResNet,focal,42,Shuffling,219,0.2963,0.5845,0.3932
+1D-ResNet,focal,42,Stairs ascending,192,0.5941,0.8385,0.6955
+1D-ResNet,focal,42,Stairs descending,182,0.3760,0.7912,0.5097
+1D-ResNet,focal,123,Shuffling,219,0.2561,0.6210,0.3627
+1D-ResNet,focal,123,Stairs ascending,192,0.6723,0.8229,0.7400
+1D-ResNet,focal,123,Stairs descending,182,0.6712,0.8187,0.7376
+1D-ResNet,focal,2026,Shuffling,219,0.2630,0.6941,0.3814
+1D-ResNet,focal,2026,Stairs ascending,192,0.4985,0.8385,0.6252
+1D-ResNet,focal,2026,Stairs descending,182,0.4875,0.7473,0.5900
+1D-ResNet,class_balanced,42,Shuffling,219,0.2953,0.7215,0.4191
+1D-ResNet,class_balanced,42,Stairs ascending,192,0.4272,0.9323,0.5859
+1D-ResNet,class_balanced,42,Stairs descending,182,0.4837,0.8132,0.6066
+1D-ResNet,class_balanced,123,Shuffling,219,0.2016,0.7900,0.3213
+1D-ResNet,class_balanced,123,Stairs ascending,192,0.8639,0.8594,0.8616
+1D-ResNet,class_balanced,123,Stairs descending,182,0.4447,0.9286,0.6014
+1D-ResNet,class_balanced,2026,Shuffling,219,0.1946,0.7945,0.3127
+1D-ResNet,class_balanced,2026,Stairs ascending,192,0.2704,0.8958,0.4155
+1D-ResNet,class_balanced,2026,Stairs descending,182,0.5465,0.7747,0.6409
