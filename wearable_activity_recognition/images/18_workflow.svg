@@ -1,10 +1,10 @@
 <svg xmlns="http://www.w3.org/2000/svg" width="1700" height="480" viewBox="0 0 1700 480" role="img" aria-labelledby="title desc">
-<title id="title">HARTH Stage 18: Out-of-Fold Softmax Confidence and Error Audit</title>
+<title id="title">HARTH Out-of-Fold Softmax Confidence and Error Audit</title>
 <desc id="desc">Twenty-nine HARTH Development participants contribute 14201 original base-500 windows for three participant-disjoint out-of-fold evaluations using a Train-weighted temporal CNN trained for 400 optimiser steps per fold. Each source window has one original label and one held-out eight-class softmax prediction. Saved descriptive metrics include accuracy 0.9458, mean maximum softmax 0.9005, ten-bin ECE 0.0453, multiclass Brier 0.0905, and 40 incorrect windows with softmax confidence at least 0.90. Shuffling recall is 0.1233. These scores are uncalibrated, correlated within recordings and do not establish validated uncertainty or external clinical performance. Original reserved Test participants S023 and S032 are not used.</desc>
 <defs><marker id="small-arrow" markerUnits="userSpaceOnUse" markerWidth="6" markerHeight="6" refX="5.5" refY="3" orient="auto"><path d="M0 0 L6 3 L0 6 Z" fill="#245E9D"/></marker></defs>
 <rect width="1700" height="480" rx="20" fill="#F4F9FD"/>
 <g font-family="DejaVu Sans, Arial, sans-serif">
- <text x="30" y="38" font-size="23" font-weight="700" fill="#173453">STAGE 18 | OUT-OF-FOLD SOFTMAX CONFIDENCE AUDIT</text>
+ <text x="30" y="38" font-size="23" font-weight="700" fill="#173453">OUT-OF-FOLD SOFTMAX CONFIDENCE AUDIT</text>
  <text x="30" y="67" font-size="15" fill="#54738A">29 Development people · 3 group-held-out CNN folds · Descriptive reliability, not calibrated uncertainty</text>
  <rect x="24" y="84" width="1652" height="160" rx="16" fill="#EAF3FA" stroke="#C7D9E6" stroke-width="2"/>
  <rect x="24" y="262" width="1652" height="174" rx="16" fill="#EAF3FA" stroke="#C7D9E6" stroke-width="2"/>

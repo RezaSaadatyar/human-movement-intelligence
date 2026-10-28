@@ -1,10 +1,10 @@
 <svg xmlns="http://www.w3.org/2000/svg" width="1700" height="480" viewBox="0 0 1700 480" role="img" aria-labelledby="title desc">
-<title id="title">HARTH Stage 16: Nested Training-Size GroupKFold Comparison</title>
+<title id="title">HARTH Nested Training-Size GroupKFold Comparison</title>
 <desc id="desc">Twenty-nine HARTH Development participants supply 14201 original and 28201 expanded six-axis source windows. Three subject-disjoint folds test Random Forest and train-weighted temporal CNN with 500- and 1000-window caps. Each model is evaluated on identical held-out 500-cap source rows per fold. Mean fold Macro F1: RF 500 0.8076, RF 1000 0.8097, Weighted CNN 500 0.7834, Weighted CNN 1000 0.7962. The original reserved Test participants S023 and S032 are excluded; this is not independent Test validation.</desc>
 <defs><marker id="small-arrow" markerUnits="userSpaceOnUse" markerWidth="6" markerHeight="6" refX="5.5" refY="3" orient="auto"><path d="M0 0 L6 3 L0 6 Z" fill="#245E9D"/></marker></defs>
 <rect width="1700" height="480" rx="20" fill="#F4F9FD"/>
 <g font-family="DejaVu Sans, Arial, sans-serif">
- <text x="30" y="38" font-size="23" font-weight="700" fill="#173453">STAGE 16 | NESTED TRAIN-SIZE GROUPKFOLD EVALUATION</text>
+ <text x="30" y="38" font-size="23" font-weight="700" fill="#173453">NESTED TRAIN-SIZE GROUPKFOLD EVALUATION</text>
  <text x="30" y="67" font-size="15" fill="#54738A">29 Development people · 3 matched subject-held-out folds · Four model conditions · No final Test scoring</text>
  <rect x="24" y="84" width="1652" height="160" rx="16" fill="#EAF3FA" stroke="#C7D9E6" stroke-width="2"/>
  <rect x="24" y="262" width="1652" height="174" rx="16" fill="#EAF3FA" stroke="#C7D9E6" stroke-width="2"/>

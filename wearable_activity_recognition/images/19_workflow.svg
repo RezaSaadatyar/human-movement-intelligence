@@ -1,10 +1,10 @@
 <svg xmlns="http://www.w3.org/2000/svg" width="1700" height="480" viewBox="0 0 1700 480" role="img" aria-labelledby="title desc">
-<title id="title">HARTH Stage 19: Participant-Disjoint Temperature Scaling</title>
+<title id="title">HARTH Participant-Disjoint Temperature Scaling</title>
 <desc id="desc">HARTH temperature-scaling study on 29 Development people with separate Train, inner Calibration and outer Validation people in each of three folds. The CNN and scaling use Train only; fold-specific temperatures 0.6322, 0.3943, 0.5096 are fitted using Calibration labels alone. Both methods predict each of the same 14201 base windows once. Across folds ECE decreases from 0.0491 to 0.0274, multiclass Brier decreases from 0.1088 to 0.1044, while NLL rises from 0.2501 to 0.2580. Accuracy remains 0.9277. This is descriptive Development validation, not an independent final Test or clinical probability calibration result.</desc>
 <defs><marker id="small-arrow" markerUnits="userSpaceOnUse" markerWidth="6" markerHeight="6" refX="5.5" refY="3" orient="auto"><path d="M0 0 L6 3 L0 6 Z" fill="#245E9D"/></marker></defs>
 <rect width="1700" height="480" rx="20" fill="#F4F9FD"/>
 <g font-family="DejaVu Sans, Arial, sans-serif">
- <text x="30" y="38" font-size="23" font-weight="700" fill="#173453">STAGE 19 | SUBJECT-DISJOINT TEMPERATURE SCALING</text>
+ <text x="30" y="38" font-size="23" font-weight="700" fill="#173453">SUBJECT-DISJOINT TEMPERATURE SCALING</text>
  <text x="30" y="67" font-size="15" fill="#54738A">29 Development people · Train / Calibration / Validation disjoint · No original final Test</text>
  <rect x="24" y="84" width="1652" height="160" rx="16" fill="#EAF3FA" stroke="#C7D9E6" stroke-width="2"/>
  <rect x="24" y="262" width="1652" height="174" rx="16" fill="#EAF3FA" stroke="#C7D9E6" stroke-width="2"/>

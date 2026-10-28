@@ -1,10 +1,10 @@
 <svg xmlns="http://www.w3.org/2000/svg" width="1700" height="480" viewBox="0 0 1700 480" role="img" aria-labelledby="title desc">
-<title id="title">HARTH Stage 20: Research Evidence Consolidation and Provenance Audit</title>
+<title id="title">HARTH Research Evidence Consolidation and Provenance Audit</title>
 <desc id="desc">Read-only evidence audit of the 19 historical HARTH research notebooks and the current Stage 20 consolidation notebook. It inventories 20 notebooks and validates one source-linked research register entry for each of the previous 19 stages, differentiates protocol-matched from non-matched model comparisons, documents sampling and minority-class evidence, and preserves the original reserved-Test provenance. Saved exception count is zero, but stages 04 and 20 have incomplete execution counts. No models are trained, previous metrics are not recomputed, and no independent final-Test results are established.</desc>
 <defs><marker id="small-arrow" markerUnits="userSpaceOnUse" markerWidth="6" markerHeight="6" refX="5.5" refY="3" orient="auto"><path d="M0 0 L6 3 L0 6 Z" fill="#245E9D"/></marker></defs>
 <rect width="1700" height="480" rx="20" fill="#F4F9FD"/>
 <g font-family="DejaVu Sans, Arial, sans-serif">
- <text x="30" y="38" font-size="23" font-weight="700" fill="#173453">STAGE 20 | RESEARCH EVIDENCE AND PROVENANCE AUDIT</text>
+ <text x="30" y="38" font-size="23" font-weight="700" fill="#173453">RESEARCH EVIDENCE AND PROVENANCE AUDIT</text>
  <text x="30" y="67" font-size="15" fill="#54738A">Read-only audit of historical Stages 01–19 · Evidence register and protocol comparability · No model retraining</text>
  <rect x="24" y="84" width="1652" height="160" rx="16" fill="#EAF3FA" stroke="#C7D9E6" stroke-width="2"/>
  <rect x="24" y="262" width="1652" height="174" rx="16" fill="#EAF3FA" stroke="#C7D9E6" stroke-width="2"/>

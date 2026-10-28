@@ -77,3 +77,6 @@ scratch/
 # Private experiment outputs stored outside the tracked research source
 *.safetensors
 *.tflite
+
+# Approved small HARTH pilot checkpoint (commit only after size/publication check)
+!wearable_activity_recognition/output/10_cnn_pilot_checkpoint.pt
