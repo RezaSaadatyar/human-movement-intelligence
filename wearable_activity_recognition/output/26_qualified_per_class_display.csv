@@ -1,0 +1,17 @@
+model,source_code,activity,precision,recall,f1,support
+1D-ResNet Weighted CE,1,Walking,0.9959,0.8941,0.9422,538
+1D-ResNet Weighted CE,2,Running,0.9348,1.0000,0.9663,86
+1D-ResNet Weighted CE,3,Shuffling,0.1364,1.0000,0.2400,3
+1D-ResNet Weighted CE,4,Stairs ascending,0.4444,0.8000,0.5714,10
+1D-ResNet Weighted CE,5,Stairs descending,0.2143,1.0000,0.3529,6
+1D-ResNet Weighted CE,6,Standing,0.9888,0.6929,0.8148,127
+1D-ResNet Weighted CE,7,Sitting,0.7516,1.0000,0.8582,115
+1D-ResNet Weighted CE,8,Lying,1.0000,1.0000,1.0000,115
+Random Forest,1,Walking,0.9773,0.9610,0.9691,538
+Random Forest,2,Running,1.0000,1.0000,1.0000,86
+Random Forest,3,Shuffling,0.1250,0.6667,0.2105,3
+Random Forest,4,Stairs ascending,1.0000,0.1000,0.1818,10
+Random Forest,5,Stairs descending,0.3077,0.6667,0.4211,6
+Random Forest,6,Standing,1.0000,0.6850,0.8131,127
+Random Forest,7,Sitting,0.7516,1.0000,0.8582,115
+Random Forest,8,Lying,1.0000,1.0000,1.0000,115
