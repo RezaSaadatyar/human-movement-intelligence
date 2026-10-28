@@ -1,6 +1,6 @@
 <svg xmlns="http://www.w3.org/2000/svg" width="1700" height="480"
      viewBox="0 0 1700 480" role="img" aria-labelledby="figure-title figure-description">
- <title id="figure-title">HARTH Stage 01: Sensor Context and Source Inspection Workflow</title>
+ <title id="figure-title">HARTH Data Loading and Inspection Workflow</title>
  <desc id="figure-description">A horizontal research workflow diagram with the lower-back and thigh accelerometer positions entirely inside a sensor context panel, followed by seven evenly spaced blocks connected with six small uniform arrows. All panels are aligned and enclosed.</desc>
  <defs>
   <marker id="small-arrow" markerUnits="userSpaceOnUse" markerWidth="6" markerHeight="6"
@@ -10,7 +10,7 @@
  </defs>
  <rect width="1700" height="480" rx="20" fill="#F4F9FD"/>
  <g font-family="DejaVu Sans, Arial, sans-serif">
-  <text x="30" y="38" font-size="23" font-weight="700" fill="#173453">STAGE 01 | DATA LOADING AND INSPECTION</text>
+  <text x="30" y="38" font-size="23" font-weight="700" fill="#173453">DATA LOADING AND INSPECTION</text>
   <text x="30" y="67" font-size="15" fill="#54738A">Original HARTH v2.0 participant recording · Two wearable accelerometers · No model fitting</text>
 
   <!-- Both full-width panels have identical horizontal edges: x=24 to x=1676. -->
