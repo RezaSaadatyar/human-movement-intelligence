@@ -1,10 +1,10 @@
 <svg xmlns="http://www.w3.org/2000/svg" width="1700" height="480" viewBox="0 0 1700 480" role="img" aria-labelledby="title desc">
-<title id="title">HARTH Stage 12: Train-Only Weighted-Loss Temporal CNN</title>
+<title id="title">HARTH Train-Only Weighted-Loss Temporal CNN</title>
 <desc id="desc">Identical HARTH Development data from 29 people produce 14201 shared six-axis signal windows, with 20 Train, six Validation and three unused Development participants. The same 1D-CNN, seed and five epochs are used with standard and inverse-square-root-weighted Cross-Entropy. The weights are computed only from Train class counts. Last-epoch Validation Macro F1 values are 0.6659 standard and 0.7968 weighted. Original Test participants S023 and S032 remain excluded, and independent performance benefit is not established.</desc>
 <defs><marker id="small-arrow" markerUnits="userSpaceOnUse" markerWidth="6" markerHeight="6" refX="5.5" refY="3" orient="auto"><path d="M0 0 L6 3 L0 6 Z" fill="#245E9D"/></marker></defs>
 <rect width="1700" height="480" rx="20" fill="#F4F9FD"/>
 <g font-family="DejaVu Sans, Arial, sans-serif">
- <text x="30" y="38" font-size="23" font-weight="700" fill="#173453">STAGE 12 | TRAIN-ONLY CLASS-WEIGHTED TEMPORAL CNN</text>
+ <text x="30" y="38" font-size="23" font-weight="700" fill="#173453">TRAIN-ONLY CLASS-WEIGHTED TEMPORAL CNN</text>
  <text x="30" y="67" font-size="15" fill="#54738A">Matched Development data and architecture · Standard vs Train-weighted loss · No final Test scoring</text>
  <rect x="24" y="84" width="1652" height="160" rx="16" fill="#EAF3FA" stroke="#C7D9E6" stroke-width="2"/>
  <rect x="24" y="262" width="1652" height="174" rx="16" fill="#EAF3FA" stroke="#C7D9E6" stroke-width="2"/>
