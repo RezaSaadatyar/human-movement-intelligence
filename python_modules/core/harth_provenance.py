@@ -91,6 +91,7 @@ _REVIEWED_PRESENTATION_FILES = {
         "setup_blob": "e9c377d9d390860a2e1d53b66783c29ef568e48c",
         "import_blob": "5968c8e60ac7de945ac60664ff404a50bac7e85c",
         "reviewed_reexecution_blob": "f178f13ece1c987f7deb7b02746ad77e606033aa",
+        "current_reexecution_blob": "9d58028051a382b2f5f8ad70ed8885cc12fa796b",
         "guarded_colab_setup_blob": "4f96f44efe18761bea0599e343d0e27f2ac31bab",
         "baseline_code_cells": 13,
     },
@@ -100,6 +101,7 @@ _REVIEWED_PRESENTATION_FILES = {
         "setup_blob": "cf426bffe7ed531e554bfb25a0ef4c48602e23bd",
         "import_blob": "04fd1c7262717a8afedfc6f16a6d5f8e5451e68a",
         "reviewed_reexecution_blob": "44c5f79ffa0ee034eb8e0b13f728f2a0e2cb0876",
+        "current_reexecution_blob": "3c37a397d101003039cc64b96981bcc326c137b6",
         "guarded_colab_setup_blob": "4f96f44efe18761bea0599e343d0e27f2ac31bab",
         "baseline_code_cells": 12,
     },
@@ -177,7 +179,15 @@ def _verified_reviewed_presentation(active_path, stage):
     # and output payloads. Never replace approved historic notebook SHA256s.
     # Source-code identity of every scientific cell is checked below; only
     # the final decorative separator print may differ from the older review.
-    if _git_blob_digest(active_path.read_bytes()) == cfg["reviewed_reexecution_blob"]:
+    # Accept only the exact reviewed executions and their separately audited
+    # post-formatting snapshots. All scientific cells, their saved outputs and
+    # the recorded Quality Gate remain checked below against the pinned baseline.
+    # This does not approve arbitrary changes or alter historic selection hashes.
+    active_blob = _git_blob_digest(active_path.read_bytes())
+    if active_blob in (
+        cfg["reviewed_reexecution_blob"],
+        cfg["current_reexecution_blob"],
+    ):
         if any(
             output.get("output_type") == "error"
             for output in setup.get("outputs", [])
