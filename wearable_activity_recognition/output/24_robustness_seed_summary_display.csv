@@ -1,0 +1,7 @@
+architecture,seed,mean_macro_f1,fold_sd
+1D-ResNet,42,0.8328,0.0435
+1D-ResNet,123,0.8303,0.0386
+1D-ResNet,2026,0.8228,0.0414
+TCN,42,0.8138,0.0658
+TCN,123,0.8015,0.0544
+TCN,2026,0.8162,0.0672
