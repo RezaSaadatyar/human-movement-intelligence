@@ -1,10 +1,10 @@
 <svg xmlns="http://www.w3.org/2000/svg" width="1700" height="480" viewBox="0 0 1700 480" role="img" aria-labelledby="title desc">
-<title id="title">HARTH Stage 11: Matched Random Forest and Temporal CNN Validation</title>
+<title id="title">HARTH Matched Random Forest and Temporal CNN Validation</title>
 <desc id="desc">A matched development-only study on 14201 windows from 29 participants with lower-back and thigh accelerometers. Twenty participants are used for Train, six for Validation, and three Development participants remain unused. Both models use identical source windows, labels, and group partitions. Random Forest receives 30 statistical features per window and PyTorch CNN receives original six-by-100 temporal signals. On the same 2701 Validation windows, fixed-eight-class Macro F1 was 0.8266 for Random Forest and 0.6659 for Temporal CNN. Neither original Test subjects S023 nor S032 were loaded, and no architecture-specific causal claim is supported.</desc>
 <defs><marker id="small-arrow" markerUnits="userSpaceOnUse" markerWidth="6" markerHeight="6" refX="5.5" refY="3" orient="auto"><path d="M0 0 L6 3 L0 6 Z" fill="#245E9D"/></marker></defs>
 <rect width="1700" height="480" rx="20" fill="#F4F9FD"/>
 <g font-family="DejaVu Sans, Arial, sans-serif">
- <text x="30" y="38" font-size="23" font-weight="700" fill="#173453">STAGE 11 | MATCHED RANDOM FOREST AND TEMPORAL CNN</text>
+ <text x="30" y="38" font-size="23" font-weight="700" fill="#173453">MATCHED RANDOM FOREST AND TEMPORAL CNN</text>
  <text x="30" y="67" font-size="15" fill="#54738A">Same signal windows, Train/Validation subjects and labels · Two different representations · No independent final Test</text>
  <rect x="24" y="84" width="1652" height="160" rx="16" fill="#EAF3FA" stroke="#C7D9E6" stroke-width="2"/>
  <rect x="24" y="262" width="1652" height="174" rx="16" fill="#EAF3FA" stroke="#C7D9E6" stroke-width="2"/>
