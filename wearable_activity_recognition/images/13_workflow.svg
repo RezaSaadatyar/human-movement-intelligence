@@ -1,10 +1,10 @@
 <svg xmlns="http://www.w3.org/2000/svg" width="1700" height="480" viewBox="0 0 1700 480" role="img" aria-labelledby="title desc">
-<title id="title">HARTH Stage 13: Matched Three-Model Grouped Cross-Validation</title>
+<title id="title">HARTH Matched Three-Model Grouped Cross-Validation</title>
 <desc id="desc">Twenty-nine Development participants contribute 14201 capped HARTH accelerometer windows with six axes and 100 time points each. Three participant-disjoint folds compare Random Forest using 30 statistical features, Standard CNN and Train-weighted CNN. Development fold-mean Macro F1 results are 0.8076, 0.6301 and 0.7834 respectively. Paired analysis spans all 29 Development subjects with no original final Test source access to S023 or S032. This is exploratory grouped validation, not an independently confirmed superiority claim.</desc>
 <defs><marker id="small-arrow" markerUnits="userSpaceOnUse" markerWidth="6" markerHeight="6" refX="5.5" refY="3" orient="auto"><path d="M0 0 L6 3 L0 6 Z" fill="#245E9D"/></marker></defs>
 <rect width="1700" height="480" rx="20" fill="#F4F9FD"/>
 <g font-family="DejaVu Sans, Arial, sans-serif">
- <text x="30" y="38" font-size="23" font-weight="700" fill="#173453">STAGE 13 | MATCHED THREE-MODEL GROUPED CROSS-VALIDATION</text>
+ <text x="30" y="38" font-size="23" font-weight="700" fill="#173453">MATCHED THREE-MODEL GROUPED CROSS-VALIDATION</text>
  <text x="30" y="67" font-size="15" fill="#54738A">29 Development people · 3 GroupKFold splits · 3 matched model configurations · No final Test scoring</text>
  <rect x="24" y="84" width="1652" height="160" rx="16" fill="#EAF3FA" stroke="#C7D9E6" stroke-width="2"/>
  <rect x="24" y="262" width="1652" height="174" rx="16" fill="#EAF3FA" stroke="#C7D9E6" stroke-width="2"/>
