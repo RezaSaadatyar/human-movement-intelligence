@@ -1,10 +1,10 @@
 <svg xmlns="http://www.w3.org/2000/svg" width="1700" height="480" viewBox="0 0 1700 480" role="img" aria-labelledby="title desc">
-<title id="title">HARTH Stage 22: Four Advanced Temporal Architecture Engineering Audits</title>
+<title id="title">HARTH Four Advanced Temporal Architecture Engineering Audits</title>
 <desc id="desc">Stage 22 validates four real PyTorch model implementations for six-channel 100-point HARTH activity windows, including dilated noncausal TCN, parallel-kernel Multi-Scale CNN, 1D-ResNet and bidirectional Time-Series Transformer. Architecture checks confirm eight raw logits and model capacity. A four-subject Development smoke test uses 96 Train and 32 Validation source windows, one optimiser update per model, and excludes original Test S023 and S032. These engineering checks do not establish predictive performance or generalisation.</desc>
 <defs><marker id="small-arrow" markerUnits="userSpaceOnUse" markerWidth="6" markerHeight="6" refX="5.5" refY="3" orient="auto"><path d="M0 0 L6 3 L0 6 Z" fill="#245E9D"/></marker></defs>
 <rect width="1700" height="480" rx="20" fill="#F4F9FD"/>
 <g font-family="DejaVu Sans, Arial, sans-serif">
- <text x="30" y="38" font-size="23" font-weight="700" fill="#173453">STAGE 22 | FOUR ADVANCED TEMPORAL ARCHITECTURES</text>
+ <text x="30" y="38" font-size="23" font-weight="700" fill="#173453">FOUR ADVANCED TEMPORAL ARCHITECTURES</text>
  <text x="30" y="67" font-size="15" fill="#54738A">TCN · Multi-Scale CNN · 1D-ResNet · Transformer · Source-data smoke tests; no performance ranking</text>
  <rect x="24" y="84" width="1652" height="160" rx="16" fill="#EAF3FA" stroke="#C7D9E6" stroke-width="2"/>
  <rect x="24" y="262" width="1652" height="174" rx="16" fill="#EAF3FA" stroke="#C7D9E6" stroke-width="2"/>
