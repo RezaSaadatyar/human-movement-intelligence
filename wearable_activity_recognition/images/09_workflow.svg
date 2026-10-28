@@ -1,10 +1,10 @@
 <svg xmlns="http://www.w3.org/2000/svg" width="1700" height="480" viewBox="0 0 1700 480" role="img" aria-labelledby="title desc">
-<title id="title">HARTH Notebook 09: Full Development Grouped Cross-Validation</title>
+<title id="title">HARTH Full Development Grouped Cross-Validation</title>
 <desc id="desc">An illustrated research workflow for 29 HARTH Development participants, 132397 label-pure windows and 30 statistical features. Five group-held-out folds compare Dummy, Logistic Regression and Random Forest. A paired Random Forest minus Logistic Regression analysis is performed across the same 29 Development subjects. S023 and S032 are excluded from this Notebook; no independent final Test inference or clinical claims are made.</desc>
 <defs><marker id="small-arrow" markerUnits="userSpaceOnUse" markerWidth="6" markerHeight="6" refX="5.5" refY="3" orient="auto"><path d="M0 0 L6 3 L0 6 Z" fill="#245E9D"/></marker></defs>
 <rect width="1700" height="480" rx="20" fill="#F4F9FD"/>
 <g font-family="DejaVu Sans, Arial, sans-serif">
- <text x="30" y="38" font-size="23" font-weight="700" fill="#173453">STAGE 09 | FULL DEVELOPMENT GROUPED CROSS-VALIDATION</text>
+ <text x="30" y="38" font-size="23" font-weight="700" fill="#173453">FULL DEVELOPMENT GROUPED CROSS-VALIDATION</text>
  <text x="30" y="67" font-size="15" fill="#54738A">29 Development people · 5 GroupKFold splits · 3 classical models · Original reserved Test never loaded</text>
  <rect x="24" y="84" width="1652" height="160" rx="16" fill="#EAF3FA" stroke="#C7D9E6" stroke-width="2"/>
  <rect x="24" y="262" width="1652" height="174" rx="16" fill="#EAF3FA" stroke="#C7D9E6" stroke-width="2"/>
