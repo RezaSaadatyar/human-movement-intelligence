@@ -1,10 +1,10 @@
 <svg xmlns="http://www.w3.org/2000/svg" width="1700" height="480" viewBox="0 0 1700 480" role="img" aria-labelledby="title desc">
-<title id="title">HARTH Stage 14: Sampling-Cap and Minority-Class Coverage Audit</title>
+<title id="title">HARTH Sampling-Cap and Minority-Class Coverage Audit</title>
 <desc id="desc">HARTH sampling-sensitivity audit using 29 Development subjects, excluding reserved Test subjects S023 and S032. The original full source has 132397 eligible windows. Deterministic label-blind caps of 250, 500 and 1000 windows per person retain 7201, 14201 and 28201 windows. The workflow audits class-specific retention and independent participant support, including Shuffling and stair activities. No classifier is trained, no Test inference is performed, and the findings are not predictive model results.</desc>
 <defs><marker id="small-arrow" markerUnits="userSpaceOnUse" markerWidth="6" markerHeight="6" refX="5.5" refY="3" orient="auto"><path d="M0 0 L6 3 L0 6 Z" fill="#245E9D"/></marker></defs>
 <rect width="1700" height="480" rx="20" fill="#F4F9FD"/>
 <g font-family="DejaVu Sans, Arial, sans-serif">
- <text x="30" y="38" font-size="23" font-weight="700" fill="#173453">STAGE 14 | SOURCE SAMPLING AND MINORITY-CLASS COVERAGE</text>
+ <text x="30" y="38" font-size="23" font-weight="700" fill="#173453">SOURCE SAMPLING AND MINORITY-CLASS COVERAGE</text>
  <text x="30" y="67" font-size="15" fill="#54738A">29 Development people · Three label-blind per-person caps · Class and subject retention · No model training</text>
  <rect x="24" y="84" width="1652" height="160" rx="16" fill="#EAF3FA" stroke="#C7D9E6" stroke-width="2"/>
  <rect x="24" y="262" width="1652" height="174" rx="16" fill="#EAF3FA" stroke="#C7D9E6" stroke-width="2"/>
