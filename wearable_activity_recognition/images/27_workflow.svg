@@ -1,10 +1,10 @@
 <svg xmlns="http://www.w3.org/2000/svg" width="1700" height="480" viewBox="0 0 1700 480" role="img" aria-labelledby="title desc">
-<title id="title">HARTH Stage 27: Final Research Evidence Synthesis and Reproducibility</title>
+<title id="title">HARTH Final Research Evidence Synthesis and Reproducibility</title>
 <desc id="desc">Stage 27 audits the recorded HARTH Development and previously approved same-study held-out results from earlier notebooks, verifies the versioned protocol, summarises seven-model and multiseed evidence, and exports source-grounded reports. It performs no model training, raw Test access or new predictions; retrospective qualified Test performance is not blind external validation.</desc>
 <defs><marker id="small-arrow" markerUnits="userSpaceOnUse" markerWidth="6" markerHeight="6" refX="5.5" refY="3" orient="auto"><path d="M0 0 L6 3 L0 6 Z" fill="#245E9D"/></marker></defs>
 <rect width="1700" height="480" rx="20" fill="#F4F9FD"/>
 <g font-family="DejaVu Sans, Arial, sans-serif">
- <text x="30" y="38" font-size="23" font-weight="700" fill="#173453">STAGE 27 | FINAL RESEARCH EVIDENCE SYNTHESIS AND REPRODUCIBILITY</text>
+ <text x="30" y="38" font-size="23" font-weight="700" fill="#173453">FINAL RESEARCH EVIDENCE SYNTHESIS AND REPRODUCIBILITY</text>
  <text x="30" y="67" font-size="15" fill="#54738A">Read-only synthesis of saved Stages 23–26 · no dataset download · no model fitting or scoring</text>
  <rect x="24" y="84" width="1652" height="160" rx="16" fill="#EAF3FA" stroke="#C7D9E6" stroke-width="2"/>
  <rect x="24" y="262" width="1652" height="174" rx="16" fill="#EAF3FA" stroke="#C7D9E6" stroke-width="2"/>
