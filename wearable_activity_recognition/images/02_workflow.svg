@@ -1,10 +1,10 @@
 <svg xmlns="http://www.w3.org/2000/svg" width="1700" height="480" viewBox="0 0 1700 480" role="img" aria-labelledby="title desc">
-<title id="title">HARTH Notebook 02 | Signal Windowing and Quality Controls</title>
+<title id="title">HARTH Signal Windowing and Quality Controls</title>
 <desc id="desc">Two tri-axial wearable accelerometers, sampling at 50 Hz, are used to create 100-sample windows with 50-sample stride, strict label purity and continuity constraints. Seven aligned blocks summarise source loading, label-pure segmentation, activity support, signal inspection and the final quality gate.</desc>
 <defs><marker id="small-arrow" markerUnits="userSpaceOnUse" markerWidth="6" markerHeight="6" refX="5.5" refY="3" orient="auto"><path d="M0 0 L6 3 L0 6 Z" fill="#245E9D"/></marker></defs>
 <rect width="1700" height="480" rx="20" fill="#F4F9FD"/>
 <g font-family="DejaVu Sans, Arial, sans-serif">
- <text x="30" y="38" font-size="23" font-weight="700" fill="#173453">STAGE 02 | SIGNAL PREPROCESSING AND WINDOWING</text>
+ <text x="30" y="38" font-size="23" font-weight="700" fill="#173453">SIGNAL PREPROCESSING AND WINDOWING</text>
  <text x="30" y="67" font-size="15" fill="#54738A">Time-continuous, label-pure HARTH windows · Original sensor values · No fitted scaling or classifier</text>
  <!-- Both panels share the same precisely aligned horizontal edges. -->
  <rect x="24" y="84" width="1652" height="160" rx="16" fill="#EAF3FA" stroke="#C7D9E6" stroke-width="2"/>
