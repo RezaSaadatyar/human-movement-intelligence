@@ -1,10 +1,10 @@
 <svg xmlns="http://www.w3.org/2000/svg" width="1700" height="480" viewBox="0 0 1700 480" role="img" aria-labelledby="title desc">
-<title id="title">HARTH Stage 23: Unified Seven-Model Participant-Matched Benchmark</title>
+<title id="title">HARTH Unified Seven-Model Participant-Matched Benchmark</title>
 <desc id="desc">Scientific source-aligned development benchmark of seven models across three participant-held-out GroupKFold splits. All 29 HARTH Development people contribute 14201 identical original source windows, 6 raw channels and 100 samples per window. Twenty-one model-fold jobs compare Random Forest, Standard CNN, Weighted CNN, Temporal Convolutional Network, Multi-Scale CNN, 1D-ResNet and Time-Series Transformer. Neural models use 400 optimiser updates; Random Forest uses 120 trees with 30 engineered features. Mean three-fold Macro F1 results include 1D-ResNet 0.8328, TCN 0.8138, Random Forest 0.8094 and Standard CNN 0.6664. Source fingerprint and exact participant/source-row integrity checks pass. S023 and S032 are excluded from this Development benchmark. No final Test or independent generalisation claim is supported.</desc>
 <defs><marker id="small-arrow" markerUnits="userSpaceOnUse" markerWidth="6" markerHeight="6" refX="5.5" refY="3" orient="auto"><path d="M0 0 L6 3 L0 6 Z" fill="#245E9D"/></marker></defs>
 <rect width="1700" height="480" rx="20" fill="#F4F9FD"/>
 <g font-family="DejaVu Sans, Arial, sans-serif">
- <text x="30" y="38" font-size="23" font-weight="700" fill="#173453">STAGE 23 | UNIFIED SEVEN-MODEL MATCHED BENCHMARK</text>
+ <text x="30" y="38" font-size="23" font-weight="700" fill="#173453">UNIFIED SEVEN-MODEL MATCHED BENCHMARK</text>
  <text x="30" y="67" font-size="15" fill="#54738A">29 Development participants · 3 subject-disjoint folds · 21 model-fold jobs · Development only</text>
  <rect x="24" y="84" width="1652" height="160" rx="16" fill="#EAF3FA" stroke="#C7D9E6" stroke-width="2"/>
  <rect x="24" y="262" width="1652" height="174" rx="16" fill="#EAF3FA" stroke="#C7D9E6" stroke-width="2"/>
