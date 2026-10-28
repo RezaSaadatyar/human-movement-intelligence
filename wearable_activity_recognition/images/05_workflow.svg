@@ -1,10 +1,10 @@
 <svg xmlns="http://www.w3.org/2000/svg" width="1700" height="480" viewBox="0 0 1700 480" role="img" aria-labelledby="figure-title figure-description">
-<title id="figure-title">HARTH Notebook 05: Classical ML Baselines, Validation Only</title>
+<title id="figure-title">HARTH Classical ML Baselines, Validation Only</title>
 <desc id="figure-description">Eight participants with lower-back and thigh accelerometers produce a restricted eight-class feature matrix and a subject-disjoint four-train, two-validation, two-reserved-Test split. Dummy, Logistic Regression and Random Forest are compared on Validation using Macro F1. Final Test remains unscored.</desc>
 <defs><marker id="small-arrow" markerUnits="userSpaceOnUse" markerWidth="6" markerHeight="6" refX="5.5" refY="3" orient="auto"><path d="M0 0 L6 3 L0 6 Z" fill="#245E9D"/></marker></defs>
 <rect width="1700" height="480" rx="20" fill="#F4F9FD"/>
 <g font-family="DejaVu Sans, Arial, sans-serif">
- <text x="30" y="38" font-size="23" font-weight="700" fill="#173453">STAGE 05 | CLASSICAL ML BASELINES</text>
+ <text x="30" y="38" font-size="23" font-weight="700" fill="#173453">CLASSICAL ML BASELINES</text>
  <text x="30" y="67" font-size="15" fill="#54738A">Eight documented activity classes · Participant-disjoint exploratory baseline · Validation only, no final Test inference</text>
  <rect x="24" y="84" width="1652" height="160" rx="16" fill="#EAF3FA" stroke="#C7D9E6" stroke-width="2"/>
  <rect x="24" y="262" width="1652" height="174" rx="16" fill="#EAF3FA" stroke="#C7D9E6" stroke-width="2"/>
