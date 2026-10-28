@@ -1,0 +1,4 @@
+fold,train_subjects,validation_subjects,train_windows,validation_windows,train_classes,validation_classes,validation_subject_ids
+1,19,10,9201,5000,8,8,"S006, S012, S015, S018, S021, S025, S028, S031..."
+2,19,10,9500,4701,8,8,"S009, S010, S014, S017, S020, S024, S027, S030..."
+3,20,9,9701,4500,8,8,"S008, S013, S016, S019, S022, S026, S029, S033..."
