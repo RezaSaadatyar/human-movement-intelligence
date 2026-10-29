@@ -1,4 +1,4 @@
-# ======================== Presented by: Reza Saadatyar (2026) ========================
+# ==================== Presented by: Reza Saadatyar (2026) ====================
 """Package notebook-specific Colab output files for manual download.
 
 This module never calls GitHub, modifies source outputs, or assumes that
@@ -80,10 +80,11 @@ def download_outputs_from_colab(folder, stage):
         for path in selected:
             archive.write(path, arcname=path.relative_to(output_dir).as_posix())
 
+    print("\n-" * 72)
     print(f"Notebook stage: {stage_id}")
     print(f"Files packaged: {len(selected)}")
     for path in selected:
         print("  +", path.relative_to(output_dir).as_posix())
     print(f"Download ZIP from Colab Contents: {archive_path}")
     print("GitHub Commit/Push performed: NO")
-    return archive_path
+    # return archive_path
