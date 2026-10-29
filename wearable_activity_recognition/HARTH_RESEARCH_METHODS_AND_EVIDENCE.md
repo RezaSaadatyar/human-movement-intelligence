@@ -1,6 +1,6 @@
 # HARTH | Research Methods and Experimental Evidence
 
-**Stage numbering note (October 2026):** The active notebooks formerly numbered 21–27 are now numbered 20–26. The historical Stage 20 consolidation is retained in Git history. A separate, newly prepared [final cross-stage audit](code/notebooks/final_harth_research_audit_and_closure.ipynb) replaces the obsolete draft and awaits its first execution. Historical Git commits and approved `stage_25_protocol_*` filenames retain their original identifiers for provenance.
+**Research structure:** The study comprises [26 numbered research stages](code/notebooks/) and a separate [FINAL evidence audit](code/notebooks/final_harth_research_audit_and_closure.ipynb). The FINAL notebook checks cross-stage reproducibility and research closure; its first execution is pending.
 
 **Study:** Wearable Activity Recognition in Human Movement Intelligence  
 **Research focus:** Recognising eight activities from wearable accelerometers, using participant-disjoint Development experiments and a qualified held-out evaluation within the same study.  
