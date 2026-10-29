@@ -1,0 +1,61 @@
+subject_id,label,windows,activity,in_task
+S023,1,1352,Walking,True
+S023,2,441,Running,True
+S023,3,7,Shuffling,True
+S023,4,42,Stairs ascending,True
+S023,5,26,Stairs descending,True
+S023,6,114,Standing,True
+S023,7,257,Sitting,True
+S023,8,328,Lying,True
+S024,1,1492,Walking,True
+S024,2,511,Running,True
+S024,3,7,Shuffling,True
+S024,4,48,Stairs ascending,True
+S024,5,38,Stairs descending,True
+S024,6,134,Standing,True
+S024,7,274,Sitting,True
+S024,8,615,Lying,True
+S025,1,1241,Walking,True
+S025,2,675,Running,True
+S025,3,63,Shuffling,True
+S025,4,62,Stairs ascending,True
+S025,5,35,Stairs descending,True
+S025,6,227,Standing,True
+S025,7,167,Sitting,True
+S025,8,403,Lying,True
+S025,13,1018,Cycling seated,False
+S025,14,238,Cycling standing,False
+S025,130,78,Cycling seated inactive,False
+S025,140,65,Cycling standing inactive,False
+S027,1,35,Walking,True
+S027,2,2608,Running,True
+S027,3,11,Shuffling,True
+S027,6,16,Standing,True
+S027,7,192,Sitting,True
+S027,8,220,Lying,True
+S028,1,2939,Walking,True
+S028,3,8,Shuffling,True
+S028,4,14,Stairs ascending,True
+S028,5,19,Stairs descending,True
+S028,6,135,Standing,True
+S028,7,51,Sitting,True
+S028,8,31,Lying,True
+S032,1,1661,Walking,True
+S032,3,18,Shuffling,True
+S032,4,10,Stairs ascending,True
+S032,6,645,Standing,True
+S032,7,393,Sitting,True
+S032,8,310,Lying,True
+S032,10,1,UNDOCUMENTED,False
+S034,1,517,Walking,True
+S034,3,51,Shuffling,True
+S034,4,34,Stairs ascending,True
+S034,5,27,Stairs descending,True
+S034,6,1085,Standing,True
+S034,7,1273,Sitting,True
+S034,8,364,Lying,True
+S035,1,1838,Walking,True
+S035,3,9,Shuffling,True
+S035,6,322,Standing,True
+S035,7,629,Sitting,True
+S035,8,539,Lying,True

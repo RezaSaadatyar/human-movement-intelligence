@@ -1,0 +1,10 @@
+subject_id,source_code,source_activity,excluded_windows
+S025,13,Cycling seated,1018
+S025,14,Cycling standing,238
+S025,130,Cycling seated inactive,78
+S025,140,Cycling standing inactive,65
+S029,13,Cycling seated,199
+S029,130,Cycling seated inactive,25
+S030,11,UNDOCUMENTED source code,15
+S030,17,UNDOCUMENTED source code,8
+S031,13,Cycling seated,1613

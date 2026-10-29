@@ -1,0 +1,9 @@
+activity,train_windows,inverse_sqrt_weight
+Walking,2987,0.39733458
+Running,940,0.70828825
+Shuffling,169,1.6704389
+Stairs ascending,156,1.7386479
+Stairs descending,145,1.8033912
+Standing,1502,0.5603237
+Sitting,3240,0.38150606
+Lying,861,0.74006927

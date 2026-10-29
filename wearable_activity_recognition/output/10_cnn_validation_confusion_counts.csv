@@ -1,0 +1,9 @@
+true_activity,Walking,Running,Shuffling,Stairs ascending,Stairs descending,Standing,Sitting,Lying
+Walking,430,0,0,0,0,23,0,0
+Running,0,78,0,0,0,0,0,0
+Shuffling,3,0,0,0,0,11,1,0
+Stairs ascending,25,0,0,3,0,1,1,0
+Stairs descending,25,1,0,0,6,0,0,0
+Standing,2,0,0,0,0,502,32,0
+Sitting,1,0,0,0,0,0,1362,0
+Lying,0,0,0,0,0,0,1,193

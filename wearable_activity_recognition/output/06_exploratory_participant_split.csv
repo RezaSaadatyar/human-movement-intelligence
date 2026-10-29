@@ -1,0 +1,9 @@
+partition,subject_id,role
+train,S025,Development
+train,S027,Development
+train,S028,Development
+train,S035,Development
+validation,S024,Development
+validation,S034,Development
+test,S023,reserved exploratory Test
+test,S032,reserved exploratory Test

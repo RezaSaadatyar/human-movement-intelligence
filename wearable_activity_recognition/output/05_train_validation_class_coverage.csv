@@ -1,0 +1,9 @@
+activity,train,validation
+Walking,6053,2009
+Running,3283,511
+Shuffling,91,58
+Stairs ascending,76,82
+Stairs descending,54,65
+Standing,700,1219
+Sitting,1039,1547
+Lying,1193,979
