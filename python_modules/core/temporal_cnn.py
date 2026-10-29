@@ -1,4 +1,4 @@
-# ======================== Presented by: Reza Saadatyar (2026) ========================
+# =================== Presented by: Reza Saadatyar (2026) =====================
 """Small, reproducible PyTorch baseline for multichannel movement sequences."""
 
 import random
@@ -11,7 +11,7 @@ from torch.utils.data import DataLoader, TensorDataset
 from sklearn.metrics import accuracy_score, balanced_accuracy_score, f1_score
 
 
-# ============================ 1. Temporal CNN Model =============================
+# ========================== 1. Temporal CNN Model ============================
 class TemporalCNN(nn.Module):
     """
     Predict activity from time-ordered multichannel IMU windows.
@@ -46,7 +46,7 @@ class TemporalCNN(nn.Module):
         return self.classifier(features)
 
 
-# ======================== 2. Train-Only Normalisation ===========================
+# ====================== 2. Train-Only Normalisation ==========================
 def standardise_imu_train_only(train, validation):
     """
     Scale each channel using training windows only.
@@ -79,7 +79,7 @@ def standardise_imu_train_only(train, validation):
     )
 
 
-# ========================= 3. Training-Only Class Weights =======================
+# ======================= 3. Training-Only Class Weights ======================
 def compute_training_class_weights(
     y_train, classes, method="inverse_sqrt",
 ):
@@ -125,7 +125,7 @@ def compute_training_class_weights(
     return weights.astype(np.float32)
 
 
-# =========================== 4. Training and Evaluation =========================
+# ======================== 4. Training and Evaluation =========================
 def train_temporal_cnn(
     X_train, y_train, X_validation, y_validation,
     classes=tuple(range(1, 9)), epochs=5, batch_size=128,
@@ -248,7 +248,7 @@ def train_temporal_cnn(
     return model, pd.DataFrame(log), prediction, statistics
 
 
-# ========================= 5. Step-Matched CNN Training =========================
+# ====================== 5. Step-Matched CNN Training =========================
 def train_temporal_cnn_fixed_steps(
     X_train,
     y_train,
@@ -418,7 +418,7 @@ def train_temporal_cnn_fixed_steps(
     return model, pd.DataFrame(log), predictions, statistics
 
 
-# =========================== 6. Softmax Inference ================================
+# ======================== 6. Softmax Inference ===============================
 def predict_temporal_cnn_probabilities(
     model, windows, train_statistics, classes,
     batch_size=256, device="cpu",

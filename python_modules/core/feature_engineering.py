@@ -1,11 +1,11 @@
-# ======================== Presented by: Reza Saadatyar (2026) ========================
+# ==================== Presented by: Reza Saadatyar (2026) ====================
 """Reusable statistical and temporal features for multichannel signal windows."""
 
 import numpy as np
 import pandas as pd
 
 
-# ============================== 1. Feature Definitions ==============================
+# =========================== 1. Feature Definitions ==========================
 AVAILABLE_FEATURES = (
     "mean",
     "std",
@@ -15,7 +15,7 @@ AVAILABLE_FEATURES = (
 )
 
 
-# ============================ 2. Feature Extraction ===============================
+# ========================== 2. Feature Extraction ============================
 def extract_signal_features(
     X_windows,
     channel_names=None,

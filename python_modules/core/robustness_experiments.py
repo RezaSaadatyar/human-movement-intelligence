@@ -1,4 +1,4 @@
-# ======================== Presented by: Reza Saadatyar (2026) ========================
+# =================== Presented by: Reza Saadatyar (2026) =====================
 """Subject-matched multi-seed and controlled loss ablations for HARTH.
 
 Scientific scope: 29 development subjects, 500-cap original windows,
@@ -33,7 +33,7 @@ LOSS_METHODS = ("weighted_ce", "focal", "class_balanced")
 ROBUST_VERSION = "harth-stage24-fixed400-three-seeds-three-folds-v1"
 
 
-# ==================== 1. Class Imbalance Loss Functions ====================
+# ===================== 1. Class Imbalance Loss Functions =====================
 def calculate_loss_weights(y_train, classes, method="weighted_ce",
                            beta=0.9999):
     """
@@ -226,7 +226,7 @@ def _fit_predict_one(
     return predictions, fit_s, inference_s, count_trainable_parameters(model)
 
 
-# ==================== 3. Source-Fingerprinted, Resumable Experiment Jobs ====================
+# ============ 3. Source-Fingerprinted, Resumable Experiment Jobs =============
 def run_robustness_job(
     plan, architecture, fold, seed, loss_method,
     cache_dir, *, device="cuda", max_steps=400, batch_size=128,
@@ -361,7 +361,7 @@ def run_robustness_job(
     return result
 
 
-# ==================== 4. Paired Out-of-Fold Evidence Aggregation ====================
+# ============== 4. Paired Out-of-Fold Evidence Aggregation ===================
 def summarise_robustness_results(plan, results, required_experiments):
     """
     Reconstruct complete fold, source-window, class and participant evidence.

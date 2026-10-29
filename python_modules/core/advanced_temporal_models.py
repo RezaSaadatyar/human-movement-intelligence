@@ -1,4 +1,4 @@
-# ======================== Presented by: Reza Saadatyar (2026) ========================
+# ===================== Presented by: Reza Saadatyar (2026) ===================
 """Four reproducible PyTorch architectures for multichannel time-series classification.
 
 All models accept float32 windows shaped (batch, channels, time) and return
@@ -50,7 +50,7 @@ def count_trainable_parameters(model):
     return sum(p.numel() for p in model.parameters() if p.requires_grad)
 
 
-# ==================== 2. Temporal Convolutional Network ====================
+# ===================== 2. Temporal Convolutional Network =====================
 class _DilatedResidualBlock(nn.Module):
     """Same-length, noncausal dilated convolutions with residual projection."""
 
@@ -358,7 +358,7 @@ class TimeSeriesTransformer(nn.Module):
         return self.classifier(self.output_norm(features))
 
 
-# ==================== 6. Common Architecture Registry ====================
+# ===================== 6. Common Architecture Registry =======================
 def build_temporal_model(architecture, in_channels=6, n_classes=8, **kwargs):
     """
     Construct exactly one of the four declared PyTorch time-series models.

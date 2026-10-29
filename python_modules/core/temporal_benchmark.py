@@ -1,4 +1,4 @@
-# ======================== Presented by: Reza Saadatyar (2026) ========================
+# ================== Presented by: Reza Saadatyar (2026) ======================
 """Matched, resumable development benchmark of seven HARTH classifiers.
 
 All models use exactly the same genuine eligible 500-cap source windows,
@@ -38,7 +38,7 @@ from torch import nn
 from torch.utils.data import DataLoader, TensorDataset
 
 
-# ==================== 1. Explicit Experimental Contract ====================
+# ==================== 1. Explicit Experimental Contract ======================
 MODEL_NAMES = ("Random Forest", "Standard CNN", "Weighted CNN", *ARCHITECTURES)
 PROTOCOL_VERSION = "harth-stage23-matched-500cap-group3-fixed400-v1"
 
@@ -116,7 +116,7 @@ def make_benchmark_plan(
     }
 
 
-# ==================== 2. Deterministic Fold-Specific Model Fitting ====================
+# =============== 2. Deterministic Fold-Specific Model Fitting ================
 def _fit_and_predict(plan, model_name, train_rows, validation_rows, *,
                      feature_matrix, max_steps, batch_size,
                      learning_rate, seed, device):
@@ -215,7 +215,7 @@ def _fit_and_predict(plan, model_name, train_rows, validation_rows, *,
     return np.asarray([codes[i] for i in indices]), fit_seconds, inference_seconds, parameters
 
 
-# ==================== 3. Resumable Source- and Code-Fingerprinted Jobs ====================
+# ============= 3. Resumable Source- and Code-Fingerprinted Jobs ==============
 def run_benchmark_job(
     plan, fold, model_name, cache_dir, feature_matrix=None,
     max_steps=400, batch_size=128, learning_rate=1e-3,
@@ -346,7 +346,7 @@ def run_benchmark_job(
     return result
 
 
-# ==================== 4. Consolidated Out-of-Fold Scientific Reporting ====================
+# ============= 4. Consolidated Out-of-Fold Scientific Reporting ==============
 def summarise_benchmark_results(plan, jobs):
     """
     Recalculate matched fold/participant/class metrics from cached predictions.
