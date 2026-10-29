@@ -1,4 +1,4 @@
-# ======================== Presented by: Reza Saadatyar (2026) ================
+# ==================== Presented by: Reza Saadatyar (2026) ====================
 """Read common scientific file formats without assuming dataset-specific labels."""
 
 from pathlib import Path
@@ -7,7 +7,7 @@ import pandas as pd
 from scipy.io import loadmat
 
 
-# ================================= 1. File Loading ===========================
+# ============================= 01. File Loading ==============================
 def load_data(file_path, **kwargs):
     """
     Load CSV, Excel, delimited text or standard MATLAB MAT files.

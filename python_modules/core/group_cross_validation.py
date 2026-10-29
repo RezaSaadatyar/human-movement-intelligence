@@ -1,4 +1,4 @@
-# ======================== Presented by: Reza Saadatyar (2026) ========================
+# ==================== Presented by: Reza Saadatyar (2026) ====================
 """Grouped cross-validation and per-participant classification diagnostics."""
 
 import numpy as np
@@ -10,7 +10,7 @@ from sklearn.model_selection import GroupKFold
 from core.ml_baselines import train_validation_classifiers
 
 
-# ======================= 1. Subject-Independent Cross-Validation =======================
+# ================= 01. Subject-Independent Cross-Validation ==================
 def evaluate_group_cross_validation(
     features,
     labels,
@@ -171,7 +171,7 @@ def evaluate_group_cross_validation(
     return fold_results, subject_results, summary
 
 
-# ========================= 2. Paired Participant Comparison =========================
+# ===================== 02. Paired Participant Comparison =====================
 def compare_models_by_subject(
     subject_results,
     model_a,
