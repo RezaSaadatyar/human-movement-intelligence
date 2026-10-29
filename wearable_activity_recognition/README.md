@@ -1,6 +1,6 @@
 # Wearable Activity Recognition | HARTH v2.0
 
-**Stage numbering note (October 2026):** The active notebooks formerly numbered 21–27 are now numbered 20–26. The original Stage 20 consolidation survives in Git history; its obsolete `final.ipynb` review draft was replaced by the named [final cross-stage audit notebook](code/notebooks/final_harth_research_audit_and_closure.ipynb). Its new execution and exported results are pending. Historical Git commits and approved `stage_25_protocol_*` filenames retain their original identifiers for provenance.
+**Research notebooks:** [Stages 01–26](code/notebooks/) document the full experimental study. The [FINAL research audit](code/notebooks/final_harth_research_audit_and_closure.ipynb) provides the cross-stage evidence checks and project handover. Its execution and output files are pending.
 
 ![HARTH research workflow](images/study_overview.svg)
 
