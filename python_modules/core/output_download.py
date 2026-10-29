@@ -23,8 +23,8 @@ def download_outputs_from_colab(folder, stage):
         stage (str | int): Notebook number, e.g. "01" or 20.
 
     Returns:
-        Path: ZIP archive path for manual download via Colab Contents in
-            VS Code (or via the file browser in web Colab).
+        None. The ZIP path is printed for manual download via Colab
+        Contents in VS Code (or the file browser in web Colab).
 
     Note:
         This selects names starting with "<stage>_". Any files from previous
@@ -87,4 +87,3 @@ def download_outputs_from_colab(folder, stage):
         print("  +", path.relative_to(output_dir).as_posix())
     print(f"Download ZIP from Colab Contents: {archive_path}")
     print("GitHub Commit/Push performed: NO")
-    # return archive_path
