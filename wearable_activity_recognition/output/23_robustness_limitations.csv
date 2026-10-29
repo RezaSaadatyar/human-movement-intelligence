@@ -1,0 +1,7 @@
+issue,boundary
+Development-only estimates,No independent held-out Test claim
+Three repeated seeds,Limited stochastic robustness evidence
+Overlapping source windows,Windows are not independent observations
+Approximate class counts,Class-balanced effective number assumes counts as proxies
+Loss selection,Select on Development only; disclose post-hoc comparisons
+Original Test historical inspection,S023/S032 not strictly preregistered-unseen

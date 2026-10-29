@@ -1,0 +1,8 @@
+constraint,status
+Same windows and subject folds,Required
+Train-only sensor standardisation and class weights,Required
+Fixed eight-code class denominator and Macro F1,Required
+Per-class Shuffling/stairs performance and support,Required
+Compute/parameters/latency reporting,Required
+Original Test subjects S023/S032 excluded,Required
+Reproducibility over more than one seed,Stage 23

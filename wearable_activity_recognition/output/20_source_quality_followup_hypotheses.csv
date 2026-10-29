@@ -1,0 +1,5 @@
+observation,possible_investigation,proof_of_cause
+Low retained Shuffling window volume,Stratified within-Train sampling or loss ablation,Not established
+Uneven activity presence by participant,Group-held-out class support and fold diagnostics,Not established
+Short annotation bouts and strict 2-second windows,Sensitivity to justified window lengths,Not established
+Unknown source annotation codes,Request clarification from official maintainers,Not established

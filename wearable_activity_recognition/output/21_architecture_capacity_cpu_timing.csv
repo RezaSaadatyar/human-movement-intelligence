@@ -1,0 +1,6 @@
+architecture,trainable_parameters,cpu_ms_per_16_windows,logits_shape
+Simple Temporal CNN,12392,1.1206981999976051,"(16, 8)"
+TCN,38056,4.662957799996548,"(16, 8)"
+Multi-Scale CNN,16488,4.300093599999855,"(16, 8)"
+1D-ResNet,91176,4.847367399997893,"(16, 8)"
+Time-Series Transformer,38744,9.061217000021315,"(16, 8)"

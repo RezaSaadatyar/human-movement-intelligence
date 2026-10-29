@@ -1,0 +1,4 @@
+experiment,model,shuffling_f1,protocol_note
+Stage 13 (matched 3-fold),Random Forest,0.4957,500-cap model comparison
+Stage 13 (matched 3-fold),Standard CNN,0.0,500-cap model comparison
+Stage 13 (matched 3-fold),Weighted CNN,0.1345,500-cap model comparison

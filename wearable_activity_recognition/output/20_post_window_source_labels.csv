@@ -1,0 +1,16 @@
+source_code,source_activity,in_eight_class_task,accepted_pure_windows
+1,Walking,True,26979
+2,Running,True,6305
+3,Shuffling,True,1946
+4,Stairs ascending,True,1332
+5,Stairs descending,True,1066
+6,Standing,True,19218
+7,Sitting,True,64644
+8,Lying,True,10907
+10,UNDOCUMENTED source code,False,20
+11,UNDOCUMENTED source code,False,15
+13,Cycling seated,False,9825
+14,Cycling standing,False,997
+17,UNDOCUMENTED source code,False,8
+130,Cycling seated inactive,False,707
+140,Cycling standing inactive,False,136

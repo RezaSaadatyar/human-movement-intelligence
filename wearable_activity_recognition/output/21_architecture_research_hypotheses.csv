@@ -1,0 +1,5 @@
+architecture,hypothesis,principal_risk
+TCN,Dilated temporal context helps distinguish related movement sequences,Noncausal window context and receptive-field assumptions
+Multi-Scale CNN,Parallel kernels capture multiple movement timescales,"More filters, extra optimisation and potentially noisy small activities"
+1D-ResNet,Residual depth learns expressive sequence features,Overfitting and stride-related information loss
+Time-Series Transformer,Bidirectional self-attention captures longer-range within-window patterns,Computational cost and data hunger

@@ -1,0 +1,5 @@
+partition,subject_id
+train,S006
+train,S008
+train,S012
+validation,S013

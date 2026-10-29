@@ -1,0 +1,8 @@
+setting,value
+Train source-window cap,500
+Optimizer updates,400
+Batch size,128
+Learning rate,0.001
+Focal gamma,2.0
+Class-balanced beta,0.9999
+Primary metric,Fixed 8-class Macro F1
