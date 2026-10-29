@@ -26,10 +26,13 @@ display-precision CSV snapshots with original 23/24/26 prefixes remain
 historically attributed data sources until they are separately migrated and
 verified, not relabelled measurements.
 
-The `final.ipynb` review draft currently contains unresolved Git merge
-markers in its saved file; it must be repaired before it can be executed or
-used as the final consolidated research notebook. Its workflow image has
-been retained under `images/final_workflow.svg`.
+The `final.ipynb` review draft has had its Git merge markers resolved and
+is valid notebook JSON. However, it still reflects the former Stage 20
+consolidation scope, including Stage 20 output names and an archived saved
+execution error. It is not yet the completed final synthesis for active
+Stages 01–26; its stage-specific output names must be reconciled before
+running it alongside active Stage 20. Its workflow image is retained under
+`images/final_workflow.svg`.
 
 The earlier release-readiness/provenance tests intentionally refer to frozen
 Stage 23/24/25/26/27 identities. Those tests require a separate, traceable
