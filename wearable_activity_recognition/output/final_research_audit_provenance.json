@@ -1,0 +1,39 @@
+{
+  "schema": "harth-final-cross-stage-audit-v1",
+  "scope": "source-file verification and research closure; no model execution",
+  "source_dataset": "HARTH v2.0",
+  "source_revision": "dad2cfbe89a26f72f19770419469ac037de200df",
+  "source_csv_sha256": {
+    "cohort_full": "cdb3411577a3d7f11cac310a2fa5dab9c4e03e189b65746f3565a05e32528613",
+    "classical_cv": "2373f78e8659cf15d2dd9d21691e219888df64ff269ba51f9acb57f8412e7c52",
+    "cohort_base": "73eef4d050a8b97fa041fddadf699ec29fb3679e8b386eb86b31fd4546ae7781",
+    "matched_early": "183856144706a46ab9c64e92965efb1bafa731f8451ae977891d53edab430b6e",
+    "sampling_policy": "85a9fecae5a8959109e49fec03edd2deba5842ef41c09863b49dd04247f46d02",
+    "cohort_nested": "11748f34ec6b60f37cdb30b3785846de7f2cebc3ca6b7de99073c7f24c4c28c3",
+    "nested_cv": "7c0b48b9507bd0c1aca95cd099ae71707b85b1b9ddeb0d2fd38b85720d576538",
+    "fixed_budget": "a07ec8f48938f21901a57b1f80dacd3aa66f30d106d34df1761c0d57721a257c",
+    "calibration": "0e71e2eb5c3eb2ad43e58f7da0d730f2220967b5b02ed3da3e2f9f3b95930200",
+    "activity_support": "926f89b580367188d8cac597677befde3622ca536a007bf877797635f4fcc464",
+    "benchmark": "e85742e92e32bfca74dc00a08b61da64684db12a02f8fa9269135c865f8c8b47",
+    "robustness_summary": "f0907123981a11430193b0a0255f679d3f4f29e4a4322e7469d06b4821215392",
+    "robustness_folds": "4408fb5a9c18e81a1d8aba4fdd8e87ffc549425af4f35e3e041b5db262f3b417",
+    "qualified_coverage": "7bfaa6771292daa582cd02d0940d11ecd59098c039e1d67e636bc641e8bfc8b2",
+    "qualified_summary": "a3a85b40ba9e0eb27a6f7f686c7183d304dd515a4c7c6df12c9937a0393f399f",
+    "qualified_subjects": "814bc097f07eee8a55d3d460fb891b25622183c8b8f5608747d7f95a42fd3d24",
+    "qualified_classes": "af736ee9b544746bf62dc58a8708c1a315aec1ae62fa4bd128721c6c6c754e9c",
+    "report_protocol": "836a6fc385a2d298a7db8e181028acd464bc06e3540c8f9a08ad290e86dc5390",
+    "report_selection": "eed1de2bddc01b431fe1d848af20ae5848e25ad9848ce8e681aa8ba41088c7fb",
+    "report_boundaries": "f7f93a82777e926791a2c8b7abd8a6f3b55731b4c26da3d52c92a63b55da721f"
+  },
+  "stage26_report_sha256": "84e4fa32e52edc97b6dca1d39c668f0994adb217ff79d49d92371c76ec7f1f45",
+  "approved_protocol_sha256": "7d52b1a12cc6cd80ae46278fb88285910c229745538212546d68c3b563ecf648",
+  "reconciled_protocol_sha256": "c0a3c641e990e251d397d6b09f82eb38fc676320c141f7b6fa45fc8f3adbe73f",
+  "development_subjects": 29,
+  "qualified_test_subjects": [
+    "S023",
+    "S032"
+  ],
+  "test_data_read_by_this_notebook": false,
+  "retraining_or_test_rescoring": false,
+  "external_validation_established": false
+}

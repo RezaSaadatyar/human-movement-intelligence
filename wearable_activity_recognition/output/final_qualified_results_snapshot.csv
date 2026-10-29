@@ -1,0 +1,3 @@
+model,fixed_eight_class_macro_f1,accuracy
+1D-ResNet Weighted CE,0.7182373961162428,0.902
+Random Forest,0.6817202951885588,0.927

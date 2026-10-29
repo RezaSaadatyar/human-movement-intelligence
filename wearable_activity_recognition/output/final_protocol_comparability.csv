@@ -1,0 +1,10 @@
+comparison,directly_matched,reason
+Stage 09 vs Stage 10,False,Full five-fold classical Development CV versus capped one-split CNN
+Stages 11–12,True,Same 500-cap Development rows and validation participants
+Stage 13,True,Same held-out people and windows across its three models
+Stage 15 (within experiment),True,Nested training cohorts share the same held-out validation windows
+Stage 16 (within experiment),True,"Matched three-fold validation, with training-data scaling"
+Stage 17 (within experiment),True,Fixed 400 optimiser updates and paired held-out Development rows
+Stage 18 vs Stage 19,False,Stage 19 uses subject-disjoint calibration splits
+Stages 22–23 (matched configurations),True,Same capped Development fold structure; only certain models repeat
+Development vs Stage 25,False,Different people and conditions; previously inspected qualified Test

@@ -1,0 +1,12 @@
+status,topic,evidence
+Completed,Development design,"29 people, participant-disjoint grouped validation"
+Completed,Model selection,Stage 22 seven models; Stage 23 seeds and loss comparisons
+Completed,Frozen final assessment,One approved qualified same-study held-out assessment in Stage 25
+Completed,Reproducible report,Stage 26 CSV/JSON-based synthesis; SHA256 verified in this audit
+Limitation,Held-out cohort,"Only S023/S032; previously inspected, not blind external Test"
+Limitation,Window dependence,"50% window overlap; 1,000 windows are not independent cases"
+Limitation,Minority activity support,Shuffling=3; stairs ascending=10; stairs descending=6
+Limitation,Model probability estimates,Development calibration had mixed metrics; not used in final model
+Future validation,Generalisation,"New participants, genuinely independent sources and broader class support"
+Future validation,Reproducibility,Independent replication and separately archived trusted model artefacts
+Not claimed,Clinical deployment,"No prospective, clinical or population-wide validation"

@@ -1,0 +1,13 @@
+stage,protocol,model,mean_macro_f1
+9,"Full Development, five subject-grouped folds",Random Forest,0.8352551996066893
+9,"Full Development, five subject-grouped folds",Logistic Regression,0.7715180564713169
+9,"Full Development, five subject-grouped folds",Dummy (most frequent),0.0814511203286112
+13,"Capped Development, matched three-fold comparison",Random Forest,0.8094203303988877
+13,"Capped Development, matched three-fold comparison",Standard CNN,0.6300107268066485
+13,"Capped Development, matched three-fold comparison",Weighted CNN,0.7821219954226967
+16,"Nested training size, matched three-fold comparison",RF 1000,0.8080173196926497
+16,"Nested training size, matched three-fold comparison",RF 500,0.8094203303988877
+16,"Nested training size, matched three-fold comparison",Weighted CNN 1000,0.7963508370953293
+16,"Nested training size, matched three-fold comparison",Weighted CNN 500,0.7821219954226967
+17,"Nested training size, fixed 400-update neural budget",Weighted CNN 1000,0.7931094434845645
+17,"Nested training size, fixed 400-update neural budget",Weighted CNN 500,0.7711974172699176
