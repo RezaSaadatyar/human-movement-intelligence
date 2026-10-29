@@ -1,10 +1,10 @@
 # HARTH | Research Methods and Experimental Evidence
 
-**Stage numbering note (October 2026):** The active notebooks formerly numbered 21–27 are now numbered 20–26. The earlier Stage 20 consolidation was moved to `final.ipynb`. Historical Git commits and approved `stage_25_protocol_*` filenames retain their original identifiers for provenance.
+**Stage numbering note (October 2026):** The active notebooks formerly numbered 21–27 are now numbered 20–26. The historical Stage 20 consolidation is retained in Git history. A separate, newly prepared [final cross-stage audit](code/notebooks/final_harth_research_audit_and_closure.ipynb) replaces the obsolete draft and awaits its first execution. Historical Git commits and approved `stage_25_protocol_*` filenames retain their original identifiers for provenance.
 
 **Study:** Wearable Activity Recognition in Human Movement Intelligence  
 **Research focus:** Recognising eight activities from wearable accelerometers, using participant-disjoint Development experiments and a qualified held-out evaluation within the same study.  
-**Evidence:** [Stages 01–26 and the final review draft](code/notebooks/), [study overview](README.md) and [reproducibility guide](../../docs/HARTH_REPRODUCIBILITY.md).
+**Evidence:** [Stages 01–26 and the final cross-stage audit](code/notebooks/), [study overview](README.md) and [reproducibility guide](../../docs/HARTH_REPRODUCIBILITY.md).
 
 This document summarises the main methods, results and interpretation limits of the completed HARTH study. It links the key findings to the saved notebooks and model code. Earlier experiments used different groups of participants and training settings, so their results cannot always be compared directly.
 
@@ -71,11 +71,14 @@ All four models take `float32` inputs shaped `(batch, 6, 100)` and return eight 
 | 17 | Compare nested training sets using **400 optimiser updates** for both conditions, with predeclared inspections at steps 100/200/300/400 | Equal updates do not equalise per-window exposure; step 400 is the main result |
 | 18 | Out-of-fold confidence, ten-bin ECE, multiclass Brier, entropy, margin and high-confidence errors | Softmax confidence is not clinically validated uncertainty |
 | 19 | Three outer subject-held-out folds with separate inner Calibration people; fit one scalar temperature on Calibration-only NLL | Different calibration metrics may change in opposite directions |
-| 20 | Consolidate Stages 01–19 into a source-grounded evidence snapshot | The saved historical snapshot can differ from later runs |
-| 21 | Audit unknown labels, sampling retention, annotation bouts and rare-class availability | Data-quality patterns do not prove the causes of errors |
-| 22 | Engineering checks for four advanced temporal architectures | Engineering checks are not performance comparisons |
-| 23 | Seven-model matched Development comparison, **21 model-fold fits** on common source windows | One seed; equal updates do not mean equal model size or compute |
-| 24 | Three seeds (42, 123, 2026), paired participant folds, ResNet/TCN stability and ResNet loss ablations: **36 neural fits** | Only three seeds; no statistical proof or external replication |
+| 20 | Source-quality and minority-activity audit across Development participants | Annotation distributions and rare-class coverage do not independently establish model performance |
+| 21 | Advanced temporal architecture engineering and smoke checks | Successful forward/backward checks are not model benchmarks |
+| 22 | Seven-model matched bounded Development benchmark (21 model-fold jobs) | Model features, architectures and training losses differ |
+| 23 | Repeated-seed robustness and ResNet loss comparisons (36 neural model-fold-seed jobs) | Three seeds and folds are not independent replication |
+| 24 | Development-only selection and historical protocol-lineage review | Model choice is a Development decision, not external confirmation |
+| 25 | Frozen final fitting and one previously approved qualified same-study held-out evaluation | Two historically inspected people; overlapping windows and rare classes |
+| 26 | Saved-CSV research synthesis and SHA256 provenance report | No new fitting, Test inference or external validation |
+| FINAL | [Complementary cross-stage evidence and closure audit](code/notebooks/final_harth_research_audit_and_closure.ipynb) | Newly authored; execution and outputs still pending |
 
 **Prediction confidence and calibration (Stages 18–19).** Stage 18 found errors made with high softmax confidence and differences in recall across activities. Its out-of-fold Development results included ten-bin ECE **0.0453**, multiclass Brier score **0.0905** and **40 incorrect predictions with softmax confidence of at least 0.90**. Stage 19 uses different training and validation groups, so the Stage 18 values are not a direct baseline for temperature scaling.
 
@@ -88,7 +91,7 @@ Stage 19 keeps Training, Calibration and outer Validation participants separate 
 | NLL | 0.2501 | 0.2580 |
 | Accuracy | 0.9277 | 0.9277 |
 
-The three fitted temperatures are **0.6322, 0.3943 and 0.5096**. Average ECE and Brier scores decrease after scaling, while NLL increases and accuracy stays the same. One fold worsens on all three probability measures, and ECE depends on the number of bins. These are Development findings, not evidence of clinical calibration. [Notebook 19](code/notebooks/19_subject_disjoint_temperature_calibration.ipynb) contains the current results. The previous consolidation snapshot was moved to `final.ipynb` and is being reviewed separately.
+The three fitted temperatures are **0.6322, 0.3943 and 0.5096**. Average ECE and Brier scores decrease after scaling, while NLL increases and accuracy stays the same. One fold worsens on all three probability measures, and ECE depends on the number of bins. These are Development findings, not evidence of clinical calibration. [Notebook 19](code/notebooks/19_subject_disjoint_temperature_calibration.ipynb) contains the current results. The previous consolidation draft remains recoverable in Git history. Its newly authored [final cross-stage audit](code/notebooks/final_harth_research_audit_and_closure.ipynb) is prepared but not yet executed.
 
 **Seven-model Development benchmark (Stage 22).** All seven models use the same **29 participants, 14,201 selected windows and three participant-disjoint GroupKFold splits**. Random Forest uses statistical features from those windows; the neural models use raw sequences. The six neural models use training-only channel scaling, Adam at 0.001, batch size 128, **400 updates**, final-step evaluation and seed 42. The executed [Notebook 22](code/notebooks/22_unified_matched_model_benchmark.ipynb) reports the following mean fixed-eight-class Macro F1 values and fold standard deviations:
 
