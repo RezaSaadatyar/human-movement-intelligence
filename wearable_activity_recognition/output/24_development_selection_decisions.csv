@@ -1,0 +1,5 @@
+role,architecture,training,reason
+Primary for proposed Stage 25,1D-ResNet,Inverse-square-root Weighted CE,Highest mean Macro F1 across three seeds and three folds
+Fixed classical reference,Random Forest,Balanced-subsample RF,Higher observed Shuffling F1 in matched Stage 22
+Development-only neural comparator,TCN,Inverse-square-root Weighted CE,Strong development results; lower mean across seeds
+Not selected,ResNet Focal / Class-Balanced,Alternative loss ablations,Lower Stage 23 average fixed-eight-class Macro F1

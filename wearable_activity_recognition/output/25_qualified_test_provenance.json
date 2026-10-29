@@ -1,0 +1,32 @@
+{
+  "scientific_status": "qualified same-study held-out; historically inspected; not blind/external",
+  "source_revision": "dad2cfbe89a26f72f19770419469ac037de200df",
+  "development_cohort_sha256": "672d4109727a20ea30f2557f6b405445fce86be1898a58851fa976f8ed8bf297",
+  "approved_manifest_sha256": "7d52b1a12cc6cd80ae46278fb88285910c229745538212546d68c3b563ecf648",
+  "artifact_sha256": {
+    "resnet": "b7a579c60cc6692566939b1250e1d8683653bd879ee92ea02ace7002456798b6",
+    "reference": "658a5ea1e2195b0c3631629649a47f89ed9bced1eea8f750a40bafc65512c546",
+    "config": "f4d02dc5f9e2e9a9387de47690d7c342f58343c929a68c65a3aa027a1e438bcd"
+  },
+  "models": [
+    "1D-ResNet Weighted CE",
+    "Random Forest"
+  ],
+  "test_people": [
+    "S023",
+    "S032"
+  ],
+  "test_windows": 1000,
+  "test_tuning_or_retraining": false,
+  "fixed_macro_f1_denominator": [
+    1,
+    2,
+    3,
+    4,
+    5,
+    6,
+    7,
+    8
+  ],
+  "balanced_accuracy_denominator": "Observed true classes (sklearn)"
+}

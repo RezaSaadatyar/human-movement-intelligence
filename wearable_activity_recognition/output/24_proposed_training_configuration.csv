@@ -1,0 +1,10 @@
+setting,value
+Primary architecture,"1D-ResNet, hidden_channels=32"
+Loss,Fold/Development-only inverse-square-root Weighted CE
+Optimiser,"Adam, learning_rate=0.001"
+Budget,"400 optimiser updates, batch size=128"
+Seed,42
+CNN preprocessing,Development-only per-axis mean/SD; preserve channel order
+RF reference,"120 trees, min_samples_leaf=3, balanced_subsample"
+Final checkpoint,"Last update only, no Test-driven selection"
+Temperature scaling,Not included

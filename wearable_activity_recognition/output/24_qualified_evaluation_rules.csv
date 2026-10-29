@@ -1,0 +1,9 @@
+item,fixed_rule
+Primary evaluation,Eight-class Macro F1 with original source class order
+Secondary outcomes,"Balanced accuracy, accuracy, class precision/recall/F1 and support"
+Participant reporting,Scores for both original reserved participants separately
+Model comparisons,One primary ResNet and one fixed RF reference; no Test-guided choice
+Preprocessing,Fit only on 29-person Development
+Selection and stopping,400 final updates; no Test-based checkpoint selection
+Unmapped labels,Preserve original codes; exclude post-windowing
+Evidence limitation,"Previously inspected reserved people, not strictly blind external Test"

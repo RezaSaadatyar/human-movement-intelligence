@@ -1,0 +1,4 @@
+loss_method,macro_f1
+class_balanced,0.7915186547511985
+focal,0.8058371775413673
+weighted_ce,0.8286391828225169

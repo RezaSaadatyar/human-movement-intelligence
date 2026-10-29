@@ -1,0 +1,7 @@
+item,proposal,requires_approval
+Primary final candidate,1D-ResNet + Weighted CE,True
+Classic reference,Random Forest 120-tree,True
+Bounded cohort,500 source windows/person,True
+Held-out set,"S023, S032 (historically inspected)",True
+Single final seed,"42, fixed convention",True
+Allowed scoring,One qualified held-out evaluation after approval,True
