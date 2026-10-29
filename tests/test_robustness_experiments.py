@@ -1,3 +1,4 @@
+# ==================== Presented by: Reza Saadatyar (2026) ====================
 """Synthetic integrity tests for Stage 24 subject-matched robustness analysis."""
 import sys
 import tempfile
@@ -15,6 +16,7 @@ try:
 except ImportError:
     rob=None
 
+# ===================== 01. Robustness Experiments Tests ======================
 @unittest.skipIf(rob is None,"Optional PyTorch is not available in standard CI")
 class TestStage24Robustness(unittest.TestCase):
     def setUp(self):

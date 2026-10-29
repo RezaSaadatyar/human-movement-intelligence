@@ -1,3 +1,4 @@
+# ==================== Presented by: Reza Saadatyar (2026) ====================
 """Offline group-CV tests with lightweight mocked model training."""
 import sys
 import unittest
@@ -13,6 +14,7 @@ except ImportError:
     temporal_comparison = None
 
 
+# ======================= 01. Temporal Comparison Tests =======================
 @unittest.skipIf(temporal_comparison is None, "Optional PyTorch unavailable")
 class TestTemporalComparison(unittest.TestCase):
     def setUp(self):
