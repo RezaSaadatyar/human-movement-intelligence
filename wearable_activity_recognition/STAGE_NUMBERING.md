@@ -33,8 +33,9 @@ The earlier `final.ipynb` draft still reflected historical Stage 20 and had
 `20_historical_*` output names and an archived execution error. The new FINAL
 notebook uses `final_*` output names and intentionally begins without saved
 execution outputs. Its first execution is pending; no new Test re-scoring is
-allowed. `images/final_workflow.svg` depicts the historical consolidation
-and is no longer used by the replacement notebook.
+allowed. `images/final_workflow.svg` is the dedicated diagram for the FINAL
+research audit and is referenced by that notebook. The numbered research
+stages retain their own independent workflow images.
 
 The earlier release-readiness/provenance tests intentionally refer to frozen
 Stage 23/24/25/26/27 identities. Those tests require a separate, traceable
