@@ -1,12 +1,14 @@
 # Wearable Activity Recognition | HARTH v2.0
 
+**Stage numbering note (October 2026):** The active notebooks formerly numbered 21–27 are now numbered 20–26. The earlier Stage 20 consolidation was moved to `final.ipynb`. Historical Git commits and approved `stage_25_protocol_*` filenames retain their original identifiers for provenance.
+
 ![HARTH research workflow](images/study_overview.svg)
 
 ## 1. Project Overview
 
 This study investigates **eight-class human activity recognition** using wearable accelerometers. It compares classical machine learning with temporal deep learning, focusing on participant-disjoint evaluation, class imbalance, prediction confidence and model stability.
 
-All **27 research notebooks** have been completed. The final models were assessed on two participants from the same HARTH collection. These participants had been inspected during early exploratory work, so this assessment is **not blind external validation** or evidence of clinical readiness.
+The research includes **26 numbered experiment stages** and a separate `final.ipynb` review draft, which is under maintenance. The final models were assessed on two participants from the same HARTH collection. These participants had been inspected during early exploratory work, so this assessment is **not blind external validation** or evidence of clinical readiness.
 
 ## 2. Dataset and Research Approach
 
@@ -38,14 +40,14 @@ The Development experiments supported the selection of **1D-ResNet with weighted
 
 These results describe **1,000 overlapping windows from only two participants**, not 1,000 independent cases. Shuffling appears in only **three** selected windows, and ascending and descending stairs in **ten** and **six**, respectively. The small held-out cohort and uneven class support limit generalisation; performance on new datasets or in clinical practice has not been established.
 
-See [Notebook 26](code/notebooks/26_final_development_training_and_inference.ipynb) for detailed per-class results and [Notebook 27](code/notebooks/27_final_research_evidence_and_report.ipynb) for the final summary of saved evidence.
+See [Notebook 25](code/notebooks/25_final_development_training_and_inference.ipynb) for detailed per-class results and [Notebook 26](code/notebooks/26_final_research_evidence_and_report.ipynb) for the final summary of saved evidence.
 
 ## 5. Repository Structure
 
 | Location | Contents |
 | --- | --- |
 | [Research Methods and Experimental Evidence](HARTH_RESEARCH_METHODS_AND_EVIDENCE.md) | Complete study methods, model comparisons, results and limitations |
-| [notebooks/](code/notebooks/) | Twenty-seven research notebooks with saved results |
+| [notebooks/](code/notebooks/) | Twenty-six numbered research notebooks with saved results, plus the final review draft |
 | [src/](code/src/) | HARTH-specific data loading and quality checks |
 | [images/](images/) | Study overview and stage-specific SVG workflows |
 | [evidence/](evidence/) | Research evidence register and historical approval records |
@@ -61,15 +63,15 @@ python -m pip install -r requirements.txt
 python -m unittest discover -s tests -v
 ```
 
-Start with the [notebook collection](code/notebooks/) or open [Notebook 27](code/notebooks/27_final_research_evidence_and_report.ipynb) to inspect the saved results. Re-running its read-only report requires the complete Git history and a compatible Python environment; it does **not** download held-out recordings or retrain models.
+Start with the [notebook collection](code/notebooks/) or open [Notebook 26](code/notebooks/26_final_research_evidence_and_report.ipynb) to inspect the saved results. Re-running its read-only report requires the complete Git history and a compatible Python environment; it does **not** download held-out recordings or retrain models.
 
 Training experiments require the original HARTH data, additional dependencies from [requirements-dl.txt](../../requirements-dl.txt) and suitable compute resources. Raw datasets and trained model files are not included in the public repository. Do not rerun the final held-out evaluation for further model selection.
 
 ## 7. Research Documentation
 
 - [Research Methods and Experimental Evidence](HARTH_RESEARCH_METHODS_AND_EVIDENCE.md): full methodology and scientific interpretation.
-- [Notebook 23](code/notebooks/23_unified_matched_model_benchmark.ipynb) and [Notebook 24](code/notebooks/24_multiseed_and_imbalance_robustness.ipynb): matched Development comparison and robustness experiments.
-- [Notebook 25](code/notebooks/25_model_selection_and_protocol_freeze.ipynb), [Notebook 26](code/notebooks/26_final_development_training_and_inference.ipynb) and [Notebook 27](code/notebooks/27_final_research_evidence_and_report.ipynb): model selection, qualified evaluation and final report.
+- [Notebook 22](code/notebooks/22_unified_matched_model_benchmark.ipynb) and [Notebook 23](code/notebooks/23_multiseed_and_imbalance_robustness.ipynb): matched Development comparison and robustness experiments.
+- [Notebook 24](code/notebooks/24_model_selection_and_protocol_freeze.ipynb), [Notebook 25](code/notebooks/25_final_development_training_and_inference.ipynb) and [Notebook 26](code/notebooks/26_final_research_evidence_and_report.ipynb): model selection, qualified evaluation and final report.
 - [HARTH Reproducibility Guide](../../docs/HARTH_REPRODUCIBILITY.md): source version, saved evidence and integrity checks.
 
 **Status:** Research experiments and evidence reporting are complete. This project remains a research portfolio study, not an externally validated clinical system.

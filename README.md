@@ -8,7 +8,7 @@ A Python-based research portfolio maintained by **Reza Saadatyar**. Each study h
 
 | Project | Current evidence-based status | Start here |
 | --- | --- | --- |
-| **Wearable Activity Recognition (HARTH v2.0)** | Executed 27-Notebook investigation, including a seven-model Development benchmark, repeated-seed analysis and qualified same-study held-out assessment. | [Study README](wearable_activity_recognition/README.md) · [Scientific methods and evidence](wearable_activity_recognition/HARTH_RESEARCH_METHODS_AND_EVIDENCE.md) |
+| **Wearable Activity Recognition (HARTH v2.0)** | Executed 26 numbered research stages and a separate final review draft, including a seven-model Development benchmark, repeated-seed analysis and qualified same-study held-out assessment. | [Study README](wearable_activity_recognition/README.md) · [Scientific methods and evidence](wearable_activity_recognition/HARTH_RESEARCH_METHODS_AND_EVIDENCE.md) |
 | **Biomechanical Load Estimation (BoneNet)** | Data inspection and exploratory derivative-data regression; a comprehensive, independently verified femoral-neck-load benchmark has not been established. | [Study README](biomechanical_load_estimation/README.md) |
 
 **Planned research directions:** Gait and movement analysis; markerless motion capture; neurorehabilitation and motor function; multimodal movement learning. These are research directions, **not completed implementations**.
@@ -17,7 +17,7 @@ A Python-based research portfolio maintained by **Reza Saadatyar**. Each study h
 
 The Development study compared seven model configurations using participant-disjoint evaluation. The Development-selected weighted-cross-entropy 1D-ResNet and fixed Random Forest were later assessed on two reserved HARTH participants. Their fixed-eight-class Macro F1 scores were **0.7182** and **0.6817**, respectively. The two participants had been descriptively inspected in earlier exploration, so this is **not blind external validation**. The small held-out cohort, overlapping windows and uneven class support limit the conclusions.
 
-For the exact experimental definitions, models, results, caveats and provenance, see the [HARTH scientific report](wearable_activity_recognition/HARTH_RESEARCH_METHODS_AND_EVIDENCE.md) and the [final evidence Notebook](wearable_activity_recognition/code/notebooks/27_final_research_evidence_and_report.ipynb).
+For the experimental definitions, models, results, caveats and provenance, see the [HARTH scientific report](wearable_activity_recognition/HARTH_RESEARCH_METHODS_AND_EVIDENCE.md) and the [final evidence Notebook](wearable_activity_recognition/code/notebooks/26_final_research_evidence_and_report.ipynb).
 
 ## Repository structure
 
