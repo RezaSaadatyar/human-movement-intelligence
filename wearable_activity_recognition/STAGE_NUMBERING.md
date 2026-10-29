@@ -1,7 +1,10 @@
 # HARTH stage numbering (29 October 2026)
 
-The original Stage 20 research-evidence consolidation notebook was moved to
-`code/notebooks/final.ipynb`. The seven subsequent active research stages
+The original Stage 20 research-evidence consolidation notebook was first moved to
+`code/notebooks/final.ipynb`. Its historical science and saved output remain
+recoverable from Git history. The outdated draft is now being superseded by the
+newly written `code/notebooks/final_harth_research_audit_and_closure.ipynb`, a separate FINAL
+cross-stage audit (not an additional numbered training or Test experiment). The seven subsequent active research stages
 were each renumbered down by one. Their saved scientific notebook output
 objects and execution counts were preserved; stage labels visible inside
 previously saved output streams may still use the original number until the
@@ -26,13 +29,12 @@ display-precision CSV snapshots with original 23/24/26 prefixes remain
 historically attributed data sources until they are separately migrated and
 verified, not relabelled measurements.
 
-The `final.ipynb` review draft has had its Git merge markers resolved and
-is valid notebook JSON. However, it still reflects the former Stage 20
-consolidation scope, including Stage 20 output names and an archived saved
-execution error. It is not yet the completed final synthesis for active
-Stages 01–26; its stage-specific output names must be reconciled before
-running it alongside active Stage 20. Its workflow image is retained under
-`images/final_workflow.svg`.
+The earlier `final.ipynb` draft still reflected historical Stage 20 and had
+`20_historical_*` output names and an archived execution error. The new FINAL
+notebook uses `final_*` output names and intentionally begins without saved
+execution outputs. Its first execution is pending; no new Test re-scoring is
+allowed. `images/final_workflow.svg` depicts the historical consolidation
+and is no longer used by the replacement notebook.
 
 The earlier release-readiness/provenance tests intentionally refer to frozen
 Stage 23/24/25/26/27 identities. Those tests require a separate, traceable
