@@ -1,3 +1,4 @@
+# ==================== Presented by: Reza Saadatyar (2026) ====================
 """Source-safe offline tests for HARTH Stage 26 frozen inference gates."""
 import json
 import sys
@@ -16,6 +17,7 @@ except ImportError:
     final=None
 
 
+# ====================== 01. HARTH Final Inference Tests ======================
 @unittest.skipIf(final is None,"Optional stage dependencies unavailable")
 class TestHarthFinalInference(unittest.TestCase):
     def test_development_scaler_no_test_fit(self):

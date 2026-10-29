@@ -1,3 +1,4 @@
+# ==================== Presented by: Reza Saadatyar (2026) ====================
 """Small synthetic tests for group-level CV and participant diagnostics."""
 import sys
 import unittest
@@ -8,6 +9,7 @@ sys.path.insert(0, str(Path(__file__).resolve().parents[1] / "python_modules"))
 from core.group_cross_validation import evaluate_group_cross_validation
 
 
+# ===================== 01. Group Cross Validation Tests ======================
 class TestGroupCrossValidation(unittest.TestCase):
     def setUp(self):
         rng = np.random.default_rng(7)

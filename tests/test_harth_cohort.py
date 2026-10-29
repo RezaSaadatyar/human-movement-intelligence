@@ -1,3 +1,4 @@
+# ==================== Presented by: Reza Saadatyar (2026) ====================
 """Offline checks for the HARTH multi-person cohort adapter."""
 import sys
 import tempfile
@@ -13,6 +14,7 @@ sys.path.insert(0, str(ROOT / "wearable_activity_recognition/code/src"))
 import harth_data
 
 
+# ========================== 01. HARTH Cohort Tests ===========================
 class TestHarthCohort(unittest.TestCase):
     def test_reject_duplicate_people(self):
         with self.assertRaisesRegex(ValueError, "duplicate"):

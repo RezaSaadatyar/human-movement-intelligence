@@ -1,3 +1,4 @@
+# ==================== Presented by: Reza Saadatyar (2026) ====================
 """Offline tensor-shape, gradient and validation tests for four temporal models."""
 import sys
 import unittest
@@ -13,6 +14,7 @@ try:
 except ImportError:
     torch = None
 
+# ==================== 01. Advanced Temporal Models Tests =====================
 @unittest.skipIf(torch is None, "Optional PyTorch not installed in standard CI")
 class TestAdvancedTemporalModels(unittest.TestCase):
     def test_shapes_finite_logits_and_gradients(self):

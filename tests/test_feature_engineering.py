@@ -1,3 +1,4 @@
+# ==================== Presented by: Reza Saadatyar (2026) ====================
 """Tests of shared feature extraction for biomedical signal windows."""
 
 import sys
@@ -12,6 +13,7 @@ sys.path.insert(0, str(ROOT / "code" / "python" / "src"))
 from core.feature_engineering import AVAILABLE_FEATURES, extract_signal_features
 
 
+# ======================= 01. Feature Engineering Tests =======================
 class TestSignalFeatures(unittest.TestCase):
     def test_shape_names_and_preserved_order(self):
         data = np.arange(24, dtype=float).reshape(2, 3, 4)
