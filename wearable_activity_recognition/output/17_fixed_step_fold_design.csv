@@ -1,0 +1,4 @@
+fold,train_people,validation_people,train_500,train_1000,fixed_validation
+1,19,10,9201,18201,5000
+2,19,10,9500,19000,4701
+3,20,9,9701,19201,4500

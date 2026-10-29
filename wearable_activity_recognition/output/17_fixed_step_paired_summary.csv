@@ -1,0 +1,2 @@
+model_a,model_b,metric,participants,mean_difference,median_difference,model_a_wins,model_b_wins,ties
+Weighted CNN 1000,Weighted CNN 500,macro_f1_fixed_task,29,0.019467735886083113,0.002555564442413616,17,12,0
