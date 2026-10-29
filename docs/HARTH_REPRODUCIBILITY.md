@@ -3,6 +3,10 @@
 **Numbering update:** The original executed Stages 21–27 have been relabelled 20–26 in the active notebook directory. Historical approval and provenance references below deliberately retain their original Stage 23–27 labels and fingerprints. See [the mapping](../wearable_activity_recognition/STAGE_NUMBERING.md).
 
 
+## Current final cross-stage audit (prepared, not yet executed)
+
+The executed active [Stage 26 report](../wearable_activity_recognition/code/notebooks/26_final_research_evidence_and_report.ipynb) is the main final results synthesis. A separate [FINAL HARTH cross-stage audit](../wearable_activity_recognition/code/notebooks/final_harth_research_audit_and_closure.ipynb) now consolidates earlier Stages 08–19 evidence, the Stage 20 rare-class audit and the Stage 22–26 committed-file provenance. This is a **newly authored notebook with no saved execution**, and its `final_*` exports have not yet been produced. It does not access raw signals or repeat the approved Test. The old `final.ipynb` draft and Stage 20 execution can be retrieved from Git history; they are not current quality-gate evidence.
+
 ## Scope and verified evidence
 
 This is a practical pre-release audit for the completed HARTH activity-recognition study in `human-movement-intelligence`. **It does not add a training experiment, alter frozen model code, rerun original Test, or create a GitHub Release.** Executed Notebooks 23–27 contain seven-model Development comparisons, 36 multi-seed jobs, pre-Test model selection, one approved qualified Test analysis and a read-only evidence synthesis. The earlier 01–22 notebooks remain historical evidence with different objectives and subsets.
@@ -36,7 +40,7 @@ historical runs and checks scientific code, tables and figures against the
 approved evidence, allowing only known non-scientific runtime or display
 differences. Cached jobs are never described as newly trained runs.
 
-Stage 24's original executed bytes are verified through a separate pinned historical revision. The approved protocol records and six frozen model modules remain unchanged. Stages 26–27 preserve their scientific evidence, and the committed Stage 27 report has a successful final Quality Gate.
+Stage 24's original executed bytes are verified through a separate pinned historical revision. The approved protocol records and six frozen model modules remain unchanged. The currently renumbered Stage 25 qualified evaluation and Stage 26 report preserve their scientific evidence, and the committed active Stage 26 report has a successful final Quality Gate.
 This review does not rerun model training, qualified Test scoring or independent
 replication.
 
@@ -56,8 +60,8 @@ The final models and evaluation settings were selected using Development evidenc
 
 | Level | Status | Conditions and limitations |
 | --- | --- | --- |
-| Review executed results | Available in GitHub | Saved notebooks and rounded displayed tables; not the raw prediction artifacts |
-| Recreate Stage 27 report | Available without GPU or raw CSVs | Runs against committed executed notebooks and manifests |
+| Review executed results | Available in GitHub | Saved notebooks, current full-precision 22/23/25 numerical CSV exports and Stage 26 report products; raw model weights are not included |
+| Recreate active Stage 26 report | Available without GPU or raw HARTH recordings | Reads seven committed source CSVs and the two frozen manifests; does not train or rescore Test |
 | Check code/manifest provenance | Available without GPU or raw CSVs | Audit verifies six frozen module hashes and Stages 23–27 saved Quality Gates |
 | Inspect saved model files | **Not verified in GitHub** | Three ignored files must be preserved separately and optionally supplied to the local audit |
 | Re-run Stage 26 Development training | Requires raw HARTH, suitable dependencies and compute | No exact environment lockfile; strict byte-for-byte reproduction across machines is **not** established |
