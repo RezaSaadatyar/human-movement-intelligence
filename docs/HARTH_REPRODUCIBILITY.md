@@ -1,6 +1,6 @@
 # HARTH v2.0 | Reproducibility and Release Readiness
 
-**Numbering update:** The original executed Stages 21–27 have been relabelled 20–26 in the active notebook directory. Historical approval and provenance references below deliberately retain their original Stage 23–27 labels and fingerprints. See [the mapping](../wearable_activity_recognition/STAGE_NUMBERING.md).
+**Notebook references:** The active HARTH study has 26 numbered notebooks and one separate FINAL audit. Frozen approval identifiers and source fingerprints are retained unchanged for traceability.
 
 
 ## Current final cross-stage audit (prepared, not yet executed)

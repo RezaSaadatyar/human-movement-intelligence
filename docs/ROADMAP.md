@@ -1,6 +1,6 @@
 # Current Research Status (21 October 2026)
 
-**Active notebook numbering (29 October 2026):** The historical checklist below preserves original stage labels. Active Stage 21–27 filenames have moved to Stage 20–26. The historical Stage 25 approval filenames and evidence SHA256s are unchanged; see [stage numbering](../wearable_activity_recognition/STAGE_NUMBERING.md).
+**Active HARTH study:** The research consists of 26 numbered notebooks and a separate FINAL audit. The historical planning checklist below is retained as a dated record; frozen approval filenames and evidence SHA256 values are unchanged.
 
 
 **The original planning/checkpoint log below is preserved as a historical record. Its earlier unchecked items and "pending" descriptions reflect their status when written, not the latest GitHub execution state. The new final cross-stage audit has no saved execution yet.** For current results, see [the executed HARTH study](../wearable_activity_recognition/README.md).
