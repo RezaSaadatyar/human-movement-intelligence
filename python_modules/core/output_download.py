@@ -13,7 +13,8 @@ import re
 REPO_ROOT = Path(__file__).resolve().parents[2]
 
 
-# ========================= Output Download ===================================
+# ============================== Output Download ==============================
+# ======================= 01. Notebook Output Packaging =======================
 def download_outputs_from_colab(folder, stage):
     """Build a ZIP containing output files belonging to one notebook stage.
 

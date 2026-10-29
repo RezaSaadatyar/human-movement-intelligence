@@ -1,4 +1,4 @@
-# ======================== Presented by: Reza Saadatyar (2026) ========================
+# ==================== Presented by: Reza Saadatyar (2026) ====================
 """Reusable leakage-aware classical classification baselines."""
 
 import numpy as np
@@ -19,7 +19,7 @@ from sklearn.pipeline import make_pipeline
 from sklearn.preprocessing import StandardScaler
 
 
-# ========================= 1. Data and Label Validation =========================
+# ======================= 01. Data and Label Validation =======================
 def _validate_classification_arrays(X_train, y_train, X_validation, y_validation, classes):
     """Validate finite feature matrices, label alignment and task coverage."""
     train = np.asarray(X_train)
@@ -49,7 +49,7 @@ def _validate_classification_arrays(X_train, y_train, X_validation, y_validation
     return train, y_tr, valid, y_va, task_classes
 
 
-# ============================== 2. Model Training ================================
+# ============================ 02. Model Training =============================
 def train_validation_classifiers(
     X_train,
     y_train,
@@ -137,7 +137,7 @@ def train_validation_classifiers(
     return models, comparison, predictions
 
 
-# ============================== 3. Model Evaluation ==============================
+# =========================== 03. Model Evaluation ============================
 def classification_class_report(y_true, y_pred, classes, class_names=None):
     """
     Calculate class-wise validation support, precision, recall and F1.
@@ -177,7 +177,7 @@ def classification_confusion(y_true, y_pred, classes):
     return confusion_matrix(y_true, y_pred, labels=list(classes))
 
 
-# ====================== 4. Participant-Level Evaluation ========================
+# ===================== 04. Participant-Level Evaluation ======================
 def evaluate_predictions_by_subject(y_true, y_pred, subject_ids, classes, model_name):
     """
     Report one held-out validation score per independent participant.

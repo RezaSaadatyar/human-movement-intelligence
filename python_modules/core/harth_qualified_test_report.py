@@ -1,4 +1,4 @@
-# ======================== Presented by: Reza Saadatyar (2026) ========================
+# ==================== Presented by: Reza Saadatyar (2026) ====================
 """Read-only reporting utilities for the approved HARTH qualified held-out evaluation.
 
 Accept frozen predictions; do not train, calibrate, choose models or access files.
@@ -18,6 +18,7 @@ RESERVED_PEOPLE = ("S023", "S032")
 FINAL_MODELS = ("1D-ResNet Weighted CE", "Random Forest")
 
 
+# ===================== 01. Qualified Evaluation Reports ======================
 def validate_final_test_inputs(y_true, subject_ids, predictions, classes=SOURCE_CLASSES):
     """
     Validate source-aligned frozen predictions for both reserved individuals.
