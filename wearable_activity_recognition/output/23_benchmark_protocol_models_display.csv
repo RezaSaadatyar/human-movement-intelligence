@@ -1,8 +1,0 @@
-model,representation,training
-Random Forest,30 deterministic signal features,120-tree balanced-subset RF
-Standard CNN,6 x 100 raw IMU,400 Adam updates; unweighted CE
-Weighted CNN,6 x 100 raw IMU,400 Adam updates; inverse-sqrt weighted CE
-TCN,6 x 100 raw IMU,400 Adam updates; inverse-sqrt weighted CE
-Multi-Scale CNN,6 x 100 raw IMU,400 Adam updates; inverse-sqrt weighted CE
-1D-ResNet,6 x 100 raw IMU,400 Adam updates; inverse-sqrt weighted CE
-Time-Series Transformer,6 x 100 raw IMU,400 Adam updates; inverse-sqrt weighted CE

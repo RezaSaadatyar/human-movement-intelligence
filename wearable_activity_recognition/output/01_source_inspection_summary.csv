@@ -1,0 +1,2 @@
+subject_id,source_file,recorded_samples,data_columns,acceleration_channels,missing_values,documented_sampling_frequency_hz,median_observed_sample_interval_s,observed_activity_classes
+S023,S023.csv,137646,8,6,0,50,0.02,8

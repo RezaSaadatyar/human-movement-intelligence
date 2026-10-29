@@ -1,8 +1,0 @@
-model,macro_f1_mean,macro_f1_sd,balanced_accuracy_mean,accuracy_mean,total_train_seconds,total_inference_seconds,parameters
-1D-ResNet,0.8328,0.0435,0.8688,0.9468,39.1565,0.1743,91176
-TCN,0.8138,0.0658,0.8575,0.9365,10.9946,0.1396,38056
-Random Forest,0.8094,0.0500,0.8063,0.9532,14.0272,0.1701,0
-Time-Series Transformer,0.8006,0.0602,0.8552,0.9338,14.9417,0.5988,38744
-Multi-Scale CNN,0.7946,0.0459,0.8392,0.9364,9.5974,0.1625,16488
-Weighted CNN,0.7725,0.0274,0.8022,0.9412,4.8731,0.0544,12392
-Standard CNN,0.6664,0.0633,0.6575,0.9378,5.8722,0.0712,12392

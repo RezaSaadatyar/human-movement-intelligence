@@ -1,0 +1,9 @@
+label,activity,samples
+1,Walking,70601
+2,Running,22391
+3,Shuffling,2071
+4,Stairs ascending,3194
+5,Stairs descending,2291
+6,Standing,7455
+7,Sitting,13059
+8,Lying,16584

@@ -1,9 +1,0 @@
-class_code,activity,train_windows,weighted_ce,focal,class_balanced
-1,Walking,2068,0.4560,0.4560,0.1700
-2,Running,799,0.7336,0.7336,0.4136
-3,Shuffling,168,1.6000,1.6000,1.9066
-4,Stairs ascending,135,1.7848,1.7848,2.3687
-5,Stairs descending,136,1.7782,1.7782,2.3514
-6,Standing,1621,0.5151,0.5151,0.2123
-7,Sitting,3577,0.3467,0.3467,0.1056
-8,Lying,697,0.7855,0.7855,0.4718

@@ -1,5 +1,0 @@
-architecture,loss_method,mean_across_seed_fold_macro_f1,across_seed_sd,total_training_s
-1D-ResNet,weighted_ce,0.8286,0.0052,115.8614
-TCN,weighted_ce,0.8105,0.0079,31.2218
-1D-ResNet,focal,0.8058,0.0053,116.1855
-1D-ResNet,class_balanced,0.7915,0.0191,115.8912

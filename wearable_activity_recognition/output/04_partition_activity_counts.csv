@@ -1,0 +1,14 @@
+activity,train,validation,test
+1: Walking,6053,2009,3013
+2: Running,3283,511,441
+3: Shuffling,91,58,25
+4: Stairs ascending,76,82,52
+5: Stairs descending,54,65,26
+6: Standing,700,1219,759
+7: Sitting,1039,1547,650
+8: Lying,1193,979,638
+10: UNDOCUMENTED source code,0,0,1
+13: Cycling seated,1018,0,0
+14: Cycling standing,238,0,0
+130: Cycling seated inactive,78,0,0
+140: Cycling standing inactive,65,0,0
