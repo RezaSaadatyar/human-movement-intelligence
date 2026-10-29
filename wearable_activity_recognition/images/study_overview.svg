@@ -1,11 +1,11 @@
 <svg xmlns="http://www.w3.org/2000/svg" width="1700" height="480" viewBox="0 0 1700 480" role="img" aria-labelledby="title desc">
 <title id="title">HARTH wearable activity recognition overall study workflow</title>
-<desc id="desc">Overall research study flow across HARTH notebook stages 01–27, from six-channel back and thigh accelerometers through time-safe source windowing, participant-group Development model comparisons, repeated-seed robustness, model selection, separately approved qualified same-study held-out scoring, and read-only evidence synthesis. Previous descriptive exposure to the two held-out participants means this is not historically blind external validation.</desc>
+<desc id="desc">Overall research workflow across HARTH notebook stages 01–26, from six-channel back and thigh accelerometers through time-safe source windowing, participant-group Development model comparisons, repeated-seed robustness, model selection, separately approved qualified same-study held-out scoring, and read-only evidence synthesis. Previous descriptive exposure to the two held-out participants means this is not historically blind external validation.</desc>
 <defs><marker id="small-arrow" markerUnits="userSpaceOnUse" markerWidth="6" markerHeight="6" refX="5.5" refY="3" orient="auto"><path d="M0 0 L6 3 L0 6 Z" fill="#245E9D"/></marker></defs>
 <rect width="1700" height="480" rx="20" fill="#F4F9FD"/>
 <g font-family="DejaVu Sans, Arial, sans-serif">
 <text x="30" y="38" font-size="25" fill="#173453" font-weight="700">HARTH v2.0 | COMPLETE WEARABLE ACTIVITY RECOGNITION STUDY</text>
-<text x="30" y="67" font-size="17" fill="#54738A">27 notebook stages · seven-model Development benchmark · qualified same-study held-out evaluation</text>
+<text x="30" y="67" font-size="17" fill="#54738A">26 notebook stages · seven-model Development benchmark · qualified same-study held-out evaluation</text>
 <rect x="24" y="84" width="1652" height="160" rx="16" fill="#EAF3FA" stroke="#C7D9E6" stroke-width="2"/>
 <rect x="24" y="262" width="1652" height="174" rx="16" fill="#EAF3FA" stroke="#C7D9E6" stroke-width="2"/>
 <g aria-label="Four study context panels"><g aria-label="HARTH SOURCE DATA"><text x="50" y="115" font-size="17" fill="#173453" font-weight="700">HARTH SOURCE DATA</text><text x="50" y="145" font-size="15" fill="#506C7E">Lower-back and thigh IMUs</text><text x="50" y="167" font-size="15" fill="#506C7E">Six axes · nominal 50 Hz</text><text x="50" y="189" font-size="15" fill="#506C7E">Eight documented task activities</text><text x="50" y="229" font-size="14" fill="#54738A">Authors' official pinned v2.0 revision</text></g>
