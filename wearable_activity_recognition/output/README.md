@@ -5,6 +5,22 @@
 
 This project stores reusable experiment results, figures, evaluation tables, and selected checkpoints in the study-level `output/` directory. It is a sibling of `code/`, not a notebook subfolder. Notebook outputs are written here on execution. Local files do **not** automatically sync from Google Colab to a laptop or GitHub.
 
+## Current active Stage 22–26 files and final audit
+
+The active Stage 22, 23 and 25 notebooks have now exported **full-precision
+numeric CSV files** under their current `22_*`, `23_*` and `25_*` filename
+prefixes. The executed Stage 26 notebook reads **seven current CSV files**
+from those stages, validates the frozen pending/approved manifests, and writes
+eight `26_*` report products. It does not retrain or rerun the qualified Test.
+The historical `*_display.csv` snapshots described below are legacy
+transcriptions and are **not** needed by the active Stage 26 reader.
+
+The new `code/notebooks/final_harth_research_audit_and_closure.ipynb`
+performs a complementary cross-stage audit of earlier experiments and the
+Stage 26 input-file SHA256 ledger. It is **not yet executed**; its intended
+`final_*` exports must not be described as existing results until the user
+runs and commits the notebook and outputs.
+
 ## Historical Stage 23 and Stage 24 exports
 
 The `23_*_display.csv` and `24_*_display.csv` tables were **transcribed one time from the stored, completed HTML outputs** of the pinned research notebooks. No training, inference, held-out Test scoring, or notebook re-execution was performed during this conversion.
@@ -49,12 +65,17 @@ study-level `output/` folder without a `_display` suffix. The frozen model
 files remain in `outputs/harth_stage26_final/` to preserve trusted reload
 paths; this directory is ignored by Git.
 
-## Notebook 27 file-based reporting
+## Active Notebook 26 file-based reporting
 
-`27_final_research_evidence_and_report.ipynb` reads seven named CSV
-snapshots (three Stage 23/24 tables and four Stage 26 tables) and the
-unchanged pending/approved protocol manifests. It does **not** parse saved
-Notebook 23/24/25/26 cells or HTML. Its report products are named
-`27_*.csv`, `27_*.png` and `27_report_provenance.json` in this directory.
-The provenance JSON records SHA256 digests of the input CSV files and
-manifests. Re-running the report does not rerun any model or the Test.
+`26_final_research_evidence_and_report.ipynb` reads seven exact source CSVs:
+`22_matched_cv_model_summary.csv`, `23_robustness_model_summary.csv`,
+`23_robustness_fold_metrics.csv`, and four `25_qualified_*.csv` files
+(subject coverage, model summary, per-subject and per-class outcomes). It
+checks the existing pending and approved protocol manifests, computes the
+SHA256 of each input CSV and manifest, and exports four figures, three small
+CSV tables and `26_report_provenance.json`. The executed notebook and these
+eight products are committed. It does **not** parse previous notebook HTML,
+reconstruct predictions, train models or rescore S023/S032.
+
+The historic Stage 27 numbering remains identifiable from Git history and
+the frozen provenance register; the current reporting notebook is Stage 26.
