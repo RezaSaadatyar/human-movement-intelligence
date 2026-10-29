@@ -1,3 +1,4 @@
+# ==================== Presented by: Reza Saadatyar (2026) ====================
 """Offline visual-layout checks: never load raw HARTH Test data or run models."""
 import json
 from pathlib import Path
@@ -9,6 +10,7 @@ STUDY = ROOT / "wearable_activity_recognition"
 SVG = {"http://www.w3.org/2000/svg"}
 
 
+# =================== 01. HARTH Notebook Presentation Tests ===================
 class TestHarthNotebookPresentation(unittest.TestCase):
     def test_every_stage_has_horizontal_workflow_and_notebook_reference(self):
         for n in range(1, 27):

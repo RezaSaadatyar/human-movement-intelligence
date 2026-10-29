@@ -1,3 +1,4 @@
+# ==================== Presented by: Reza Saadatyar (2026) ====================
 """Offline tests for final HARTH held-out reporting; never access Test recordings."""
 import sys
 import unittest
@@ -10,6 +11,7 @@ from core.harth_qualified_test_report import (
 )
 
 
+# =================== 01. HARTH Qualified Test Report Tests ===================
 class TestQualifiedHeldoutReport(unittest.TestCase):
     def setUp(self):
         self.truth = [1, 2, 1, 2, 1, 2]

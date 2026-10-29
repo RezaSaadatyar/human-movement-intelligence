@@ -1,3 +1,4 @@
+# ==================== Presented by: Reza Saadatyar (2026) ====================
 """Tests for matched participant-level classification evaluation."""
 import sys
 import unittest
@@ -7,6 +8,7 @@ sys.path.insert(0,str(Path(__file__).resolve().parents[1]/"python_modules"))
 from core.ml_baselines import evaluate_predictions_by_subject
 from core.group_cross_validation import compare_models_by_subject
 
+# ======================= 01. Matched Evaluation Tests ========================
 class TestMatchedEvaluation(unittest.TestCase):
     def test_subject_alignment_and_comparison(self):
         y=np.array([1,2,1,2,1,2,1,2])

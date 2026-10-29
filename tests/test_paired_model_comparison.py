@@ -1,3 +1,4 @@
+# ==================== Presented by: Reza Saadatyar (2026) ====================
 """Offline tests for paired participant-level model comparison."""
 import sys
 import unittest
@@ -6,6 +7,7 @@ import pandas as pd
 sys.path.insert(0,str(Path(__file__).resolve().parents[1]/"python_modules"))
 from core.group_cross_validation import compare_models_by_subject
 
+# ===================== 01. Paired Model Comparison Tests =====================
 class TestPairedSubjectComparison(unittest.TestCase):
     def setUp(self):
         self.frame=pd.DataFrame([

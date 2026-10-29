@@ -1,3 +1,4 @@
+# ==================== Presented by: Reza Saadatyar (2026) ====================
 """Offline safeguards for replaying the already frozen HARTH Stage 25 protocol."""
 import copy
 import hashlib
@@ -18,6 +19,7 @@ from core.harth_protocol_lineage import (
 EVIDENCE = ROOT/"wearable_activity_recognition/evidence"
 
 
+# ===================== 01. HARTH Protocol Lineage Tests ======================
 def records():
     original = json.loads(
         (EVIDENCE/"stage_25_protocol_proposal.json").read_text(encoding="utf-8")

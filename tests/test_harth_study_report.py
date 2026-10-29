@@ -1,3 +1,4 @@
+# ==================== Presented by: Reza Saadatyar (2026) ====================
 """Offline report-integrity tests: never load HARTH source Test recordings."""
 import sys
 import unittest
@@ -8,6 +9,7 @@ sys.path.insert(0,str(ROOT/"python_modules"))
 from core.harth_selection_evidence import load_selection_evidence
 from core.harth_study_report import load_final_harth_evidence, _load_executed_notebook
 
+# ======================= 01. HARTH Study Report Tests ========================
 class TestHarthStage27Evidence(unittest.TestCase):
     @classmethod
     def setUpClass(cls):
