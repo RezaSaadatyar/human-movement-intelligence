@@ -1,4 +1,4 @@
-# ==================== Presented by: Reza Saadatyar (2026) ====================
+# ======================== Presented by: Reza Saadatyar (2026) ================
 """Apply consistent Matplotlib styles and save reusable research figures."""
 
 from pathlib import Path
@@ -40,7 +40,7 @@ def plot_style(
     mpl.rcParams.update(settings)
 
 
-# ============================== 2. Figure Export ==============================
+# ============================= 2. Figure Export ==============================
 def save_figure(figure, destination, dpi=300):
     """Save an existing Matplotlib figure without changing its plot content.
 

@@ -1,3 +1,4 @@
+# ======================== Presented by: Reza Saadatyar (2026) ================
 """Review and publish new research outputs from a Git checkout.
 
 Small new files can be committed to GitHub after explicit confirmation.
@@ -28,7 +29,7 @@ SENSITIVE_NAMES = {
     "private_key.json", "service_account.json",
 }
 
-
+# =========================== Git Integration =================================
 def _git(*args):
     """Run a Git command within this repository, failing visibly on errors."""
     result = subprocess.run(
@@ -45,7 +46,7 @@ def _git(*args):
         )
     return result.stdout.strip()
 
-
+# ========================= Output Synchronisation ============================
 def sync_outputs(folder, max_mb=50):
     """Publish new eligible output files; package oversized files for download.
 
