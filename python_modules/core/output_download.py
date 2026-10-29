@@ -80,7 +80,7 @@ def download_outputs_from_colab(folder, stage):
         for path in selected:
             archive.write(path, arcname=path.relative_to(output_dir).as_posix())
 
-    print("\n-" * 72)
+    print("-" * 72)
     print(f"Notebook stage: {stage_id}")
     print(f"Files packaged: {len(selected)}")
     for path in selected:
