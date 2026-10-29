@@ -1,3 +1,4 @@
+# ==================== Presented by: Reza Saadatyar (2026) ====================
 """Offline tests for label-blind temporal sampling audits."""
 import sys
 import unittest
@@ -7,6 +8,7 @@ import pandas as pd
 sys.path.insert(0,str(Path(__file__).resolve().parents[1]/"python_modules"))
 from core.sampling_audit import audit_temporal_sampling, select_evenly_spaced_indices, select_nested_window_indices
 
+# ========================= 01. Sampling Audit Tests ==========================
 class TestSamplingAudit(unittest.TestCase):
     def setUp(self):
         self.meta=pd.DataFrame({

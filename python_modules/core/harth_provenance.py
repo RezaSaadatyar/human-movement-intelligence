@@ -1,3 +1,4 @@
+# ==================== Presented by: Reza Saadatyar (2026) ====================
 """Verify the original Stage 23 notebook through pinned Git history.
 
 The original saved execution is not duplicated in the current file tree.
@@ -27,6 +28,7 @@ STAGE23_EVIDENCE_PATH = (
 )
 
 
+# ===================== 01. Research Evidence Provenance ======================
 def read_historical_stage23_bytes(repository_root, approved_sha256):
     """Return original executed bytes only when the approved hash matches."""
     root = Path(repository_root).resolve()

@@ -1,7 +1,9 @@
+# ==================== Presented by: Reza Saadatyar (2026) ====================
 """Descriptive out-of-fold confidence diagnostics for multiclass activity models."""
 import numpy as np
 import pandas as pd
 
+# ================= 01. Prediction Confidence and Reliability =================
 def audit_prediction_confidence(y_true, probabilities, subjects, classes, n_bins=10):
     """
     Analyse softmax confidence and errors without calibrating or refitting.

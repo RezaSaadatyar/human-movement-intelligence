@@ -1,4 +1,4 @@
-# ======================== Presented by: Reza Saadatyar (2026) ========================
+# ==================== Presented by: Reza Saadatyar (2026) ====================
 """Approved-protocol-gated HARTH final fitting and reproducible inference.
 
 Training sees Development ONLY. Qualified Test loading is a separate operation
@@ -32,7 +32,7 @@ except ImportError:
     torch = None
 
 
-# ==================== 1. Locked Reviewable Protocol ====================
+# ====================== 01. Locked Reviewable Protocol =======================
 REQUIRED_APPROVAL = "APPROVED"
 TEST_CONFIRMATION = "I_APPROVE_QUALIFIED_TEST_EVALUATION"
 
@@ -162,7 +162,7 @@ def enforce_qualified_test_approval(protocol, confirmation):
     return True
 
 
-# ==================== 2. Frozen Development Normalisation ====================
+# =================== 02. Frozen Development Normalisation ====================
 def fit_development_scaler(windows):
     """
     Fit a per-axis scaler on full Development windows only.
@@ -204,7 +204,7 @@ def apply_frozen_scaler(windows, scaler):
     return ((x - mean[None, :, None]) / std[None, :, None]).astype(np.float32)
 
 
-# ==================== 3. Final ResNet Model Fit and Artifact ====================
+# ================== 03. Final ResNet Model Fit and Artifact ==================
 def fit_final_resnet(windows, labels, protocol, *, device="cuda"):
     """
     Fit ONE predeclared final ResNet on Development, without validation/Test.
@@ -298,7 +298,7 @@ def fit_final_resnet(windows, labels, protocol, *, device="cuda"):
     return model, scaler, pd.DataFrame(logs), weights, duration
 
 
-# ==================== 4. Save and Reload Trusted Local Model Artefacts ====================
+# ============= 04. Save and Reload Trusted Local Model Artefacts =============
 def save_final_models(model, scaler, reference, columns, protocol,
                       development_fingerprint, artifact_dir):
     """
@@ -435,7 +435,7 @@ def infer_source_windows(windows, model, reference, config, *, device="cpu"):
     return predicted_resnet, np.asarray(predicted_rf, dtype=int)
 
 
-# ==================== 5. Explicitly Authorised Qualified Test Evaluation ====================
+# ============ 05. Explicitly Authorised Qualified Test Evaluation ============
 def score_qualified_heldout(y_true, predicted, subject_ids, classes):
     """
     Generate qualified single-evaluation metrics for fixed original class codes.

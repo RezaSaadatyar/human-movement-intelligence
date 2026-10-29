@@ -1,3 +1,4 @@
+# ==================== Presented by: Reza Saadatyar (2026) ====================
 """Offline validation for fixed-optimizer-step CNN training."""
 import sys
 import unittest
@@ -9,6 +10,7 @@ try:
 except ImportError:
     train_temporal_cnn_fixed_steps = None
 
+# ==================== 01. Fixed Steps Temporal CNN Tests =====================
 @unittest.skipIf(train_temporal_cnn_fixed_steps is None,"Optional PyTorch unavailable")
 class TestFixedSteps(unittest.TestCase):
     def setUp(self):

@@ -1,11 +1,11 @@
-# ======================== Presented by: Reza Saadatyar (2026) ========================
+# ==================== Presented by: Reza Saadatyar (2026) ====================
 """Deterministic temporal-window sampling audits without model fitting."""
 
 import numpy as np
 import pandas as pd
 
 
-# ============================ 1. Subsampling Policy =============================
+# ========================== 01. Subsampling Policy ===========================
 def select_evenly_spaced_indices(eligible_count, maximum_windows):
     """
     Select indices evenly along an ordered eligible recording.
@@ -37,7 +37,7 @@ def select_evenly_spaced_indices(eligible_count, maximum_windows):
     return np.linspace(0, eligible_count - 1, num=number, dtype=np.int64)
 
 
-# ======================= 2. Participant/Class Coverage Audit =====================
+# =================== 02. Participant/Class Coverage Audit ====================
 def audit_temporal_sampling(
     metadata,
     caps=(250, 500, 1000),
@@ -166,7 +166,7 @@ def audit_temporal_sampling(
     return selected, per_subject, class_counts
 
 
-# ======================== 3. Nested Training-Data Caps ===========================
+# ======================= 03. Nested Training-Data Caps =======================
 def select_nested_window_indices(eligible_count, base_cap=500, expanded_cap=1000):
     """
     Build two deterministic sampling policies with STRICT source-row nesting.

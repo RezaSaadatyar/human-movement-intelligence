@@ -1,3 +1,4 @@
+# ==================== Presented by: Reza Saadatyar (2026) ====================
 """Offline tests for training-only class-weighted temporal CNN experiments."""
 import sys
 import unittest
@@ -9,6 +10,7 @@ try:
 except ImportError:
     compute_training_class_weights = None
 
+# ====================== 01. Weighted Temporal CNN Tests ======================
 @unittest.skipIf(compute_training_class_weights is None, "Optional PyTorch unavailable")
 class TestWeightedCNN(unittest.TestCase):
     def test_weight_order_and_minority_priority(self):

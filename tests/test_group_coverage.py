@@ -1,3 +1,4 @@
+# ==================== Presented by: Reza Saadatyar (2026) ====================
 """Offline tests of shared subject/class coverage auditing."""
 import sys
 import unittest
@@ -6,6 +7,7 @@ import numpy as np
 sys.path.insert(0,str(Path(__file__).resolve().parents[1]/"python_modules"))
 from core.data_splitting import audit_group_class_coverage
 
+# ========================= 01. Group Coverage Tests ==========================
 class TestGroupCoverage(unittest.TestCase):
     def setUp(self):
         self.subjects=np.repeat(["S001","S002","S003","S004","S005","S006"], 12)

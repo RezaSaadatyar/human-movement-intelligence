@@ -1,3 +1,4 @@
+# ==================== Presented by: Reza Saadatyar (2026) ====================
 """Offline synthetic checks for strict matched HARTH benchmark and cache provenance."""
 import sys
 import tempfile
@@ -15,6 +16,7 @@ except ImportError:
     bench = None
 
 
+# ======================= 01. Temporal Benchmark Tests ========================
 @unittest.skipIf(bench is None, "Optional PyTorch unavailable in standard CI")
 class TestMatchedBenchmark(unittest.TestCase):
     def setUp(self):

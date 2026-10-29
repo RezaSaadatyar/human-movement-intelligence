@@ -1,11 +1,11 @@
-# ======================== Presented by: Reza Saadatyar (2026) ========================
+# ==================== Presented by: Reza Saadatyar (2026) ====================
 """Deterministic, group-disjoint Train/Validation/Test splitting."""
 
 import numpy as np
 import pandas as pd
 
 
-# ========================= 1. Group-Independent Splitting =========================
+# ====================== 01. Group-Independent Splitting ======================
 def split_group_indices(
     group_ids,
     train_fraction=0.50,
@@ -98,7 +98,7 @@ def split_group_indices(
     return indices
 
 
-# ====================== 2. Subject/Class Coverage Audit ========================
+# ===================== 02. Subject/Class Coverage Audit ======================
 def audit_group_class_coverage(labels, group_ids, classes, n_splits=5):
     """
     Audit label availability in independent subjects and GroupKFold partitions.

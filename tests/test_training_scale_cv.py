@@ -1,3 +1,4 @@
+# ==================== Presented by: Reza Saadatyar (2026) ====================
 """Fast source-row CV checks; neural training mocked for offline testing."""
 import sys
 import unittest
@@ -13,6 +14,7 @@ except ImportError:
     training_scale_cv = None
 
 
+# ======================== 01. Training Scale CV Tests ========================
 @unittest.skipIf(training_scale_cv is None, "Optional PyTorch unavailable")
 class TestTrainingScaleCV(unittest.TestCase):
     def setUp(self):

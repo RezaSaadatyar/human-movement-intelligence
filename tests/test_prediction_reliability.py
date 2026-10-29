@@ -1,3 +1,4 @@
+# ==================== Presented by: Reza Saadatyar (2026) ====================
 """Tests for held-out softmax inference and descriptive confidence audit."""
 import sys
 import unittest
@@ -11,6 +12,7 @@ try:
 except ImportError:
     torch=None
 
+# ===================== 01. Prediction Reliability Tests ======================
 class TestReliability(unittest.TestCase):
     def test_probabilities_and_metrics(self):
         p=np.array([[.9,.1],[.2,.8],[.95,.05],[.3,.7]])

@@ -1,11 +1,11 @@
-# ======================== Presented by: Reza Saadatyar (2026) ========================
+# ==================== Presented by: Reza Saadatyar (2026) ====================
 """Create reproducible signal windows without crossing annotation or time gaps."""
 
 import numpy as np
 import pandas as pd
 
 
-# ============================= 1. Signal Windowing =============================
+# =========================== 01. Signal Windowing ============================
 def create_signal_windows(
     signals,
     labels,

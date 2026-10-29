@@ -1,9 +1,11 @@
+# ==================== Presented by: Reza Saadatyar (2026) ====================
 """Set up repository imports for notebooks running in Google Colab."""
 
 import sys
 from pathlib import Path
 
 
+# ======================== 01. Colab Environment Setup ========================
 def setup_colab(study=None):
     """Find the cloned repository and register its Python source directories.
 

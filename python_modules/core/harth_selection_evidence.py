@@ -1,3 +1,4 @@
+# ==================== Presented by: Reza Saadatyar (2026) ====================
 """Auditable selection evidence from executed HARTH Stage 23/24 notebook outputs.
 
 Never fits models, reads original Test data, or invents missing scores.
@@ -17,6 +18,7 @@ from core.harth_provenance import (
 )
 
 
+# ======================= 01. Model Selection Evidence ========================
 class _SavedTable(HTMLParser):
     """Read single-header Pandas HTML tables without optional HTML dependencies."""
     def __init__(self):

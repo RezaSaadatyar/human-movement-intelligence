@@ -1,4 +1,4 @@
-# ======================== Presented by: Reza Saadatyar (2026) ================
+# ==================== Presented by: Reza Saadatyar (2026) ====================
 """Apply consistent Matplotlib styles and save reusable research figures."""
 
 from pathlib import Path
@@ -6,7 +6,7 @@ from pathlib import Path
 import matplotlib as mpl
 
 
-# =============================== 1. Plot Style ===============================
+# ============================== 01. Plot Style ===============================
 def plot_style(
     font_family="DejaVu Sans",
     title_size=12.5,
@@ -40,7 +40,7 @@ def plot_style(
     mpl.rcParams.update(settings)
 
 
-# ============================= 2. Figure Export ==============================
+# ============================= 02. Figure Export =============================
 def save_figure(figure, destination, dpi=300):
     """Save an existing Matplotlib figure without changing its plot content.
 

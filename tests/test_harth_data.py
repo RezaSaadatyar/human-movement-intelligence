@@ -1,3 +1,4 @@
+# ==================== Presented by: Reza Saadatyar (2026) ====================
 """Offline tests: HARTH adapter reuses the common CSV reader and inspector."""
 
 import sys
@@ -16,6 +17,7 @@ from core.data_inspection import inspect_data, plot_signal
 from harth_data import SENSOR_COLUMNS, load_harth_subject
 
 
+# =========================== 01. HARTH Data Tests ============================
 class TestHarthData(unittest.TestCase):
     def source_table(self, n=20):
         times = pd.date_range("2025-01-01", periods=n, freq="20ms")

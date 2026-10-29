@@ -1,3 +1,4 @@
+# ==================== Presented by: Reza Saadatyar (2026) ====================
 """Tests for reusable subject-independent splitting."""
 import sys, unittest
 from pathlib import Path
@@ -5,6 +6,7 @@ import numpy as np
 sys.path.insert(0,str(Path(__file__).resolve().parents[1]/"python_modules"))
 from core.data_splitting import split_group_indices
 
+# ========================= 01. Data Splitting Tests ==========================
 class TestGroupedSplit(unittest.TestCase):
     def setUp(self):
         self.ids=np.repeat([f"S{i:03d}" for i in range(8)],[4,8,3,7,10,5,9,6])

@@ -1,3 +1,4 @@
+# ==================== Presented by: Reza Saadatyar (2026) ====================
 """Offline PyTorch validation of shape, train-only scaling and CNN inference."""
 import sys
 import unittest
@@ -13,6 +14,7 @@ except ImportError:
     torch = None
 
 
+# ========================== 01. Temporal CNN Tests ===========================
 @unittest.skipIf(torch is None, "Optional PyTorch dependency not installed")
 class TestTemporalCNN(unittest.TestCase):
     def test_forward_shape(self):

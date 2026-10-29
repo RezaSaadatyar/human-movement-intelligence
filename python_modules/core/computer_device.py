@@ -6,7 +6,7 @@ import shutil
 import subprocess
 
 
-# ============================ 1. Computer Device =============================
+# ============================ 01. Computer Device ============================
 def computer_device(min_vram_gb=14.0):
     """
     Report operating-system, CPU, RAM and NVIDIA/PyTorch GPU information.

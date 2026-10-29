@@ -1,3 +1,4 @@
+# ==================== Presented by: Reza Saadatyar (2026) ====================
 """Synthetic tests of class-aligned temperature scaling."""
 import sys
 import unittest
@@ -6,6 +7,7 @@ import numpy as np
 sys.path.insert(0,str(Path(__file__).resolve().parents[1]/"python_modules"))
 from core.temperature_calibration import apply_temperature, fit_temperature, multiclass_nll
 
+# ===================== 01. Temperature Calibration Tests =====================
 class TestTemperatureCalibration(unittest.TestCase):
     def test_identity_and_argmax(self):
         p=np.array([[.8,.1,.1],[.1,.7,.2],[.2,.2,.6]])

@@ -17,7 +17,7 @@ from pathlib import Path
 from urllib.parse import urlparse
 
 
-# =========================== 1. Project Connection ===========================
+# ========================== 01. Project Connection ===========================
 
 # ------------------ 1. Locate an Existing Research Checkout ------------------
 def _find_repository(start: Path) -> Path | None:

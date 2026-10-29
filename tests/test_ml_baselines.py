@@ -1,3 +1,4 @@
+# ==================== Presented by: Reza Saadatyar (2026) ====================
 """Offline tests for leakage-aware classical ML training utilities."""
 import sys
 import unittest
@@ -10,6 +11,7 @@ from core.ml_baselines import (
     classification_confusion,
 )
 
+# ========================== 01. ML Baselines Tests ===========================
 class TestMLBaselines(unittest.TestCase):
     def setUp(self):
         rng = np.random.default_rng(7)

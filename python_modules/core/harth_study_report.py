@@ -1,4 +1,4 @@
-# ======================== Presented by: Reza Saadatyar (2026) ========================
+# ==================== Presented by: Reza Saadatyar (2026) ====================
 """Read-only, evidence-controlled reporting for HARTH Stages 23–27.
 
 Read executed notebook outputs and approved manifests without importing raw
@@ -21,6 +21,7 @@ RESERVED = ("S023", "S032")
 CLASSES = tuple(range(1, 9))
 
 
+# =================== 01. Final Research Evidence Reporting ===================
 def _joined(parts):
     """Convert a stored Jupyter source/output string or list to plain text."""
     return "".join(parts) if isinstance(parts, list) else str(parts or "")

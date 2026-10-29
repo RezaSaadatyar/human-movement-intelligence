@@ -1,3 +1,4 @@
+# ==================== Presented by: Reza Saadatyar (2026) ====================
 """Offline safety regression tests for read-only HARTH pre-release audit."""
 import importlib.util
 import json
@@ -11,6 +12,7 @@ audit = importlib.util.module_from_spec(spec)
 spec.loader.exec_module(audit)
 
 
+# ===================== 01. HARTH Release Readiness Tests =====================
 class TestHarthReleaseReadiness(unittest.TestCase):
     def test_frozen_approval_source_and_executed_evidence(self):
         record = audit.verify_recorded_evidence()

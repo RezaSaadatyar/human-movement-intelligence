@@ -1,3 +1,4 @@
+# ==================== Presented by: Reza Saadatyar (2026) ====================
 """Offline regression tests for source HARTH timing and annotation audits."""
 import sys
 import unittest
@@ -9,6 +10,7 @@ sys.path.insert(0,str(Path(__file__).resolve().parents[1]/"wearable_activity_rec
 from harth_quality import (window_rejection_reasons,
     characterise_annotation_bouts,inspect_raw_sensor_channels)
 
+# ========================== 01. HARTH Quality Tests ==========================
 class TestHarthQuality(unittest.TestCase):
     def test_window_reasons_agree_with_time_safe_pipeline(self):
         # 1. Two clean 4-point windows, one label transition and one gap.

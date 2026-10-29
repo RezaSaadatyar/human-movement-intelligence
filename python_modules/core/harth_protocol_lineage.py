@@ -1,3 +1,4 @@
+# ==================== Presented by: Reza Saadatyar (2026) ====================
 """Read-only replay verification for historical HARTH Stage 25 protocols.
 
 The original candidate, reconciled proposal and later approved qualified-Test
@@ -10,6 +11,7 @@ from pathlib import Path
 import re
 
 
+# ======================= 01. Research Protocol Lineage =======================
 def verified_module_sha256(path, expected_sha256):
     """Require the approved source digest, allowing only Git checkout CRLF.
 
