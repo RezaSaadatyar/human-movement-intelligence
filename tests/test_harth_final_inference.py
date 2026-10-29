@@ -116,7 +116,7 @@ class TestHarthFinalInference(unittest.TestCase):
 
     def test_stage26_notebook_uses_reconciled_manifest(self):
         root=Path(__file__).resolve().parents[1]
-        notebook=root/"wearable_activity_recognition/code/notebooks/26_final_development_training_and_inference.ipynb"
+        notebook=root/"wearable_activity_recognition/code/notebooks/25_final_development_training_and_inference.ipynb"
         nb=json.loads(notebook.read_text(encoding="utf-8"))
         code="\\n".join(
             "".join(cell["source"]) if isinstance(cell.get("source"),list)

@@ -177,8 +177,18 @@ def verify_recorded_evidence():
         26: (14, "STAGE 26 | QUALIFIED HELD-OUT EVALUATION: PASSED"),
         27: (11, "STAGE 27 | SOURCE-GROUNDED RESEARCH SYNTHESIS QUALITY GATE: PASSED"),
     }
+    # Keep the immutable historical Stage 23–27 approval labels while mapping
+    # each legacy checkpoint to its current, renumbered active notebook file.
+    approved_stage_paths = {
+        23: "22_unified_matched_model_benchmark.ipynb",
+        24: "23_multiseed_and_imbalance_robustness.ipynb",
+        25: "24_model_selection_and_protocol_freeze.ipynb",
+        26: "25_final_development_training_and_inference.ipynb",
+        27: "26_final_research_evidence_and_report.ipynb",
+    }
     for stage, (count, gate) in expected.items():
-        matches = list(NOTEBOOKS.glob(f"{stage:02d}_*.ipynb"))
+        candidate = NOTEBOOKS / approved_stage_paths[stage]
+        matches = [candidate] if candidate.is_file() else []
         if len(matches) != 1:
             raise ValueError(f"Missing or ambiguous notebook Stage {stage}")
         if stage == 24:
@@ -203,7 +213,7 @@ def verify_recorded_evidence():
             )
     # Recover the original Stage 23 execution from a pinned Git revision.
     # Do not weaken byte-level approval checks or create duplicate notebooks.
-    stage23_active = next(NOTEBOOKS.glob("23_*.ipynb"))
+    stage23_active = NOTEBOOKS / "22_unified_matched_model_benchmark.ipynb"
     historical23 = read_historical_stage23_bytes(
         ROOT, approved["stage23_saved_notebook_sha256"]
     )

@@ -25,7 +25,7 @@ class TestHarthReleaseReadiness(unittest.TestCase):
         import sys
         notebooks = ROOT / "wearable_activity_recognition/code/notebooks"
         study = notebooks.parents[1]
-        active = notebooks / "23_unified_matched_model_benchmark.ipynb"
+        active = notebooks / "22_unified_matched_model_benchmark.ipynb"
         manifest = json.loads(
             (study / "evidence/stage_25_protocol_approved_qualified_test.json")
             .read_text(encoding="utf-8")
@@ -41,7 +41,7 @@ class TestHarthReleaseReadiness(unittest.TestCase):
         sys.path.insert(0, str(ROOT / "python_modules"))
         from core.harth_selection_evidence import load_selection_evidence
         evidence = load_selection_evidence(
-            active, notebooks / "24_multiseed_and_imbalance_robustness.ipynb"
+            active, notebooks / "23_multiseed_and_imbalance_robustness.ipynb"
         )
         self.assertEqual(evidence["notebook23_sha256"], expected)
         self.assertEqual(len(evidence["stage23"]), 7)
@@ -51,7 +51,7 @@ class TestHarthReleaseReadiness(unittest.TestCase):
         import tempfile
         from core.harth_provenance import verify_stage23_visual_format
         directory = ROOT / "wearable_activity_recognition"
-        active = directory / "code/notebooks/23_unified_matched_model_benchmark.ipynb"
+        active = directory / "code/notebooks/22_unified_matched_model_benchmark.ipynb"
         approved = json.loads(
             (directory / "evidence/stage_25_protocol_approved_qualified_test.json")
             .read_text(encoding="utf-8")
@@ -83,7 +83,7 @@ class TestHarthReleaseReadiness(unittest.TestCase):
         import tempfile
         from core.harth_provenance import verify_stage23_visual_format
         folder = ROOT/"wearable_activity_recognition"
-        current = folder/"code/notebooks/23_unified_matched_model_benchmark.ipynb"
+        current = folder/"code/notebooks/22_unified_matched_model_benchmark.ipynb"
         approved = json.loads(
             (folder/"evidence/stage_25_protocol_approved_qualified_test.json")
             .read_text(encoding="utf-8")
@@ -112,7 +112,7 @@ class TestHarthReleaseReadiness(unittest.TestCase):
         )
         current = (
             root / "wearable_activity_recognition/code/notebooks/"
-            "24_multiseed_and_imbalance_robustness.ipynb"
+            "23_multiseed_and_imbalance_robustness.ipynb"
         )
         manifest = json.loads(
             (root / "wearable_activity_recognition/evidence/"
@@ -140,7 +140,7 @@ class TestHarthReleaseReadiness(unittest.TestCase):
         )
         current = (
             ROOT / "wearable_activity_recognition/code/notebooks/"
-            "24_multiseed_and_imbalance_robustness.ipynb"
+            "23_multiseed_and_imbalance_robustness.ipynb"
         )
         approved = json.loads(
             (ROOT / "wearable_activity_recognition/evidence/"
@@ -180,7 +180,7 @@ class TestHarthReleaseReadiness(unittest.TestCase):
         )
         current = (
             ROOT / "wearable_activity_recognition/code/notebooks/"
-            "24_multiseed_and_imbalance_robustness.ipynb"
+            "23_multiseed_and_imbalance_robustness.ipynb"
         )
         approved = json.loads(
             (ROOT / "wearable_activity_recognition/evidence/"
@@ -215,7 +215,7 @@ class TestHarthReleaseReadiness(unittest.TestCase):
             read_historical_stage24_bytes, verify_stage24_visual_format,
         )
         folder = ROOT / "wearable_activity_recognition"
-        current = folder / "code/notebooks/24_multiseed_and_imbalance_robustness.ipynb"
+        current = folder / "code/notebooks/23_multiseed_and_imbalance_robustness.ipynb"
         approved = json.loads(
             (folder / "evidence/stage_25_protocol_approved_qualified_test.json")
             .read_text(encoding="utf-8")
@@ -248,7 +248,7 @@ class TestHarthReleaseReadiness(unittest.TestCase):
             read_historical_stage24_bytes, verify_stage24_visual_format,
         )
         study = ROOT / "wearable_activity_recognition"
-        current = study / "code/notebooks/24_multiseed_and_imbalance_robustness.ipynb"
+        current = study / "code/notebooks/23_multiseed_and_imbalance_robustness.ipynb"
         manifest = json.loads(
             (study / "evidence/stage_25_protocol_approved_qualified_test.json")
             .read_text(encoding="utf-8")
@@ -294,7 +294,7 @@ class TestHarthReleaseReadiness(unittest.TestCase):
         import json
         notebook = (
             ROOT / "wearable_activity_recognition/code/notebooks/"
-            "27_final_research_evidence_and_report.ipynb"
+            "26_final_research_evidence_and_report.ipynb"
         )
         record = json.loads(notebook.read_text(encoding="utf-8"))
         cells = [
@@ -341,7 +341,7 @@ class TestHarthReleaseReadiness(unittest.TestCase):
         """All 11 saved code cells must be genuinely executed and error-free."""
         p = (
             ROOT / "wearable_activity_recognition/code/notebooks/"
-            "27_final_research_evidence_and_report.ipynb"
+            "26_final_research_evidence_and_report.ipynb"
         )
         saved = audit.notebook_execution_check(
             p, 11,

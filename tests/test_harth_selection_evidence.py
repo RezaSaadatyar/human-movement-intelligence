@@ -20,8 +20,8 @@ class TestSelectionEvidence(unittest.TestCase):
     def test_read_real_saved_research_notebooks_when_available(self):
         root=Path(__file__).resolve().parents[1]
         p=root/"wearable_activity_recognition/code/notebooks"
-        n23=p/"23_unified_matched_model_benchmark.ipynb"
-        n24=p/"24_multiseed_and_imbalance_robustness.ipynb"
+        n23=p/"22_unified_matched_model_benchmark.ipynb"
+        n24=p/"23_multiseed_and_imbalance_robustness.ipynb"
         evidence=load_selection_evidence(n23,n24)
         self.assertEqual(len(evidence["stage23"]),7)
         self.assertEqual(len(evidence["stage24_folds"]),36)

@@ -1,5 +1,8 @@
 # HARTH research output files
 
+**Numbering update:** Historical displayed-precision CSV filenames and associated approval digests retain their original stage numbers. The active research notebooks have been renumbered 21–27 → 20–26; see [the mapping](../STAGE_NUMBERING.md). The cited original source notebook paths below refer to versions in Git history rather than to the new active filenames.
+
+
 This project stores reusable experiment results, figures, evaluation tables, and selected checkpoints in the study-level `output/` directory. It is a sibling of `code/`, not a notebook subfolder. Notebook outputs are written here on execution. Local files do **not** automatically sync from Google Colab to a laptop or GitHub.
 
 ## Historical Stage 23 and Stage 24 exports

@@ -16,11 +16,11 @@ class TestHarthStage27Evidence(unittest.TestCase):
 
     def test_original_executed_and_approved_chain(self):
         development=load_selection_evidence(
-            self.dir/"23_unified_matched_model_benchmark.ipynb",
-            self.dir/"24_multiseed_and_imbalance_robustness.ipynb",
+            self.dir/"22_unified_matched_model_benchmark.ipynb",
+            self.dir/"23_multiseed_and_imbalance_robustness.ipynb",
         )
         final=load_final_harth_evidence(
-            self.dir/"26_final_development_training_and_inference.ipynb",
+            self.dir/"25_final_development_training_and_inference.ipynb",
             self.study/"evidence/stage_25_protocol_proposal_reconciled.json",
             self.study/"evidence/stage_25_protocol_approved_qualified_test.json",
             development["development_sha256"],
@@ -38,7 +38,7 @@ class TestHarthStage27Evidence(unittest.TestCase):
 
     def test_stage25_quality_gate(self):
         notebook,digest=_load_executed_notebook(
-            self.dir/"25_model_selection_and_protocol_freeze.ipynb",
+            self.dir/"24_model_selection_and_protocol_freeze.ipynb",
             "Stage 25 development selection audit: PASSED",
         )
         self.assertEqual(len(digest),64)
@@ -47,7 +47,7 @@ class TestHarthStage27Evidence(unittest.TestCase):
     def test_stage27_saved_report_is_executed_and_read_only(self):
         """Executed notebook outputs are evidence; a draft-only assertion is obsolete."""
         import json
-        path = self.dir / "27_final_research_evidence_and_report.ipynb"
+        path = self.dir / "26_final_research_evidence_and_report.ipynb"
         nb = json.loads(path.read_text(encoding="utf-8"))
         self.assertEqual(nb["nbformat"], 4)
         codes = [cell for cell in nb["cells"] if cell["cell_type"] == "code"]

@@ -1,5 +1,8 @@
 # HARTH v2.0 | Reproducibility and Release Readiness
 
+**Numbering update:** The original executed Stages 21–27 have been relabelled 20–26 in the active notebook directory. Historical approval and provenance references below deliberately retain their original Stage 23–27 labels and fingerprints. See [the mapping](../wearable_activity_recognition/STAGE_NUMBERING.md).
+
+
 ## Scope and verified evidence
 
 This is a practical pre-release audit for the completed HARTH activity-recognition study in `human-movement-intelligence`. **It does not add a training experiment, alter frozen model code, rerun original Test, or create a GitHub Release.** Executed Notebooks 23–27 contain seven-model Development comparisons, 36 multi-seed jobs, pre-Test model selection, one approved qualified Test analysis and a read-only evidence synthesis. The earlier 01–22 notebooks remain historical evidence with different objectives and subsets.
@@ -9,11 +12,11 @@ This is a practical pre-release audit for the completed HARTH activity-recogniti
 - Development: 29 people; 14,201 bounded windows. Participants S023 and S032 were reserved for the qualified final report, 500 windows each.
 - Stage 23 development 1D-ResNet three-fold mean Macro F1: 0.8328 (fold SD 0.0435). Stage 24 repeated-seed weighted-CE ResNet mean Macro F1: 0.8286 (across-seed SD 0.0052).
 - Stage 26 qualified pooled fixed-eight-class Macro F1: ResNet 0.7182; fixed Random Forest 0.6817. Accuracy 0.9020 / 0.9270. These are **not** an externally validated or historically blind result. S023/S032 were inspected descriptively during earlier exploration.
-- Primary evidence: [Notebook 23](../wearable_activity_recognition/code/notebooks/23_unified_matched_model_benchmark.ipynb), [24](../wearable_activity_recognition/code/notebooks/24_multiseed_and_imbalance_robustness.ipynb), [25](../wearable_activity_recognition/code/notebooks/25_model_selection_and_protocol_freeze.ipynb), [26](../wearable_activity_recognition/code/notebooks/26_final_development_training_and_inference.ipynb), [27](../wearable_activity_recognition/code/notebooks/27_final_research_evidence_and_report.ipynb).
+- Primary evidence: [Notebook 23](../wearable_activity_recognition/code/notebooks/22_unified_matched_model_benchmark.ipynb), [24](../wearable_activity_recognition/code/notebooks/23_multiseed_and_imbalance_robustness.ipynb), [25](../wearable_activity_recognition/code/notebooks/24_model_selection_and_protocol_freeze.ipynb), [26](../wearable_activity_recognition/code/notebooks/25_final_development_training_and_inference.ipynb), [27](../wearable_activity_recognition/code/notebooks/26_final_research_evidence_and_report.ipynb).
 
 ## Historical Stage 23/24 research evidence
 
-The current `notebooks/23_unified_matched_model_benchmark.ipynb` is a later, presentation-updated version. The original approved execution is preserved in pinned Git history and its scientific results are verified against that historical record. The current file SHA256 differs from the byte-level fingerprint retained in the approved Stage 25 manifest; this does not replace or invalidate the historical record.
+The current `notebooks/22_unified_matched_model_benchmark.ipynb` is a later, presentation-updated version. The original approved execution is preserved in pinned Git history and its scientific results are verified against that historical record. The current file SHA256 differs from the byte-level fingerprint retained in the approved Stage 25 manifest; this does not replace or invalidate the historical record.
 
 The original executed Stage 23 notebook is retained in **pinned repository Git
 history**, rather than as a second file in the current project tree. The

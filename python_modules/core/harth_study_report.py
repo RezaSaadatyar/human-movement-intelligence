@@ -232,7 +232,7 @@ def load_committed_final_harth_evidence(
     root = Path(root).resolve()
     relative = (
         "wearable_activity_recognition/code/notebooks/"
-        "26_final_development_training_and_inference.ipynb"
+        "25_final_development_training_and_inference.ipynb"
     )
     result = subprocess.run(
         ["git", "-C", str(root), "show", f"HEAD:{relative}"],
