@@ -1,4 +1,4 @@
-# ======================== Presented by: Reza Saadatyar (2026) ========================
+# ==================== Presented by: Reza Saadatyar (2026) ====================
 """Read HARTH accelerometer recordings using the common Python CSV reader."""
 
 from pathlib import Path
@@ -11,7 +11,7 @@ import warnings
 from core.data_loading import load_data
 
 
-# ============================ 1. Dataset Information ============================
+# ========================== 1. Dataset Information ===========================
 # HARTH v2.0, official NTNU AI Lab repository; pinned for reproducibility.
 HARTH_REVISION = "dad2cfbe89a26f72f19770419469ac037de200df"
 HARTH_SOURCE = (
@@ -33,7 +33,7 @@ ACTIVITY_NAMES = {
 }
 
 
-# ============================== 2. Data Acquisition ==============================
+# =========================== 2. Data Acquisition =============================
 def ensure_harth_sample(data_dir, subject="S023"):
     """
     Obtain one public participant CSV from the official HARTH v2.0 repository.
@@ -86,7 +86,7 @@ def ensure_harth_sample(data_dir, subject="S023"):
     return csv_path
 
 
-# ================================ 3. Data Loading ================================
+# ============================= 3. Data Loading ===============================
 def load_harth_subject(file_path, allow_unmapped_labels=False):
     """
     Read and validate one subject's wearable accelerometer recording.
@@ -147,7 +147,7 @@ def load_harth_subject(file_path, allow_unmapped_labels=False):
     return data, SENSOR_COLUMNS.copy()
 
 
-# ========================= 4. Multi-Subject Cohort Preparation ======================
+# ==================== 4. Multi-Subject Cohort Preparation ====================
 def prepare_harth_feature_cohort(
     subjects,
     data_dir,
@@ -269,7 +269,7 @@ def prepare_harth_feature_cohort(
     return features, metadata, overview, excluded
 
 
-# ====================== 5. Raw Windows for Temporal Models ======================
+# ==================== 5. Raw Windows for Temporal Models =====================
 def prepare_harth_window_cohort(
     subjects,
     data_dir,
@@ -374,7 +374,7 @@ def prepare_harth_window_cohort(
     return windows, labels, metadata, overview
 
 
-# ==================== 6. Nested Temporal Training Cohort ========================
+# =================== 6. Nested Temporal Training Cohort ======================
 def prepare_harth_nested_window_cohort(
     subjects, data_dir, task_classes=tuple(range(1, 9)),
     base_cap=500, expanded_cap=1000, window_size=100,
