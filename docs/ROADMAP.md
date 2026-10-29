@@ -3,17 +3,19 @@
 **Active notebook numbering (29 October 2026):** The historical checklist below preserves original stage labels. Active Stage 21–27 filenames have moved to Stage 20–26. The historical Stage 25 approval filenames and evidence SHA256s are unchanged; see [stage numbering](../wearable_activity_recognition/STAGE_NUMBERING.md).
 
 
-**The original planning/checkpoint log below is preserved as a historical record. Its earlier unchecked items and "pending" descriptions reflect their status when written, not the latest GitHub execution state.** For current results, see [the executed HARTH study](../wearable_activity_recognition/README.md).
+**The original planning/checkpoint log below is preserved as a historical record. Its earlier unchecked items and "pending" descriptions reflect their status when written, not the latest GitHub execution state. The new final cross-stage audit has no saved execution yet.** For current results, see [the executed HARTH study](../wearable_activity_recognition/README.md).
 
 | Area | Verified present status | Evidence |
 | --- | --- | --- |
-| HARTH Stages 01–19 | Historical executed exploratory analyses; different cohort sizes and model protocols | [Evidence register](../wearable_activity_recognition/evidence/stage_01_19_evidence_register.csv) |
-| Stage 20–22 | Executed evidence consolidation, quality audit and temporal architecture checks | [Notebooks](../wearable_activity_recognition/code/notebooks/) |
-| Stage 23 | Executed seven-model, 3-fold matched 29-person Development benchmark; 21 jobs | [Notebook 23](../wearable_activity_recognition/code/notebooks/22_unified_matched_model_benchmark.ipynb) |
-| Stage 24 | Executed multi-seed/loss robustness, 36 Development fits | [Notebook 24](../wearable_activity_recognition/code/notebooks/23_multiseed_and_imbalance_robustness.ipynb) |
-| Stage 25 | Executed Development-only model selection and source-fingerprinted protocol | [Notebook 25](../wearable_activity_recognition/code/notebooks/24_model_selection_and_protocol_freeze.ipynb) |
-| Stage 26 | Executed Development final fitting, approved one-time qualified evaluation on S023/S032; final gate PASSED | [Notebook 26](../wearable_activity_recognition/code/notebooks/25_final_development_training_and_inference.ipynb) |
-| Stage 27 | Completed read-only saved-evidence synthesis, final gate PASSED; no raw/Test reloading | [Notebook 27](../wearable_activity_recognition/code/notebooks/26_final_research_evidence_and_report.ipynb) |
+| HARTH Stages 01–19 | Executed exploratory/Development experiments under different cohorts and protocols | [Evidence register](../wearable_activity_recognition/evidence/stage_01_19_evidence_register.csv) |
+| Active Stage 20 | Executed Development data quality and minority activity audit | [Notebook 20](../wearable_activity_recognition/code/notebooks/20_minority_class_and_data_quality.ipynb) |
+| Active Stage 21 | Advanced temporal model engineering and smoke tests | [Notebook 21](../wearable_activity_recognition/code/notebooks/21_advanced_temporal_architectures.ipynb) |
+| Active Stage 22 | Executed seven-model matched Development benchmark, 21 model-fold jobs | [Notebook 22](../wearable_activity_recognition/code/notebooks/22_unified_matched_model_benchmark.ipynb) |
+| Active Stage 23 | Executed three-seed/loss robustness, 36 neural model-fold-seed jobs | [Notebook 23](../wearable_activity_recognition/code/notebooks/23_multiseed_and_imbalance_robustness.ipynb) |
+| Active Stage 24 | Executed Development model selection and protocol review | [Notebook 24](../wearable_activity_recognition/code/notebooks/24_model_selection_and_protocol_freeze.ipynb) |
+| Active Stage 25 | Executed Development final fit and one approved qualified held-out evaluation | [Notebook 25](../wearable_activity_recognition/code/notebooks/25_final_development_training_and_inference.ipynb) |
+| Active Stage 26 | Executed file-based final evidence synthesis; recorded Quality Gate PASSED | [Notebook 26](../wearable_activity_recognition/code/notebooks/26_final_research_evidence_and_report.ipynb) |
+| Separate FINAL audit | Cross-stage research closure notebook written, initial execution not yet completed | [Final audit](../wearable_activity_recognition/code/notebooks/final_harth_research_audit_and_closure.ipynb) |
 | Biomechanical Load Estimation | Original data inspection and separately documented preliminary exploratory results, not completed robust load-estimation benchmark | [Study notes](../biomechanical_load_estimation/) |
 | Other movement science studies | Planned, not yet implemented | [Research project overview](../README.md) |
 
