@@ -1,0 +1,14 @@
+protocol_component,recorded_setting
+Source dataset,HARTH v2.0
+Pinned revision,dad2cfbe89a26f72f19770419469ac037de200df
+Development people,29
+Development windows,14201
+Reserved Test people,"S023, S032"
+Test cap per person,500
+Sampling frequency (Hz),50
+Window / stride (samples),100 / 50
+Classification codes,"[1, 2, 3, 4, 5, 6, 7, 8]"
+Primary network,1D-ResNet
+Fixed optimiser updates,400
+Class weighting,inverse_sqrt_weighted_ce
+Random Forest trees,120

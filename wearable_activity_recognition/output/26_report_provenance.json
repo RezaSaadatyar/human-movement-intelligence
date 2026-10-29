@@ -1,0 +1,24 @@
+{
+  "study": "HARTH v2.0",
+  "scope": "full-precision saved CSV synthesis; no retraining or Test re-evaluation",
+  "source_revision": "dad2cfbe89a26f72f19770419469ac037de200df",
+  "development_sha256": "672d4109727a20ea30f2557f6b405445fce86be1898a58851fa976f8ed8bf297",
+  "input_csv_sha256": {
+    "benchmark": "e85742e92e32bfca74dc00a08b61da64684db12a02f8fa9269135c865f8c8b47",
+    "robustness_summary": "f0907123981a11430193b0a0255f679d3f4f29e4a4322e7469d06b4821215392",
+    "robustness_folds": "4408fb5a9c18e81a1d8aba4fdd8e87ffc549425af4f35e3e041b5db262f3b417",
+    "qualified_coverage": "7bfaa6771292daa582cd02d0940d11ecd59098c039e1d67e636bc641e8bfc8b2",
+    "qualified_summary": "a3a85b40ba9e0eb27a6f7f686c7183d304dd515a4c7c6df12c9937a0393f399f",
+    "qualified_subjects": "814bc097f07eee8a55d3d460fb891b25622183c8b8f5608747d7f95a42fd3d24",
+    "qualified_classes": "af736ee9b544746bf62dc58a8708c1a315aec1ae62fa4bd128721c6c6c754e9c"
+  },
+  "pending_manifest_sha256": "c0a3c641e990e251d397d6b09f82eb38fc676320c141f7b6fa45fc8f3adbe73f",
+  "approved_manifest_sha256": "7d52b1a12cc6cd80ae46278fb88285910c229745538212546d68c3b563ecf648",
+  "qualified_test_subjects": [
+    "S023",
+    "S032"
+  ],
+  "test_already_historically_inspected": true,
+  "metric_precision": "source-saved full-precision CSV values; displayed report tables may be rounded",
+  "notebook_parsing_or_execution": false
+}

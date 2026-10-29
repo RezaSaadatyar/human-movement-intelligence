@@ -1,0 +1,9 @@
+Evidence status,Interpretation
+Supported,"29-person Development, 3 subject-disjoint folds and Stage 23 3-seed robustness"
+Supported,Frozen models assessed on identical windows from S023 and S032
+Supported,Stage 25 source-aligned class metrics and qualified same-study results
+Limitation,Only 2 originally reserved people; both historically explored
+Limitation,"Overlapping windows, small rare-class support, different per-person class coverage"
+Limitation,"Previously undocumented codes 10/11 were excluded, not reinterpreted"
+Not supported,Independent blind external validation or prospective clinical deployment
+Not supported,"Test-selected architectures, clinical decisions, population-level certainty"
