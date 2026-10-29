@@ -47,7 +47,7 @@ def _git(*args):
     return result.stdout.strip()
 
 # ========================= Output Synchronisation ============================
-def sync_outputs(folder, max_mb=50):
+def sync_outputs(folder, max_mb=50, publish=False):
     """Publish new eligible output files; package oversized files for download.
 
     Args:
@@ -55,6 +55,8 @@ def sync_outputs(folder, max_mb=50):
             repository root or an absolute path inside the repository.
         max_mb (int | float): Per-file limit in decimal MB. The hard upper
             bound is always 50,000,000 bytes, even if a larger value is given.
+        publish (bool): Explicitly authorise Git Commit and Push. False only
+            lists eligible files and builds any oversized download ZIP.
 
     Returns:
         dict: Selected/published filenames and any generated ZIP path.
@@ -69,6 +71,9 @@ def sync_outputs(folder, max_mb=50):
         or max_mb <= 0
     ):
         raise ValueError("max_mb must be a positive finite number.")
+
+    if not isinstance(publish, bool):
+        raise ValueError("publish must be True or False.")
 
     limit = min(int(max_mb * 1_000_000), HARD_LIMIT_BYTES)
     if limit < 1:
@@ -201,9 +206,12 @@ def sync_outputs(folder, max_mb=50):
             "checkout safely before trying again."
         )
 
-    if input("\nType PUSH to commit and upload these files: ").strip() != "PUSH":
-        print("GitHub publication cancelled. Source files are unchanged.")
+    if not publish:
+        print("\nPreview only: no GitHub publication requested.")
+        print("Run with publish=True to commit and push listed files.")
         return result
+
+    print("\nPublishing selected files (publish=True).")
 
     # Guard again against changes to the selected files during review.
     for name in publishable:
