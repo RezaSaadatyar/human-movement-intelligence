@@ -1,4 +1,4 @@
-# ======================== Presented by: Reza Saadatyar (2026) ========================
+# ==================== Presented by: Reza Saadatyar (2026) ====================
 """Matched subject-independent evaluation of classic and temporal models."""
 
 import numpy as np
@@ -16,7 +16,7 @@ from core.ml_baselines import (
 from core.temporal_cnn import train_temporal_cnn
 
 
-# ======================== 1. Group-Disjoint Model Comparison ========================
+# ==================== 01. Group-Disjoint Model Comparison ====================
 def compare_models_group_cv(
     windows,
     labels,

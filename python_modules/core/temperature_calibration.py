@@ -1,4 +1,4 @@
-# ======================== Presented by: Reza Saadatyar (2026) ========================
+# ==================== Presented by: Reza Saadatyar (2026) ====================
 """Multiclass temperature scaling with subject-disjoint calibration labels."""
 
 import numpy as np
@@ -6,7 +6,7 @@ from scipy.optimize import minimize_scalar
 from scipy.special import logsumexp
 
 
-# ====================== 1. Probability Validation ======================
+# ======================== 01. Probability Validation =========================
 def _check_probabilities(probabilities, classes=None):
     """Validate finite, class-aligned, normalised multiclass softmax values."""
     p = np.asarray(probabilities, dtype=np.float64)
@@ -23,7 +23,7 @@ def _check_probabilities(probabilities, classes=None):
     return np.clip(p, 1e-12, 1)
 
 
-# ====================== 2. Calibrate Scores without Refitting the Model ======================
+# ============= 02. Calibrate Scores without Refitting the Model ==============
 def apply_temperature(probabilities, temperature):
     """
     Apply a positive scalar softmax temperature to already-fitted model scores.
@@ -48,7 +48,7 @@ def apply_temperature(probabilities, temperature):
     return np.exp(log_scores - logsumexp(log_scores, axis=1, keepdims=True))
 
 
-# ====================== 3. Calibration-Only Temperature Fitting ======================
+# ================= 03. Calibration-Only Temperature Fitting ==================
 def fit_temperature(calibration_probabilities, calibration_labels, classes,
                     lower_bound=0.25, upper_bound=4.0):
     """
@@ -100,7 +100,7 @@ def fit_temperature(calibration_probabilities, calibration_labels, classes,
     }
 
 
-# ====================== 4. Held-Out Multiclass NLL ======================
+# ======================== 04. Held-Out Multiclass NLL ========================
 def multiclass_nll(y_true, probabilities, classes):
     """
     Compute mean negative log likelihood on class-aligned labelled windows.

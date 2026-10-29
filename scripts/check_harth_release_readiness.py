@@ -1,4 +1,4 @@
-# ======================== Presented by: Reza Saadatyar (2026) ========================
+# ==================== Presented by: Reza Saadatyar (2026) ====================
 """Non-destructive HARTH pre-release provenance and local-artifact audit.
 
 Uses Python standard library only. Does NOT load HARTH CSVs, PyTorch, joblib
@@ -39,6 +39,7 @@ from core.harth_provenance import (
 )
 
 
+# ====================== 01. Research Release Readiness =======================
 def file_sha256(path):
     """Return the original byte-level SHA256, without modifying the file."""
     digest = hashlib.sha256()

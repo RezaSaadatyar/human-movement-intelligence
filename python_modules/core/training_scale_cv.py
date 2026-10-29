@@ -1,4 +1,4 @@
-# ======================== Presented by: Reza Saadatyar (2026) ========================
+# ==================== Presented by: Reza Saadatyar (2026) ====================
 """Matched subject-group CV for nested training-data scaling experiments."""
 
 import numpy as np
@@ -15,7 +15,7 @@ from core.ml_baselines import (
 from core.temporal_cnn import train_temporal_cnn
 
 
-# ========================== 1. Nested-Data Cross-Validation ==========================
+# ===================== 01. Nested-Data Cross-Validation ======================
 def evaluate_nested_training_group_cv(
     windows,
     metadata,

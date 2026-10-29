@@ -1,4 +1,4 @@
-# ======================== Presented by: Reza Saadatyar (2026) ========================
+# ==================== Presented by: Reza Saadatyar (2026) ====================
 """Source-grounded, training-free quality audit for HARTH v2.0 recordings.
 
 Inspect original source labels and timestamps before windowing, then audit
@@ -21,7 +21,7 @@ from harth_data import (
 )
 
 
-# ======================= 1. Timestamp and Window Boundaries =====================
+# ==================== 01. Timestamp and Window Boundaries ====================
 def window_rejection_reasons(labels, timestamps, window_size=100,
                              step_size=50, sampling_rate=50):
     """
@@ -106,7 +106,7 @@ def window_rejection_reasons(labels, timestamps, window_size=100,
     return result
 
 
-# ======================= 2. Annotation Bout Characterisation ====================
+# =================== 02. Annotation Bout Characterisation ====================
 def characterise_annotation_bouts(labels, timestamps, subject_id,
                                   sampling_rate=50, window_size=100):
     """
@@ -165,7 +165,7 @@ def characterise_annotation_bouts(labels, timestamps, subject_id,
     return bouts
 
 
-# ========================== 3. Source-Channel Diagnostics ========================
+# ====================== 03. Source-Channel Diagnostics =======================
 def inspect_raw_sensor_channels(data, subject_id, channel_names=SENSOR_COLUMNS):
     """
     Report non-diagnostic signal distributions for each accelerometer axis.
@@ -210,7 +210,7 @@ def inspect_raw_sensor_channels(data, subject_id, channel_names=SENSOR_COLUMNS):
     return pd.DataFrame(rows)
 
 
-# ========================= 4. Full Development Source Audit ======================
+# ===================== 04. Full Development Source Audit =====================
 def audit_harth_development_sources(
     subjects, data_dir, task_classes=tuple(range(1, 9)),
     window_size=100, step_size=50, sampling_rate=50,
