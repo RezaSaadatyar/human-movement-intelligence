@@ -129,6 +129,53 @@ def _verified_reviewed_presentation(active_path, stage):
     root = active_path.parents[3]
     if not (root / ".git").is_dir():
         raise ValueError("Historical provenance needs the full Git repository.")
+    # Stage names were renumbered in October 2026 for presentation only.
+    # Preserve the already-approved SHA256 evidence by accepting ONLY the
+    # exact, reviewed renumbered notebook blobs and comparing the corresponding
+    # original active snapshots from immutable Git history.
+    renamed = {
+        23: {
+            "active": "22_unified_matched_model_benchmark.ipynb",
+            "active_sha": "9fefe8ab3d9163fa629ab99b6ad50f42a59d0d07",
+            "historical": (
+                "wearable_activity_recognition/code/notebooks/"
+                "23_unified_matched_model_benchmark.ipynb"
+            ),
+            "historical_sha": "5a6f45bde5c6972273d77737fc825b4ee271b132",
+        },
+        24: {
+            "active": "23_multiseed_and_imbalance_robustness.ipynb",
+            "active_sha": "29b773ab5a41df8a307d84370762d1ab72c26f9d",
+            "historical": (
+                "wearable_activity_recognition/code/notebooks/"
+                "24_multiseed_and_imbalance_robustness.ipynb"
+            ),
+            "historical_sha": "226711d9efbee1102291f4f3593b93579f86e345",
+        },
+    }
+    remapped = renamed.get(stage)
+    if remapped and active_path.name == remapped["active"]:
+        if _git_blob_digest(active_path.read_bytes()) != remapped["active_sha"]:
+            raise ValueError(
+                "Renumbered notebook has changed since its reviewed snapshot."
+            )
+        original_ref = (
+            "0a516cc1d61506c6ddb7bf3de471aa277f129da8:"
+            + remapped["historical"]
+        )
+        old_active = subprocess.run(
+            ["git", "show", original_ref],
+            cwd=root, capture_output=True, check=False,
+        )
+        if old_active.returncode != 0 or (
+            _git_blob_digest(old_active.stdout) != remapped["historical_sha"]
+        ):
+            raise ValueError(
+                "Original reviewed notebook required for stage renumbering "
+                "verification is not available in Git history."
+            )
+        return json.loads(old_active.stdout.decode("utf-8"))
+
     reference = _REVIEWED_PRESENTATION_COMMIT + ":" + cfg["path"]
     result = subprocess.run(
         ["git", "show", reference], cwd=root,
