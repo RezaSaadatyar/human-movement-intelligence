@@ -1,57 +1,90 @@
 <svg xmlns="http://www.w3.org/2000/svg" width="1700" height="480" viewBox="0 0 1700 480" role="img" aria-labelledby="title desc">
-  <title id="title">Stage 20: output-based research evidence consolidation</title>
-  <desc id="desc">Stage 20 reads required exported CSV files from previous HARTH research stages, validates file availability, schemas, cohort consistency and metric ranges, then produces sourced research summaries, figures and a stage-specific ZIP. No notebook execution history is inspected, no models are retrained and no final-Test claims are made.</desc>
+  <title id="title">FINAL HARTH Research Evidence Audit and Project Closure Workflow</title>
+  <desc id="desc">Dedicated FINAL notebook workflow: read saved Development, model and qualified evaluation result tables and approved research records; validate cohort and provenance integrity; compare compatible experiments; inspect calibration and rare-class limitations; export audited evidence and complete the final research quality gate. No model fitting, raw signal access or Test re-scoring.</desc>
   <defs>
-    <marker id="arrow" markerWidth="9" markerHeight="9" refX="7.5" refY="4.5" orient="auto">
-      <path d="M1 1 L8 4.5 L1 8 Z" fill="#50738E"/>
+    <marker id="final-arrow" markerUnits="userSpaceOnUse" markerWidth="8" markerHeight="8" refX="7" refY="4" orient="auto">
+      <path d="M0 0 L8 4 L0 8 Z" fill="#377396"/>
     </marker>
   </defs>
-  <rect width="1700" height="480" rx="18" fill="#F6FAFD"/>
+  <rect width="1700" height="480" rx="20" fill="#F4F9FD"/>
   <g font-family="DejaVu Sans, Arial, sans-serif">
-    <text x="44" y="55" font-size="26" font-weight="700" fill="#183B53">STAGE 20 | RESEARCH EVIDENCE CONSOLIDATION</text>
-    <text x="44" y="89" font-size="16" fill="#4E6C80">Read exported research results · Validate source data · Prepare reproducible summaries</text>
-    <text x="44" y="145" font-size="16" font-weight="700" fill="#254F6F">SOURCE FILES</text>
-    <g stroke-width="2">
-      <rect x="44" y="163" width="260" height="125" rx="13" fill="#E5F1FA" stroke="#BCD6E6"/>
-      <rect x="324" y="163" width="260" height="125" rx="13" fill="#E5F1FA" stroke="#BCD6E6"/>
-      <rect x="604" y="163" width="260" height="125" rx="13" fill="#E5F1FA" stroke="#BCD6E6"/>
-      <rect x="884" y="163" width="260" height="125" rx="13" fill="#E5F1FA" stroke="#BCD6E6"/>
+    <text x="36" y="42" font-size="27" font-weight="700" fill="#173453">FINAL | HARTH RESEARCH EVIDENCE AUDIT AND PROJECT CLOSURE</text>
+    <text x="36" y="72" font-size="16.2" fill="#55758A">Cross-stage scientific consistency · source-file reproducibility · documented research handover</text>
+
+    <g aria-label="Recorded evidence source groups">
+      <rect x="36" y="96" width="394" height="145" rx="14" fill="#E5F1FA" stroke="#B9D4E4" stroke-width="2"/>
+      <rect x="448" y="96" width="394" height="145" rx="14" fill="#E5F1FA" stroke="#B9D4E4" stroke-width="2"/>
+      <rect x="860" y="96" width="394" height="145" rx="14" fill="#E5F1FA" stroke="#B9D4E4" stroke-width="2"/>
+      <rect x="1272" y="96" width="392" height="145" rx="14" fill="#E0F3F0" stroke="#9FCBC5" stroke-width="2"/>
+      <g font-size="17.5" font-weight="700" fill="#19435E">
+        <text x="54" y="125">DEVELOPMENT COHORT</text>
+        <text x="466" y="125">EXPERIMENTAL EVIDENCE</text>
+        <text x="878" y="125">QUALIFIED EVALUATION</text>
+        <text x="1290" y="125">REPORT AND PROVENANCE</text>
+      </g>
+      <g font-size="15.2" fill="#45677E">
+        <text x="54" y="158">29 people · eligible task windows</text>
+        <text x="54" y="182">500 / 1,000-window sampling caps</text>
+        <text x="54" y="207">Participant and source integrity</text>
+        <text x="466" y="158">Development model comparisons</text>
+        <text x="466" y="182">Robustness across seeds and folds</text>
+        <text x="466" y="207">Calibration and minority support</text>
+        <text x="878" y="158">S023 and S032 · 500 windows each</text>
+        <text x="878" y="182">Class metrics and participant scores</text>
+        <text x="878" y="207">Same-study, not blind external</text>
+        <text x="1290" y="158">Saved numerical CSV results</text>
+        <text x="1290" y="182">Approved protocol and JSON record</text>
+        <text x="1290" y="207">Exact input-file SHA256 checks</text>
+      </g>
     </g>
-    <g fill="#1F425E" font-size="17" font-weight="700" text-anchor="middle">
-      <text x="174" y="196">Cohort summaries</text>
-      <text x="454" y="196">Model results</text>
-      <text x="734" y="196">Class support</text>
-      <text x="1014" y="196">Calibration</text>
+
+    <g aria-label="Final notebook execution workflow">
+      <g stroke-width="2">
+        <rect x="36" y="282" width="248" height="139" rx="15" fill="#173453" stroke="#173453"/>
+        <rect x="312" y="282" width="248" height="139" rx="15" fill="#FFFFFF" stroke="#B9D2E1"/>
+        <rect x="588" y="282" width="248" height="139" rx="15" fill="#FFFFFF" stroke="#B9D2E1"/>
+        <rect x="864" y="282" width="248" height="139" rx="15" fill="#FFFFFF" stroke="#B9D2E1"/>
+        <rect x="1140" y="282" width="248" height="139" rx="15" fill="#FFFFFF" stroke="#B9D2E1"/>
+        <rect x="1416" y="282" width="248" height="139" rx="15" fill="#176363" stroke="#176363"/>
+      </g>
+      <g fill="none" stroke="#377396" stroke-width="2.4" marker-end="url(#final-arrow)">
+        <path d="M287 351 H309"/>
+        <path d="M563 351 H585"/>
+        <path d="M839 351 H861"/>
+        <path d="M1115 351 H1137"/>
+        <path d="M1391 351 H1413"/>
+      </g>
+      <g font-size="13" font-weight="700" text-anchor="middle">
+        <text x="160" y="308" fill="#A7E9DF">INPUT</text>
+        <text x="436" y="308" fill="#477B9A">AUDIT</text>
+        <text x="712" y="308" fill="#477B9A">ASSESS</text>
+        <text x="988" y="308" fill="#477B9A">INTERPRET</text>
+        <text x="1264" y="308" fill="#477B9A">EXPORT</text>
+        <text x="1540" y="308" fill="#AEF2E5">COMPLETE</text>
+      </g>
+      <g font-size="16.5" font-weight="700" text-anchor="middle">
+        <text x="160" y="335" fill="#FFFFFF">Load Saved Evidence</text>
+        <text x="436" y="335" fill="#173453">Verify Cohorts</text>
+        <text x="712" y="335" fill="#173453">Compare Protocols</text>
+        <text x="988" y="335" fill="#173453">Review Limitations</text>
+        <text x="1264" y="335" fill="#173453">Save Audit Records</text>
+        <text x="1540" y="335" fill="#FFFFFF">Final Quality Gate</text>
+      </g>
+      <g font-size="13.7" text-anchor="middle">
+        <text x="160" y="363" fill="#DBE9F1">CSV and protocol JSON</text>
+        <text x="160" y="385" fill="#DBE9F1">No raw data access</text>
+        <text x="436" y="363" fill="#4D6E84">29-person Development</text>
+        <text x="436" y="385" fill="#4D6E84">File SHA256 lineage</text>
+        <text x="712" y="363" fill="#4D6E84">Matched model results</text>
+        <text x="712" y="385" fill="#4D6E84">Calibration trade-offs</text>
+        <text x="988" y="363" fill="#4D6E84">Rare-class support</text>
+        <text x="988" y="385" fill="#4D6E84">Held-out study boundaries</text>
+        <text x="1264" y="363" fill="#4D6E84">Tables, figure and JSON</text>
+        <text x="1264" y="385" fill="#4D6E84">Packaged FINAL ZIP</text>
+        <text x="1540" y="363" fill="#DBF5F1">Evidence consistency</text>
+        <text x="1540" y="385" fill="#DBF5F1">Research handover</text>
+      </g>
     </g>
-    <g fill="#40627A" font-size="14" text-anchor="middle">
-      <text x="174" y="226">Stages 08, 10 and 15</text>
-      <text x="454" y="226">Stages 09, 13, 16 and 17</text>
-      <text x="734" y="226">Stage 14</text>
-      <text x="1014" y="226">Stage 19</text>
-      <text x="174" y="254">Participant and window counts</text>
-      <text x="454" y="254">Fold-level Macro F1</text>
-      <text x="734" y="254">Sampling policy counts</text>
-      <text x="1014" y="254">Out-of-fold metric means</text>
-    </g>
-    <path d="M1171 225 H1211" stroke="#50738E" stroke-width="3" fill="none" marker-end="url(#arrow)"/>
-    <rect x="1221" y="163" width="433" height="125" rx="13" fill="#E1F3F1" stroke="#8CBFB8" stroke-width="2"/>
-    <text x="1437" y="193" font-size="18" font-weight="700" fill="#1B5F60" text-anchor="middle">STAGE 20 CHECKS</text>
-    <g font-size="14.5" fill="#1B5F60" text-anchor="middle">
-      <text x="1437" y="220">Required files and columns</text>
-      <text x="1437" y="241">Participant, cohort and metric integrity</text>
-      <text x="1437" y="262">Missing or invalid CSV → explicit error</text>
-    </g>
-    <g stroke="#8DA8BA" stroke-width="2" fill="none">
-      <path d="M174 288 V324"/>
-      <path d="M454 288 V324"/>
-      <path d="M734 288 V324"/>
-      <path d="M1014 288 V324"/>
-      <path d="M174 324 H1437"/>
-      <path d="M1437 288 V324"/>
-      <path d="M1437 324 V347" marker-end="url(#arrow)"/>
-    </g>
-    <rect x="240" y="355" width="1214" height="73" rx="12" fill="#EAF1F6" stroke="#BED2DE" stroke-width="2"/>
-    <text x="847" y="386" font-size="19" fill="#254F6F" text-anchor="middle" font-weight="700">Consolidated Stage 20 tables + figures + ZIP</text>
-    <text x="847" y="411" font-size="14" fill="#54738A" text-anchor="middle">No notebook execution-history inspection · No model retraining · No independent final-Test claim</text>
+    <text x="36" y="460" font-size="14.3" fill="#54738A">Recorded outputs → participant and file-integrity checks → protocol comparison → scientific limitations → exports → final audit gate</text>
   </g>
 </svg>
