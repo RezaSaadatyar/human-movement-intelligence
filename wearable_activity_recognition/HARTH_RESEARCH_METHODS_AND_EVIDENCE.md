@@ -406,7 +406,7 @@ evaluation or evidence of clinical readiness.
   and [approval](evidence/stage_25_protocol_approved_qualified_test.json)
   retain the recorded research decisions.
 - [Shared Python research modules](../python_modules/core/),
-  [HARTH-specific code](code/src/), [offline tests](../tests/),
+  [HARTH-specific code](code/src/),
   [workflow figures](images/) and the
   [reproducibility guide](../docs/HARTH_REPRODUCIBILITY.md) document
   implementation and verification requirements.

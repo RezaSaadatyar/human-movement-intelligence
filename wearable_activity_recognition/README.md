@@ -93,7 +93,6 @@ Qualified per-class and participant-level results are available from
 | [`images/`](images/) | Study-level and individual notebook SVG workflow figures |
 | [`evidence/`](evidence/) | Research evidence register and original protocol proposal/approval records |
 | [Shared Python modules](../python_modules/core/) | Reusable processing, splitting, training, evaluation, plotting and Colab utilities |
-| [Tests](../tests/) | Offline Python regression tests for shared and study-specific modules |
 
 The output directory contains recorded results, **not** a new data source.
 Full-precision CSV exports are available for active Stages 22, 23 and 25;
@@ -114,12 +113,10 @@ For optional local inspection, from the repository root:
 
 ```bash
 python -m pip install -r requirements.txt
-python -m unittest discover -s tests -v
 ```
 
 Some temporal experiments also require [deep-learning dependencies](../requirements-dl.txt)
-and GPU resources. The offline test command is provided for verification; its
-success is not presumed. The original raw data and trained model-weight files
+and GPU resources. The original raw data and trained model-weight files
 are **not committed**, so independent re-execution of every experiment is not
 guaranteed by the public repository alone.
 
