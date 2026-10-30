@@ -1,0 +1,67 @@
+<svg xmlns="http://www.w3.org/2000/svg" width="1700" height="515" viewBox="0 0 1700 515" role="img" aria-labelledby="title desc">
+<title id="title">MATLAB-native conversion and biomechanical signal validation</title>
+<desc id="desc">Original Essex Figshare version 13 data: 40 source participants and 1,897 records in six movement activities. 1,729 FE fields are structurally unresolved and 168 are empty. The initial Python audit verified the original source, while MATLAB-native export is awaiting delivery. Zero numerical IMU or strain payloads were validated. Units, temporal alignment and regression readiness remain unverified. This is a source-data quality pipeline, not a model result.</desc>
+<defs><marker id="arrow" markerUnits="userSpaceOnUse" markerWidth="7" markerHeight="7" refX="6" refY="3.5" orient="auto"><path d="M0 0 L7 3.5 L0 7 Z" fill="#245E9D"/></marker></defs>
+<rect width="1700" height="515" rx="18" fill="#F4F9FD"/>
+<g font-family="DejaVu Sans, Arial, sans-serif">
+<text x="30" y="41" font-size="25" font-weight="700" fill="#173453">MATLAB-NATIVE CONVERSION AND BIOMECHANICAL SIGNAL VALIDATION</text>
+<text x="31" y="72" font-size="16" fill="#54738A">Original Essex evidence · source-registry verification · numerical conversion pending</text>
+<rect x="24" y="90" width="1652" height="164" rx="16" fill="#EAF3FA" stroke="#C7D9E6" stroke-width="1.5"/>
+<g aria-label="PINNED ESSEX SOURCE">
+<text x="50" y="121" font-size="15.2" font-weight="700" fill="#173453">PINNED ESSEX SOURCE</text>
+<text x="50" y="155" font-size="13.7" fill="#506C7E">Figshare 30225739 · version 13</text>
+<text x="50" y="181" font-size="13.7" fill="#506C7E">40 original MAT participants</text>
+<text x="50" y="207" font-size="13.7" fill="#506C7E">1,897 records · six activities</text>
+</g>
+<g aria-label="SOURCE MODALITIES">
+<text x="460" y="121" font-size="15.2" font-weight="700" fill="#173453">SOURCE MODALITIES</text>
+<text x="460" y="155" font-size="13.7" fill="#506C7E">1,897 IMU field entries</text>
+<text x="460" y="181" font-size="13.7" fill="#506C7E">1,729 FE objects unresolved</text>
+<text x="460" y="207" font-size="13.7" fill="#506C7E">168 FE fields empty</text>
+</g>
+<g aria-label="NATIVE CONVERSION">
+<text x="866" y="121" font-size="15.2" font-weight="700" fill="#173453">NATIVE CONVERSION</text>
+<text x="866" y="155" font-size="13.7" fill="#506C7E">MATLAB-native export required</text>
+<text x="866" y="181" font-size="13.7" fill="#506C7E">0 validated numeric arrays</text>
+<text x="866" y="207" font-size="13.7" fill="#506C7E">Export ZIP: not supplied</text>
+</g>
+<g aria-label="QUALITY GATES">
+<text x="1273" y="121" font-size="15.2" font-weight="700" fill="#173453">QUALITY GATES</text>
+<text x="1273" y="155" font-size="13.7" fill="#506C7E">Original source: PASSED</text>
+<text x="1273" y="181" font-size="13.7" fill="#9A581C">Native export: AWAITING</text>
+<text x="1273" y="207" font-size="13.7" fill="#9A581C">Regression: NOT READY</text>
+</g>
+<rect x="24" y="275" width="1652" height="195" rx="16" fill="#EAF3FA" stroke="#C7D9E6" stroke-width="1.5"/>
+<text x="49" y="309" font-size="16.5" font-weight="700" fill="#173453">SOURCE-TO-VALIDATION RESEARCH WORKFLOW</text>
+<g aria-label="SOURCE"><rect x="38" y="336" width="251" height="98" rx="12" fill="#FFFFFF" stroke="#B8CFDE" stroke-width="1.6"/>
+<text x="163.5" y="365" text-anchor="middle" font-size="14" font-weight="700" fill="#173453">SOURCE</text>
+<text x="163.5" y="389" text-anchor="middle" font-size="13.4" fill="#506C7E">Original Essex</text>
+<text x="163.5" y="409" text-anchor="middle" font-size="13.4" fill="#506C7E">MAT files</text></g>
+<path d="M292 384 H307" stroke="#245E9D" stroke-width="2" marker-end="url(#arrow)"/>
+<g aria-label="REGISTRY"><rect x="312" y="336" width="251" height="98" rx="12" fill="#FFFFFF" stroke="#B8CFDE" stroke-width="1.6"/>
+<text x="437.5" y="365" text-anchor="middle" font-size="14" font-weight="700" fill="#173453">REGISTRY</text>
+<text x="437.5" y="389" text-anchor="middle" font-size="13.4" fill="#506C7E">40 participant</text>
+<text x="437.5" y="409" text-anchor="middle" font-size="13.4" fill="#506C7E">source identities</text></g>
+<path d="M566 384 H581" stroke="#245E9D" stroke-width="2" marker-end="url(#arrow)"/>
+<g aria-label="CLASSIFY"><rect x="586" y="336" width="251" height="98" rx="12" fill="#FFFFFF" stroke="#B8CFDE" stroke-width="1.6"/>
+<text x="711.5" y="365" text-anchor="middle" font-size="14" font-weight="700" fill="#173453">CLASSIFY</text>
+<text x="711.5" y="389" text-anchor="middle" font-size="13.4" fill="#506C7E">IMU / FE fields</text>
+<text x="711.5" y="409" text-anchor="middle" font-size="13.4" fill="#506C7E">1,897 records</text></g>
+<path d="M840 384 H855" stroke="#245E9D" stroke-width="2" marker-end="url(#arrow)"/>
+<g aria-label="CONVERT"><rect x="860" y="336" width="251" height="98" rx="12" fill="#FFFFFF" stroke="#B8CFDE" stroke-width="1.6"/>
+<text x="985.5" y="365" text-anchor="middle" font-size="14" font-weight="700" fill="#173453">CONVERT</text>
+<text x="985.5" y="389" text-anchor="middle" font-size="13.4" fill="#506C7E">MATLAB-native</text>
+<text x="985.5" y="409" text-anchor="middle" font-size="13.4" fill="#506C7E">export required</text></g>
+<path d="M1114 384 H1129" stroke="#245E9D" stroke-width="2" marker-end="url(#arrow)"/>
+<g aria-label="VALIDATE"><rect x="1134" y="336" width="251" height="98" rx="12" fill="#FFFFFF" stroke="#B8CFDE" stroke-width="1.6"/>
+<text x="1259.5" y="365" text-anchor="middle" font-size="14" font-weight="700" fill="#173453">VALIDATE</text>
+<text x="1259.5" y="389" text-anchor="middle" font-size="13.4" fill="#506C7E">Original columns</text>
+<text x="1259.5" y="409" text-anchor="middle" font-size="13.4" fill="#506C7E">units &amp; time grids</text></g>
+<path d="M1388 384 H1403" stroke="#245E9D" stroke-width="2" marker-end="url(#arrow)"/>
+<g aria-label="DECISION"><rect x="1408" y="336" width="251" height="98" rx="12" fill="#FFFFFF" stroke="#B8CFDE" stroke-width="1.6"/>
+<text x="1533.5" y="365" text-anchor="middle" font-size="14" font-weight="700" fill="#173453">DECISION</text>
+<text x="1533.5" y="389" text-anchor="middle" font-size="13.4" fill="#506C7E">No numeric export</text>
+<text x="1533.5" y="409" text-anchor="middle" font-size="13.4" fill="#506C7E">model not ready</text></g>
+<text x="48" y="456" font-size="13.7" fill="#54738A">The native MATLAB converter is available, but no numeric transfer archive was supplied for this execution.</text>
+<text x="31" y="498" font-size="14" fill="#506C7E">Source gate passed · conversion awaiting export · 0 validated numerical payloads · no model training</text>
+</g></svg>
