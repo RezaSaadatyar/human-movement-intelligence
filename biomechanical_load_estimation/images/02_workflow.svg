@@ -1,10 +1,10 @@
 <svg xmlns="http://www.w3.org/2000/svg" width="1700" height="515" viewBox="0 0 1700 515" role="img" aria-labelledby="title desc">
-<title id="title">Stage 02 | Essex source records and trial provenance audit</title>
+<title id="title">Essex source records and trial provenance audit</title>
 <desc id="desc">Executed original Essex Figshare version 13 audit with 40 participant IDs matched, 1897 Data records, 1897 readable UpdatedTrialIDs, and zero duplicate participant-trial identifiers. IMU fields remain structured or opaque for all 1897 records; FE strain fields are structured or opaque for 1729 and empty for 168. Source registry quality gate passed, while numerical target decoding and model readiness remain unestablished.</desc>
 <defs><marker id="arrow" markerUnits="userSpaceOnUse" markerWidth="7" markerHeight="7" refX="6" refY="3.5" orient="auto"><path d="M0 0 L7 3.5 L0 7 Z" fill="#245E9D"/></marker></defs>
 <rect width="1700" height="515" rx="18" fill="#F4F9FD"/>
 <g font-family="DejaVu Sans, Arial, sans-serif">
-<text x="30" y="41" font-size="25" font-weight="700" fill="#173453">STAGE 02 | MATLAB RECORD AND TRIAL PROVENANCE AUDIT</text>
+<text x="30" y="41" font-size="25" font-weight="700" fill="#173453">MATLAB RECORD AND TRIAL PROVENANCE AUDIT</text>
 <text x="32" y="72" font-size="16" fill="#54738A">Original Essex Figshare v13 · participant reconciliation · source identity · no model training</text>
 <rect x="25" y="90" width="1650" height="164" rx="16" fill="#EAF3FA" stroke="#C7D9E6" stroke-width="1.5"/>
 <g aria-label="SOURCE &amp; IDENTITY">

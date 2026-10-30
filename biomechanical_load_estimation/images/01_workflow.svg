@@ -4,7 +4,7 @@
 <defs><marker id="arrow" markerUnits="userSpaceOnUse" markerWidth="7" markerHeight="7" refX="6" refY="3.5" orient="auto"><path d="M0 0 L7 3.5 L0 7 Z" fill="#245E9D"/></marker></defs>
 <rect width="1700" height="505" rx="18" fill="#F4F9FD"/>
 <g font-family="DejaVu Sans, Arial, sans-serif">
-<text x="32" y="40" font-size="25" font-weight="700" fill="#173453">STAGE 01 | BIOMECHANICAL DATA FOUNDATION AND PROVENANCE AUDIT</text>
+<text x="32" y="40" font-size="25" font-weight="700" fill="#173453">BIOMECHANICAL DATA FOUNDATION AND PROVENANCE AUDIT</text>
 <text x="33" y="70" font-size="16" fill="#54738A">Original Essex Figshare v13 · structural verification · no model training</text>
 <rect x="25" y="89" width="1650" height="158" rx="15" fill="#EAF3FA" stroke="#C7D9E6" stroke-width="1.5"/>
 <g aria-label="PINNED SOURCE">
