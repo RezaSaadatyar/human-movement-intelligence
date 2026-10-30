@@ -1,6 +1,8 @@
 # Wearable Activity Recognition | HARTH v2.0
 
-![HARTH research workflow](images/study_overview.svg)
+![HARTH-wide research workflow: wearable sensing, participant-disjoint model development, qualified assessment and FINAL evidence audit](images/study_overview.svg)
+
+*Study-wide workflow: the diagram summarises the full HARTH research programme and the completed FINAL evidence audit. The numbered notebooks retain their individual workflow figures.*
 
 This study investigates **eight-class human activity recognition from two wearable
 accelerometers**. It compares classical machine learning and temporal deep learning
