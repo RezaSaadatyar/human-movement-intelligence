@@ -7,7 +7,9 @@ Development experiments; qualified same-study held-out model assessment; saved
 scientific results and reproducibility constraints. This document reflects the
 **26 numbered research notebooks** and the distinct
 [FINAL research audit](code/notebooks/final_harth_research_audit_and_closure.ipynb).
-The FINAL notebook is available but has **not yet been executed and committed**.
+The FINAL notebook has **11 executed code cells, a saved PASSED Quality Gate
+and ten committed `final_*` outputs**. It audits recorded scientific evidence
+without new training or qualified Test inference.
 
 See the [study README](README.md) for navigation, the
 [Stage 26 evidence report](code/notebooks/26_final_research_evidence_and_report.ipynb)
@@ -274,7 +276,83 @@ It writes comparative figures, small report tables and
 the SHA256 of all seven input CSVs. It performs **no retraining or new Test
 scoring**. It is not an independent reproduction of the fitted models.
 
-## 07. Research limitations and reproducibility
+## 07. FINAL cross-stage evidence audit and research closure
+
+The independent [FINAL research notebook](code/notebooks/final_harth_research_audit_and_closure.ipynb)
+was executed and committed after the Stage 26 saved-results report. All
+**11 code cells were executed**, with **no saved runtime errors**, and its
+last cell records:
+
+`FINAL HARTH | CROSS-STAGE EVIDENCE AUDIT: PASSED`
+
+**Audit design.** FINAL reads **20 committed CSV inputs** drawn from
+Stages 08, 09, 10, 13–17, 19–20, 22–23, 25 and 26. The evidence
+registry records their source filenames, column counts and row counts.
+The notebook verifies participant and source-window accounting,
+protocol comparability, rare-class sampling, temperature-scaling
+results and the selected-model/qualified-evaluation summaries.
+
+**Reconciled Development cohorts:**
+
+| Cohort | Independent participants | Recorded task-eligible or selected windows |
+| --- | ---: | ---: |
+| Full Development | 29 | **132,397** |
+| Up to 500 windows per participant | 29 | **14,201** |
+| Nested up to 1,000 windows per participant | 29 | **28,201** |
+
+The cohort audit confirms participant alignment and exclusion of S023/S032
+from Development evidence. This does not make the two held-out participants
+blind external cases.
+
+**Minority sampling support.** The complete Development source includes
+**1,946 Shuffling**, **1,332 ascending-stairs** and **1,066
+descending-stairs** task windows. At the 500-window sampling cap, those
+counts become **219, 192 and 182**, respectively; at the 1,000-window
+cap they become **386, 375 and 348**. These percentages describe how
+many windows the selection retains, **not classifier sensitivity**.
+See the [sampling CSV](output/final_minority_sampling_audit.csv) and
+[retention figure](output/final_minority_class_retention.png).
+
+**Protocol comparability.** The audit preserves model results under
+their original cohort, group-fold and training-budget definitions.
+It explicitly distinguishes full-cohort classical CV, capped neural
+comparisons, nested training-scale experiments, calibration folds and
+qualified held-out evaluation. It does not calculate a new overall
+leaderboard from these non-equivalent protocols. See
+[earlier Development comparisons](output/final_earlier_development_comparisons.csv)
+and the [protocol comparison register](output/final_protocol_comparability.csv).
+
+**Probability calibration.** FINAL verifies the Stage 19 source metrics:
+ten-bin ECE **0.0488 → 0.0286**, multiclass Brier
+**0.1082 → 0.1043**, NLL **0.2487 → 0.2573**, with
+accuracy **0.9275** in both conditions. Calibration is a
+Development-only descriptive experiment and was not incorporated
+in the frozen selected model.
+See [the calibration audit](output/final_temperature_scaling_audit.csv).
+
+**Scientific provenance.** FINAL recomputes the byte-level SHA256 for
+all **20 named input CSVs** and compares the seven sources shared with
+Stage 26 against the recorded Stage 26 input digests. It also checks
+the frozen proposal/approval records and the Stage 26 report file.
+The committed [FINAL provenance JSON](output/final_research_audit_provenance.json)
+records these fingerprints and the qualified evaluation boundary.
+The final result snapshot is sourced from the recorded
+[Stage 25 evaluation](output/25_qualified_model_summary.csv);
+it does not reproduce or rescore any Test predictions.
+
+**Committed FINAL outputs:** 8 CSV audit tables, 1 PNG figure and
+1 JSON provenance record are available in
+[`output/`](output/). The
+[research closure register](output/final_research_closure_and_limitations.csv)
+separates completed work from scientific limitations, future
+validation needs and claims the study does **not** establish.
+
+The Quality Gate demonstrates consistency of the available recorded
+results, source-file fingerprints and protocol constraints.
+It is **not** independent training replication, a new external
+evaluation or evidence of clinical readiness.
+
+## 08. Research limitations and reproducibility
 
 1. **Not externally validated.** All participants belong to one source
    collection. S023/S032 were descriptively inspected during exploration.
@@ -318,8 +396,11 @@ scoring**. It is not an independent reproduction of the fitted models.
   [Stage 26](code/notebooks/26_final_research_evidence_and_report.ipynb)
   consolidates saved evidence.
 - [FINAL cross-stage audit](code/notebooks/final_harth_research_audit_and_closure.ipynb)
-  is available but does **not** yet have committed execution evidence or
-  `final_*` outputs.
+  contains executed cross-stage checks and the PASSED Quality Gate.
+  Its [source inventory](output/final_source_inventory.csv),
+  [research closure register](output/final_research_closure_and_limitations.csv)
+  and [provenance JSON](output/final_research_audit_provenance.json)
+  are committed alongside the other `final_*` outputs.
 - [Protocol proposal](evidence/stage_25_protocol_proposal.json),
   [reconciled proposal](evidence/stage_25_protocol_proposal_reconciled.json)
   and [approval](evidence/stage_25_protocol_approved_qualified_test.json)
@@ -330,8 +411,11 @@ scoring**. It is not an independent reproduction of the fitted models.
   [reproducibility guide](../docs/HARTH_REPRODUCIBILITY.md) document
   implementation and verification requirements.
 
-**Research status:** The 26 numbered research notebooks and their saved
-results, including the Stage 26 evidence synthesis, are available. The
-FINAL audit execution is pending. The work is a completed experimental
-portfolio investigation with bounded scientific claims, **not** a
-clinically validated or externally generalisable prediction system.
+**Research status:** All 26 numbered notebooks and the separate FINAL
+cross-stage evidence audit have recorded executed results in GitHub.
+The FINAL audit passes its source-file and scientific-consistency
+Quality Gate, with ten committed output artefacts. This completes the
+HARTH research portfolio documentation and evidence audit within
+the available datasets and evaluation boundaries. It does **not**
+establish independent replication, clinical validation or
+generalisation to new participant populations.
