@@ -53,8 +53,16 @@ def _original_text(value):
         return str(value).strip()
     if isinstance(value, bytes):
         return value.decode("utf-8", errors="strict").strip()
-    if isinstance(value, np.ndarray) and value.size == 1:
-        return _original_text(value.item())
+    if isinstance(value, np.ndarray):
+        if value.size == 1:
+            return _original_text(value.item())
+        if (
+            value.dtype.kind in "US" and 0 < value.size <= 128
+            and value.ndim <= 2 and 1 in value.shape
+        ):
+            chars = [str(char) for char in value.ravel(order="F")]
+            if all(len(char) == 1 for char in chars):
+                return "".join(chars).strip()
     return None
 
 
@@ -199,7 +207,13 @@ def probe_pilot(reader, mat_dir, sampled):
                     modality == "FE" and row.fe_representation == "empty"
                 )
                 reports.append(evidence)
-    return pd.DataFrame(reports), pd.DataFrame(file_errors), decoded_arrays
+    return (
+        pd.DataFrame(reports),
+        pd.DataFrame(file_errors, columns=[
+            "source_file", "error_kind", "error_message"
+        ]),
+        decoded_arrays,
+    )
 
 
 def _row(reg, modality, status, matched, value, error):
