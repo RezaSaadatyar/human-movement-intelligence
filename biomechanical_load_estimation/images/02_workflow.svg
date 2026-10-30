@@ -1,0 +1,67 @@
+<svg xmlns="http://www.w3.org/2000/svg" width="1700" height="515" viewBox="0 0 1700 515" role="img" aria-labelledby="title desc">
+<title id="title">Stage 02 | Essex source records and trial provenance audit</title>
+<desc id="desc">Executed original Essex Figshare version 13 audit with 40 participant IDs matched, 1897 Data records, 1897 readable UpdatedTrialIDs, and zero duplicate participant-trial identifiers. IMU fields remain structured or opaque for all 1897 records; FE strain fields are structured or opaque for 1729 and empty for 168. Source registry quality gate passed, while numerical target decoding and model readiness remain unestablished.</desc>
+<defs><marker id="arrow" markerUnits="userSpaceOnUse" markerWidth="7" markerHeight="7" refX="6" refY="3.5" orient="auto"><path d="M0 0 L7 3.5 L0 7 Z" fill="#245E9D"/></marker></defs>
+<rect width="1700" height="515" rx="18" fill="#F4F9FD"/>
+<g font-family="DejaVu Sans, Arial, sans-serif">
+<text x="30" y="41" font-size="25" font-weight="700" fill="#173453">STAGE 02 | MATLAB RECORD AND TRIAL PROVENANCE AUDIT</text>
+<text x="32" y="72" font-size="16" fill="#54738A">Original Essex Figshare v13 · participant reconciliation · source identity · no model training</text>
+<rect x="25" y="90" width="1650" height="164" rx="16" fill="#EAF3FA" stroke="#C7D9E6" stroke-width="1.5"/>
+<g aria-label="SOURCE &amp; IDENTITY">
+<text x="49" y="122" font-size="15.5" font-weight="700" fill="#173453">SOURCE &amp; IDENTITY</text>
+<text x="49" y="157" font-size="13.7" fill="#506C7E">Figshare 30225739 · version 13</text>
+<text x="49" y="183" font-size="13.7" fill="#506C7E">40 source MAT participants</text>
+<text x="49" y="209" font-size="13.7" fill="#506C7E">40 workbook IDs matched</text>
+</g>
+<g aria-label="TRIAL PROVENANCE">
+<text x="460" y="122" font-size="15.5" font-weight="700" fill="#173453">TRIAL PROVENANCE</text>
+<text x="460" y="157" font-size="13.7" fill="#506C7E">1,897 original Data elements</text>
+<text x="460" y="183" font-size="13.7" fill="#506C7E">1,897 readable UpdatedTrialIDs</text>
+<text x="460" y="209" font-size="13.7" fill="#506C7E">No duplicate subject/trial IDs</text>
+</g>
+<g aria-label="IMU &amp; FE REPRESENTATION">
+<text x="870" y="122" font-size="15.5" font-weight="700" fill="#173453">IMU &amp; FE REPRESENTATION</text>
+<text x="870" y="157" font-size="13.7" fill="#506C7E">IMU: 1,897 opaque / structured</text>
+<text x="870" y="183" font-size="13.7" fill="#506C7E">FE: 1,729 opaque / structured</text>
+<text x="870" y="209" font-size="13.7" fill="#506C7E">FE: 168 empty target fields</text>
+</g>
+<g aria-label="QUALITY GATE">
+<text x="1270" y="122" font-size="15.5" font-weight="700" fill="#173453">QUALITY GATE</text>
+<text x="1270" y="157" font-size="13.7" fill="#506C7E">Source registry: PASSED</text>
+<text x="1270" y="183" font-size="13.7" fill="#9A581C">Model readiness: NOT ESTABLISHED</text>
+<text x="1270" y="209" font-size="13.7" fill="#506C7E">No FE curves or model training</text>
+</g>
+<rect x="25" y="275" width="1650" height="195" rx="16" fill="#EAF3FA" stroke="#C7D9E6" stroke-width="1.5"/>
+<text x="49" y="310" font-size="16.5" font-weight="700" fill="#173453">EXECUTED SOURCE-RECORD WORKFLOW</text>
+<g aria-label="INPUT"><rect x="38" y="336" width="251" height="98" rx="12" fill="#FFFFFF" stroke="#B8CFDE" stroke-width="1.6"/>
+<text x="163.5" y="365" text-anchor="middle" font-size="14" font-weight="700" fill="#173453">INPUT</text>
+<text x="163.5" y="389" text-anchor="middle" font-size="13.4" fill="#506C7E">Essex v13 MAT</text>
+<text x="163.5" y="410" text-anchor="middle" font-size="13.4" fill="#506C7E">and workbook</text></g>
+<path d="M292 384 H307" stroke="#245E9D" stroke-width="2" marker-end="url(#arrow)"/>
+<g aria-label="VERIFY"><rect x="312" y="336" width="251" height="98" rx="12" fill="#FFFFFF" stroke="#B8CFDE" stroke-width="1.6"/>
+<text x="437.5" y="365" text-anchor="middle" font-size="14" font-weight="700" fill="#173453">VERIFY</text>
+<text x="437.5" y="389" text-anchor="middle" font-size="13.4" fill="#506C7E">Archive hashes</text>
+<text x="437.5" y="410" text-anchor="middle" font-size="13.4" fill="#506C7E">and 40 IDs</text></g>
+<path d="M566 384 H581" stroke="#245E9D" stroke-width="2" marker-end="url(#arrow)"/>
+<g aria-label="AUDIT"><rect x="586" y="336" width="251" height="98" rx="12" fill="#FFFFFF" stroke="#B8CFDE" stroke-width="1.6"/>
+<text x="711.5" y="365" text-anchor="middle" font-size="14" font-weight="700" fill="#173453">AUDIT</text>
+<text x="711.5" y="389" text-anchor="middle" font-size="13.4" fill="#506C7E">1,897 source</text>
+<text x="711.5" y="410" text-anchor="middle" font-size="13.4" fill="#506C7E">Data records</text></g>
+<path d="M840 384 H855" stroke="#245E9D" stroke-width="2" marker-end="url(#arrow)"/>
+<g aria-label="IDENTIFY"><rect x="860" y="336" width="251" height="98" rx="12" fill="#FFFFFF" stroke="#B8CFDE" stroke-width="1.6"/>
+<text x="985.5" y="365" text-anchor="middle" font-size="14" font-weight="700" fill="#173453">IDENTIFY</text>
+<text x="985.5" y="389" text-anchor="middle" font-size="13.4" fill="#506C7E">Task and trial</text>
+<text x="985.5" y="410" text-anchor="middle" font-size="13.4" fill="#506C7E">metadata</text></g>
+<path d="M1114 384 H1129" stroke="#245E9D" stroke-width="2" marker-end="url(#arrow)"/>
+<g aria-label="CLASSIFY"><rect x="1134" y="336" width="251" height="98" rx="12" fill="#FFFFFF" stroke="#B8CFDE" stroke-width="1.6"/>
+<text x="1259.5" y="365" text-anchor="middle" font-size="14" font-weight="700" fill="#173453">CLASSIFY</text>
+<text x="1259.5" y="389" text-anchor="middle" font-size="13.4" fill="#506C7E">IMU / FE object</text>
+<text x="1259.5" y="410" text-anchor="middle" font-size="13.4" fill="#506C7E">representations</text></g>
+<path d="M1388 384 H1403" stroke="#245E9D" stroke-width="2" marker-end="url(#arrow)"/>
+<g aria-label="EVIDENCE"><rect x="1408" y="336" width="251" height="98" rx="12" fill="#FFFFFF" stroke="#B8CFDE" stroke-width="1.6"/>
+<text x="1533.5" y="365" text-anchor="middle" font-size="14" font-weight="700" fill="#173453">EVIDENCE</text>
+<text x="1533.5" y="389" text-anchor="middle" font-size="13.4" fill="#506C7E">Six output files</text>
+<text x="1533.5" y="410" text-anchor="middle" font-size="13.4" fill="#506C7E">quality gate</text></g>
+<text x="48" y="456" font-size="13.7" fill="#54738A">Source-register checks passed; opaque MATLAB representations cannot yet be used as verified numerical inputs or FE targets.</text>
+<text x="31" y="498" font-size="14" fill="#506C7E">40 matched people · 1,897 record IDs · 1,729 unresolved FE objects · 168 empty FE fields · Model readiness not established</text>
+</g></svg>
