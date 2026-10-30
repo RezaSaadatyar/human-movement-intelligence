@@ -279,3 +279,118 @@ def pilot_allows_expansion(rows, errors):
         and (fe.loc[~fe_empty, "fe_11_candidate"]).all()
     )
 
+# =========== 03. Guarded All-Source Export with Python Provenance ============
+def export_full_source(reader, mat_dir, registry, target_dir, zip_path):
+    """Export named, finite tables only, after strict pilot gate.
+
+    This is a Python mat-io export, not an original MATLAB-native conversion.
+    It uses Notebook 04's file layout, but preserves method provenance in
+    export_readme.txt. All 40 subjects must decode with full source identity.
+    This should only be called after pilot_allows_expansion is True.
+    """
+    target_dir = Path(target_dir)
+    zip_path = Path(zip_path)
+    if target_dir.exists() or zip_path.exists():
+        raise FileExistsError("Use a fresh output folder and ZIP for export.")
+    if len(registry) != 1897 or registry["subject_id"].nunique() != 40:
+        raise ValueError("Full-source record accounting is not established.")
+    target_dir.mkdir(parents=True, exist_ok=False)
+    numeric_dir = target_dir / "numeric"
+    numeric_dir.mkdir()
+    manifest_rows = []
+    for filename, group in registry.groupby("source_file", sort=True):
+        data = reader(
+            str(Path(mat_dir) / filename),
+            variable_names=["Data"], raw_data=False,
+        )
+        if not isinstance(data, dict) or "Data" not in data:
+            raise ValueError("Reader lost original MATLAB Data variable.")
+        records = original_records(data["Data"])
+        if len(records) != len(group):
+            raise ValueError("Full source record count differs from the registry.")
+        for row in group.itertuples(index=False):
+            idx = int(row.local_record_index)
+            rec = records[idx]
+            subject = _original_text(source_field(rec, "SubjID"))
+            task = _original_text(source_field(rec, "Task"))
+            trial = _original_text(source_field(rec, "UpdatedTrialID"))
+            if (subject is None or subject.lower() != row.subject_id
+                    or task != row.task or trial != row.updated_trial_id):
+                raise ValueError("Full source identity mismatch: " +
+                                 row.local_record_key)
+            for modality, field in (("IMU", "IMU"), ("FE", "e1e3")):
+                raw = source_field(rec, field)
+                status, values, names = classify_numeric(raw)
+                source_empty = (
+                    modality == "FE" and row.fe_representation == "empty"
+                )
+                if source_empty:
+                    if status != "empty":
+                        raise ValueError("Source FE empty status changed.")
+                elif status != "labelled_numeric_table":
+                    raise ValueError(
+                        "Full source is not completely source-labelled: "
+                        + row.local_record_key + ":" + modality + ":" + status
+                    )
+                relative = ""
+                n_time, n_channels = 0, 0
+                labels = "[]"
+                if values is not None:
+                    if modality == "IMU" and values.shape != (101, 42):
+                        raise ValueError("Unexpected full-source IMU dimensions.")
+                    if modality == "FE" and (
+                        values.shape != (11, 2)
+                        or {n.casefold() for n in names} != {"e1", "e3"}
+                    ):
+                        raise ValueError("Unexpected FE dimensions or labels.")
+                    n_time, n_channels = values.shape
+                    labels = json.dumps(names)
+                    name = f"{row.subject_id}__r{idx:04d}__{modality}.mat"
+                    relative = f"numeric/{name}"
+                    savemat(
+                        numeric_dir / name,
+                        {"values": values, "column_names": np.array(names)},
+                        format="5", do_compression=True,
+                    )
+                manifest_rows.append({
+                    "subject_id": row.subject_id,
+                    "source_file": filename,
+                    "source_record_index": idx,
+                    "task": row.task,
+                    "updated_trial_id": row.updated_trial_id,
+                    "modality": modality,
+                    "source_class": type(raw).__name__,
+                    "status": "exported" if values is not None else "empty",
+                    "n_time": int(n_time),
+                    "n_channels": int(n_channels),
+                    "column_names": labels,
+                    "export_relpath": relative,
+                })
+    manifest = pd.DataFrame(manifest_rows)
+    if len(manifest) != 3794:
+        raise ValueError("Full source export must contain 3,794 statuses.")
+    if (manifest["status"] == "empty").sum() != 168:
+        raise ValueError("Unexpected FE missingness in full source export.")
+    manifest.to_csv(target_dir / "export_manifest.csv", index=False)
+    (target_dir / "export_readme.txt").write_text(
+        "Original Essex Figshare article 30225739 version 13.\n"
+        "Extraction method: Python mat-io; NOT MATLAB-native.\n"
+        "Source identities and original column names preserved.\n"
+        "Physical units, FE sign and temporal alignment UNVERIFIED.\n"
+        "Raw numeric files must remain outside public GitHub.\n",
+        encoding="utf-8",
+    )
+    with ZipFile(zip_path, "x", compression=ZIP_DEFLATED) as zipped:
+        for file in sorted(target_dir.rglob("*")):
+            if file.is_file():
+                zipped.write(file, arcname=file.relative_to(target_dir).as_posix())
+    return manifest, zip_path
+
+
+def sha256_file(path):
+    hasher = hashlib.sha256()
+    with Path(path).open("rb") as f:
+        for block in iter(lambda: f.read(1024 * 1024), b""):
+            hasher.update(block)
+    return hasher.hexdigest()
+
