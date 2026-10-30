@@ -1,0 +1,30 @@
+{
+  "source_article": 30225739,
+  "source_version": 13,
+  "original_matlab_zip_sha256": "c50f10d1364686412b7ab64cac435dc85864dc8dbb34d2804b9cf37f2e29132d",
+  "source_record_count": 1897,
+  "participant_count": 40,
+  "fe_empty_source_records": 168,
+  "native_export_supplied": false,
+  "native_export_sha256": null,
+  "original_source_gate": "PASSED",
+  "native_conversion_gate": "AWAITING_NATIVE_EXPORT",
+  "numeric_export_audit": {
+    "manifest_rows": 0,
+    "exported_numeric_payloads": 0,
+    "validated_finite_payloads": 0,
+    "imu_time_101_candidate": 0,
+    "imu_42_channel_candidate": 0,
+    "fe_time_11_candidate": 0,
+    "fe_named_pair_candidate": 0,
+    "conversion_status_counts": {},
+    "physical_units_verified": false,
+    "imu_fe_temporal_alignment_verified": false,
+    "model_ready": false
+  },
+  "physical_imu_units_verified": false,
+  "physical_fe_units_verified": false,
+  "fe_timestep_alignment_verified": false,
+  "model_ready": false,
+  "model_training_performed": false
+}
