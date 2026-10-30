@@ -1,0 +1,37 @@
+{
+  "source_article_id": 30225739,
+  "version": 13,
+  "archive_sha256": "c50f10d1364686412b7ab64cac435dc85864dc8dbb34d2804b9cf37f2e29132d",
+  "participant_workbook_sha256": "fe46eb6f5c6e892dfde88ce296e7ae3b0a5cdba194e03d29d618ddf527e2fb84",
+  "participant_workbook_audit": {
+    "workbook_row_count": 52,
+    "recognised_participant_rows": 40,
+    "unique_participant_ids": 40,
+    "duplicate_ids": 0,
+    "mat_ids_not_in_workbook": [],
+    "workbook_ids_not_in_mat": [],
+    "id_alignment_passed": true
+  },
+  "source_record_summary": {
+    "source_records": 1897,
+    "source_participants": 40,
+    "readable_updated_trial_ids": 1897,
+    "duplicate_subject_trial_ids": 0,
+    "readable_tasks": 1897,
+    "imu_encoding_counts": {
+      "structured_or_opaque": 1897
+    },
+    "fe_encoding_counts": {
+      "structured_or_opaque": 1729,
+      "empty": 168
+    }
+  },
+  "source_registry_gate": "PASSED",
+  "numeric_fe_candidates": 0,
+  "verified_fe_target_order": false,
+  "verified_fe_physical_units": false,
+  "verified_imu_to_fe_temporal_alignment": false,
+  "verified_complete_trial_mapping": false,
+  "model_ready": false,
+  "model_training_performed": false
+}
