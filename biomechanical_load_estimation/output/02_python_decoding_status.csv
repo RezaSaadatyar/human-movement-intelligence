@@ -1,0 +1,4 @@
+modality,decode_status,count
+FE,empty,1
+FE,non_numeric_table,27
+IMU,labelled_numeric_table,28

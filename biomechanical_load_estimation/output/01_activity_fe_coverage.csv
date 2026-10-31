@@ -1,0 +1,13 @@
+task,fe_representation,records
+BilateralHopping,empty,51
+BilateralHopping,structured_or_opaque,300
+CounterJumps,empty,27
+CounterJumps,structured_or_opaque,331
+Running,empty,27
+Running,structured_or_opaque,333
+SquatJumps,empty,27
+SquatJumps,structured_or_opaque,333
+UnilateralHopping,empty,27
+UnilateralHopping,structured_or_opaque,321
+Walking,empty,9
+Walking,structured_or_opaque,111

@@ -1,0 +1,5 @@
+criterion,candidates,verified
+IMU sequence with 101 source positions,0,False
+IMU sequence with 42 source channels,0,False
+FE sequence with 11 source positions,0,False
+FE channels explicitly named e1 and e3,0,False
