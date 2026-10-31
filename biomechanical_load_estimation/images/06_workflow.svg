@@ -1,0 +1,90 @@
+<svg xmlns="http://www.w3.org/2000/svg" width="1700" height="480" viewBox="0 0 1700 480" role="img" aria-labelledby="title desc">
+  <title id="title">IMU and FE timebase and numerical alignment audit</title>
+  <desc id="desc">A source-linked Python analysis workflow for the original Essex Figshare v13 collection of forty participant files and 1897 movement records. Prior numerical findings include 42 original IMU signal channels and two FE target columns e1 and e3 plus separate time fields. The current notebook audits all source records and compares 11 FE time positions with every tenth of 101 IMU time positions when recoverable. The numerical conversion and machine-learning gates are not pre-declared successful.</desc>
+  <defs>
+    <marker id="final-arrow" markerUnits="userSpaceOnUse" markerWidth="8" markerHeight="8" refX="7" refY="4" orient="auto">
+      <path d="M0 0 L8 4 L0 8 Z" fill="#377396"/>
+    </marker>
+  </defs>
+  <rect width="1700" height="480" rx="20" fill="#F4F9FD"/>
+  <g font-family="DejaVu Sans, Arial, sans-serif">
+    <text x="36" y="42" font-size="27" font-weight="700" fill="#173453">IMU–FE TIMEBASE AND NUMERICAL ALIGNMENT AUDIT</text>
+    <text x="36" y="72" font-size="16.2" fill="#55758A">Original Essex source · Python MATLAB decoding · complete record-level time-grid assessment</text>
+
+    <g aria-label="Recorded evidence source groups">
+      <rect x="36" y="96" width="394" height="145" rx="14" fill="#E5F1FA" stroke="#B9D4E4" stroke-width="2"/>
+      <rect x="448" y="96" width="394" height="145" rx="14" fill="#E5F1FA" stroke="#B9D4E4" stroke-width="2"/>
+      <rect x="860" y="96" width="394" height="145" rx="14" fill="#E5F1FA" stroke="#B9D4E4" stroke-width="2"/>
+      <rect x="1272" y="96" width="392" height="145" rx="14" fill="#E0F3F0" stroke="#9FCBC5" stroke-width="2"/>
+      <g font-size="17.5" font-weight="700" fill="#19435E">
+        <text x="54" y="125">VERIFIED ORIGINAL SOURCE</text>
+        <text x="466" y="125">PYTHON-RECOVERED TABLES</text>
+        <text x="878" y="125">TEMPORAL VALIDATION</text>
+        <text x="1290" y="125">SCIENTIFIC DECISION</text>
+      </g>
+      <g font-size="15.2" fill="#45677E">
+        <text x="54" y="158">Figshare 30225739 · version 13</text>
+        <text x="54" y="182">40 original participant files</text>
+        <text x="54" y="207">1,897 source movement records</text>
+        <text x="466" y="158">Pilot: 28 matched trial IDs</text>
+        <text x="466" y="182">42 labelled IMU channels</text>
+        <text x="466" y="207">FE: timestep, e1, e3</text>
+        <text x="878" y="158">101 IMU source positions</text>
+        <text x="878" y="182">11 FE source positions</text>
+        <text x="878" y="207">Compare original time grids</text>
+        <text x="1290" y="158">Full cohort audit: TO RUN</text>
+        <text x="1290" y="182">Numeric export: NOT YET DONE</text>
+        <text x="1290" y="207">Regression training: NONE</text>
+      </g>
+    </g>
+
+    <g aria-label="Final notebook execution workflow">
+      <g stroke-width="2">
+        <rect x="36" y="282" width="248" height="139" rx="15" fill="#173453" stroke="#173453"/>
+        <rect x="312" y="282" width="248" height="139" rx="15" fill="#FFFFFF" stroke="#B9D2E1"/>
+        <rect x="588" y="282" width="248" height="139" rx="15" fill="#FFFFFF" stroke="#B9D2E1"/>
+        <rect x="864" y="282" width="248" height="139" rx="15" fill="#FFFFFF" stroke="#B9D2E1"/>
+        <rect x="1140" y="282" width="248" height="139" rx="15" fill="#FFFFFF" stroke="#B9D2E1"/>
+        <rect x="1416" y="282" width="248" height="139" rx="15" fill="#176363" stroke="#176363"/>
+      </g>
+      <g fill="none" stroke="#377396" stroke-width="2.4" marker-end="url(#final-arrow)">
+        <path d="M287 351 H309"/>
+        <path d="M563 351 H585"/>
+        <path d="M839 351 H861"/>
+        <path d="M1115 351 H1137"/>
+        <path d="M1391 351 H1413"/>
+      </g>
+      <g font-size="13" font-weight="700" text-anchor="middle">
+        <text x="160" y="308" fill="#A7E9DF">INPUT</text>
+        <text x="436" y="308" fill="#477B9A">IDENTIFY</text>
+        <text x="712" y="308" fill="#477B9A">DECODE</text>
+        <text x="988" y="308" fill="#477B9A">SEPARATE</text>
+        <text x="1264" y="308" fill="#477B9A">ALIGN</text>
+        <text x="1540" y="308" fill="#AEF2E5">GATE</text>
+      </g>
+      <g font-size="16.5" font-weight="700" text-anchor="middle">
+        <text x="160" y="335" fill="#FFFFFF">Load Original MAT</text>
+        <text x="436" y="335" fill="#173453">Verify Trial Keys</text>
+        <text x="712" y="335" fill="#173453">Read Python Tables</text>
+        <text x="988" y="335" fill="#173453">Inspect Time Columns</text>
+        <text x="1264" y="335" fill="#173453">Compare Time Grids</text>
+        <text x="1540" y="335" fill="#FFFFFF">Scientific Quality Gate</text>
+      </g>
+      <g font-size="13.7" text-anchor="middle">
+        <text x="160" y="363" fill="#DBE9F1">Pinned Figshare source</text>
+        <text x="160" y="385" fill="#DBE9F1">Original MATLAB files</text>
+        <text x="436" y="363" fill="#4D6E84">40 participant identities</text>
+        <text x="436" y="385" fill="#4D6E84">1,897 source records</text>
+        <text x="712" y="363" fill="#4D6E84">IMU and FE DataFrames</text>
+        <text x="712" y="385" fill="#4D6E84">Original source labels</text>
+        <text x="988" y="363" fill="#4D6E84">42 IMU / 2 FE values</text>
+        <text x="988" y="385" fill="#4D6E84">Distinct time columns</text>
+        <text x="1264" y="363" fill="#4D6E84">Every tenth IMU point</text>
+        <text x="1264" y="385" fill="#4D6E84">Original FE time values</text>
+        <text x="1540" y="363" fill="#DBF5F1">Full dataset evidence</text>
+        <text x="1540" y="385" fill="#DBF5F1">No model training</text>
+      </g>
+    </g>
+    <text x="36" y="460" font-size="14.3" fill="#54738A">Source integrity → original trial keys → Python table decoding → original time vectors → correspondence checks → quality gate</text>
+  </g>
+</svg>
