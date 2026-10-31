@@ -1,0 +1,169 @@
+local_record_key,subject_id,task,python_class,python_shape,array_dtype,size_if_array,table_n_rows,table_n_columns,column_names,fe_numeric_columns_present,fe_numeric_columns_finite,empty_representation_status,original_registry_fe_empty
+subj06:0030,subj06,BilateralHopping,MatlabCanonicalEmpty,,,,,,[],,,READER_EMPTY_REPRESENTATION,True
+subj06:0031,subj06,BilateralHopping,MatlabCanonicalEmpty,,,,,,[],,,READER_EMPTY_REPRESENTATION,True
+subj06:0032,subj06,BilateralHopping,MatlabCanonicalEmpty,,,,,,[],,,READER_EMPTY_REPRESENTATION,True
+subj06:0033,subj06,BilateralHopping,MatlabCanonicalEmpty,,,,,,[],,,READER_EMPTY_REPRESENTATION,True
+subj06:0034,subj06,BilateralHopping,MatlabCanonicalEmpty,,,,,,[],,,READER_EMPTY_REPRESENTATION,True
+subj06:0035,subj06,BilateralHopping,MatlabCanonicalEmpty,,,,,,[],,,READER_EMPTY_REPRESENTATION,True
+subj06:0036,subj06,BilateralHopping,MatlabCanonicalEmpty,,,,,,[],,,READER_EMPTY_REPRESENTATION,True
+subj06:0037,subj06,BilateralHopping,MatlabCanonicalEmpty,,,,,,[],,,READER_EMPTY_REPRESENTATION,True
+subj06:0038,subj06,BilateralHopping,MatlabCanonicalEmpty,,,,,,[],,,READER_EMPTY_REPRESENTATION,True
+subj08:0030,subj08,BilateralHopping,MatlabCanonicalEmpty,,,,,,[],,,READER_EMPTY_REPRESENTATION,True
+subj08:0031,subj08,BilateralHopping,MatlabCanonicalEmpty,,,,,,[],,,READER_EMPTY_REPRESENTATION,True
+subj08:0032,subj08,BilateralHopping,MatlabCanonicalEmpty,,,,,,[],,,READER_EMPTY_REPRESENTATION,True
+subj08:0033,subj08,BilateralHopping,MatlabCanonicalEmpty,,,,,,[],,,READER_EMPTY_REPRESENTATION,True
+subj08:0034,subj08,BilateralHopping,MatlabCanonicalEmpty,,,,,,[],,,READER_EMPTY_REPRESENTATION,True
+subj08:0035,subj08,BilateralHopping,MatlabCanonicalEmpty,,,,,,[],,,READER_EMPTY_REPRESENTATION,True
+subj08:0036,subj08,BilateralHopping,MatlabCanonicalEmpty,,,,,,[],,,READER_EMPTY_REPRESENTATION,True
+subj08:0037,subj08,BilateralHopping,MatlabCanonicalEmpty,,,,,,[],,,READER_EMPTY_REPRESENTATION,True
+subj08:0038,subj08,BilateralHopping,MatlabCanonicalEmpty,,,,,,[],,,READER_EMPTY_REPRESENTATION,True
+subj11:0030,subj11,BilateralHopping,MatlabCanonicalEmpty,,,,,,[],,,READER_EMPTY_REPRESENTATION,True
+subj11:0031,subj11,BilateralHopping,MatlabCanonicalEmpty,,,,,,[],,,READER_EMPTY_REPRESENTATION,True
+subj11:0032,subj11,BilateralHopping,MatlabCanonicalEmpty,,,,,,[],,,READER_EMPTY_REPRESENTATION,True
+subj11:0033,subj11,BilateralHopping,MatlabCanonicalEmpty,,,,,,[],,,READER_EMPTY_REPRESENTATION,True
+subj11:0034,subj11,BilateralHopping,MatlabCanonicalEmpty,,,,,,[],,,READER_EMPTY_REPRESENTATION,True
+subj11:0035,subj11,BilateralHopping,MatlabCanonicalEmpty,,,,,,[],,,READER_EMPTY_REPRESENTATION,True
+subj16:0000,subj16,CounterJumps,ndarray,"(0, 0)",float64,0.0,,,[],,,READER_EMPTY_REPRESENTATION,True
+subj16:0001,subj16,CounterJumps,ndarray,"(0, 0)",float64,0.0,,,[],,,READER_EMPTY_REPRESENTATION,True
+subj16:0002,subj16,CounterJumps,ndarray,"(0, 0)",float64,0.0,,,[],,,READER_EMPTY_REPRESENTATION,True
+subj16:0003,subj16,CounterJumps,ndarray,"(0, 0)",float64,0.0,,,[],,,READER_EMPTY_REPRESENTATION,True
+subj16:0004,subj16,CounterJumps,ndarray,"(0, 0)",float64,0.0,,,[],,,READER_EMPTY_REPRESENTATION,True
+subj16:0005,subj16,CounterJumps,ndarray,"(0, 0)",float64,0.0,,,[],,,READER_EMPTY_REPRESENTATION,True
+subj16:0006,subj16,CounterJumps,ndarray,"(0, 0)",float64,0.0,,,[],,,READER_EMPTY_REPRESENTATION,True
+subj16:0007,subj16,CounterJumps,ndarray,"(0, 0)",float64,0.0,,,[],,,READER_EMPTY_REPRESENTATION,True
+subj16:0008,subj16,CounterJumps,ndarray,"(0, 0)",float64,0.0,,,[],,,READER_EMPTY_REPRESENTATION,True
+subj16:0009,subj16,Running,ndarray,"(0, 0)",float64,0.0,,,[],,,READER_EMPTY_REPRESENTATION,True
+subj16:0010,subj16,Running,ndarray,"(0, 0)",float64,0.0,,,[],,,READER_EMPTY_REPRESENTATION,True
+subj16:0011,subj16,Running,ndarray,"(0, 0)",float64,0.0,,,[],,,READER_EMPTY_REPRESENTATION,True
+subj16:0012,subj16,Running,ndarray,"(0, 0)",float64,0.0,,,[],,,READER_EMPTY_REPRESENTATION,True
+subj16:0013,subj16,Running,ndarray,"(0, 0)",float64,0.0,,,[],,,READER_EMPTY_REPRESENTATION,True
+subj16:0014,subj16,Running,ndarray,"(0, 0)",float64,0.0,,,[],,,READER_EMPTY_REPRESENTATION,True
+subj16:0015,subj16,Running,ndarray,"(0, 0)",float64,0.0,,,[],,,READER_EMPTY_REPRESENTATION,True
+subj16:0016,subj16,Running,ndarray,"(0, 0)",float64,0.0,,,[],,,READER_EMPTY_REPRESENTATION,True
+subj16:0017,subj16,Running,ndarray,"(0, 0)",float64,0.0,,,[],,,READER_EMPTY_REPRESENTATION,True
+subj16:0018,subj16,SquatJumps,ndarray,"(0, 0)",float64,0.0,,,[],,,READER_EMPTY_REPRESENTATION,True
+subj16:0019,subj16,SquatJumps,ndarray,"(0, 0)",float64,0.0,,,[],,,READER_EMPTY_REPRESENTATION,True
+subj16:0020,subj16,SquatJumps,ndarray,"(0, 0)",float64,0.0,,,[],,,READER_EMPTY_REPRESENTATION,True
+subj16:0021,subj16,SquatJumps,ndarray,"(0, 0)",float64,0.0,,,[],,,READER_EMPTY_REPRESENTATION,True
+subj16:0022,subj16,SquatJumps,ndarray,"(0, 0)",float64,0.0,,,[],,,READER_EMPTY_REPRESENTATION,True
+subj16:0023,subj16,SquatJumps,ndarray,"(0, 0)",float64,0.0,,,[],,,READER_EMPTY_REPRESENTATION,True
+subj16:0024,subj16,SquatJumps,ndarray,"(0, 0)",float64,0.0,,,[],,,READER_EMPTY_REPRESENTATION,True
+subj16:0025,subj16,SquatJumps,ndarray,"(0, 0)",float64,0.0,,,[],,,READER_EMPTY_REPRESENTATION,True
+subj16:0026,subj16,SquatJumps,ndarray,"(0, 0)",float64,0.0,,,[],,,READER_EMPTY_REPRESENTATION,True
+subj16:0027,subj16,Walking,ndarray,"(0, 0)",float64,0.0,,,[],,,READER_EMPTY_REPRESENTATION,True
+subj16:0028,subj16,Walking,ndarray,"(0, 0)",float64,0.0,,,[],,,READER_EMPTY_REPRESENTATION,True
+subj16:0029,subj16,Walking,ndarray,"(0, 0)",float64,0.0,,,[],,,READER_EMPTY_REPRESENTATION,True
+subj16:0030,subj16,BilateralHopping,ndarray,"(0, 0)",float64,0.0,,,[],,,READER_EMPTY_REPRESENTATION,True
+subj16:0031,subj16,BilateralHopping,ndarray,"(0, 0)",float64,0.0,,,[],,,READER_EMPTY_REPRESENTATION,True
+subj16:0032,subj16,BilateralHopping,ndarray,"(0, 0)",float64,0.0,,,[],,,READER_EMPTY_REPRESENTATION,True
+subj16:0033,subj16,BilateralHopping,ndarray,"(0, 0)",float64,0.0,,,[],,,READER_EMPTY_REPRESENTATION,True
+subj16:0034,subj16,BilateralHopping,ndarray,"(0, 0)",float64,0.0,,,[],,,READER_EMPTY_REPRESENTATION,True
+subj16:0035,subj16,BilateralHopping,ndarray,"(0, 0)",float64,0.0,,,[],,,READER_EMPTY_REPRESENTATION,True
+subj16:0036,subj16,BilateralHopping,ndarray,"(0, 0)",float64,0.0,,,[],,,READER_EMPTY_REPRESENTATION,True
+subj16:0037,subj16,BilateralHopping,ndarray,"(0, 0)",float64,0.0,,,[],,,READER_EMPTY_REPRESENTATION,True
+subj16:0038,subj16,BilateralHopping,ndarray,"(0, 0)",float64,0.0,,,[],,,READER_EMPTY_REPRESENTATION,True
+subj16:0039,subj16,UnilateralHopping,ndarray,"(0, 0)",float64,0.0,,,[],,,READER_EMPTY_REPRESENTATION,True
+subj16:0040,subj16,UnilateralHopping,ndarray,"(0, 0)",float64,0.0,,,[],,,READER_EMPTY_REPRESENTATION,True
+subj16:0041,subj16,UnilateralHopping,ndarray,"(0, 0)",float64,0.0,,,[],,,READER_EMPTY_REPRESENTATION,True
+subj16:0042,subj16,UnilateralHopping,ndarray,"(0, 0)",float64,0.0,,,[],,,READER_EMPTY_REPRESENTATION,True
+subj16:0043,subj16,UnilateralHopping,ndarray,"(0, 0)",float64,0.0,,,[],,,READER_EMPTY_REPRESENTATION,True
+subj16:0044,subj16,UnilateralHopping,ndarray,"(0, 0)",float64,0.0,,,[],,,READER_EMPTY_REPRESENTATION,True
+subj16:0045,subj16,UnilateralHopping,ndarray,"(0, 0)",float64,0.0,,,[],,,READER_EMPTY_REPRESENTATION,True
+subj16:0046,subj16,UnilateralHopping,ndarray,"(0, 0)",float64,0.0,,,[],,,READER_EMPTY_REPRESENTATION,True
+subj16:0047,subj16,UnilateralHopping,ndarray,"(0, 0)",float64,0.0,,,[],,,READER_EMPTY_REPRESENTATION,True
+subj29:0000,subj29,CounterJumps,ndarray,"(0, 0)",float64,0.0,,,[],,,READER_EMPTY_REPRESENTATION,True
+subj29:0001,subj29,CounterJumps,ndarray,"(0, 0)",float64,0.0,,,[],,,READER_EMPTY_REPRESENTATION,True
+subj29:0002,subj29,CounterJumps,ndarray,"(0, 0)",float64,0.0,,,[],,,READER_EMPTY_REPRESENTATION,True
+subj29:0003,subj29,CounterJumps,ndarray,"(0, 0)",float64,0.0,,,[],,,READER_EMPTY_REPRESENTATION,True
+subj29:0004,subj29,CounterJumps,ndarray,"(0, 0)",float64,0.0,,,[],,,READER_EMPTY_REPRESENTATION,True
+subj29:0005,subj29,CounterJumps,ndarray,"(0, 0)",float64,0.0,,,[],,,READER_EMPTY_REPRESENTATION,True
+subj29:0006,subj29,CounterJumps,ndarray,"(0, 0)",float64,0.0,,,[],,,READER_EMPTY_REPRESENTATION,True
+subj29:0007,subj29,CounterJumps,ndarray,"(0, 0)",float64,0.0,,,[],,,READER_EMPTY_REPRESENTATION,True
+subj29:0008,subj29,CounterJumps,ndarray,"(0, 0)",float64,0.0,,,[],,,READER_EMPTY_REPRESENTATION,True
+subj29:0009,subj29,Running,ndarray,"(0, 0)",float64,0.0,,,[],,,READER_EMPTY_REPRESENTATION,True
+subj29:0010,subj29,Running,ndarray,"(0, 0)",float64,0.0,,,[],,,READER_EMPTY_REPRESENTATION,True
+subj29:0011,subj29,Running,ndarray,"(0, 0)",float64,0.0,,,[],,,READER_EMPTY_REPRESENTATION,True
+subj29:0012,subj29,Running,ndarray,"(0, 0)",float64,0.0,,,[],,,READER_EMPTY_REPRESENTATION,True
+subj29:0013,subj29,Running,ndarray,"(0, 0)",float64,0.0,,,[],,,READER_EMPTY_REPRESENTATION,True
+subj29:0014,subj29,Running,ndarray,"(0, 0)",float64,0.0,,,[],,,READER_EMPTY_REPRESENTATION,True
+subj29:0015,subj29,Running,ndarray,"(0, 0)",float64,0.0,,,[],,,READER_EMPTY_REPRESENTATION,True
+subj29:0016,subj29,Running,ndarray,"(0, 0)",float64,0.0,,,[],,,READER_EMPTY_REPRESENTATION,True
+subj29:0017,subj29,Running,ndarray,"(0, 0)",float64,0.0,,,[],,,READER_EMPTY_REPRESENTATION,True
+subj29:0018,subj29,SquatJumps,ndarray,"(0, 0)",float64,0.0,,,[],,,READER_EMPTY_REPRESENTATION,True
+subj29:0019,subj29,SquatJumps,ndarray,"(0, 0)",float64,0.0,,,[],,,READER_EMPTY_REPRESENTATION,True
+subj29:0020,subj29,SquatJumps,ndarray,"(0, 0)",float64,0.0,,,[],,,READER_EMPTY_REPRESENTATION,True
+subj29:0021,subj29,SquatJumps,ndarray,"(0, 0)",float64,0.0,,,[],,,READER_EMPTY_REPRESENTATION,True
+subj29:0022,subj29,SquatJumps,ndarray,"(0, 0)",float64,0.0,,,[],,,READER_EMPTY_REPRESENTATION,True
+subj29:0023,subj29,SquatJumps,ndarray,"(0, 0)",float64,0.0,,,[],,,READER_EMPTY_REPRESENTATION,True
+subj29:0024,subj29,SquatJumps,ndarray,"(0, 0)",float64,0.0,,,[],,,READER_EMPTY_REPRESENTATION,True
+subj29:0025,subj29,SquatJumps,ndarray,"(0, 0)",float64,0.0,,,[],,,READER_EMPTY_REPRESENTATION,True
+subj29:0026,subj29,SquatJumps,ndarray,"(0, 0)",float64,0.0,,,[],,,READER_EMPTY_REPRESENTATION,True
+subj29:0027,subj29,Walking,ndarray,"(0, 0)",float64,0.0,,,[],,,READER_EMPTY_REPRESENTATION,True
+subj29:0028,subj29,Walking,ndarray,"(0, 0)",float64,0.0,,,[],,,READER_EMPTY_REPRESENTATION,True
+subj29:0029,subj29,Walking,ndarray,"(0, 0)",float64,0.0,,,[],,,READER_EMPTY_REPRESENTATION,True
+subj29:0030,subj29,BilateralHopping,ndarray,"(0, 0)",float64,0.0,,,[],,,READER_EMPTY_REPRESENTATION,True
+subj29:0031,subj29,BilateralHopping,ndarray,"(0, 0)",float64,0.0,,,[],,,READER_EMPTY_REPRESENTATION,True
+subj29:0032,subj29,BilateralHopping,ndarray,"(0, 0)",float64,0.0,,,[],,,READER_EMPTY_REPRESENTATION,True
+subj29:0033,subj29,BilateralHopping,ndarray,"(0, 0)",float64,0.0,,,[],,,READER_EMPTY_REPRESENTATION,True
+subj29:0034,subj29,BilateralHopping,ndarray,"(0, 0)",float64,0.0,,,[],,,READER_EMPTY_REPRESENTATION,True
+subj29:0035,subj29,BilateralHopping,ndarray,"(0, 0)",float64,0.0,,,[],,,READER_EMPTY_REPRESENTATION,True
+subj29:0036,subj29,BilateralHopping,ndarray,"(0, 0)",float64,0.0,,,[],,,READER_EMPTY_REPRESENTATION,True
+subj29:0037,subj29,BilateralHopping,ndarray,"(0, 0)",float64,0.0,,,[],,,READER_EMPTY_REPRESENTATION,True
+subj29:0038,subj29,BilateralHopping,ndarray,"(0, 0)",float64,0.0,,,[],,,READER_EMPTY_REPRESENTATION,True
+subj29:0039,subj29,UnilateralHopping,ndarray,"(0, 0)",float64,0.0,,,[],,,READER_EMPTY_REPRESENTATION,True
+subj29:0040,subj29,UnilateralHopping,ndarray,"(0, 0)",float64,0.0,,,[],,,READER_EMPTY_REPRESENTATION,True
+subj29:0041,subj29,UnilateralHopping,ndarray,"(0, 0)",float64,0.0,,,[],,,READER_EMPTY_REPRESENTATION,True
+subj29:0042,subj29,UnilateralHopping,ndarray,"(0, 0)",float64,0.0,,,[],,,READER_EMPTY_REPRESENTATION,True
+subj29:0043,subj29,UnilateralHopping,ndarray,"(0, 0)",float64,0.0,,,[],,,READER_EMPTY_REPRESENTATION,True
+subj29:0044,subj29,UnilateralHopping,ndarray,"(0, 0)",float64,0.0,,,[],,,READER_EMPTY_REPRESENTATION,True
+subj29:0045,subj29,UnilateralHopping,ndarray,"(0, 0)",float64,0.0,,,[],,,READER_EMPTY_REPRESENTATION,True
+subj29:0046,subj29,UnilateralHopping,ndarray,"(0, 0)",float64,0.0,,,[],,,READER_EMPTY_REPRESENTATION,True
+subj29:0047,subj29,UnilateralHopping,ndarray,"(0, 0)",float64,0.0,,,[],,,READER_EMPTY_REPRESENTATION,True
+subj32:0000,subj32,CounterJumps,ndarray,"(0, 0)",float64,0.0,,,[],,,READER_EMPTY_REPRESENTATION,True
+subj32:0001,subj32,CounterJumps,ndarray,"(0, 0)",float64,0.0,,,[],,,READER_EMPTY_REPRESENTATION,True
+subj32:0002,subj32,CounterJumps,ndarray,"(0, 0)",float64,0.0,,,[],,,READER_EMPTY_REPRESENTATION,True
+subj32:0003,subj32,CounterJumps,ndarray,"(0, 0)",float64,0.0,,,[],,,READER_EMPTY_REPRESENTATION,True
+subj32:0004,subj32,CounterJumps,ndarray,"(0, 0)",float64,0.0,,,[],,,READER_EMPTY_REPRESENTATION,True
+subj32:0005,subj32,CounterJumps,ndarray,"(0, 0)",float64,0.0,,,[],,,READER_EMPTY_REPRESENTATION,True
+subj32:0006,subj32,CounterJumps,ndarray,"(0, 0)",float64,0.0,,,[],,,READER_EMPTY_REPRESENTATION,True
+subj32:0007,subj32,CounterJumps,ndarray,"(0, 0)",float64,0.0,,,[],,,READER_EMPTY_REPRESENTATION,True
+subj32:0008,subj32,CounterJumps,ndarray,"(0, 0)",float64,0.0,,,[],,,READER_EMPTY_REPRESENTATION,True
+subj32:0009,subj32,Running,ndarray,"(0, 0)",float64,0.0,,,[],,,READER_EMPTY_REPRESENTATION,True
+subj32:0010,subj32,Running,ndarray,"(0, 0)",float64,0.0,,,[],,,READER_EMPTY_REPRESENTATION,True
+subj32:0011,subj32,Running,ndarray,"(0, 0)",float64,0.0,,,[],,,READER_EMPTY_REPRESENTATION,True
+subj32:0012,subj32,Running,ndarray,"(0, 0)",float64,0.0,,,[],,,READER_EMPTY_REPRESENTATION,True
+subj32:0013,subj32,Running,ndarray,"(0, 0)",float64,0.0,,,[],,,READER_EMPTY_REPRESENTATION,True
+subj32:0014,subj32,Running,ndarray,"(0, 0)",float64,0.0,,,[],,,READER_EMPTY_REPRESENTATION,True
+subj32:0015,subj32,Running,ndarray,"(0, 0)",float64,0.0,,,[],,,READER_EMPTY_REPRESENTATION,True
+subj32:0016,subj32,Running,ndarray,"(0, 0)",float64,0.0,,,[],,,READER_EMPTY_REPRESENTATION,True
+subj32:0017,subj32,Running,ndarray,"(0, 0)",float64,0.0,,,[],,,READER_EMPTY_REPRESENTATION,True
+subj32:0018,subj32,SquatJumps,ndarray,"(0, 0)",float64,0.0,,,[],,,READER_EMPTY_REPRESENTATION,True
+subj32:0019,subj32,SquatJumps,ndarray,"(0, 0)",float64,0.0,,,[],,,READER_EMPTY_REPRESENTATION,True
+subj32:0020,subj32,SquatJumps,ndarray,"(0, 0)",float64,0.0,,,[],,,READER_EMPTY_REPRESENTATION,True
+subj32:0021,subj32,SquatJumps,ndarray,"(0, 0)",float64,0.0,,,[],,,READER_EMPTY_REPRESENTATION,True
+subj32:0022,subj32,SquatJumps,ndarray,"(0, 0)",float64,0.0,,,[],,,READER_EMPTY_REPRESENTATION,True
+subj32:0023,subj32,SquatJumps,ndarray,"(0, 0)",float64,0.0,,,[],,,READER_EMPTY_REPRESENTATION,True
+subj32:0024,subj32,SquatJumps,ndarray,"(0, 0)",float64,0.0,,,[],,,READER_EMPTY_REPRESENTATION,True
+subj32:0025,subj32,SquatJumps,ndarray,"(0, 0)",float64,0.0,,,[],,,READER_EMPTY_REPRESENTATION,True
+subj32:0026,subj32,SquatJumps,ndarray,"(0, 0)",float64,0.0,,,[],,,READER_EMPTY_REPRESENTATION,True
+subj32:0027,subj32,Walking,ndarray,"(0, 0)",float64,0.0,,,[],,,READER_EMPTY_REPRESENTATION,True
+subj32:0028,subj32,Walking,ndarray,"(0, 0)",float64,0.0,,,[],,,READER_EMPTY_REPRESENTATION,True
+subj32:0029,subj32,Walking,ndarray,"(0, 0)",float64,0.0,,,[],,,READER_EMPTY_REPRESENTATION,True
+subj32:0030,subj32,BilateralHopping,ndarray,"(0, 0)",float64,0.0,,,[],,,READER_EMPTY_REPRESENTATION,True
+subj32:0031,subj32,BilateralHopping,ndarray,"(0, 0)",float64,0.0,,,[],,,READER_EMPTY_REPRESENTATION,True
+subj32:0032,subj32,BilateralHopping,ndarray,"(0, 0)",float64,0.0,,,[],,,READER_EMPTY_REPRESENTATION,True
+subj32:0033,subj32,BilateralHopping,ndarray,"(0, 0)",float64,0.0,,,[],,,READER_EMPTY_REPRESENTATION,True
+subj32:0034,subj32,BilateralHopping,ndarray,"(0, 0)",float64,0.0,,,[],,,READER_EMPTY_REPRESENTATION,True
+subj32:0035,subj32,BilateralHopping,ndarray,"(0, 0)",float64,0.0,,,[],,,READER_EMPTY_REPRESENTATION,True
+subj32:0036,subj32,BilateralHopping,ndarray,"(0, 0)",float64,0.0,,,[],,,READER_EMPTY_REPRESENTATION,True
+subj32:0037,subj32,BilateralHopping,ndarray,"(0, 0)",float64,0.0,,,[],,,READER_EMPTY_REPRESENTATION,True
+subj32:0038,subj32,BilateralHopping,ndarray,"(0, 0)",float64,0.0,,,[],,,READER_EMPTY_REPRESENTATION,True
+subj32:0039,subj32,UnilateralHopping,ndarray,"(0, 0)",float64,0.0,,,[],,,READER_EMPTY_REPRESENTATION,True
+subj32:0040,subj32,UnilateralHopping,ndarray,"(0, 0)",float64,0.0,,,[],,,READER_EMPTY_REPRESENTATION,True
+subj32:0041,subj32,UnilateralHopping,ndarray,"(0, 0)",float64,0.0,,,[],,,READER_EMPTY_REPRESENTATION,True
+subj32:0042,subj32,UnilateralHopping,ndarray,"(0, 0)",float64,0.0,,,[],,,READER_EMPTY_REPRESENTATION,True
+subj32:0043,subj32,UnilateralHopping,ndarray,"(0, 0)",float64,0.0,,,[],,,READER_EMPTY_REPRESENTATION,True
+subj32:0044,subj32,UnilateralHopping,ndarray,"(0, 0)",float64,0.0,,,[],,,READER_EMPTY_REPRESENTATION,True
+subj32:0045,subj32,UnilateralHopping,ndarray,"(0, 0)",float64,0.0,,,[],,,READER_EMPTY_REPRESENTATION,True
+subj32:0046,subj32,UnilateralHopping,ndarray,"(0, 0)",float64,0.0,,,[],,,READER_EMPTY_REPRESENTATION,True
+subj32:0047,subj32,UnilateralHopping,ndarray,"(0, 0)",float64,0.0,,,[],,,READER_EMPTY_REPRESENTATION,True
