@@ -1,0 +1,27 @@
+{
+  "source_article": 30225739,
+  "source_version": 13,
+  "source_archive_sha256": "c50f10d1364686412b7ab64cac435dc85864dc8dbb34d2804b9cf37f2e29132d",
+  "python_reader": "mat-io",
+  "python_reader_version": "1.0.1",
+  "source_integrity": "PASSED",
+  "full_source_numerical_audit": {
+    "source_records": 1897,
+    "participants": 40,
+    "source_identical": true,
+    "reader_error_files": 0,
+    "imu_42_channel_records": 1897,
+    "fe_e1_e3_records": 1729,
+    "source_empty_fe_records": 24,
+    "paired_numeric_records": 1729,
+    "numerically_matching_time_grids": 0,
+    "time_grid_unresolved_records": 0,
+    "time_grid_mismatched_records": 1729,
+    "numeric_full_export_ready": false,
+    "physical_units_independently_verified": false,
+    "model_ready": false
+  },
+  "full_numeric_export_performed": false,
+  "model_training_performed": false,
+  "model_ready": false
+}
