@@ -1,0 +1,52 @@
+<svg xmlns="http://www.w3.org/2000/svg" width="1700" height="490" viewBox="0 0 1700 490" role="img" aria-labelledby="title desc">
+<title id="title">Original Essex Python-based MATLAB object decoding audit</title>
+<desc id="desc">The original dataset comprises 40 participants and 1897 records. Python mat-io successfully matched 28 original trial identities and recovered 28 IMU DataFrames sized 101 by 43, 27 FE DataFrames sized 11 by 3, plus one canonical empty FE source. No reader errors occurred. Original table column meanings and source time axes are pending validation, so the full numeric export is blocked and no predictive model was trained.</desc>
+<defs><marker id="arrow" markerWidth="8" markerHeight="8" refX="7" refY="4" orient="auto"><path d="M0 0 L8 4 L0 8 Z" fill="#245E9D"/></marker></defs>
+<rect x="0" y="0" width="1700" height="490" rx="18" fill="#F3F9FD"/>
+<g font-family="DejaVu Sans, Arial, sans-serif">
+<text x="30" y="44" font-size="25" font-weight="700" fill="#153454">PYTHON-FIRST MATLAB OBJECT DECODING AND SIGNAL FEASIBILITY</text>
+<text x="31" y="76" font-size="15" fill="#526E82">Original Essex source · Python mat-io table recovery · independent scientific quality gates</text>
+<rect x="24" y="94" width="1652" height="165" rx="15" fill="#E7F2F9" stroke="#B7D0E1" stroke-width="1.5"/>
+<text x="45" y="126" font-size="16" font-weight="700" fill="#153454">VERIFIED SOURCE</text>
+<text x="45" y="161" font-size="13.7" fill="#506B7E">40 original participants</text>
+<text x="45" y="186" font-size="13.7" fill="#506B7E">1,897 trials · 6 activities</text>
+<text x="45" y="211" font-size="13.7" fill="#506B7E">Figshare v13</text>
+<text x="456" y="126" font-size="16" font-weight="700" fill="#153454">PYTHON READER</text>
+<text x="456" y="161" font-size="13.7" fill="#506B7E">28/28 matched trial identities</text>
+<text x="456" y="186" font-size="13.7" fill="#506B7E">0 file-level reader errors</text>
+<text x="456" y="211" font-size="13.7" fill="#506B7E">4 pilot participants</text>
+<text x="866" y="126" font-size="16" font-weight="700" fill="#153454">RECOVERED TABLES</text>
+<text x="866" y="161" font-size="13.7" fill="#506B7E">28 IMU · 101 × 43</text>
+<text x="866" y="186" font-size="13.7" fill="#506B7E">27 FE · 11 × 3</text>
+<text x="866" y="211" font-size="13.7" fill="#506B7E">1 FE canonical empty</text>
+<text x="1276" y="126" font-size="16" font-weight="700" fill="#153454">DECISION</text>
+<text x="1276" y="161" font-size="13.7" fill="#975B26">Time/index columns: unverified</text>
+<text x="1276" y="186" font-size="13.7" fill="#975B26">Physical units: unverified</text>
+<text x="1276" y="211" font-size="13.7" fill="#975B26">Full export: BLOCKED</text>
+<rect x="24" y="281" width="1652" height="165" rx="15" fill="#E7F2F9" stroke="#B7D0E1" stroke-width="1.5"/>
+<text x="45" y="311" font-size="16.5" font-weight="700" fill="#153454">EVIDENCE-TRACEABLE RESEARCH PIPELINE</text>
+<rect x="38" y="337" width="249" height="83" rx="12" fill="#FFFFFF" stroke="#B6CFE0" stroke-width="1.4"/>
+<text x="162.5" y="363" font-size="15" font-weight="700" text-anchor="middle" fill="#173453">SOURCE</text>
+<text x="162.5" y="390" font-size="13.4" text-anchor="middle" fill="#536D80">original MAT files</text>
+<path d="M291 379 H308" stroke="#245E9D" stroke-width="2" marker-end="url(#arrow)"/>
+<rect x="313" y="337" width="249" height="83" rx="12" fill="#FFFFFF" stroke="#B6CFE0" stroke-width="1.4"/>
+<text x="437.5" y="363" font-size="15" font-weight="700" text-anchor="middle" fill="#173453">DECODE</text>
+<text x="437.5" y="390" font-size="13.4" text-anchor="middle" fill="#536D80">matio DataFrames</text>
+<path d="M566 379 H583" stroke="#245E9D" stroke-width="2" marker-end="url(#arrow)"/>
+<rect x="588" y="337" width="249" height="83" rx="12" fill="#FFFFFF" stroke="#B6CFE0" stroke-width="1.4"/>
+<text x="712.5" y="363" font-size="15" font-weight="700" text-anchor="middle" fill="#173453">IDENTITY</text>
+<text x="712.5" y="390" font-size="13.4" text-anchor="middle" fill="#536D80">28/28 trials</text>
+<path d="M841 379 H858" stroke="#245E9D" stroke-width="2" marker-end="url(#arrow)"/>
+<rect x="863" y="337" width="249" height="83" rx="12" fill="#FFFFFF" stroke="#B6CFE0" stroke-width="1.4"/>
+<text x="987.5" y="363" font-size="15" font-weight="700" text-anchor="middle" fill="#173453">SCHEMA</text>
+<text x="987.5" y="390" font-size="13.4" text-anchor="middle" fill="#536D80">43 and 3 columns</text>
+<path d="M1116 379 H1133" stroke="#245E9D" stroke-width="2" marker-end="url(#arrow)"/>
+<rect x="1138" y="337" width="249" height="83" rx="12" fill="#FFFFFF" stroke="#B6CFE0" stroke-width="1.4"/>
+<text x="1262.5" y="363" font-size="15" font-weight="700" text-anchor="middle" fill="#173453">VALIDATE</text>
+<text x="1262.5" y="390" font-size="13.4" text-anchor="middle" fill="#536D80">column/index types</text>
+<path d="M1391 379 H1408" stroke="#245E9D" stroke-width="2" marker-end="url(#arrow)"/>
+<rect x="1413" y="337" width="249" height="83" rx="12" fill="#FFFFFF" stroke="#B6CFE0" stroke-width="1.4"/>
+<text x="1537.5" y="363" font-size="15" font-weight="700" text-anchor="middle" fill="#173453">GATE</text>
+<text x="1537.5" y="390" font-size="13.4" text-anchor="middle" fill="#536D80">no premature export</text>
+<text x="31" y="476" font-size="13.6" fill="#526E82">Original table access is not yet a validated biomechanical predictor · no waveform fabrication · no regression training</text>
+</g></svg>
