@@ -1,7 +1,0 @@
-task,source_records,valid_identities,numeric_imu,numeric_fe,source_fe_empty,time_grid_matches
-BilateralHopping,351,351,351,300,24,0
-CounterJumps,358,358,358,331,0,0
-Running,360,360,360,333,0,0
-SquatJumps,360,360,360,333,0,0
-UnilateralHopping,348,348,348,321,0,0
-Walking,120,120,120,111,0,0
