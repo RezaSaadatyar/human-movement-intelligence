@@ -35,11 +35,38 @@ def describe_source_empty(value):
         state = "READER_EMPTY_REPRESENTATION"
     else:
         state = "SOURCE_EMPTY_REPRESENTATION_UNRESOLVED"
+    table_names = (
+        [str(col) for col in value.columns]
+        if isinstance(value, pd.DataFrame) else []
+    )
+    numeric_present = None
+    if isinstance(value, pd.DataFrame):
+        numeric_present = bool(
+            {"e1", "e3"}.issubset(set(value.columns))
+            and not value.empty
+        )
+    numeric_finite = None
+    if numeric_present:
+        targets = value.loc[:, ["e1", "e3"]]
+        numeric_finite = bool(
+            all(pd.api.types.is_numeric_dtype(dt) for dt in targets.dtypes)
+            and np.isfinite(targets.to_numpy(dtype="float64")).all()
+        ) if all(
+            pd.api.types.is_numeric_dtype(dt) for dt in targets.dtypes
+        ) else False
     return {
         "python_class": cls, "python_shape": shape,
+        "array_dtype": str(value.dtype) if isinstance(value, np.ndarray) else "",
         "size_if_array": (
             int(value.size) if isinstance(value, np.ndarray) else None
         ),
+        "table_n_rows": int(len(value)) if isinstance(value, pd.DataFrame) else None,
+        "table_n_columns": (
+            int(len(value.columns)) if isinstance(value, pd.DataFrame) else None
+        ),
+        "column_names": json.dumps(table_names),
+        "fe_numeric_columns_present": numeric_present,
+        "fe_numeric_columns_finite": numeric_finite,
         "empty_representation_status": state,
         "original_registry_fe_empty": True,
     }
