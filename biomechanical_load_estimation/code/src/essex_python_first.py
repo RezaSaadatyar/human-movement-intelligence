@@ -84,6 +84,8 @@ def classify_numeric(value):
     """
     if value is None:
         return ("missing", None, None)
+    if type(value).__name__ == "MatlabCanonicalEmpty":
+        return ("empty", None, None)
     if isinstance(value, pd.DataFrame):
         if value.empty:
             return ("empty", None, None)
@@ -408,3 +410,92 @@ def sha256_file(path):
             hasher.update(block)
     return hasher.hexdigest()
 
+
+
+# ================== 04. Source-Preserved MATLAB Table Schema ==================
+def inspect_native_table_schema(reader, mat_dir, selected):
+    """Audit original DataFrame column types and indexes without raw values.
+
+    A 101-by-43 or 11-by-3 table is NOT reduced automatically. Any time or
+    index column must be identified from original names and source semantics.
+    One schema record per original source column; no measurements are exported.
+    """
+    columns = []
+    index_rows = []
+    for filename, group in selected.groupby("source_file", sort=True):
+        payload = reader(
+            str(Path(mat_dir) / filename),
+            variable_names=["Data"], raw_data=False,
+        )
+        if not isinstance(payload, dict) or "Data" not in payload:
+            raise ValueError("Original Data missing in Python table schema audit.")
+        records = original_records(payload["Data"])
+        for entry in group.itertuples(index=False):
+            record = records[int(entry.local_record_index)]
+            subject = _original_text(source_field(record, "SubjID"))
+            task = _original_text(source_field(record, "Task"))
+            trial = _original_text(source_field(record, "UpdatedTrialID"))
+            if subject is None or (
+                subject.lower() != entry.subject_id
+                or task != entry.task
+                or trial != entry.updated_trial_id
+            ):
+                raise ValueError("Original record identity changed in schema audit.")
+            for modality, field in (("IMU", "IMU"), ("FE", "e1e3")):
+                table = source_field(record, field)
+                if not isinstance(table, pd.DataFrame):
+                    index_rows.append({
+                        "local_record_key": entry.local_record_key,
+                        "modality": modality,
+                        "table_class": type(table).__name__,
+                        "n_rows": 0, "n_columns": 0,
+                        "index_class": "", "index_dtype": "",
+                        "index_name": "", "index_unique": False,
+                    })
+                    continue
+                index_rows.append({
+                    "local_record_key": entry.local_record_key,
+                    "modality": modality,
+                    "table_class": "DataFrame",
+                    "n_rows": int(len(table)),
+                    "n_columns": int(len(table.columns)),
+                    "index_class": type(table.index).__name__,
+                    "index_dtype": str(table.index.dtype),
+                    "index_name": str(table.index.name or ""),
+                    "index_unique": bool(table.index.is_unique),
+                })
+                for i in range(table.shape[1]):
+                    series = table.iloc[:, i]
+                    name = str(table.columns[i])
+                    valid = series.dropna()
+                    type_name = (
+                        type(valid.iloc[0]).__name__ if not valid.empty else ""
+                    )
+                    numeric = bool(pd.api.types.is_numeric_dtype(series.dtype))
+                    real_finite = False
+                    if numeric:
+                        arr = series.to_numpy()
+                        real_finite = bool(
+                            np.isrealobj(arr)
+                            and np.isfinite(arr).all()
+                        )
+                    columns.append({
+                        "local_record_key": entry.local_record_key,
+                        "subject_id": entry.subject_id,
+                        "task": entry.task,
+                        "modality": modality,
+                        "n_rows": int(len(table)),
+                        "column_position": int(i),
+                        "original_column_name": name,
+                        "pandas_dtype": str(series.dtype),
+                        "first_nonnull_python_type": type_name,
+                        "null_count": int(series.isna().sum()),
+                        "is_numeric_dtype": numeric,
+                        "is_real_finite_numeric": real_finite,
+                        "is_time_label_candidate": name.casefold().strip() in {
+                            "time", "t", "timestamp", "rowtimes",
+                            "sample", "sample_index", "index",
+                        },
+                        "scientifically_verified_time_axis": False,
+                    })
+    return pd.DataFrame(columns), pd.DataFrame(index_rows)
