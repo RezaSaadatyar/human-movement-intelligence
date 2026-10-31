@@ -1,0 +1,61 @@
+<svg xmlns="http://www.w3.org/2000/svg" width="1700" height="500" viewBox="0 0 1700 500" role="img" aria-labelledby="title desc">
+ <title id="title">Original Essex Dataset | Source Integrity and Trial Provenance</title>
+ <desc id="desc">Research workflow integrating the original Essex Figshare version 13 source audit and trial provenance: 40 verified participant files, 1897 movement records with readable original trial IDs, 1729 opaque or structured FE fields, 168 source-empty FE fields, and historical source and trial quality checks. New consolidated notebook execution must be independently verified. No regression model was trained in these source-level steps.</desc>
+ <defs>
+  <marker id="step-arrow" markerWidth="8" markerHeight="8" refX="7" refY="4" orient="auto"><path d="M0 0 L8 4 L0 8 Z" fill="#4487A4"/></marker>
+ </defs>
+ <rect width="1700" height="500" rx="19" fill="#F4F9FD"/>
+ <g font-family="DejaVu Sans, Arial, sans-serif">
+  <text x="36" y="45" font-size="26" font-weight="700" fill="#173453">ORIGINAL ESSEX DATASET | SOURCE INTEGRITY AND TRIAL PROVENANCE</text>
+  <text x="36" y="78" font-size="16" fill="#54748A">Consolidated Notebook 01 · original six-activity source · record-level audit · no predictive modelling</text>
+  <g aria-label="OFFICIAL SOURCE">
+  <rect x="36" y="113" width="302" height="203" rx="13" fill="#E7F2FA" stroke="#BCD9E8" stroke-width="2"/>
+  <text x="54" y="148" fill="#32799C" font-weight="700" font-size="17">01</text>
+  <text x="54" y="181" fill="#173E5D" font-size="16.2" font-weight="700">OFFICIAL SOURCE</text>
+  <text x="54" y="213" fill="#46677D" font-size="14.4">Figshare 30225739 v13</text>
+  <text x="54" y="240" fill="#46677D" font-size="14.4">Original MATLAB.zip</text>
+  <text x="54" y="267" fill="#46677D" font-size="14.4">Version, MD5 and SHA256</text>
+ </g>
+<g aria-label="PARTICIPANT FILES">
+  <rect x="367" y="113" width="302" height="203" rx="13" fill="#E7F2FA" stroke="#BCD9E8" stroke-width="2"/>
+  <text x="385" y="148" fill="#32799C" font-weight="700" font-size="17">02</text>
+  <text x="385" y="181" fill="#173E5D" font-size="16.2" font-weight="700">PARTICIPANT FILES</text>
+  <text x="385" y="213" fill="#46677D" font-size="14.4">40 original subjXX.mat files</text>
+  <text x="385" y="240" fill="#46677D" font-size="14.4">40 workbook IDs matched</text>
+  <text x="385" y="267" fill="#46677D" font-size="14.4">Original schema + file hashes</text>
+ </g>
+<g aria-label="TRIAL PROVENANCE">
+  <rect x="698" y="113" width="302" height="203" rx="13" fill="#E7F2FA" stroke="#BCD9E8" stroke-width="2"/>
+  <text x="716" y="148" fill="#32799C" font-weight="700" font-size="17">03</text>
+  <text x="716" y="181" fill="#173E5D" font-size="16.2" font-weight="700">TRIAL PROVENANCE</text>
+  <text x="716" y="213" fill="#46677D" font-size="14.4">1,897 source Data records</text>
+  <text x="716" y="240" fill="#46677D" font-size="14.4">1,897 readable TrialIDs</text>
+  <text x="716" y="267" fill="#46677D" font-size="14.4">No duplicate subject/trial IDs</text>
+ </g>
+<g aria-label="FE SOURCE FIELDS">
+  <rect x="1029" y="113" width="302" height="203" rx="13" fill="#E7F2FA" stroke="#BCD9E8" stroke-width="2"/>
+  <text x="1047" y="148" fill="#32799C" font-weight="700" font-size="17">04</text>
+  <text x="1047" y="181" fill="#173E5D" font-size="16.2" font-weight="700">FE SOURCE FIELDS</text>
+  <text x="1047" y="213" fill="#46677D" font-size="14.4">1,729 opaque / structured</text>
+  <text x="1047" y="240" fill="#46677D" font-size="14.4">168 source-empty fields</text>
+  <text x="1047" y="267" fill="#46677D" font-size="14.4">Six original activities</text>
+ </g>
+<g aria-label="QUALITY DECISION">
+  <rect x="1360" y="113" width="302" height="203" rx="13" fill="#E1F2EE" stroke="#A2CDC2" stroke-width="2"/>
+  <text x="1378" y="148" fill="#32799C" font-weight="700" font-size="17">05</text>
+  <text x="1378" y="181" fill="#173E5D" font-size="16.2" font-weight="700">QUALITY DECISION</text>
+  <text x="1378" y="213" fill="#46677D" font-size="14.4">Combined source + trial gate</text>
+  <text x="1378" y="240" fill="#46677D" font-size="14.4">Read-only historical checks</text>
+  <text x="1378" y="267" fill="#46677D" font-size="14.4">Model readiness not assessed</text>
+ </g>
+  <path d="M341 215 H359" fill="none" stroke="#4487A4" stroke-width="2.6" marker-end="url(#step-arrow)"/>
+<path d="M672 215 H690" fill="none" stroke="#4487A4" stroke-width="2.6" marker-end="url(#step-arrow)"/>
+<path d="M1003 215 H1021" fill="none" stroke="#4487A4" stroke-width="2.6" marker-end="url(#step-arrow)"/>
+<path d="M1334 215 H1352" fill="none" stroke="#4487A4" stroke-width="2.6" marker-end="url(#step-arrow)"/>
+  <rect x="36" y="345" width="1626" height="111" rx="13" fill="#E9F3FB" stroke="#B8D5E6" stroke-width="1.4"/>
+  <text x="56" y="377" fill="#214B64" font-size="17.5" font-weight="700">SCIENTIFIC EVIDENCE AND LIMITS</text>
+  <text x="56" y="407" fill="#425F73" font-size="15.2">Historical source/registry gates: PASSED. Consolidated Notebook 01 must be rerun and its new outputs audited.</text>
+  <text x="56" y="434" fill="#425F73" font-size="15.2">Source identities and FE-field representations do not establish decoded strain, physical units or model readiness.</text>
+  <text x="36" y="480" fill="#5B7B91" font-size="12.8">Historical 01/02 evidence, scientific figures and SHA256 manifests remain preserved in the repository.</text>
+ </g>
+</svg>
