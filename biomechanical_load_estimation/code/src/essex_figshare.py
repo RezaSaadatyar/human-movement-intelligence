@@ -6,12 +6,14 @@ does not infer unknown MATLAB-object payloads or subject-to-label mappings.
 """
 from __future__ import annotations
 
+import csv
 import hashlib
 import json
 import re
 import shutil
 import stat
 from pathlib import Path, PurePosixPath
+from urllib.error import HTTPError, URLError
 from urllib.request import Request, urlopen
 from zipfile import ZipFile
 
@@ -23,6 +25,14 @@ ARTICLE_VERSION = 13
 API_ROOT = "https://api.figshare.com/v2"
 MAX_DOWNLOAD_BYTES = 1024 ** 3
 MAX_EXTRACTED_BYTES = 1024 ** 3
+MATLAB_ARCHIVE_FILE_ID = 63190690
+MATLAB_ARCHIVE_SIZE = 235590610
+MATLAB_ARCHIVE_MD5 = "1b1c94eb552ba11f1c5521ec9ef49b96"
+MATLAB_ARCHIVE_SHA256 = "c50f10d1364686412b7ab64cac435dc85864dc8dbb34d2804b9cf37f2e29132d"
+MATLAB_RELEASE_URL = (
+    "https://github.com/RezaSaadatyar/human-movement-intelligence/"
+    "releases/download/data-essex-v13/MATLAB.zip"
+)
 
 
 # ================ 01. Figshare Metadata and File Acquisition =================
@@ -120,6 +130,117 @@ def ensure_source_file(item, target_dir):
     if published_md5 and hashes["md5"].lower() != published_md5.lower():
         raise ValueError("Cached file MD5 differs from official Figshare metadata.")
     return destination, hashes
+
+
+
+# =============== 01A. Public Pinned Dataset Acquisition ======================
+def load_pinned_version_manifest(output_dir):
+    """Load the saved original Figshare v13 manifest from published evidence.
+
+    This represents cached publication metadata rather than a new live API
+    query. When the saved pair is absent, fall back to the official API.
+    """
+    output_dir = Path(output_dir)
+    csv_path = output_dir / "01_dataset_figshare_file_manifest.csv"
+    gate_path = output_dir / "01_consolidated_source_and_trial_quality_gate.json"
+    if not (csv_path.is_file() and gate_path.is_file()):
+        return fetch_version_manifest()
+    gate = json.loads(gate_path.read_text(encoding="utf-8"))
+    if (
+        int(gate["source_article_id"]) != ARTICLE_ID
+        or int(gate["version"]) != ARTICLE_VERSION
+        or gate["archive_sha256"] != MATLAB_ARCHIVE_SHA256
+        or int(gate["published_archive_size_bytes"]) != MATLAB_ARCHIVE_SIZE
+        or gate["published_archive_md5"].lower() != MATLAB_ARCHIVE_MD5
+    ):
+        raise ValueError("Saved Essex v13 publication provenance mismatches.")
+    with csv_path.open(encoding="utf-8", newline="") as stream:
+        saved_rows = list(csv.DictReader(stream))
+    if not saved_rows or len({
+        item["filename"] for item in saved_rows
+    }) != len(saved_rows):
+        raise ValueError("Saved original file manifest is ambiguous or empty.")
+    files = []
+    for row in saved_rows:
+        item_id = int(row["file_id"])
+        expected_url = f"https://ndownloader.figshare.com/files/{item_id}"
+        if row["download_url"] != expected_url:
+            raise ValueError("Unexpected original Figshare download URL.")
+        files.append({
+            "id": item_id,
+            "name": row["filename"],
+            "size": int(row["size_bytes"]),
+            "download_url": expected_url,
+            "computed_md5": row["published_md5"],
+        })
+    matlab = find_published_file(files, "MATLAB.zip")
+    if (
+        matlab["id"] != MATLAB_ARCHIVE_FILE_ID
+        or matlab["size"] != MATLAB_ARCHIVE_SIZE
+        or matlab["computed_md5"].lower() != MATLAB_ARCHIVE_MD5
+    ):
+        raise ValueError("Original MATLAB.zip manifest metadata mismatches.")
+    article = {
+        "id": ARTICLE_ID,
+        "version": ARTICLE_VERSION,
+        "title": gate["publication_title"],
+        "doi": gate["publication_doi"],
+        "published_date": None,
+        "license": gate["publication_license"],
+    }
+    return article, files
+
+
+def ensure_pinned_matlab_archive(target_dir):
+    """Verify cache, otherwise download published GitHub Release or Figshare.
+
+    The file is kept in the repository's Git-ignored raw-data directory.
+    Size, original MD5 and SHA256 are checked before the file is returned.
+    Existing invalid files are rejected without overwriting them.
+    """
+    target_dir = Path(target_dir)
+    target_dir.mkdir(parents=True, exist_ok=True)
+    metadata = {
+        "id": MATLAB_ARCHIVE_FILE_ID,
+        "name": "MATLAB.zip",
+        "size": MATLAB_ARCHIVE_SIZE,
+        "computed_md5": MATLAB_ARCHIVE_MD5,
+    }
+    dest = target_dir / "MATLAB.zip"
+    if dest.exists():
+        path, hashes = ensure_source_file(
+            {**metadata, "download_url": MATLAB_RELEASE_URL}, target_dir
+        )
+        if hashes["sha256"] != MATLAB_ARCHIVE_SHA256:
+            raise ValueError("Locally cached MATLAB.zip has invalid SHA256.")
+        print("MATLAB.zip validated from local raw-data cache.")
+        return path, hashes
+    endpoints = [
+        ("GitHub Release", MATLAB_RELEASE_URL),
+        (
+            "Original Figshare",
+            f"https://ndownloader.figshare.com/files/{MATLAB_ARCHIVE_FILE_ID}",
+        ),
+    ]
+    failures = []
+    for label, uri in endpoints:
+        try:
+            path, hashes = ensure_source_file(
+                {**metadata, "download_url": uri}, target_dir
+            )
+        except (HTTPError, URLError, TimeoutError, ConnectionError) as exc:
+            failures.append(f"{label}: {type(exc).__name__}")
+            continue
+        if hashes["sha256"] != MATLAB_ARCHIVE_SHA256:
+            raise ValueError(f"{label} returned unexpected MATLAB.zip SHA256.")
+        print(f"MATLAB.zip downloaded and verified: {label}.")
+        return path, hashes
+    raise RuntimeError(
+        "Unable to acquire original MATLAB.zip from GitHub Release or "
+        "Figshare. Download the release asset in a browser and place it at "
+        f"{dest}. Expected original SHA256: {MATLAB_ARCHIVE_SHA256}. "
+        "Download failures: " + "; ".join(failures)
+    )
 
 
 # ================ 02. ZIP Integrity and Controlled Extraction ================
