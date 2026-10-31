@@ -1,72 +1,90 @@
-<svg xmlns="http://www.w3.org/2000/svg" width="1700" height="505" viewBox="0 0 1700 505" role="img" aria-labelledby="title desc">
-<title id="title">Essex femoral neck loading - Stage 01 data foundation and provenance audit</title>
-<desc id="desc">Verified original Figshare v13 source. Forty participant MAT files with 1,897 Data records. Forty source workbook IDs matched. FE target fields: 168 empty and 1,729 unresolved MATLAB objects. Source-structure quality gate passed, while numerical strain decoding and regression readiness remain blocked. The workflow covers source verification, ZIP integrity, participant inventory, FE audit, workbook reconciliation and source provenance exports.</desc>
-<defs><marker id="arrow" markerUnits="userSpaceOnUse" markerWidth="7" markerHeight="7" refX="6" refY="3.5" orient="auto"><path d="M0 0 L7 3.5 L0 7 Z" fill="#245E9D"/></marker></defs>
-<rect width="1700" height="505" rx="18" fill="#F4F9FD"/>
-<g font-family="DejaVu Sans, Arial, sans-serif">
-<text x="32" y="40" font-size="25" font-weight="700" fill="#173453">BIOMECHANICAL DATA FOUNDATION AND PROVENANCE AUDIT</text>
-<text x="33" y="70" font-size="16" fill="#54738A">Original Essex Figshare v13 · structural verification · no model training</text>
-<rect x="25" y="89" width="1650" height="158" rx="15" fill="#EAF3FA" stroke="#C7D9E6" stroke-width="1.5"/>
-<g aria-label="PINNED SOURCE">
-<text x="53" y="120" font-size="16" font-weight="700" fill="#173453">PINNED SOURCE</text>
-<text x="53" y="155" font-size="14" fill="#506C7E">Essex | Hollinger et al. (2026)</text>
-<text x="53" y="181" font-size="14" fill="#506C7E">Figshare 30225739 · version 13</text>
-<text x="53" y="207" font-size="14" fill="#506C7E">MATLAB.zip · integrity verified</text>
-</g>
-<g aria-label="PARTICIPANT COHORT">
-<text x="460" y="120" font-size="16" font-weight="700" fill="#173453">PARTICIPANT COHORT</text>
-<text x="460" y="155" font-size="14" fill="#506C7E">40 source MATLAB files</text>
-<text x="460" y="181" font-size="14" fill="#506C7E">40 Excel IDs · exact match</text>
-<text x="460" y="207" font-size="14" fill="#506C7E">1,897 Data elements observed</text>
-</g>
-<g aria-label="MODEL-DERIVED FE STRAIN">
-<text x="867" y="120" font-size="16" font-weight="700" fill="#173453">MODEL-DERIVED FE STRAIN</text>
-<text x="867" y="155" font-size="14" fill="#506C7E">168 empty e1e3 fields</text>
-<text x="867" y="181" font-size="14" fill="#506C7E">1,729 unresolved MATLAB objects</text>
-<text x="867" y="207" font-size="14" fill="#506C7E">No verified numeric FE trajectories</text>
-</g>
-<g aria-label="SCIENTIFIC BOUNDARY">
-<text x="1274" y="120" font-size="16" font-weight="700" fill="#173453">SCIENTIFIC BOUNDARY</text>
-<text x="1274" y="155" font-size="14" fill="#506C7E">Data provenance gate: PASSED</text>
-<text x="1274" y="181" font-size="14" fill="#506C7E">Model readiness: BLOCKED</text>
-<text x="1274" y="207" font-size="14" fill="#B45309">No training or evaluation</text>
-</g>
-<rect x="25" y="265" width="1650" height="205" rx="15" fill="#EAF3FA" stroke="#C7D9E6" stroke-width="1.5"/>
-<text x="49" y="297" font-size="16.5" font-weight="700" fill="#173453">EXECUTED RESEARCH WORKFLOW</text>
-<g aria-label="INPUT"><rect x="35" y="328" width="215" height="103" rx="12" fill="#FFFFFF" stroke="#B8CFDE" stroke-width="1.6"/>
-<text x="142.5" y="357" text-anchor="middle" font-size="14" font-weight="700" fill="#173453">INPUT</text>
-<text x="142.5" y="380" text-anchor="middle" font-size="13.3" fill="#506C7E">Original Essex</text>
-<text x="142.5" y="402" text-anchor="middle" font-size="13.3" fill="#506C7E">MATLAB archive</text></g>
-<path d="M253 379 H268" stroke="#245E9D" stroke-width="2" marker-end="url(#arrow)"/>
-<g aria-label="VERSION CHECK"><rect x="270" y="328" width="215" height="103" rx="12" fill="#FFFFFF" stroke="#B8CFDE" stroke-width="1.6"/>
-<text x="377.5" y="357" text-anchor="middle" font-size="14" font-weight="700" fill="#173453">VERSION CHECK</text>
-<text x="377.5" y="380" text-anchor="middle" font-size="13.3" fill="#506C7E">Official v13</text>
-<text x="377.5" y="402" text-anchor="middle" font-size="13.3" fill="#506C7E">file manifest</text></g>
-<path d="M488 379 H503" stroke="#245E9D" stroke-width="2" marker-end="url(#arrow)"/>
-<g aria-label="INTEGRITY"><rect x="505" y="328" width="215" height="103" rx="12" fill="#FFFFFF" stroke="#B8CFDE" stroke-width="1.6"/>
-<text x="612.5" y="357" text-anchor="middle" font-size="14" font-weight="700" fill="#173453">INTEGRITY</text>
-<text x="612.5" y="380" text-anchor="middle" font-size="13.3" fill="#506C7E">MD5 / SHA256</text>
-<text x="612.5" y="402" text-anchor="middle" font-size="13.3" fill="#506C7E">ZIP and CRC</text></g>
-<path d="M723 379 H738" stroke="#245E9D" stroke-width="2" marker-end="url(#arrow)"/>
-<g aria-label="SOURCE FILES"><rect x="740" y="328" width="215" height="103" rx="12" fill="#FFFFFF" stroke="#B8CFDE" stroke-width="1.6"/>
-<text x="847.5" y="357" text-anchor="middle" font-size="14" font-weight="700" fill="#173453">SOURCE FILES</text>
-<text x="847.5" y="380" text-anchor="middle" font-size="13.3" fill="#506C7E">40 MAT files</text>
-<text x="847.5" y="402" text-anchor="middle" font-size="13.3" fill="#506C7E">1,897 records</text></g>
-<path d="M958 379 H973" stroke="#245E9D" stroke-width="2" marker-end="url(#arrow)"/>
-<g aria-label="FE AUDIT"><rect x="975" y="328" width="215" height="103" rx="12" fill="#FFFFFF" stroke="#B8CFDE" stroke-width="1.6"/>
-<text x="1082.5" y="357" text-anchor="middle" font-size="14" font-weight="700" fill="#173453">FE AUDIT</text>
-<text x="1082.5" y="380" text-anchor="middle" font-size="13.3" fill="#506C7E">e1e3 missing /</text>
-<text x="1082.5" y="402" text-anchor="middle" font-size="13.3" fill="#506C7E">object status</text></g>
-<path d="M1193 379 H1208" stroke="#245E9D" stroke-width="2" marker-end="url(#arrow)"/>
-<g aria-label="ID RECONCILE"><rect x="1210" y="328" width="215" height="103" rx="12" fill="#FFFFFF" stroke="#B8CFDE" stroke-width="1.6"/>
-<text x="1317.5" y="357" text-anchor="middle" font-size="14" font-weight="700" fill="#173453">ID RECONCILE</text>
-<text x="1317.5" y="380" text-anchor="middle" font-size="13.3" fill="#506C7E">40 participants</text>
-<text x="1317.5" y="402" text-anchor="middle" font-size="13.3" fill="#506C7E">workbook matches</text></g>
-<path d="M1428 379 H1443" stroke="#245E9D" stroke-width="2" marker-end="url(#arrow)"/>
-<g aria-label="OUTPUT"><rect x="1445" y="328" width="215" height="103" rx="12" fill="#FFFFFF" stroke="#B8CFDE" stroke-width="1.6"/>
-<text x="1552.5" y="357" text-anchor="middle" font-size="14" font-weight="700" fill="#173453">OUTPUT</text>
-<text x="1552.5" y="380" text-anchor="middle" font-size="13.3" fill="#506C7E">Seven outputs</text>
-<text x="1552.5" y="402" text-anchor="middle" font-size="13.3" fill="#506C7E">gate + provenance</text></g>
-<text x="48" y="452" font-size="13.5" fill="#54738A">Source structure PASSED; FE values, target units, temporal alignment and model readiness remain unverified.</text>
-<text x="33" y="491" font-size="14.5" fill="#506C7E">Integrity check → source-record inventory → FE representation → matched participant IDs → provenance evidence</text>
-</g></svg>
+<svg xmlns="http://www.w3.org/2000/svg" width="1700" height="480" viewBox="0 0 1700 480" role="img" aria-labelledby="title desc">
+  <title id="title">BIOMECHANICAL DATA FOUNDATION AND PROVENANCE AUDIT</title>
+  <desc id="desc">Original Essex Figshare v13: 40 MATLAB participant files and 1897 Data records. Forty source workbook identifiers match. One hundred sixty-eight FE source fields are empty and 1729 are unresolved MATLAB objects at the time of this initial audit. Source integrity passed; numerical model readiness was not established.</desc>
+  <defs>
+    <marker id="final-arrow" markerUnits="userSpaceOnUse" markerWidth="8" markerHeight="8" refX="7" refY="4" orient="auto">
+      <path d="M0 0 L8 4 L0 8 Z" fill="#377396"/>
+    </marker>
+  </defs>
+  <rect width="1700" height="480" rx="20" fill="#F4F9FD"/>
+  <g font-family="DejaVu Sans, Arial, sans-serif">
+    <text x="36" y="42" font-size="27" font-weight="700" fill="#173453">BIOMECHANICAL DATA FOUNDATION AND PROVENANCE AUDIT</text>
+    <text x="36" y="72" font-size="16.2" fill="#55758A">Original Essex Figshare v13 · verified source integrity · 40 participants · no model fitting</text>
+
+    <g aria-label="Recorded evidence source groups">
+      <rect x="36" y="96" width="394" height="145" rx="14" fill="#E5F1FA" stroke="#B9D4E4" stroke-width="2"/>
+      <rect x="448" y="96" width="394" height="145" rx="14" fill="#E5F1FA" stroke="#B9D4E4" stroke-width="2"/>
+      <rect x="860" y="96" width="394" height="145" rx="14" fill="#E5F1FA" stroke="#B9D4E4" stroke-width="2"/>
+      <rect x="1272" y="96" width="392" height="145" rx="14" fill="#E0F3F0" stroke="#9FCBC5" stroke-width="2"/>
+      <g font-size="17.5" font-weight="700" fill="#19435E">
+        <text x="54" y="125">PINNED ORIGINAL DATA</text>
+        <text x="466" y="125">PARTICIPANT INVENTORY</text>
+        <text x="878" y="125">FINITE-ELEMENT FIELDS</text>
+        <text x="1290" y="125">PROVENANCE AND QUALITY</text>
+      </g>
+      <g font-size="15.2" fill="#45677E">
+        <text x="54" y="158">Figshare 30225739 · version 13</text>
+        <text x="54" y="182">MATLAB.zip checksum verified</text>
+        <text x="54" y="207">Original Essex source</text>
+        <text x="466" y="158">40 original participant files</text>
+        <text x="466" y="182">1,897 original Data records</text>
+        <text x="466" y="207">40 workbook IDs matched</text>
+        <text x="878" y="158">168 original FE fields empty</text>
+        <text x="878" y="182">1,729 objects unresolved</text>
+        <text x="878" y="207">No verified FE waveforms</text>
+        <text x="1290" y="158">Source integrity: PASSED</text>
+        <text x="1290" y="182">Numeric targets: NOT VERIFIED</text>
+        <text x="1290" y="207">Model training not performed</text>
+      </g>
+    </g>
+
+    <g aria-label="Final notebook execution workflow">
+      <g stroke-width="2">
+        <rect x="36" y="282" width="248" height="139" rx="15" fill="#173453" stroke="#173453"/>
+        <rect x="312" y="282" width="248" height="139" rx="15" fill="#FFFFFF" stroke="#B9D2E1"/>
+        <rect x="588" y="282" width="248" height="139" rx="15" fill="#FFFFFF" stroke="#B9D2E1"/>
+        <rect x="864" y="282" width="248" height="139" rx="15" fill="#FFFFFF" stroke="#B9D2E1"/>
+        <rect x="1140" y="282" width="248" height="139" rx="15" fill="#FFFFFF" stroke="#B9D2E1"/>
+        <rect x="1416" y="282" width="248" height="139" rx="15" fill="#176363" stroke="#176363"/>
+      </g>
+      <g fill="none" stroke="#377396" stroke-width="2.4" marker-end="url(#final-arrow)">
+        <path d="M287 351 H309"/>
+        <path d="M563 351 H585"/>
+        <path d="M839 351 H861"/>
+        <path d="M1115 351 H1137"/>
+        <path d="M1391 351 H1413"/>
+      </g>
+      <g font-size="13" font-weight="700" text-anchor="middle">
+        <text x="160" y="308" fill="#A7E9DF">INPUT</text>
+        <text x="436" y="308" fill="#477B9A">VERIFY</text>
+        <text x="712" y="308" fill="#477B9A">INSPECT</text>
+        <text x="988" y="308" fill="#477B9A">CLASSIFY</text>
+        <text x="1264" y="308" fill="#477B9A">RECONCILE</text>
+        <text x="1540" y="308" fill="#AEF2E5">GATE</text>
+      </g>
+      <g font-size="16.5" font-weight="700" text-anchor="middle">
+        <text x="160" y="335" fill="#FFFFFF">Load Original Source</text>
+        <text x="436" y="335" fill="#173453">Verify Archive</text>
+        <text x="712" y="335" fill="#173453">Inspect Records</text>
+        <text x="988" y="335" fill="#173453">Audit FE Fields</text>
+        <text x="1264" y="335" fill="#173453">Match Participants</text>
+        <text x="1540" y="335" fill="#FFFFFF">Source Quality Gate</text>
+      </g>
+      <g font-size="13.7" text-anchor="middle">
+        <text x="160" y="363" fill="#DBE9F1">Official Figshare archive</text>
+        <text x="160" y="385" fill="#DBE9F1">Original MATLAB files</text>
+        <text x="436" y="363" fill="#4D6E84">Original v13 file checks</text>
+        <text x="436" y="385" fill="#4D6E84">SHA256 and ZIP integrity</text>
+        <text x="712" y="363" fill="#4D6E84">40 participant records</text>
+        <text x="712" y="385" fill="#4D6E84">1,897 Data elements</text>
+        <text x="988" y="363" fill="#4D6E84">Empty / opaque objects</text>
+        <text x="988" y="385" fill="#4D6E84">No FE target imputation</text>
+        <text x="1264" y="363" fill="#4D6E84">Workbook identifiers</text>
+        <text x="1264" y="385" fill="#4D6E84">Original subject keys</text>
+        <text x="1540" y="363" fill="#DBF5F1">Source checks passed</text>
+        <text x="1540" y="385" fill="#DBF5F1">Model readiness pending</text>
+      </g>
+    </g>
+    <text x="36" y="460" font-size="14.3" fill="#54738A">Pinned source → archive integrity → record inspection → FE field audit → workbook identity → source quality gate</text>
+  </g>
+</svg>
