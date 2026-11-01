@@ -1,0 +1,38 @@
+{
+  "source_dataset_id": 30225739,
+  "source_version": 13,
+  "original_archive_sha256": "c50f10d1364686412b7ab64cac435dc85864dc8dbb34d2804b9cf37f2e29132d",
+  "original_source_records": 1897,
+  "source_numeric_pairs": 1729,
+  "original_fe_missing": 168,
+  "feature_shape": [
+    1729,
+    101,
+    42
+  ],
+  "aligned_feature_shape": [
+    1729,
+    11,
+    42
+  ],
+  "target_shape": [
+    1729,
+    11,
+    2
+  ],
+  "time_indices_shape": [
+    1729,
+    11
+  ],
+  "float_dtype": "float64",
+  "fe_published_unit": "unitless",
+  "independent_fe_calibration": false,
+  "split_seed": 2026,
+  "split_basis": "stable SHA256 of original subject identifier",
+  "canonical_pair_sha256": "57a0e97fd68c7b0c813bc02c892d879926464c85e3cac08325aaabc2e2762e95",
+  "cache_status": "CREATED_LOCAL_ONLY",
+  "local_cache_path": "data/processed/essex_femoral_neck_loading/essex_imu_fe_pairs_v13.npz",
+  "binary_cache_committed": false,
+  "model_training_performed": false,
+  "clinical_validation_performed": false
+}
