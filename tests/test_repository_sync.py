@@ -8,7 +8,7 @@ import tempfile
 import unittest
 from pathlib import Path
 
-from python_modules.core.repository_sync import safe_sync_repository
+from python_modules.core.repository_sync import sync_repository
 
 
 class RepositorySyncTests(unittest.TestCase):
@@ -44,7 +44,7 @@ class RepositorySyncTests(unittest.TestCase):
         self._git(self.source, "push", "origin", "main")
 
     def test_clone_fast_forward_and_ignored_data(self):
-        checkout = safe_sync_repository(str(self.remote), "main",
+        checkout = sync_repository(str(self.remote), "main",
                                         parent=self.work)
         self.assertEqual((checkout / "example.py").read_text(),
                          "version = 1\n")
@@ -56,27 +56,48 @@ class RepositorySyncTests(unittest.TestCase):
         self._git(self.source, "add", ".gitignore")
         self._git(self.source, "commit", "-m", "Ignore local data")
         self._git(self.source, "push", "origin", "main")
-        safe_sync_repository(str(self.remote), "main", parent=self.work)
+        sync_repository(str(self.remote), "main", parent=self.work)
         (checkout / "data").mkdir()
         (checkout / "data" / "cache.bin").write_bytes(b"local")
         self._new_remote_commit(2)
-        safe_sync_repository(str(self.remote), "main", parent=self.work)
+        sync_repository(str(self.remote), "main", parent=self.work)
         self.assertEqual((checkout / "example.py").read_text(),
                          "version = 2\n")
         self.assertEqual((checkout / "data" / "cache.bin").read_bytes(),
                          b"local")
 
+    def test_quiet_status_messages(self):
+        """Keep routine notebook output concise without branch/SHA text."""
+        from contextlib import redirect_stdout
+        from io import StringIO
+
+        output = StringIO()
+        with redirect_stdout(output):
+            sync_repository(str(self.remote), parent=self.work)
+        self.assertEqual(output.getvalue().strip(), "Repository cloned.")
+
+        output = StringIO()
+        with redirect_stdout(output):
+            sync_repository(str(self.remote), parent=self.work)
+        self.assertEqual(output.getvalue().strip(), "Repository up to date.")
+
+        self._new_remote_commit(2)
+        output = StringIO()
+        with redirect_stdout(output):
+            sync_repository(str(self.remote), parent=self.work)
+        self.assertEqual(output.getvalue().strip(), "Repository updated.")
+
     def test_dirty_checkout_is_never_overwritten(self):
-        checkout = safe_sync_repository(str(self.remote), parent=self.work)
+        checkout = sync_repository(str(self.remote), parent=self.work)
         (checkout / "example.py").write_text("local = True\n")
         self._new_remote_commit(2)
         with self.assertRaisesRegex(RuntimeError, "Local tracked/untracked"):
-            safe_sync_repository(str(self.remote), parent=self.work)
+            sync_repository(str(self.remote), parent=self.work)
         self.assertEqual((checkout / "example.py").read_text(),
                          "local = True\n")
 
     def test_diverged_branch_stops(self):
-        checkout = safe_sync_repository(str(self.remote), parent=self.work)
+        checkout = sync_repository(str(self.remote), parent=self.work)
         self._git(checkout, "config", "user.name", "Test User")
         self._git(checkout, "config", "user.email", "test@example.org")
         (checkout / "local.txt").write_text("local commit\n")
@@ -84,7 +105,7 @@ class RepositorySyncTests(unittest.TestCase):
         self._git(checkout, "commit", "-m", "Unpushed")
         self._new_remote_commit(2)
         with self.assertRaisesRegex(RuntimeError, "cannot fast-forward"):
-            safe_sync_repository(str(self.remote), parent=self.work)
+            sync_repository(str(self.remote), parent=self.work)
 
 
 if __name__ == "__main__":

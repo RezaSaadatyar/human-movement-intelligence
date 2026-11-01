@@ -20,7 +20,7 @@ def _git(*args: str, cwd: Path) -> str:
     return process.stdout.strip()
 
 
-def safe_sync_repository(
+def sync_repository(
     url: str, branch: str = "main", *, parent: str | Path = "/content"
 ) -> Path:
     """Clone or fast-forward a clean checkout; never discard local changes.
@@ -100,6 +100,10 @@ def safe_sync_repository(
                     "modules in this runtime may be stale. Restart the "
                     "kernel and rerun the notebook from the first cell."
                 )
-    sha = _git("rev-parse", "HEAD", cwd=path)
-    print(f"Repository {action} | branch={branch} | commit={sha[:12]}")
+    messages = {
+        "CLONED": "Repository cloned.",
+        "ALREADY CURRENT": "Repository up to date.",
+        "FAST-FORWARDED": "Repository updated.",
+    }
+    print(messages[action])
     return path
