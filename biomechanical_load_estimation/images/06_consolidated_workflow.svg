@@ -1,11 +1,11 @@
 <svg xmlns="http://www.w3.org/2000/svg" width="1700" height="480" viewBox="0 0 1700 480" role="img" aria-labelledby="title desc">
 <title id="title">Stage 06 | Deep temporal regression and peak prediction from source-verified Essex IMUs</title>
-<desc id="desc">Unexecuted research design: seven lower-body wearable inertial sensors, 42 IMU channels, 101 original temporal samples and 11 original FE coordinate targets for e1 and e3. Two temporal neural networks share five predefined Training-only participant-disjoint folds, source-coordinate indexing, identical training budget and peak-aware loss. Four Validation participants are diagnostic, four Test participants remain protected. No model result or quality-gate success asserted before real execution.</desc>
+<desc id="desc">Completed Stage 06: seven wearable IMUs, 42 channels and 101 original samples predict e1 and e3 on eleven original FE coordinates. Training-only grouped CV selected Dilated TCN with subject-balanced MAE 0.0008513; its four-participant Validation MAE was 0.0007151. Stage 05 Random Forest retains lower overall waveform MAE, whereas Dilated TCN has lower peak-magnitude MAE for both e1 and e3. Four Test participants are untouched. All 14 Stage 06 outputs and the PASSED quality gate are recorded; this is not external validation.</desc>
 <defs><marker id="arrow" markerUnits="userSpaceOnUse" markerWidth="7" markerHeight="7" refX="6" refY="3.5" orient="auto"><path d="M0 0 L7 3.5 L0 7 Z" fill="#2B648C"/></marker></defs>
 <rect x="0" y="0" width="1700" height="480" rx="19" fill="#F4F9FD"/>
 <g font-family="DejaVu Sans, Arial, sans-serif">
 <text x="32" y="40" font-size="23" font-weight="700" fill="#173453">DEEP TEMPORAL REGRESSION | SOURCE-ALIGNED FEMORAL NECK FE STRAIN</text>
-<text x="32" y="70" font-size="15" fill="#55758A">Stage 06 study design · Full 101-position IMU signal · Native 11-position FE readout · Test protected</text>
+<text x="32" y="70" font-size="15" fill="#55758A">Completed Stage 06 · Full 101-position IMU · Native 11-position FE readout · Test protected</text>
 <rect x="25" y="89" width="1650" height="153" rx="16" fill="#EAF3FA" stroke="#C1D9E8" stroke-width="2"/>
 <g stroke="#7298B0" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><circle cx="102" cy="129" r="11" fill="#FFFFFF"/><path d="M88 143 Q102 139 116 143 L122 183 Q102 190 82 183 Z" fill="#D9E7F1"/><path d="M89 150 L72 169 L67 182 M116 150 L132 169 L138 182 M91 185 L83 205 L76 225 M111 185 L119 205 L127 225" fill="none"/></g><g fill="#245E9D" stroke="#FFFFFF" stroke-width="1"><rect x="96" y="173" width="12" height="9" rx="2"/><rect x="84" y="189" width="11" height="9" rx="2"/><rect x="111" y="189" width="11" height="9" rx="2"/><rect x="79" y="205" width="11" height="9" rx="2"/><rect x="117" y="205" width="11" height="9" rx="2"/><rect x="70" y="218" width="11" height="9" rx="2"/><rect x="124" y="218" width="11" height="9" rx="2"/></g>
 <g fill="#173453" font-size="16" font-weight="700">
@@ -25,8 +25,8 @@
 <text x="849" y="182">Validation: 4 subjects / 192 trials</text>
 <text x="849" y="208">Test: 4 subjects / 183 trials</text>
 <text x="1305" y="154">Five frozen grouped folds</text>
-<text x="1305" y="182">35 epochs · same peak-aware loss</text>
-<text x="1305" y="208">Execution results not yet available</text>
+<text x="1305" y="182">35 epochs · CPU execution</text>
+<text x="1305" y="208">TCN Training CV: 0.0008513</text>
 </g>
 <rect x="25" y="258" width="1650" height="178" rx="16" fill="#EAF3FA" stroke="#C1D9E8" stroke-width="2"/>
 <g stroke-width="2">
@@ -61,12 +61,12 @@
 <text x="420" y="380" fill="#4A6C82">No FE interpolation</text>
 <text x="683" y="358" fill="#4A6C82">29 people / 5 folds</text>
 <text x="683" y="380" fill="#4A6C82">Fit-only scalers</text>
-<text x="946" y="358" fill="#4A6C82">Matched training budget</text>
-<text x="946" y="380" fill="#4A6C82">Training-only choice</text>
-<text x="1209" y="358" fill="#4A6C82">Four Validation subjects</text>
-<text x="1209" y="380" fill="#4A6C82">FE curves and peak errors</text>
-<text x="1508" y="358" fill="#D2EBF2">Source-indexed 06_* files</text>
-<text x="1508" y="380" fill="#D2EBF2">Execution pending</text>
+<text x="946" y="358" fill="#4A6C82">TCN selected on Train CV</text>
+<text x="946" y="380" fill="#4A6C82">Validation MAE: 0.0007151</text>
+<text x="1209" y="358" fill="#4A6C82">RF lower waveform MAE</text>
+<text x="1209" y="380" fill="#4A6C82">TCN lower peak-value MAE</text>
+<text x="1508" y="358" fill="#D2EBF2">14 committed 06_* files</text>
+<text x="1508" y="380" fill="#D2EBF2">Quality Gate: PASSED</text>
 </g>
 <text x="36" y="461" font-size="14" fill="#55758A">Original IMU → native FE indices → Training-only GroupKFold → temporal comparison → Validation diagnostics → evidence audit</text>
 </g></svg>
