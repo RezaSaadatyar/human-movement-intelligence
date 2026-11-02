@@ -1,0 +1,6 @@
+comparison,metric,difference_mean,bootstrap_low_95,bootstrap_high_95,bootstrap_participants,bootstrap_draws
+Temporal CNN minus locked RF,per-participant waveform MAE averaged across two FE targets,0.00012011896407054385,6.58806204913851e-05,0.00018260584886112003,29,2000
+Dilated TCN minus locked RF,per-participant waveform MAE averaged across two FE targets,8.183789904670631e-05,3.461540820533059e-05,0.00012996189575630818,29,2000
+GRU minus locked RF,per-participant waveform MAE averaged across two FE targets,9.480448500755507e-05,4.7637197614729734e-05,0.00015048355626804736,29,2000
+BiGRU minus locked RF,per-participant waveform MAE averaged across two FE targets,8.491972300971249e-05,2.51681520357467e-05,0.00014779883717417702,29,2000
+Dilated TCN with peak loss minus no-peak TCN,per-participant waveform MAE averaged over 3 seeds,1.442575587556372e-05,-1.629616333335765e-06,3.277269632164284e-05,29,2000
