@@ -4,7 +4,7 @@
 
 ![Final Essex source-verified wearable IMU to femoral-neck FE regression workflow](images/08_consolidated_workflow.svg)
 
-**Status:** Eight executed notebooks; pinned original-data lineage; Stage 04–08 Quality Gates **PASSED**; final model frozen before Test; one explicitly authorised Test evaluation completed on **four unseen participants from the same Essex source cohort**. This is **not** independent external-dataset validation, direct measurement of bone strain, or clinical deployment.
+**Status:** Eight documented research notebooks (Stages 03–08 with complete saved code-cell execution; Stages 01–02 retain some unexecuted cells); pinned original-data lineage; Stage 04–08 Quality Gates **PASSED**; final model frozen before Test; one explicitly authorised Test evaluation completed on **four unseen participants from the same Essex source cohort**. This is **not** independent external-dataset validation, direct measurement of bone strain, or clinical deployment.
 
 ## Research question and main finding
 
@@ -70,14 +70,14 @@ The predeclared primary **remains Random Forest**, even though Dilated TCN had a
 
 ## Notebook-by-notebook workflow
 
-All eight notebooks are recorded with genuine execution outputs, scientific Markdown and matching source-aligned SVG figures.
+The study includes eight documented notebooks with real saved outputs and source-aligned scientific figures. **Stages 03–08 have fully executed saved code cells**; Stages 01–02 retain some earlier unexecuted cells, so their saved execution state must not be described as complete. Independent downstream source fingerprints and quality gates provide the cross-stage scientific integrity evidence.
 
 | Stage | Notebook | Scientific focus |
 | --- | --- | --- |
 | 01 | [Original Dataset Audit and Trial Registry](code/notebooks/01_original_dataset_audit_and_trial_registry.ipynb) | Source provenance, original files and trial identities |
 | 02 | [MATLAB Object Decoding and Numeric Recovery](code/notebooks/02_matlab_object_decoding_and_numeric_recovery.ipynb) | Extract original nested numeric information without changing source |
 | 03 | [Full Cohort Numeric and Temporal Validation](code/notebooks/03_full_cohort_numeric_and_temporal_validation.ipynb) | Native time coordinate mapping and source-derived integrity |
-| 04 | [Governed IMU–FE Dataset and Participant Splits](code/notebooks/04_governed_imu_fe_dataset_and_participant_splits.ipynb) | 1,729 paired trials, source hashes and patient-independent equivalent **participant-disjoint** 29/4/4 split |
+| 04 | [Governed IMU–FE Dataset and Participant Splits](code/notebooks/04_governed_imu_fe_dataset_and_participant_splits.ipynb) | 1,729 paired trials, source hashes and **participant-disjoint** 29/4/4 split |
 | 05 | [Classical Regression Baselines](code/notebooks/05_classical_regression_baselines_and_participant_independent_validation.ipynb) | Training mean, Ridge and Random Forest, Training CV and diagnostic Validation |
 | 06 | [Deep Temporal Regression and Peak Prediction](code/notebooks/06_deep_temporal_regression_and_peak_prediction.ipynb) | Temporal CNN and Dilated TCN, original-grid waveform and peak diagnostics |
 | 07 | [Multi-Seed Robustness, GRU/BiGRU and Ablation](code/notebooks/07_multi_seed_robustness_gru_bigru_and_peak_ablation.ipynb) | 75 Training-only fits, seed variation, peak-loss ablation, sensor perturbation and provisional Training-only selection |

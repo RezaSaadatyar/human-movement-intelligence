@@ -33,9 +33,58 @@ jobs:
         run: python -m compileall -q python_modules biomechanical_load_estimation/code/src wearable_activity_recognition/code/src tests
       - name: Run offline tests
         run: python -m unittest discover -s tests -v
-      - name: Execute BoneNet notebook
+      - name: Validate committed Essex research evidence without re-running frozen Test
         run: |
-          python -m jupyter nbconvert --to notebook --execute             --ExecutePreprocessor.timeout=240             biomechanical_load_estimation/code/notebooks/01_data_loading_and_inspection.ipynb             --output /tmp/bonenet_inspection_executed.ipynb
+          python - <<'PY'
+          import json
+          from pathlib import Path
+          import nbformat
+          import pandas as pd
+
+          base = Path('biomechanical_load_estimation')
+          folder = base / 'code/notebooks'
+          notebooks = sorted(folder.glob('0[1-8]_*.ipynb'))
+          assert len(notebooks) == 8, f'Expected 8 Essex notebooks; got {len(notebooks)}'
+          for number, path in enumerate(notebooks, start=1):
+              assert path.name.startswith(f'{number:02d}_'), path
+              nb = nbformat.read(path, as_version=4)
+              code = [c for c in nb.cells if c.cell_type == 'code']
+              assert code, f'No code cells: {path}'
+              errors = [o for cell in code for o in cell.get('outputs', []) if o.output_type == 'error']
+              assert not errors, f'Saved error outputs in {path}'
+              if number >= 3:
+                  assert all(c.get('execution_count') is not None for c in code), path
+              print('Essex notebook', number, 'saved code cells',
+                    sum(c.get('execution_count') is not None for c in code), '/', len(code))
+
+          output = base / 'output'
+          gates = {
+              4: ('04_dataset_and_split_quality_gate.json', 'stage04_quality_gate'),
+              5: ('05_regression_protocol_and_quality_gate.json', 'quality_gate'),
+              6: ('06_temporal_protocol_and_quality_gate.json', 'quality_gate'),
+              7: ('07_robustness_protocol_and_quality_gate.json', 'quality_gate'),
+              8: ('08_final_test_quality_gate.json', 'quality_gate'),
+          }
+          for stage, (filename, field) in gates.items():
+              data = json.loads((output / filename).read_text())
+              assert data[field] == 'PASSED', (stage, filename)
+          final = json.loads((output / '08_final_test_quality_gate.json').read_text())
+          frozen = json.loads((output / '08_frozen_final_protocol.json').read_text())
+          receipt = json.loads((output / '08_final_test_release_receipt.json').read_text())
+          assert frozen['protocol_status'] == 'FROZEN_BEFORE_TEST'
+          assert receipt['status'] == 'TEST_RELEASE_CONSUMED'
+          assert receipt['protocol_sha256'] == final['frozen_protocol_sha256']
+          assert final['primary_selected_pre_test'] == 'Random Forest (Stage 05 locked)'
+          assert final['post_test_model_selection'] is False
+          assert final['test_subjects'] == 4 and final['test_trials'] == 183
+          assert len(list(output.glob('08_*'))) == 16
+          predictions = pd.read_csv(output / '08_test_trial_predictions.csv')
+          assert len(predictions) == 183 * 11 * 2 * 2
+          assert predictions['local_record_key'].nunique() == 183
+          assert predictions['subject_id'].nunique() == 4
+          assert predictions[['observed', 'predicted']].notna().all().all()
+          print('PASS: frozen, committed Essex final evidence. NO Test re-evaluation.')
+          PY
       - name: Execute HARTH notebook
         run: |
           python -m jupyter nbconvert --to notebook --execute             --ExecutePreprocessor.timeout=240             wearable_activity_recognition/code/notebooks/01_data_loading_and_inspection.ipynb             --output /tmp/harth_inspection_executed.ipynb
@@ -75,7 +124,6 @@ jobs:
           from pathlib import Path
           import nbformat
           reports = {
-              "bonenet_loading": "/tmp/bonenet_inspection_executed.ipynb",
               "harth_loading": "/tmp/harth_inspection_executed.ipynb",
               "harth_windowing": "/tmp/harth_windowing_executed.ipynb",
               "harth_features": "/tmp/harth_features_executed.ipynb",
