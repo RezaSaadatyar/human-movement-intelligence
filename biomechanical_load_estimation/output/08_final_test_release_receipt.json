@@ -1,0 +1,7 @@
+{
+  "status": "TEST_RELEASE_CONSUMED",
+  "stage": "08",
+  "protocol_sha256": "7fbcd18864d193a7b4c8372ad3f4e51d0260c225b43698eca9a21cff0ad4929a",
+  "authorisation": "explicit_notebook_release",
+  "test_evaluation_rounds_permitted": 1
+}
