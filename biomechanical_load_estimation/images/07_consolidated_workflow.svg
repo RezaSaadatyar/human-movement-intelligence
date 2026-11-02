@@ -1,11 +1,11 @@
 <svg xmlns="http://www.w3.org/2000/svg" width="1700" height="480" viewBox="0 0 1700 480" role="img" aria-labelledby="title desc">
 <title id="title">Stage 07 | Multi-seed robustness, GRU and BiGRU, peak-loss ablation</title>
-<desc id="desc">Unexecuted Stage 07 proposal grounded in seven original lower-body IMUs and 42 channels. Frozen Essex Training-only participant-disjoint five-fold comparison of Temporal CNN, Dilated TCN, GRU, Bidirectional GRU and one peak-loss ablation, with three predeclared seeds yielding 75 fit jobs. Includes fold-mean sensor replacement and noise diagnostics, participant-level analysis and a fixed classical Random Forest reference. Validation and Test remain outside new model fitting or ranking. No performance outcome is asserted.</desc>
+<desc id="desc">Completed Stage 07: seven lower-body wearable IMUs, 42 source channels, 101 original IMU samples and eleven native FE strain positions. All 75 Training-only multi-seed participant-disjoint jobs completed on a Tesla T4 GPU. The locked Stage 05 Random Forest retained the lowest waveform MAE 0.0007950; Dilated TCN 0.0008769 was the strongest main temporal architecture, closely followed by BiGRU 0.0008800. Removing TCN peak loss yielded 0.0008624 but was not a primary selection candidate. All seventeen Stage 07 public files committed, Quality Gate PASSED. No new Validation or reserved Test evaluation.</desc>
 <defs><marker id="arrow" markerUnits="userSpaceOnUse" markerWidth="7" markerHeight="7" refX="6" refY="3.5" orient="auto"><path d="M0 0 L7 3.5 L0 7 Z" fill="#2B648C"/></marker></defs>
 <rect x="0" y="0" width="1700" height="480" rx="19" fill="#F4F9FD"/>
 <g font-family="DejaVu Sans, Arial, sans-serif">
 <text x="32" y="40" font-size="23" font-weight="700" fill="#173453">MULTI-SEED ROBUSTNESS | GRU · BiGRU · PEAK-LOSS ABLATION</text>
-<text x="32" y="70" font-size="15" fill="#55758A">Stage 07 research design · Original 101-sample IMUs · Exact 11-position FE readout · Training-only evidence</text>
+<text x="32" y="70" font-size="15" fill="#55758A">Completed Stage 07 · 101-sample original IMUs · Native 11-position FE · Training-only results</text>
 <rect x="25" y="89" width="1650" height="153" rx="16" fill="#EAF3FA" stroke="#C1D9E8" stroke-width="2"/>
 <g stroke="#7298B0" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><circle cx="102" cy="129" r="11" fill="#FFFFFF"/><path d="M88 143 Q102 139 116 143 L122 183 Q102 190 82 183 Z" fill="#D9E7F1"/><path d="M89 150 L72 169 L67 182 M116 150 L132 169 L138 182 M91 185 L83 205 L76 225 M111 185 L119 205 L127 225" fill="none"/></g><g fill="#245E9D" stroke="#FFFFFF" stroke-width="1"><rect x="96" y="173" width="12" height="9" rx="2"/><rect x="84" y="189" width="11" height="9" rx="2"/><rect x="111" y="189" width="11" height="9" rx="2"/><rect x="79" y="205" width="11" height="9" rx="2"/><rect x="117" y="205" width="11" height="9" rx="2"/><rect x="70" y="218" width="11" height="9" rx="2"/><rect x="124" y="218" width="11" height="9" rx="2"/></g>
 <g fill="#173453" font-size="16" font-weight="700">
@@ -23,10 +23,10 @@
 <text x="443" y="208">Stage 04/05/06 gates</text>
 <text x="849" y="154">Train: 29 people / 1,354 trials</text>
 <text x="849" y="182">5 participant-disjoint folds</text>
-<text x="849" y="208">3 fixed seeds · 75 fits</text>
+<text x="849" y="208">3 seeds · 75 completed fits</text>
 <text x="1305" y="154">No new Validation selection</text>
 <text x="1305" y="182">4 Test people fully reserved</text>
-<text x="1305" y="208">No outcome asserted yet</text>
+<text x="1305" y="208">RF selected on Training CV</text>
 </g>
 <rect x="25" y="258" width="1650" height="178" rx="16" fill="#EAF3FA" stroke="#C1D9E8" stroke-width="2"/>
 <g stroke-width="2">
@@ -59,14 +59,14 @@
 <text x="157" y="380" fill="#D2EBF2">Source-verified SHA256</text>
 <text x="420" y="358" fill="#4A6C82">101 IMU · 11 FE times</text>
 <text x="420" y="380" fill="#4A6C82">No interpolation</text>
-<text x="683" y="358" fill="#4A6C82">75 fingerprinted fit jobs</text>
-<text x="683" y="380" fill="#4A6C82">Per-participant OOF</text>
-<text x="946" y="358" fill="#4A6C82">Fixed 35-epoch budget</text>
-<text x="946" y="380" fill="#4A6C82">Locked RF reference</text>
-<text x="1209" y="358" fill="#4A6C82">TCN peak weight 0 / .25</text>
-<text x="1209" y="380" fill="#4A6C82">7 sensors + fixed noise</text>
-<text x="1508" y="358" fill="#D2EBF2">Source-indexed 07_* files</text>
-<text x="1508" y="380" fill="#D2EBF2">Execution pending</text>
+<text x="683" y="358" fill="#4A6C82">75 verified training jobs</text>
+<text x="683" y="380" fill="#4A6C82">Tesla T4 · CUDA</text>
+<text x="946" y="358" fill="#4A6C82">TCN OOF: 0.0008769</text>
+<text x="946" y="380" fill="#4A6C82">RF OOF: 0.0007950</text>
+<text x="1209" y="358" fill="#4A6C82">No-peak TCN: 0.0008624</text>
+<text x="1209" y="380" fill="#4A6C82">RTH most sensitive group</text>
+<text x="1508" y="358" fill="#D2EBF2">17 committed 07_* files</text>
+<text x="1508" y="380" fill="#D2EBF2">Quality Gate: PASSED</text>
 </g>
 <text x="36" y="461" font-size="14" fill="#55758A">Validated source → grouped multi-seed models → peak ablation → signal sensitivity → Training-only decision → frozen Stage 08 proposal</text>
 </g></svg>
