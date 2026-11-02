@@ -1,58 +1,72 @@
-# Biomechanical Load Estimation | Source-Verified Essex IMU–FE Research
+# Biomechanical Load Estimation | BoneNet / Original Essex Source
 
-**An exploratory, participant-held-out research benchmark for estimating model-derived femoral-neck principal strains from wearable inertial measurements.** The full eight-notebook Essex study is complete. The earlier BoneNet public-derivative pilot is documented separately below and must not be confused with this original-source study.
+![Full source-verified Essex research workflow: seven lower-body IMUs, native FE alignment, grouped modelling and completed one-time Test](images/study_overview.svg)
 
-![Final Essex source-verified wearable IMU to femoral-neck FE regression workflow](images/08_consolidated_workflow.svg)
+*Study-wide workflow: the diagram summarises the eight-notebook source-verified Essex research pathway and its final authorised same-source Test. Each numbered notebook retains its own stage-specific scientific workflow figure.*
 
-**Status:** Eight documented research notebooks (Stages 03–08 with complete saved code-cell execution; Stages 01–02 retain some unexecuted cells); pinned original-data lineage; Stage 04–08 Quality Gates **PASSED**; final model frozen before Test; one explicitly authorised Test evaluation completed on **four unseen participants from the same Essex source cohort**. This is **not** independent external-dataset validation, direct measurement of bone strain, or clinical deployment.
+This project investigates **prediction of model-derived femoral-neck finite-element principal strains (\`e1\` and \`e3\`) from seven wearable IMUs**. It compares classical feature-based regression, temporal convolutional models and GRU/BiGRU architectures under participant-disjoint evaluation, with explicit attention to waveform error, peak value, peak position and model robustness.
 
-## Research question and main finding
+The project comprises **eight numbered Jupyter notebooks**. Stages 03–08 have all code cells executed in their saved versions; some source-inspection cells in Stages 01–02 remain unexecuted. The [Stage 08 final notebook](code/notebooks/08_frozen_final_model_evaluation_and_research_synthesis.ipynb) has 11 executed code cells, no recorded errors and a committed final **Quality Gate PASSED**. The [before-Test protocol](output/08_frozen_final_protocol.json) was committed independently of Test results. No additional Test fitting or reranking has been conducted.
 
-Can seven lower-body IMUs support reproducible, source-traceable prediction of the original, model-derived femoral-neck strain trajectories, and how do classic regression and deep temporal models compare when participants are kept separate?
+## 1. Dataset and experimental protocol
 
-The **primary Random Forest** was selected *before Test* using Training-only grouped cross-validation. On the final participant-held-out Test set, it obtained a subject-balanced waveform MAE of **0.0009384**. A predeclared **secondary Dilated TCN** obtained **0.0008759**, approximately **6.7% lower observed waveform error**, and lower e1/e3 peak-value error, but higher peak-position error. **The primary was not changed after seeing Test.** With four Test participants, the exploratory paired participant-bootstrap interval crossed zero; the observed difference does not establish a definitive population-wide advantage for TCN.
-
-## Original Essex source, provenance and splits
-
-The final study is based on the [original Essex Figshare dataset v13](https://doi.org/10.6084/m9.figshare.30225739.v13), linked to the published dataset description by [Hollinger et al.](https://doi.org/10.1038/s41597-026-07429-3). The project independently audited original source records, recovered numerical arrays and verified original IMU–FE temporal correspondence before creating immutable participant-level partitions.
-
-| Source/property | Verified value |
+| Component | Research setting |
 | --- | --- |
-| Original records | 1,897 trials; 40 original participants |
-| Eligible source-linked IMU–FE records | 1,729 trials; 37 participants |
-| Excluded originally empty FE records | 168 trials |
-| IMU input | 101 source positions × 42 channels; seven physical six-channel IMUs |
-| FE targets | 11 **original** matched source positions × two targets, \`e1\` and \`e3\` |
-| Published FE target unit | **Unitless** finite-element model output |
-| Interpolation and strain unit conversion | **None** |
-| Training | 29 participants, 1,354 trials |
-| Diagnostic Validation | 4 participants, 192 trials |
-| Previously reserved final Test | 4 participants, 183 trials |
-| Final model fitting | Training + Validation, 33 participants, 1,546 trials |
-| Source/protocol integrity | Original source SHA256, paired-array fingerprint, explicit before-Test freeze |
+| Original source | [Essex Figshare v13](https://doi.org/10.6084/m9.figshare.30225739.v13), [published source description](https://doi.org/10.1038/s41597-026-07429-3); not the older 444-row public BoneNet derivative |
+| Source coverage | 40 original participants, 1,897 original trials; 168 trials excluded for empty FE arrays |
+| Eligible paired study | **37 participants, 1,729 trials** with source-linked IMU and FE outputs |
+| IMU inputs | Seven lower-body six-channel sensors, original **101 × 42** trial tensor |
+| Model-derived targets | Original eleven-position **11 × 2** FE trajectories, \`e1\` and \`e3\`; **unitless** |
+| Time indexing | Original source-verified FE positions; no FE target interpolation |
+| Training | 29 people; 1,354 original trials |
+| Diagnostic Validation | 4 people; 192 original trials |
+| Final reserved Test | 4 new people; 183 original trials, evaluated once after explicit release |
+| Final Development fit | 33 people / 1,546 trials (Training + Validation), only after freezing model choice |
+| Main metric | Equal-participant-weighted waveform MAE over original targets and FE coordinates |
 
-The final Test contains people **not used for Training or Validation**. However, it is a hold-out split **within the same original study**, not data from an unrelated institution, external acquisition protocol or prospective clinical cohort.
+The source audit maintained original trial identities, the published MATLAB archive SHA256 and a canonical paired-array fingerprint. All participants were disjoint across the three partitions. Five grouped Training folds supported the model-development comparisons; the previously examined Validation participants were not reused to reselect models in Stage 07.
 
-## Model selection, independent-participant development and final Test
+Only source-verified **model-derived finite-element targets** were evaluated. The output scale is **unitless**; it is not measured in-vivo strain, calibrated microstrain, clinical injury risk or an independent physical bone-load measurement.
 
-The principal metric is **subject-balanced waveform mean absolute error**, averaging the eleven source FE values and two targets *within* each participant, then weighting participants equally. All MAE values below refer to the **original published unitless FE-model scale**, not microstrain.
+## 2. Experimental programme
 
-| Development evidence (pre-Test) | Subject-balanced MAE | Role |
+| Notebooks | Main purpose |
+| --- | --- |
+| [01](code/notebooks/01_original_dataset_audit_and_trial_registry.ipynb) | Original Figshare archive, trial registry and source representation |
+| [02](code/notebooks/02_matlab_object_decoding_and_numeric_recovery.ipynb) | Original nested MATLAB object decoding and numerical recovery |
+| [03](code/notebooks/03_full_cohort_numeric_and_temporal_validation.ipynb) | Complete cohort numerical checks and native FE–IMU temporal mapping |
+| [04](code/notebooks/04_governed_imu_fe_dataset_and_participant_splits.ipynb) | Source-governed 1,729-trial paired cohort and immutable 29/4/4 participant allocation |
+| [05](code/notebooks/05_classical_regression_baselines_and_participant_independent_validation.ipynb) | Training mean, Ridge, Random Forest, grouped CV and diagnostic Validation |
+| [06](code/notebooks/06_deep_temporal_regression_and_peak_prediction.ipynb) | Temporal CNN/TCN Training CV, original-grid waveform and peak diagnostics |
+| [07](code/notebooks/07_multi_seed_robustness_gru_bigru_and_peak_ablation.ipynb) | Three seeds, five folds, GRU/BiGRU, 75 Training-only fits, peak-loss ablation, sensor sensitivity, pre-Test selection |
+| [08](code/notebooks/08_frozen_final_model_evaluation_and_research_synthesis.ipynb) | Frozen Random Forest primary, descriptive TCN secondary, 33-person final fit and authorised one-time four-person Test |
+
+Detailed methods, original FE target geometry, trial accounting and all scientific comparisons are documented in [BoneNet | Research Methods and Experimental Evidence](BONENET_RESEARCH_METHODS_AND_EVIDENCE.md).
+
+The [Stage 08 pre-Test protocol](output/08_frozen_final_protocol.json) and [one-time release receipt](output/08_final_test_release_receipt.json) document the Test boundary. Unlike the HARTH portfolio, this Essex work has **no additional separate FINAL audit notebook**; evidence reconciliation is based on the saved Stage 04–08 quality gates, recorded Stage 08 Test artifacts and the read-only stage evidence register.
+
+## 3. Research results
+
+### Development and model choice
+
+The **Random Forest** was chosen as the **primary model** from the earlier Training-only participant-grouped criterion. A **Dilated TCN** was prespecified as a secondary comparison before opening Test. Stage 07 compared the principal neural architectures over three random seeds and the same five Training folds; its no-peak-loss TCN experiment was a diagnostic ablation, not another eligible primary model.
+
+| Model / condition | Training OOF subject-balanced MAE | Evidence scope |
 | --- | ---: | --- |
-| Random Forest, Stage 05 Training GroupKFold | **0.0007950** | **Locked primary** |
-| Dilated TCN, Stage 07 three-seed Training OOF | 0.0008769 | Main temporal comparison |
-| BiGRU, Stage 07 three-seed Training OOF | 0.0008800 | Recurrent model |
-| GRU, Stage 07 three-seed Training OOF | 0.0008898 | Recurrent model |
-| Temporal CNN, Stage 07 three-seed Training OOF | 0.0009152 | Convolutional model |
-| Dilated TCN *without peak loss*, Stage 07 | 0.0008624 | **Ablation only**, excluded from primary selection |
+| **Random Forest** | **0.0007950** | Stage 05 five-fold classical selection; **locked primary** |
+| Dilated TCN | 0.0008769 | Stage 07 three-seed average; predefined temporal architecture |
+| BiGRU | 0.0008800 | Stage 07 three-seed average |
+| GRU | 0.0008898 | Stage 07 three-seed average |
+| Temporal CNN | 0.0009152 | Stage 07 three-seed average |
+| Dilated TCN without peak loss | 0.0008624 | Ablation only; excluded from primary selection |
 
-Random Forest's development figure is from its **Stage 05 locked model-selection run**; the neural development figures average **three Stage 07 seeds**. They are valuable development comparisons, but are not independent Test scores. Stage 07 performed **75 Training-only fits** (five configurations × three seeds × five subject-disjoint folds) with a fixed 35-epoch budget, and examined participant variation, peak-loss ablation and controlled seven-sensor/noise sensitivity.
+Stage 07 completed **75 Training-only model/fold/seed fits**. Its peak-loss ablation did **not** show a dependable benefit from adding the fixed 0.25 penalty; sensitivity analysis found the greatest model-response change when replacing the right-thigh IMU channels with their fold-Training mean. Neither is evidence of causal biomechanical sensor importance.
 
-### Final held-out Test (183 trials, four participants)
+### Authorised final held-out Test
 
-Both frozen architectures were fitted **once** to all 1,546 Development trials before the explicit Test release. Random Forest used five fixed statistical features for each of 42 IMU channels (**210 predictors**), **200 trees** and the recorded seed. Dilated TCN used the complete **101 × 42** original trial time series with readout at the eleven verified original FE indices; it used the fixed **35 epochs** and frozen peak-aware objective. Results come from the same single authorised Test evaluation.
+The primary Random Forest and secondary Dilated TCN were fitted **once** on 33 Development people and evaluated in **one pre-authorised round** on four held-out people from the same original source (183 trials). The model identities, budgets and reporting metrics had been locked beforehand.
 
-| Test metric | Primary Random Forest | Predeclared secondary Dilated TCN |
+| Test metric | **Primary Random Forest** | Predeclared **secondary Dilated TCN** |
 | --- | ---: | ---: |
 | **Subject-balanced waveform MAE** | 0.0009384 | **0.0008759** |
 | e1 pointwise MAE | 0.0004926 | **0.0004611** |
@@ -62,51 +76,74 @@ Both frozen architectures were fitted **once** to all 1,546 Development trials b
 | e1 peak-position MAE (original FE indices) | **0.9672** | 1.3497 |
 | e3 peak-position MAE (original FE indices) | **0.8415** | 1.1967 |
 
-The exploratory participant-paired difference **TCN − RF** in waveform MAE was approximately **−0.0000625**, with a 95% participant-cluster bootstrap interval **[−0.0001859, +0.0000431]** across only **four** participants (2,000 bootstrap draws). The interval includes zero. No confirmatory claim of generalisable superiority, statistical significance or external clinical validity is made.
+The fixed secondary Dilated TCN had **about 6.7% lower observed waveform MAE** and lower peak-value errors for both targets. The frozen primary Random Forest better located the original FE peaks. The four-person paired exploratory bootstrap interval for TCN minus RF waveform MAE was **[−0.0001859, +0.0000431]**, crossing zero. The difference is **not** confirmatory population-wide superiority. **Random Forest remains the pre-Test-selected primary**, regardless of this secondary Test observation.
 
-The predeclared primary **remains Random Forest**, even though Dilated TCN had a lower observed final Test MAE. The final model ranking cannot be revised using the protected Test outcomes. Peak **value** and peak **location** are distinct: the TCN had lower peak-magnitude error, while RF was better at peak-position identification on the eleven FE indices.
+![Final one-time same-source participant-held-out waveform error](output/08_test_waveform_mae_comparison.png)
 
-[Original final Test metrics](output/08_test_primary_secondary_metrics.csv) · [Participant/activity metrics](output/08_test_subject_activity_metrics.csv) · [Exploratory bootstrap](output/08_test_subject_bootstrap.csv) · [One-time release receipt](output/08_final_test_release_receipt.json) · [Final Quality Gate](output/08_final_test_quality_gate.json)
+Results are reported from [Stage 05 classical CV](output/05_training_cv_model_summary.csv), [Stage 07 robustness](output/07_training_model_stability_summary.csv) and [final Test metrics](output/08_test_primary_secondary_metrics.csv). These results involve different fitted model instances and evaluation protocols; they must not be pooled into a single interchangeable score.
 
-## Notebook-by-notebook workflow
+## 4. Repository navigation
 
-The study includes eight documented notebooks with real saved outputs and source-aligned scientific figures. **Stages 03–08 have fully executed saved code cells**; Stages 01–02 retain some earlier unexecuted cells, so their saved execution state must not be described as complete. Independent downstream source fingerprints and quality gates provide the cross-stage scientific integrity evidence.
+| Location | Contents |
+| --- | --- |
+| [\`code/notebooks/\`](code/notebooks/) | All eight numbered source, model development and Test notebooks |
+| [\`code/src/\`](code/src/) | Essex source, numeric recovery, paired dataset, regression and final Test utilities |
+| [\`output/\`](output/) | Actual source audits, original split gates, model diagnostics, source-indexed figures and 16 \`08_*\` final artifacts |
+| [\`images/\`](images/README.md) | Eight stage-specific SVG workflows, complete-study overview, final evidence graphic and preserved derivative-pilot artwork |
+| [\`evidence/\`](evidence/stage_01_08_evidence_register.csv) | Source-linked read-only register of 28 scientific records from Stages 01–08 |
+| [Shared Python modules](../python_modules/core/) | Colab repository setup, device reporting, plotting and output management |
+| [Research Methods and Evidence](BONENET_RESEARCH_METHODS_AND_EVIDENCE.md) | Full source-derived methods, independent-unit accounting, comparison tables and limits |
+| [Reproducibility Guide](../docs/BONENET_REPRODUCIBILITY.md) | Environment, source versions, recorded evidence and safe review boundaries |
 
-| Stage | Notebook | Scientific focus |
-| --- | --- | --- |
-| 01 | [Original Dataset Audit and Trial Registry](code/notebooks/01_original_dataset_audit_and_trial_registry.ipynb) | Source provenance, original files and trial identities |
-| 02 | [MATLAB Object Decoding and Numeric Recovery](code/notebooks/02_matlab_object_decoding_and_numeric_recovery.ipynb) | Extract original nested numeric information without changing source |
-| 03 | [Full Cohort Numeric and Temporal Validation](code/notebooks/03_full_cohort_numeric_and_temporal_validation.ipynb) | Native time coordinate mapping and source-derived integrity |
-| 04 | [Governed IMU–FE Dataset and Participant Splits](code/notebooks/04_governed_imu_fe_dataset_and_participant_splits.ipynb) | 1,729 paired trials, source hashes and **participant-disjoint** 29/4/4 split |
-| 05 | [Classical Regression Baselines](code/notebooks/05_classical_regression_baselines_and_participant_independent_validation.ipynb) | Training mean, Ridge and Random Forest, Training CV and diagnostic Validation |
-| 06 | [Deep Temporal Regression and Peak Prediction](code/notebooks/06_deep_temporal_regression_and_peak_prediction.ipynb) | Temporal CNN and Dilated TCN, original-grid waveform and peak diagnostics |
-| 07 | [Multi-Seed Robustness, GRU/BiGRU and Ablation](code/notebooks/07_multi_seed_robustness_gru_bigru_and_peak_ablation.ipynb) | 75 Training-only fits, seed variation, peak-loss ablation, sensor perturbation and provisional Training-only selection |
-| 08 | [Frozen Final Model Evaluation and Synthesis](code/notebooks/08_frozen_final_model_evaluation_and_research_synthesis.ipynb) | Locked RF primary, fixed TCN secondary, 33-person final development fit and one-time 4-person held-out Test |
+Saved numerical CSVs and manuscript-style figures are **research outputs**, not replacement original datasets. The public repository does not commit the full MATLAB source, all reconstructed numeric caches, local training-job files or fitted model-weight files.
 
-See the individual workflow figures in [\`images/\`](images/README.md), including the completed [Stage 08 workflow](images/08_consolidated_workflow.svg).
+## 5. Running and reviewing the study
 
-## Evidence, reproducibility and safe re-use
+For Colab, use the approved repository-sync cell at the top of the desired notebook and the shared source, plotting and \`computer_device()\` utilities. For local baseline inspection, from the repository root:
 
-The \`output/\` folder contains small source and model audit records, including stage-specific CSV/JSON/PNG evidence. Original source archives, reconstructed numeric data, per-job model caches and trained estimators are intentionally **not** committed. The reproducible source reconstruction starts from the pinned Essex Figshare v13 original release and verifies it against the committed SHA256. The notebooks use shared repository utilities for Colab setup, plotting, output packaging and hardware reporting.
+\`\`\`bash
+python -m pip install -r requirements.txt
+\`\`\`
 
-1. Review the original source, license and the [Stage 04 source/split gate](output/04_dataset_and_split_quality_gate.json).
-2. Inspect or reproduce source-governed Stages [01–04](code/notebooks/04_governed_imu_fe_dataset_and_participant_splits.ipynb), then the **Training-only** model development in [05](code/notebooks/05_classical_regression_baselines_and_participant_independent_validation.ipynb)–[07](code/notebooks/07_multi_seed_robustness_gru_bigru_and_peak_ablation.ipynb). Dependency installation and source reconstruction are encoded in each notebook. Some workflows require Colab and additional dependencies from the source.
-3. For Stage 08, inspect the independently committed [frozen-before-Test protocol](output/08_frozen_final_protocol.json), [executed notebook](code/notebooks/08_frozen_final_model_evaluation_and_research_synthesis.ipynb) and [recorded Test evidence](output/08_final_test_quality_gate.json). **Do not rerun the one-time Test release to search for improved results.** The saved notebook and public CSVs are the primary reference for this completed assessment.
+Neural experiments also require the appropriate optional packages from [\`requirements-dl.txt\`](../requirements-dl.txt) and suitable resources. Original source reconstruction may require separate original MATLAB reader dependencies as described in the notebooks and the [reproducibility guide](../docs/BONENET_REPRODUCIBILITY.md).
 
-The project records source checksums, original trial keys, input/target schema, subject-level group splits, fixed model recipes, source-indexed output metrics and release provenance. The local release ledger reduces accidental same-checkout repetition but **does not provide a global single-use lock** across independent machines.
+**To review completed results without retraining**, begin with [executed Notebook 08](code/notebooks/08_frozen_final_model_evaluation_and_research_synthesis.ipynb), its [final Quality Gate](output/08_final_test_quality_gate.json) and [saved Test metrics](output/08_test_primary_secondary_metrics.csv). Then inspect the [Stage 07 pre-Test model decision](output/07_training_candidate_decision.csv) and [Stage 04 source/split gate](output/04_dataset_and_split_quality_gate.json).
 
-## Earlier BoneNet-derivative pilot (historical, separate)
+**Do not rerun the authorised Test release, refit using Test labels or promote another model based on the observed protected Test outcomes.** The final figures and the **8,052 saved model/trial/FE-position/target prediction rows** already permit read-only error analysis. The local release marker is not a global lock across unrelated machines.
 
-Before the original-source Essex pathway was developed, a separate preliminary analysis inspected a [public BoneNet derivative](https://github.com/ZainabAltai/BoneNet-A-Framework-for-Rapid-and-Accurate-Prediction-of-Femoral-Neck-strains-from-Exercise-Data) with **444** walking/running rows, resampled derivative tensors \`X: (444, 42, 101)\` and \`Y: (444, 101, 2)\`, and a labels file whose row-level linkage remained **unverified**. It reported one exploratory GroupShuffleSplit with mean/Ridge baseline errors on an **unverified derivative target scale**.
+## 6. Final research evidence audit and closure
 
-Those older pilot errors, 101-position *derivative* targets and linkage assumptions **must not be directly compared with** the original Essex **11-position unitless FE** results above. The historical findings and limitations remain documented in [\`BONENET_REAL_DATA_AUDIT.md\`](BONENET_REAL_DATA_AUDIT.md), [\`BONENET_FIRST_BASELINE_RESULTS.md\`](BONENET_FIRST_BASELINE_RESULTS.md), [\`ALL_RECORD_AUDIT_FINDINGS.md\`](ALL_RECORD_AUDIT_FINDINGS.md) and [\`DATA_PIPELINE_DESIGN.md\`](DATA_PIPELINE_DESIGN.md). The new source-verified pipeline supersedes the pilot as the project's **main completed research study**, without retrospectively validating its old row-order assumptions.
+The independent before-Test protocol was committed first; the Stage 08 notebook then recorded **one explicit Test release** and a completed evaluation for two predeclared models. Its **11 code cells have executed saved outputs and no saved errors**. The final gate reports:
 
-## Scope, uncertainty and research boundaries
+\`STAGE 08 | FROZEN ONE-TIME TEST QUALITY GATE: PASSED\`
 
-- **Target provenance:** e1/e3 are **published, unitless FE-model-derived strains**. No conversion to microstrain, direct image interpretation, true bone strain measurement or independently measured physiological reference was performed.
-- **Population and distribution:** Four held-out Test participants belong to the same original study. No independent multi-centre, external collection, future cohort or clinical validation was conducted.
-- **Selection and uncertainty:** The primary model was frozen using participant-disjoint Training evidence; Validation was previously inspected in development, then included in the final Development fit. Four-person bootstrap intervals are **exploratory**, and the final Test must not be reused for tuning or reselecting models.
-- **Interpretability and sensor stress:** Stage 07 source-channel perturbations are model-specific artificial sensitivity tests, **not causal biomechanical sensor-importance measures**.
-- **Deployment:** This is a reproducible exploratory computational benchmark and portfolio research artifact, **not a certified biomechanical load monitor, medical device or clinical decision-support system**.
+There are **16 saved final \`08_*\` files**, including:
 
-**Completed study status:** Original-source audit, model development, multi-seed robustness and the one-time same-source participant-held-out evaluation are complete within the recorded protocol. Future research could address independent cohorts, additional biomechanical ground truth, uncertainty under dataset shift and prospective validation, but these are **not completed claims**.
+| Final evidence | Scientific content |
+| --- | --- |
+| [Frozen final protocol](output/08_frozen_final_protocol.json) | RF/TCN roles, fit recipes, original-source cohort and fixed Test metrics |
+| [Development fit manifest](output/08_development_fit_manifest.json) | 33-person fitting contract, RF feature count and TCN parameter count |
+| [Test release receipt](output/08_final_test_release_receipt.json) | Actual manual authorisation for one evaluation |
+| [Original Test predictions](output/08_test_trial_predictions.csv) | 183 trials × 11 original positions × two targets × two predeclared models |
+| [Primary and secondary metrics](output/08_test_primary_secondary_metrics.csv) | Original unitless e1/e3 waveform and peak errors |
+| [Participant and activity breakdown](output/08_test_subject_activity_metrics.csv) | Four-person, six-activity descriptive errors |
+| [Exploratory paired bootstrap](output/08_test_subject_bootstrap.csv) | Whole-participant uncertainty; four clusters only |
+| [Final quality gate and source hashes](output/08_final_test_quality_gate.json) | Preserved model selection, source lineage, output fingerprints and completeness |
+
+![Read-only final research evidence pathway](images/final_workflow.svg)
+
+This is a **recorded evidence reconciliation**, not a newly executed independent FINAL audit notebook or another Test evaluation. The saved quality gates verify consistency of artifacts **available in GitHub**, not identical GPU retraining results or external generalisation. Some saved source-inspection code cells in Stages 01–02 are unexecuted; Stages 03–08 have complete saved execution for their code cells. The project is complete **within its source-governed exploratory scope**.
+
+## 7. Scientific documentation, historical pilot and boundaries
+
+- [Research Methods and Experimental Evidence](BONENET_RESEARCH_METHODS_AND_EVIDENCE.md): full original-source method and empirical results.
+- [Reproducibility and Evidence Boundaries](../docs/BONENET_REPRODUCIBILITY.md): input sources, dependencies, available outputs and limitations.
+- [Stage 01–08 Evidence Register](evidence/stage_01_08_evidence_register.csv): current committed source/results index.
+- [Frozen Stage 08 Protocol](output/08_frozen_final_protocol.json): independently committed pre-Test decision.
+- [Study figure index](images/README.md): original-source study figures and historical diagram.
+
+**Historical pilot, separate from the completed Essex study.** The earlier [public BoneNet derivative](https://github.com/ZainabAltai/BoneNet-A-Framework-for-Rapid-and-Accurate-Prediction-of-Femoral-Neck-strains-from-Exercise-Data) comprised 444 walking/running rows with derivative tensors \`X: (444,42,101)\` and \`Y: (444,101,2)\` and an unresolved label-row association. Its original [source audit](BONENET_REAL_DATA_AUDIT.md), [pilot results](BONENET_FIRST_BASELINE_RESULTS.md) and [historical workflow](images/bonenet_derivative_pilot.svg) are retained. Its unverified derivative target scale and assumptions **must not be compared numerically with** the source-verified, original 11-point unitless FE targets.
+
+**Scientific boundaries:** No independent external dataset, measured in-vivo bone strain, physical peak timing in seconds, causal sensor attribution, prospective patient outcome or validated medical/clinical decision-support system was demonstrated. The four-person, same-source final Test supports limited participant-held-out empirical assessment, not universal prediction accuracy.
+
+**Status:** Original source audit, participant-disjoint model development, peak/sensor robustness, frozen-before-Test final refitting and one authorised Test evaluation are recorded and complete within the declared protocol. This is a **research and software portfolio benchmark**, not a certified biomechanical monitor.
