@@ -20,10 +20,16 @@ import torch
 from torch import nn
 from torch.utils.data import DataLoader, TensorDataset
 
-from essex_temporal_regression import (
-    TemporalCNN, DilatedTCN, check_temporal_arrays,
-    gather_original_positions, peak_aware_loss, training_fold_statistics,
-)
+try:  # Package import in offline tests
+    from .essex_temporal_regression import (
+        TemporalCNN, DilatedTCN, check_temporal_arrays,
+        gather_original_positions, peak_aware_loss, training_fold_statistics,
+    )
+except ImportError:  # Direct source-path import in Colab notebooks
+    from essex_temporal_regression import (
+        TemporalCNN, DilatedTCN, check_temporal_arrays,
+        gather_original_positions, peak_aware_loss, training_fold_statistics,
+    )
 
 
 ARCHITECTURES = ("Temporal CNN", "Dilated TCN", "GRU", "BiGRU")
