@@ -1,25 +1,91 @@
-<svg xmlns="http://www.w3.org/2000/svg" width="1700" height="480" viewBox="0 0 1700 480" role="img" aria-labelledby="title desc">
-<title id="title">BoneNet exploratory biomechanical load estimation source and baseline audit</title>
-<desc id="desc">Exploratory BoneNet derivative-data research diagram. Observed numerical tensors contain 444 records with 42 input channels and 101 time points, and e1/e3 model-derived target arrays. A subject-held-out pilot Ridge and training-mean comparison was executed under an unverified row-to-subject association. This is not full Figshare study replication, clinically validated estimation or established independent generalisation.</desc>
+<svg xmlns="http://www.w3.org/2000/svg" width="1700" height="480" viewBox="0 0 1700 480" role="img" aria-labelledby="study-title study-desc">
+<title id="study-title">BIOMECHANICAL LOAD ESTIMATION | ORIGINAL ESSEX STUDY</title>
+<desc id="study-desc">Study-wide overview of seven lower-body IMU sensors, original 101 by 42 input and eleven by two unitless FE targets. Source inventory 1897 trials, 1729 eligible trials and 37 included subjects; participant-disjoint 29 Training, 4 Validation and 4 final Test, 183 Test trials. Five-fold Training CV selected Random Forest primary, Dilated TCN secondary. Frozen single Test evaluation achieved participant-balanced MAE 0.0009384 RF and 0.0008759 TCN; no external clinical validation.</desc>
 <defs><marker id="small-arrow" markerUnits="userSpaceOnUse" markerWidth="6" markerHeight="6" refX="5.5" refY="3" orient="auto"><path d="M0 0 L6 3 L0 6 Z" fill="#245E9D"/></marker></defs>
-<rect width="1700" height="480" rx="20" fill="#F4F9FD"/>
+<rect x="0" y="0" width="1700" height="480" rx="20" fill="#F4F9FD"/>
 <g font-family="DejaVu Sans, Arial, sans-serif">
-<text x="30" y="38" font-size="23" fill="#173453" font-weight="700">BIOMECHANICAL LOAD ESTIMATION | BONENET EXPLORATORY AUDIT</text>
-<text x="30" y="67" font-size="15" fill="#54738A">Public derivative inspection · preliminary regression · source-to-label linkage not independently verified</text>
+<text x="30" y="38" font-size="23" font-weight="700" fill="#173453">BIOMECHANICAL LOAD ESTIMATION | ORIGINAL ESSEX STUDY</text>
+<text x="30" y="67" font-size="15" fill="#54738A">Full research workflow · 8 documented notebooks · source-verified IMU–FE modelling · final gate PASSED</text>
 <rect x="24" y="84" width="1652" height="160" rx="16" fill="#EAF3FA" stroke="#C7D9E6" stroke-width="2"/>
 <rect x="24" y="262" width="1652" height="174" rx="16" fill="#EAF3FA" stroke="#C7D9E6" stroke-width="2"/>
-<g aria-label="Four study context panels"><g aria-label="DERIVATIVE DATASET"><text x="50" y="115" font-size="15" fill="#173453" font-weight="700">DERIVATIVE DATASET</text><text x="50" y="145" font-size="13" fill="#506C7E">BoneNet public walking / running</text><text x="50" y="167" font-size="13" fill="#506C7E">444 records · 37 label subjects</text><text x="50" y="189" font-size="13" fill="#506C7E">Not the full 40-person archive</text><text x="50" y="229" font-size="11.5" fill="#54738A">Source revision and rights apply</text></g>
-<g aria-label="NUMERIC ARRAY AUDIT"><text x="380" y="115" font-size="15" fill="#173453" font-weight="700">NUMERIC ARRAY AUDIT</text><text x="380" y="145" font-size="13" fill="#506C7E">Input: 444 x 42 x 101</text><text x="380" y="167" font-size="13" fill="#506C7E">Target: 444 x 101 x 2</text><text x="380" y="189" font-size="13" fill="#506C7E">e1 / e3 model-derived strain</text><text x="380" y="229" font-size="11.5" fill="#54738A">Target units still require verification</text></g>
-<g aria-label="GROUPED PILOT"><text x="742" y="115" font-size="15" fill="#173453" font-weight="700">GROUPED PILOT</text><text x="742" y="145" font-size="13" fill="#506C7E">Train: 27 subjects, 324 rows</text><text x="742" y="167" font-size="13" fill="#506C7E">Held out: 10 subjects, 120 rows</text><text x="742" y="189" font-size="13" fill="#506C7E">Training mean and Ridge baselines</text><text x="742" y="229" font-size="11.5" fill="#54738A">Row-to-subject mapping assumed</text></g>
-<g aria-label="EVIDENCE LIMITATIONS"><text x="1110" y="115" font-size="15" fill="#173453" font-weight="700">EVIDENCE LIMITATIONS</text><text x="1110" y="145" font-size="13" fill="#506C7E">222 repeated CSV composite keys</text><text x="1110" y="167" font-size="13" fill="#506C7E">Unverified source row linkage</text><text x="1110" y="189" font-size="13" fill="#506C7E">Pooled error across targets</text><text x="1110" y="229" font-size="11.5" fill="#54738A">No validated generalisation claims</text></g></g>
-<g aria-label="Six horizontal scientific workflow arrows"><path d="M252 353 H266" fill="none" stroke="#245E9D" stroke-width="2.2" stroke-linecap="round" marker-end="url(#small-arrow)"/><path d="M488 353 H502" fill="none" stroke="#245E9D" stroke-width="2.2" stroke-linecap="round" marker-end="url(#small-arrow)"/><path d="M724 353 H738" fill="none" stroke="#245E9D" stroke-width="2.2" stroke-linecap="round" marker-end="url(#small-arrow)"/><path d="M960 353 H974" fill="none" stroke="#245E9D" stroke-width="2.2" stroke-linecap="round" marker-end="url(#small-arrow)"/><path d="M1196 353 H1210" fill="none" stroke="#245E9D" stroke-width="2.2" stroke-linecap="round" marker-end="url(#small-arrow)"/><path d="M1432 353 H1446" fill="none" stroke="#245E9D" stroke-width="2.2" stroke-linecap="round" marker-end="url(#small-arrow)"/></g>
-<g aria-label="Seven research process blocks"><g class="process-block" aria-label="BoneNet Data"><rect x="38" y="287" width="208" height="132" rx="15" fill="#173453" stroke="#173453" stroke-width="1.8"/><text x="142" y="310" font-size="12.5" fill="#A7E9DF" font-weight="700" text-anchor="middle">INPUT</text><text x="142" y="336" font-size="14.3" fill="#FFFFFF" font-weight="700" text-anchor="middle">BoneNet Data</text><text x="142" y="358" font-size="11.7" fill="#DFEDF4" text-anchor="middle">42-channel signals</text><text x="142" y="378" font-size="11.7" fill="#DFEDF4" text-anchor="middle">e1 / e3 target arrays</text><text x="142" y="398" font-size="11.7" fill="#DFEDF4" text-anchor="middle">444 derivative records</text></g>
-<g class="process-block" aria-label="Inspect Source"><rect x="274" y="287" width="208" height="132" rx="15" fill="#FFFFFF" stroke="#B8CFDE" stroke-width="1.8"/><text x="378" y="310" font-size="12.5" fill="#497992" font-weight="700" text-anchor="middle">01</text><text x="378" y="336" font-size="14.3" fill="#173453" font-weight="700" text-anchor="middle">Inspect Source</text><text x="378" y="358" font-size="11.7" fill="#506C7E" text-anchor="middle">Tensor shape and values</text><text x="378" y="378" font-size="11.7" fill="#506C7E" text-anchor="middle">Trial metadata</text><text x="378" y="398" font-size="11.7" fill="#506C7E" text-anchor="middle">Missingness and units</text></g>
-<g class="process-block" aria-label="Check Linkage"><rect x="510" y="287" width="208" height="132" rx="15" fill="#FFFFFF" stroke="#B8CFDE" stroke-width="1.8"/><text x="614" y="310" font-size="12.5" fill="#497992" font-weight="700" text-anchor="middle">02</text><text x="614" y="336" font-size="14.3" fill="#173453" font-weight="700" text-anchor="middle">Check Linkage</text><text x="614" y="358" font-size="11.7" fill="#506C7E" text-anchor="middle">Repeated label keys</text><text x="614" y="378" font-size="11.7" fill="#506C7E" text-anchor="middle">Row order assumed</text><text x="614" y="398" font-size="11.7" fill="#506C7E" text-anchor="middle">Verification pending</text></g>
-<g class="process-block" aria-label="Exploratory Split"><rect x="746" y="287" width="208" height="132" rx="15" fill="#FFFFFF" stroke="#B8CFDE" stroke-width="1.8"/><text x="850" y="310" font-size="12.5" fill="#497992" font-weight="700" text-anchor="middle">03</text><text x="850" y="336" font-size="14.3" fill="#173453" font-weight="700" text-anchor="middle">Exploratory Split</text><text x="850" y="358" font-size="11.7" fill="#506C7E" text-anchor="middle">Subject-group pilot</text><text x="850" y="378" font-size="11.7" fill="#506C7E" text-anchor="middle">27 Train / 10 Test</text><text x="850" y="398" font-size="11.7" fill="#506C7E" text-anchor="middle">Mapping assumption</text></g>
-<g class="process-block" aria-label="Fit Baselines"><rect x="982" y="287" width="208" height="132" rx="15" fill="#FFFFFF" stroke="#B8CFDE" stroke-width="1.8"/><text x="1086" y="310" font-size="12.5" fill="#497992" font-weight="700" text-anchor="middle">04</text><text x="1086" y="336" font-size="14.3" fill="#173453" font-weight="700" text-anchor="middle">Fit Baselines</text><text x="1086" y="358" font-size="11.7" fill="#506C7E" text-anchor="middle">Training-time mean</text><text x="1086" y="378" font-size="11.7" fill="#506C7E" text-anchor="middle">84-feature Ridge</text><text x="1086" y="398" font-size="11.7" fill="#506C7E" text-anchor="middle">Train-only scaler</text></g>
-<g class="process-block" aria-label="Review Errors"><rect x="1218" y="287" width="208" height="132" rx="15" fill="#FFFFFF" stroke="#B8CFDE" stroke-width="1.8"/><text x="1322" y="310" font-size="12.5" fill="#497992" font-weight="700" text-anchor="middle">05</text><text x="1322" y="336" font-size="14.3" fill="#173453" font-weight="700" text-anchor="middle">Review Errors</text><text x="1322" y="358" font-size="11.7" fill="#506C7E" text-anchor="middle">Pooled MAE / RMSE</text><text x="1322" y="378" font-size="11.7" fill="#506C7E" text-anchor="middle">Two strain targets</text><text x="1322" y="398" font-size="11.7" fill="#506C7E" text-anchor="middle">Single held-out split</text></g>
-<g class="process-block" aria-label="Exploratory Only"><rect x="1454" y="287" width="208" height="132" rx="15" fill="#173453" stroke="#173453" stroke-width="1.8"/><text x="1558" y="310" font-size="12.5" fill="#A7E9DF" font-weight="700" text-anchor="middle">OUTPUT</text><text x="1558" y="336" font-size="14.3" fill="#FFFFFF" font-weight="700" text-anchor="middle">Exploratory Only</text><text x="1558" y="358" font-size="11.7" fill="#DFEDF4" text-anchor="middle">Not source-validated</text><text x="1558" y="378" font-size="11.7" fill="#DFEDF4" text-anchor="middle">No clinical conclusions</text><text x="1558" y="398" font-size="11.7" fill="#DFEDF4" text-anchor="middle">Linkage next priority</text></g></g>
-<text x="30" y="465" font-size="12.8" fill="#54738A">Source inspection → unresolved record linkage → exploratory subject-group pilot → baseline errors → independent linkage verification still required</text>
+<g stroke="#7298B0" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><circle cx="102" cy="129" r="11" fill="#FFFFFF"/><path d="M88 143 Q102 139 116 143 L122 183 Q102 190 82 183 Z" fill="#D9E7F1"/><path d="M89 150 L72 169 L67 182 M116 150 L132 169 L138 182 M91 185 L83 205 L76 225 M111 185 L119 205 L127 225" fill="none"/></g><g fill="#245E9D" stroke="#FFFFFF" stroke-width="1"><rect x="96" y="173" width="12" height="9" rx="2"/><rect x="84" y="189" width="11" height="9" rx="2"/><rect x="111" y="189" width="11" height="9" rx="2"/><rect x="79" y="205" width="11" height="9" rx="2"/><rect x="117" y="205" width="11" height="9" rx="2"/><rect x="70" y="218" width="11" height="9" rx="2"/><rect x="124" y="218" width="11" height="9" rx="2"/></g>
+<g stroke="#C7D9E6" stroke-width="1.3"><path d="M464 102 V232"/><path d="M838 102 V232"/><path d="M1247 102 V232"/></g>
+<text x="165" y="118" font-size="15.5" font-weight="700" fill="#173453">ORIGINAL SOURCE</text><text x="165" y="147" font-size="14" fill="#506C7E">7 lower-body IMUs; 42 channels</text>
+<text x="165" y="172" font-size="14" fill="#506C7E">1,897 source trial records</text>
+<text x="165" y="197" font-size="14" fill="#506C7E">1,729 valid original pairs</text>
+<text x="165" y="222" font-size="14" fill="#506C7E">37 eligible participants</text>
+<text x="487" y="118" font-size="15.5" font-weight="700" fill="#173453">PAIRED NUMERICAL DATA</text><text x="487" y="147" font-size="14" fill="#506C7E">IMU: 101 original positions</text>
+<text x="487" y="172" font-size="14" fill="#506C7E">FE e1/e3: 11 positions each</text>
+<text x="487" y="197" font-size="14" fill="#506C7E">Native index alignment</text>
+<text x="487" y="222" font-size="14" fill="#506C7E">Unitless FE-model targets</text>
+<text x="858" y="118" font-size="15.5" font-weight="700" fill="#173453">SUBJECT SEPARATION</text><text x="858" y="147" font-size="14" fill="#506C7E">Train: 29 people / 1,354</text>
+<text x="858" y="172" font-size="14" fill="#506C7E">Validation: 4 people / 192</text>
+<text x="858" y="197" font-size="14" fill="#506C7E">Test: 4 people / 183</text>
+<text x="858" y="222" font-size="14" fill="#506C7E">Frozen before Test</text>
+<text x="1270" y="118" font-size="15.5" font-weight="700" fill="#173453">FINAL TEST EVIDENCE</text><text x="1270" y="147" font-size="14" fill="#506C7E">Random Forest MAE: 0.0009384</text>
+<text x="1270" y="172" font-size="14" fill="#506C7E">Dilated TCN MAE: 0.0008759</text>
+<text x="1270" y="197" font-size="14" fill="#506C7E">RF better peak location</text>
+<text x="1270" y="222" font-size="14" fill="#506C7E">Final Quality Gate: PASSED</text>
+<g aria-label="Sequential source-verified research workflow"><path d="M246 354 H267" fill="none" stroke="#245E9D" stroke-width="2.2" marker-end="url(#small-arrow)"/>
+<path d="M482 354 H503" fill="none" stroke="#245E9D" stroke-width="2.2" marker-end="url(#small-arrow)"/>
+<path d="M718 354 H739" fill="none" stroke="#245E9D" stroke-width="2.2" marker-end="url(#small-arrow)"/>
+<path d="M954 354 H975" fill="none" stroke="#245E9D" stroke-width="2.2" marker-end="url(#small-arrow)"/>
+<path d="M1190 354 H1211" fill="none" stroke="#245E9D" stroke-width="2.2" marker-end="url(#small-arrow)"/>
+<path d="M1426 354 H1447" fill="none" stroke="#245E9D" stroke-width="2.2" marker-end="url(#small-arrow)"/><g role="group" aria-label="Original Essex v13">
+<rect x="38" y="287" width="208" height="132" rx="15" fill="#173453" stroke="#173453" stroke-width="1.8"/>
+<text x="142" y="310" font-size="13.2" fill="#BCEDE5" font-weight="700" text-anchor="middle">01–03 | SOURCE</text>
+<text x="142" y="337" font-size="14.5" font-weight="700" fill="#FFFFFF" text-anchor="middle">Original Essex v13</text>
+<text x="142" y="361" font-size="12.8" fill="#D2E9EE" text-anchor="middle">Archive / trial identity</text>
+<text x="142" y="381" font-size="12.8" fill="#D2E9EE" text-anchor="middle">MATLAB numeric recovery</text>
+<text x="142" y="401" font-size="12.8" fill="#D2E9EE" text-anchor="middle">Native temporal mapping</text>
 </g>
-</svg>
+<g role="group" aria-label="Pair and Validate">
+<rect x="274" y="287" width="208" height="132" rx="15" fill="#FFFFFF" stroke="#B8CFDE" stroke-width="1.8"/>
+<text x="378" y="310" font-size="13.2" fill="#4C7A92" font-weight="700" text-anchor="middle">04 | COHORT</text>
+<text x="378" y="337" font-size="14.5" font-weight="700" fill="#173453" text-anchor="middle">Pair and Validate</text>
+<text x="378" y="361" font-size="12.8" fill="#506C7E" text-anchor="middle">1,729 verified pairs</text>
+<text x="378" y="381" font-size="12.8" fill="#506C7E" text-anchor="middle">101-point IMU inputs</text>
+<text x="378" y="401" font-size="12.8" fill="#506C7E" text-anchor="middle">11 original FE positions</text>
+</g>
+<g role="group" aria-label="Participant Splits">
+<rect x="510" y="287" width="208" height="132" rx="15" fill="#FFFFFF" stroke="#B8CFDE" stroke-width="1.8"/>
+<text x="614" y="310" font-size="13.2" fill="#4C7A92" font-weight="700" text-anchor="middle">04 | GROUPS</text>
+<text x="614" y="337" font-size="14.5" font-weight="700" fill="#173453" text-anchor="middle">Participant Splits</text>
+<text x="614" y="361" font-size="12.8" fill="#506C7E" text-anchor="middle">29 Training people</text>
+<text x="614" y="381" font-size="12.8" fill="#506C7E" text-anchor="middle">4 Validation people</text>
+<text x="614" y="401" font-size="12.8" fill="#506C7E" text-anchor="middle">4 Test people reserved</text>
+</g>
+<g role="group" aria-label="Regression Baselines">
+<rect x="746" y="287" width="208" height="132" rx="15" fill="#FFFFFF" stroke="#B8CFDE" stroke-width="1.8"/>
+<text x="850" y="310" font-size="13.2" fill="#4C7A92" font-weight="700" text-anchor="middle">05 | CLASSICAL</text>
+<text x="850" y="337" font-size="14.5" font-weight="700" fill="#173453" text-anchor="middle">Regression Baselines</text>
+<text x="850" y="361" font-size="12.8" fill="#506C7E" text-anchor="middle">Mean, Ridge and RF</text>
+<text x="850" y="381" font-size="12.8" fill="#506C7E" text-anchor="middle">Five grouped Train folds</text>
+<text x="850" y="401" font-size="12.8" fill="#506C7E" text-anchor="middle">Primary CV: RF selected</text>
+</g>
+<g role="group" aria-label="Deep and Robust">
+<rect x="982" y="287" width="208" height="132" rx="15" fill="#FFFFFF" stroke="#B8CFDE" stroke-width="1.8"/>
+<text x="1086" y="310" font-size="13.2" fill="#4C7A92" font-weight="700" text-anchor="middle">06–07 | TEMPORAL</text>
+<text x="1086" y="337" font-size="14.5" font-weight="700" fill="#173453" text-anchor="middle">Deep and Robust</text>
+<text x="1086" y="361" font-size="12.8" fill="#506C7E" text-anchor="middle">CNN, TCN, GRU, BiGRU</text>
+<text x="1086" y="381" font-size="12.8" fill="#506C7E" text-anchor="middle">3 seeds and 75 jobs</text>
+<text x="1086" y="401" font-size="12.8" fill="#506C7E" text-anchor="middle">Peak / sensor diagnostics</text>
+</g>
+<g role="group" aria-label="Freeze and Fit">
+<rect x="1218" y="287" width="208" height="132" rx="15" fill="#FFFFFF" stroke="#B8CFDE" stroke-width="1.8"/>
+<text x="1322" y="310" font-size="13.2" fill="#4C7A92" font-weight="700" text-anchor="middle">08 | PROTOCOL</text>
+<text x="1322" y="337" font-size="14.5" font-weight="700" fill="#173453" text-anchor="middle">Freeze and Fit</text>
+<text x="1322" y="361" font-size="12.8" fill="#506C7E" text-anchor="middle">Primary RF, secondary TCN</text>
+<text x="1322" y="381" font-size="12.8" fill="#506C7E" text-anchor="middle">33-person Development fit</text>
+<text x="1322" y="401" font-size="12.8" fill="#506C7E" text-anchor="middle">Explicit one-time release</text>
+</g>
+<g role="group" aria-label="Final Test Audit">
+<rect x="1454" y="287" width="208" height="132" rx="15" fill="#176363" stroke="#176363" stroke-width="1.8"/>
+<text x="1558" y="310" font-size="13.2" fill="#BCEDE5" font-weight="700" text-anchor="middle">08 | EVIDENCE</text>
+<text x="1558" y="337" font-size="14.5" font-weight="700" fill="#FFFFFF" text-anchor="middle">Final Test Audit</text>
+<text x="1558" y="361" font-size="12.8" fill="#D2E9EE" text-anchor="middle">4 new Test participants</text>
+<text x="1558" y="381" font-size="12.8" fill="#D2E9EE" text-anchor="middle">183 trials, 8,052 rows</text>
+<text x="1558" y="401" font-size="12.8" fill="#D2E9EE" text-anchor="middle">Final gate: PASSED</text>
+</g></g>
+<text x="34" y="460" font-size="13.8" fill="#54738A">Source audit → native FE pairing → participant CV → model comparison → robustness → pre-Test freeze → saved final evidence</text>
+</g></svg>
