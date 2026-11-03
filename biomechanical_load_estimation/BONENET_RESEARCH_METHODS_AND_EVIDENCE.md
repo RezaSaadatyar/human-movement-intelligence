@@ -6,7 +6,7 @@
 
 ![Study-wide Essex IMU–FE research workflow](images/study_overview.svg)
 
-**Final status:** The Stage 08 notebook has 11 executed code cells, no saved errors, 16 committed output files and a recorded **PASSED** final Quality Gate. Its Test assessment was performed once, following the independently committed [before-Test protocol](output/08_frozen_final_protocol.json). The historical BoneNet 444-row derivative pilot described in [the original audit](BONENET_REAL_DATA_AUDIT.md) is a separate study with an unverified source-row mapping and is not merged into these results.
+**Final status:** The Stage 08 notebook has 11 executed code cells, no saved errors, 16 committed output files and a recorded **PASSED** final Quality Gate. Its Test assessment was performed once, following the independently committed [before-Test protocol](output/08_frozen_final_protocol.json). The historical BoneNet 444-row derivative pilot is a separate, explicitly [documented exploratory record](#08-source-provenance-earlier-audits-and-the-derivative-pilot) with an unverified source-row mapping and is not merged into these results.
 
 ## 01. Research objective, source and FE target definitions
 
@@ -144,7 +144,7 @@ Other genuine executed figures: [per-person errors](output/08_test_subject_error
 
 ## 07. Cross-stage evidence reconciliation and research closure
 
-**Recorded evidence, not a newly invented replication.** Unlike HARTH, this Essex project has **eight numbered notebooks and no separate independent FINAL audit notebook**. Source and participant integrity were checked during Stages 04–08, and the final **Stage 08 PASSED gate** reconciles the committed, before-Test protocol, one-time release receipt, 33-person fitting, four-person Test, metrics and 16 final evidence files. A navigable, read-only [Stage 01–08 evidence register](evidence/stage_01_08_evidence_register.csv) indexes committed artifacts. The register is **documentation**, not another completed numerical experiment.
+**Recorded evidence, not a newly invented replication.** This Essex project has **eight numbered notebooks and no separate independent FINAL audit notebook**. Source and participant integrity were checked during Stages 04–08, and the final **Stage 08 PASSED gate** reconciles the committed, before-Test protocol, one-time release receipt, 33-person fitting, four-person Test, metrics and 16 final evidence files. A navigable, read-only [Stage 01–08 evidence register](evidence/stage_01_08_evidence_register.csv) indexes committed artifacts. The register is **documentation**, not another completed numerical experiment.
 
 **Recorded Test consistency:** The committed \`08_test_trial_predictions.csv\` contains **8,052 unique model/trial/position/target rows** across four named Test participants, 183 trials, both original e1/e3 targets and all eleven FE indices. Recomputing equal-participant-weighted MAE from those predictions reproduces the saved primary/secondary metrics to numerical precision. No stored nonfinite Test predictions were observed in the audit.
 
@@ -161,9 +161,30 @@ Other genuine executed figures: [per-person errors](output/08_test_subject_error
 
 All available quality gates verify agreement of **committed artifacts and recorded execution evidence**. They do not independently re-run every training fit or prove that a novel population will exhibit the same errors. Nor does the local one-time release marker impose a global hardware-independent guarantee against retesting.
 
-This source-governed study now has complete development and final same-source held-out evidence for its declared exploratory scope. The older public-derivative BoneNet pilot, with 444 rows and unresolved row-to-label linkage, is historical evidence in separate [audit documents](BONENET_REAL_DATA_AUDIT.md), not source verification for the complete original-cohort results.
+This source-governed study now has complete development and final same-source held-out evidence for its declared exploratory scope. The older public-derivative BoneNet pilot, with 444 rows and unresolved row-to-label linkage, is described separately in [the provenance section](#08-source-provenance-earlier-audits-and-the-derivative-pilot), not used as source verification for the complete original-cohort results.
 
-## 08. Research limitations and reproducibility
+## 08. Source provenance, earlier audits and the derivative pilot
+
+This section consolidates non-duplicative findings from the initial **13–14 October 2026** metadata, MATLAB-schema and exploratory derivative audits. Those records document the research provenance; their preliminary "next steps" are **not** instructions to reconstruct or rerun the completed, frozen evaluation.
+
+**Participant workbook and identity governance.** The source `SubCharacteristics.xlsx` workbook contained 40 unique, non-contiguous participant IDs (including `Subj44`), plus summary rows that were **not** participant records. The workbook reported **19 M / 21 F**, whereas the downloaded source README described **20 / 20**; this disagreement was observed, not resolved by inventing records. The workbook's free-text health/pain field contained **35 ellipsis-style placeholders** and five explicit notes. A placeholder is *not* evidence of disease absence or a verified clinical label. Identifying notes were excluded from released research outputs. Source workbook date, limb dominance and metadata were audited as provenance; no clinical or demographic variables were silently introduced as IMU-only predictive inputs.
+
+**Original source structure and exclusion accounting.** The archive inspection recorded **42 ZIP entries**, including **40 original participant MATLAB files**, and approximately **224.79 MiB** uncompressed. First-element schema inspection found 13 fields, including `SubjID`, `Task`, `SubTask`, `TrialNum`, `TrialNumUpdated`, `UpdatedTrialID`, `Cycle`, `IMU`, `ID`, `FP`, `e1e3`, `JCF` and `MuscleF`. SciPy sometimes exposed the MATLAB table/object container through opaque metadata such as `_TypeSystem` or `_ObjectMetadata`; their existence alone did not prove numerical FE recovery. A bounded Python reader pilot recovered **28 numeric IMU records**, but **zero FE tables** met that *pilot's strict* criterion; subsequent full-cohort native decoding established **1,729 numerically valid FE pairs**. These are different verification stages, not contradictory full-cohort results.
+
+The original audit classified **168 source-empty FE records**: 144 across three fully FE-excluded participants (`subj16`, `subj29`, `subj32`; 48 each), plus 24 partial gaps (`subj06`: 9, `subj08`: 9, `subj11`: 6). Five participant files had fewer than 48 `Data` elements (`subj09`: 42; `subj11`: 40; `subj12`: 47; `subj14`: 42; `subj36`: 46). These historical counts explain, but do not replace, the final source-linked eligibility and timebase Quality Gates. See the retained [versioned data manifest](../docs/DATA_MANIFEST_ESSEX_V13.md) and [source access record](../docs/DATA_ACCESS_ESSEX.md).
+
+**Separate public BoneNet derivative (exploratory, not the final study).** Earlier inspection of the authors' walking/running derivative recovered finite arrays `X=(444,42,101)` and `Y=(444,101,2)`, with 444 label rows from 37 listed subjects (333 Running, 111 Walking). The label columns `SubjID + Task + TrialNum` yielded only **222 distinct combinations**, so the association between tensor rows and labels was not independently verified. This is **not** the full six-activity, original-source, 11-FE-position study described above.
+
+A single exploratory 27-subject/324-record Training and 10-subject/120-record held-out split (assuming the authors' ordering) compared a per-timepoint Training-mean baseline against scaled Ridge using 84 mean/SD features. The pooled derivative-scale results were:
+
+| Historical derivative-only metric | Training mean | Ridge |
+| --- | ---: | ---: |
+| MAE across two targets and 101 positions | **1325.5737** | 1446.1677 |
+| RMSE across two targets and 101 positions | **1851.0981** | 2191.9425 |
+
+These numbers came from a recorded exploratory run, **not** an independently verified participant-mapped benchmark; their target scale was not verified. They must **never** be compared numerically with the source-verified, unitless FE errors of Stages 05–08. The associated [historical derivative workflow](images/bonenet_derivative_pilot.svg) is preserved only for context.
+
+## 09. Research limitations and reproducibility
 
 1. **One source, no external cohort.** The Test participants came from the original Essex collection. Participant independence does not imply independent-site or prospective distributional generalisation.
 2. **Only four Test people.** Trial and FE-point counts cannot substitute for the small number of independent Test clusters. The reported bootstrap intervals are exploratory and its difference interval crosses zero.

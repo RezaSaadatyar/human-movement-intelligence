@@ -1,6 +1,6 @@
 # BoneNet / Essex | Research Reproducibility and Evidence Boundaries
 
-This guide accompanies the completed [Biomechanical Load Estimation research project](../biomechanical_load_estimation/README.md) in Human Movement Intelligence, in the same documentation role as [the HARTH reproducibility guide](HARTH_REPRODUCIBILITY.md). The project has **eight numbered Jupyter notebooks**, a source-verified Essex dataset reconstruction and a **one-time, pre-frozen participant-held-out Test** in Stage 08.
+This guide accompanies the completed [Biomechanical Load Estimation research project](../biomechanical_load_estimation/README.md) in Human Movement Intelligence, as the project's permanent reproducibility reference. The project has **eight numbered Jupyter notebooks**, a source-verified Essex dataset reconstruction and a **one-time, pre-frozen participant-held-out Test** in Stage 08.
 
 For original scientific results, model specifications and limitations, see [Research Methods and Experimental Evidence](../biomechanical_load_estimation/BONENET_RESEARCH_METHODS_AND_EVIDENCE.md). The present guide describes what a third party can **verify from committed evidence**, what requires reconstructing the original data, and which operations must **not** be repeated merely to improve the recorded final score.
 
@@ -72,6 +72,8 @@ From the repository root, baseline dependencies are described by \`requirements.
 - Stage 07's peak penalty (0.25) did not exhibit a dependable improvement in the controlled no-peak TCN ablation; no retrospective loss retuning was performed using Test.
 - The source FE targets remain **unitless** and model-derived. Peak-index MAE is measured on the **11 original FE indices**, not seconds, microstrain or degrees of injury risk.
 - The local Test release marker is a protocol safety aid, not a globally enforced lock across machines.
+
+The initial workbook/MATLAB inspections and the separate 444-row public derivative pilot are documented, with their different scientific boundaries, in [Source provenance and historical pilot context](../biomechanical_load_estimation/BONENET_RESEARCH_METHODS_AND_EVIDENCE.md#08-source-provenance-earlier-audits-and-the-derivative-pilot). Historical local scripts referenced by archived acquisition notes are not prerequisites for reading the committed results and must not be treated as current release tools.
 
 ## 6. Scientific boundaries and final status
 

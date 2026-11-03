@@ -109,4 +109,4 @@ The **primary publication's Table 3** and its subject exclusions have been check
 
 The Figshare host could not be reached from the execution environment, so its **live file inventory, latest version and binary data schemas are still pending**. The NLM catalogue refers to DOI version `v13`, which must not be assumed to remain the latest.
 
-See [data-access commands](DATA_ACCESS_ESSEX.md), [the proposed pipeline](../biomechanical_load_estimation/DATA_PIPELINE_DESIGN.md), and the read-only `scripts/figshare_inventory.py` metadata tool.
+See the [historical Essex data-access record](DATA_ACCESS_ESSEX.md), [published v13 manifest](DATA_MANIFEST_ESSEX_V13.md) and the [completed methods and evidence report](../biomechanical_load_estimation/BONENET_RESEARCH_METHODS_AND_EVIDENCE.md). Early acquisition commands are archival notes, not the current research pipeline.

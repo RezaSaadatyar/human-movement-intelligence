@@ -1,6 +1,6 @@
-# Biomechanical Load Estimation | BoneNet / Original Essex Source
+# Biomechanical Load Estimation | Essex IMU–FE Strain Research (BoneNet)
 
-![Full source-verified Essex research workflow: seven lower-body IMUs, native FE alignment, grouped modelling and completed one-time Test](images/study_overview.svg)
+![Study-wide wearable IMU-to-femoral-neck FE strain workflow, native signal and target alignment, participant-level modelling and frozen Test evidence](images/study_overview.svg)
 
 *Study-wide workflow: the diagram summarises the eight-notebook source-verified Essex research pathway and its final authorised same-source Test. Each numbered notebook retains its own stage-specific scientific workflow figure.*
 
@@ -89,13 +89,15 @@ Results are reported from [Stage 05 classical CV](output/05_training_cv_model_su
 | [\`code/notebooks/\`](code/notebooks/) | All eight numbered source, model development and Test notebooks |
 | [\`code/src/\`](code/src/) | Essex source, numeric recovery, paired dataset, regression and final Test utilities |
 | [\`output/\`](output/) | Actual source audits, original split gates, model diagnostics, source-indexed figures and 16 \`08_*\` final artifacts |
-| [\`images/\`](images/README.md) | Eight stage-specific SVG workflows, complete-study overview, final evidence graphic and preserved derivative-pilot artwork |
+| [\`images/\`](images/) | Study-wide three-row SVG; eight stage-specific three-row diagrams; final evidence figure and historical derivative-pilot illustration |
 | [\`evidence/\`](evidence/stage_01_08_evidence_register.csv) | Source-linked read-only register of 28 scientific records from Stages 01–08 |
 | [Shared Python modules](../python_modules/core/) | Colab repository setup, device reporting, plotting and output management |
 | [Research Methods and Evidence](BONENET_RESEARCH_METHODS_AND_EVIDENCE.md) | Full source-derived methods, independent-unit accounting, comparison tables and limits |
 | [Reproducibility Guide](../docs/BONENET_REPRODUCIBILITY.md) | Environment, source versions, recorded evidence and safe review boundaries |
 
 Saved numerical CSVs and manuscript-style figures are **research outputs**, not replacement original datasets. The public repository does not commit the full MATLAB source, all reconstructed numeric caches, local training-job files or fitted model-weight files.
+
+The study-level workflow is supplemented by eight individual diagrams, named \`01_consolidated_workflow.svg\` through \`08_consolidated_workflow.svg\`, each located in [\`images/\`](images/) and linked from its corresponding notebook. The figures use schematic traces for orientation; numerical results are documented in the executed notebooks and committed output tables.
 
 ## 5. Running and reviewing the study
 
@@ -140,9 +142,9 @@ This is a **recorded evidence reconciliation**, not a newly executed independent
 - [Reproducibility and Evidence Boundaries](../docs/BONENET_REPRODUCIBILITY.md): input sources, dependencies, available outputs and limitations.
 - [Stage 01–08 Evidence Register](evidence/stage_01_08_evidence_register.csv): current committed source/results index.
 - [Frozen Stage 08 Protocol](output/08_frozen_final_protocol.json): independently committed pre-Test decision.
-- [Study figure index](images/README.md): original-source study figures and historical diagram.
+- [Research figures](images/): study-wide diagram, eight matching stage-specific SVGs and the separate final evidence figure.
 
-**Historical pilot, separate from the completed Essex study.** The earlier [public BoneNet derivative](https://github.com/ZainabAltai/BoneNet-A-Framework-for-Rapid-and-Accurate-Prediction-of-Femoral-Neck-strains-from-Exercise-Data) comprised 444 walking/running rows with derivative tensors \`X: (444,42,101)\` and \`Y: (444,101,2)\` and an unresolved label-row association. Its original [source audit](BONENET_REAL_DATA_AUDIT.md), [pilot results](BONENET_FIRST_BASELINE_RESULTS.md) and [historical workflow](images/bonenet_derivative_pilot.svg) are retained. Its unverified derivative target scale and assumptions **must not be compared numerically with** the source-verified, original 11-point unitless FE targets.
+**Historical pilot, separate from the completed Essex study.** The earlier [public BoneNet derivative](https://github.com/ZainabAltai/BoneNet-A-Framework-for-Rapid-and-Accurate-Prediction-of-Femoral-Neck-strains-from-Exercise-Data) comprised 444 walking/running rows with derivative tensors \`X: (444,42,101)\` and \`Y: (444,101,2)\` and an unresolved label-row association. The source audit, exploratory baseline results and their limitations are consolidated in [the source provenance and derivative-pilot section](BONENET_RESEARCH_METHODS_AND_EVIDENCE.md#08-source-provenance-earlier-audits-and-the-derivative-pilot); the separate [historical workflow graphic](images/bonenet_derivative_pilot.svg) remains available. Its unverified derivative target scale and assumptions **must not be compared numerically with** the source-verified, original 11-point unitless FE targets.
 
 **Scientific boundaries:** No independent external dataset, measured in-vivo bone strain, physical peak timing in seconds, causal sensor attribution, prospective patient outcome or validated medical/clinical decision-support system was demonstrated. The four-person, same-source final Test supports limited participant-held-out empirical assessment, not universal prediction accuracy.
 

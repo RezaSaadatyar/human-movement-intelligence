@@ -10,7 +10,7 @@
 - Five top-level MAT headers: `subj04`, `subj05`, `subj06`, `subj08`, `subj09`. All report MAT v5-compatible files with `Data` and `__function_workspace__`.
 - The bounded nested inspector has run on `subj04` and `subj16`. Each contains a `[48,1]` `Data` array; the **first record** in each has 13 fields: `SubjID`, `Task`, `SubTask`, `TrialNum`, `TrialNumUpdated`, `UpdatedTrialID`, `Cycle`, `IMU`, `ID`, `FP`, `e1e3`, `JCF`, `MuscleF`. This is *not* yet an audit of every element or target completeness.
 
-See [verified v13 manifest](DATA_MANIFEST_ESSEX_V13.md), [metadata audit](../biomechanical_load_estimation/SUBJECT_METADATA_AUDIT.md) and [pipeline design](../biomechanical_load_estimation/DATA_PIPELINE_DESIGN.md).
+See the [verified v13 manifest](DATA_MANIFEST_ESSEX_V13.md) and the [consolidated metadata, source-provenance and study methods](../biomechanical_load_estimation/BONENET_RESEARCH_METHODS_AND_EVIDENCE.md#08-source-provenance-earlier-audits-and-the-derivative-pilot). The commands below document a 2026 acquisition phase; the study has subsequently completed source verification and a frozen Test evaluation.
 
 ## Next: inspect nested MATLAB structures
 
