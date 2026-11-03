@@ -54,7 +54,7 @@
 <rect x="1320" y="320" width="328" height="198" rx="10" fill="#F0FAF6" stroke="#D6EEE4" stroke-width="1.5"/>
 <circle cx="1345" cy="357" r="12" fill="#1E956D"/><path d="M1339 357 L1343 361 L1351 352" stroke="#FFFFFF" stroke-width="2.2" fill="none" stroke-linecap="round" stroke-linejoin="round"/><circle cx="1345" cy="417" r="12" fill="#1E956D"/><path d="M1339 417 L1343 421 L1351 412" stroke="#FFFFFF" stroke-width="2.2" fill="none" stroke-linecap="round" stroke-linejoin="round"/><circle cx="1345" cy="477" r="12" fill="#1E956D"/><path d="M1339 477 L1343 481 L1351 472" stroke="#FFFFFF" stroke-width="2.2" fill="none" stroke-linecap="round" stroke-linejoin="round"/>
 <text x="1365" y="352" font-size="14" fill="#173453" font-weight="700">1,729 paired trials</text>
-<text x="1365" y="370" font-size="12.3" fill="#506C7E">37 original participants</text>
+<text x="1365" y="370" font-size="12.3" fill="#506C7E">37 FE-eligible participants</text>
 <text x="1365" y="412" font-size="14" fill="#173453" font-weight="700">Primary RF MAE: 0.0009384</text>
 <text x="1365" y="430" font-size="12.3" fill="#506C7E">Unitless Test waveform error</text>
 <text x="1365" y="472" font-size="14" fill="#173453" font-weight="700">Secondary TCN: 0.0008759</text>
