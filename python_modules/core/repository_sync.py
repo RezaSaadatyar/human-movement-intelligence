@@ -267,12 +267,13 @@ def prepare_notebook_repository(
 
     'check' inspects upstream updates without applying them; 'off' avoids
     fetching. 'verify' checks explicit trusted local data SHA256 values.
-    Data re-download must use the study-specific pinned source adapter.
+    'refresh' invokes the pinned Essex source adapter only when requested,
+    verifying existing files and downloading absent originals safely.
     """
     if module_refresh not in {"auto", "off"}:
         raise ValueError("module_refresh must be 'auto' or 'off'.")
-    if data_mode not in {"reuse", "verify"}:
-        raise ValueError("data_mode must be 'reuse' or 'verify'.")
+    if data_mode not in {"reuse", "verify", "refresh"}:
+        raise ValueError("data_mode must be 'reuse', 'verify' or 'refresh'.")
     if not isinstance(study, str) or not study or Path(study).name != study:
         raise ValueError("study must be a direct repository folder name.")
 
@@ -302,6 +303,18 @@ def prepare_notebook_repository(
             print("IPython autoreload unavailable; restart for incompatible changes.")
     if data_mode == "verify":
         _verify_local_data(root, expected_data_sha256)
+    elif data_mode == "refresh":
+        if study != "biomechanical_load_estimation":
+            raise ValueError(
+                "Source refresh has a pinned adapter only for "
+                "'biomechanical_load_estimation'."
+            )
+        from importlib import import_module
+
+        # The approved source adapter validates the pinned archive and only
+        # downloads when missing; corrupted existing data are NOT overwritten.
+        ensure_archive = import_module("essex_figshare").ensure_pinned_matlab_archive
+        ensure_archive(root / "data" / "raw" / "essex_femoral_neck_loading")
 
     # Re-reading result CSV/JSON/Excel/etc is the responsibility of the next
     # notebook evidence-loading cell; in-memory objects are not overwritten.
