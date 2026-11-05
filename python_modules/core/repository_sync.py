@@ -19,7 +19,7 @@ from typing import Mapping
 
 # ================== 01. Safe Research Repository Synchronisation =============
 
-# ------------------------ 1. Execute a Checked Git Command ------------------
+# ------------------------ 1. Execute a Checked Git Command -------------------
 def _git(*args: str, cwd: Path) -> str:
     """Run Git without shell expansion or destructive reset operations."""
     process = subprocess.run(
