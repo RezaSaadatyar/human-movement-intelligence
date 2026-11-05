@@ -82,3 +82,66 @@ The final evaluation has only **four independent Test participants** from the **
 The project records actual results and a frozen-before-Test single-use evaluation under a **PASSED** final recorded gate. Its output is a **source-verified exploratory computational benchmark**, not a medical device, validated clinical model or promise of same accuracy in unseen populations.
 
 **Navigation:** [Study README](../biomechanical_load_estimation/README.md) · [Methods report](../biomechanical_load_estimation/BONENET_RESEARCH_METHODS_AND_EVIDENCE.md) · [Stage evidence register](../biomechanical_load_estimation/evidence/stage_01_08_evidence_register.csv) · [Study overview](../biomechanical_load_estimation/images/study_overview.svg) · [Final workflow](../biomechanical_load_estimation/images/final_workflow.svg).
+
+## Colab setup and live repository updates
+
+The eight Essex notebooks use a short clone cell followed by:
+
+```python
+from python_modules.core.colab_setup import setup_colab
+root = setup_colab("biomechanical_load_estimation")
+```
+
+`setup_colab` checks Git on setup and before each subsequent IPython code
+cell. It fast-forwards committed files, then refreshes compatible loaded
+project modules before the cell body executes. It never runs scientific
+cells, downloads raw data by default, refits a model, or repeats the Test
+release. There is no background polling: a push during a long-running cell
+is considered at the next cell boundary. A network check can add latency;
+Git commands have a 30-second timeout.
+
+Tracked CSV, JSON, images and notebooks update on disk. Updating a notebook
+file does not replace cells already open in the Colab editor. Existing
+scientific DataFrames, arrays, derived results and fitted models are not
+recomputed. For an explicitly managed report variable, a pure loader can be
+registered separately:
+
+```python
+from python_modules.core.repository_sync import load_managed_data
+report = load_managed_data("report", report_path, pd.read_csv)
+```
+
+Only the named variable is replaced after its committed source changes;
+aliases and derived objects retain their prior values. The existing research
+loading cells have deliberately not been converted to managed loaders.
+
+Local modifications block an incoming update, but do not block cells when
+there is no upstream update. Git reset, force pull, automatic stash and
+conflict resolution are not used. Ignored raw data and caches are preserved,
+including collisions with newly tracked remote files. Live class-definition
+changes, deleted loaded functions/modules, changes to the setup coordinator,
+and changes to Stage 08 evidence require a fresh checkout/session or explicit
+review. Refresh errors prevent the next cell from running; arbitrary Python
+state cannot be reconstructed safely without reinitialisation.
+
+Use `sync_mode="check"` to fetch without merging, or `sync_mode="off"` to
+remove automatic synchronisation. If a rejected update prevents a recovery
+cell from running, execute `_hmi_stop_sync()` by itself to detach the hook;
+this does not repair stale memory or modify Git. Start a fresh session after
+a partial reload failure. Repeated setup calls do not stack hooks. The active
+commit and applied revision history can be inspected through
+`get_ipython()._hmi_notebook_sync.commit` and `.history`; these are session
+metadata, not replacements for the frozen research provenance records.
+
+For the first transition from the old setup implementation, use a fresh
+Colab runtime/checkout or update the existing checkout with the previous
+synchronisation cell before opening the new notebook. A pre-existing checkout
+still containing the old `setup_colab` cannot acquire new behaviour merely
+by importing the old function. Subsequent compatible research-code and
+tracked-file updates are automatic. Optional `data_mode="verify"` and
+explicit pinned-source `data_mode="refresh"` remain available; `reuse` is
+the default.
+
+Validation for this setup revision uses offline local Git remotes and a real
+IPython shell. It does not constitute an end-to-end hosted Colab run, and no
+frozen scientific evaluation is rerun during setup validation.
