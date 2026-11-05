@@ -211,9 +211,9 @@ def _enable_project_autoreload(root: Path, study: str) -> bool:
     shell.events.register("post_run_cell", register_project_modules)
     shell._hmi_project_autoreload_hook = register_project_modules
 
-    # Refresh already imported project functions immediately after a Git
-    # update; subsequent cells refresh registered modules automatically.
-    shell.run_line_magic("autoreload", "now")
+    # With explicit autoreload mode 1, the NEXT notebook code cell updates
+    # only the registered project modules. Do not invoke 'autoreload now':
+    # that command also reloads third-party modules and can be disruptive.
     return True
 
 
