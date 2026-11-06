@@ -1,5 +1,4 @@
 # ==================== Presented by: Reza Saadatyar (2026) ====================
-
 """Audit original Essex MATLAB records without fabricating numeric signals."""
 
 import re
@@ -12,8 +11,6 @@ from scipy.io import loadmat
 
 
 # ============== 01. Workbook Participant Identifier Validation ===============
-
-
 def normalise_subject_id(value):
     """Recognise only explicit SubjXX labels; reject spreadsheet summary rows."""
     if value is None or (isinstance(value, float) and np.isnan(value)):
@@ -39,8 +36,6 @@ def load_participant_ids(path):
 
 
 # =============== 02. Conservative MATLAB Field Representation ================
-
-
 def _field(record, field):
     """Get a named original struct field, without inventing defaults."""
     if hasattr(record, "_fieldnames"):
@@ -97,8 +92,6 @@ def _representation(value):
 
 
 # ================= 03. Original Record and Trial Provenance ==================
-
-
 def inspect_mat_records(path):
     """Read source Data elements and preserve file-local provenance per record."""
     path = Path(path)

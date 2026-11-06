@@ -18,8 +18,6 @@ from scipy.io import loadmat
 
 
 # ================ 01. Original Source and Registry Integrity =================
-
-
 def select_diagnostic_records(registry, max_samples=64):
     """Choose representative source records without using model outcomes."""
     order = registry.sort_values(["subject_id", "local_record_index"], kind="stable")
@@ -39,8 +37,6 @@ def select_diagnostic_records(registry, max_samples=64):
 
 
 # =============== 02. Bounded MATLAB Nested-Value Introspection ===============
-
-
 def _shape(value):
     """Describe an array shape without converting its payload to numbers."""
     if isinstance(value, np.ndarray):
@@ -157,8 +153,6 @@ def walk_matlab_object(value, *, max_depth=9, max_nodes=300, max_children=8):
 
 
 # =========== 03. Source Record Probes and Candidate Classification ===========
-
-
 def _field(record, name):
     if not hasattr(record, "_fieldnames"):
         raise ValueError("Expected original MATLAB Data struct.")
@@ -233,8 +227,6 @@ def candidate_inventory(paths):
 
 
 # ============== 04. Source Data Coverage and Quality Decisions ===============
-
-
 def activity_fe_coverage(registry):
     """Count FE source representations within each recorded task."""
     coverage = (
