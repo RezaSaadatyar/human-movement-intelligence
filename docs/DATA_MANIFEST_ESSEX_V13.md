@@ -1,8 +1,10 @@
-# Verified Essex Figshare v13 inventory
+# Essex Figshare v13 source inventory
 
-**Verified by maintainer:** 13 October 2026, using `scripts/figshare_inventory.py` on Windows.  
-**Dataset:** https://doi.org/10.6084/m9.figshare.30225739  
-**Article ID:** 30225739 | **Version:** 13 | **Files:** 6
+**Dataset:** https://doi.org/10.6084/m9.figshare.30225739.v13
+
+**Article ID:** 30225739 | **Version:** 13
+
+The following inventory was recorded from the official version-13 file list. These are descriptive source details, not hard-coded execution checks.
 
 | File | Size (MiB) | Figshare file ID | Recommended action |
 | --- | ---: | ---: | --- |
@@ -13,33 +15,8 @@
 | OpenSim.zip | 10.40 | 63190519 | Optional MSK modelling |
 | Visual3D.zip | 18414.04 | 63341380 | Defer, approximately 18 GiB |
 
-The remote filename, version, size and file IDs were verified from the user's actual command output. The user subsequently downloaded **README.md** and **SubCharacteristics.xlsx** on 13 October 2026; the download script reported successful byte-count/checksum verification for both. Actual README contents, spreadsheet metadata columns, file-specific licence, MATLAB array shapes and archive subdirectories **have not yet been inspected**.
+Notebook 01 reads the current source manifest and obtains the required support files and `MATLAB.zip`. Existing downloads are reused under `data/raw/essex_femoral_neck_loading/`; extracted participant files are written to `matlab_records/` below that folder.
 
-## Completed acquisition step (local Windows machine)
+The original run observed 42 ZIP entries, including 40 participant MAT files under `MATLAB/Processed Data/`, and 224.79 MiB uncompressed. Source structure, numerical decoding and FE time alignment are handled in Notebooks 01–03. The current manifest table is [`01_dataset_figshare_file_manifest.csv`](../biomechanical_load_estimation/output/01_dataset_figshare_file_manifest.csv).
 
-From the checked-out repository root on Windows:
-
-```powershell
-git pull origin main
-python scripts/figshare_inventory.py --download-file "README.md" --destination data/raw/essex_femoral_neck_loading
-python scripts/figshare_inventory.py --download-file "SubCharacteristics.xlsx" --destination data/raw/essex_femoral_neck_loading
-```
-
-The tool checks the official byte count and optional hash and will refuse to overwrite existing files. Keep downloaded data under ignored local `data/raw/`. The two small downloads have been verified. Inspect their contents before downloading the 225 MiB MATLAB archive. Avoid Visual3D.zip for the first baseline.
-
-## Local MATLAB ZIP archive verification — 13 October 2026
-
-The maintainer executed `scripts/inspect_zip.py` locally and reported:
-
-| Check | Verified result |
-| --- | --- |
-| Total ZIP members | 42 |
-| MAT files | 40 |
-| Directory entries | 2 |
-| Total uncompressed size | 224.79 MiB |
-| File suffixes | `.mat` only among regular files |
-| Inspector safety warnings | None |
-| Inner directory prefix | `MATLAB/Processed Data/` |
-| Representative files | `subj04.mat`, `subj05.mat`, `subj06.mat`, `subj08.mat`, `subj09.mat` |
-
-This is a **ZIP metadata inspection**, not verification of individual MATLAB array fields, all participant IDs, `e1/e3` availability or target alignment. The reported 40 MAT files do not prove they are exactly the same 40 IDs appearing in the subject spreadsheet. Extract and inspect the actual files next. Avoid uploading the 225 MiB archive to GitHub.
+See [data access](DATA_ACCESS_ESSEX.md) and [notebook execution](BONENET_REPRODUCIBILITY.md) for the current workflow.

@@ -25,7 +25,7 @@ def setup_colab(
     In IPython, updates happen before the next cell, never during a running
     cell. Existing models and unmanaged tables are not recomputed. The active
     commit and revision history are on shell._hmi_notebook_sync. Incompatible
-    class, setup-controller and frozen-evidence changes require a fresh session.
+    class and setup-controller changes require a fresh session.
 
     Returns:
         pathlib.Path: Absolute repository root path.
@@ -74,8 +74,8 @@ def setup_colab(
     elif data_mode == "refresh":
         if study != "biomechanical_load_estimation":
             raise ValueError("A pinned source adapter is available only for Essex.")
-        from essex_figshare import ensure_pinned_matlab_archive
-        ensure_pinned_matlab_archive(
+        from essex_figshare import ensure_matlab_archive
+        ensure_matlab_archive(
             root / "data" / "raw" / "essex_femoral_neck_loading"
         )
     return root

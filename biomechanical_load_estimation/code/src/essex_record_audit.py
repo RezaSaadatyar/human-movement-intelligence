@@ -13,6 +13,7 @@ from scipy.io import loadmat
 
 # ============== 01. Workbook Participant Identifier Validation ===============
 
+
 def normalise_subject_id(value):
     """Recognise only explicit SubjXX labels; reject spreadsheet summary rows."""
     if value is None or (isinstance(value, float) and np.isnan(value)):
@@ -21,33 +22,24 @@ def normalise_subject_id(value):
     return f"subj{int(match.group(1)):02d}" if match else None
 
 
-def audit_workbook_ids(path, mat_ids):
-    """Verify exact participant coverage without exporting sensitive columns."""
+def load_participant_ids(path):
+    """Read recognised participant IDs and report duplicates without a gate."""
     table = pd.read_excel(path)
-    if "Participent ID" not in table.columns:
-        raise ValueError("Missing original workbook column: Participent ID")
-    identifiers = [
-        normalise_subject_id(value) for value in table["Participent ID"]
-    ]
-    recognised = [value for value in identifiers if value is not None]
-    unique = sorted(set(recognised))
-    expected = set(mat_ids)
-    report = {
-        "workbook_row_count": len(table),
-        "recognised_participant_rows": len(recognised),
-        "unique_participant_ids": len(unique),
-        "duplicate_ids": len(recognised) - len(unique),
-        "mat_ids_not_in_workbook": sorted(expected - set(unique)),
-        "workbook_ids_not_in_mat": sorted(set(unique) - expected),
-        "id_alignment_passed": (
-            set(unique) == expected
-            and len(recognised) == len(unique) == len(expected)
-        ),
+    identifiers = table["Participent ID"].map(normalise_subject_id)
+    recognised = identifiers.dropna()
+    summary = {
+        "workbook_rows": len(table),
+        "recognised_rows": len(recognised),
+        "participants": recognised.nunique(),
+        "duplicate_ids": int(recognised.duplicated().sum()),
+        "unrecognised_rows": int(identifiers.isna().sum()),
     }
-    return report, pd.DataFrame({"subject_id": unique})
+    subjects = pd.DataFrame({"subject_id": sorted(recognised.unique())})
+    return summary, subjects
 
 
 # =============== 02. Conservative MATLAB Field Representation ================
+
 
 def _field(record, field):
     """Get a named original struct field, without inventing defaults."""
@@ -68,7 +60,11 @@ def _text(value):
         if isinstance(value, (int, np.integer)):
             return str(int(value))
         if isinstance(value, (float, np.floating)):
-            return str(int(value)) if np.isfinite(value) and float(value).is_integer() else None
+            return (
+                str(int(value))
+                if np.isfinite(value) and float(value).is_integer()
+                else None
+            )
         if not isinstance(value, np.ndarray) or value.dtype.names:
             return None
         if value.dtype.kind in "US" and value.size:
@@ -90,7 +86,9 @@ def _representation(value):
     elif array.dtype.names:
         status = "structured_or_opaque"
     elif array.dtype.kind in "iuf":
-        status = "numeric_candidate" if np.isfinite(array).all() else "nonfinite_numeric"
+        status = (
+            "numeric_candidate" if np.isfinite(array).all() else "nonfinite_numeric"
+        )
     elif array.dtype.kind == "O":
         status = "matlab_object_unresolved"
     else:
@@ -100,6 +98,7 @@ def _representation(value):
 
 # ================= 03. Original Record and Trial Provenance ==================
 
+
 def inspect_mat_records(path):
     """Read source Data elements and preserve file-local provenance per record."""
     path = Path(path)
@@ -107,8 +106,11 @@ def inspect_mat_records(path):
     if subject is None:
         raise ValueError(f"Unrecognised participant filename: {path.name}")
     data = loadmat(
-        path, variable_names=["Data"], struct_as_record=False,
-        squeeze_me=False, verify_compressed_data_integrity=True,
+        path,
+        variable_names=["Data"],
+        struct_as_record=False,
+        squeeze_me=False,
+        verify_compressed_data_integrity=True,
     )
     if "Data" not in data:
         raise ValueError(f"No Data variable in {path.name}")
@@ -121,21 +123,23 @@ def inspect_mat_records(path):
             raise ValueError(f"Unsupported struct at {path.name}:{index}")
         imu_status, imu_shape = _representation(_field(record, "IMU"))
         fe_status, fe_shape = _representation(_field(record, "e1e3"))
-        rows.append({
-            "subject_id": subject,
-            "source_file": path.name,
-            "local_record_index": index,
-            "local_record_key": f"{subject}:{index:04d}",
-            "source_subject_field": _text(_field(record, "SubjID")),
-            "task": _text(_field(record, "Task")),
-            "subtask": _text(_field(record, "SubTask")),
-            "trial_number": _text(_field(record, "TrialNum")),
-            "updated_trial_id": _text(_field(record, "UpdatedTrialID")),
-            "imu_representation": imu_status,
-            "imu_shape": imu_shape,
-            "fe_representation": fe_status,
-            "fe_shape": fe_shape,
-        })
+        rows.append(
+            {
+                "subject_id": subject,
+                "source_file": path.name,
+                "local_record_index": index,
+                "local_record_key": f"{subject}:{index:04d}",
+                "source_subject_field": _text(_field(record, "SubjID")),
+                "task": _text(_field(record, "Task")),
+                "subtask": _text(_field(record, "SubTask")),
+                "trial_number": _text(_field(record, "TrialNum")),
+                "updated_trial_id": _text(_field(record, "UpdatedTrialID")),
+                "imu_representation": imu_status,
+                "imu_shape": imu_shape,
+                "fe_representation": fe_status,
+                "fe_shape": fe_shape,
+            }
+        )
     return rows
 
 
@@ -153,9 +157,7 @@ def audit_mat_records(paths):
 def summarise_trial_evidence(records):
     """Count readable trial IDs and representation types descriptively."""
     readable = records.dropna(subset=["updated_trial_id"])
-    keyed = (
-        readable["subject_id"].str.cat(readable["updated_trial_id"], sep=":")
-    )
+    keyed = readable["subject_id"].str.cat(readable["updated_trial_id"], sep=":")
     return {
         "source_records": int(len(records)),
         "source_participants": int(records["subject_id"].nunique()),
@@ -165,4 +167,3 @@ def summarise_trial_evidence(records):
         "imu_encoding_counts": dict(Counter(records["imu_representation"])),
         "fe_encoding_counts": dict(Counter(records["fe_representation"])),
     }
-

@@ -23,9 +23,9 @@ For the experimental definitions, models, results, caveats and provenance, see t
 
 The original [Essex Figshare v13](https://doi.org/10.6084/m9.figshare.30225739.v13) study pathway reconstructed the original seven-IMU to eleven-position FE model targets for **1,729 eligible trials from 37 participants**. Five grouped Training folds selected **Random Forest** as the frozen primary model; Stage 07 additionally examined temporal CNN/TCN and GRU/BiGRU over **75 Training-only robustness fits**.
 
-A separately committed frozen protocol authorised **one** final Test evaluation on four participant-held-out subjects (183 trials) from the **same source**. The primary RF reached **0.0009384** subject-balanced MAE; a fixed secondary Dilated TCN reached **0.0008759** and had lower e1/e3 peak-value errors, while RF located the peak indices more accurately. The four-person paired bootstrap interval for the observed model difference spans zero; these are not population-level, external or clinical validity results.
+The recorded final evaluation used four participant-held-out subjects (183 trials) from the **same source**, with primary and secondary model choices specified before Test. The primary RF reached **0.0009384** subject-balanced MAE; a fixed secondary Dilated TCN reached **0.0008759** and had lower e1/e3 peak-value errors, while RF located the peak indices more accurately. The four-person paired bootstrap interval for the observed model difference spans zero; these are not population-level, external or clinical validity results.
 
-For methods and exact source limitations, see the [BoneNet scientific report](biomechanical_load_estimation/BONENET_RESEARCH_METHODS_AND_EVIDENCE.md), [final Stage 08 evidence](biomechanical_load_estimation/output/08_final_test_quality_gate.json), [study-wide workflow](biomechanical_load_estimation/images/study_overview.svg) and [reproducibility guide](docs/BONENET_REPRODUCIBILITY.md).
+For methods and exact source limitations, see the [BoneNet scientific report](biomechanical_load_estimation/BONENET_RESEARCH_METHODS_AND_EVIDENCE.md), [final Stage 08 metrics](biomechanical_load_estimation/output/08_test_primary_secondary_metrics.csv), [study-wide workflow](biomechanical_load_estimation/images/study_overview.svg) and [reproducibility guide](docs/BONENET_REPRODUCIBILITY.md).
 
 ## Repository structure
 

@@ -8,33 +8,35 @@ measurements or a machine-learning training dataset.
 
 from __future__ import annotations
 
-import re
 from pathlib import Path
 
 import numpy as np
 import pandas as pd
 
 from essex_python_first import (
-    _original_text, original_records, source_field,
+    _original_text,
+    original_records,
+    source_field,
 )
 
 SENSORS = ("PEL", "RTH", "LTH", "RSK", "LSK", "RFT", "LFT")
-COMPONENTS = ("accel_x", "accel_y", "accel_z",
-              "gyro_x", "gyro_y", "gyro_z")
+COMPONENTS = ("accel_x", "accel_y", "accel_z", "gyro_x", "gyro_y", "gyro_z")
 EXPECTED_CHANNELS = tuple(
     f"{component}_{sensor}" for component in COMPONENTS for sensor in SENSORS
 )
 EXPECTED_FE_COLUMNS = ("timestep", "e1", "e3")
 
 
-
 # ============ 01. Original Labels and Numerical Channel Contracts ============
 def validate_imu(table):
     """Validate original labels and finite source data; separate the time column."""
     result = {
-        "imu_status": "INVALID", "imu_numeric_channels": 0,
-        "imu_timestep_status": "UNAVAILABLE", "imu_t0": None,
-        "imu_tlast": None, "imu_tstep": None,
+        "imu_status": "INVALID",
+        "imu_numeric_channels": 0,
+        "imu_timestep_status": "UNAVAILABLE",
+        "imu_t0": None,
+        "imu_tlast": None,
+        "imu_tstep": None,
     }
     if not isinstance(table, pd.DataFrame):
         result["imu_status"] = "NOT_A_TABLE"
@@ -67,9 +69,12 @@ def validate_imu(table):
 def validate_fe(table, original_fe_empty):
     """Check the FE e1/e3 columns and preserve original empty representation."""
     result = {
-        "fe_status": "INVALID", "fe_numeric_channels": 0,
+        "fe_status": "INVALID",
+        "fe_numeric_channels": 0,
         "fe_timestep_status": "UNAVAILABLE",
-        "fe_t0": None, "fe_tlast": None, "fe_tstep": None,
+        "fe_t0": None,
+        "fe_tlast": None,
+        "fe_tstep": None,
         "fe_time_entry_class": "",
     }
     if type(table).__name__ == "MatlabCanonicalEmpty" or (
@@ -85,14 +90,14 @@ def validate_fe(table, original_fe_empty):
     if not isinstance(table, pd.DataFrame):
         result["fe_status"] = "NOT_A_TABLE"
         return result, None
-    if (table.shape != (11, 3) or not table.columns.is_unique
-            or set(table.columns) != set(EXPECTED_FE_COLUMNS)):
+    if (
+        table.shape != (11, 3)
+        or not table.columns.is_unique
+        or set(table.columns) != set(EXPECTED_FE_COLUMNS)
+    ):
         result["fe_status"] = "UNEXPECTED_SHAPE_OR_LABELS"
         return result, None
-    if not all(
-        pd.api.types.is_numeric_dtype(table[col].dtype)
-        for col in ("e1", "e3")
-    ):
+    if not all(pd.api.types.is_numeric_dtype(table[col].dtype) for col in ("e1", "e3")):
         result["fe_status"] = "NONNUMERIC_STRAIN_COLUMNS"
         return result, None
     values = table.loc[:, ["e1", "e3"]].to_numpy(dtype="float64")
@@ -110,7 +115,6 @@ def validate_fe(table, original_fe_empty):
         result["fe_tlast"] = float(times[-1])
         result["fe_tstep"] = float(np.median(np.diff(times)))
     return result, times
-
 
 
 # ============== 02. Conservative Source Time Vector Extraction ===============
@@ -147,8 +151,11 @@ def read_time_column(series):
     if any(value is None for value, _ in parsed):
         return None, status
     values = np.asarray([v for v, _ in parsed], dtype="float64")
-    if (not np.isfinite(values).all() or len(values) < 2
-            or not np.all(np.diff(values) > 0)):
+    if (
+        not np.isfinite(values).all()
+        or len(values) < 2
+        or not np.all(np.diff(values) > 0)
+    ):
         return None, "NONMONOTONIC_TIME"
     return values, "VALID_" + status
 
@@ -172,25 +179,28 @@ def compare_time_grids(imu, fe):
     return "NUMERIC_TIME_GRID_DIFFERS", error
 
 
-
 # ========== 03. Complete Original Record Audit without Raw Exports ===========
 def audit_original_source(reader, mat_dir, registry):
     """Inspect all source records with original IDs and immutable FE accounting."""
     required = {
-        "source_file", "subject_id", "local_record_index",
-        "local_record_key", "task", "updated_trial_id", "fe_representation",
+        "source_file",
+        "subject_id",
+        "local_record_index",
+        "local_record_key",
+        "task",
+        "updated_trial_id",
+        "fe_representation",
     }
     if not required.issubset(registry.columns):
         raise ValueError("Original registry missing required fields.")
-    if len(registry) != 1897 or registry["subject_id"].nunique() != 40:
-        raise ValueError("Original source registry count mismatch.")
     rows, errors = [], []
     first_example = None
     for filename, group in registry.groupby("source_file", sort=True):
         try:
             decoded = reader(
                 str(Path(mat_dir) / filename),
-                variable_names=["Data"], raw_data=False,
+                variable_names=["Data"],
+                raw_data=False,
             )
             if not isinstance(decoded, dict) or "Data" not in decoded:
                 raise ValueError("MAT reader returned no original Data.")
@@ -199,25 +209,31 @@ def audit_original_source(reader, mat_dir, registry):
                 raise ValueError("Original source record count changed.")
         except Exception as exc:
             error = f"{type(exc).__name__}: {str(exc)[:250]}"
-            errors.append({
-                "source_file": filename, "error_kind": type(exc).__name__,
-                "error_message": str(exc)[:250],
-            })
-            for row in group.itertuples(index=False):
-                rows.append({
-                    "local_record_key": row.local_record_key,
-                    "subject_id": row.subject_id, "task": row.task,
+            errors.append(
+                {
                     "source_file": filename,
-                    "updated_trial_id": row.updated_trial_id,
-                    "identity_valid": False,
-                    "fe_originally_empty": row.fe_representation == "empty",
-                    "imu_status": "READER_ERROR",
-                    "imu_numeric_channels": 0,
-                    "fe_status": "READER_ERROR",
-                    "fe_numeric_channels": 0,
-                    "time_alignment": "READER_ERROR",
-                    "time_error": None,
-                })
+                    "error_kind": type(exc).__name__,
+                    "error_message": str(exc)[:250],
+                }
+            )
+            for row in group.itertuples(index=False):
+                rows.append(
+                    {
+                        "local_record_key": row.local_record_key,
+                        "subject_id": row.subject_id,
+                        "task": row.task,
+                        "source_file": filename,
+                        "updated_trial_id": row.updated_trial_id,
+                        "identity_valid": False,
+                        "fe_originally_empty": row.fe_representation == "empty",
+                        "imu_status": "READER_ERROR",
+                        "imu_numeric_channels": 0,
+                        "fe_status": "READER_ERROR",
+                        "fe_numeric_channels": 0,
+                        "time_alignment": "READER_ERROR",
+                        "time_error": None,
+                    }
+                )
             continue
         for row in group.itertuples(index=False):
             idx = int(row.local_record_index)
@@ -228,16 +244,16 @@ def audit_original_source(reader, mat_dir, registry):
             task = _original_text(source_field(original, "Task"))
             trial = _original_text(source_field(original, "UpdatedTrialID"))
             match = (
-                subject is not None and subject.lower() == row.subject_id
-                and task == row.task and trial == row.updated_trial_id
+                subject is not None
+                and subject.lower() == row.subject_id
+                and task == row.task
+                and trial == row.updated_trial_id
             )
             imu = source_field(original, "IMU")
             fe = source_field(original, "e1e3")
             if match:
                 imu_result, imu_time = validate_imu(imu)
-                fe_result, fe_time = validate_fe(
-                    fe, row.fe_representation == "empty"
-                )
+                fe_result, fe_time = validate_fe(fe, row.fe_representation == "empty")
                 if fe_result["fe_status"] == "EXPECTED_EMPTY":
                     alignment, max_error = "NO_FE_TARGET", None
                 elif imu_result["imu_status"] == "VALID_CHANNELS" and (
@@ -247,36 +263,43 @@ def audit_original_source(reader, mat_dir, registry):
                 else:
                     alignment, max_error = "INVALID_CHANNEL_OR_TARGET", None
             else:
-                imu_result = {"imu_status": "SOURCE_ID_MISMATCH",
-                              "imu_numeric_channels": 0}
-                fe_result = {"fe_status": "SOURCE_ID_MISMATCH",
-                             "fe_numeric_channels": 0}
+                imu_result = {
+                    "imu_status": "SOURCE_ID_MISMATCH",
+                    "imu_numeric_channels": 0,
+                }
+                fe_result = {
+                    "fe_status": "SOURCE_ID_MISMATCH",
+                    "fe_numeric_channels": 0,
+                }
                 alignment, max_error = "SOURCE_ID_MISMATCH", None
             record_row = {
                 "local_record_key": row.local_record_key,
                 "subject_id": row.subject_id,
                 "source_file": filename,
                 "local_record_index": idx,
-                "task": row.task, "updated_trial_id": row.updated_trial_id,
+                "task": row.task,
+                "updated_trial_id": row.updated_trial_id,
                 "identity_valid": bool(match),
                 "fe_originally_empty": row.fe_representation == "empty",
-                **imu_result, **fe_result,
+                **imu_result,
+                **fe_result,
                 "time_alignment": alignment,
                 "time_error": max_error,
             }
             rows.append(record_row)
-            if (first_example is None and match
-                    and imu_result["imu_status"] == "VALID_CHANNELS"
-                    and fe_result["fe_status"] == "VALID_STRAIN_COLUMNS"
-                    and isinstance(imu, pd.DataFrame)
-                    and isinstance(fe, pd.DataFrame)):
+            if (
+                first_example is None
+                and match
+                and imu_result["imu_status"] == "VALID_CHANNELS"
+                and fe_result["fe_status"] == "VALID_STRAIN_COLUMNS"
+                and isinstance(imu, pd.DataFrame)
+                and isinstance(fe, pd.DataFrame)
+            ):
                 first_example = {
                     "key": row.local_record_key,
                     "imu_time": imu_time,
                     "fe_time": fe_time,
-                    "imu_signal": imu[EXPECTED_CHANNELS[0]].to_numpy(
-                        dtype="float64"
-                    ),
+                    "imu_signal": imu[EXPECTED_CHANNELS[0]].to_numpy(dtype="float64"),
                     "e1": fe["e1"].to_numpy(dtype="float64"),
                     "e3": fe["e3"].to_numpy(dtype="float64"),
                     "imu_name": EXPECTED_CHANNELS[0],
@@ -284,49 +307,6 @@ def audit_original_source(reader, mat_dir, registry):
     out = pd.DataFrame(rows)
     return (
         out,
-        pd.DataFrame(errors, columns=[
-            "source_file", "error_kind", "error_message"
-        ]),
+        pd.DataFrame(errors, columns=["source_file", "error_kind", "error_message"]),
         first_example,
     )
-
-
-
-# ===================== 04. Scientific Quality Summaries ======================
-def summarise_alignment(audit, errors):
-    """Keep source, numeric, and temporal validation as separate decisions."""
-    if len(audit) != 1897:
-        raise ValueError("Incomplete original source census.")
-    good_imu = audit["imu_status"].eq("VALID_CHANNELS")
-    good_fe = audit["fe_status"].eq("VALID_STRAIN_COLUMNS")
-    empty = audit["fe_status"].eq("EXPECTED_EMPTY")
-    matched = audit["time_alignment"].eq("NUMERIC_TIME_GRID_MATCH")
-    return {
-        "source_records": int(len(audit)),
-        "participants": int(audit["subject_id"].nunique()),
-        "source_identical": bool(audit["identity_valid"].all()),
-        "reader_error_files": int(len(errors)),
-        "imu_42_channel_records": int(good_imu.sum()),
-        "fe_e1_e3_records": int(good_fe.sum()),
-        "source_empty_fe_records": int(empty.sum()),
-        "paired_numeric_records": int((good_imu & good_fe).sum()),
-        "numerically_matching_time_grids": int(matched.sum()),
-        "time_grid_unresolved_records": int(
-            audit["time_alignment"].eq("TIME_NOT_RECOVERED").sum()
-        ),
-        "time_grid_mismatched_records": int(
-            audit["time_alignment"].eq("NUMERIC_TIME_GRID_DIFFERS").sum()
-        ),
-        "numeric_full_export_ready": bool(
-            audit["identity_valid"].all()
-            and len(errors) == 0
-            and good_imu.all()
-            and (good_fe | empty).all()
-            and int(empty.sum()) == 168
-            and (audit.loc[good_fe, "time_alignment"]
-                 == "NUMERIC_TIME_GRID_MATCH").all()
-        ),
-        "physical_units_independently_verified": False,
-        "model_ready": False,
-    }
-

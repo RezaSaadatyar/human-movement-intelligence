@@ -1,6 +1,6 @@
 <svg xmlns="http://www.w3.org/2000/svg" width="1700" height="816" viewBox="0 0 1700 816" role="img" aria-labelledby="title desc">
 <title id="title">temporal regression study | Deep temporal regression and peak prediction from source-verified Essex IMUs</title>
-<desc id="desc">Completed temporal regression study: seven wearable IMUs, 42 channels and 101 original samples predict e1 and e3 on eleven original FE coordinates. Training-only grouped CV selected Dilated TCN with subject-balanced MAE 0.0008513; its four-participant Validation MAE was 0.0007151. classical Random Forest retains lower overall waveform MAE, whereas Dilated TCN has lower peak-magnitude MAE for both e1 and e3. Four Test participants are untouched. All 14 temporal regression study outputs and the PASSED quality gate are recorded; this is not external validation.</desc>
+<desc id="desc">Essex IMU–FE research workflow. Each notebook reads current upstream data and replaces its current output tables. Numerical values shown refer to the previous completed study run.</desc>
 <defs><marker id="arrow" markerUnits="userSpaceOnUse" markerWidth="7" markerHeight="7" refX="6" refY="3.5" orient="auto"><path d="M0 0 L7 3.5 L0 7 Z" fill="#2B648C"/></marker></defs>
 <rect x="0" y="0" width="1700" height="816" rx="19" fill="#F4F9FD"/>
 <g font-family="DejaVu Sans, Arial, sans-serif">
@@ -58,7 +58,7 @@
 <text x="683" y="333" fill="#173453">Training Folds</text>
 <text x="946" y="333" fill="#173453">CNN + Dilated TCN</text>
 <text x="1209" y="333" fill="#173453">Waveform and Peaks</text>
-<text x="1508" y="333" fill="white">Research Quality Gate</text>
+<text x="1508" y="333" fill="white">Results Summary</text>
 </g>
 <g font-size="12.5" text-anchor="middle">
 <text x="157" y="358" fill="#D2EBF2">Verified paired cache</text>
@@ -71,8 +71,8 @@
 <text x="946" y="380" fill="#4A6C82">Validation MAE: 0.0007151</text>
 <text x="1209" y="358" fill="#4A6C82">RF lower waveform MAE</text>
 <text x="1209" y="380" fill="#4A6C82">TCN lower peak-value MAE</text>
-<text x="1508" y="358" fill="#D2EBF2">14 committed evidence files</text>
-<text x="1508" y="380" fill="#D2EBF2">Quality Gate: PASSED</text>
+<text x="1508" y="358" fill="#D2EBF2">Current metrics and figures</text>
+<text x="1508" y="380" fill="#D2EBF2">Current results saved</text>
 </g>
 <text x="36" y="461" font-size="14" fill="#55758A">Original IMU → native FE indices → Training-only GroupKFold → temporal comparison → Validation diagnostics → evidence audit</text>
 </g></g></svg>

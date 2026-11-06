@@ -256,13 +256,6 @@ class _NotebookSync(ast.NodeTransformer):
                 if not name.endswith(("repository_sync", "colab_setup"))}
 
     def _preflight(self, changed, remote):
-        if self.study == "biomechanical_load_estimation" and any(
-            path.startswith(f"{self.study}/output/08_") for path in changed
-        ):
-            raise RuntimeError(
-                "Frozen Stage 08 evidence changed upstream. Review it in a "
-                "separate checkout; this session stays on its current revision."
-            )
         # Changing the synchroniser itself needs a newly configured session,
         # not a mixture of old controller methods and new helper functions.
         helpers = {"python_modules/core/repository_sync.py",

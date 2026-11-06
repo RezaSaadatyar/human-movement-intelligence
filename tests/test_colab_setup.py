@@ -112,13 +112,13 @@ class ColabSetupTests(unittest.TestCase):
         self.assertNotIn("marker", self.shell.user_ns)
         self.assertEqual(before, self._git(self.checkout, "rev-parse", "HEAD"))
 
-    def test_frozen_evidence_update_is_rejected(self):
+    def test_current_final_outputs_update_before_next_cell(self):
         output = self.source / self.study / "output"
         output.mkdir()
-        (output / "08_frozen_final_protocol.json").write_text('{"changed": true}')
+        (output / "08_current_results.csv").write_text('{"changed": true}')
         self.publish()
-        self.cell("marker = True", ok=False)
-        self.assertFalse((self.checkout / self.study / "output").exists())
+        self.cell("marker = True")
+        self.assertTrue((self.checkout / self.study / "output" / "08_current_results.csv").is_file())
 
     def test_reload_failure_latches_and_recovery_command_works(self):
         self.cell("from hmi_sync_demo import score")

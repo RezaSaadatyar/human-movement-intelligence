@@ -1,11 +1,11 @@
 <svg xmlns="http://www.w3.org/2000/svg" width="1700" height="816" viewBox="0 0 1700 816" role="img" aria-labelledby="study-title study-desc">
 <title id="study-title">BIOMECHANICAL LOAD ESTIMATION | WEARABLE IMU–FE RESEARCH</title>
-<desc id="study-desc">Project-wide overview of seven lower-body IMU sensors, original 101 by 42 input and eleven by two unitless FE targets. Source inventory 1897 trials, 1729 eligible trials and 37 included subjects; participant-disjoint 29 Training, 4 Validation and 4 final Test, 183 Test trials. Five-fold Training CV selected Random Forest primary, Dilated TCN secondary. Frozen single Test evaluation achieved participant-balanced MAE 0.0009384 RF and 0.0008759 TCN; no external clinical validation.</desc>
+<desc id="desc">Essex IMU–FE research workflow. Each notebook reads current upstream data and replaces its current output tables. Numerical values shown refer to the previous completed study run.</desc>
 <defs><marker id="small-arrow" markerUnits="userSpaceOnUse" markerWidth="6" markerHeight="6" refX="5.5" refY="3" orient="auto"><path d="M0 0 L6 3 L0 6 Z" fill="#245E9D"/></marker></defs>
 <rect x="0" y="0" width="1700" height="816" rx="20" fill="#F4F9FD"/>
 <g font-family="DejaVu Sans, Arial, sans-serif">
 <text x="30" y="38" font-size="23" font-weight="700" fill="#173453">BIOMECHANICAL LOAD ESTIMATION | WEARABLE IMU–FE RESEARCH</text>
-<text x="30" y="67" font-size="15" fill="#54738A">Full source-verified research · seven wearable IMUs · participant-held-out Test · quality gate PASSED</text>
+<text x="30" y="67" font-size="15" fill="#54738A">Original source data · seven wearable IMUs · participant-held-out Test · current outputs</text>
 <rect x="24" y="84" width="1652" height="160" rx="16" fill="#EAF3FA" stroke="#C7D9E6" stroke-width="2"/>
 
 <g stroke="#7298B0" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><circle cx="102" cy="129" r="11" fill="#FFFFFF"/><path d="M88 143 Q102 139 116 143 L122 183 Q102 190 82 183 Z" fill="#D9E7F1"/><path d="M89 150 L72 169 L67 182 M116 150 L132 169 L138 182 M91 185 L83 205 L76 225 M111 185 L119 205 L127 225" fill="none"/></g><g fill="#245E9D" stroke="#FFFFFF" stroke-width="1"><rect x="96" y="173" width="12" height="9" rx="2"/><rect x="84" y="189" width="11" height="9" rx="2"/><rect x="111" y="189" width="11" height="9" rx="2"/><rect x="79" y="205" width="11" height="9" rx="2"/><rect x="117" y="205" width="11" height="9" rx="2"/><rect x="70" y="218" width="11" height="9" rx="2"/><rect x="124" y="218" width="11" height="9" rx="2"/></g>
@@ -25,7 +25,7 @@
 <text x="1270" y="118" font-size="15.5" font-weight="700" fill="#173453">FINAL TEST EVIDENCE</text><text x="1270" y="147" font-size="14" fill="#506C7E">Random Forest MAE: 0.0009384</text>
 <text x="1270" y="172" font-size="14" fill="#506C7E">Dilated TCN MAE: 0.0008759</text>
 <text x="1270" y="197" font-size="14" fill="#506C7E">RF better peak location</text>
-<text x="1270" y="222" font-size="14" fill="#506C7E">Final Quality Gate: PASSED</text>
+<text x="1270" y="222" font-size="14" fill="#506C7E">Current results saved</text>
 <g aria-label="Additional signal-level evidence">
 <rect x="24" y="258" width="1652" height="314" rx="16" fill="#EDF6FB" stroke="#B4CFE0" stroke-width="1.5"/>
 <rect x="38" y="272" width="238" height="32" rx="9" fill="#173453" stroke="#173453" stroke-width="1.5"/>
@@ -115,7 +115,7 @@
 <text x="1322" y="337" font-size="14.5" font-weight="700" fill="#173453" text-anchor="middle">Freeze and Fit</text>
 <text x="1322" y="361" font-size="12.8" fill="#506C7E" text-anchor="middle">Primary RF, secondary TCN</text>
 <text x="1322" y="381" font-size="12.8" fill="#506C7E" text-anchor="middle">33-person Development fit</text>
-<text x="1322" y="401" font-size="12.8" fill="#506C7E" text-anchor="middle">Explicit one-time release</text>
+<text x="1322" y="401" font-size="12.8" fill="#506C7E" text-anchor="middle">Fixed Test evaluation</text>
 </g>
 <g role="group" aria-label="Final Test Audit">
 <rect x="1454" y="287" width="208" height="132" rx="15" fill="#176363" stroke="#176363" stroke-width="1.8"/>
@@ -123,7 +123,7 @@
 <text x="1558" y="337" font-size="14.5" font-weight="700" fill="#FFFFFF" text-anchor="middle">Final Test Audit</text>
 <text x="1558" y="361" font-size="12.8" fill="#D2E9EE" text-anchor="middle">4 new Test participants</text>
 <text x="1558" y="381" font-size="12.8" fill="#D2E9EE" text-anchor="middle">183 trials, 8,052 rows</text>
-<text x="1558" y="401" font-size="12.8" fill="#D2E9EE" text-anchor="middle">Final gate: PASSED</text>
+<text x="1558" y="401" font-size="12.8" fill="#D2E9EE" text-anchor="middle">Current results saved</text>
 </g></g>
 <text x="34" y="460" font-size="13.8" fill="#54738A">Source audit → native FE pairing → participant CV → model comparison → robustness → pre-Test freeze → saved final evidence</text>
 </g></g></svg>

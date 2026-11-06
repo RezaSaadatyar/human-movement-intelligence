@@ -1,10 +1,7 @@
 # ==================== Presented by: Reza Saadatyar (2026) ====================
-"""Stage 08 frozen-model and explicit release safeguards."""
+"""Stage 08 model settings, source-grid predictions and participant metrics."""
 
-import json
-import tempfile
 import unittest
-from pathlib import Path
 
 import numpy as np
 
@@ -23,39 +20,14 @@ class FrozenFinalTests(unittest.TestCase):
         from biomechanical_load_estimation.code.src import essex_stage08_final as m
         cls.m = m
 
-    def test_test_release_requires_explicit_phrase_and_is_single_use(self):
-        with tempfile.TemporaryDirectory() as temp:
-            root = Path(temp)
-            root.joinpath("output").mkdir()
-            protocol = {"manual_release": {"token": self.m.RELEASE_PHRASE}}
-            settings = dict(
-                protocol=protocol, protocol_sha256="f" * 64,
-                output_dir=root / "output", ledger_dir=root / "ignored",
-            )
-            with self.assertRaises(PermissionError):
-                self.m.release_one_time_test(approval="", **settings)
-            receipt = self.m.release_one_time_test(
-                approval=self.m.RELEASE_PHRASE, **settings
-            )
-            self.assertEqual(receipt["status"], "TEST_RELEASE_CONSUMED")
-            with self.assertRaises(RuntimeError):
-                self.m.release_one_time_test(
-                    approval=self.m.RELEASE_PHRASE, **settings
-                )
-
-    def test_release_rejects_prior_results(self):
-        with tempfile.TemporaryDirectory() as temp:
-            root = Path(temp)
-            out = root / "output"
-            out.mkdir()
-            (out / "08_test_trial_predictions.csv").write_text("exists")
-            with self.assertRaises(FileExistsError):
-                self.m.release_one_time_test(
-                    approval=self.m.RELEASE_PHRASE,
-                    protocol={"manual_release": {"token": self.m.RELEASE_PHRASE}},
-                    protocol_sha256="a" * 64, output_dir=out,
-                    ledger_dir=root / "cache",
-                )
+    def test_final_settings_keep_the_original_model_recipes(self):
+        first = self.m.final_model_settings()
+        second = self.m.final_model_settings()
+        self.assertEqual(first["primary_model"]["n_estimators"], 200)
+        self.assertEqual(first["secondary_model"]["seed"], 2128)
+        self.assertEqual(first["secondary_model"]["epochs"], 35)
+        first["secondary_model"]["epochs"] = 1
+        self.assertEqual(second["secondary_model"]["epochs"], 35)
 
     def test_cluster_bootstrap_is_participant_not_trial_resampling(self):
         y = np.zeros((12, 11, 2))

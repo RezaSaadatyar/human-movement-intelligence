@@ -6,27 +6,21 @@
 
 ![Study-wide Essex IMU–FE research workflow](images/study_overview.svg)
 
-**Final status:** The Stage 08 notebook has 11 executed code cells, no saved errors, 16 committed output files and a recorded **PASSED** final Quality Gate. Its Test assessment was performed once, following the independently committed [before-Test protocol](output/08_frozen_final_protocol.json). The historical BoneNet 444-row derivative pilot is a separate, explicitly [documented exploratory record](#08-source-provenance-earlier-audits-and-the-derivative-pilot) with an unverified source-row mapping and is not merged into these results.
+**Execution status:** The numerical findings in this report describe the previous completed study run. The simplified notebook cells have not been rerun on the full dataset. Current CSV results and figures are retained; each notebook replaces its own outputs on execution. The separate 444-row derivative pilot is not merged into the original-source results.
 
 ## 01. Research objective, source and FE target definitions
 
 The central research question is whether lower-body wearable inertial signals can predict **model-derived femoral-neck principal-strain trajectories**, and whether temporal neural models improve average waveform, peak-value or peak-position error compared with classical regression when participants are separated.
 
-The completed study uses original MATLAB records from the published [Essex Figshare dataset v13](https://doi.org/10.6084/m9.figshare.30225739.v13), described by [Hollinger et al.](https://doi.org/10.1038/s41597-026-07429-3). The recorded archive SHA256 is:
-
-\`c50f10d1364686412b7ab64cac435dc85864dc8dbb34d2804b9cf37f2e29132d\`
-
-The canonical paired-source fingerprint recorded in the source and subsequent model gates is:
-
-\`57a0e97fd68c7b0c813bc02c892d879926464c85e3cac08325aaabc2e2762e95\`
+The study uses original MATLAB records from the published [Essex Figshare dataset v13](https://doi.org/10.6084/m9.figshare.30225739.v13), described by [Hollinger et al.](https://doi.org/10.1038/s41597-026-07429-3).
 
 The source inventory contained **40 original participants** and **1,897 trials**. Source checks identified **168 trials with empty original FE arrays**, leaving **1,729 eligible paired trials from 37 participants**. This is a governed source-defined inclusion criterion, not an additional machine-learning target imputation.
 
 | Component | Governed original-source contract |
 | --- | --- |
 | IMU placement | Seven lower-body inertial sensors, six source channels each |
-| IMU tensor | \`(N, 101, 42)\`, original source time positions |
-| Predicted FE tensor | \`(N, 11, 2)\`, original source positions and targets \`e1\` and \`e3\` |
+| IMU tensor | `(N, 101, 42)`, original source time positions |
+| Predicted FE tensor | `(N, 11, 2)`, original source positions and targets `e1` and `e3` |
 | FE semantics | First and third principal finite-element strain model outputs |
 | Published FE target unit | **Unitless**; no conversion to microstrain |
 | Source alignment | Original FE-to-IMU indices, verified without target interpolation |
@@ -57,9 +51,9 @@ The 183 final Test trials therefore represent **four independent human clusters*
 
 ## 03. Original data audit and classical regression (Stages 01–05)
 
-**Stages 01–03 — source understanding and numerical recovery.** The project inspected the official metadata, original archive inventory, 40-person MATLAB object layout, stable record identities, numerical nested fields and temporal correspondence. The presence and eligibility of each FE series were checked rather than silently filling missing labels. The resulting source audit and linked trial registry provided the basis of later quality gates. Some early Stage 01–02 code cells in the saved notebooks remain unexecuted; do not describe those notebook execution records as wholly complete. The downstream source fingerprints and Stages 03–08 saved executions substantiate the reported final dataset lineage.
+**Stages 01–03 — source understanding and numerical recovery.** The project inspected the official metadata, original archive inventory, 40-person MATLAB object layout, stable record identities, numerical nested fields and temporal correspondence. The presence and eligibility of each FE series were checked rather than silently filling missing labels. The resulting current trial registry and time-coordinate tables provide the inputs for pairing and modelling.
 
-**Stage 04 — governed paired cohort.** All 1,729 eligible trials were assigned to the fixed **29/4/4 participant split**; source fingerprints, channel schema, native FE indices and allocation integrity were saved. Stage 04’s quality gate reports **PASSED**. The local reconstruction cache is intentionally Git-ignored rather than committed.
+**Stage 04 — governed paired cohort.** All 1,729 eligible trials were assigned to the fixed **29/4/4 participant split**; channel schema, native FE indices and participant assignments were saved. The local reconstruction cache is intentionally Git-ignored rather than committed.
 
 **Stage 05 — classical regression.** The training-time-mean control, Ridge regression and Random Forest benchmark were compared using five per-channel original-IMU summary features: **mean, standard deviation, minimum, maximum and root mean square**. With 42 input channels this yields **210 predictors**. Each model returns 22 values (eleven FE positions × two original FE targets) per trial. Five Training-only participant-disjoint folds determined the model-selection ranking.
 
@@ -71,7 +65,7 @@ The 183 final Test trials therefore represent **four independent human clusters*
 
 The earlier Validation set was inspected during model development. It is therefore an informative **diagnostic** set, but not a prospectively blind, external evaluation. The Stage 05 Random Forest retained the lowest predeclared **Training** metric and ultimately became the frozen primary model; subsequent Test outcomes did not cause it to be replaced.
 
-Sources: [Stage 04 split gate](output/04_dataset_and_split_quality_gate.json), [Stage 05 CV model summary](output/05_training_cv_model_summary.csv), [Stage 05 Validation results](output/05_validation_model_metrics.csv), and the corresponding executed notebooks.
+Sources: [Stage 04 participant assignments](output/04_subject_split_assignments.csv), [Stage 05 CV model summary](output/05_training_cv_model_summary.csv), [Stage 05 Validation results](output/05_validation_model_metrics.csv), and the corresponding notebook methods.
 
 ## 04. Temporal regression and peak objectives (Stage 06)
 
@@ -87,7 +81,7 @@ Random Forest remained lower in overall waveform MAE. Yet on the **four-person V
 
 This establishes a development-stage **trade-off**, not blanket deep-learning superiority. The source target peaks are computed on the eleven original FE coordinates; the integer index difference is not a physical time difference in seconds.
 
-Sources: [Stage 06 Training CV](output/06_training_cv_model_summary.csv), [Stage 06 Validation results](output/06_validation_model_metrics.csv), [Stage 06 protocol/gate](output/06_temporal_protocol_and_quality_gate.json).
+Sources: [Stage 06 Training CV](output/06_training_cv_model_summary.csv), [Stage 06 Validation results](output/06_validation_model_metrics.csv).
 
 ## 05. Multi-seed robustness, recurrent models and sensor sensitivity (Stage 07)
 
@@ -110,15 +104,15 @@ These neural values are means over three seed-specific, full Training OOF metric
 
 **Selection.** A predeclared Training-only rule compared the principal architectures with the locked Random Forest CV score, excluding the no-peak ablation from primary selection. **Random Forest remained the primary Stage 08 candidate.** No new Stage 07 model ranking was performed using the previously inspected Validation or reserved Test sets.
 
-Sources: [Stage 07 model stability](output/07_training_model_stability_summary.csv), [Training-only candidate decision](output/07_training_candidate_decision.csv), [peak-loss ablation](output/07_peak_loss_ablation.csv), [sensor/noise sensitivity](output/07_sensor_noise_sensitivity.csv), and [Stage 07 provenance](output/07_robustness_protocol_and_quality_gate.json).
+Sources: [Stage 07 model stability](output/07_training_model_stability_summary.csv), [Training-only candidate decision](output/07_training_candidate_decision.csv), [peak-loss ablation](output/07_peak_loss_ablation.csv), [sensor/noise sensitivity](output/07_sensor_noise_sensitivity.csv).
 
 ## 06. Frozen model selection and one-time held-out Test (Stage 08)
 
-**Before looking at Test**, the model selection, fitting rules and outcome metrics were committed separately in [\`08_frozen_final_protocol.json\`](output/08_frozen_final_protocol.json). The document names the **Random Forest primary** and a **fixed descriptive Dilated TCN secondary**. Random Forest's original 210 statistical predictors, 200 trees, minimum leaf size 3 and seed 2026 were frozen. The secondary model's architecture, native FE indexing, 35 epochs, AdamW settings, peak weight 0.25 and seed 2128 were likewise frozen.
+**Model selection preceded Test.** The original run used a **Random Forest primary** and a **descriptive Dilated TCN secondary**. Their unchanged recipes are now defined directly in [`final_model_settings()`](code/src/essex_stage08_final.py): Random Forest uses 210 statistical predictors, 200 trees, minimum leaf size 3 and seed 2026; TCN uses native FE indexing, 35 epochs, AdamW, peak weight 0.25 and seed 2128.
 
-**One-time final fitting.** Both selected models were fitted *once* on all **33 Development participants / 1,546 trials**, combining Training with the already examined diagnostic Validation split **only after model selection**. No Validation or Test label was used for post-freeze hyperparameter tuning. The final TCN has **51,986 parameters**; the runtime reported CUDA on a Tesla T4 GPU. The saved [fitting manifest](output/08_development_fit_manifest.json) documents source and fitted configuration.
+**Final fitting.** Both models were fitted on **33 Development participants / 1,546 trials**, combining Training and diagnostic Validation after selection. The recorded final TCN has **51,986 parameters** and used Tesla T4 CUDA. Test labels are excluded from fitting and model selection.
 
-**Test governance.** The notebook used an explicit manual release, documented by the committed [one-time release receipt](output/08_final_test_release_receipt.json). The protected Test cohort comprised **four unseen participants / 183 original trials**. Exactly two predefined models generated **8,052 original-grid prediction rows**, corresponding to 183 trials × eleven FE positions × two targets × two models. The recorded [Quality Gate](output/08_final_test_quality_gate.json) reports **PASSED**, one authorised Test evaluation and no post-Test model selection.
+**Held-out Test.** Four unseen participants contributed 183 trials and **8,052 prediction rows** (183 × eleven positions × two targets × two models). The current notebook can be rerun without release tokens; it refits the same models and replaces its outputs. Such reruns are not new independent evaluations.
 
 ![One-time original-grid Test waveform MAE: frozen primary versus descriptive secondary](output/08_test_waveform_mae_comparison.png)
 
@@ -142,36 +136,21 @@ The exploratory paired whole-participant bootstrap for **TCN − RF subject-bala
 
 Other genuine executed figures: [per-person errors](output/08_test_subject_errors.png), [one e1 waveform](output/08_test_waveform_example_e1.png) and [one e3 waveform](output/08_test_waveform_example_e3.png). The last two are **fixed, source-identifiable illustrative trials**, not population summaries.
 
-## 07. Cross-stage evidence reconciliation and research closure
+## 07. Current outputs and reproducibility
 
-**Recorded evidence, not a newly invented replication.** This Essex project has **eight numbered notebooks and no separate independent FINAL audit notebook**. Source and participant integrity were checked during Stages 04–08, and the final **Stage 08 PASSED gate** reconciles the committed, before-Test protocol, one-time release receipt, 33-person fitting, four-person Test, metrics and 16 final evidence files. A navigable, read-only [Stage 01–08 evidence register](evidence/stage_01_08_evidence_register.csv) indexes committed artifacts. The register is **documentation**, not another completed numerical experiment.
+The eight notebooks exchange current data tables, not execution-status reports. Notebook 04 supplies trial assignments and paired numerical arrays. Notebooks 05–07 use Training-only comparisons, with diagnostic Validation in 05–06. Notebook 08 uses the existing final model recipes and reports held-out Test errors.
 
-**Recorded Test consistency:** The committed \`08_test_trial_predictions.csv\` contains **8,052 unique model/trial/position/target rows** across four named Test participants, 183 trials, both original e1/e3 targets and all eleven FE indices. Recomputing equal-participant-weighted MAE from those predictions reproduces the saved primary/secondary metrics to numerical precision. No stored nonfinite Test predictions were observed in the audit.
-
-**Stage-specific status:**
-
-| Stage | Evidence boundary | Recorded outcome |
-| --- | --- | --- |
-| 01–02 | Original archive and nested object inspection | Saved source-audit artifacts; some early code cells not executed in committed notebooks |
-| 03–04 | Complete numeric/timebase governance and participant splits | Executed source recovery and Stage 04 PASSED gate |
-| 05 | Classical Training-only CV and diagnostic Validation | Random Forest selected among classical baselines; PASSED |
-| 06 | Temporal CNN / Dilated TCN Training CV and diagnostic Validation | TCN selected among temporal models; PASSED |
-| 07 | 75 fixed Training-only robustness jobs, recurrent models and ablation | Locked Random Forest primary retained; PASSED |
-| 08 | Approved frozen protocol; fixed fits; one-time Test evaluation | **Final Test PASSED**, 16 public outputs, no model reselection |
-
-All available quality gates verify agreement of **committed artifacts and recorded execution evidence**. They do not independently re-run every training fit or prove that a novel population will exhibit the same errors. Nor does the local one-time release marker impose a global hardware-independent guarantee against retesting.
-
-This source-governed study now has complete development and final same-source held-out evidence for its declared exploratory scope. The older public-derivative BoneNet pilot, with 444 rows and unresolved row-to-label linkage, is described separately in [the provenance section](#08-source-provenance-earlier-audits-and-the-derivative-pilot), not used as source verification for the complete original-cohort results.
+The committed `08_test_trial_predictions.csv` contains **8,052 model/trial/position/target rows**, four Test participants and 183 trials. These saved values support descriptive error analysis without retraining. The simplification does not change their numerical contents. Full-data re-execution of the simplified notebooks is still required to establish runtime behaviour on the original dataset.
 
 ## 08. Source provenance, earlier audits and the derivative pilot
 
-This section consolidates non-duplicative findings from the initial **13–14 October 2026** metadata, MATLAB-schema and exploratory derivative audits. Those records document the research provenance; their preliminary "next steps" are **not** instructions to reconstruct or rerun the completed, frozen evaluation.
+This section consolidates non-duplicative findings from the initial **13–14 October 2026** metadata, MATLAB-schema and exploratory derivative audits. These observations explain the source and the earlier derivative pilot; the current execution instructions are in the reproducibility guide.
 
 **Participant workbook and identity governance.** The source `SubCharacteristics.xlsx` workbook contained 40 unique, non-contiguous participant IDs (including `Subj44`), plus summary rows that were **not** participant records. The workbook reported **19 M / 21 F**, whereas the downloaded source README described **20 / 20**; this disagreement was observed, not resolved by inventing records. The workbook's free-text health/pain field contained **35 ellipsis-style placeholders** and five explicit notes. A placeholder is *not* evidence of disease absence or a verified clinical label. Identifying notes were excluded from released research outputs. Source workbook date, limb dominance and metadata were audited as provenance; no clinical or demographic variables were silently introduced as IMU-only predictive inputs.
 
 **Original source structure and exclusion accounting.** The archive inspection recorded **42 ZIP entries**, including **40 original participant MATLAB files**, and approximately **224.79 MiB** uncompressed. First-element schema inspection found 13 fields, including `SubjID`, `Task`, `SubTask`, `TrialNum`, `TrialNumUpdated`, `UpdatedTrialID`, `Cycle`, `IMU`, `ID`, `FP`, `e1e3`, `JCF` and `MuscleF`. SciPy sometimes exposed the MATLAB table/object container through opaque metadata such as `_TypeSystem` or `_ObjectMetadata`; their existence alone did not prove numerical FE recovery. A bounded Python reader pilot recovered **28 numeric IMU records**, but **zero FE tables** met that *pilot's strict* criterion; subsequent full-cohort native decoding established **1,729 numerically valid FE pairs**. These are different verification stages, not contradictory full-cohort results.
 
-The original audit classified **168 source-empty FE records**: 144 across three fully FE-excluded participants (`subj16`, `subj29`, `subj32`; 48 each), plus 24 partial gaps (`subj06`: 9, `subj08`: 9, `subj11`: 6). Five participant files had fewer than 48 `Data` elements (`subj09`: 42; `subj11`: 40; `subj12`: 47; `subj14`: 42; `subj36`: 46). These historical counts explain, but do not replace, the final source-linked eligibility and timebase Quality Gates. See the retained [versioned data manifest](../docs/DATA_MANIFEST_ESSEX_V13.md) and [source access record](../docs/DATA_ACCESS_ESSEX.md).
+The original audit classified **168 source-empty FE records**: 144 across three fully FE-excluded participants (`subj16`, `subj29`, `subj32`; 48 each), plus 24 partial gaps (`subj06`: 9, `subj08`: 9, `subj11`: 6). Five participant files had fewer than 48 `Data` elements (`subj09`: 42; `subj11`: 40; `subj12`: 47; `subj14`: 42; `subj36`: 46). These are observed counts from the original run, not hard-coded requirements for notebook execution. See the retained [versioned data manifest](../docs/DATA_MANIFEST_ESSEX_V13.md) and [source access record](../docs/DATA_ACCESS_ESSEX.md).
 
 **Separate public BoneNet derivative (exploratory, not the final study).** Earlier inspection of the authors' walking/running derivative recovered finite arrays `X=(444,42,101)` and `Y=(444,101,2)`, with 444 label rows from 37 listed subjects (333 Running, 111 Walking). The label columns `SubjID + Task + TrialNum` yielded only **222 distinct combinations**, so the association between tensor rows and labels was not independently verified. This is **not** the full six-activity, original-source, 11-FE-position study described above.
 
@@ -191,11 +170,11 @@ These numbers came from a recorded exploratory run, **not** an independently ver
 3. **Model-derived FE ground truth.** The predicted targets are unitless, finite-element model outputs; true in-vivo strain, absolute physical-time peak delays and clinical validity have not been established.
 4. **Cross-stage protocols differ.** Stage 05 Random Forest used a classical descriptor pipeline and an earlier fitting setting; Stage 07 neural experiments average three seeds and fixed epochs. The final Stage 08 models are *newly refitted* on 33 Development participants. Do not pool cross-stage metrics into a nominal single matched Test leaderboard.
 5. **Peak metric trade-offs.** Waveform accuracy, peak magnitude and native-index peak location are distinct. The prescribed peak-loss penalty did not demonstrate a reliable benefit across Stage 07 Training OOF.
-6. **Single-seed final refit.** Stage 07 covered three seeds, whereas Stage 08 each final model has one frozen recipe. Deterministic implementation options and source fingerprints do not guarantee bitwise identical GPU results on all systems.
+6. **Single-seed final refit.** Stage 07 covered three seeds, whereas Stage 08 each final model has one frozen recipe. Deterministic implementation options do not guarantee bitwise identical GPU results on all systems.
 7. **Sensitivity is not causal explanation.** The seven-source sensor substitution and Gaussian perturbation results are artificial input-stress tests, not biomechanical attribution or patient-level sensor recommendations.
-8. **Availability boundaries.** Public committed CSV/JSON/PNG results, source hashes, code and executed notebook outputs support retrospective auditing. Original archive, derived full numeric caches, local per-fold checkpoints and trained final weights are not published; independent end-to-end training replication requires original data and suitable dependencies.
+8. **Availability boundaries.** Public committed CSV/PNG results and code support retrospective auditing. Original archive, derived full numeric caches, local per-fold checkpoints and trained final weights are not published; independent end-to-end training replication requires original data and suitable dependencies.
 9. **No clinical deployment.** There is no independent prospective cohort, measured physiological strain reference, patient-specific finite-element ground-truth assessment or regulated device validation.
 
 **Conclusion:** The project is **complete as a source-verified exploratory IMU-to-FE research benchmark**, with a frozen-before-Test protocol and an authorised one-time participant-held-out assessment. It is **not** a validated clinical biomechanical load-estimation system.
 
-**Related navigation:** [Research README](README.md) · [Reproducibility and evidence boundaries](../docs/BONENET_REPRODUCIBILITY.md) · [Frozen protocol](output/08_frozen_final_protocol.json) · [Final test Quality Gate](output/08_final_test_quality_gate.json) · [Study overview](images/study_overview.svg) · [Final workflow](images/final_workflow.svg).
+**Related navigation:** [Research README](README.md) · [Reproducibility guide](../docs/BONENET_REPRODUCIBILITY.md) · [Model settings](code/src/essex_stage08_final.py) · [Test metrics](output/08_test_primary_secondary_metrics.csv) · [Study overview](images/study_overview.svg).
