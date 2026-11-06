@@ -15,11 +15,11 @@ The study has eight notebooks under `biomechanical_load_estimation/code/notebook
 | 07 | Current arrays, 05 folds/results and 06 results | Multi-seed metrics, ablation and candidate comparison |
 | 08 | Current arrays, assignments and model settings in Python | Final model predictions, metrics and figures |
 
-Public tables and figures are written directly to `biomechanical_load_estimation/output/`, with the notebook number as prefix. Rerunning a notebook replaces its current files. If a notebook has not been rerun, its current saved output remains available to downstream notebooks. No historical folder migration, hash matching or JSON approval report is needed.
+Public tables and figures are written directly to `biomechanical_load_estimation/output/`, with the notebook number as prefix. Rerunning a notebook replaces its current files. If a notebook has not been rerun, its current saved output remains available to downstream notebooks.
 
 Raw files live under ignored `data/raw/essex_femoral_neck_loading/`. Existing downloads are reused. New downloads are checked for incomplete transfer; ZIP extraction retains path safety checks and replaces the current extracted files. Remove or replace a raw file deliberately if a new download is needed.
 
-Notebook 04 writes `data/processed/essex_femoral_neck_loading/essex_imu_fe_pairs_v13.npz`. Notebooks 05–08 reuse that file. When it is missing or older than the current registry, time mapping, assignments or raw archive, it is reconstructed from those inputs. Arrays are matched to metadata by trial key. No earlier output directories are searched.
+Notebook 04 writes `data/processed/essex_femoral_neck_loading/essex_imu_fe_pairs_v13.npz`. Notebooks 05–08 reuse that file. When it is missing or older than the current registry, time mapping, assignments or raw archive, it is reconstructed from those inputs. Arrays are matched to metadata by trial key.
 
 ## Scientific settings
 
@@ -31,6 +31,6 @@ Stage 07 executes **75 neural fits** each time its training cell runs; previous 
 
 Offline tests cover current-file replacement, array-to-trial alignment, original participant allocation, model tensor shapes, participant isolation and small synthetic training examples. Notebook syntax and current prediction-table consistency are checked without fitting on the real Test set.
 
-The simplified notebooks have **not** been run end to end on the full Essex dataset or in hosted Colab. Cleared cell outputs reflect that status. Existing numerical CSVs and plots describe the previous completed run and were not regenerated during the simplification. GPU results can vary across environments.
+All eight notebooks now have committed execution outputs, together with their current CSV tables and figures. The recorded Colab runs include CUDA execution for Stages 06–08, with Tesla T4 hardware reported for Stages 07–08. These outputs document the completed calculations; GPU results can vary across environments.
 
 See the [research report](../biomechanical_load_estimation/BONENET_RESEARCH_METHODS_AND_EVIDENCE.md) for methods and limitations.

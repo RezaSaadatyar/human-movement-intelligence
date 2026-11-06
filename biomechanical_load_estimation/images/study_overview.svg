@@ -63,7 +63,7 @@
 <rect x="300" y="539" width="1047" height="26" rx="12" fill="#E0F2EC" stroke="#D3EAE2" stroke-width="1.5"/>
 <circle cx="322" cy="552" r="9" fill="#23749A"/>
 <text x="322" y="556" font-size="12" fill="#FFFFFF" font-weight="700" text-anchor="middle">i</text>
-<text x="339" y="556" font-size="12.2" fill="#173453" font-weight="700">Schematic traces only; MAEs come from the recorded one-time same-source Test, not new inference.</text>
+<text x="339" y="556" font-size="12.2" fill="#173453" font-weight="700">Schematic traces only; MAEs come from the saved participant-held-out Test results.</text>
 </g><g transform="translate(0 326)" aria-label="Preserved complete research workflow"><rect x="24" y="262" width="1652" height="174" rx="16" fill="#EAF3FA" stroke="#C7D9E6" stroke-width="2"/><g aria-label="Sequential source-verified research workflow"><path d="M246 354 H267" fill="none" stroke="#245E9D" stroke-width="2.2" marker-end="url(#small-arrow)"/>
 <path d="M482 354 H503" fill="none" stroke="#245E9D" stroke-width="2.2" marker-end="url(#small-arrow)"/>
 <path d="M718 354 H739" fill="none" stroke="#245E9D" stroke-width="2.2" marker-end="url(#small-arrow)"/>
@@ -121,7 +121,7 @@
 <rect x="1454" y="287" width="208" height="132" rx="15" fill="#176363" stroke="#176363" stroke-width="1.8"/>
 <text x="1558" y="310" font-size="13.2" fill="#BCEDE5" font-weight="700" text-anchor="middle">EVIDENCE</text>
 <text x="1558" y="337" font-size="14.5" font-weight="700" fill="#FFFFFF" text-anchor="middle">Final Test Audit</text>
-<text x="1558" y="361" font-size="12.8" fill="#D2E9EE" text-anchor="middle">4 new Test participants</text>
+<text x="1558" y="361" font-size="12.8" fill="#D2E9EE" text-anchor="middle">4 held-out participants</text>
 <text x="1558" y="381" font-size="12.8" fill="#D2E9EE" text-anchor="middle">183 trials, 8,052 rows</text>
 <text x="1558" y="401" font-size="12.8" fill="#D2E9EE" text-anchor="middle">Current results saved</text>
 </g></g>
