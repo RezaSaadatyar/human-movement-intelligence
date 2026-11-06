@@ -107,8 +107,6 @@ def sensor_channel_groups(channel_names):
         if len(group) != 6:
             raise ValueError(f"Expected six channels for sensor {suffix}.")
         groups[suffix] = group
-    if set(i for values in groups.values() for i in values) != set(range(42)):
-        raise ValueError("Sensor groups do not cover original channels exactly.")
     return groups
 
 

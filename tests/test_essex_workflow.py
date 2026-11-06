@@ -66,6 +66,28 @@ class CurrentWorkflowTests(unittest.TestCase):
         with self.assertRaisesRegex(ValueError, "Unsafe"):
             source.inspect_matlab_archive(archive)
 
+    def test_archive_download_uses_response_size_without_a_fixed_byte_count(self):
+        for body, length, succeeds in (
+            (b"current archive", "15", True),
+            (b"short", "15", False),
+            (b"chunked archive", None, True),
+            (b"", None, False),
+        ):
+            with self.subTest(body=body, length=length):
+                response = io.BytesIO(body)
+                response.headers = {} if length is None else {"Content-Length": length}
+                destination = self.root / "MATLAB.zip"
+                destination.unlink(missing_ok=True)
+                with patch.object(source, "urlopen", return_value=response):
+                    if succeeds:
+                        path = source.ensure_matlab_archive(self.root)
+                        self.assertEqual(path.read_bytes(), body)
+                    else:
+                        with self.assertRaisesRegex(ValueError, "incomplete"):
+                            source.ensure_matlab_archive(self.root)
+                        self.assertFalse(destination.exists())
+                self.assertFalse(list(self.root.glob("*.part")))
+
     def test_workbook_summary_does_not_require_forty_people(self):
         table = pd.DataFrame({"Participent ID": ["Subj01", "Subj01", "Subj44", "Mean"]})
         with patch("essex_record_audit.pd.read_excel", return_value=table):
@@ -134,6 +156,12 @@ class CurrentWorkflowTests(unittest.TestCase):
 
     def test_original_participant_allocation_is_preserved(self):
         output = STUDY / "output"
+        required = (
+            "01_original_record_registry.csv", "04_eligible_trial_registry.csv",
+            "04_subject_split_assignments.csv", "04_trial_split_assignments.csv",
+        )
+        if not all((output / name).is_file() for name in required):
+            self.skipTest("Notebook 04 outputs are not available for result comparison.")
         registry = pd.read_csv(output / "01_original_record_registry.csv")
         eligible = pd.read_csv(output / "04_eligible_trial_registry.csv")
         people, assigned, _, _ = pairs.fixed_subject_splits(eligible, registry)
@@ -266,6 +294,11 @@ class CurrentWorkflowTests(unittest.TestCase):
 
     def test_saved_test_predictions_reproduce_participant_weighted_mae(self):
         output = STUDY / "output"
+        required = (
+            "08_test_trial_predictions.csv", "08_test_primary_secondary_metrics.csv",
+        )
+        if not all((output / name).is_file() for name in required):
+            self.skipTest("Notebook 08 outputs are not available for metric comparison.")
         predictions = pd.read_csv(output / "08_test_trial_predictions.csv")
         metrics = pd.read_csv(output / "08_test_primary_secondary_metrics.csv")
         keys = [

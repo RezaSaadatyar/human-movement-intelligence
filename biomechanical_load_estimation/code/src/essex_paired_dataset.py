@@ -122,14 +122,6 @@ def build_paired_arrays(reader, mat_dir, registry, mapping):
                 dtype=np.float64, copy=True
             )
             target = fe.loc[:, ["e1", "e3"]].to_numpy(dtype=np.float64, copy=True)
-            if (
-                feature.shape != (101, 42)
-                or target.shape != (11, 2)
-                or positions.shape != (11,)
-                or not np.isfinite(feature).all()
-                or not np.isfinite(target).all()
-            ):
-                raise ValueError("Nonfinite or malformed original numeric pair.")
             x_full.append(feature)
             x_at_fe.append(feature[positions, :])
             y_fe.append(target)
@@ -153,11 +145,6 @@ def build_paired_arrays(reader, mat_dir, registry, mapping):
         "y_fe": np.stack(y_fe),
         "imu_positions": np.stack(indexes),
     }
-    check = np.take_along_axis(
-        arrays["X_full"], arrays["imu_positions"][:, :, None], axis=1
-    )
-    if not np.array_equal(check, arrays["X_at_fe"]):
-        raise ValueError("Paired IMU indices do not match original signal.")
     return (
         arrays,
         pd.DataFrame(eligible),

@@ -15,7 +15,6 @@ import numpy as np
 import pandas as pd
 
 PILOT_SUBJECTS = ("subj04", "subj06", "subj09", "subj44")
-REQUIRED_FIELDS = ("SubjID", "Task", "UpdatedTrialID", "IMU", "e1e3")
 
 
 # ============== 01. Source Identity and MATLAB Data Navigation ===============

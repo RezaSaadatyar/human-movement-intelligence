@@ -48,8 +48,7 @@ def describe_source_empty(value):
         targets = value.loc[:, ["e1", "e3"]]
         numeric_finite = (
             bool(
-                all(pd.api.types.is_numeric_dtype(dt) for dt in targets.dtypes)
-                and np.isfinite(targets.to_numpy(dtype="float64")).all()
+                np.isfinite(targets.to_numpy(dtype="float64")).all()
             )
             if all(pd.api.types.is_numeric_dtype(dt) for dt in targets.dtypes)
             else False

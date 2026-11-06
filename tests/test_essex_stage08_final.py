@@ -53,6 +53,17 @@ class FrozenFinalTests(unittest.TestCase):
         )
         self.assertEqual(p.shape, (3, 11, 2))
 
+    def test_primary_fit_preserves_targets_and_rejects_unaligned_trials(self):
+        x = np.ones((3, 101, 42))
+        y = np.full((3, 11, 2), 0.25)
+        channels = [f"ch{i}" for i in range(42)]
+        settings = self.m.final_model_settings()
+        model, names = self.m.fit_frozen_primary(x, y, channels, settings)
+        predicted = self.m.predict_frozen_primary(model, x, channels, names)
+        np.testing.assert_allclose(predicted, y)
+        with self.assertRaisesRegex(ValueError, "same trials"):
+            self.m.fit_frozen_primary(x, y[:2], channels, settings)
+
     def test_frozen_tcn_native_grid(self):
         from biomechanical_load_estimation.code.src.essex_temporal_regression import (
             make_temporal_model, training_fold_statistics,
