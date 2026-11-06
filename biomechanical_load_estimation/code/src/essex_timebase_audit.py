@@ -208,7 +208,6 @@ def audit_original_source(reader, mat_dir, registry):
             if len(records) != len(group):
                 raise ValueError("Original source record count changed.")
         except Exception as exc:
-            error = f"{type(exc).__name__}: {str(exc)[:250]}"
             errors.append(
                 {
                     "source_file": filename,

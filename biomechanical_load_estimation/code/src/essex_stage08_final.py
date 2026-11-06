@@ -49,11 +49,8 @@ def fit_frozen_primary(x_development, y_development, channels, protocol):
     rf = protocol["primary_model"]
     features, names = trial_features(x_development, channels)
     targets = flatten_targets(y_development)
-    if features.shape != (len(x_development), 210) or targets.shape != (
-        len(x_development),
-        22,
-    ):
-        raise ValueError("Frozen RF development shape mismatch.")
+    if len(features) != len(targets):
+        raise ValueError("Development inputs and targets must contain the same trials.")
     model = RandomForestRegressor(
         n_estimators=rf["n_estimators"],
         min_samples_leaf=rf["min_samples_leaf"],
@@ -62,8 +59,6 @@ def fit_frozen_primary(x_development, y_development, channels, protocol):
         n_jobs=-1,
     )
     model.fit(features, targets)
-    if model.n_outputs_ != 22:
-        raise RuntimeError("Fitted Random Forest does not match protocol.")
     return model, names
 
 

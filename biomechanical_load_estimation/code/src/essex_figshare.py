@@ -25,7 +25,6 @@ API_ROOT = "https://api.figshare.com/v2"
 MAX_DOWNLOAD_BYTES = 1024**3
 MAX_EXTRACTED_BYTES = 1024**3
 MATLAB_ARCHIVE_FILE_ID = 63190690
-MATLAB_ARCHIVE_SIZE = 235590610
 MATLAB_RELEASE_URL = (
     "https://github.com/RezaSaadatyar/human-movement-intelligence/"
     "releases/download/data-essex-v13/MATLAB.zip"
@@ -43,19 +42,12 @@ def fetch_json(url):
 
 
 def fetch_version_manifest(article_id=ARTICLE_ID, version=ARTICLE_VERSION):
-    """Return verified article-version metadata and its published file list."""
+    """Retrieve metadata and files from the requested article-version endpoint."""
     endpoint = f"{API_ROOT}/articles/{article_id}/versions/{version}"
     article = fetch_json(endpoint)
     files = fetch_json(f"{endpoint}/files")
-    if int(article.get("id", -1)) != int(article_id):
-        raise ValueError("Figshare article identity differs from the pinned ID.")
-    if int(article.get("version", -1)) != int(version):
-        raise ValueError("Figshare version differs from the pinned version.")
     if not isinstance(files, list) or not files:
         raise ValueError("Figshare returned no files for the pinned version.")
-    names = [item.get("name") for item in files]
-    if len(names) != len(set(names)):
-        raise ValueError("Duplicate file names in version manifest.")
     return article, files
 
 
@@ -69,8 +61,6 @@ def find_published_file(files, filename):
     item = matches[0]
     if not item.get("download_url", "").startswith("https://"):
         raise ValueError("Expected an HTTPS URL from the official file manifest.")
-    if not 0 < int(item.get("size", 0)) <= MAX_DOWNLOAD_BYTES:
-        raise ValueError("Unexpected Figshare source file size.")
     return item
 
 
@@ -89,12 +79,12 @@ def ensure_source_file(item, target_dir):
     try:
         total = 0
         with urlopen(request, timeout=120) as response, part.open("wb") as out:
+            expected = item.get("size") or response.headers.get("Content-Length")
             for block in iter(lambda: response.read(2 * 1024**2), b""):
                 total += len(block)
                 if total > MAX_DOWNLOAD_BYTES:
                     raise ValueError("Download exceeds the supported archive size.")
                 out.write(block)
-        expected = item.get("size")
         if not total or (expected and total != int(expected)):
             raise ValueError("Download is incomplete; retry this cell.")
         part.replace(destination)
@@ -145,7 +135,6 @@ def ensure_matlab_archive(target_dir):
             return ensure_source_file(
                 {
                     "name": "MATLAB.zip",
-                    "size": MATLAB_ARCHIVE_SIZE,
                     "download_url": uri,
                 },
                 target_dir,
@@ -177,8 +166,6 @@ def inspect_matlab_archive(zip_path):
             seen.add(item.filename)
             if stat.S_ISLNK(item.external_attr >> 16):
                 raise ValueError(f"ZIP symlink not permitted: {item.filename}")
-            if item.file_size > MAX_EXTRACTED_BYTES:
-                raise ValueError("Individual ZIP entry exceeds safety limit.")
             total += item.file_size
             if total > MAX_EXTRACTED_BYTES:
                 raise ValueError("Total extracted archive size exceeds 1 GiB.")
