@@ -1,6 +1,6 @@
 # Essex IMU–FE study: running the notebooks
 
-The study has eight notebooks under `biomechanical_load_estimation/code/notebooks/`. Run them in numerical order for a full calculation. In Colab, start with **Colab Repository Setup**. Locally, install `requirements.txt`; neural experiments also need `requirements-dl.txt`. The notebooks install `mat-io==1.0.1` for the original MATLAB tables and use the shared device and plotting helpers.
+The study has eight notebooks under `biomechanical_load_estimation/code/notebooks/`. Run them in numerical order for a full calculation. In Colab, start with **Colab Repository Setup**. Local output files are preserved during repository updates. Unrelated upstream changes can be applied; conflicting updates are deferred while the notebook continues with its current checkout. Locally, install `requirements.txt`; neural experiments also need `requirements-dl.txt`. The notebooks install `mat-io==1.0.1` for the original MATLAB tables and use the shared device and plotting helpers.
 
 ## Current input and output files
 
@@ -33,4 +33,4 @@ Offline tests cover current-file replacement, array-to-trial alignment, original
 
 The simplified notebooks have **not** been run end to end on the full Essex dataset or in hosted Colab. Cleared cell outputs reflect that status. Existing numerical CSVs and plots describe the previous completed run and were not regenerated during the simplification. GPU results can vary across environments.
 
-See the [research report](../biomechanical_load_estimation/BONENET_RESEARCH_METHODS_AND_EVIDENCE.md) for methods and limitations, and the [change record](BONENET_WORKFLOW_SIMPLIFICATION.md) for the removed workflow components.
+See the [research report](../biomechanical_load_estimation/BONENET_RESEARCH_METHODS_AND_EVIDENCE.md) for methods and limitations.

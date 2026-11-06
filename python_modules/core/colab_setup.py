@@ -23,7 +23,9 @@ def setup_colab(
         expected_data_sha256: Trusted file hashes for 'verify'.
 
     In IPython, updates happen before the next cell, never during a running
-    cell. Existing models and unmanaged tables are not recomputed. The active
+    cell. Local edits are preserved; conflicting Git updates are deferred
+    without stopping notebook execution. Existing models and unmanaged tables
+    are not recomputed. The active
     commit and revision history are on shell._hmi_notebook_sync. Incompatible
     class and setup-controller changes require a fresh session.
 

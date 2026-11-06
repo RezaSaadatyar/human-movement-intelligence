@@ -94,13 +94,47 @@ class ColabSetupTests(unittest.TestCase):
         self.cell("marker = True")
         self.assertTrue(self.shell.user_ns["marker"])
 
-    def test_dirty_incoming_update_blocks_cell_preserves_local_file(self):
+    def test_dirty_incoming_update_continues_with_local_file(self):
         (self.checkout / "report.json").write_text("local result")
         (self.source / "report.json").write_text('{"value": 2}')
         self.publish()
-        self.cell("marker = True", ok=False)
-        self.assertNotIn("marker", self.shell.user_ns)
+        before = self._git(self.checkout, "rev-parse", "HEAD")
+        setup_colab(self.study, root=self.checkout)
+        self.cell("marker = True")
+        self.assertTrue(self.shell.user_ns["marker"])
         self.assertEqual((self.checkout / "report.json").read_text(), "local result")
+        self.assertEqual(before, self._git(self.checkout, "rev-parse", "HEAD"))
+
+    def test_local_outputs_allow_unrelated_code_refresh(self):
+        self.cell("from hmi_sync_demo import score")
+        (self.checkout / "report.json").write_text("new local output")
+        (self.checkout / "new_output.csv").write_text("result\n1\n")
+        self._git(self.checkout, "add", "report.json")
+        (self.src / "hmi_sync_demo.py").write_text(
+            "VALUE = 2\ndef score():\n    return VALUE\n")
+        self.publish()
+        self.cell("observed = score()")
+        self.assertEqual(self.shell.user_ns["observed"], 2)
+        self.assertEqual((self.checkout / "report.json").read_text(), "new local output")
+        self.assertEqual((self.checkout / "new_output.csv").read_text(), "result\n1\n")
+        self.assertEqual(self._git(self.checkout, "show", ":report.json"), "new local output")
+
+    def test_untracked_incoming_collision_defers_without_overwriting(self):
+        (self.checkout / "new_output.csv").write_text("local output")
+        (self.source / "new_output.csv").write_text("remote output")
+        self.publish()
+        self.cell("marker = True")
+        self.assertEqual((self.checkout / "new_output.csv").read_text(), "local output")
+
+    def test_deferred_update_resumes_after_local_change_is_saved(self):
+        (self.checkout / "report.json").write_text("local output")
+        (self.source / "report.json").write_text('{"value": 2}')
+        self.publish()
+        self.cell("marker = True")
+        # Restore this temporary fixture to simulate a clean working tree.
+        (self.checkout / "report.json").write_text('{"value": 1}')
+        self.cell("marker = True")
+        self.assertEqual((self.checkout / "report.json").read_text(), '{"value": 2}')
 
     def test_class_change_rejected_before_merge_and_execution(self):
         self.cell("from hmi_sync_demo import score")

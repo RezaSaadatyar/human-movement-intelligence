@@ -38,16 +38,21 @@ def sync_repository(
     url: str, branch: str = "main", *, parent: str | Path = "/content",
     sync_mode: str = "update", allow_stale_modules: bool = False,
     quiet: bool = False, before_update=None, checkout_path=None,
+    local_changes: str = "error",
 ) -> Path:
-    """Synchronise a clean checkout without overwriting local work.
+    """Synchronise a checkout without overwriting local work.
 
     sync_mode: update (default), check (fetch only), or off (reuse checkout).
     Fast-forward always updates all tracked files, not only Python files.
     Ignored raw data and intermediate caches are never deleted or replaced.
     The default direct API remains conservative for non-notebook callers.
+    local_changes='preserve' permits unrelated edits and defers a conflicting
+    update while continuing to use the current checkout.
     """
     if sync_mode not in {"update", "check", "off"}:
         raise ValueError("sync_mode must be 'update', 'check' or 'off'.")
+    if local_changes not in {"error", "preserve"}:
+        raise ValueError("local_changes must be 'error' or 'preserve'.")
 
     parent = Path(parent).expanduser().resolve()
     parent.mkdir(parents=True, exist_ok=True)
@@ -101,18 +106,34 @@ def sync_repository(
                 if sync_mode == "check":
                     action = "UPDATE AVAILABLE"
                 else:
-                    if sync_mode == "update":
-                        dirty = _git(
-                            "status", "--porcelain", "--untracked-files=normal", cwd=path
+                    changed_files = [name for name in _git(
+                        "diff", "--name-only", "-z", local, remote, cwd=path
+                    ).split("\0") if name]
+                    dirty = _git(
+                        "status", "--porcelain", "--untracked-files=normal", cwd=path
+                    )
+                    if dirty and local_changes == "error":
+                        raise RuntimeError(
+                            "Local tracked/untracked changes exist. Save them before "
+                            "synchronising; no local files were changed."
                         )
-                        if dirty:
-                            raise RuntimeError(
-                                "Local tracked/untracked changes exist. Save them before "
-                                "synchronising; no local files were changed."
-                            )
-
-                    changed = _git("diff", "--name-only", local, remote, cwd=path)
-                    changed_files = changed.splitlines()
+                    if dirty:
+                        # Include staged edits, modified outputs and new files.
+                        local_files = set(_git(
+                            "diff", "--name-only", "-z", "HEAD", cwd=path
+                        ).split("\0")) | set(_git(
+                            "ls-files", "--others", "--exclude-standard", "-z", cwd=path
+                        ).split("\0"))
+                        local_files.discard("")
+                        overlaps = any(
+                            a == b or a.startswith(b + "/") or b.startswith(a + "/")
+                            for a in local_files for b in changed_files
+                        )
+                        if overlaps:
+                            if not quiet:
+                                print("Local changes kept; continuing with the current "
+                                      "checkout. Conflicting Git update deferred.")
+                            return path
                     imported = [
                         name for name, module in tuple(sys.modules.items())
                         if getattr(module, "__file__", None)
@@ -298,6 +319,7 @@ class _NotebookSync(ast.NodeTransformer):
                 sync_mode=self.sync_mode, allow_stale_modules=True,
                 quiet=quiet, before_update=self._preflight,
                 checkout_path=self.root,
+                local_changes="preserve",
             )
             current = _git("rev-parse", "HEAD", cwd=self.root)
             if current != previous:

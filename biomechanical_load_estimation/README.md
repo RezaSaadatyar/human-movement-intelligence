@@ -125,7 +125,7 @@ Run notebooks in order for a complete new calculation. If an upstream notebook h
 
 ![Final research workflow](images/final_workflow.svg)
 
-The simplification changes file handling and removes administrative prerequisites. It does not recompute the reported research results. See the [change record](../docs/BONENET_WORKFLOW_SIMPLIFICATION.md) for removed components and the verification scope.
+The simplification changes file handling and removes administrative prerequisites. It does not recompute the reported research results.
 
 ## 7. Scientific documentation, historical pilot and boundaries
 
