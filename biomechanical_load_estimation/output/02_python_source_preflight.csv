@@ -1,9 +1,0 @@
-subject_id,source_file,variable,shape,matlab_class
-subj04,subj04.mat,Data,"(48, 1)",struct
-subj04,subj04.mat,__function_workspace__,"(1, 7787968)",uint8
-subj06,subj06.mat,Data,"(48, 1)",struct
-subj06,subj06.mat,__function_workspace__,"(1, 7759456)",uint8
-subj09,subj09.mat,Data,"(42, 1)",struct
-subj09,subj09.mat,__function_workspace__,"(1, 6814624)",uint8
-subj44,subj44.mat,Data,"(48, 1)",struct
-subj44,subj44.mat,__function_workspace__,"(1, 7787968)",uint8
