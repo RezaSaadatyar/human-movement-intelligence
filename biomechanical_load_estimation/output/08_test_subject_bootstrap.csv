@@ -1,0 +1,4 @@
+model,estimate,bootstrap_low_95,bootstrap_high_95,participants,resamples,scope
+Random Forest (Stage 05 locked),0.0009384046276807861,0.0006161265215776667,0.0013352133667631561,4,2000,exploratory_same_source_test
+Dilated TCN,0.0008759088803771815,0.0006313053946370884,0.0011493075247565301,4,2000,exploratory_same_source_test
+Dilated TCN minus frozen RF,-6.249574730360447e-05,-0.00018590584200662598,4.311783069900328e-05,4,2000,exploratory_not_confirmatory
