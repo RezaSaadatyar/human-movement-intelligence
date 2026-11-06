@@ -87,4 +87,3 @@ def download_outputs_from_colab(folder, stage):
     for path in selected:
         print("  +", path.relative_to(output_dir).as_posix())
     print(f"Download ZIP from Colab Contents: {archive_path}")
-    print("GitHub Commit/Push performed: NO")

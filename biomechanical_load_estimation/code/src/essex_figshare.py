@@ -103,7 +103,7 @@ def ensure_source_file(item, target_dir):
     return destination
 
 
-# =============== 01A. Dataset Acquisition ======================
+# ========================== 02. Dataset Acquisition ==========================
 def load_source_manifest(output_dir):
     """Read the current source-file table, or obtain it from Figshare."""
     csv_path = Path(output_dir) / "01_dataset_figshare_file_manifest.csv"
@@ -155,7 +155,7 @@ def ensure_matlab_archive(target_dir):
     raise RuntimeError("Could not download MATLAB.zip: " + ", ".join(failures))
 
 
-# ================ 02. Archive Inventory and Extraction ================
+# =================== 03. Archive Inventory and Extraction ====================
 def inspect_matlab_archive(zip_path):
     """Validate archive paths, members, CRC and total uncompressed size."""
     inventory = []

@@ -5,16 +5,13 @@ from pathlib import Path
 from urllib.request import urlretrieve
 
 import numpy as np
-
 from core.data_loading import load_data
-
 
 SOURCE = (
     'https://raw.githubusercontent.com/ZainabAltai/'
     'BoneNet-A-Framework-for-Rapid-and-Accurate-Prediction-of-'
     'Femoral-Neck-strains-from-Exercise-Data/main/'
 )
-
 
 # =========================== 01. Data Acquisition ============================
 def ensure_bonenet_files(data_dir):
