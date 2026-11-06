@@ -294,7 +294,7 @@ def evaluate_pilot(rows, errors):
     }
 
 
-# ================== 04. Source-Preserved MATLAB Table Schema ==================
+# ================= 03. Source-Preserved MATLAB Table Schema ==================
 def inspect_native_table_schema(reader, mat_dir, selected):
     """Audit original DataFrame column types and indexes without raw values.
 

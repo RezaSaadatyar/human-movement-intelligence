@@ -25,7 +25,7 @@ CHANNELS = 42
 TARGETS = 2
 
 
-# =================== 01. Source-Time Output Alignment ======================
+# ===================== 01. Source-Time Output Alignment ======================
 def check_temporal_arrays(x, positions, targets=None):
     """Reject invalid source grids or interpolated/substituted FE geometry."""
     array = np.asarray(x, dtype=np.float64)
@@ -63,7 +63,7 @@ def gather_original_positions(features, native_indices):
     return torch.gather(features, dim=2, index=gather_idx).transpose(1, 2)
 
 
-# ===================== 02. Comparable Temporal Architectures ===============
+# =================== 02. Comparable Temporal Architectures ===================
 class TemporalCNN(nn.Module):
     """Two local convolutions followed by native FE-position readout."""
 
@@ -130,7 +130,7 @@ def make_temporal_model(name):
     raise ValueError(f"Unexpected temporal architecture: {name}")
 
 
-# ========================= 03. Training-Only Scaling ========================
+# ========================= 03. Training-Only Scaling =========================
 @dataclass(frozen=True)
 class FoldStatistics:
     input_mean: np.ndarray
@@ -171,7 +171,7 @@ def peak_aware_loss(pred, target, weight=0.25):
     return waveform + float(weight) * 0.5 * (peak_e1 + peak_e3)
 
 
-# ======================= 04. Bounded Fitting and Inference ==================
+# ===================== 04. Bounded Fitting and Inference =====================
 def fit_temporal_model(
     name, x_fit, y_fit, positions_fit, x_eval, positions_eval,
     *, seed=2026, epochs=35, batch_size=64, learning_rate=1e-3,

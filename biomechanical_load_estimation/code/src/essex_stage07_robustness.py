@@ -50,7 +50,7 @@ LEARNING_RATE = 0.001
 NOISE_STD_NORMALISED = 0.10
 
 
-# =================== 01. Recurrence at the Original FE Grid ==================
+# ================== 01. Recurrence at the Original FE Grid ===================
 class NativeGRU(nn.Module):
     """Two-layer GRU with readout at verified source FE sample positions."""
 
@@ -267,9 +267,7 @@ def train_stage07_fold(
     }
 
 
-# ======================== 03. Current Training-Fold Results ======================
-
-
+# ===================== 03. Current Training-Fold Results =====================
 def run_training_fold(
     cache_dir,
     *,
@@ -339,7 +337,7 @@ def run_training_fold(
     }
 
 
-# ================== 04. Paired Participant-Level Inference ==================
+# ================== 04. Paired Participant-Level Inference ===================
 def paired_subject_bootstrap(a, b, *, draws=2000, seed=2026):
     """Exploratory CI of (model A - model B), resampling whole participants."""
     a = np.asarray(a, dtype=float)

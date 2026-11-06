@@ -17,7 +17,7 @@ from sklearn.pipeline import Pipeline
 from sklearn.preprocessing import StandardScaler
 
 
-# =================== 01. Original-Trial Feature Contract ===================
+# ==================== 01. Original-Trial Feature Contract ====================
 STATISTICS = ("mean", "std", "minimum", "maximum", "rms")
 TARGETS = ("e1", "e3")
 MODELS = ("Training Mean", "Ridge", "Random Forest")
@@ -52,7 +52,7 @@ def flatten_targets(target):
     return array.reshape(len(array), 22)
 
 
-# ======================= 02. Fixed Regression Models =======================
+# ======================== 02. Fixed Regression Models ========================
 def make_regressor(name, seed=2026):
     """Declare models before fitting; tuning uses Training folds only."""
     if name == "Training Mean":
@@ -70,7 +70,7 @@ def make_regressor(name, seed=2026):
     raise ValueError(f"Unknown pre-specified regressor: {name}")
 
 
-# ===================== 03. Participant-Disjoint Folds ======================
+# ====================== 03. Participant-Disjoint Folds =======================
 def training_group_folds(groups, n_splits=5):
     """Return fixed GroupKFold indices and a per-trial audit table."""
     ids = np.asarray(groups, dtype=str)
@@ -93,7 +93,7 @@ def training_group_folds(groups, n_splits=5):
     return folds, record
 
 
-# ================== 04. Trial and Subject-Level Diagnostics =================
+# ================== 04. Trial and Subject-Level Diagnostics ==================
 def regression_metrics(y, prediction):
     """Return two-target errors, including source-grid peak diagnostics."""
     y = np.asarray(y, dtype=np.float64)

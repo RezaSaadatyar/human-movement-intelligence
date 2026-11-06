@@ -215,7 +215,7 @@ def extract_matlab_files(zip_path, destination, inventory):
     return sorted(extracted, key=lambda path: path.name.lower())
 
 
-# ================== 03. MATLAB Record Representation Audit ===================
+# ================== 04. MATLAB Record Representation Audit ===================
 def _record_field(record, name):
     """Read a named MATLAB record field without manufacturing a numeric value."""
     if hasattr(record, "_fieldnames"):
