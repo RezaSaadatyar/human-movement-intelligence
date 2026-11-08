@@ -1,113 +1,164 @@
-<svg xmlns="http://www.w3.org/2000/svg" width="1600" height="800" viewBox="0 0 1600 800" role="img" aria-label="HARTH stage 01 research workflow with illustrated accelerometer signals, two-second windowing, statistical features and saved outputs">
-<rect x="0" y="0" width="1600" height="800" rx="22" fill="#f3f7fb" stroke="#f3f7fb" stroke-width="1.25"/>
-<rect x="14" y="14" width="1572" height="772" rx="20" fill="#f8fbfd" stroke="#d5e3eb" stroke-width="1.25"/>
-<text x="40" y="55" font-family="Arial,sans-serif" font-size="37" font-weight="bold" fill="#153d5b">HARTH DATA FOUNDATION</text>
-<text x="40" y="86" font-family="Arial,sans-serif" font-size="19" font-weight="normal" fill="#567084">Original source inspection  •  time-safe windows  •  interpretable statistical features</text>
-<rect x="40" y="112" width="360" height="146" rx="12" fill="#e9f1f6" stroke="#bdd1df" stroke-width="1.25"/>
-<text x="58" y="142" font-family="Arial,sans-serif" font-size="19" font-weight="bold" fill="#153d5b">SOURCE DATASET</text>
-<text x="58" y="173" font-family="Arial,sans-serif" font-size="17" font-weight="normal" fill="#567084">Official NTNU AI Lab HARTH v2.0</text>
-<text x="58" y="201" font-family="Arial,sans-serif" font-size="17" font-weight="normal" fill="#567084">Pinned public source revision</text>
-<text x="58" y="229" font-family="Arial,sans-serif" font-size="17" font-weight="normal" fill="#567084">Recording: S023.csv</text>
-<rect x="424" y="112" width="360" height="146" rx="12" fill="#e9f1f6" stroke="#bdd1df" stroke-width="1.25"/>
-<text x="442" y="142" font-family="Arial,sans-serif" font-size="19" font-weight="bold" fill="#153d5b">SENSOR PLACEMENT</text>
-<text x="442" y="173" font-family="Arial,sans-serif" font-size="17" font-weight="normal" fill="#567084">Lower-back accelerometer</text>
-<text x="442" y="201" font-family="Arial,sans-serif" font-size="17" font-weight="normal" fill="#567084">Thigh accelerometer</text>
-<text x="442" y="229" font-family="Arial,sans-serif" font-size="17" font-weight="normal" fill="#567084">2 sensors × 3 axes = 6 channels</text>
-<rect x="808" y="112" width="360" height="146" rx="12" fill="#e9f1f6" stroke="#bdd1df" stroke-width="1.25"/>
-<text x="826" y="142" font-family="Arial,sans-serif" font-size="19" font-weight="bold" fill="#153d5b">SIGNAL PROTOCOL</text>
-<text x="826" y="173" font-family="Arial,sans-serif" font-size="17" font-weight="normal" fill="#567084">Nominal frequency: 50 Hz</text>
-<text x="826" y="201" font-family="Arial,sans-serif" font-size="17" font-weight="normal" fill="#567084">Acceleration: original values in g</text>
-<text x="826" y="229" font-family="Arial,sans-serif" font-size="17" font-weight="normal" fill="#567084">Timestamps and activity labels</text>
-<rect x="1192" y="112" width="360" height="146" rx="12" fill="#e9f1f6" stroke="#bdd1df" stroke-width="1.25"/>
-<text x="1210" y="142" font-family="Arial,sans-serif" font-size="19" font-weight="bold" fill="#153d5b">SCIENTIFIC SCOPE</text>
-<text x="1210" y="173" font-family="Arial,sans-serif" font-size="17" font-weight="normal" fill="#567084">Single-participant demonstration</text>
-<text x="1210" y="201" font-family="Arial,sans-serif" font-size="17" font-weight="normal" fill="#567084">No filtering or fitted scaling</text>
-<text x="1210" y="229" font-family="Arial,sans-serif" font-size="17" font-weight="normal" fill="#567084">No model fitting or Test scoring</text>
-<rect x="40" y="280" width="490" height="294" rx="12" fill="#ffffff" stroke="#bdd1df" stroke-width="1.25"/>
-<rect x="40" y="280" width="490" height="42" rx="11" fill="#153d5b" stroke="#153d5b" stroke-width="1.25"/>
-<rect x="40" y="302" width="490" height="20" fill="#153d5b"/>
-<text x="60" y="309" font-family="Arial,sans-serif" font-size="18" font-weight="bold" fill="#ffffff">ORIGINAL ACCELERATION SIGNAL</text>
-<rect x="554" y="280" width="490" height="294" rx="12" fill="#ffffff" stroke="#bdd1df" stroke-width="1.25"/>
-<rect x="554" y="280" width="490" height="42" rx="11" fill="#153d5b" stroke="#153d5b" stroke-width="1.25"/>
-<rect x="554" y="302" width="490" height="20" fill="#153d5b"/>
-<text x="574" y="309" font-family="Arial,sans-serif" font-size="18" font-weight="bold" fill="#ffffff">TIME-SAFE WINDOWING</text>
-<rect x="1068" y="280" width="492" height="294" rx="12" fill="#ffffff" stroke="#bdd1df" stroke-width="1.25"/>
-<rect x="1068" y="280" width="492" height="42" rx="11" fill="#153d5b" stroke="#153d5b" stroke-width="1.25"/>
-<rect x="1068" y="302" width="492" height="20" fill="#153d5b"/>
-<text x="1088" y="309" font-family="Arial,sans-serif" font-size="18" font-weight="bold" fill="#ffffff">STATISTICAL FEATURE EVIDENCE</text>
-<line x1="83" y1="512" x2="423" y2="512" stroke="#a3b5c4" stroke-width="1.5"/>
-<line x1="83" y1="369" x2="83" y2="512" stroke="#a3b5c4" stroke-width="1.5"/>
-<path d="M83.0,384.0 L85.2,388.7 L87.4,391.5 L89.6,391.8 L91.8,390.8 L94.0,390.3 L96.2,391.4 L98.4,393.8 L100.6,395.5 L102.8,394.8 L105.0,391.5 L107.2,386.9 L109.4,383.0 L111.6,381.2 L113.8,381.0 L116.0,381.0 L118.2,379.3 L120.4,375.9 L122.6,372.0 L124.8,369.6 L127.0,370.1 L129.2,372.9 L131.4,376.1 L133.6,377.9 L135.8,377.9 L138.0,377.4 L140.2,378.1 L142.4,381.1 L144.6,385.7 L146.8,389.8 L149.0,391.8 L151.2,391.1 L153.4,389.1 L155.6,387.7 L157.8,387.9 L160.0,389.3 L162.2,389.9 L164.4,388.3 L166.6,384.3 L168.8,379.3 L171.0,375.4 L173.2,373.9 L175.4,374.2 L177.6,374.7 L179.8,373.8 L182.0,371.2 L184.2,368.4 L186.4,367.4 L188.6,369.3 L190.8,373.2 L193.0,377.3 L195.2,379.8 L197.4,380.3 L199.6,380.2 L201.8,381.2 L204.0,384.3 L206.2,388.6 L208.4,392.2 L210.6,393.4 L212.8,391.8 L215.0,389.0 L217.2,386.9 L219.4,386.6 L221.6,387.4 L223.8,387.6 L226.0,385.5 L228.2,381.4 L230.4,376.6 L232.6,373.4 L234.8,372.7 L237.0,374.0 L239.2,375.4 L241.4,375.4 L243.6,373.9 L245.8,372.3 L248.0,372.5 L250.2,375.4 L252.4,380.2 L254.6,384.7 L256.8,387.3 L259.0,387.7 L261.2,387.4 L263.4,388.1 L265.6,390.6 L267.8,394.1 L270.0,396.6 L272.2,396.4 L274.4,393.6 L276.6,389.8 L278.8,386.9 L281.0,385.9 L283.2,386.1 L285.4,385.8 L287.6,383.4 L289.8,379.2 L292.0,374.8 L294.2,372.1 L296.4,372.3 L298.6,374.4 L300.8,376.5 L303.0,377.1 L305.2,376.2 L307.4,375.3 L309.6,376.2 L311.8,379.6 L314.0,384.4 L316.2,388.6 L318.4,390.6 L320.6,390.2 L322.8,389.0 L325.0,388.9 L327.2,390.4 L329.4,392.7 L331.6,393.8 L333.8,392.3 L336.0,388.4 L338.2,383.7 L340.4,380.3 L342.6,379.0 L344.8,379.1 L347.0,378.7 L349.2,376.5 L351.4,372.8 L353.6,369.1 L355.8,367.6 L358.0,368.9 L360.2,372.0 L362.4,375.0 L364.6,376.4 L366.8,376.2 L369.0,375.9 L371.2,377.3 L373.4,381.0 L375.6,385.8 L377.8,389.6 L380.0,390.9 L382.2,389.8 L384.4,387.9 L386.6,387.0 L388.8,387.8 L391.0,389.3 L393.2,389.6 L395.4,387.4 L397.6,383.0 L399.8,378.2 L402.0,375.1 L404.2,374.4 L406.4,375.1 L408.6,375.5 L410.8,374.1 L413.0,371.4" fill="none" stroke="#256cc3" stroke-width="2.4"/>
-<text x="426" y="388" font-family="Arial,sans-serif" font-size="17" font-weight="normal" fill="#256cc3">Back X</text>
-<path d="M83.0,442.3 L85.2,439.8 L87.4,436.9 L89.6,435.2 L91.8,435.3 L94.0,436.1 L96.2,435.6 L98.4,432.7 L100.6,428.1 L102.8,423.8 L105.0,421.4 L107.2,421.7 L109.4,423.2 L111.6,424.2 L113.8,423.5 L116.0,421.5 L118.2,420.2 L120.4,421.0 L122.6,424.4 L124.8,428.9 L127.0,432.4 L129.2,433.7 L131.4,433.2 L133.6,432.5 L135.8,433.4 L138.0,436.0 L140.2,438.9 L142.4,440.3 L144.6,438.8 L146.8,435.3 L149.0,431.5 L151.2,429.2 L153.4,428.9 L155.6,429.2 L157.8,428.4 L160.0,425.5 L162.2,421.2 L164.4,417.4 L166.6,416.0 L168.8,417.2 L171.0,419.7 L173.2,421.6 L175.4,421.7 L177.6,420.6 L179.8,420.1 L182.0,421.8 L184.2,425.8 L186.4,430.5 L188.6,434.0 L190.8,434.9 L193.0,434.0 L195.2,432.9 L197.4,433.3 L199.6,435.4 L201.8,437.6 L204.0,438.1 L206.2,435.9 L208.4,431.8 L210.6,427.8 L212.8,425.5 L215.0,425.4 L217.2,426.1 L219.4,425.7 L221.6,423.3 L223.8,419.8 L226.0,417.2 L228.2,417.1 L230.4,419.5 L232.6,423.1 L234.8,425.8 L237.0,426.7 L239.2,426.2 L241.4,426.4 L243.6,428.5 L245.8,432.7 L248.0,437.3 L250.2,440.1 L252.4,440.3 L254.6,438.6 L256.8,436.8 L259.0,436.5 L261.2,437.7 L263.4,439.1 L265.6,438.6 L267.8,435.7 L270.0,431.1 L272.2,426.9 L274.4,424.8 L276.6,425.0 L278.8,426.0 L281.0,425.9 L283.2,424.1 L285.4,421.3 L287.6,419.5 L289.8,420.3 L292.0,423.6 L294.2,427.7 L296.4,430.6 L298.6,431.5 L300.8,431.0 L303.0,431.0 L305.2,432.9 L307.4,436.5 L309.6,440.1 L311.8,441.8 L314.0,440.8 L316.2,437.8 L318.4,435.0 L320.6,433.7 L322.8,434.1 L325.0,434.6 L327.2,433.4 L329.4,429.8 L331.6,425.0 L333.8,421.0 L336.0,419.4 L338.2,420.1 L340.4,421.7 L342.6,422.2 L344.8,421.0 L347.0,419.0 L349.2,418.1 L351.4,419.8 L353.6,423.7 L355.8,428.2 L358.0,431.2 L360.2,431.9 L362.4,431.2 L364.6,430.9 L366.8,432.4 L369.0,435.3 L371.2,438.1 L373.4,438.9 L375.6,436.8 L377.8,433.1 L380.0,429.7 L382.2,428.1 L384.4,428.3 L386.6,428.6 L388.8,427.4 L391.0,424.1 L393.2,419.8 L395.4,416.7 L397.6,416.2 L399.8,418.1 L402.0,420.8 L404.2,422.3 L406.4,422.1 L408.6,421.1 L410.8,421.2 L413.0,423.8" fill="none" stroke="#d77b24" stroke-width="2.4"/>
-<text x="426" y="435" font-family="Arial,sans-serif" font-size="17" font-weight="normal" fill="#d77b24">Back Y</text>
-<path d="M83.0,477.7 L85.2,475.9 L87.4,476.2 L89.6,477.1 L91.8,476.9 L94.0,474.6 L96.2,471.1 L98.4,468.3 L100.6,467.9 L102.8,470.0 L105.0,473.1 L107.2,475.2 L109.4,475.3 L111.6,474.2 L113.8,473.6 L116.0,475.1 L118.2,478.6 L120.4,482.5 L122.6,484.8 L124.8,484.6 L127.0,482.5 L129.2,480.5 L131.4,480.2 L133.6,481.5 L135.8,483.0 L138.0,482.7 L140.2,480.0 L142.4,475.7 L144.6,471.9 L146.8,470.1 L149.0,470.5 L151.2,471.7 L153.4,471.7 L155.6,469.8 L157.8,466.8 L160.0,464.9 L162.2,465.4 L164.4,468.3 L166.6,471.9 L168.8,474.4 L171.0,474.7 L173.2,473.8 L175.4,473.5 L177.6,475.0 L179.8,478.5 L182.0,482.0 L184.2,483.7 L186.4,482.8 L188.6,480.1 L190.8,477.7 L193.0,477.0 L195.2,478.0 L197.4,479.2 L199.6,478.6 L201.8,475.7 L204.0,471.6 L206.2,468.2 L208.4,467.2 L210.6,468.4 L212.8,470.3 L215.0,471.0 L217.2,469.9 L219.4,467.9 L221.6,467.0 L223.8,468.5 L226.0,472.2 L228.2,476.4 L230.4,479.2 L232.6,479.6 L234.8,478.7 L237.0,478.3 L239.2,479.8 L241.4,482.9 L243.6,485.9 L245.8,486.8 L248.0,485.1 L250.2,481.8 L252.4,479.0 L254.6,478.0 L256.8,478.8 L259.0,479.6 L261.2,478.9 L263.4,476.0 L265.6,472.1 L267.8,469.2 L270.0,468.8 L272.2,470.7 L274.4,473.2 L276.6,474.4 L278.8,473.7 L281.0,472.2 L283.2,471.8 L285.4,473.8 L287.6,477.7 L289.8,481.7 L292.0,484.0 L294.2,483.8 L296.4,482.3 L298.6,481.3 L300.8,482.1 L303.0,484.3 L305.2,486.3 L307.4,486.1 L309.6,483.4 L311.8,479.3 L314.0,476.0 L316.2,474.7 L318.4,475.2 L320.6,475.9 L322.8,475.0 L325.0,472.1 L327.2,468.5 L329.4,466.2 L331.6,466.5 L333.8,469.1 L336.0,472.0 L338.2,473.5 L340.4,473.1 L342.6,471.9 L344.8,471.8 L347.0,473.9 L349.2,477.7 L351.4,481.4 L353.6,483.0 L355.8,482.2 L358.0,480.0 L360.2,478.4 L362.4,478.7 L364.6,480.3 L366.8,481.5 L369.0,480.7 L371.2,477.5 L373.4,473.2 L375.6,469.9 L377.8,469.0 L380.0,469.9 L382.2,471.0 L384.4,470.6 L386.6,468.4 L388.8,465.7 L391.0,464.4 L393.2,465.8 L395.4,469.3 L397.6,472.9 L399.8,475.0 L402.0,474.9 L404.2,474.1 L406.4,474.3 L408.6,476.7 L410.8,480.4 L413.0,483.8" fill="none" stroke="#298d67" stroke-width="2.4"/>
-<text x="426" y="482" font-family="Arial,sans-serif" font-size="17" font-weight="normal" fill="#298d67">Back Z</text>
-<text x="83" y="532" font-family="Arial,sans-serif" font-size="16" font-weight="normal" fill="#567084">Illustrative signal shapes; original traces are plotted below.</text>
-<text x="83" y="555" font-family="Arial,sans-serif" font-size="15" font-weight="normal" fill="#567084">Unscaled units: g  |  Lower back shown as an example</text>
-<text x="590" y="360" font-family="Arial,sans-serif" font-size="18" font-weight="bold" fill="#173955">100 samples = 2 s at 50 Hz</text>
-<rect x="590" y="382" width="160" height="31" rx="6" fill="#ddecfa" stroke="#7ea7be" stroke-width="1.25"/>
-<text x="670" y="404" font-family="Arial,sans-serif" font-size="16" font-weight="bold" fill="#153d5b" text-anchor="middle">Window 1</text>
-<rect x="694" y="418" width="160" height="31" rx="6" fill="#eaf4dc" stroke="#7ea7be" stroke-width="1.25"/>
-<text x="774" y="440" font-family="Arial,sans-serif" font-size="16" font-weight="bold" fill="#153d5b" text-anchor="middle">Window 2</text>
-<rect x="798" y="454" width="160" height="31" rx="6" fill="#ffecd7" stroke="#7ea7be" stroke-width="1.25"/>
-<text x="878" y="476" font-family="Arial,sans-serif" font-size="16" font-weight="bold" fill="#153d5b" text-anchor="middle">Window 3</text>
-<line x1="590" y1="505" x2="995" y2="505" stroke="#a3b5c4" stroke-width="1.5"/>
-<line x1="613" y1="498" x2="613" y2="512" stroke="#91a6b5" stroke-width="1"/>
-<line x1="659" y1="498" x2="659" y2="512" stroke="#91a6b5" stroke-width="1"/>
-<line x1="705" y1="498" x2="705" y2="512" stroke="#91a6b5" stroke-width="1"/>
-<line x1="751" y1="498" x2="751" y2="512" stroke="#91a6b5" stroke-width="1"/>
-<line x1="797" y1="498" x2="797" y2="512" stroke="#91a6b5" stroke-width="1"/>
-<line x1="843" y1="498" x2="843" y2="512" stroke="#91a6b5" stroke-width="1"/>
-<line x1="889" y1="498" x2="889" y2="512" stroke="#91a6b5" stroke-width="1"/>
-<line x1="935" y1="498" x2="935" y2="512" stroke="#91a6b5" stroke-width="1"/>
-<line x1="981" y1="498" x2="981" y2="512" stroke="#91a6b5" stroke-width="1"/>
-<text x="590" y="533" font-family="Arial,sans-serif" font-size="17" font-weight="normal" fill="#567084">Stride 50 samples  •  50% candidate overlap</text>
-<text x="590" y="554" font-family="Arial,sans-serif" font-size="15" font-weight="normal" fill="#567084">Keep single-label, timestamp-continuous windows.</text>
-<text x="1090" y="356" font-family="Arial,sans-serif" font-size="18" font-weight="bold" fill="#173955">One eligible window → 30 numerical features</text>
-<rect x="1090" y="370" width="442" height="151" rx="12" fill="#f7fafc" stroke="#bdd1df" stroke-width="1.25"/>
-<rect x="1090" y="370" width="442" height="34" rx="7" fill="#dce8f0" stroke="#dce8f0" stroke-width="1.25"/>
-<text x="1106" y="393" font-family="Arial,sans-serif" font-size="16" font-weight="bold" fill="#153d5b">Per-channel statistic</text>
-<text x="1343" y="393" font-family="Arial,sans-serif" font-size="16" font-weight="bold" fill="#153d5b">Interpretation</text>
-<text x="1106" y="430" font-family="Arial,sans-serif" font-size="16" font-weight="normal" fill="#567084">Mean / population SD</text>
-<text x="1343" y="430" font-family="Arial,sans-serif" font-size="16" font-weight="normal" fill="#567084">Level and spread</text>
-<text x="1106" y="458" font-family="Arial,sans-serif" font-size="16" font-weight="normal" fill="#567084">RMS</text>
-<text x="1343" y="458" font-family="Arial,sans-serif" font-size="16" font-weight="normal" fill="#567084">Signal magnitude</text>
-<text x="1106" y="486" font-family="Arial,sans-serif" font-size="16" font-weight="normal" fill="#567084">Peak-to-peak range</text>
-<text x="1343" y="486" font-family="Arial,sans-serif" font-size="16" font-weight="normal" fill="#567084">Within-window range</text>
-<text x="1106" y="514" font-family="Arial,sans-serif" font-size="16" font-weight="normal" fill="#567084">Waveform length</text>
-<text x="1343" y="514" font-family="Arial,sans-serif" font-size="16" font-weight="normal" fill="#567084">Mean adjacent variation</text>
-<text x="1090" y="549" font-family="Arial,sans-serif" font-size="17" font-weight="bold" fill="#173955">5 methods × 6 accelerometer axes = 30 predictors.</text>
-<rect x="40" y="595" width="1520" height="163" rx="12" fill="#e9f1f6" stroke="#bdd1df" stroke-width="1.25"/>
-<text x="58" y="625" font-family="Arial,sans-serif" font-size="20" font-weight="bold" fill="#153d5b">STAGE 01 PROCESS AND SAVED OUTPUTS</text>
-<rect x="58" y="648" width="226" height="88" rx="10" fill="#153d5b" stroke="#153d5b" stroke-width="1.25"/>
-<text x="171" y="673" font-family="Arial,sans-serif" font-size="16" font-weight="bold" fill="#ffffff" text-anchor="middle">INPUT</text>
-<text x="171" y="697" font-family="Arial,sans-serif" font-size="16" font-weight="normal" fill="#e4eff3" text-anchor="middle">HARTH v2.0</text>
-<text x="171" y="717" font-family="Arial,sans-serif" font-size="16" font-weight="normal" fill="#e4eff3" text-anchor="middle">S023.csv</text>
-<text x="297" y="699" font-family="Arial,sans-serif" font-size="21" font-weight="bold" fill="#256cc3" text-anchor="middle">→</text>
-<rect x="309" y="648" width="226" height="88" rx="10" fill="#ffffff" stroke="#bdd1df" stroke-width="1.25"/>
-<text x="422" y="673" font-family="Arial,sans-serif" font-size="16" font-weight="bold" fill="#173955" text-anchor="middle">01 · INSPECT</text>
-<text x="422" y="697" font-family="Arial,sans-serif" font-size="16" font-weight="normal" fill="#567084" text-anchor="middle">Schema and labels</text>
-<text x="422" y="717" font-family="Arial,sans-serif" font-size="16" font-weight="normal" fill="#567084" text-anchor="middle">Source trace</text>
-<text x="548" y="699" font-family="Arial,sans-serif" font-size="21" font-weight="bold" fill="#256cc3" text-anchor="middle">→</text>
-<rect x="560" y="648" width="226" height="88" rx="10" fill="#ffffff" stroke="#bdd1df" stroke-width="1.25"/>
-<text x="673" y="673" font-family="Arial,sans-serif" font-size="16" font-weight="bold" fill="#173955" text-anchor="middle">02 · SEGMENT</text>
-<text x="673" y="697" font-family="Arial,sans-serif" font-size="16" font-weight="normal" fill="#567084" text-anchor="middle">100-sample windows</text>
-<text x="673" y="717" font-family="Arial,sans-serif" font-size="16" font-weight="normal" fill="#567084" text-anchor="middle">Time and label safe</text>
-<text x="799" y="699" font-family="Arial,sans-serif" font-size="21" font-weight="bold" fill="#256cc3" text-anchor="middle">→</text>
-<rect x="811" y="648" width="226" height="88" rx="10" fill="#ffffff" stroke="#bdd1df" stroke-width="1.25"/>
-<text x="924" y="673" font-family="Arial,sans-serif" font-size="16" font-weight="bold" fill="#173955" text-anchor="middle">03 · FEATURES</text>
-<text x="924" y="697" font-family="Arial,sans-serif" font-size="16" font-weight="normal" fill="#567084" text-anchor="middle">Five statistics</text>
-<text x="924" y="717" font-family="Arial,sans-serif" font-size="16" font-weight="normal" fill="#567084" text-anchor="middle">Six sensor axes</text>
-<text x="1050" y="699" font-family="Arial,sans-serif" font-size="21" font-weight="bold" fill="#256cc3" text-anchor="middle">→</text>
-<rect x="1062" y="648" width="226" height="88" rx="10" fill="#ffffff" stroke="#bdd1df" stroke-width="1.25"/>
-<text x="1175" y="673" font-family="Arial,sans-serif" font-size="16" font-weight="bold" fill="#173955" text-anchor="middle">04 · INTERPRET</text>
-<text x="1175" y="697" font-family="Arial,sans-serif" font-size="16" font-weight="normal" fill="#567084" text-anchor="middle">Activity support</text>
-<text x="1175" y="717" font-family="Arial,sans-serif" font-size="16" font-weight="normal" fill="#567084" text-anchor="middle">RMS comparisons</text>
-<text x="1301" y="699" font-family="Arial,sans-serif" font-size="21" font-weight="bold" fill="#256cc3" text-anchor="middle">→</text>
-<rect x="1313" y="648" width="226" height="88" rx="10" fill="#197570" stroke="#153d5b" stroke-width="1.25"/>
-<text x="1426" y="673" font-family="Arial,sans-serif" font-size="16" font-weight="bold" fill="#ffffff" text-anchor="middle">OUTPUT</text>
-<text x="1426" y="697" font-family="Arial,sans-serif" font-size="16" font-weight="normal" fill="#e4eff3" text-anchor="middle">01_ CSV + PNG</text>
-<text x="1426" y="717" font-family="Arial,sans-serif" font-size="16" font-weight="normal" fill="#e4eff3" text-anchor="middle">NPZ signal windows</text>
-<text x="48" y="779" font-family="Arial,sans-serif" font-size="16" font-weight="normal" fill="#567084">Dataset source → original signals → label-pure windowing → aligned features → explanatory figures → reusable current files</text>
-</svg>
+<svg xmlns="http://www.w3.org/2000/svg" width="1700" height="816" viewBox="0 0 1700 816" role="img" aria-labelledby="title desc">
+<title id="title">HARTH Data Foundation: Source Audit, Signal Windows and Statistical Features</title>
+<desc id="desc">Research overview of the executed S023 HARTH v2.0 stage: original recorded accelerometer data, 2567 time-safe windows, 30 statistical predictors, current saved research results. Plotted signal shapes are illustrative; actual figures are in the notebook output.</desc>
+<rect x="0" y="0" width="1700" height="816" rx="20" fill="#F4F9FD" stroke="#F4F9FD" stroke-width="0"/>
+<g font-family="DejaVu Sans, Arial, sans-serif">
+<text x="30" y="38" font-size="23" font-weight="700" fill="#173453">HARTH DATA FOUNDATION: SOURCE SIGNALS, WINDOWS AND FEATURES</text>
+<text x="30" y="67" font-size="15" fill="#54738A">Official HARTH v2.0  ·  Two wearable accelerometers  ·  Label-pure 2-second windows  ·  No model fitting</text>
+<rect x="24" y="84" width="1652" height="160" rx="16" fill="#EAF3FA" stroke="#C7D9E6" stroke-width="2"/>
+<text x="49" y="105" font-size="11.5" font-weight="700" fill="#53738A">WEARABLE SENSOR CONTEXT</text>
+<g fill="none" stroke="#7298B0" stroke-width="2.5" stroke-linejoin="round" stroke-linecap="round">
+<circle cx="99" cy="127" r="11" fill="#FFFFFF"/>
+<path d="M86 142 Q99 138 112 142 L115 180 Q99 186 83 180 Z" fill="#D9E7F1"/>
+<path d="M86 147 L69 165 L65 181 M112 147 L128 165 L133 181 M91 185 L83 205 L76 225 M107 185 L116 205 L123 225"/>
+</g>
+<rect x="92" y="172" width="14" height="12" rx="2" fill="#245E9D" stroke="#FFFFFF" stroke-width="1"/>
+<rect x="81" y="189" width="13" height="14" rx="2" fill="#245E9D" stroke="#FFFFFF" stroke-width="1"/>
+<line x1="106" y1="177" x2="149" y2="177" stroke="#245E9D" stroke-width="1.3"/>
+<line x1="94" y1="196" x2="149" y2="196" stroke="#245E9D" stroke-width="1.3"/>
+<text x="154" y="181" font-size="12.5" fill="#173453">Lower back</text>
+<text x="154" y="200" font-size="12.5" fill="#173453">Thigh</text>
+<text x="154" y="224" font-size="12.1" fill="#506C7E">Six acceleration axes (g)</text>
+<text x="365" y="115" font-size="15" font-weight="700" fill="#173453">Published Dataset</text>
+<text x="365" y="146" font-size="13.5" fill="#506C7E">NTNU AI Lab HARTH v2.0</text>
+<text x="365" y="169" font-size="13.5" fill="#506C7E">Pinned official Git revision</text>
+<text x="365" y="192" font-size="13.5" fill="#506C7E">Source record: S023.csv</text>
+<text x="690" y="115" font-size="15" font-weight="700" fill="#173453">Recorded Acceleration</text>
+<text x="690" y="146" font-size="13.5" fill="#506C7E">137,646 source samples</text>
+<text x="690" y="169" font-size="13.5" fill="#506C7E">50 Hz nominal sampling rate</text>
+<text x="690" y="192" font-size="13.5" fill="#506C7E">8 observed activity codes</text>
+<text x="1010" y="115" font-size="15" font-weight="700" fill="#173453">Time-Safe Segmentation</text>
+<text x="1010" y="146" font-size="13.5" fill="#506C7E">2,567 retained windows</text>
+<text x="1010" y="169" font-size="13.5" fill="#506C7E">100 samples · 50-sample stride</text>
+<text x="1010" y="192" font-size="13.5" fill="#506C7E">Pure labels and continuous time</text>
+<text x="1340" y="115" font-size="15" font-weight="700" fill="#173453">Analysis Scope</text>
+<text x="1340" y="146" font-size="13.5" fill="#506C7E">30 statistical features</text>
+<text x="1340" y="169" font-size="13.5" fill="#506C7E">Single-participant description</text>
+<text x="1340" y="192" font-size="13.5" fill="#506C7E">No classifier or independent Test</text>
+<rect x="24" y="258" width="1652" height="314" rx="16" fill="#EDF6FB" stroke="#B4CFE0" stroke-width="1.5"/>
+<rect x="38" y="272" width="238" height="32" rx="9" fill="#173453" stroke="#173453" stroke-width="1.4"/>
+<text x="157" y="293" font-size="13.5" font-weight="700" fill="#FFFFFF" text-anchor="middle">SIGNAL-LEVEL EVIDENCE</text>
+<rect x="38" y="312" width="238" height="214" rx="12" fill="#F7FAFD" stroke="#E0EAF0" stroke-width="1.4"/>
+<text x="53" y="341" font-size="17" font-weight="700" fill="#173453">What is inspected</text>
+<text x="53" y="362" font-size="17" font-weight="700" fill="#173453">here?</text>
+<text x="53" y="398" font-size="12.8" fill="#506C7E">Genuine source records</text>
+<text x="53" y="421" font-size="12.8" fill="#506C7E">Activity labels and traces</text>
+<text x="53" y="444" font-size="12.8" fill="#506C7E">Time-safe signal windows</text>
+<text x="53" y="467" font-size="12.8" fill="#506C7E">Six-axis statistical features</text>
+<text x="53" y="501" font-size="13" font-weight="700" fill="#176363">No model training</text>
+<rect x="292" y="272" width="324" height="254" rx="12" fill="#FFFFFF" stroke="#B6CFDE" stroke-width="1.4"/>
+<rect x="292" y="272" width="324" height="33" rx="10" fill="#174B70" stroke="#174B70" stroke-width="1.4"/>
+<rect x="292" y="290" width="324" height="15" rx="0" fill="#174B70" stroke="#174B70" stroke-width="1.4"/>
+<text x="454" y="293" font-size="14" font-weight="700" fill="#FFFFFF" text-anchor="middle">IMU example (schematic)</text>
+<rect x="630" y="272" width="324" height="254" rx="12" fill="#FFFFFF" stroke="#B6CFDE" stroke-width="1.4"/>
+<rect x="630" y="272" width="324" height="33" rx="10" fill="#174B70" stroke="#174B70" stroke-width="1.4"/>
+<rect x="630" y="290" width="324" height="15" rx="0" fill="#174B70" stroke="#174B70" stroke-width="1.4"/>
+<text x="792" y="293" font-size="14" font-weight="700" fill="#FFFFFF" text-anchor="middle">Windowing (schematic)</text>
+<rect x="968" y="272" width="324" height="254" rx="12" fill="#FFFFFF" stroke="#B6CFDE" stroke-width="1.4"/>
+<rect x="968" y="272" width="324" height="33" rx="10" fill="#174B70" stroke="#174B70" stroke-width="1.4"/>
+<rect x="968" y="290" width="324" height="15" rx="0" fill="#174B70" stroke="#174B70" stroke-width="1.4"/>
+<text x="1130" y="293" font-size="14" font-weight="700" fill="#FFFFFF" text-anchor="middle">Source feature inspection</text>
+<rect x="1306" y="272" width="356" height="254" rx="12" fill="#FFFFFF" stroke="#B6CFDE" stroke-width="1.4"/>
+<rect x="1306" y="272" width="356" height="33" rx="10" fill="#174B70" stroke="#174B70" stroke-width="1.4"/>
+<rect x="1306" y="290" width="356" height="15" rx="0" fill="#174B70" stroke="#174B70" stroke-width="1.4"/>
+<text x="1484" y="293" font-size="14" font-weight="700" fill="#FFFFFF" text-anchor="middle">Recorded evidence</text>
+<line x1="350" y1="477" x2="542" y2="477" stroke="#7194ab" stroke-width="1.5"/>
+<line x1="350" y1="335" x2="350" y2="477" stroke="#7194ab" stroke-width="1.5"/>
+<path d="M353.0,365.0 L355.1,370.2 L357.1,371.8 L359.1,370.4 L361.2,370.0 L363.3,372.2 L365.3,374.6 L367.4,373.3 L369.4,368.4 L371.4,363.6 L373.5,362.2 L375.6,362.9 L377.6,361.9 L379.6,358.0 L381.7,354.5 L383.8,355.1 L385.8,359.2 L387.9,362.8 L389.9,363.4 L391.9,362.9 L394.0,365.0 L396.1,370.0 L398.1,374.3 L400.1,374.5 L402.2,371.6 L404.3,369.6 L406.3,370.4 L408.4,371.3 L410.4,368.8 L412.4,363.2 L414.5,358.6 L416.6,357.9 L418.6,359.6 L420.6,359.7 L422.7,357.3 L424.8,355.6 L426.8,358.0 L428.9,363.3 L430.9,367.6 L432.9,368.3 L435.0,367.6 L437.1,369.1 L439.1,373.1 L441.1,375.7 L443.2,374.0 L445.3,369.5 L447.3,366.3 L449.4,366.2 L451.4,366.4 L453.4,363.6 L455.5,358.5 L457.6,355.0 L459.6,355.9 L461.6,359.1 L463.7,360.7 L465.8,359.8 L467.8,359.5 L469.9,362.8 L471.9,368.6 L473.9,372.4 L476.0,372.2 L478.0,370.4 L480.1,370.6 L482.1,373.0 L484.2,373.9 L486.3,370.6 L488.3,365.0 L490.4,361.4 L492.4,361.3 L494.4,361.9 L496.5,359.9 L498.5,356.0 L500.6,354.4 L502.6,357.1 L504.7,361.8 L506.8,364.5 L508.8,364.3 L510.9,364.5 L512.9,367.9 L515.0,372.9 L517.0,375.4 L519.0,373.5 L521.1,370.1 L523.1,368.9 L525.2,370.0 L527.3,369.6 L529.3,365.4 L531.4,359.8 L533.4,356.8 L535.5,357.8 L537.5,359.7" stroke="#2B72D7" fill="none" stroke-width="2.1"/>
+<text x="555" y="369" font-size="11.7" fill="#2B72D7">Back X</text>
+<path d="M353.0,416.3 L355.1,416.2 L357.1,412.7 L359.1,409.6 L361.2,409.7 L363.3,411.3 L365.3,410.5 L367.4,406.4 L369.4,402.5 L371.4,402.3 L373.5,405.2 L375.6,407.0 L377.6,405.9 L379.6,404.0 L381.7,405.3 L383.8,409.8 L385.8,413.7 L387.9,413.9 L389.9,411.8 L391.9,411.2 L394.0,413.6 L396.1,415.9 L398.1,414.6 L400.1,410.2 L402.2,406.7 L404.3,406.8 L406.3,408.3 L408.4,407.7 L410.4,404.2 L412.4,401.4 L414.5,402.4 L416.6,406.3 L418.6,408.9 L420.6,408.3 L422.7,407.0 L424.8,408.5 L426.8,412.9 L428.9,416.1 L430.9,415.3 L432.9,412.2 L435.0,410.8 L437.1,412.3 L439.1,413.7 L441.1,411.6 L443.2,406.9 L445.3,403.6 L447.3,404.2 L449.4,406.4 L451.4,406.5 L453.4,403.9 L455.5,402.2 L457.6,404.4 L459.6,409.1 L461.6,411.9 L463.7,411.3 L465.8,409.8 L467.8,411.1 L469.9,414.7 L471.9,416.8 L473.9,414.7 L476.0,410.7 L478.0,408.6 L480.1,409.7 L482.1,410.6 L484.2,408.4 L486.3,404.0 L488.3,401.6 L490.4,403.2 L492.4,406.4 L494.4,407.3 L496.5,405.6 L498.5,404.8 L500.6,407.6 L502.6,412.4 L504.7,414.9 L506.8,413.6 L508.8,411.4 L510.9,411.9 L512.9,414.5 L515.0,415.4 L517.0,412.3 L519.0,407.7 L521.1,405.5 L523.1,406.7 L525.2,407.9 L527.3,406.1 L529.3,402.6 L531.4,401.4 L533.4,404.3 L535.5,408.3 L537.5,409.7" stroke="#EB8738" fill="none" stroke-width="2.1"/>
+<text x="555" y="413" font-size="11.7" fill="#EB8738">Back Y</text>
+<path d="M353.0,459.2 L355.1,454.9 L357.1,450.8 L359.1,450.2 L361.2,452.2 L363.3,452.9 L365.3,450.6 L367.4,448.1 L369.4,449.0 L371.4,453.2 L373.5,456.9 L375.6,457.1 L377.6,455.5 L379.6,456.0 L381.7,459.4 L383.8,462.5 L385.8,461.9 L387.9,458.1 L389.9,455.4 L391.9,455.8 L394.0,457.3 L396.1,456.0 L398.1,451.7 L400.1,448.2 L402.2,448.6 L404.3,451.6 L406.3,453.1 L408.4,451.7 L410.4,450.1 L412.4,451.8 L414.5,456.5 L416.6,460.0 L418.6,459.8 L420.6,457.6 L422.7,457.4 L424.8,459.9 L426.8,461.9 L428.9,460.1 L430.9,455.5 L432.9,452.4 L435.0,452.8 L437.1,454.3 L439.1,453.3 L441.1,449.7 L443.2,447.2 L445.3,448.9 L447.3,452.9 L449.4,455.1 L451.4,454.2 L453.4,453.1 L455.5,455.1 L457.6,459.5 L459.6,462.3 L461.6,461.0 L463.7,457.8 L465.8,456.8 L467.8,458.5 L469.9,459.5 L471.9,457.0 L473.9,452.2 L476.0,449.4 L478.0,450.4 L480.1,452.6 L482.1,452.3 L484.2,449.6 L486.3,448.4 L488.3,451.1 L490.4,455.7 L492.4,458.2 L494.4,457.2 L496.5,455.9 L498.5,457.5 L500.6,461.1 L502.6,462.7 L504.7,460.2 L506.8,456.1 L508.8,454.5 L510.9,455.7 L512.9,456.4 L515.0,453.8 L517.0,449.4 L519.0,447.5 L521.1,449.6 L523.1,452.7 L525.2,453.2 L527.3,451.4 L529.3,451.0 L531.4,454.3 L533.4,459.0 L535.5,461.0 L537.5,459.3" stroke="#29976A" fill="none" stroke-width="2.1"/>
+<text x="555" y="459" font-size="11.7" fill="#29976A">Back Z</text>
+<text x="450" y="496" font-size="11.7" fill="#506C7E" text-anchor="middle">Illustrative signal samples</text>
+<text x="450" y="514" font-size="10.3" fill="#506C7E" text-anchor="middle">Actual raw traces appear below in the notebook</text>
+<line x1="676" y1="458" x2="912" y2="458" stroke="#7194ab" stroke-width="1.5"/>
+<line x1="676" y1="342" x2="676" y2="470" stroke="#7194ab" stroke-width="1.5"/>
+<rect x="695" y="363" width="92" height="46" rx="5" fill="#d8ebff" stroke="#98b2c6" stroke-width="1.3"/>
+<text x="741" y="382" font-size="12" font-weight="700" fill="#173453" text-anchor="middle">Window 1</text>
+<text x="741" y="399" font-size="10" fill="#506C7E" text-anchor="middle">100 samples</text>
+<rect x="751" y="363" width="92" height="46" rx="5" fill="#f7efd5" stroke="#98b2c6" stroke-width="1.3"/>
+<text x="797" y="382" font-size="12" font-weight="700" fill="#173453" text-anchor="middle">Window 2</text>
+<text x="797" y="399" font-size="10" fill="#506C7E" text-anchor="middle">100 samples</text>
+<rect x="807" y="363" width="92" height="46" rx="5" fill="#dcefe5" stroke="#98b2c6" stroke-width="1.3"/>
+<text x="853" y="382" font-size="12" font-weight="700" fill="#173453" text-anchor="middle">Window 3</text>
+<text x="853" y="399" font-size="10" fill="#506C7E" text-anchor="middle">100 samples</text>
+<text x="792" y="437" font-size="12.1" fill="#173453" text-anchor="middle">50-sample stride (50% overlap)</text>
+<text x="792" y="480" font-size="10.8" fill="#506C7E" text-anchor="middle">Only single-label, gap-free windows retained</text>
+<text x="792" y="508" font-size="12.1" font-weight="700" fill="#173453" text-anchor="middle">2,567 valid windows in this S023 run</text>
+<rect x="984" y="327" width="292" height="160" rx="7" fill="#F8FBFD" stroke="#CFDFE9" stroke-width="1"/>
+<rect x="984" y="327" width="292" height="28" rx="7" fill="#E2ECF3" stroke="#E2ECF3" stroke-width="1"/>
+<text x="997" y="346" font-size="12.1" font-weight="700" fill="#173453">Statistic</text>
+<text x="1138" y="346" font-size="12.1" font-weight="700" fill="#173453">Meaning</text>
+<text x="997" y="374" font-size="11.7" fill="#506C7E">Mean / population SD</text>
+<text x="1138" y="374" font-size="11.7" fill="#506C7E">Level / dispersion</text>
+<line x1="988" y1="382" x2="1272" y2="382" stroke="#DFE9EF" stroke-width="1"/>
+<text x="997" y="398" font-size="11.7" fill="#506C7E">RMS</text>
+<text x="1138" y="398" font-size="11.7" fill="#506C7E">Magnitude</text>
+<line x1="988" y1="406" x2="1272" y2="406" stroke="#DFE9EF" stroke-width="1"/>
+<text x="997" y="422" font-size="11.7" fill="#506C7E">Peak-to-peak</text>
+<text x="1138" y="422" font-size="11.7" fill="#506C7E">Dynamic range</text>
+<line x1="988" y1="430" x2="1272" y2="430" stroke="#DFE9EF" stroke-width="1"/>
+<text x="997" y="446" font-size="11.7" fill="#506C7E">Waveform length</text>
+<text x="1138" y="446" font-size="11.7" fill="#506C7E">Adjacent variation</text>
+<text x="1130" y="515" font-size="12.1" font-weight="700" fill="#173453" text-anchor="middle">2,567 windows × 30 features</text>
+<circle cx="1335" cy="356" r="13" fill="#E0F3E9" stroke="#279366" stroke-width="1.4"/>
+<text x="1335" y="361" font-size="16" font-weight="700" fill="#218A66" text-anchor="middle">✓</text>
+<text x="1361" y="357" font-size="12.5" font-weight="700" fill="#173453">Source recording audited</text>
+<text x="1361" y="378" font-size="11.6" fill="#506C7E">137,646 samples · 8 source activities</text>
+<circle cx="1335" cy="421" r="13" fill="#E0F3E9" stroke="#279366" stroke-width="1.4"/>
+<text x="1335" y="426" font-size="16" font-weight="700" fill="#218A66" text-anchor="middle">✓</text>
+<text x="1361" y="422" font-size="12.5" font-weight="700" fill="#173453">Window metadata exported</text>
+<text x="1361" y="443" font-size="11.6" fill="#506C7E">2,567 rows · participant and indices</text>
+<circle cx="1335" cy="486" r="13" fill="#E0F3E9" stroke="#279366" stroke-width="1.4"/>
+<text x="1335" y="491" font-size="16" font-weight="700" fill="#218A66" text-anchor="middle">✓</text>
+<text x="1361" y="487" font-size="12.5" font-weight="700" fill="#173453">Feature table exported</text>
+<text x="1361" y="508" font-size="11.6" fill="#506C7E">Five measures per six channels</text>
+<rect x="318" y="536" width="1094" height="21" rx="10" fill="#DCEFE6" stroke="#CDE3D8" stroke-width="1"/>
+<circle cx="335" cy="547" r="9" fill="#267998"/>
+<text x="335" y="551" font-size="13" font-weight="700" fill="#FFFFFF" text-anchor="middle">i</text>
+<text x="353" y="551" font-size="11.8" fill="#173453">Illustrative traces only; verified numerical results are provided by the recorded notebook and saved CSV tables.</text>
+<rect x="24" y="586" width="1652" height="195" rx="16" fill="#EAF3FA" stroke="#C7D9E6" stroke-width="1.5"/>
+<rect x="38" y="612" width="210" height="130" rx="11" fill="#173453" stroke="#173453" stroke-width="1.4"/>
+<text x="143" y="640" font-size="13" font-weight="700" fill="#FFFFFF" text-anchor="middle">INPUT</text>
+<text x="143" y="671" font-size="14.1" font-weight="700" fill="#FFFFFF" text-anchor="middle">HARTH v2.0</text>
+<text x="143" y="697" font-size="11.9" fill="#D8E9F0" text-anchor="middle">S023.csv · 50 Hz</text>
+<text x="143" y="717" font-size="11.9" fill="#D8E9F0" text-anchor="middle">Two tri-axial sensors</text>
+<text x="261" y="685" font-size="18" font-weight="700" fill="#245E9D" text-anchor="middle">→</text>
+<rect x="275" y="612" width="198" height="130" rx="11" fill="#FFFFFF" stroke="#B9D0E0" stroke-width="1.4"/>
+<text x="374" y="640" font-size="13" font-weight="700" fill="#173453" text-anchor="middle">01</text>
+<text x="374" y="671" font-size="14.1" font-weight="700" fill="#173453" text-anchor="middle">Dataset Audit</text>
+<text x="374" y="697" font-size="11.9" fill="#506C7E" text-anchor="middle">Schema and labels</text>
+<text x="374" y="717" font-size="11.9" fill="#506C7E" text-anchor="middle">Source sample coverage</text>
+<text x="486" y="685" font-size="18" font-weight="700" fill="#245E9D" text-anchor="middle">→</text>
+<rect x="499" y="612" width="198" height="130" rx="11" fill="#FFFFFF" stroke="#B9D0E0" stroke-width="1.4"/>
+<text x="598" y="640" font-size="13" font-weight="700" fill="#173453" text-anchor="middle">02</text>
+<text x="598" y="671" font-size="14.1" font-weight="700" fill="#173453" text-anchor="middle">Signal Inspection</text>
+<text x="598" y="697" font-size="11.9" fill="#506C7E" text-anchor="middle">Raw six-axis signals</text>
+<text x="598" y="717" font-size="11.9" fill="#506C7E" text-anchor="middle">Activity support</text>
+<text x="710" y="685" font-size="18" font-weight="700" fill="#245E9D" text-anchor="middle">→</text>
+<rect x="723" y="612" width="198" height="130" rx="11" fill="#FFFFFF" stroke="#B9D0E0" stroke-width="1.4"/>
+<text x="822" y="640" font-size="13" font-weight="700" fill="#173453" text-anchor="middle">03</text>
+<text x="822" y="671" font-size="14.1" font-weight="700" fill="#173453" text-anchor="middle">Time-Safe Windows</text>
+<text x="822" y="697" font-size="11.9" fill="#506C7E" text-anchor="middle">100 samples · stride 50</text>
+<text x="822" y="717" font-size="11.9" fill="#506C7E" text-anchor="middle">Original source indices</text>
+<text x="934" y="685" font-size="18" font-weight="700" fill="#245E9D" text-anchor="middle">→</text>
+<rect x="947" y="612" width="198" height="130" rx="11" fill="#FFFFFF" stroke="#B9D0E0" stroke-width="1.4"/>
+<text x="1046" y="640" font-size="13" font-weight="700" fill="#173453" text-anchor="middle">04</text>
+<text x="1046" y="671" font-size="14.1" font-weight="700" fill="#173453" text-anchor="middle">Feature Extraction</text>
+<text x="1046" y="697" font-size="11.9" fill="#506C7E" text-anchor="middle">Five measures per axis</text>
+<text x="1046" y="717" font-size="11.9" fill="#506C7E" text-anchor="middle">30 columns / window</text>
+<text x="1158" y="685" font-size="18" font-weight="700" fill="#245E9D" text-anchor="middle">→</text>
+<rect x="1171" y="612" width="198" height="130" rx="11" fill="#FFFFFF" stroke="#B9D0E0" stroke-width="1.4"/>
+<text x="1270" y="640" font-size="13" font-weight="700" fill="#173453" text-anchor="middle">05</text>
+<text x="1270" y="671" font-size="14.1" font-weight="700" fill="#173453" text-anchor="middle">RMS Analysis</text>
+<text x="1270" y="697" font-size="11.9" fill="#506C7E" text-anchor="middle">Activity-level summary</text>
+<text x="1270" y="717" font-size="11.9" fill="#506C7E" text-anchor="middle">Scatter and boxplot</text>
+<text x="1382" y="685" font-size="18" font-weight="700" fill="#245E9D" text-anchor="middle">→</text>
+<rect x="1396" y="612" width="266" height="130" rx="11" fill="#176968" stroke="#176968" stroke-width="1.4"/>
+<text x="1529" y="640" font-size="13" font-weight="700" fill="#FFFFFF" text-anchor="middle">OUTPUT</text>
+<text x="1529" y="671" font-size="14.1" font-weight="700" fill="#FFFFFF" text-anchor="middle">Results Summary</text>
+<text x="1529" y="697" font-size="11.9" fill="#D8E9F0" text-anchor="middle">Current Stage 01 CSV / PNG</text>
+<text x="1529" y="717" font-size="11.9" fill="#D8E9F0" text-anchor="middle">Local NPZ signal windows</text>
+<text x="35" y="766" font-size="12.1" fill="#506C7E">Pinned source → activity and sensor inspection → time-safe windows → aligned features → current saved outputs</text>
+</g></svg>
