@@ -1,6 +1,6 @@
 <svg xmlns="http://www.w3.org/2000/svg" width="1700" height="816" viewBox="0 0 1700 816" role="img" aria-labelledby="title desc">
-<title id="title">HARTH Stage 02: Exploratory Classical Learning and Grouped Development</title>
-<desc id="desc">Schematic HARTH Stage 03 research workflow: reuse ten Development participants, process nineteen additional recordings once, audit the 29-person cohort, and compare three classical models with participant-disjoint five-fold evaluation. No newly executed model scores are represented.</desc>
+<title id="title">HARTH Stage 03: Full Development Audit and Classical Grouped CV</title>
+<desc id="desc">Schematic HARTH Stage 03 research workflow: reuse ten Development participants, process nineteen additional recordings once, audit the 29-person cohort, and compare three classical models with participant-disjoint five-fold evaluation. Displayed Macro F1 values are from the notebook's saved five-fold Development execution; no independent rerun or final Test scoring is claimed.</desc>
 <rect x="0" y="0" width="1700" height="816" rx="20" fill="#F4F9FD" stroke="#F4F9FD" stroke-width="0"/>
 <g font-family="DejaVu Sans, Arial, sans-serif">
 <text x="30" y="38" font-size="23" font-weight="700" fill="#173453">HARTH FULL DEVELOPMENT AUDIT AND CLASSICAL GROUPED CV</text>
@@ -61,7 +61,7 @@
 <rect x="1306" y="272" width="356" height="254" rx="12" fill="#FFFFFF" stroke="#B6CFDE" stroke-width="1.4"/>
 <rect x="1306" y="272" width="356" height="33" rx="10" fill="#174B70" stroke="#174B70" stroke-width="1.4"/>
 <rect x="1306" y="290" width="356" height="15" rx="0" fill="#174B70" stroke="#174B70" stroke-width="1.4"/>
-<text x="1484" y="293" font-size="14" font-weight="700" fill="#FFFFFF" text-anchor="middle">Planned research evidence</text>
+<text x="1484" y="293" font-size="14" font-weight="700" fill="#FFFFFF" text-anchor="middle">Recorded research evidence</text>
 <line x1="350" y1="477" x2="542" y2="477" stroke="#7194ab" stroke-width="1.5"/>
 <line x1="350" y1="335" x2="350" y2="477" stroke="#7194ab" stroke-width="1.5"/>
 <path d="M353.0,365.0 L355.1,370.2 L357.1,371.8 L359.1,370.4 L361.2,370.0 L363.3,372.2 L365.3,374.6 L367.4,373.3 L369.4,368.4 L371.4,363.6 L373.5,362.2 L375.6,362.9 L377.6,361.9 L379.6,358.0 L381.7,354.5 L383.8,355.1 L385.8,359.2 L387.9,362.8 L389.9,363.4 L391.9,362.9 L394.0,365.0 L396.1,370.0 L398.1,374.3 L400.1,374.5 L402.2,371.6 L404.3,369.6 L406.3,370.4 L408.4,371.3 L410.4,368.8 L412.4,363.2 L414.5,358.6 L416.6,357.9 L418.6,359.6 L420.6,359.7 L422.7,357.3 L424.8,355.6 L426.8,358.0 L428.9,363.3 L430.9,367.6 L432.9,368.3 L435.0,367.6 L437.1,369.1 L439.1,373.1 L441.1,375.7 L443.2,374.0 L445.3,369.5 L447.3,366.3 L449.4,366.2 L451.4,366.4 L453.4,363.6 L455.5,358.5 L457.6,355.0 L459.6,355.9 L461.6,359.1 L463.7,360.7 L465.8,359.8 L467.8,359.5 L469.9,362.8 L471.9,368.6 L473.9,372.4 L476.0,372.2 L478.0,370.4 L480.1,370.6 L482.1,373.0 L484.2,373.9 L486.3,370.6 L488.3,365.0 L490.4,361.4 L492.4,361.3 L494.4,361.9 L496.5,359.9 L498.5,356.0 L500.6,354.4 L502.6,357.1 L504.7,361.8 L506.8,364.5 L508.8,364.3 L510.9,364.5 L512.9,367.9 L515.0,372.9 L517.0,375.4 L519.0,373.5 L521.1,370.1 L523.1,368.9 L525.2,370.0 L527.3,369.6 L529.3,365.4 L531.4,359.8 L533.4,356.8 L535.5,357.8 L537.5,359.7" stroke="#2B72D7" fill="none" stroke-width="2.1"/>
@@ -113,11 +113,11 @@
 <circle cx="1335" cy="486" r="13" fill="#E0F3E9" stroke="#279366" stroke-width="1.4"/>
 <text x="1335" y="491" font-size="16" font-weight="700" fill="#218A66" text-anchor="middle">✓</text>
 <text x="1361" y="487" font-size="12.5" font-weight="700" fill="#173453">Paired per-participant model scores</text>
-<text x="1361" y="508" font-size="11.6" fill="#506C7E">New results computed on execution</text>
+<text x="1361" y="508" font-size="11.6" fill="#506C7E">19 RF wins · 10 LR wins</text>
 <rect x="318" y="536" width="1094" height="21" rx="10" fill="#DCEFE6" stroke="#CDE3D8" stroke-width="1"/>
 <circle cx="335" cy="547" r="9" fill="#267998"/>
 <text x="335" y="551" font-size="13" font-weight="700" fill="#FFFFFF" text-anchor="middle">i</text>
-<text x="353" y="551" font-size="11.8" fill="#173453">Scientific overview only: this new notebook has not yet been executed.</text>
+<text x="353" y="551" font-size="11.8" fill="#173453">Saved run: 132,397 windows · RF mean Macro F1 0.8353 · LR 0.7721 · no final Test scoring.</text>
 <rect x="24" y="586" width="1652" height="195" rx="16" fill="#EAF3FA" stroke="#C7D9E6" stroke-width="1.5"/>
 <rect x="38" y="612" width="210" height="130" rx="11" fill="#173453" stroke="#173453" stroke-width="1.4"/>
 <text x="143" y="640" font-size="13" font-weight="700" fill="#FFFFFF" text-anchor="middle">INPUT</text>
