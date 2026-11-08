@@ -1,0 +1,4 @@
+partition,subjects,windows,IDs
+train,4,13888,"S025, S027, S028, S035"
+validation,2,6470,"S024, S034"
+test,2,5605,"S023, S032"

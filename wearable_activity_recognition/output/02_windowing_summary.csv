@@ -1,0 +1,2 @@
+subject_id,sampling_rate_hz,window_size_samples,step_size_samples,overlap_fraction,label_purity_threshold,source_rows,retained_windows,signal_channels
+S023,50,100,50,0.5,1.0,137646,2567,6

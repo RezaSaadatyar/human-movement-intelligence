@@ -1,0 +1,9 @@
+activity,source_samples,retained_windows
+Walking,70601,1352
+Running,22391,441
+Shuffling,2071,7
+Stairs ascending,3194,42
+Stairs descending,2291,26
+Standing,7455,114
+Sitting,13059,257
+Lying,16584,328
