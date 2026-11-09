@@ -1,0 +1,2 @@
+model_a,model_b,metric,participants,mean_difference,median_difference,model_a_wins,model_b_wins,ties
+Temporal CNN,Random Forest,macro_f1_fixed_task,6,-0.15050594919688287,-0.12319808131811291,0,6,0

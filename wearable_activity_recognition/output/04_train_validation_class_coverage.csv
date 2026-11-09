@@ -1,0 +1,9 @@
+activity,train,validation
+1: Walking,2987,453
+2: Running,940,78
+3: Shuffling,169,15
+4: Stairs ascending,156,30
+5: Stairs descending,145,32
+6: Standing,1502,536
+7: Sitting,3240,1363
+8: Lying,861,194
