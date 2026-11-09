@@ -40,8 +40,8 @@
 <path d="M341 414 L396 414" stroke="#245E9D" stroke-width="2.3" fill="none" marker-end="url(#arrow)"/>
 <rect x="400" y="304" width="438" height="100" rx="13" fill="#FFFFFF" stroke="#9BBED7" stroke-width="1.6"/>
 <text x="421" y="331" fill="#245E9D" font-size="15" font-weight="700" text-anchor="start">TEMPORAL CNN</text>
-<text x="421" y="356" fill="#173453" font-size="14" text-anchor="start">Six-axis time series -&gt; Conv1D -&gt; pooling</text>
-<text x="421" y="378" fill="#506C7E" font-size="13" text-anchor="start">Train-only scaling; five epochs</text>
+<text x="421" y="356" fill="#173453" font-size="14" text-anchor="start">Six-axis input -&gt; Conv1D(7) -&gt; Pool</text>
+<text x="421" y="378" fill="#506C7E" font-size="13" text-anchor="start">Conv1D(5) -&gt; adaptive pool -&gt; 8 logits</text>
 <rect x="400" y="426" width="438" height="103" rx="13" fill="#FFFFFF" stroke="#9BBED7" stroke-width="1.6"/>
 <text x="421" y="454" fill="#245E9D" font-size="15" font-weight="700" text-anchor="start">RANDOM FOREST</text>
 <text x="421" y="478" fill="#173453" font-size="14" text-anchor="start">30 statistical features -&gt; 120 trees</text>
