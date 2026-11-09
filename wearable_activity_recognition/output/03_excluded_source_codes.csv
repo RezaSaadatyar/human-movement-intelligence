@@ -1,0 +1,53 @@
+subject_id,source_code,source_activity,excluded_windows
+S006,13,Cycling seated,474
+S006,14,Cycling standing,55
+S006,130,Cycling seated inactive,204
+S008,13,Cycling seated,147
+S008,14,Cycling standing,11
+S008,130,Cycling seated inactive,2
+S008,140,Cycling standing inactive,12
+S009,13,Cycling seated,2328
+S009,14,Cycling standing,190
+S009,130,Cycling seated inactive,165
+S009,140,Cycling standing inactive,1
+S013,13,Cycling seated,49
+S014,13,Cycling seated,110
+S015,13,Cycling seated,140
+S015,14,Cycling standing,33
+S016,13,Cycling seated,206
+S016,14,Cycling standing,3
+S016,130,Cycling seated inactive,3
+S017,13,Cycling seated,88
+S017,14,Cycling standing,54
+S017,130,Cycling seated inactive,19
+S017,140,Cycling standing inactive,2
+S018,13,Cycling seated,112
+S018,14,Cycling standing,23
+S018,130,Cycling seated inactive,1
+S019,13,Cycling seated,273
+S019,130,Cycling seated inactive,5
+S020,13,Cycling seated,286
+S020,14,Cycling standing,9
+S020,130,Cycling seated inactive,12
+S021,13,Cycling seated,46
+S021,14,Cycling standing,8
+S022,13,Cycling seated,255
+S022,130,Cycling seated inactive,27
+S022,140,Cycling standing inactive,7
+S025,13,Cycling seated,1018
+S025,14,Cycling standing,238
+S025,130,Cycling seated inactive,78
+S025,140,Cycling standing inactive,65
+S026,13,Cycling seated,1893
+S026,14,Cycling standing,369
+S026,130,Cycling seated inactive,166
+S026,140,Cycling standing inactive,49
+S029,13,Cycling seated,199
+S029,130,Cycling seated inactive,25
+S030,11,UNDOCUMENTED source code,15
+S030,17,UNDOCUMENTED source code,8
+S031,13,Cycling seated,1613
+S037,10,UNDOCUMENTED source code,20
+S037,13,Cycling seated,244
+S038,13,Cycling seated,344
+S038,14,Cycling standing,4

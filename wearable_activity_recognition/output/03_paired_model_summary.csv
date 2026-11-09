@@ -1,0 +1,2 @@
+model_a,model_b,metric,participants,mean_difference,median_difference,model_a_wins,model_b_wins,ties
+Random Forest,Logistic Regression,macro_f1_fixed_task,29,0.037152462869090894,0.026578573721065535,18,11,0
