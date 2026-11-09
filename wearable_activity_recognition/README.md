@@ -43,8 +43,9 @@ and selection.
 
 | Notebooks | Main purpose |
 | --- | --- |
-| [01–09](code/notebooks/) | Source inspection, annotation-safe windowing, 30 statistical features, classical baselines and expanding participant-disjoint evaluation |
-| [10–13](code/notebooks/) | Temporal CNN, training-only scaling and class weighting, matched CNN/Random Forest comparisons |
+| [01–03](code/notebooks/) | Source inspection, annotation-safe windows, 30 statistical features and classical participant-disjoint Development evaluation |
+| [04](code/notebooks/04_harth_temporal_cnn_and_matched_random_forest.ipynb) | Bounded raw-signal temporal CNN and matched Random Forest on identical participant-disjoint Validation windows |
+| [12–13](code/notebooks/) | Training-only class weighting and later matched grouped Development comparisons |
 | [14–17](code/notebooks/) | Label-blind sampling, nested training-size experiments and fixed 400-update comparisons |
 | [18–20](code/notebooks/) | Out-of-fold confidence, subject-disjoint temperature scaling, minority-activity and source-data quality audits |
 | [21](code/notebooks/21_advanced_temporal_architectures.ipynb) | Engineering checks for TCN, Multi-Scale CNN, 1D-ResNet and Time-Series Transformer |
@@ -53,7 +54,7 @@ and selection.
 | [24](code/notebooks/24_model_selection_and_protocol_freeze.ipynb) | Development-only model selection and frozen-protocol checks |
 | [25](code/notebooks/25_final_development_training_and_inference.ipynb) | Final Development fitting and separately approved qualified held-out evaluation |
 | [26](code/notebooks/26_final_research_evidence_and_report.ipynb) | Evidence report using committed full-precision results and recorded provenance |
-| [FINAL](code/notebooks/final_harth_research_audit_and_closure.ipynb) | Executed cross-stage evidence audit, SHA256 lineage verification and research closure; Quality Gate PASSED |
+| [FINAL](code/notebooks/final_harth_research_audit_and_closure.ipynb) | Cross-study evidence reconciliation, source traceability and limitations of qualified held-out assessment |
 
 Detailed methods and experimental comparisons are documented in
 [HARTH | Research Methods and Experimental Evidence](HARTH_RESEARCH_METHODS_AND_EVIDENCE.md).
@@ -75,6 +76,8 @@ sets and evaluation conditions**; the values must not be treated as a matched
 performance-difference test. On the final 1,000 overlapping windows, Shuffling
 has only **3** true examples, stairs ascending **10** and stairs descending **6**.
 The study does not establish population-level, prospective or clinical validity.
+
+The bounded, single-partition comparison in [Notebook 04](code/notebooks/04_harth_temporal_cnn_and_matched_random_forest.ipynb) uses **14,201 Development windows**. On the same **2,701 Validation windows** from six held-out participants, the 120-tree Random Forest attains Macro F1 **0.8140**, compared with **0.6659** for the five-epoch temporal CNN. Random Forest scores higher for all six Validation participants. These figures describe a separate restricted protocol and must not be pooled with the three-fold benchmark or the qualified held-out evaluation.
 
 The full seven-model and robustness results are reported in
 [Notebook 22](code/notebooks/22_unified_matched_model_benchmark.ipynb),
