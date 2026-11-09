@@ -94,22 +94,39 @@ independent human participants or experiments.
 
 ## 03. Models, training and matched comparisons
 
-**Classical reference models (Stages 05–09).** Dummy, scaled Logistic
-Regression and Random Forest use the same defined activity task and the
-statistical feature pipeline. Full-cohort Stage 09 uses five subject-grouped
-folds over 132,397 windows. Its recorded mean fold Macro F1 is **0.8353**
-for Random Forest, **0.7715** for Logistic Regression and **0.0815** for
-Dummy. This is **not the same protocol** as the capped three-fold neural
-benchmark. Source: [`09_development_cv_model_summary.csv`](output/09_development_cv_model_summary.csv).
+**Classical reference models (integrated Notebooks 02–03).** Dummy,
+scaled Logistic Regression and Random Forest use the same eight-class
+activity task and 30-feature representation. Notebook 03 evaluates the full
+29-person Development cohort in five participant-disjoint folds over
+132,397 eligible windows. Mean fold Macro F1 is **0.8353** for Random Forest,
+**0.7721** for Logistic Regression and **0.0815** for Dummy. These are not
+the same sampling or evaluation conditions as the bounded neural studies.
+Source: [Notebook 03](code/notebooks/03_harth_full_development_audit_and_classical_cv.ipynb).
 
-**Initial temporal comparisons (Stages 10–13).** The small two-layer CNN
-uses training-only channel scaling and raw windows. Stages 11–12 compare
-Random Forest, standard CNN and inverse-square-root weighted CNN on
-matched windows and a fixed Development split. Stage 13 introduces a
-three-fold matched Development comparison. Recorded Stage 13 Macro F1
-means are **0.8094** (Random Forest), **0.6300** (standard CNN) and
-**0.7821** (weighted CNN). Differences between classical and neural
-models include both their representations and training objectives.
+**Bounded temporal comparison (Notebook 04).** A compact two-convolution
+temporal CNN consumes six-channel, 100-sample windows with training-only
+channel scaling and a predefined five-epoch endpoint. Random Forest uses
+30 deterministic statistics from the identical source windows. The single
+participant-disjoint Development split provides 10,000 Train and 2,701
+Validation windows from 20 and six participants, respectively; another
+three Development participants are unused. On the matched Validation data,
+Random Forest achieves **Macro F1 0.8140** and **balanced accuracy 0.8259**,
+versus **0.6659** and **0.6459** for the temporal CNN. Random Forest scores
+higher for all six Validation participants, with mean signed paired
+difference (CNN minus Random Forest) **−0.1505**. The CNN has **Shuffling F1
+0.000** on 15 true Shuffling windows. This evidence is descriptive and does
+not isolate a model-architecture effect, establish statistical significance
+or provide independent external validation.
+Source: [Notebook 04](code/notebooks/04_harth_temporal_cnn_and_matched_random_forest.ipynb).
+
+**Training-weight and grouped comparisons (Notebooks 12–13).** Subsequent
+exploratory work compares a standard CNN with an inverse-square-root
+class-weighted CNN and matched Random Forest under the specified bounded
+windows. Notebook 13 introduces a three-fold participant-disjoint
+Development comparison. Its mean Macro F1 scores are **0.8094** (Random
+Forest), **0.6300** (standard CNN) and **0.7821** (weighted CNN).
+These results use a different evaluation design from the single-split
+Notebook 04 comparison and must not be pooled into one model ranking.
 Source: [`13_matched_cv_model_summary.csv`](output/13_matched_cv_model_summary.csv).
 
 **Sampling and optimiser budgets (Stages 14–17).** Stage 14 audits
