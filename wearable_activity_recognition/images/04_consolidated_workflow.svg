@@ -1,0 +1,71 @@
+<svg xmlns="http://www.w3.org/2000/svg" width="1700" height="665" viewBox="0 0 1700 665" role="img" aria-labelledby="title desc">
+<title id="title">HARTH bounded temporal CNN and matched Random Forest research workflow</title>
+<desc id="desc">Scientific workflow for paired Development Validation on bounded, participant-disjoint HARTH acceleration windows. A temporal 1D-CNN and a statistical-feature Random Forest use identical source windows and Validation labels. The diagram is schematic, with no computed model scores.</desc>
+<defs><marker id="arrow" markerWidth="11" markerHeight="8" refX="9" refY="4" orient="auto"><path d="M0 0 L10 4 L0 8 Z" fill="#245E9D"/></marker></defs>
+<g font-family="DejaVu Sans, Arial, sans-serif">
+<rect x="0" y="0" width="1700" height="665" rx="18" fill="#F4F9FD" stroke="#F4F9FD" stroke-width="1.6"/>
+<text x="37" y="44" fill="#173453" font-size="25" font-weight="700" text-anchor="start">HARTH: TEMPORAL CNN AND MATCHED RANDOM FOREST</text>
+<text x="37" y="73" fill="#54738A" font-size="15" text-anchor="start">Original six-axis acceleration windows  •  Same Development participants  •  Matched Validation comparison</text>
+<rect x="25" y="96" width="1650" height="147" rx="16" fill="#EAF3FA" stroke="#C7D9E6" stroke-width="1.6"/>
+<text x="45" y="123" fill="#4D738A" font-size="12" font-weight="700" text-anchor="start">SCIENTIFIC CONTEXT</text>
+<rect x="43" y="138" width="393" height="88" rx="11" fill="#FFFFFF" stroke="#D7E4ED" stroke-width="1.6"/>
+<text x="58" y="161" fill="#173453" font-size="15" font-weight="700" text-anchor="start">Source data</text>
+<text x="58" y="182" fill="#506C7E" font-size="13" text-anchor="start">NTNU AI Lab HARTH v2.0</text>
+<text x="58" y="200" fill="#506C7E" font-size="13" text-anchor="start">Back and thigh accelerometers</text>
+<text x="58" y="216" fill="#506C7E" font-size="12" text-anchor="start">Six axes at nominal 50 Hz</text>
+<rect x="450" y="138" width="393" height="88" rx="11" fill="#FFFFFF" stroke="#D7E4ED" stroke-width="1.6"/>
+<text x="465" y="161" fill="#173453" font-size="15" font-weight="700" text-anchor="start">Time-safe windows</text>
+<text x="465" y="182" fill="#506C7E" font-size="13" text-anchor="start">100 samples / 2 seconds</text>
+<text x="465" y="200" fill="#506C7E" font-size="13" text-anchor="start">50-sample stride, pure labels</text>
+<text x="465" y="216" fill="#506C7E" font-size="12" text-anchor="start">Up to 500 windows per person</text>
+<rect x="857" y="138" width="393" height="88" rx="11" fill="#FFFFFF" stroke="#D7E4ED" stroke-width="1.6"/>
+<text x="872" y="161" fill="#173453" font-size="15" font-weight="700" text-anchor="start">Development partition</text>
+<text x="872" y="182" fill="#506C7E" font-size="13" text-anchor="start">29 participants; grouped split</text>
+<text x="872" y="200" fill="#506C7E" font-size="13" text-anchor="start">70% Train / 20% Validation</text>
+<text x="872" y="216" fill="#506C7E" font-size="12" text-anchor="start">10% unused Development</text>
+<rect x="1264" y="138" width="393" height="88" rx="11" fill="#FFFFFF" stroke="#D7E4ED" stroke-width="1.6"/>
+<text x="1279" y="161" fill="#173453" font-size="15" font-weight="700" text-anchor="start">Comparison boundary</text>
+<text x="1279" y="182" fill="#506C7E" font-size="13" text-anchor="start">Eight documented activities</text>
+<text x="1279" y="200" fill="#506C7E" font-size="13" text-anchor="start">Shared source rows and labels</text>
+<text x="1279" y="216" fill="#506C7E" font-size="12" text-anchor="start">S023 and S032 excluded</text>
+<rect x="25" y="257" width="1650" height="311" rx="16" fill="#EEF6FB" stroke="#C7D9E6" stroke-width="1.6"/>
+<text x="45" y="285" fill="#4D738A" font-size="12" font-weight="700" text-anchor="start">ANALYSIS AND MATCHED MODEL PATHS</text>
+<rect x="45" y="304" width="295" height="225" rx="13" fill="#FFFFFF" stroke="#AFC9DA" stroke-width="1.6"/>
+<text x="65" y="335" fill="#173453" font-size="18" font-weight="700" text-anchor="start">Raw IMU cohort</text>
+<text x="65" y="367" fill="#245E9D" font-size="16" font-weight="700" text-anchor="start">N x 6 x 100</text>
+<text x="65" y="396" fill="#506C7E" font-size="14" text-anchor="start">Source-aligned windows</text>
+<text x="65" y="422" fill="#506C7E" font-size="14" text-anchor="start">Participant-disjoint split</text>
+<text x="65" y="451" fill="#506C7E" font-size="14" text-anchor="start">Train and Validation rows</text>
+<text x="65" y="478" fill="#176363" font-size="13" text-anchor="start">One window preparation pass</text>
+<path d="M341 414 L396 414" stroke="#245E9D" stroke-width="2.3" fill="none" marker-end="url(#arrow)"/>
+<rect x="400" y="304" width="438" height="100" rx="13" fill="#FFFFFF" stroke="#9BBED7" stroke-width="1.6"/>
+<text x="421" y="331" fill="#245E9D" font-size="15" font-weight="700" text-anchor="start">TEMPORAL CNN</text>
+<text x="421" y="356" fill="#173453" font-size="14" text-anchor="start">Six-axis input -&gt; Conv1D(7) -&gt; Pool</text>
+<text x="421" y="378" fill="#506C7E" font-size="13" text-anchor="start">Conv1D(5) -&gt; adaptive pool -&gt; 8 logits</text>
+<rect x="400" y="426" width="438" height="103" rx="13" fill="#FFFFFF" stroke="#9BBED7" stroke-width="1.6"/>
+<text x="421" y="454" fill="#245E9D" font-size="15" font-weight="700" text-anchor="start">RANDOM FOREST</text>
+<text x="421" y="478" fill="#173453" font-size="14" text-anchor="start">30 statistical features -&gt; 120 trees</text>
+<text x="421" y="501" fill="#506C7E" font-size="13" text-anchor="start">Class-balanced training, same Train rows</text>
+<path d="M342 386 L393 352" stroke="#245E9D" stroke-width="2.3" fill="none" marker-end="url(#arrow)"/>
+<path d="M342 440 L393 475" stroke="#245E9D" stroke-width="2.3" fill="none" marker-end="url(#arrow)"/>
+<path d="M840 353 L908 353" stroke="#245E9D" stroke-width="2.3" fill="none" marker-end="url(#arrow)"/>
+<path d="M840 475 L908 475" stroke="#245E9D" stroke-width="2.3" fill="none" marker-end="url(#arrow)"/>
+<rect x="912" y="304" width="418" height="225" rx="13" fill="#FFFFFF" stroke="#AFC9DA" stroke-width="1.6"/>
+<text x="934" y="335" fill="#173453" font-size="18" font-weight="700" text-anchor="start">Matched Validation</text>
+<text x="934" y="367" fill="#506C7E" font-size="14" text-anchor="start">Same participant IDs</text>
+<text x="934" y="394" fill="#506C7E" font-size="14" text-anchor="start">Same true activity labels</text>
+<text x="934" y="421" fill="#506C7E" font-size="14" text-anchor="start">Macro F1 and balanced accuracy</text>
+<text x="934" y="448" fill="#506C7E" font-size="14" text-anchor="start">Per-class F1 and confusion matrices</text>
+<text x="934" y="475" fill="#176363" font-size="13" text-anchor="start">Paired participant-level differences</text>
+<path d="M1332 416 L1388 416" stroke="#245E9D" stroke-width="2.3" fill="none" marker-end="url(#arrow)"/>
+<rect x="1393" y="304" width="260" height="225" rx="13" fill="#176B6A" stroke="#176B6A" stroke-width="1.6"/>
+<text x="1523" y="336" fill="#FFFFFF" font-size="14" font-weight="700" text-anchor="middle">OUTPUT</text>
+<text x="1523" y="372" fill="#FFFFFF" font-size="17" font-weight="700" text-anchor="middle">Research Outputs</text>
+<text x="1523" y="410" fill="#FFFFFF" font-size="13" text-anchor="middle">Raw window arrays</text>
+<text x="1523" y="437" fill="#FFFFFF" font-size="13" text-anchor="middle">Metrics and class tables</text>
+<text x="1523" y="464" fill="#FFFFFF" font-size="13" text-anchor="middle">Evaluation figures</text>
+<text x="1523" y="493" fill="#FFFFFF" font-size="13" text-anchor="middle">Model parameters</text>
+<rect x="25" y="581" width="1650" height="59" rx="13" fill="#DCECEB" stroke="#B4D3D0" stroke-width="1.6"/>
+<text x="47" y="605" fill="#176363" font-size="13" font-weight="700" text-anchor="start">Interpretation</text>
+<text x="47" y="626" fill="#173453" font-size="13" text-anchor="start">The matched input data support a paired Development comparison; different feature representations and optimisation prevent architecture-only claims.</text>
+</g></svg>
