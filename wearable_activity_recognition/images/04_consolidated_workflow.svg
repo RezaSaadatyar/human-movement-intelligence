@@ -1,6 +1,6 @@
 <svg xmlns="http://www.w3.org/2000/svg" width="1700" height="816" viewBox="0 0 1700 816" role="img" aria-labelledby="title desc">
 <title id="title">HARTH bounded temporal CNN and matched Random Forest workflow</title>
-<desc id="desc">Scientific overview of HARTH v2.0 bounded temporal classification. Twenty-nine Development participants provide label-pure 100-sample windows. A participant-disjoint Train and Validation split supports a five-epoch temporal CNN and a 120-tree Random Forest compared on the identical Validation observations. The source-signal and window drawings are schematic; no final Test is scored.</desc>
+<desc id="desc">Scientific overview of HARTH v2.0 bounded temporal classification. Twenty-nine Development participants provide label-pure 100-sample windows. A participant-disjoint Train and Validation split supports a five-epoch temporal CNN and a 120-tree Random Forest compared on the identical Validation observations. The source-signal and window drawings are schematic; S023 and S032 are outside the Development cohort.</desc>
 <rect x="0" y="0" width="1700" height="816" rx="20" fill="#F4F9FD" stroke="#F4F9FD" stroke-width="0"/>
 <g font-family="DejaVu Sans, Arial, sans-serif">
 <text x="30" y="38" font-size="23" font-weight="700" fill="#173453">HARTH BOUNDED TEMPORAL CNN AND MATCHED RANDOM FOREST</text>
