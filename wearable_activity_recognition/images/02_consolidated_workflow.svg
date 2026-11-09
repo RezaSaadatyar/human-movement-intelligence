@@ -1,6 +1,6 @@
 <svg xmlns="http://www.w3.org/2000/svg" width="1700" height="816" viewBox="0 0 1700 816" role="img" aria-labelledby="title desc">
-<title id="title">HARTH Stage 02: Exploratory Classical Learning and Grouped Development</title>
-<desc id="desc">Conceptual integration of original HARTH subject source inspection, three classical baselines, six-person three-fold and ten-person five-fold grouped cross-validation. Recorded scores are taken from the completed notebook, while sensor and window shapes remain schematic.</desc>
+<title id="title">HARTH Exploratory Classical Learning and Grouped Development</title>
+<desc id="desc">HARTH exploratory workflow for source inspection, three classical baselines, six-person three-fold and ten-person five-fold grouped cross-validation. The reported metric values refer to the stated validation protocols; sensor and window drawings are schematic.</desc>
 <rect x="0" y="0" width="1700" height="816" rx="20" fill="#F4F9FD" stroke="#F4F9FD" stroke-width="0"/>
 <g font-family="DejaVu Sans, Arial, sans-serif">
 <text x="30" y="38" font-size="23" font-weight="700" fill="#173453">HARTH CLASSICAL LEARNING AND GROUPED DEVELOPMENT EVALUATION</text>
@@ -22,7 +22,7 @@
 <text x="365" y="115" font-size="15" font-weight="700" fill="#173453">Published Dataset</text>
 <text x="365" y="146" font-size="13.5" fill="#506C7E">NTNU AI Lab HARTH v2.0</text>
 <text x="365" y="169" font-size="13.5" fill="#506C7E">Pinned official Git revision</text>
-<text x="365" y="192" font-size="13.5" fill="#506C7E">Stage 01 S023 features + 11 CSVs</text>
+<text x="365" y="192" font-size="13.5" fill="#506C7E">S023 features + 11 source CSVs</text>
 <text x="690" y="115" font-size="15" font-weight="700" fill="#173453">Eight-Person Pilot</text>
 <text x="690" y="146" font-size="13.5" fill="#506C7E">4 Train · 2 Validation · 2 reserved</text>
 <text x="690" y="169" font-size="13.5" fill="#506C7E">Three classification baselines</text>
@@ -34,7 +34,7 @@
 <text x="1340" y="115" font-size="15" font-weight="700" fill="#173453">Expanded Development</text>
 <text x="1340" y="146" font-size="13.5" fill="#506C7E">Ten people · five grouped folds</text>
 <text x="1340" y="169" font-size="13.5" fill="#506C7E">Source coverage and model variation</text>
-<text x="1340" y="192" font-size="13.5" fill="#506C7E">No reserved participant Test scoring</text>
+<text x="1340" y="192" font-size="13.5" fill="#506C7E">Validation and Development only</text>
 <rect x="24" y="258" width="1652" height="314" rx="16" fill="#EDF6FB" stroke="#B4CFE0" stroke-width="1.5"/>
 <rect x="38" y="272" width="238" height="32" rx="9" fill="#173453" stroke="#173453" stroke-width="1.4"/>
 <text x="157" y="293" font-size="13.5" font-weight="700" fill="#FFFFFF" text-anchor="middle">SIGNAL-LEVEL EVIDENCE</text>
@@ -45,7 +45,7 @@
 <text x="53" y="421" font-size="12.8" fill="#506C7E">Whole-participant pilot split</text>
 <text x="53" y="444" font-size="12.8" fill="#506C7E">Validation model comparison</text>
 <text x="53" y="467" font-size="12.8" fill="#506C7E">Grouped Development analysis</text>
-<text x="53" y="501" font-size="13" font-weight="700" fill="#176363">No final Test scoring</text>
+<text x="53" y="501" font-size="13" font-weight="700" fill="#176363">Participant-disjoint comparisons</text>
 <rect x="292" y="272" width="324" height="254" rx="12" fill="#FFFFFF" stroke="#B6CFDE" stroke-width="1.4"/>
 <rect x="292" y="272" width="324" height="33" rx="10" fill="#174B70" stroke="#174B70" stroke-width="1.4"/>
 <rect x="292" y="290" width="324" height="15" rx="0" fill="#174B70" stroke="#174B70" stroke-width="1.4"/>
@@ -61,7 +61,7 @@
 <rect x="1306" y="272" width="356" height="254" rx="12" fill="#FFFFFF" stroke="#B6CFDE" stroke-width="1.4"/>
 <rect x="1306" y="272" width="356" height="33" rx="10" fill="#174B70" stroke="#174B70" stroke-width="1.4"/>
 <rect x="1306" y="290" width="356" height="15" rx="0" fill="#174B70" stroke="#174B70" stroke-width="1.4"/>
-<text x="1484" y="293" font-size="14" font-weight="700" fill="#FFFFFF" text-anchor="middle">Recorded research results</text>
+<text x="1484" y="293" font-size="14" font-weight="700" fill="#FFFFFF" text-anchor="middle">Development results</text>
 <line x1="350" y1="477" x2="542" y2="477" stroke="#7194ab" stroke-width="1.5"/>
 <line x1="350" y1="335" x2="350" y2="477" stroke="#7194ab" stroke-width="1.5"/>
 <path d="M353.0,365.0 L355.1,370.2 L357.1,371.8 L359.1,370.4 L361.2,370.0 L363.3,372.2 L365.3,374.6 L367.4,373.3 L369.4,368.4 L371.4,363.6 L373.5,362.2 L375.6,362.9 L377.6,361.9 L379.6,358.0 L381.7,354.5 L383.8,355.1 L385.8,359.2 L387.9,362.8 L389.9,363.4 L391.9,362.9 L394.0,365.0 L396.1,370.0 L398.1,374.3 L400.1,374.5 L402.2,371.6 L404.3,369.6 L406.3,370.4 L408.4,371.3 L410.4,368.8 L412.4,363.2 L414.5,358.6 L416.6,357.9 L418.6,359.6 L420.6,359.7 L422.7,357.3 L424.8,355.6 L426.8,358.0 L428.9,363.3 L430.9,367.6 L432.9,368.3 L435.0,367.6 L437.1,369.1 L439.1,373.1 L441.1,375.7 L443.2,374.0 L445.3,369.5 L447.3,366.3 L449.4,366.2 L451.4,366.4 L453.4,363.6 L455.5,358.5 L457.6,355.0 L459.6,355.9 L461.6,359.1 L463.7,360.7 L465.8,359.8 L467.8,359.5 L469.9,362.8 L471.9,368.6 L473.9,372.4 L476.0,372.2 L478.0,370.4 L480.1,370.6 L482.1,373.0 L484.2,373.9 L486.3,370.6 L488.3,365.0 L490.4,361.4 L492.4,361.3 L494.4,361.9 L496.5,359.9 L498.5,356.0 L500.6,354.4 L502.6,357.1 L504.7,361.8 L506.8,364.5 L508.8,364.3 L510.9,364.5 L512.9,367.9 L515.0,372.9 L517.0,375.4 L519.0,373.5 L521.1,370.1 L523.1,368.9 L525.2,370.0 L527.3,369.6 L529.3,365.4 L531.4,359.8 L533.4,356.8 L535.5,357.8 L537.5,359.7" stroke="#2B72D7" fill="none" stroke-width="2.1"/>
@@ -71,7 +71,7 @@
 <path d="M353.0,459.2 L355.1,454.9 L357.1,450.8 L359.1,450.2 L361.2,452.2 L363.3,452.9 L365.3,450.6 L367.4,448.1 L369.4,449.0 L371.4,453.2 L373.5,456.9 L375.6,457.1 L377.6,455.5 L379.6,456.0 L381.7,459.4 L383.8,462.5 L385.8,461.9 L387.9,458.1 L389.9,455.4 L391.9,455.8 L394.0,457.3 L396.1,456.0 L398.1,451.7 L400.1,448.2 L402.2,448.6 L404.3,451.6 L406.3,453.1 L408.4,451.7 L410.4,450.1 L412.4,451.8 L414.5,456.5 L416.6,460.0 L418.6,459.8 L420.6,457.6 L422.7,457.4 L424.8,459.9 L426.8,461.9 L428.9,460.1 L430.9,455.5 L432.9,452.4 L435.0,452.8 L437.1,454.3 L439.1,453.3 L441.1,449.7 L443.2,447.2 L445.3,448.9 L447.3,452.9 L449.4,455.1 L451.4,454.2 L453.4,453.1 L455.5,455.1 L457.6,459.5 L459.6,462.3 L461.6,461.0 L463.7,457.8 L465.8,456.8 L467.8,458.5 L469.9,459.5 L471.9,457.0 L473.9,452.2 L476.0,449.4 L478.0,450.4 L480.1,452.6 L482.1,452.3 L484.2,449.6 L486.3,448.4 L488.3,451.1 L490.4,455.7 L492.4,458.2 L494.4,457.2 L496.5,455.9 L498.5,457.5 L500.6,461.1 L502.6,462.7 L504.7,460.2 L506.8,456.1 L508.8,454.5 L510.9,455.7 L512.9,456.4 L515.0,453.8 L517.0,449.4 L519.0,447.5 L521.1,449.6 L523.1,452.7 L525.2,453.2 L527.3,451.4 L529.3,451.0 L531.4,454.3 L533.4,459.0 L535.5,461.0 L537.5,459.3" stroke="#29976A" fill="none" stroke-width="2.1"/>
 <text x="555" y="459" font-size="11.7" fill="#29976A">Back Z</text>
 <text x="450" y="496" font-size="11.7" fill="#506C7E" text-anchor="middle">Illustrative signal samples</text>
-<text x="450" y="514" font-size="10.3" fill="#506C7E" text-anchor="middle">Recorded source plots appear in Stage 01</text>
+<text x="450" y="514" font-size="10.3" fill="#506C7E" text-anchor="middle">Measured signals appear in data foundation</text>
 <line x1="676" y1="458" x2="912" y2="458" stroke="#7194ab" stroke-width="1.5"/>
 <line x1="676" y1="342" x2="676" y2="470" stroke="#7194ab" stroke-width="1.5"/>
 <rect x="695" y="363" width="92" height="46" rx="5" fill="#d8ebff" stroke="#98b2c6" stroke-width="1.3"/>
@@ -117,7 +117,7 @@
 <rect x="318" y="536" width="1094" height="21" rx="10" fill="#DCEFE6" stroke="#CDE3D8" stroke-width="1"/>
 <circle cx="335" cy="547" r="9" fill="#267998"/>
 <text x="335" y="551" font-size="13" font-weight="700" fill="#FFFFFF" text-anchor="middle">i</text>
-<text x="353" y="551" font-size="11.8" fill="#173453">Schematic sensor/window illustrations; model scores above are from the recorded notebook execution.</text>
+<text x="353" y="551" font-size="11.8" fill="#173453">Schematic signals and windows; metric values refer to the stated Development protocols.</text>
 <rect x="24" y="586" width="1652" height="195" rx="16" fill="#EAF3FA" stroke="#C7D9E6" stroke-width="1.5"/>
 <rect x="38" y="612" width="210" height="130" rx="11" fill="#173453" stroke="#173453" stroke-width="1.4"/>
 <text x="143" y="640" font-size="13" font-weight="700" fill="#FFFFFF" text-anchor="middle">INPUT</text>
@@ -157,8 +157,8 @@
 <text x="1382" y="685" font-size="18" font-weight="700" fill="#245E9D" text-anchor="middle">→</text>
 <rect x="1396" y="612" width="266" height="130" rx="11" fill="#176968" stroke="#176968" stroke-width="1.4"/>
 <text x="1529" y="640" font-size="13" font-weight="700" fill="#FFFFFF" text-anchor="middle">OUTPUT</text>
-<text x="1529" y="671" font-size="14.1" font-weight="700" fill="#FFFFFF" text-anchor="middle">Results Summary</text>
-<text x="1529" y="697" font-size="11.9" fill="#D8E9F0" text-anchor="middle">Stage 02 current CSV / PNG</text>
+<text x="1529" y="671" font-size="14.1" font-weight="700" fill="#FFFFFF" text-anchor="middle">Research Outputs</text>
+<text x="1529" y="697" font-size="11.9" fill="#D8E9F0" text-anchor="middle">CSV tables and PNG figures</text>
 <text x="1529" y="717" font-size="11.9" fill="#D8E9F0" text-anchor="middle">Ten-person reusable features</text>
-<text x="35" y="766" font-size="12.1" fill="#506C7E">Stage 01 features → one-time source processing → disjoint pilot and grouped Development → current Stage 02 files</text>
+<text x="35" y="766" font-size="12.1" fill="#506C7E">S023 features → additional sources → participant-disjoint pilot and grouped Development → research outputs</text>
 </g></svg>
