@@ -99,7 +99,7 @@ scaled Logistic Regression and Random Forest use the same eight-class
 activity task and 30-feature representation. Notebook 03 evaluates the full
 29-person Development cohort in five participant-disjoint folds over
 132,397 eligible windows. Mean fold Macro F1 is **0.8353** for Random Forest,
-**0.7721** for Logistic Regression and **0.0815** for Dummy. These are not
+**0.7707** for Logistic Regression and **0.0815** for Dummy. These are not
 the same sampling or evaluation conditions as the bounded neural studies.
 Source: [Notebook 03](code/notebooks/03_harth_full_development_audit_and_classical_cv.ipynb).
 

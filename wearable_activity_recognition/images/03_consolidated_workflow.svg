@@ -113,11 +113,11 @@
 <circle cx="1335" cy="486" r="13" fill="#E0F3E9" stroke="#279366" stroke-width="1.4"/>
 <text x="1335" y="491" font-size="16" font-weight="700" fill="#218A66" text-anchor="middle">✓</text>
 <text x="1361" y="487" font-size="12.5" font-weight="700" fill="#173453">Paired per-participant model scores</text>
-<text x="1361" y="508" font-size="11.6" fill="#506C7E">19 RF wins · 10 LR wins</text>
+<text x="1361" y="508" font-size="11.6" fill="#506C7E">18 RF wins · 11 LR wins</text>
 <rect x="318" y="536" width="1094" height="21" rx="10" fill="#DCEFE6" stroke="#CDE3D8" stroke-width="1"/>
 <circle cx="335" cy="547" r="9" fill="#267998"/>
 <text x="335" y="551" font-size="13" font-weight="700" fill="#FFFFFF" text-anchor="middle">i</text>
-<text x="353" y="551" font-size="11.8" fill="#173453">132,397 eligible windows · Mean fold Macro F1: Random Forest 0.8353 · Logistic Regression 0.7721</text>
+<text x="353" y="551" font-size="11.8" fill="#173453">132,397 eligible windows · Mean fold Macro F1: Random Forest 0.8353 · Logistic Regression 0.7707</text>
 <rect x="24" y="586" width="1652" height="195" rx="16" fill="#EAF3FA" stroke="#C7D9E6" stroke-width="1.5"/>
 <rect x="38" y="612" width="210" height="130" rx="11" fill="#173453" stroke="#173453" stroke-width="1.4"/>
 <text x="143" y="640" font-size="13" font-weight="700" fill="#FFFFFF" text-anchor="middle">INPUT</text>
