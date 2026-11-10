@@ -9,8 +9,10 @@ accelerometers**. It compares classical machine learning and temporal deep learn
 under participant-disjoint Development evaluation, with particular attention to rare
 activities, sampling limits, model stability and the interpretation of held-out results.
 
-The research comprises **26 numbered Jupyter notebooks** and an independent
-[FINAL research evidence audit](code/notebooks/final_harth_research_audit_and_closure.ipynb).
+The experimental work was originally arranged as 26 numbered stages. The
+current notebook sequence includes consolidated **01–05**, followed by
+remaining historical **14–26**, and a separate
+[FINAL evidence audit](code/notebooks/final_harth_research_audit_and_closure.ipynb).
 The [Stage 26 evidence report](code/notebooks/26_final_research_evidence_and_report.ipynb)
 contains the executed, saved-results synthesis. The independent
 [FINAL audit](code/notebooks/final_harth_research_audit_and_closure.ipynb)
@@ -45,7 +47,7 @@ and selection.
 | --- | --- |
 | [01–03](code/notebooks/) | Source inspection, annotation-safe windows, 30 statistical features and classical participant-disjoint Development evaluation |
 | [04](code/notebooks/04_harth_temporal_cnn_and_matched_random_forest.ipynb) | Bounded raw-signal temporal CNN and matched Random Forest on identical participant-disjoint Validation windows |
-| [12–13](code/notebooks/) | Training-only class weighting and later matched grouped Development comparisons |
+| [05](code/notebooks/05_harth_class_weighting_and_grouped_model_comparison.ipynb) | Matched standard/weighted CNN loss ablation and three-model participant-grouped Development comparison |
 | [14–17](code/notebooks/) | Label-blind sampling, nested training-size experiments and fixed 400-update comparisons |
 | [18–20](code/notebooks/) | Out-of-fold confidence, subject-disjoint temperature scaling, minority-activity and source-data quality audits |
 | [21](code/notebooks/21_advanced_temporal_architectures.ipynb) | Engineering checks for TCN, Multi-Scale CNN, 1D-ResNet and Time-Series Transformer |
@@ -79,6 +81,18 @@ The study does not establish population-level, prospective or clinical validity.
 
 The bounded, single-partition comparison in [Notebook 04](code/notebooks/04_harth_temporal_cnn_and_matched_random_forest.ipynb) uses **14,201 Development windows**. On the same **2,701 Validation windows** from six held-out participants, the 120-tree Random Forest attains Macro F1 **0.8140**, compared with **0.6659** for the five-epoch temporal CNN. Random Forest scores higher for all six Validation participants. These figures describe a separate restricted protocol and must not be pooled with the three-fold benchmark or the qualified held-out evaluation.
 
+The integrated [Notebook 05](code/notebooks/05_harth_class_weighting_and_grouped_model_comparison.ipynb)
+tests training-only inverse-square-root CNN class weighting on that fixed split:
+Validation Macro F1 rises from **0.6659** to **0.7973**. Across three
+participant-disjoint Development folds, mean Macro F1 is **0.8094**
+(Random Forest), **0.7832** (weighted CNN) and **0.6301** (standard CNN).
+The weighted CNN exceeds the standard CNN for **27 of 29** held-out
+participants but exceeds Random Forest for only **14 of 29**. These
+are bounded Development results, not the qualified held-out assessment.
+Full-precision evidence is in
+[the loss-ablation metrics](output/05_loss_validation_metrics.csv)
+and [the grouped model summary](output/05_cv_model_summary.csv).
+
 The full seven-model and robustness results are reported in
 [Notebook 22](code/notebooks/22_unified_matched_model_benchmark.ipynb),
 [Notebook 23](code/notebooks/23_multiseed_and_imbalance_robustness.ipynb) and
@@ -90,7 +104,7 @@ Qualified per-class and participant-level results are available from
 
 | Location | Contents |
 | --- | --- |
-| [`code/notebooks/`](code/notebooks/) | Stages 01–26 and the separate FINAL notebook |
+| [`code/notebooks/`](code/notebooks/) | Consolidated Stages 01–05, retained historical Stages 14–26, and the separate FINAL notebook |
 | [`code/src/`](code/src/) | HARTH-specific data and quality-audit utilities |
 | [`output/`](output/) | Executed experiment CSVs, figures, Stage 26 report and ten committed FINAL audit outputs (including SHA256 provenance) |
 | [`images/`](images/) | Study-level and individual notebook SVG workflow figures |
@@ -100,10 +114,12 @@ Qualified per-class and participant-level results are available from
 The output directory contains recorded results, **not** a new data source.
 Full-precision CSV exports are available for active Stages 22, 23 and 25;
 Stage 26 reads these without retraining or repeating the qualified Test.
-The executed FINAL audit reads 20 committed scientific/report CSVs across
-Stages 08–26; it checks cohort, model and protocol consistency and compares
-the recorded Stage 26 SHA256 ledger with current source files.
-It does not access raw sensor recordings or rerun a model.
+The saved FINAL audit records a historical 20-table comparison across
+Stages 08–26. Some recorded input filenames were superseded by the
+consolidated notebooks and are not available in the current checkout.
+Its saved outputs document the earlier run; a fresh FINAL execution against
+the consolidated inputs has not been verified. It does not require model
+retraining or new qualified Test predictions.
 
 ## 5. Running and reviewing the study
 
@@ -174,9 +190,9 @@ to S023 and S032 and 1,000 overlapping windows.
 - [Qualified evaluation approval](evidence/stage_25_protocol_approved_qualified_test.json):
   frozen model specifications and the authorised evaluation boundary.
 
-**Status:** All 26 numbered experimental/report notebooks and the separate
-FINAL audit have executed and saved outputs in GitHub. The FINAL evidence
-consistency Quality Gate is **PASSED**; the ten `final_*` artefacts are
-committed. The HARTH research portfolio study is documented and complete
-within its declared scope, **not** independently replicated, externally
-validated or ready for clinical deployment.
+**Status:** The integrated Notebooks **01–05** have saved executions and
+published scientific tables and figures, while Stages 14–26 and the FINAL
+audit retain their historical recorded work. The saved FINAL audit passed
+in its earlier source-file context; its execution against the consolidated
+current-file names remains unverified. The study is **not** independently
+replicated, externally validated or ready for clinical deployment.

@@ -2,9 +2,10 @@
 
 This guide describes what can be inspected and verified in the completed
 **Wearable Activity Recognition** study in
-[Human Movement Intelligence](../README.md). The research consists of
-[26 numbered notebooks](../wearable_activity_recognition/code/notebooks/)
-and a separately executed
+[Human Movement Intelligence](../README.md). The original 26-stage research programme is undergoing notebook
+consolidation. The current tree contains consolidated
+[Notebooks 01–05](../wearable_activity_recognition/code/notebooks/),
+retained historical Stages 14–26 and the separately recorded
 [FINAL evidence audit](../wearable_activity_recognition/code/notebooks/final_harth_research_audit_and_closure.ipynb).
 The study results, scientific limitations and recorded outcomes are detailed in
 [Research Methods and Experimental Evidence](../wearable_activity_recognition/HARTH_RESEARCH_METHODS_AND_EVIDENCE.md).
@@ -43,8 +44,11 @@ ascending **10**, stairs descending **6** windows.
 | Final evidence synthesis | [Stage 26 notebook](../wearable_activity_recognition/code/notebooks/26_final_research_evidence_and_report.ipynb) and [report provenance](../wearable_activity_recognition/output/26_report_provenance.json) | Read-only synthesis of saved source CSVs and their SHA256 fingerprints |
 | Cross-stage research closure | [FINAL notebook](../wearable_activity_recognition/code/notebooks/final_harth_research_audit_and_closure.ipynb) and [FINAL provenance](../wearable_activity_recognition/output/final_research_audit_provenance.json) | Saved audit with 11 executed code cells and Quality Gate PASSED |
 
-The FINAL audit checks **20 recorded CSV inputs**, the Stage 26 report
-fingerprint and the frozen protocol documents. Its committed outputs include
+The historically executed FINAL audit checked **20 recorded CSV inputs**,
+the Stage 26 report fingerprint and frozen protocol documents. Some
+source filenames in that saved run have since been consolidated and are
+not present under their earlier paths; a current-file re-execution has
+not been verified. Its committed outputs include
 eight audit tables, a figure and a provenance JSON. The saved Quality Gate
 reports `FINAL HARTH | CROSS-STAGE EVIDENCE AUDIT: PASSED`.
 This establishes **consistency of available recorded files**, not independent

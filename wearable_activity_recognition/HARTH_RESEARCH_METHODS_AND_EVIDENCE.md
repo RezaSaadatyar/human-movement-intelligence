@@ -119,15 +119,25 @@ not isolate a model-architecture effect, establish statistical significance
 or provide independent external validation.
 Source: [Notebook 04](code/notebooks/04_harth_temporal_cnn_and_matched_random_forest.ipynb).
 
-**Training-weight and grouped comparisons (Notebooks 12–13).** Subsequent
-exploratory work compares a standard CNN with an inverse-square-root
-class-weighted CNN and matched Random Forest under the specified bounded
-windows. Notebook 13 introduces a three-fold participant-disjoint
-Development comparison. Its mean Macro F1 scores are **0.8094** (Random
-Forest), **0.6300** (standard CNN) and **0.7821** (weighted CNN).
-These results use a different evaluation design from the single-split
-Notebook 04 comparison and must not be pooled into one model ranking.
-Source: [`13_matched_cv_model_summary.csv`](output/13_matched_cv_model_summary.csv).
+**Class-weighting and grouped comparisons (integrated Notebook 05).**
+The same bounded 14,201-window Development cohort supports two distinct
+experiments. On the fixed six-participant Validation split, standard CNN
+Macro F1 is **0.6659** and Train-weighted CNN Macro F1 is **0.7973**;
+balanced accuracy is **0.6459** and **0.8126**, respectively. Five of the
+six Validation participants have higher weighted-CNN fixed-task Macro F1.
+
+In a separate three-fold participant-disjoint Development comparison,
+mean fold Macro F1 is **0.8094** for Random Forest, **0.6301** for standard
+CNN and **0.7832** for weighted CNN. Weighted CNN is higher than standard
+CNN for **27 of 29** participants; against Random Forest, it is higher
+for **14** and lower for **15**. These experiments differ from Notebook
+04's matched Random Forest versus standard CNN single-split comparison,
+and the grouped forest/CNN performance contrast includes differing
+feature representations. They do not establish independent external
+validation or a general architecture ranking.
+Sources: [Notebook 05](code/notebooks/05_harth_class_weighting_and_grouped_model_comparison.ipynb),
+[fixed-split metrics](output/05_loss_validation_metrics.csv) and
+[grouped model summary](output/05_cv_model_summary.csv).
 
 **Sampling and optimiser budgets (Stages 14–17).** Stage 14 audits
 sampling-induced class retention. Fixed-validation nested sampling

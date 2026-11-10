@@ -3,11 +3,19 @@
 **HARTH study structure:** Numbered notebooks are being consolidated by scientific purpose; the established FINAL audit remains separate. The historical planning checklist below is preserved as a dated record. Frozen protocol evidence and SHA256 records are not modified by notebook consolidation.
 
 
-**The original planning/checkpoint log below is preserved as a historical record. Its earlier unchecked items and "pending" descriptions reflect their status when written, not the latest GitHub execution state. The new final cross-stage audit has no saved execution yet.** For current results, see [the executed HARTH study](../wearable_activity_recognition/README.md).
+**The original planning/checkpoint log below is preserved as a historical record.** Its earlier unchecked items and "pending" descriptions reflect their status when written, not the latest GitHub execution state. The FINAL audit has a saved historical execution, but has not been reverified against the consolidated current-file names. For current results, see [the HARTH study](../wearable_activity_recognition/README.md).
 
 **Notebook consolidation, 9 November 2026:** The former full-Development notebooks 08/09 are represented by [Notebook 03](../wearable_activity_recognition/code/notebooks/03_harth_full_development_audit_and_classical_cv.ipynb); the former bounded temporal CNN and matched Random Forest notebooks 10/11 are represented by [Notebook 04](../wearable_activity_recognition/code/notebooks/04_harth_temporal_cnn_and_matched_random_forest.ipynb). The canonical matched six-person Validation Macro F1 values are **0.8140 (Random Forest)** and **0.6659 (temporal CNN)**, not the superseded 0.8266 Random Forest figure in the historical log. Original checklist references below describe the old sequence, not current notebook paths.
 
-**Evidence boundary:** The legacy FINAL audit still names historical source CSVs. Its execution against a re-mapped 03/04 output set has not been reverified; no Test results or provenance records are re-created by this consolidation.
+**Notebook consolidation, 10 November 2026:** Legacy 12/13 loss-weighting
+and grouped model experiments are now represented in
+[Notebook 05](../wearable_activity_recognition/code/notebooks/05_harth_class_weighting_and_grouped_model_comparison.ipynb).
+The executed five-epoch loss ablation and three-fold grouped benchmark
+use the current `05_loss_` and `05_cv_` output families. The previous
+checklist below records historical work, not current notebook names or
+freshly reproduced scores.
+
+**Evidence boundary:** The legacy FINAL audit still names historical source CSVs. Its execution against consolidated 03–05 output filenames has not been reverified; no Test results or provenance records are re-created by this consolidation.
 
 | Area | Verified present status | Evidence |
 | --- | --- | --- |
