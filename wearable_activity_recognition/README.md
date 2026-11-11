@@ -48,7 +48,8 @@ and selection.
 | [01–03](code/notebooks/) | Source inspection, annotation-safe windows, 30 statistical features and classical participant-disjoint Development evaluation |
 | [04](code/notebooks/04_harth_temporal_cnn_and_matched_random_forest.ipynb) | Bounded raw-signal temporal CNN and matched Random Forest on identical participant-disjoint Validation windows |
 | [05](code/notebooks/05_harth_class_weighting_and_grouped_model_comparison.ipynb) | Matched standard/weighted CNN loss ablation and three-model participant-grouped Development comparison |
-| [14–17](code/notebooks/) | Label-blind sampling, nested training-size experiments and fixed 400-update comparisons |
+| [06](code/notebooks/06_harth_sampling_sensitivity_and_nested_training_scaling.ipynb) | Full-source sampling retention and fixed-Validation comparison of strictly nested 500/1,000 Train sizes for Random Forest and weighted CNN |
+| [16–17](code/notebooks/) | Separate grouped nested-training-size evaluation and fixed 400-update comparisons |
 | [18–20](code/notebooks/) | Out-of-fold confidence, subject-disjoint temperature scaling, minority-activity and source-data quality audits |
 | [21](code/notebooks/21_advanced_temporal_architectures.ipynb) | Engineering checks for TCN, Multi-Scale CNN, 1D-ResNet and Time-Series Transformer |
 | [22](code/notebooks/22_unified_matched_model_benchmark.ipynb) | Seven-model matched, three-fold Development benchmark (21 model-fold jobs) |
@@ -93,6 +94,22 @@ Full-precision evidence is in
 [the loss-ablation metrics](output/05_loss_validation_metrics.csv)
 and [the grouped model summary](output/05_cv_model_summary.csv).
 
+The executed [Notebook 06](code/notebooks/06_harth_sampling_sensitivity_and_nested_training_scaling.ipynb)
+shows that independent per-person caps of 250, 500 and 1,000 windows
+retain **7,201**, **14,201** and **28,201** of **132,397** eligible
+Development windows. At cap 500, only **219 of 1,946** Shuffling windows
+remain, with support from **26 of 28** original contributors.
+In the separate strictly nested Train-size experiment, Random Forest
+final Validation Macro F1 changes from **0.8140 to 0.8644**, while the
+weighted CNN changes from **0.7973 to 0.7807** at the specified fifth
+epoch. Four model conditions share the same **2,701** Validation windows.
+The audit does not equate independent cap policies with nested Train sets,
+or these fixed-split estimates with grouped or qualified assessment.
+Full-precision evidence is in the
+[sampling policy counts](output/06_sampling_policy_class_counts.csv),
+[model metrics](output/06_nested_validation_model_metrics.csv) and
+[paired-subject summary](output/06_nested_paired_summary.csv).
+
 The full seven-model and robustness results are reported in
 [Notebook 22](code/notebooks/22_unified_matched_model_benchmark.ipynb),
 [Notebook 23](code/notebooks/23_multiseed_and_imbalance_robustness.ipynb) and
@@ -104,7 +121,7 @@ Qualified per-class and participant-level results are available from
 
 | Location | Contents |
 | --- | --- |
-| [`code/notebooks/`](code/notebooks/) | Consolidated Stages 01–05, retained historical Stages 14–26, and the separate FINAL notebook |
+| [`code/notebooks/`](code/notebooks/) | Consolidated Stages 01–06, retained historical Stages 16–26, and the separate FINAL notebook |
 | [`code/src/`](code/src/) | HARTH-specific data and quality-audit utilities |
 | [`output/`](output/) | Executed experiment CSVs, figures, Stage 26 report and ten committed FINAL audit outputs (including SHA256 provenance) |
 | [`images/`](images/) | Study-level and individual notebook SVG workflow figures |
@@ -190,8 +207,8 @@ to S023 and S032 and 1,000 overlapping windows.
 - [Qualified evaluation approval](evidence/stage_25_protocol_approved_qualified_test.json):
   frozen model specifications and the authorised evaluation boundary.
 
-**Status:** The integrated Notebooks **01–05** have saved executions and
-published scientific tables and figures, while Stages 14–26 and the FINAL
+**Status:** The integrated Notebooks **01–06** have saved executions and
+published scientific tables and figures, while Stages 16–26 and the FINAL
 audit retain their historical recorded work. The saved FINAL audit passed
 in its earlier source-file context; its execution against the consolidated
 current-file names remains unverified. The study is **not** independently

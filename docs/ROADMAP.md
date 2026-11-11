@@ -15,6 +15,17 @@ use the current `05_loss_` and `05_cv_` output families. The previous
 checklist below records historical work, not current notebook names or
 freshly reproduced scores.
 
+**Notebook consolidation, 11 November 2026:** Sampling sensitivity
+from legacy Stage 14 and strictly nested 500/1,000 training-size
+comparisons from legacy Stage 15 are represented by
+[Notebook 06](../wearable_activity_recognition/code/notebooks/06_harth_sampling_sensitivity_and_nested_training_scaling.ipynb).
+The saved execution records 132,397 eligible Development windows and
+fixed-split fifth-epoch Macro F1 for RF **0.8140/0.8644** and weighted
+CNN **0.7973/0.7807** at Train caps 500/1,000.
+The `06_sampling_` and `06_nested_` outputs are current. The separate
+grouped nested-training analysis of historical Stage 16 is retained.
+The dated checklist below remains a historical development log.
+
 **Evidence boundary:** The legacy FINAL audit still names historical source CSVs. Its execution against consolidated 03–05 output filenames has not been reverified; no Test results or provenance records are re-created by this consolidation.
 
 | Area | Verified present status | Evidence |

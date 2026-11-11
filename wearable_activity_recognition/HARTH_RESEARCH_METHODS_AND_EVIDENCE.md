@@ -76,8 +76,9 @@ with input shape `(N, 6, 100)` and eight-class targets.
 | Qualified same-study held-out assessment (S023/S032) | 2 | 1,000 total; 500 each |
 
 The 500-window bounded cohort is selected by fixed chronological positions
-after window eligibility checks, without consulting task labels. Stage 14
-also analyses a 250-window limit. Nested scaling experiments in Stages 15–17
+after window eligibility checks, without consulting task labels.
+Integrated Notebook 06 also analyses a 250-window limit. The
+strictly nested scaling design used in Notebook 06 and later Stages 16–17
 retain the original 500-window indices in the larger training set; this is
 distinct from independently resampling the 1,000-window population.
 
@@ -139,18 +140,30 @@ Sources: [Notebook 05](code/notebooks/05_harth_class_weighting_and_grouped_model
 [fixed-split metrics](output/05_loss_validation_metrics.csv) and
 [grouped model summary](output/05_cv_model_summary.csv).
 
-**Sampling and optimiser budgets (Stages 14–17).** Stage 14 audits
-sampling-induced class retention. Fixed-validation nested sampling
-(Stage 15) reports RF 500/1000 Macro F1 of **0.8140/0.8644** and
-weighted CNN 500/1000 of **0.8014/0.7799**. Stage 16 extends this
-to grouped three-fold comparisons: RF **0.8094/0.8080** and weighted
-CNN **0.7821/0.7964**, respectively. Stage 17 fixes neural optimisation
-to **400 updates** and records weighted CNN Macro F1 **0.7712/0.7931**
-for the nested 500/1000 conditions. These experiments have distinct
-evaluation designs and must not be pooled into a single ranking.
-Sources: [Stage 15](output/15_nested_validation_model_metrics.csv),
-[Stage 16](output/16_nested_cv_model_summary.csv) and
-[Stage 17](output/17_fixed_step_model_summary.csv).
+**Sampling sensitivity and nested training data (integrated Notebook 06).**
+The full eligible Development source contains **132,397** windows from
+29 participants. Independent cap-250, cap-500 and cap-1,000 sampling policies
+retain **7,201**, **14,201** and **28,201** windows. Under cap 500,
+Shuffling retains **219/1,946 (11.25%)** of its original windows and
+**26/28** of its contributing participants. These are sampling-coverage
+counts, not model recall.
+
+A distinct, strictly nested training-size experiment retains every
+500-cap Train source row inside the expanded 1,000-cap Train set
+(**10,000/20,000** Train windows). On the identical **2,701**
+Validation windows, Random Forest final Macro F1 changes from
+**0.8140 to 0.8644**, while weighted CNN fifth-epoch Macro F1
+changes from **0.7973 to 0.7807**. The 1,000-cap CNN reaches
+**0.8454** at epoch four, but that is not the predefined endpoint.
+The forest improves for five of six Validation participants; the
+weighted CNN improves for three and declines for three. Equal CNN
+epochs do not imply equal optimiser-update budgets. The separate grouped
+and fixed-update protocols of Stages 16 and 17 are not pooled with these
+single-split findings.
+Sources: [Notebook 06](code/notebooks/06_harth_sampling_sensitivity_and_nested_training_scaling.ipynb),
+[sampling counts](output/06_sampling_policy_class_counts.csv),
+[fixed-split metrics](output/06_nested_validation_model_metrics.csv) and
+[paired participant evidence](output/06_nested_paired_summary.csv).
 
 **Advanced architectures (Stage 21).** Engineering validation covered:
 
@@ -242,7 +255,7 @@ Temperature scaling is **not included** in the frozen final model.
 Source: [Stage 19 calibration means](output/19_temperature_scaling_mean_metrics.csv)
 and [fold metrics](output/19_temperature_scaling_fold_metrics.csv).
 
-**Source and minority-class audit (Stages 14 and 20).** Timestamp gaps,
+**Source and minority-class audit (integrated Notebook 06 and Stage 20).** Timestamp gaps,
 annotation transitions, exclusion codes, channel diagnostics and
 the distribution of rare activities are assessed without inventing
 undocumented source labels. Deterministic per-participant sampling limits
