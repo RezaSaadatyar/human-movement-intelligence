@@ -1,0 +1,9 @@
+activity,base_train,expanded_train,fixed_validation,new_train_windows
+1: Walking,2987,5983,453,2996
+2: Running,940,1875,78,935
+3: Shuffling,169,328,15,159
+4: Stairs ascending,156,309,30,153
+5: Stairs descending,145,292,32,147
+6: Standing,1502,3019,536,1517
+7: Sitting,3240,6475,1363,3235
+8: Lying,861,1719,194,858
