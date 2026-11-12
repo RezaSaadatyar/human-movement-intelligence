@@ -50,7 +50,8 @@ and selection.
 | [05](code/notebooks/05_harth_class_weighting_and_grouped_model_comparison.ipynb) | Matched standard/weighted CNN loss ablation and three-model participant-grouped Development comparison |
 | [06](code/notebooks/06_harth_sampling_sensitivity_and_nested_training_scaling.ipynb) | Full-source sampling retention and fixed-Validation comparison of strictly nested 500/1,000 Train sizes for Random Forest and weighted CNN |
 | [07](code/notebooks/07_harth_grouped_nested_training_and_fixed_update_comparison.ipynb) | Three-fold grouped nested Train-size comparison and matched 400-update weighted CNN evaluation |
-| [18–20](code/notebooks/) | Out-of-fold confidence, subject-disjoint temperature scaling, minority-activity and source-data quality audits |
+| [08](code/notebooks/08_harth_oof_confidence_and_temperature_calibration.ipynb) | Uncalibrated out-of-fold softmax confidence and separate participant-disjoint temperature calibration; integrated execution pending |
+| [20](code/notebooks/20_minority_class_and_data_quality.ipynb) | Minority-activity and source-data quality audit |
 | [21](code/notebooks/21_advanced_temporal_architectures.ipynb) | Engineering checks for TCN, Multi-Scale CNN, 1D-ResNet and Time-Series Transformer |
 | [22](code/notebooks/22_unified_matched_model_benchmark.ipynb) | Seven-model matched, three-fold Development benchmark (21 model-fold jobs) |
 | [23](code/notebooks/23_multiseed_and_imbalance_robustness.ipynb) | Three-seed architecture/loss robustness (36 neural model-fold-seed jobs) |
@@ -130,7 +131,7 @@ Qualified per-class and participant-level results are available from
 
 | Location | Contents |
 | --- | --- |
-| [`code/notebooks/`](code/notebooks/) | Consolidated Stages 01–07, retained historical Stages 18–26, and the separate FINAL notebook |
+| [`code/notebooks/`](code/notebooks/) | Consolidated Stages 01–08, temporarily retained legacy 18–19, historical Stages 20–26, and the separate FINAL notebook |
 | [`code/src/`](code/src/) | HARTH-specific data and quality-audit utilities |
 | [`output/`](output/) | Executed experiment CSVs, figures, Stage 26 report and ten committed FINAL audit outputs (including SHA256 provenance) |
 | [`images/`](images/) | Study-level and individual notebook SVG workflow figures |
@@ -216,7 +217,7 @@ to S023 and S032 and 1,000 overlapping windows.
 - [Qualified evaluation approval](evidence/stage_25_protocol_approved_qualified_test.json):
   frozen model specifications and the authorised evaluation boundary.
 
-**Status:** The integrated Notebooks **01–07** have saved executions; independent CSV/PNG outputs for Notebook 07 are not yet committed, while Stages 18–26 and the FINAL
+**Status:** Integrated Notebooks **01–07** have saved executions, while Notebook 08 has been implemented but not yet executed. Independent CSV/PNG outputs for Notebook 07 are not yet committed; historical Stages 18–26 and the FINAL
 audit retain their historical recorded work. The saved FINAL audit passed
 in its earlier source-file context; its execution against the consolidated
 current-file names remains unverified. The study is **not** independently

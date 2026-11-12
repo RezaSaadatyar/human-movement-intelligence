@@ -245,6 +245,18 @@ Recorded results: [Stage 23 summary](output/23_robustness_model_summary.csv),
 
 ## 05. Confidence, calibration and minority activities
 
+[Integrated Notebook 08](code/notebooks/08_harth_oof_confidence_and_temperature_calibration.ipynb)
+combines two scientifically distinct Development experiments: an
+uncalibrated out-of-fold softmax confidence audit and a separate
+subject-disjoint temperature-scaling evaluation. It reuses the same
+14,201 base and 28,201 expanded windows but fits different CNN models:
+the calibration experiment withholds independent Calibration participants
+inside each outer Training group. Temperature is fitted only on
+Calibration labels, and top-1 class predictions must remain invariant.
+The integrated implementation has **not yet been executed**; the
+Stage 18/19 findings below are historical saved results, not outputs of
+Notebook 08.
+
 **Development-only confidence (Stage 18).** A 14,201-window out-of-fold
 audit recorded accuracy **0.9458**, ten-bin expected calibration error
 (ECE) **0.0457**, multiclass Brier **0.0906** and **39 incorrect windows**
