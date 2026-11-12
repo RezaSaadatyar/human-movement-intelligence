@@ -49,7 +49,7 @@ and selection.
 | [04](code/notebooks/04_harth_temporal_cnn_and_matched_random_forest.ipynb) | Bounded raw-signal temporal CNN and matched Random Forest on identical participant-disjoint Validation windows |
 | [05](code/notebooks/05_harth_class_weighting_and_grouped_model_comparison.ipynb) | Matched standard/weighted CNN loss ablation and three-model participant-grouped Development comparison |
 | [06](code/notebooks/06_harth_sampling_sensitivity_and_nested_training_scaling.ipynb) | Full-source sampling retention and fixed-Validation comparison of strictly nested 500/1,000 Train sizes for Random Forest and weighted CNN |
-| [16–17](code/notebooks/) | Separate grouped nested-training-size evaluation and fixed 400-update comparisons |
+| [07](code/notebooks/07_harth_grouped_nested_training_and_fixed_update_comparison.ipynb) | Three-fold grouped nested Train-size comparison and matched 400-update weighted CNN evaluation |
 | [18–20](code/notebooks/) | Out-of-fold confidence, subject-disjoint temperature scaling, minority-activity and source-data quality audits |
 | [21](code/notebooks/21_advanced_temporal_architectures.ipynb) | Engineering checks for TCN, Multi-Scale CNN, 1D-ResNet and Time-Series Transformer |
 | [22](code/notebooks/22_unified_matched_model_benchmark.ipynb) | Seven-model matched, three-fold Development benchmark (21 model-fold jobs) |
@@ -110,6 +110,15 @@ Full-precision evidence is in the
 [model metrics](output/06_nested_validation_model_metrics.csv) and
 [paired-subject summary](output/06_nested_paired_summary.csv).
 
+[Notebook 07](code/notebooks/07_harth_grouped_nested_training_and_fixed_update_comparison.ipynb)
+reports three-fold Development mean Macro F1 at nested Train caps
+500/1,000: **0.8094/0.8080** for Random Forest and **0.7832/0.7964**
+for weighted CNN with five epochs. In the separate fixed-400-update
+comparison, weighted CNN means are **0.7721/0.7921**. Training
+representations and optimisation budgets differ between experiments;
+the notebook's saved outputs support these numerical summaries, but
+its standalone `07_` CSV/PNG files have not yet been committed.
+
 The full seven-model and robustness results are reported in
 [Notebook 22](code/notebooks/22_unified_matched_model_benchmark.ipynb),
 [Notebook 23](code/notebooks/23_multiseed_and_imbalance_robustness.ipynb) and
@@ -121,7 +130,7 @@ Qualified per-class and participant-level results are available from
 
 | Location | Contents |
 | --- | --- |
-| [`code/notebooks/`](code/notebooks/) | Consolidated Stages 01–06, retained historical Stages 16–26, and the separate FINAL notebook |
+| [`code/notebooks/`](code/notebooks/) | Consolidated Stages 01–07, retained historical Stages 18–26, and the separate FINAL notebook |
 | [`code/src/`](code/src/) | HARTH-specific data and quality-audit utilities |
 | [`output/`](output/) | Executed experiment CSVs, figures, Stage 26 report and ten committed FINAL audit outputs (including SHA256 provenance) |
 | [`images/`](images/) | Study-level and individual notebook SVG workflow figures |
@@ -207,8 +216,7 @@ to S023 and S032 and 1,000 overlapping windows.
 - [Qualified evaluation approval](evidence/stage_25_protocol_approved_qualified_test.json):
   frozen model specifications and the authorised evaluation boundary.
 
-**Status:** The integrated Notebooks **01–06** have saved executions and
-published scientific tables and figures, while Stages 16–26 and the FINAL
+**Status:** The integrated Notebooks **01–07** have saved executions; independent CSV/PNG outputs for Notebook 07 are not yet committed, while Stages 18–26 and the FINAL
 audit retain their historical recorded work. The saved FINAL audit passed
 in its earlier source-file context; its execution against the consolidated
 current-file names remains unverified. The study is **not** independently

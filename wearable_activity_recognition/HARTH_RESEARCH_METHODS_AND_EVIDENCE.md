@@ -78,7 +78,7 @@ with input shape `(N, 6, 100)` and eight-class targets.
 The 500-window bounded cohort is selected by fixed chronological positions
 after window eligibility checks, without consulting task labels.
 Integrated Notebook 06 also analyses a 250-window limit. The
-strictly nested scaling design used in Notebook 06 and later Stages 16–17
+strictly nested scaling design used in Notebooks 06 and 07
 retain the original 500-window indices in the larger training set; this is
 distinct from independently resampling the 1,000-window population.
 
@@ -158,12 +158,27 @@ changes from **0.7973 to 0.7807**. The 1,000-cap CNN reaches
 The forest improves for five of six Validation participants; the
 weighted CNN improves for three and declines for three. Equal CNN
 epochs do not imply equal optimiser-update budgets. The separate grouped
-and fixed-update protocols of Stages 16 and 17 are not pooled with these
-single-split findings.
+and fixed-update protocols of integrated Notebook 07 are not pooled
+with these single-split findings.
 Sources: [Notebook 06](code/notebooks/06_harth_sampling_sensitivity_and_nested_training_scaling.ipynb),
 [sampling counts](output/06_sampling_policy_class_counts.csv),
 [fixed-split metrics](output/06_nested_validation_model_metrics.csv) and
 [paired participant evidence](output/06_nested_paired_summary.csv).
+
+**Participant-grouped nested scaling and fixed-update budgets
+(integrated Notebook 07).** A shared 29-participant Development cohort
+contains 14,201 base and 28,201 expanded windows. In three
+participant-disjoint folds, five-epoch mean Macro F1 changes from
+**0.8094 to 0.8080** for RF and **0.7832 to 0.7964** for weighted CNN
+(Train caps 500 to 1,000). Weighted CNN improves for **20/29**
+participants on paired fixed-task Macro F1; RF improves for **11/29**,
+declines for 16 and ties for two. A separate matched 400-update
+weighted-CNN protocol records fold-mean Macro F1 **0.7721 to 0.7921**
+but balanced accuracy **0.8021 to 0.7968**, with 17/29 participants
+showing higher Macro F1. No independent Test is performed in either.
+The executed [Notebook 07](code/notebooks/07_harth_grouped_nested_training_and_fixed_update_comparison.ipynb)
+contains the saved result tables and figures; its separate `07_`
+CSV/PNG export files have not yet been committed.
 
 **Advanced architectures (Stage 21).** Engineering validation covered:
 
