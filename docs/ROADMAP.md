@@ -23,8 +23,18 @@ The saved execution records 132,397 eligible Development windows and
 fixed-split fifth-epoch Macro F1 for RF **0.8140/0.8644** and weighted
 CNN **0.7973/0.7807** at Train caps 500/1,000.
 The `06_sampling_` and `06_nested_` outputs are current. The separate
-grouped nested-training analysis of historical Stage 16 is retained.
+grouped nested-training analysis is now integrated in Notebook 07.
 The dated checklist below remains a historical development log.
+
+**Notebook consolidation, 12 November 2026:** Executed
+[Notebook 07](../wearable_activity_recognition/code/notebooks/07_harth_grouped_nested_training_and_fixed_update_comparison.ipynb)
+supersedes legacy 16/17, with three-fold nested GroupKFold and a
+separate fixed-400-update CNN comparison. Its saved outputs report
+RF five-epoch Macro F1 **0.8094/0.8080**, weighted CNN five-epoch
+**0.7832/0.7964** and fixed-update weighted CNN **0.7721/0.7921**
+at Train caps 500/1,000. The standalone `07_` CSV/PNG exports are not
+yet in GitHub. The dated stage checklist below documents historical work
+and does not redefine the active notebook filenames.
 
 **Evidence boundary:** The legacy FINAL audit still names historical source CSVs. Its execution against consolidated 03–05 output filenames has not been reverified; no Test results or provenance records are re-created by this consolidation.
 

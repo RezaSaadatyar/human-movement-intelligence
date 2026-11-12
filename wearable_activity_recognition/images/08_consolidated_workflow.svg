@@ -1,0 +1,164 @@
+<svg xmlns="http://www.w3.org/2000/svg" width="1700" height="816" viewBox="0 0 1700 816" role="img" aria-labelledby="title desc">
+<title id="title">HARTH out-of-fold confidence and subject-disjoint temperature calibration</title>
+<desc id="desc">Schematic workflow for two separate Development CNN experiments using the same 29 HARTH participants, 14201 held-out base windows and 28201 expanded source windows. The uncalibrated experiment uses three GroupKFold weighted CNN fits trained for 400 updates and records out-of-fold confidence, reliability and activity errors. A separate experiment withholds Calibration participants from model training, fits a scalar positive temperature using Calibration labels only and evaluates the raw and scaled probabilities on untouched outer Validation participants. The class argmax is preserved; no actual model results are claimed before integrated execution. Wearable signal traces are schematic.</desc>
+<rect x="0" y="0" width="1700" height="816" rx="20" fill="#F4F9FD" stroke="#F4F9FD" stroke-width="0"/>
+<g font-family="DejaVu Sans, Arial, sans-serif">
+<text x="30" y="38" font-size="23" font-weight="700" fill="#173453">HARTH OUT-OF-FOLD CONFIDENCE AND TEMPERATURE CALIBRATION</text>
+<text x="30" y="67" font-size="15" fill="#54738A">Official HARTH v2.0 · 29 Development participants · Two separately fitted probability experiments</text>
+<rect x="24" y="84" width="1652" height="160" rx="16" fill="#EAF3FA" stroke="#C7D9E6" stroke-width="2"/>
+<text x="49" y="105" font-size="11.5" font-weight="700" fill="#53738A">WEARABLE SENSOR CONTEXT</text>
+<g fill="none" stroke="#7298B0" stroke-width="2.5" stroke-linejoin="round" stroke-linecap="round">
+<circle cx="99" cy="127" r="11" fill="#FFFFFF"/>
+<path d="M86 142 Q99 138 112 142 L115 180 Q99 186 83 180 Z" fill="#D9E7F1"/>
+<path d="M86 147 L69 165 L65 181 M112 147 L128 165 L133 181 M91 185 L83 205 L76 225 M107 185 L116 205 L123 225"/>
+</g>
+<rect x="92" y="172" width="14" height="12" rx="2" fill="#245E9D" stroke="#FFFFFF" stroke-width="1"/>
+<rect x="81" y="189" width="13" height="14" rx="2" fill="#245E9D" stroke="#FFFFFF" stroke-width="1"/>
+<line x1="106" y1="177" x2="149" y2="177" stroke="#245E9D" stroke-width="1.3"/>
+<line x1="94" y1="196" x2="149" y2="196" stroke="#245E9D" stroke-width="1.3"/>
+<text x="154" y="181" font-size="12.5" fill="#173453">Lower back</text>
+<text x="154" y="200" font-size="12.5" fill="#173453">Thigh</text>
+<text x="154" y="224" font-size="12.1" fill="#506C7E">Six acceleration axes (g)</text>
+<text x="365" y="115" font-size="15" font-weight="700" fill="#173453">Published Dataset</text>
+<text x="365" y="146" font-size="13.5" fill="#506C7E">NTNU AI Lab HARTH v2.0</text>
+<text x="365" y="169" font-size="13.5" fill="#506C7E">Pinned official Git revision</text>
+<text x="365" y="192" font-size="13.5" fill="#506C7E">Six acceleration channels · 50 Hz</text>
+<text x="690" y="115" font-size="15" font-weight="700" fill="#173453">Shared Development Windows</text>
+<text x="690" y="146" font-size="13.5" fill="#506C7E">14,201 base · 28,201 expanded</text>
+<text x="690" y="169" font-size="13.5" fill="#506C7E">Six accelerometer channels</text>
+<text x="690" y="192" font-size="13.5" fill="#506C7E">Eight activity classes</text>
+<text x="1010" y="115" font-size="15" font-weight="700" fill="#173453">Uncalibrated OOF Audit</text>
+<text x="1010" y="146" font-size="13.5" fill="#506C7E">Three subject-disjoint folds</text>
+<text x="1010" y="169" font-size="13.5" fill="#506C7E">Weighted CNN · 400 updates</text>
+<text x="1010" y="192" font-size="13.5" fill="#506C7E">Softmax confidence and errors</text>
+<text x="1340" y="115" font-size="15" font-weight="700" fill="#173453">Disjoint Temperature Fit</text>
+<text x="1340" y="146" font-size="13.5" fill="#506C7E">Train / Calibration / Validation</text>
+<text x="1340" y="169" font-size="13.5" fill="#506C7E">Separate CNNs · positive T</text>
+<text x="1340" y="192" font-size="13.5" fill="#506C7E">Compare held-out probabilities</text>
+<rect x="24" y="258" width="1652" height="314" rx="16" fill="#EDF6FB" stroke="#B4CFE0" stroke-width="1.5"/>
+<rect x="38" y="272" width="238" height="32" rx="9" fill="#173453" stroke="#173453" stroke-width="1.4"/>
+<text x="157" y="293" font-size="13.5" font-weight="700" fill="#FFFFFF" text-anchor="middle">RESEARCH EVIDENCE</text>
+<rect x="38" y="312" width="238" height="214" rx="12" fill="#F7FAFD" stroke="#E0EAF0" stroke-width="1.4"/>
+<text x="53" y="341" font-size="17" font-weight="700" fill="#173453">Research questions</text>
+<text x="53" y="362" font-size="17" font-weight="700" fill="#173453">Two distinct fitted experiments</text>
+<text x="53" y="398" font-size="12.8" fill="#506C7E">Is confidence reliable?</text>
+<text x="53" y="421" font-size="12.8" fill="#506C7E">Where do confident errors occur?</text>
+<text x="53" y="444" font-size="12.8" fill="#506C7E">Does held-out scaling help?</text>
+<text x="53" y="467" font-size="12.8" fill="#506C7E">Do NLL, ECE and Brier agree?</text>
+<text x="53" y="501" font-size="13" font-weight="700" fill="#176363">Development-only evidence</text>
+<rect x="292" y="272" width="324" height="254" rx="12" fill="#FFFFFF" stroke="#B6CFDE" stroke-width="1.4"/>
+<rect x="292" y="272" width="324" height="33" rx="10" fill="#174B70" stroke="#174B70" stroke-width="1.4"/>
+<rect x="292" y="290" width="324" height="15" rx="0" fill="#174B70" stroke="#174B70" stroke-width="1.4"/>
+<text x="454" y="293" font-size="14" font-weight="700" fill="#FFFFFF" text-anchor="middle">IMU example (schematic)</text>
+<rect x="630" y="272" width="324" height="254" rx="12" fill="#FFFFFF" stroke="#B6CFDE" stroke-width="1.4"/>
+<rect x="630" y="272" width="324" height="33" rx="10" fill="#174B70" stroke="#174B70" stroke-width="1.4"/>
+<rect x="630" y="290" width="324" height="15" rx="0" fill="#174B70" stroke="#174B70" stroke-width="1.4"/>
+<text x="792" y="293" font-size="14" font-weight="700" fill="#FFFFFF" text-anchor="middle">Windowing (schematic)</text>
+<rect x="968" y="272" width="324" height="254" rx="12" fill="#FFFFFF" stroke="#B6CFDE" stroke-width="1.4"/>
+<rect x="968" y="272" width="324" height="33" rx="10" fill="#174B70" stroke="#174B70" stroke-width="1.4"/>
+<rect x="968" y="290" width="324" height="15" rx="0" fill="#174B70" stroke="#174B70" stroke-width="1.4"/>
+<text x="1130" y="293" font-size="14" font-weight="700" fill="#FFFFFF" text-anchor="middle">Probability diagnostics and calibration</text>
+<rect x="1306" y="272" width="356" height="254" rx="12" fill="#FFFFFF" stroke="#B6CFDE" stroke-width="1.4"/>
+<rect x="1306" y="272" width="356" height="33" rx="10" fill="#174B70" stroke="#174B70" stroke-width="1.4"/>
+<rect x="1306" y="290" width="356" height="15" rx="0" fill="#174B70" stroke="#174B70" stroke-width="1.4"/>
+<text x="1484" y="293" font-size="14" font-weight="700" fill="#FFFFFF" text-anchor="middle">Class-aligned, participant-held-out data</text>
+<line x1="350" y1="477" x2="542" y2="477" stroke="#7194ab" stroke-width="1.5"/>
+<line x1="350" y1="335" x2="350" y2="477" stroke="#7194ab" stroke-width="1.5"/>
+<path d="M353.0,365.0 L355.1,370.2 L357.1,371.8 L359.1,370.4 L361.2,370.0 L363.3,372.2 L365.3,374.6 L367.4,373.3 L369.4,368.4 L371.4,363.6 L373.5,362.2 L375.6,362.9 L377.6,361.9 L379.6,358.0 L381.7,354.5 L383.8,355.1 L385.8,359.2 L387.9,362.8 L389.9,363.4 L391.9,362.9 L394.0,365.0 L396.1,370.0 L398.1,374.3 L400.1,374.5 L402.2,371.6 L404.3,369.6 L406.3,370.4 L408.4,371.3 L410.4,368.8 L412.4,363.2 L414.5,358.6 L416.6,357.9 L418.6,359.6 L420.6,359.7 L422.7,357.3 L424.8,355.6 L426.8,358.0 L428.9,363.3 L430.9,367.6 L432.9,368.3 L435.0,367.6 L437.1,369.1 L439.1,373.1 L441.1,375.7 L443.2,374.0 L445.3,369.5 L447.3,366.3 L449.4,366.2 L451.4,366.4 L453.4,363.6 L455.5,358.5 L457.6,355.0 L459.6,355.9 L461.6,359.1 L463.7,360.7 L465.8,359.8 L467.8,359.5 L469.9,362.8 L471.9,368.6 L473.9,372.4 L476.0,372.2 L478.0,370.4 L480.1,370.6 L482.1,373.0 L484.2,373.9 L486.3,370.6 L488.3,365.0 L490.4,361.4 L492.4,361.3 L494.4,361.9 L496.5,359.9 L498.5,356.0 L500.6,354.4 L502.6,357.1 L504.7,361.8 L506.8,364.5 L508.8,364.3 L510.9,364.5 L512.9,367.9 L515.0,372.9 L517.0,375.4 L519.0,373.5 L521.1,370.1 L523.1,368.9 L525.2,370.0 L527.3,369.6 L529.3,365.4 L531.4,359.8 L533.4,356.8 L535.5,357.8 L537.5,359.7" stroke="#2B72D7" fill="none" stroke-width="2.1"/>
+<text x="555" y="369" font-size="11.7" fill="#2B72D7">Back X</text>
+<path d="M353.0,416.3 L355.1,416.2 L357.1,412.7 L359.1,409.6 L361.2,409.7 L363.3,411.3 L365.3,410.5 L367.4,406.4 L369.4,402.5 L371.4,402.3 L373.5,405.2 L375.6,407.0 L377.6,405.9 L379.6,404.0 L381.7,405.3 L383.8,409.8 L385.8,413.7 L387.9,413.9 L389.9,411.8 L391.9,411.2 L394.0,413.6 L396.1,415.9 L398.1,414.6 L400.1,410.2 L402.2,406.7 L404.3,406.8 L406.3,408.3 L408.4,407.7 L410.4,404.2 L412.4,401.4 L414.5,402.4 L416.6,406.3 L418.6,408.9 L420.6,408.3 L422.7,407.0 L424.8,408.5 L426.8,412.9 L428.9,416.1 L430.9,415.3 L432.9,412.2 L435.0,410.8 L437.1,412.3 L439.1,413.7 L441.1,411.6 L443.2,406.9 L445.3,403.6 L447.3,404.2 L449.4,406.4 L451.4,406.5 L453.4,403.9 L455.5,402.2 L457.6,404.4 L459.6,409.1 L461.6,411.9 L463.7,411.3 L465.8,409.8 L467.8,411.1 L469.9,414.7 L471.9,416.8 L473.9,414.7 L476.0,410.7 L478.0,408.6 L480.1,409.7 L482.1,410.6 L484.2,408.4 L486.3,404.0 L488.3,401.6 L490.4,403.2 L492.4,406.4 L494.4,407.3 L496.5,405.6 L498.5,404.8 L500.6,407.6 L502.6,412.4 L504.7,414.9 L506.8,413.6 L508.8,411.4 L510.9,411.9 L512.9,414.5 L515.0,415.4 L517.0,412.3 L519.0,407.7 L521.1,405.5 L523.1,406.7 L525.2,407.9 L527.3,406.1 L529.3,402.6 L531.4,401.4 L533.4,404.3 L535.5,408.3 L537.5,409.7" stroke="#EB8738" fill="none" stroke-width="2.1"/>
+<text x="555" y="413" font-size="11.7" fill="#EB8738">Back Y</text>
+<path d="M353.0,459.2 L355.1,454.9 L357.1,450.8 L359.1,450.2 L361.2,452.2 L363.3,452.9 L365.3,450.6 L367.4,448.1 L369.4,449.0 L371.4,453.2 L373.5,456.9 L375.6,457.1 L377.6,455.5 L379.6,456.0 L381.7,459.4 L383.8,462.5 L385.8,461.9 L387.9,458.1 L389.9,455.4 L391.9,455.8 L394.0,457.3 L396.1,456.0 L398.1,451.7 L400.1,448.2 L402.2,448.6 L404.3,451.6 L406.3,453.1 L408.4,451.7 L410.4,450.1 L412.4,451.8 L414.5,456.5 L416.6,460.0 L418.6,459.8 L420.6,457.6 L422.7,457.4 L424.8,459.9 L426.8,461.9 L428.9,460.1 L430.9,455.5 L432.9,452.4 L435.0,452.8 L437.1,454.3 L439.1,453.3 L441.1,449.7 L443.2,447.2 L445.3,448.9 L447.3,452.9 L449.4,455.1 L451.4,454.2 L453.4,453.1 L455.5,455.1 L457.6,459.5 L459.6,462.3 L461.6,461.0 L463.7,457.8 L465.8,456.8 L467.8,458.5 L469.9,459.5 L471.9,457.0 L473.9,452.2 L476.0,449.4 L478.0,450.4 L480.1,452.6 L482.1,452.3 L484.2,449.6 L486.3,448.4 L488.3,451.1 L490.4,455.7 L492.4,458.2 L494.4,457.2 L496.5,455.9 L498.5,457.5 L500.6,461.1 L502.6,462.7 L504.7,460.2 L506.8,456.1 L508.8,454.5 L510.9,455.7 L512.9,456.4 L515.0,453.8 L517.0,449.4 L519.0,447.5 L521.1,449.6 L523.1,452.7 L525.2,453.2 L527.3,451.4 L529.3,451.0 L531.4,454.3 L533.4,459.0 L535.5,461.0 L537.5,459.3" stroke="#29976A" fill="none" stroke-width="2.1"/>
+<text x="555" y="459" font-size="11.7" fill="#29976A">Back Z</text>
+<text x="450" y="496" font-size="11.7" fill="#506C7E" text-anchor="middle">Illustrative signal samples</text>
+<text x="450" y="514" font-size="10.3" fill="#506C7E" text-anchor="middle">Illustrative traces, not source samples</text>
+<line x1="676" y1="458" x2="912" y2="458" stroke="#7194ab" stroke-width="1.5"/>
+<line x1="676" y1="342" x2="676" y2="470" stroke="#7194ab" stroke-width="1.5"/>
+<rect x="695" y="363" width="92" height="46" rx="5" fill="#d8ebff" stroke="#98b2c6" stroke-width="1.3"/>
+<text x="741" y="382" font-size="12" font-weight="700" fill="#173453" text-anchor="middle">Window 1</text>
+<text x="741" y="399" font-size="10" fill="#506C7E" text-anchor="middle">100 samples</text>
+<rect x="751" y="363" width="92" height="46" rx="5" fill="#f7efd5" stroke="#98b2c6" stroke-width="1.3"/>
+<text x="797" y="382" font-size="12" font-weight="700" fill="#173453" text-anchor="middle">Window 2</text>
+<text x="797" y="399" font-size="10" fill="#506C7E" text-anchor="middle">100 samples</text>
+<rect x="807" y="363" width="92" height="46" rx="5" fill="#dcefe5" stroke="#98b2c6" stroke-width="1.3"/>
+<text x="853" y="382" font-size="12" font-weight="700" fill="#173453" text-anchor="middle">Window 3</text>
+<text x="853" y="399" font-size="10" fill="#506C7E" text-anchor="middle">100 samples</text>
+<text x="792" y="437" font-size="12.1" fill="#173453" text-anchor="middle">50-sample stride (50% overlap)</text>
+<text x="792" y="480" font-size="10.8" fill="#506C7E" text-anchor="middle">Only single-label, gap-free windows retained</text>
+<text x="792" y="508" font-size="12.1" font-weight="700" fill="#173453" text-anchor="middle">Separate CNN fits for confidence audit and disjoint calibration</text>
+<rect x="984" y="327" width="292" height="160" rx="7" fill="#F8FBFD" stroke="#CFDFE9" stroke-width="1"/>
+<rect x="984" y="327" width="292" height="28" rx="7" fill="#E2ECF3" stroke="#E2ECF3" stroke-width="1"/>
+<text x="997" y="346" font-size="12.1" font-weight="700" fill="#173453">Analysis</text>
+<text x="1138" y="346" font-size="12.1" font-weight="700" fill="#173453">Inputs and evaluation</text>
+<text x="997" y="374" font-size="11.7" fill="#506C7E">Confidence audit</text>
+<text x="1138" y="374" font-size="11.7" fill="#506C7E">Uncalibrated softmax</text>
+<line x1="988" y1="382" x2="1272" y2="382" stroke="#DFE9EF" stroke-width="1"/>
+<text x="997" y="398" font-size="11.7" fill="#506C7E">Error and reliability</text>
+<text x="1138" y="398" font-size="11.7" fill="#506C7E">ECE, Brier and class errors</text>
+<line x1="988" y1="406" x2="1272" y2="406" stroke="#DFE9EF" stroke-width="1"/>
+<text x="997" y="422" font-size="11.7" fill="#506C7E">Temperature calibration</text>
+<text x="1138" y="422" font-size="11.7" fill="#506C7E">Separate Train/Cal groups</text>
+<line x1="988" y1="430" x2="1272" y2="430" stroke="#DFE9EF" stroke-width="1"/>
+<text x="997" y="446" font-size="11.7" fill="#506C7E">Outer Validation</text>
+<text x="1138" y="446" font-size="11.7" fill="#506C7E">Same base source windows</text>
+<text x="1130" y="515" font-size="12.1" font-weight="700" fill="#173453" text-anchor="middle">Never fit T on outer Validation labels</text>
+<circle cx="1335" cy="356" r="13" fill="#E0F3E9" stroke="#279366" stroke-width="1.4"/>
+<text x="1335" y="361" font-size="16" font-weight="700" fill="#245E9D" text-anchor="middle">•</text>
+<text x="1361" y="357" font-size="12.5" font-weight="700" fill="#173453">Uncalibrated confidence</text>
+<text x="1361" y="378" font-size="11.6" fill="#506C7E">Ten-bin ECE · Brier · errors</text>
+<circle cx="1335" cy="421" r="13" fill="#E0F3E9" stroke="#279366" stroke-width="1.4"/>
+<text x="1335" y="426" font-size="16" font-weight="700" fill="#245E9D" text-anchor="middle">•</text>
+<text x="1361" y="422" font-size="12.5" font-weight="700" fill="#173453">Subject-disjoint scaling</text>
+<text x="1361" y="443" font-size="11.6" fill="#506C7E">NLL, ECE and Brier by fold</text>
+<circle cx="1335" cy="486" r="13" fill="#E0F3E9" stroke="#279366" stroke-width="1.4"/>
+<text x="1335" y="491" font-size="16" font-weight="700" fill="#245E9D" text-anchor="middle">•</text>
+<text x="1361" y="487" font-size="12.5" font-weight="700" fill="#173453">Class prediction</text>
+<text x="1361" y="508" font-size="11.6" fill="#506C7E">Top-1 class must not change</text>
+<rect x="318" y="536" width="1094" height="21" rx="10" fill="#DCEFE6" stroke="#CDE3D8" stroke-width="1"/>
+<circle cx="335" cy="547" r="9" fill="#267998"/>
+<text x="335" y="551" font-size="13" font-weight="700" fill="#FFFFFF" text-anchor="middle">i</text>
+<text x="353" y="551" font-size="11.8" fill="#173453">Distinct fitted CNNs · Calibration-only temperature · No independent external assessment</text>
+<rect x="24" y="586" width="1652" height="195" rx="16" fill="#EAF3FA" stroke="#C7D9E6" stroke-width="1.5"/>
+<rect x="38" y="612" width="210" height="130" rx="11" fill="#173453" stroke="#173453" stroke-width="1.4"/>
+<text x="143" y="640" font-size="13" font-weight="700" fill="#FFFFFF" text-anchor="middle">INPUT</text>
+<text x="143" y="671" font-size="14.1" font-weight="700" fill="#FFFFFF" text-anchor="middle">HARTH v2.0</text>
+<text x="143" y="697" font-size="11.9" fill="#D8E9F0" text-anchor="middle">Six acceleration channels</text>
+<text x="143" y="717" font-size="11.9" fill="#D8E9F0" text-anchor="middle">Label-pure windows</text>
+<text x="261" y="685" font-size="18" font-weight="700" fill="#245E9D" text-anchor="middle">→</text>
+<rect x="275" y="612" width="198" height="130" rx="11" fill="#FFFFFF" stroke="#B9D0E0" stroke-width="1.4"/>
+<text x="374" y="640" font-size="13" font-weight="700" fill="#173453" text-anchor="middle">01</text>
+<text x="374" y="671" font-size="14.1" font-weight="700" fill="#173453" text-anchor="middle">Nested Source Cohort</text>
+<text x="374" y="697" font-size="11.9" fill="#506C7E" text-anchor="middle">14,201 base · 28,201 expanded</text>
+<text x="374" y="717" font-size="11.9" fill="#506C7E" text-anchor="middle">Eight documented activities</text>
+<text x="486" y="685" font-size="18" font-weight="700" fill="#245E9D" text-anchor="middle">→</text>
+<rect x="499" y="612" width="198" height="130" rx="11" fill="#FFFFFF" stroke="#B9D0E0" stroke-width="1.4"/>
+<text x="598" y="640" font-size="13" font-weight="700" fill="#173453" text-anchor="middle">02</text>
+<text x="598" y="671" font-size="14.1" font-weight="700" fill="#173453" text-anchor="middle">Outer GroupKFold</text>
+<text x="598" y="697" font-size="11.9" fill="#506C7E" text-anchor="middle">Three participant-held-out folds</text>
+<text x="598" y="717" font-size="11.9" fill="#506C7E" text-anchor="middle">Base-window Validation</text>
+<text x="710" y="685" font-size="18" font-weight="700" fill="#245E9D" text-anchor="middle">→</text>
+<rect x="723" y="612" width="198" height="130" rx="11" fill="#FFFFFF" stroke="#B9D0E0" stroke-width="1.4"/>
+<text x="822" y="640" font-size="13" font-weight="700" fill="#173453" text-anchor="middle">03</text>
+<text x="822" y="671" font-size="14.1" font-weight="700" fill="#173453" text-anchor="middle">Confidence Audit</text>
+<text x="822" y="697" font-size="11.9" fill="#506C7E" text-anchor="middle">Uncalibrated 400-step CNN</text>
+<text x="822" y="717" font-size="11.9" fill="#506C7E" text-anchor="middle">Softmax reliability + errors</text>
+<text x="934" y="685" font-size="18" font-weight="700" fill="#245E9D" text-anchor="middle">→</text>
+<rect x="947" y="612" width="198" height="130" rx="11" fill="#FFFFFF" stroke="#B9D0E0" stroke-width="1.4"/>
+<text x="1046" y="640" font-size="13" font-weight="700" fill="#173453" text-anchor="middle">04</text>
+<text x="1046" y="671" font-size="14.1" font-weight="700" fill="#173453" text-anchor="middle">Disjoint Calibration</text>
+<text x="1046" y="697" font-size="11.9" fill="#506C7E" text-anchor="middle">Independent Train/Cal split</text>
+<text x="1046" y="717" font-size="11.9" fill="#506C7E" text-anchor="middle">400-step CNN + temperature</text>
+<text x="1158" y="685" font-size="18" font-weight="700" fill="#245E9D" text-anchor="middle">→</text>
+<rect x="1171" y="612" width="198" height="130" rx="11" fill="#FFFFFF" stroke="#B9D0E0" stroke-width="1.4"/>
+<text x="1270" y="640" font-size="13" font-weight="700" fill="#173453" text-anchor="middle">05</text>
+<text x="1270" y="671" font-size="14.1" font-weight="700" fill="#173453" text-anchor="middle">Paired Outer Validation</text>
+<text x="1270" y="697" font-size="11.9" fill="#506C7E" text-anchor="middle">Raw vs scaled probabilities</text>
+<text x="1270" y="717" font-size="11.9" fill="#506C7E" text-anchor="middle">Top-1 accuracy preserved</text>
+<text x="1382" y="685" font-size="18" font-weight="700" fill="#245E9D" text-anchor="middle">→</text>
+<rect x="1396" y="612" width="266" height="130" rx="11" fill="#176968" stroke="#176968" stroke-width="1.4"/>
+<text x="1529" y="640" font-size="13" font-weight="700" fill="#FFFFFF" text-anchor="middle">OUTPUT</text>
+<text x="1529" y="671" font-size="14.1" font-weight="700" fill="#FFFFFF" text-anchor="middle">Research Outputs</text>
+<text x="1529" y="697" font-size="11.9" fill="#D8E9F0" text-anchor="middle">CSV tables and PNG figures</text>
+<text x="1529" y="717" font-size="11.9" fill="#D8E9F0" text-anchor="middle">Confidence and calibration</text>
+<text x="35" y="766" font-size="12.1" fill="#506C7E">Separate evaluation evidence</text>
+</g></svg>
