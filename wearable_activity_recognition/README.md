@@ -51,8 +51,7 @@ and selection.
 | [06](code/notebooks/06_harth_sampling_sensitivity_and_nested_training_scaling.ipynb) | Full-source sampling retention and fixed-Validation comparison of strictly nested 500/1,000 Train sizes for Random Forest and weighted CNN |
 | [07](code/notebooks/07_harth_grouped_nested_training_and_fixed_update_comparison.ipynb) | Three-fold grouped nested Train-size comparison and matched 400-update weighted CNN evaluation |
 | [08](code/notebooks/08_harth_oof_confidence_and_temperature_calibration.ipynb) | Executed uncalibrated OOF confidence audit and independently fitted participant-disjoint temperature calibration |
-| [09](code/notebooks/09_harth_source_quality_and_minority_activity_audit.ipynb) | Full HARTH source integrity, minority-class support, annotation bouts, sampling-cap and sensor audit; integrated execution pending |
-| [20](code/notebooks/20_minority_class_and_data_quality.ipynb) | Historical source-quality notebook, temporarily retained pending successful Notebook 09 execution |
+| [09](code/notebooks/09_harth_source_quality_and_minority_activity_audit.ipynb) | Saved Development-only source integrity, minority activity support, annotation bouts, sampling caps and sensor audit; 27 current CSV/PNG outputs |
 | [21](code/notebooks/21_advanced_temporal_architectures.ipynb) | Engineering checks for TCN, Multi-Scale CNN, 1D-ResNet and Time-Series Transformer |
 | [22](code/notebooks/22_unified_matched_model_benchmark.ipynb) | Seven-model matched, three-fold Development benchmark (21 model-fold jobs) |
 | [23](code/notebooks/23_multiseed_and_imbalance_robustness.ipynb) | Three-seed architecture/loss robustness (36 neural model-fold-seed jobs) |
@@ -132,8 +131,23 @@ reports three-fold Development mean Macro F1 at nested Train caps
 for weighted CNN with five epochs. In the separate fixed-400-update
 comparison, weighted CNN means are **0.7721/0.7921**. Training
 representations and optimisation budgets differ between experiments;
-the notebook's saved outputs support these numerical summaries, but
-its standalone `07_` CSV/PNG files have not yet been committed.
+the notebook's saved outputs and 24 committed `07_` CSV/PNG files support these numerical summaries.
+
+[Notebook 09](code/notebooks/09_harth_source_quality_and_minority_activity_audit.ipynb)
+provides a model-free source-quality analysis of the 29 Development
+participants. From 160,090 candidate windows, 15,985 were rejected
+for label purity, timestamp continuity or both; 144,105 passed these
+checks. A further 11,708 pure/time-safe windows had out-of-task
+source labels, leaving **132,397 eligible eight-class windows**.
+Shuffling contributes **1,946 windows from 28 participants** (1.47%);
+of 3,359 Shuffling annotation bouts, **2,342 (69.72%)** are shorter
+than the two-second analysis window. The label-blind 500-window cap
+retains only **219 of 1,946 Shuffling windows (11.25%)**, with 26
+contributing participants. These are source/coverage quantities, not
+predictions or explanations of the separately reported Notebook 08
+errors. See the [activity support](output/09_activity_support_summary.csv),
+[bout summary](output/09_annotation_bout_summary.csv), and
+[source accounting](output/09_development_source_accounting.csv).
 
 The full seven-model and robustness results are reported in
 [Notebook 22](code/notebooks/22_unified_matched_model_benchmark.ipynb),
@@ -146,7 +160,7 @@ Qualified per-class and participant-level results are available from
 
 | Location | Contents |
 | --- | --- |
-| [`code/notebooks/`](code/notebooks/) | Consolidated Stages 01–09, temporarily retained legacy Stage 20, remaining historical Stages 21–26, and the separate FINAL notebook |
+| [`code/notebooks/`](code/notebooks/) | Consolidated Notebooks 01–09, remaining legacy 21–26 and the separate FINAL notebook |
 | [`code/src/`](code/src/) | HARTH-specific data and quality-audit utilities |
 | [`output/`](output/) | Executed experiment CSVs, figures, Stage 26 report and ten committed FINAL audit outputs (including SHA256 provenance) |
 | [`images/`](images/) | Study-level and individual notebook SVG workflow figures |
@@ -232,8 +246,4 @@ to S023 and S032 and 1,000 overlapping windows.
 - [Qualified evaluation approval](evidence/stage_25_protocol_approved_qualified_test.json):
   frozen model specifications and the authorised evaluation boundary.
 
-**Status:** Integrated Notebooks **01–08** have saved executions; Notebook 09 is implemented but not yet executed, and its `09_` outputs are pending. All 17 CSV/PNG outputs for Notebook 08 are published. Independent CSV/PNG outputs for Notebook 07 are not yet committed; historical Stages 20–26 and the FINAL
-audit retain their historical recorded work. The saved FINAL audit passed
-in its earlier source-file context; its execution against the consolidated
-current-file names remains unverified. The study is **not** independently
-replicated, externally validated or ready for clinical deployment.
+**Current consolidation status:** Notebooks **01–09** have saved analytical outputs. The current repository contains 24 `07_`, 17 `08_` and 27 `09_` CSV/PNG outputs. Notebook 09 supersedes the historical source-quality Notebook 20. Some cells in the latest Notebook 09 retain saved outputs but no execution count; this is a record inconsistency, not a reason to invent execution history. Legacy Notebooks 21–26 and FINAL remain to be reconciled with current consolidated file interfaces. The separately recorded qualified held-out assessment is not blind, external or clinical validation.

@@ -296,25 +296,46 @@ reflect their original executions. They are not substituted for
 Notebook 08 results, and the previous Stage 18/19 notebook files
 have been retired after integration.
 
-**Source and minority-class audit (implemented Notebook 09; historical Stage 20).**
-[Notebook 09](code/notebooks/09_harth_source_quality_and_minority_activity_audit.ipynb)
-reconstructs the original Development source-quality audit: raw source
-codes, timestamp/annotation window decisions, class and independent-person
-support, annotation-bout durations, raw six-channel descriptors and
-independent label-blind 250/500/1,000-window caps. It also reads the current
-[Notebook 08 class-error table](output/08_confidence_class_error_summary.csv)
-as contextual evidence, without fitting a model or comparing different
-denominators as if matched. **Notebook 09 is implemented but has not yet
-been executed**; numerical findings from the former Stage 20 are historical,
-not verified outputs of the new file.
+**Development source-quality and minority-activity audit (Notebook 09).**
+The [consolidated notebook](code/notebooks/09_harth_source_quality_and_minority_activity_audit.ipynb)
+has recorded Development-only results and 27 published `09_` CSV/PNG
+outputs. The [source accounting](output/09_development_source_accounting.csv)
+covers 29 participants and 8,006,741 raw samples. Of 160,090 candidate
+100-sample windows, 14,459 fail label purity only, 397 fail timestamp
+continuity only and 1,129 fail both checks; 144,105 pass. A further
+11,708 pure/time-safe windows contain out-of-task labels, leaving
+**132,397 eight-class eligible windows**. Codes 13, 14, 130 and 140
+denote documented cycling variants outside this task; codes 10, 11
+and 17 are unmapped rather than assigned activity labels.
 
-**Historical source-audit evidence (Stage 20).** Timestamp gaps,
-annotation transitions, exclusion codes, channel diagnostics and
-the distribution of rare activities are assessed without inventing
-undocumented source labels. Deterministic per-participant sampling limits
-can change minority-class availability before any classifier is fitted;
-sampling retention is not predictive recall. Qualified held-out support
-is especially sparse for Shuffling and stair activities.
+The [activity-support table](output/09_activity_support_summary.csv)
+records Shuffling **1,946 windows from 28 people** (1.47%),
+Stairs ascending **1,332 from 26** (1.01%) and Stairs descending
+**1,066 from 25** (0.81%). The [bout summary](output/09_annotation_bout_summary.csv)
+records **2,342 of 3,359 Shuffling annotation bouts (69.72%)**
+shorter than the two-second analysis window, with median nominal
+duration **1.28 s**. Bouts describe recorded annotation runs, not
+independently validated movement events. Overlapping windows are
+not independent participants.
+
+Independent label-blind per-participant caps of 250, 500 and 1,000
+retain **7,201, 14,201 and 28,201** eligible Development windows.
+At cap 500, Shuffling retention is **219/1,946 (11.25%)**, with
+**26 of 28** original contributing participants. These separately
+sampled caps are not the nested training expansion used by
+Notebooks 06–07. The [channel summary](output/09_sensor_channel_summary.csv)
+contains no non-finite samples but records notable channel extrema
+and repeated neighbouring measurements; these observations do not
+establish hardware failure or annotation errors.
+
+The [source-to-OOF context](output/09_source_support_and_oof_error_context.csv)
+joins source coverage with read-only
+[Notebook 08 class errors](output/08_confidence_class_error_summary.csv).
+The latter has **193 Shuffling errors among 219 capped windows**
+(recall **0.1187**). The source and prediction populations have
+different denominators and evaluation purposes; their descriptive
+association cannot establish a cause of classifier errors or
+independent Test performance.
 
 ## 06. Frozen selection and qualified held-out results
 
@@ -478,8 +499,8 @@ evaluation or evidence of clinical readiness.
 - [Notebooks 01–26](code/notebooks/) contain experimental methods and
   saved execution evidence. The [Stage 01–19 evidence register](evidence/stage_01_19_evidence_register.csv)
   provides cross-stage context.
-- [Stage 20](code/notebooks/20_minority_class_and_data_quality.ipynb) contains
-  the full source-data audit; [Stage 22](code/notebooks/22_unified_matched_model_benchmark.ipynb)
+- [Notebook 09](code/notebooks/09_harth_source_quality_and_minority_activity_audit.ipynb) contains
+  the current Development source-data audit; [Stage 22](code/notebooks/22_unified_matched_model_benchmark.ipynb)
   and [Stage 23](code/notebooks/23_multiseed_and_imbalance_robustness.ipynb)
   provide the main matched model comparison and repeated-seed results.
 - [Stage 24](code/notebooks/24_model_selection_and_protocol_freeze.ipynb)
@@ -504,11 +525,11 @@ evaluation or evidence of clinical readiness.
   [reproducibility guide](../docs/HARTH_REPRODUCIBILITY.md) document
   implementation and verification requirements.
 
-**Research status:** All 26 numbered notebooks and the separate FINAL
-cross-stage evidence audit have recorded executed results in GitHub.
-The FINAL audit passes its source-file and scientific-consistency
-Quality Gate, with ten committed output artefacts. This completes the
-HARTH research portfolio documentation and evidence audit within
-the available datasets and evaluation boundaries. It does **not**
-establish independent replication, clinical validation or
-generalisation to new participant populations.
+**Research status:** The original 26-stage programme and FINAL
+have recorded historical experiments. The current repository includes
+consolidated Notebooks 01–09 with saved evidence; legacy 21–26 and
+FINAL still require current-file dependency review. The historical
+FINAL audit's saved quality-gate output does not prove that its original
+file interfaces can run unchanged against the consolidated tree.
+The study does **not** establish independent replication, external
+clinical validation or generalisation to new participant populations.

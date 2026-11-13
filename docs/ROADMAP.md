@@ -1,4 +1,4 @@
-# Current Research Status (21 October 2026)
+# Current Research Status (13 November 2026)
 
 **HARTH study structure:** Numbered notebooks are being consolidated by scientific purpose; the established FINAL audit remains separate. The historical planning checklist below is preserved as a dated record. Frozen protocol evidence and SHA256 records are not modified by notebook consolidation.
 
@@ -32,8 +32,7 @@ supersedes legacy 16/17, with three-fold nested GroupKFold and a
 separate fixed-400-update CNN comparison. Its saved outputs report
 RF five-epoch Macro F1 **0.8094/0.8080**, weighted CNN five-epoch
 **0.7832/0.7964** and fixed-update weighted CNN **0.7721/0.7921**
-at Train caps 500/1,000. The standalone `07_` CSV/PNG exports are not
-yet in GitHub. The dated stage checklist below documents historical work
+at Train caps 500/1,000. All 24 standalone `07_` CSV/PNG exports are now in GitHub. The dated stage checklist below documents historical work
 and does not redefine the active notebook filenames.
 
 **Notebook consolidation, 13 November 2026:** Executed
@@ -50,22 +49,26 @@ probability metrics. The earlier Stage 18/19 results and
 the dated checklist below remain historical evidence, not
 current integrated-notebook measurements.
 
-**Notebook 09 implementation, 13 November 2026:** The
+**Notebook 09 evidence review, 13 November 2026:** The
 [source-quality and minority-activity audit](../wearable_activity_recognition/code/notebooks/09_harth_source_quality_and_minority_activity_audit.ipynb)
-integrates the source-label, window rejection, independent participant
-coverage, annotation bout, temporal sampling and sensor examination
-from historical Stage 20, and uses the saved Notebook 08
-activity-error table only for contextual comparison. The new notebook
-and `09_consolidated_workflow.svg` are published but **not yet executed**.
-Stage 20 remains until the integrated outputs and dependencies are
-reviewed; no prior Stage 20 numbers are attributed to this new execution.
+consolidates historical Stage 20's source-label, windowing,
+annotation-bout, sampling and sensor-quality analysis. Its 27
+published `09_` CSV/PNG outputs record **132,397 eight-class eligible
+Development windows** from 29 people, after distinct label,
+timestamp and out-of-task exclusions. Shuffling contributes 1,946
+eligible windows from 28 people and only 219 windows from 26 people
+under the independently sampled 500-cap policy. Source-availability
+patterns cannot by themselves explain the separately recorded
+Notebook 08 prediction errors. The consolidated workflow SVG
+remains a schematic. The old Notebook 20 and its stage-specific
+figure were retired after content transfer and dependency inspection.
 
 **Evidence boundary:** The legacy FINAL audit still names historical source CSVs. Its execution against consolidated 03–05 output filenames has not been reverified; no Test results or provenance records are re-created by this consolidation.
 
 | Area | Verified present status | Evidence |
 | --- | --- | --- |
 | HARTH Stages 01–19 | Executed exploratory/Development experiments under different cohorts and protocols | [Evidence register](../wearable_activity_recognition/evidence/stage_01_19_evidence_register.csv) |
-| Active Stage 20 | Executed Development data quality and minority activity audit | [Notebook 20](../wearable_activity_recognition/code/notebooks/20_minority_class_and_data_quality.ipynb) |
+| Consolidated Notebook 09 | Recorded Development source-quality and minority-activity audit | [Notebook 09](../wearable_activity_recognition/code/notebooks/09_harth_source_quality_and_minority_activity_audit.ipynb) |
 | Active Stage 21 | Advanced temporal model engineering and smoke tests | [Notebook 21](../wearable_activity_recognition/code/notebooks/21_advanced_temporal_architectures.ipynb) |
 | Active Stage 22 | Executed seven-model matched Development benchmark, 21 model-fold jobs | [Notebook 22](../wearable_activity_recognition/code/notebooks/22_unified_matched_model_benchmark.ipynb) |
 | Active Stage 23 | Executed three-seed/loss robustness, 36 neural model-fold-seed jobs | [Notebook 23](../wearable_activity_recognition/code/notebooks/23_multiseed_and_imbalance_robustness.ipynb) |
