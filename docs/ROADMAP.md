@@ -50,6 +50,16 @@ probability metrics. The earlier Stage 18/19 results and
 the dated checklist below remain historical evidence, not
 current integrated-notebook measurements.
 
+**Notebook 09 implementation, 13 November 2026:** The
+[source-quality and minority-activity audit](../wearable_activity_recognition/code/notebooks/09_harth_source_quality_and_minority_activity_audit.ipynb)
+integrates the source-label, window rejection, independent participant
+coverage, annotation bout, temporal sampling and sensor examination
+from historical Stage 20, and uses the saved Notebook 08
+activity-error table only for contextual comparison. The new notebook
+and `09_consolidated_workflow.svg` are published but **not yet executed**.
+Stage 20 remains until the integrated outputs and dependencies are
+reviewed; no prior Stage 20 numbers are attributed to this new execution.
+
 **Evidence boundary:** The legacy FINAL audit still names historical source CSVs. Its execution against consolidated 03–05 output filenames has not been reverified; no Test results or provenance records are re-created by this consolidation.
 
 | Area | Verified present status | Evidence |

@@ -296,7 +296,19 @@ reflect their original executions. They are not substituted for
 Notebook 08 results, and the previous Stage 18/19 notebook files
 have been retired after integration.
 
-**Source and minority-class audit (integrated Notebook 06 and Stage 20).** Timestamp gaps,
+**Source and minority-class audit (implemented Notebook 09; historical Stage 20).**
+[Notebook 09](code/notebooks/09_harth_source_quality_and_minority_activity_audit.ipynb)
+reconstructs the original Development source-quality audit: raw source
+codes, timestamp/annotation window decisions, class and independent-person
+support, annotation-bout durations, raw six-channel descriptors and
+independent label-blind 250/500/1,000-window caps. It also reads the current
+[Notebook 08 class-error table](output/08_confidence_class_error_summary.csv)
+as contextual evidence, without fitting a model or comparing different
+denominators as if matched. **Notebook 09 is implemented but has not yet
+been executed**; numerical findings from the former Stage 20 are historical,
+not verified outputs of the new file.
+
+**Historical source-audit evidence (Stage 20).** Timestamp gaps,
 annotation transitions, exclusion codes, channel diagnostics and
 the distribution of rare activities are assessed without inventing
 undocumented source labels. Deterministic per-participant sampling limits
