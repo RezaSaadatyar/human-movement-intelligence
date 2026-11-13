@@ -1,168 +1,29 @@
 # ==================== Presented by: Reza Saadatyar (2026) ====================
-"""Approved-protocol-gated HARTH final fitting and reproducible inference.
+"""HARTH Development model fitting, serialisation and source-window inference.
 
-Training sees Development ONLY. Qualified Test loading is a separate operation
-that requires an explicitly approved frozen source-fingerprinted protocol.
-Never selects architecture, random seed, stopping point or thresholds on Test.
+This module fits the selected HARTH 1D-ResNet using Development data only,
+stores inference artefacts and applies models without refitting preprocessing.
+Qualified same-study evaluation metrics are handled separately by
+core.harth_qualified_test_report.
 """
-import hashlib
+
 import json
 import random
 import time
 from pathlib import Path
 
+import joblib
 import numpy as np
 import pandas as pd
-from sklearn.ensemble import RandomForestClassifier
-from sklearn.metrics import accuracy_score, balanced_accuracy_score, f1_score
-from sklearn.metrics import classification_report, confusion_matrix
-import joblib
+import torch
+from torch import nn
+from torch.utils.data import DataLoader, TensorDataset
 
-from core.harth_protocol_lineage import (
-    verified_module_sha256, resolve_frozen_source_path,
-)
-
-try:
-    import torch
-    from torch import nn
-    from torch.utils.data import DataLoader, TensorDataset
-    from core.advanced_temporal_models import build_temporal_model
-    from core.temporal_cnn import compute_training_class_weights
-except ImportError:
-    torch = None
+from core.advanced_temporal_models import build_temporal_model
+from core.temporal_cnn import compute_training_class_weights
 
 
-# ====================== 01. Locked Reviewable Protocol =======================
-REQUIRED_APPROVAL = "APPROVED"
-TEST_CONFIRMATION = "I_APPROVE_QUALIFIED_TEST_EVALUATION"
-
-
-def sha256_file(path):
-    """
-    Hash an exact on-disk source/artifact file.
-
-    Args:
-        path (str | pathlib.Path): Existing file to fingerprint.
-
-    Returns:
-        str: SHA256 hex digest of its original bytes.
-    """
-    digest = hashlib.sha256()
-    with open(path, "rb") as handle:
-        for block in iter(lambda: handle.read(1048576), b""):
-            digest.update(block)
-    return digest.hexdigest()
-
-
-def load_final_protocol(path, repository_root, *, require_approval=False):
-    """
-    Validate original Stage 25 protocol and its recorded code fingerprints.
-
-    Args:
-        path (str | Path): Existing stage_25_protocol_proposal.json.
-        repository_root (str | Path): Exact checked-out repository root.
-        require_approval (bool): Block all Test operations unless the user
-            explicitly reviewed and set status to APPROVED.
-
-    Returns:
-        dict: Validated protocol settings with no data loaded.
-
-    Notes:
-        Source-module edits after approval invalidate this frozen proposal.
-        A status flag alone is not a claim of independent evaluation.
-    """
-    # 1. Refuse missing/malformed or unsupported protocol candidates.
-    path = Path(path)
-    manifest = json.loads(path.read_text(encoding="utf-8"))
-    if manifest.get("schema") != "harth-final-protocol-v1":
-        raise ValueError("Unknown HARTH final protocol schema.")
-    if manifest.get("status") not in ("PENDING_USER_REVIEW", "APPROVED"):
-        raise ValueError("Unrecognised protocol approval state.")
-    if require_approval and manifest["status"] != REQUIRED_APPROVAL:
-        raise PermissionError(
-            "The Stage 25 protocol is not APPROVED. Explicit user review "
-            "is required BEFORE accessing original reserved Test recordings."
-        )
-
-    # 2. Validate every historical frozen code fingerprint; no silent changes.
-    root = Path(repository_root).resolve()
-    hashes = manifest.get("module_sha256", {})
-    if len(hashes) != 6:
-        raise ValueError("Expected six exact frozen source module fingerprints.")
-    for relative, expected in hashes.items():
-        target = resolve_frozen_source_path(root, relative)
-        if not target.is_relative_to(root) or not target.is_file():
-            raise FileNotFoundError("Missing or unsafe frozen code path.")
-        # A Windows checkout can convert the original LF source to CRLF.
-        # Match the immutable approved hash either byte-for-byte or after
-        # CRLF-to-LF ONLY. All other edits remain prohibited.
-        try:
-            verified_module_sha256(target, expected)
-        except ValueError as error:
-            raise ValueError(
-                f"Frozen code was modified: {relative}. {error}"
-            ) from error
-
-    # 3. Enforce approved HARTH task and development settings.
-    source = manifest["source"]
-    model = manifest["primary_model"]
-    reference = manifest["reference_model"]
-    if (
-        source["task_codes"] != list(range(1, 9))
-        or source["reserved_test_people"] != ["S023", "S032"]
-        or source["cap_per_development_person"] != 500
-        or source["expected_development_windows"] != 14201
-        or source["development_participants"] != 29
-        or source["test_cap_per_person"] != 500
-        or source["sampling_rate_hz"] != 50
-        or source["window_size"] != 100 or source["step_size"] != 50
-        or source["annotation_purity"] != 1.0
-        or source["timestamp_continuity"] is not True
-    ):
-        raise ValueError("Unsupported or changed frozen HARTH source protocol.")
-    if (
-        model["architecture"] != "1D-ResNet"
-        or model["training_loss"] != "inverse_sqrt_weighted_ce"
-        or model["hidden_channels"] != 32
-        or model["in_channels"] != 6
-        or model["classes"] != list(range(1, 9))
-        or model["random_seed"] != 42
-        or model["optimizer"] != "Adam"
-        or model["learning_rate"] != 0.001
-        or model["batch_size"] != 128
-        or model["optimizer_steps"] != 400
-        or model["checkpoint"] != "final_step"
-        or reference["architecture"] != "Random Forest"
-        or reference["n_estimators"] != 120
-        or reference["min_samples_leaf"] != 3
-        or reference["class_weight"] != "balanced_subsample"
-        or reference["seed"] != 42
-        or manifest["evaluation"]["use_test_for_tuning"] is not False
-        or manifest["evaluation"]["temperature_scaling"] is not False
-    ):
-        raise ValueError("Proposed training controls were changed without review.")
-    return manifest
-
-
-def enforce_qualified_test_approval(protocol, confirmation):
-    """
-    Check explicit, two-part user authorisation before Test source access.
-
-    Args:
-        protocol (dict): load_final_protocol(...require_approval=True) result.
-        confirmation (str): Human-supplied full approval confirmation phrase.
-
-    Returns:
-        bool: True only for an already APPROVED protocol and exact phrase.
-    """
-    if protocol.get("status") != REQUIRED_APPROVAL:
-        raise PermissionError("Final protocol is not yet approved.")
-    if confirmation != TEST_CONFIRMATION:
-        raise PermissionError("Explicit qualified-Test confirmation is missing.")
-    return True
-
-
-# =================== 02. Frozen Development Normalisation ====================
+# ===================== 01. Development Normalisation ========================
 def fit_development_scaler(windows):
     """
     Fit a per-axis scaler on full Development windows only.
@@ -204,7 +65,7 @@ def apply_frozen_scaler(windows, scaler):
     return ((x - mean[None, :, None]) / std[None, :, None]).astype(np.float32)
 
 
-# ================== 03. Final ResNet Model Fit and Artifact ==================
+# =================== 02. Final Development ResNet Fit ======================
 def fit_final_resnet(windows, labels, protocol, *, device="cuda"):
     """
     Fit ONE predeclared final ResNet on Development, without validation/Test.
@@ -212,7 +73,7 @@ def fit_final_resnet(windows, labels, protocol, *, device="cuda"):
     Args:
         windows (ndarray): Training-only original six-axis signal windows.
         labels (array-like): Original development activity codes 1..8.
-        protocol (dict): Validated Stage 25 frozen training proposal.
+        protocol (dict): Selected Development fitting specification.
         device (str): CUDA recommended for final experiment, or CPU.
 
     Returns:
@@ -235,8 +96,8 @@ def fit_final_resnet(windows, labels, protocol, *, device="cuda"):
     y = np.asarray(labels)
     model_spec = protocol["primary_model"]
     codes = model_spec["classes"]
-    if x.shape != (14201, 6, 100) or len(y) != len(x):
-        raise ValueError("Final fit requires exact frozen 14,201 development windows.")
+    if x.ndim != 3 or x.shape[1:] != (6, 100) or len(x) == 0 or len(y) != len(x):
+        raise ValueError("Expected aligned, non-empty (N, 6, 100) Development windows.")
     if not np.isin(y, codes).all():
         raise ValueError("Unexpected source class in Development.")
     scaler = fit_development_scaler(x)
@@ -298,69 +159,63 @@ def fit_final_resnet(windows, labels, protocol, *, device="cuda"):
     return model, scaler, pd.DataFrame(logs), weights, duration
 
 
-# ============= 04. Save and Reload Trusted Local Model Artefacts =============
-def save_final_models(model, scaler, reference, columns, protocol,
-                      development_fingerprint, artifact_dir):
+# ===================== 03. Save and Reload Model Artefacts =====================
+def save_final_models(
+    model, scaler, reference, columns, protocol, artifact_dir, *,
+    source_revision,
+):
+    """Save one Development-fitted neural/classical model pair and its settings.
+
+    The inference configuration contains feature order, channel statistics,
+    source classes and architecture parameters; it is not a release gate.
+    Only load locally generated and trusted joblib artefacts.
     """
-    Save executable model and preprocessing metadata for later inference.
-
-    Args:
-        model (nn.Module): Trained final ResNet with saved state_dict.
-        scaler (dict): Development-fitted original sensor means and SDs.
-        reference (RandomForestClassifier): Fitted classical reference model.
-        columns (sequence[str]): Ordered 30 deterministic feature names.
-        protocol (dict): Stage 25 proposal/approved exact training settings.
-        development_fingerprint (str): SHA256 of original Development cohort.
-        artifact_dir (str | Path): Ignored local output directory.
-
-    Returns:
-        dict: Artifact paths and source hash dictionary.
-
-    Notes:
-        PyTorch state_dict only. joblib serialisation must be loaded only
-        from a locally trusted source, never from arbitrary untrusted files.
-        No identifiable raw source windows are persisted in these artefacts.
-    """
-    if torch is None:
-        raise ImportError("Optional PyTorch is required.")
     directory = Path(artifact_dir)
     directory.mkdir(parents=True, exist_ok=True)
     net_path = directory / "resnet_state_dict.pt"
     rf_path = directory / "random_forest.joblib"
     config_path = directory / "inference_config.json"
-    torch.save({k: v.cpu() for k, v in model.state_dict().items()}, net_path)
+
+    torch.save(
+        {name: tensor.detach().cpu()
+         for name, tensor in model.state_dict().items()},
+        net_path,
+    )
     joblib.dump(reference, rf_path)
+    model_spec = protocol["primary_model"]
     config = {
-        "source_protocol_sha256": hashlib.sha256(
-            json.dumps(protocol, sort_keys=True).encode()
-        ).hexdigest(),
-        "development_cohort_sha256": development_fingerprint,
+        "source_dataset": "HARTH v2.0",
+        "source_revision": str(source_revision),
         "sensor_columns": [
             "back_x", "back_y", "back_z", "thigh_x", "thigh_y", "thigh_z"
         ],
-        "source_codes": list(range(1, 9)),
-        "channel_mean": scaler["mean"].tolist(),
-        "channel_std": scaler["std"].tolist(),
+        "source_codes": list(model_spec["classes"]),
+        "channel_mean": np.asarray(scaler["mean"]).tolist(),
+        "channel_std": np.asarray(scaler["std"]).tolist(),
         "feature_columns": list(columns),
-        "resnet_architecture": "1D-ResNet",
+        "resnet_architecture": model_spec["architecture"],
         "resnet_hidden_channels": 32,
-        "window_size": 100, "window_stride": 50, "nominal_hz": 50,
+        "window_size": 100,
+        "window_stride": 50,
+        "nominal_hz": 50,
         "preprocessing_fit_scope": "Development only",
         "test_fitted_values": False,
+        "optimiser_updates": int(model_spec["optimizer_steps"]),
+        "training_seed": int(model_spec["random_seed"]),
     }
-    config_path.write_text(json.dumps(config, indent=2) + "\n", encoding="utf-8")
+    config_path.write_text(
+        json.dumps(config, indent=2) + "\n", encoding="utf-8"
+    )
     return {
-        "resnet": str(net_path), "reference": str(rf_path),
-        "config": str(config_path),
-        "sha256": {name: sha256_file(path) for name, path in [
-            ("resnet", net_path), ("reference", rf_path), ("config", config_path)
-        ]},
+        "resnet": net_path,
+        "reference": rf_path,
+        "config": config_path,
     }
 
 
 def load_final_models(directory, *, device="cpu"):
     """
-    Load locally trusted saved final models with all frozen inference settings.
+    Load locally trusted Development-fitted models and inference settings.
 
     Args:
         directory (str | Path): Directory created by save_final_models().
@@ -430,60 +285,6 @@ def infer_source_windows(windows, model, reference, config, *, device="cpu"):
         x, channel_names=config["sensor_columns"]
     )
     if list(features.columns) != config["feature_columns"]:
-        raise ValueError("Frozen feature-order mismatch.")
+        raise ValueError("Saved feature-order mismatch.")
     predicted_rf = reference.predict(features.to_numpy())
     return predicted_resnet, np.asarray(predicted_rf, dtype=int)
-
-
-# ============ 05. Explicitly Authorised Qualified Test Evaluation ============
-def score_qualified_heldout(y_true, predicted, subject_ids, classes):
-    """
-    Generate qualified single-evaluation metrics for fixed original class codes.
-
-    Args:
-        y_true (array-like): Accepted held-out source labels 1..8.
-        predicted (array-like): Frozen model predictions as original source codes.
-        subject_ids (array-like): Original reserved Test identity per window.
-        classes (sequence[int]): Frozen all-eight-class metric denominator.
-
-    Returns:
-        dict: Fixed-eight-class Macro F1, balanced accuracy, raw accuracy,
-        per-subject metrics, class precision/recall/F1/support and confusion.
-
-    Notes:
-        Only call AFTER enforce_qualified_test_approval(). Returned scores
-        are descriptive qualified same-study held-out estimates, not an
-        externally validated independent or prospective result.
-    """
-    y = np.asarray(y_true)
-    p = np.asarray(predicted)
-    ids = np.asarray(subject_ids)
-    if not len(y) or len(y) != len(p) or len(y) != len(ids):
-        raise ValueError("Source labels, predictions and persons must align.")
-    if not np.isin(y, classes).all() or not np.isin(p, classes).all():
-        raise ValueError("Unexpected Test class code.")
-    if set(ids) != {"S023", "S032"}:
-        raise ValueError("Qualified evaluation requires both reserved people.")
-    each = []
-    for person in sorted(set(ids)):
-        mask = ids == person
-        each.append({
-            "subject_id": person, "support_windows": int(mask.sum()),
-            "fixed_eight_class_macro_f1": float(f1_score(
-                y[mask], p[mask], labels=classes, average="macro",
-                zero_division=0
-            )),
-            "accuracy": float(accuracy_score(y[mask], p[mask])),
-        })
-    return {
-        "macro_f1": float(f1_score(
-            y, p, labels=classes, average="macro", zero_division=0
-        )),
-        "balanced_accuracy": float(balanced_accuracy_score(y, p)),
-        "accuracy": float(accuracy_score(y, p)),
-        "per_subject": each,
-        "classification_report": classification_report(
-            y, p, labels=classes, output_dict=True, zero_division=0
-        ),
-        "confusion": confusion_matrix(y, p, labels=classes).tolist(),
-    }
