@@ -1,5 +1,5 @@
 # ==================== Presented by: Reza Saadatyar (2026) ====================
-"""Read-only reporting utilities for the approved HARTH qualified held-out evaluation.
+"""Read-only reporting of historical HARTH qualified held-out predictions.
 
 Accept frozen predictions; do not train, calibrate, choose models or access files.
 The eight-class task denominator stays fixed, including unsupported source classes.
