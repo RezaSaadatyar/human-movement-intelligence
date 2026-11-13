@@ -1,0 +1,58 @@
+subject_id,source_code,source_activity,source_samples,documented_source_code,in_eight_class_task
+S030,10,UNDOCUMENTED source code,1884,False,False
+S031,10,UNDOCUMENTED source code,216,False,False
+S037,10,UNDOCUMENTED source code,1422,False,False
+S030,11,UNDOCUMENTED source code,1774,False,False
+S031,11,UNDOCUMENTED source code,118,False,False
+S006,13,Cycling seated,25040,True,False
+S008,13,Cycling seated,7548,True,False
+S009,13,Cycling seated,120101,True,False
+S013,13,Cycling seated,2764,True,False
+S014,13,Cycling seated,5570,True,False
+S015,13,Cycling seated,7268,True,False
+S016,13,Cycling seated,10474,True,False
+S017,13,Cycling seated,4672,True,False
+S018,13,Cycling seated,6036,True,False
+S019,13,Cycling seated,13715,True,False
+S020,13,Cycling seated,14550,True,False
+S021,13,Cycling seated,2372,True,False
+S022,13,Cycling seated,13217,True,False
+S025,13,Cycling seated,52593,True,False
+S026,13,Cycling seated,97600,True,False
+S029,13,Cycling seated,10443,True,False
+S031,13,Cycling seated,84606,True,False
+S037,13,Cycling seated,14160,True,False
+S038,13,Cycling seated,18392,True,False
+S006,14,Cycling standing,3130,True,False
+S008,14,Cycling standing,748,True,False
+S009,14,Cycling standing,10926,True,False
+S015,14,Cycling standing,1790,True,False
+S016,14,Cycling standing,288,True,False
+S017,14,Cycling standing,3101,True,False
+S018,14,Cycling standing,1456,True,False
+S019,14,Cycling standing,39,True,False
+S020,14,Cycling standing,570,True,False
+S021,14,Cycling standing,522,True,False
+S025,14,Cycling standing,12946,True,False
+S026,14,Cycling standing,20298,True,False
+S038,14,Cycling standing,312,True,False
+S030,17,UNDOCUMENTED source code,854,False,False
+S006,130,Cycling seated inactive,11290,True,False
+S008,130,Cycling seated inactive,170,True,False
+S009,130,Cycling seated inactive,10375,True,False
+S013,130,Cycling seated inactive,100,True,False
+S016,130,Cycling seated inactive,250,True,False
+S017,130,Cycling seated inactive,1060,True,False
+S018,130,Cycling seated inactive,150,True,False
+S019,130,Cycling seated inactive,300,True,False
+S020,130,Cycling seated inactive,670,True,False
+S022,130,Cycling seated inactive,1735,True,False
+S025,130,Cycling seated inactive,4460,True,False
+S026,130,Cycling seated inactive,9635,True,False
+S029,130,Cycling seated inactive,1590,True,False
+S008,140,Cycling standing inactive,750,True,False
+S009,140,Cycling standing inactive,120,True,False
+S017,140,Cycling standing inactive,160,True,False
+S022,140,Cycling standing inactive,500,True,False
+S025,140,Cycling standing inactive,3520,True,False
+S026,140,Cycling standing inactive,2815,True,False

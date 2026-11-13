@@ -1,0 +1,260 @@
+subject_id,source_code,source_activity,accepted_pure_windows,in_eight_class_task
+S006,1,Walking,315,True
+S006,3,Shuffling,59,True
+S006,4,Stairs ascending,19,True
+S006,5,Stairs descending,26,True
+S006,6,Standing,998,True
+S006,7,Sitting,5036,True
+S006,8,Lying,255,True
+S006,13,Cycling seated,474,False
+S006,14,Cycling standing,55,False
+S006,130,Cycling seated inactive,204,False
+S008,1,Walking,294,True
+S008,3,Shuffling,259,True
+S008,4,Stairs ascending,10,True
+S008,5,Stairs descending,11,True
+S008,6,Standing,977,True
+S008,7,Sitting,5841,True
+S008,13,Cycling seated,147,False
+S008,14,Cycling standing,11,False
+S008,130,Cycling seated inactive,2,False
+S008,140,Cycling standing inactive,12,False
+S009,1,Walking,91,True
+S009,4,Stairs ascending,7,True
+S009,5,Stairs descending,9,True
+S009,6,Standing,94,True
+S009,13,Cycling seated,2328,False
+S009,14,Cycling standing,190,False
+S009,130,Cycling seated inactive,165,False
+S009,140,Cycling standing inactive,1,False
+S010,1,Walking,3263,True
+S010,3,Shuffling,229,True
+S010,4,Stairs ascending,93,True
+S010,5,Stairs descending,47,True
+S010,6,Standing,1519,True
+S010,7,Sitting,926,True
+S012,1,Walking,170,True
+S012,2,Running,39,True
+S012,3,Shuffling,47,True
+S012,4,Stairs ascending,64,True
+S012,5,Stairs descending,32,True
+S012,6,Standing,370,True
+S012,7,Sitting,6215,True
+S012,8,Lying,372,True
+S013,1,Walking,501,True
+S013,2,Running,65,True
+S013,3,Shuffling,378,True
+S013,4,Stairs ascending,42,True
+S013,5,Stairs descending,26,True
+S013,6,Standing,809,True
+S013,7,Sitting,4449,True
+S013,8,Lying,132,True
+S013,13,Cycling seated,49,False
+S014,1,Walking,342,True
+S014,2,Running,41,True
+S014,3,Shuffling,92,True
+S014,4,Stairs ascending,70,True
+S014,5,Stairs descending,42,True
+S014,6,Standing,827,True
+S014,7,Sitting,4715,True
+S014,8,Lying,170,True
+S014,13,Cycling seated,110,False
+S015,1,Walking,900,True
+S015,2,Running,50,True
+S015,3,Shuffling,36,True
+S015,4,Stairs ascending,99,True
+S015,5,Stairs descending,72,True
+S015,6,Standing,1161,True
+S015,7,Sitting,3886,True
+S015,8,Lying,1249,True
+S015,13,Cycling seated,140,False
+S015,14,Cycling standing,33,False
+S016,1,Walking,663,True
+S016,2,Running,48,True
+S016,3,Shuffling,113,True
+S016,4,Stairs ascending,5,True
+S016,5,Stairs descending,30,True
+S016,6,Standing,850,True
+S016,7,Sitting,3784,True
+S016,8,Lying,779,True
+S016,13,Cycling seated,206,False
+S016,14,Cycling standing,3,False
+S016,130,Cycling seated inactive,3,False
+S017,1,Walking,602,True
+S017,2,Running,92,True
+S017,3,Shuffling,54,True
+S017,4,Stairs ascending,141,True
+S017,5,Stairs descending,80,True
+S017,6,Standing,510,True
+S017,7,Sitting,4339,True
+S017,8,Lying,860,True
+S017,13,Cycling seated,88,False
+S017,14,Cycling standing,54,False
+S017,130,Cycling seated inactive,19,False
+S017,140,Cycling standing inactive,2,False
+S018,1,Walking,1055,True
+S018,2,Running,265,True
+S018,3,Shuffling,108,True
+S018,4,Stairs ascending,47,True
+S018,5,Stairs descending,38,True
+S018,6,Standing,595,True
+S018,7,Sitting,2837,True
+S018,8,Lying,646,True
+S018,13,Cycling seated,112,False
+S018,14,Cycling standing,23,False
+S018,130,Cycling seated inactive,1,False
+S019,1,Walking,529,True
+S019,2,Running,82,True
+S019,3,Shuffling,56,True
+S019,4,Stairs ascending,63,True
+S019,5,Stairs descending,38,True
+S019,6,Standing,286,True
+S019,7,Sitting,3811,True
+S019,8,Lying,414,True
+S019,13,Cycling seated,273,False
+S019,130,Cycling seated inactive,5,False
+S020,1,Walking,561,True
+S020,2,Running,67,True
+S020,3,Shuffling,31,True
+S020,4,Stairs ascending,36,True
+S020,5,Stairs descending,23,True
+S020,6,Standing,269,True
+S020,7,Sitting,4725,True
+S020,8,Lying,921,True
+S020,13,Cycling seated,286,False
+S020,14,Cycling standing,9,False
+S020,130,Cycling seated inactive,12,False
+S021,1,Walking,839,True
+S021,2,Running,68,True
+S021,3,Shuffling,26,True
+S021,4,Stairs ascending,48,True
+S021,5,Stairs descending,16,True
+S021,6,Standing,664,True
+S021,7,Sitting,3347,True
+S021,8,Lying,520,True
+S021,13,Cycling seated,46,False
+S021,14,Cycling standing,8,False
+S022,1,Walking,1209,True
+S022,2,Running,39,True
+S022,3,Shuffling,72,True
+S022,4,Stairs ascending,80,True
+S022,5,Stairs descending,65,True
+S022,6,Standing,843,True
+S022,7,Sitting,2790,True
+S022,8,Lying,369,True
+S022,13,Cycling seated,255,False
+S022,130,Cycling seated inactive,27,False
+S022,140,Cycling standing inactive,7,False
+S024,1,Walking,1492,True
+S024,2,Running,511,True
+S024,3,Shuffling,7,True
+S024,4,Stairs ascending,48,True
+S024,5,Stairs descending,38,True
+S024,6,Standing,134,True
+S024,7,Sitting,274,True
+S024,8,Lying,615,True
+S025,1,Walking,1241,True
+S025,2,Running,675,True
+S025,3,Shuffling,63,True
+S025,4,Stairs ascending,62,True
+S025,5,Stairs descending,35,True
+S025,6,Standing,227,True
+S025,7,Sitting,167,True
+S025,8,Lying,403,True
+S025,13,Cycling seated,1018,False
+S025,14,Cycling standing,238,False
+S025,130,Cycling seated inactive,78,False
+S025,140,Cycling standing inactive,65,False
+S026,1,Walking,431,True
+S026,2,Running,228,True
+S026,3,Shuffling,16,True
+S026,4,Stairs ascending,111,True
+S026,5,Stairs descending,140,True
+S026,6,Standing,40,True
+S026,7,Sitting,89,True
+S026,13,Cycling seated,1893,False
+S026,14,Cycling standing,369,False
+S026,130,Cycling seated inactive,166,False
+S026,140,Cycling standing inactive,49,False
+S027,1,Walking,35,True
+S027,2,Running,2608,True
+S027,3,Shuffling,11,True
+S027,6,Standing,16,True
+S027,7,Sitting,192,True
+S027,8,Lying,220,True
+S028,1,Walking,2939,True
+S028,3,Shuffling,8,True
+S028,4,Stairs ascending,14,True
+S028,5,Stairs descending,19,True
+S028,6,Standing,135,True
+S028,7,Sitting,51,True
+S028,8,Lying,31,True
+S029,1,Walking,2384,True
+S029,2,Running,351,True
+S029,3,Shuffling,56,True
+S029,4,Stairs ascending,6,True
+S029,5,Stairs descending,12,True
+S029,6,Standing,177,True
+S029,7,Sitting,66,True
+S029,8,Lying,95,True
+S029,13,Cycling seated,199,False
+S029,130,Cycling seated inactive,25,False
+S030,1,Walking,788,True
+S030,3,Shuffling,93,True
+S030,4,Stairs ascending,65,True
+S030,5,Stairs descending,46,True
+S030,6,Standing,2238,True
+S030,7,Sitting,82,True
+S030,11,UNDOCUMENTED source code,15,False
+S030,17,UNDOCUMENTED source code,8,False
+S031,1,Walking,915,True
+S031,3,Shuffling,30,True
+S031,4,Stairs ascending,60,True
+S031,5,Stairs descending,87,True
+S031,6,Standing,765,True
+S031,7,Sitting,941,True
+S031,13,Cycling seated,1613,False
+S033,1,Walking,869,True
+S033,2,Running,218,True
+S033,3,Shuffling,26,True
+S033,6,Standing,754,True
+S033,7,Sitting,1036,True
+S033,8,Lying,784,True
+S034,1,Walking,517,True
+S034,3,Shuffling,51,True
+S034,4,Stairs ascending,34,True
+S034,5,Stairs descending,27,True
+S034,6,Standing,1085,True
+S034,7,Sitting,1273,True
+S034,8,Lying,364,True
+S035,1,Walking,1838,True
+S035,3,Shuffling,9,True
+S035,6,Standing,322,True
+S035,7,Sitting,629,True
+S035,8,Lying,539,True
+S036,1,Walking,656,True
+S036,3,Shuffling,12,True
+S036,4,Stairs ascending,11,True
+S036,6,Standing,609,True
+S036,7,Sitting,2242,True
+S036,8,Lying,409,True
+S037,1,Walking,648,True
+S037,2,Running,404,True
+S037,3,Shuffling,1,True
+S037,4,Stairs ascending,28,True
+S037,5,Stairs descending,62,True
+S037,6,Standing,1502,True
+S037,7,Sitting,260,True
+S037,8,Lying,299,True
+S037,10,UNDOCUMENTED source code,20,False
+S037,13,Cycling seated,244,False
+S038,1,Walking,892,True
+S038,2,Running,454,True
+S038,3,Shuffling,3,True
+S038,4,Stairs ascending,69,True
+S038,5,Stairs descending,45,True
+S038,6,Standing,442,True
+S038,7,Sitting,641,True
+S038,8,Lying,461,True
+S038,13,Cycling seated,344,False
+S038,14,Cycling standing,4,False
