@@ -1,0 +1,7 @@
+issue,restriction
+Development-only model comparison,No independent Test claim
+500-cap label-blind sampling,Not full-data optimum or class-balanced task
+One seed and three folds,Cannot claim strong stability or significance
+Different architecture sizes and representations,Not isolated causal architecture advantage
+Window overlap,No independence of window-level observations
+Original Test exploratory history,S023/S032 not preregistered-unseen

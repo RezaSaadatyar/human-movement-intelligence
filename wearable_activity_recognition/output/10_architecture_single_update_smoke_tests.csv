@@ -1,0 +1,5 @@
+architecture,initial_batch_loss,optimizer_updates,parameters_changed,held_out_output_shape,finite_validation_logits
+TCN,2.274358034133911,1,True,"(32, 8)",True
+Multi-Scale CNN,1.845069408416748,1,True,"(32, 8)",True
+1D-ResNet,2.140476703643799,1,True,"(32, 8)",True
+Time-Series Transformer,2.4454658031463623,1,True,"(32, 8)",True
