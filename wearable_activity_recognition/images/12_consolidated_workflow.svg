@@ -1,9 +1,9 @@
 <svg xmlns="http://www.w3.org/2000/svg" width="1700" height="816" viewBox="0 0 1700 816" role="img" aria-labelledby="title desc">
-<title id="title">HARTH Development model selection and recorded protocol</title>
-<desc id="desc">Conceptual workflow for Notebook 12. Saved HARTH v2.0 Development evidence from 29 participants and 14,201 bounded windows is reused from Notebook 10 and Notebook 11 without fitting models or loading Test recordings. Seven matched benchmark classifiers and four loss-and-model conditions across three seeds and three folds inform the existing selection of Weighted Cross-Entropy 1D-ResNet as primary and a 120-tree Random Forest as classical reference. Recorded source, training and qualified same-study held-out reporting settings are read-only. No new Test evaluation or approval is performed.</desc>
+<title id="title">HARTH Development model selection and fitting specification</title>
+<desc id="desc">Conceptual workflow for Notebook 12. Saved HARTH v2.0 Development evidence from 29 participants and 14,201 bounded windows is reused from Notebook 10 and Notebook 11 without fitting models or loading Test recordings. Seven matched benchmark classifiers and four loss-and-model conditions across three seeds and three folds inform the existing selection of Weighted Cross-Entropy 1D-ResNet as primary and a 120-tree Random Forest as classical reference. The selected Development fitting settings and qualified same-study evaluation boundaries are documented without scoring reserved participants.</desc>
 <rect x="0" y="0" width="1700" height="816" rx="20" fill="#F4F9FD" stroke="#F4F9FD" stroke-width="0"/>
 <g font-family="DejaVu Sans, Arial, sans-serif">
-<text x="30" y="38" font-size="23" font-weight="700" fill="#173453">HARTH DEVELOPMENT MODEL SELECTION AND RECORDED PROTOCOL</text>
+<text x="30" y="38" font-size="23" font-weight="700" fill="#173453">HARTH DEVELOPMENT MODEL SELECTION AND FITTING SPECIFICATION</text>
 <text x="30" y="67" font-size="15" fill="#54738A">HARTH v2.0 · 29 Development participants · 7 benchmark models · 36 robustness fits</text>
 <rect x="24" y="84" width="1652" height="160" rx="16" fill="#EAF3FA" stroke="#C7D9E6" stroke-width="2"/>
 <text x="49" y="105" font-size="11.5" font-weight="700" fill="#53738A">WEARABLE SENSOR CONTEXT</text>
@@ -120,7 +120,7 @@
 <rect x="318" y="536" width="1094" height="21" rx="10" fill="#DCEFE6" stroke="#CDE3D8" stroke-width="1"/>
 <circle cx="335" cy="547" r="9" fill="#267998"/>
 <text x="335" y="551" font-size="13" font-weight="700" fill="#FFFFFF" text-anchor="middle">i</text>
-<text x="353" y="551" font-size="11.8" fill="#173453">Source-aligned Development evidence · Read-only scientific protocol</text>
+<text x="353" y="551" font-size="11.8" fill="#173453">Participant-grouped Development evidence · Recorded fitting settings</text>
 <rect x="24" y="586" width="1652" height="195" rx="16" fill="#EAF3FA" stroke="#C7D9E6" stroke-width="1.5"/>
 <rect x="38" y="612" width="210" height="130" rx="11" fill="#173453" stroke="#173453" stroke-width="1.4"/>
 <text x="143" y="640" font-size="13" font-weight="700" fill="#FFFFFF" text-anchor="middle">INPUT</text>
