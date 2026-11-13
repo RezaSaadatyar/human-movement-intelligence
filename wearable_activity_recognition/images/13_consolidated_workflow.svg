@@ -1,0 +1,27 @@
+<svg xmlns="http://www.w3.org/2000/svg" width="1640" height="620" viewBox="0 0 1640 620" role="img" aria-labelledby="title desc">
+<title id="title">HARTH final Development training and research evidence synthesis</title>
+<desc id="desc">A reproducible workflow that preserves subject-disjoint Development model selection and final fitting, then separately summarises any original saved qualified held-out predictions. The diagram does not represent a new Test evaluation or invented model results.</desc>
+<defs><marker id="arrow" markerWidth="10" markerHeight="8" refX="9" refY="4" orient="auto"><path d="M0 0 L10 4 L0 8 Z" fill="#3F7493"/></marker></defs>
+<rect width="1640" height="620" rx="20" fill="#F8FAFC"/>
+<text x="50" y="56" font-size="30" font-weight="700" fill="#17384D">HARTH FINAL DEVELOPMENT TRAINING AND RESEARCH EVIDENCE</text>
+<text x="50" y="91" font-size="18" fill="#496B80">Human Movement Intelligence | Notebook 13 | Two distinct evidence pathways</text>
+<rect x="50" y="135" width="340" height="155" rx="16" fill="#E4EFF9" stroke="#B4C7D7" stroke-width="2"/>
+<rect x="450" y="135" width="340" height="155" rx="16" fill="#E7F4EE" stroke="#B4C7D7" stroke-width="2"/>
+<rect x="850" y="135" width="340" height="155" rx="16" fill="#EBF1FB" stroke="#B4C7D7" stroke-width="2"/>
+<rect x="1250" y="135" width="340" height="155" rx="16" fill="#F0EDFC" stroke="#B4C7D7" stroke-width="2"/>
+<rect x="450" y="380" width="520" height="150" rx="16" fill="#FDF2DE" stroke="#B4C7D7" stroke-width="2"/>
+<rect x="1030" y="380" width="560" height="150" rx="16" fill="#F2F6FA" stroke="#B4C7D7" stroke-width="2"/>
+<path d="M390 214 H446" stroke="#3F7493" stroke-width="3" marker-end="url(#arrow)" fill="none"/>
+<path d="M790 214 H846" stroke="#3F7493" stroke-width="3" marker-end="url(#arrow)" fill="none"/>
+<path d="M1190 214 H1246" stroke="#3F7493" stroke-width="3" marker-end="url(#arrow)" fill="none"/>
+<path d="M1420 290 V375" stroke="#3F7493" stroke-width="3" marker-end="url(#arrow)" fill="none"/>
+<path d="M970 455 H1026" stroke="#D39E4A" stroke-width="3" marker-end="url(#arrow)" stroke-dasharray="9 6" fill="none"/>
+<text x="72" y="169" font-size="21" font-weight="700" fill="#17384D">Development evidence</text><text x="72" y="203" font-size="16" fill="#35536A">Notebook 10: seven-model benchmark</text><text x="72" y="230" font-size="16" fill="#35536A">Notebook 11: seed and loss robustness</text><text x="72" y="257" font-size="16" fill="#35536A">Notebook 12: selected configurations</text>
+<text x="472" y="169" font-size="21" font-weight="700" fill="#17384D">HARTH v2.0 source</text><text x="472" y="203" font-size="16" fill="#35536A">29 Development participants</text><text x="472" y="230" font-size="16" fill="#35536A">Six acceleration channels</text><text x="472" y="257" font-size="16" fill="#35536A">14,201 windows; eight activity codes</text>
+<text x="872" y="169" font-size="21" font-weight="700" fill="#17384D">Final Development fitting</text><text x="872" y="203" font-size="16" fill="#35536A">Weighted 1D-ResNet; 400 updates</text><text x="872" y="230" font-size="16" fill="#35536A">Random Forest; 120 trees</text><text x="872" y="257" font-size="16" fill="#35536A">Train-only scaling and weights</text>
+<text x="1272" y="169" font-size="21" font-weight="700" fill="#17384D">Reusable artefacts</text><text x="1272" y="203" font-size="16" fill="#35536A">ResNet weights; fitted Random Forest</text><text x="1272" y="230" font-size="16" fill="#35536A">Inference configuration; reload test</text><text x="1272" y="257" font-size="16" fill="#35536A">Training tables and loss figure</text>
+<text x="472" y="414" font-size="21" font-weight="700" fill="#17384D">Separate historical evidence</text><text x="472" y="448" font-size="16" fill="#35536A">Original aligned predictions from earlier evaluation</text><text x="472" y="475" font-size="16" fill="#35536A">S023 and S032; previously inspected</text><text x="472" y="502" font-size="16" fill="#35536A">Only summarised if the real CSV is available</text>
+<text x="1052" y="414" font-size="21" font-weight="700" fill="#17384D">Final scientific synthesis</text><text x="1052" y="448" font-size="16" fill="#35536A">Development selection and training evidence</text><text x="1052" y="475" font-size="16" fill="#35536A">Historical qualified results, if supplied</text><text x="1052" y="502" font-size="16" fill="#35536A">Rare-class, calibration and generalisation limits</text>
+<text x="52" y="580" font-size="16" fill="#496B80">Solid arrows: current Development fitting and owned outputs</text>
+<text x="705" y="580" font-size="16" fill="#9E742B">Dashed arrow: original historical Test evidence only, when available</text>
+</svg>
