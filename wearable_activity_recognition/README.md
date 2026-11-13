@@ -50,7 +50,7 @@ and selection.
 | [05](code/notebooks/05_harth_class_weighting_and_grouped_model_comparison.ipynb) | Matched standard/weighted CNN loss ablation and three-model participant-grouped Development comparison |
 | [06](code/notebooks/06_harth_sampling_sensitivity_and_nested_training_scaling.ipynb) | Full-source sampling retention and fixed-Validation comparison of strictly nested 500/1,000 Train sizes for Random Forest and weighted CNN |
 | [07](code/notebooks/07_harth_grouped_nested_training_and_fixed_update_comparison.ipynb) | Three-fold grouped nested Train-size comparison and matched 400-update weighted CNN evaluation |
-| [08](code/notebooks/08_harth_oof_confidence_and_temperature_calibration.ipynb) | Uncalibrated out-of-fold softmax confidence and separate participant-disjoint temperature calibration; integrated execution pending |
+| [08](code/notebooks/08_harth_oof_confidence_and_temperature_calibration.ipynb) | Executed uncalibrated OOF confidence audit and independently fitted participant-disjoint temperature calibration |
 | [20](code/notebooks/20_minority_class_and_data_quality.ipynb) | Minority-activity and source-data quality audit |
 | [21](code/notebooks/21_advanced_temporal_architectures.ipynb) | Engineering checks for TCN, Multi-Scale CNN, 1D-ResNet and Time-Series Transformer |
 | [22](code/notebooks/22_unified_matched_model_benchmark.ipynb) | Seven-model matched, three-fold Development benchmark (21 model-fold jobs) |
@@ -111,6 +111,20 @@ Full-precision evidence is in the
 [model metrics](output/06_nested_validation_model_metrics.csv) and
 [paired-subject summary](output/06_nested_paired_summary.csv).
 
+[Notebook 08](code/notebooks/08_harth_oof_confidence_and_temperature_calibration.ipynb)
+reports **0.9457** window accuracy, **0.0454** ten-bin ECE and
+**39 high-confidence errors** in a 14,201-window uncalibrated
+Development audit, with Shuffling recall only **0.1187**.
+A *separately fitted*, participant-disjoint temperature-scaling
+experiment reduces mean fold ECE from **0.0494** to **0.0286** and
+Brier from **0.1085** to **0.1044**, but increases NLL from
+**0.2494** to **0.2580**; Fold 1 worsens on all three metrics.
+Accuracy remains **0.9275**. The 17 published CSV/PNG files
+are current execution evidence, not independent external validation.
+See [confidence summary](output/08_confidence_summary.csv),
+[calibration fold metrics](output/08_calibration_fold_metrics.csv) and
+[calibration means](output/08_calibration_mean_metrics.csv).
+
 [Notebook 07](code/notebooks/07_harth_grouped_nested_training_and_fixed_update_comparison.ipynb)
 reports three-fold Development mean Macro F1 at nested Train caps
 500/1,000: **0.8094/0.8080** for Random Forest and **0.7832/0.7964**
@@ -131,7 +145,7 @@ Qualified per-class and participant-level results are available from
 
 | Location | Contents |
 | --- | --- |
-| [`code/notebooks/`](code/notebooks/) | Consolidated Stages 01–08, temporarily retained legacy 18–19, historical Stages 20–26, and the separate FINAL notebook |
+| [`code/notebooks/`](code/notebooks/) | Consolidated Stages 01–08, remaining historical Stages 20–26, and the separate FINAL notebook |
 | [`code/src/`](code/src/) | HARTH-specific data and quality-audit utilities |
 | [`output/`](output/) | Executed experiment CSVs, figures, Stage 26 report and ten committed FINAL audit outputs (including SHA256 provenance) |
 | [`images/`](images/) | Study-level and individual notebook SVG workflow figures |
@@ -217,7 +231,7 @@ to S023 and S032 and 1,000 overlapping windows.
 - [Qualified evaluation approval](evidence/stage_25_protocol_approved_qualified_test.json):
   frozen model specifications and the authorised evaluation boundary.
 
-**Status:** Integrated Notebooks **01–07** have saved executions, while Notebook 08 has been implemented but not yet executed. Independent CSV/PNG outputs for Notebook 07 are not yet committed; historical Stages 18–26 and the FINAL
+**Status:** Integrated Notebooks **01–08** have saved executions; all 17 CSV/PNG outputs for Notebook 08 are published. Independent CSV/PNG outputs for Notebook 07 are not yet committed; historical Stages 20–26 and the FINAL
 audit retain their historical recorded work. The saved FINAL audit passed
 in its earlier source-file context; its execution against the consolidated
 current-file names remains unverified. The study is **not** independently

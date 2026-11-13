@@ -5,7 +5,7 @@ This guide describes what can be inspected and verified in the completed
 [Human Movement Intelligence](../README.md). The original 26-stage research programme is undergoing notebook
 consolidation. The current tree contains consolidated
 [Notebooks 01–08](../wearable_activity_recognition/code/notebooks/),
-with Notebook 08 not yet executed, legacy 18–19 temporarily retained and historical Stages 20–26 and the separately recorded
+with executed Notebook 08 and historical Stages 20–26 and the separately recorded
 [FINAL evidence audit](../wearable_activity_recognition/code/notebooks/final_harth_research_audit_and_closure.ipynb).
 The study results, scientific limitations and recorded outcomes are detailed in
 [Research Methods and Experimental Evidence](../wearable_activity_recognition/HARTH_RESEARCH_METHODS_AND_EVIDENCE.md).
@@ -39,7 +39,7 @@ ascending **10**, stairs descending **6** windows.
 | --- | --- | --- |
 | Sampling retention and nested Train-size evaluation | [Notebook 06](../wearable_activity_recognition/code/notebooks/06_harth_sampling_sensitivity_and_nested_training_scaling.ipynb), [sampling counts](../wearable_activity_recognition/output/06_sampling_policy_class_counts.csv) and [model metrics](../wearable_activity_recognition/output/06_nested_validation_model_metrics.csv) | Development-only coverage and fixed-Validation results; no independent external assessment |
 | Grouped nested Train sizes and fixed optimiser updates | [Executed Notebook 07](../wearable_activity_recognition/code/notebooks/07_harth_grouped_nested_training_and_fixed_update_comparison.ipynb) | Three subject-disjoint folds, separate five-epoch and fixed-400-update protocols; standalone `07_` outputs not yet committed |
-| Uncalibrated confidence and participant-disjoint temperature scaling | [Integrated Notebook 08](../wearable_activity_recognition/code/notebooks/08_harth_oof_confidence_and_temperature_calibration.ipynb) | Code and workflow available; integrated execution and current `08_` outputs pending |
+| Uncalibrated confidence and participant-disjoint temperature scaling | [Executed Notebook 08](../wearable_activity_recognition/code/notebooks/08_harth_oof_confidence_and_temperature_calibration.ipynb), [confidence summary](../wearable_activity_recognition/output/08_confidence_summary.csv), [calibration fold metrics](../wearable_activity_recognition/output/08_calibration_fold_metrics.csv) | Three participant-disjoint folds per separate experiment; 17 current CSV/PNG outputs; mixed held-out probability metric effects |
 | Seven-model Development benchmark | [Stage 22 notebook](../wearable_activity_recognition/code/notebooks/22_unified_matched_model_benchmark.ipynb) and [model summary CSV](../wearable_activity_recognition/output/22_matched_cv_model_summary.csv) | Participant-disjoint matched comparison under the bounded Development protocol |
 | Multiseed and imbalance robustness | [Stage 23 notebook](../wearable_activity_recognition/code/notebooks/23_multiseed_and_imbalance_robustness.ipynb) and [robustness summary](../wearable_activity_recognition/output/23_robustness_model_summary.csv) | Three seeds and three folds across four model/loss conditions |
 | Frozen model selection | [Stage 24 notebook](../wearable_activity_recognition/code/notebooks/24_model_selection_and_protocol_freeze.ipynb) | Development-only selection and documented source lineage |

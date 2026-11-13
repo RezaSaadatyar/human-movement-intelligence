@@ -246,41 +246,55 @@ Recorded results: [Stage 23 summary](output/23_robustness_model_summary.csv),
 ## 05. Confidence, calibration and minority activities
 
 [Integrated Notebook 08](code/notebooks/08_harth_oof_confidence_and_temperature_calibration.ipynb)
-combines two scientifically distinct Development experiments: an
-uncalibrated out-of-fold softmax confidence audit and a separate
-subject-disjoint temperature-scaling evaluation. It reuses the same
-14,201 base and 28,201 expanded windows but fits different CNN models:
-the calibration experiment withholds independent Calibration participants
-inside each outer Training group. Temperature is fitted only on
-Calibration labels, and top-1 class predictions must remain invariant.
-The integrated implementation has **not yet been executed**; the
-Stage 18/19 findings below are historical saved results, not outputs of
-Notebook 08.
+has a completed saved execution and **17 committed output CSV/PNG files**.
+It uses the same 29-participant HARTH Development population, with
+**14,201 base** and **28,201 expanded** windows, for two distinct
+experiments, each with three separately fitted 400-update weighted CNNs.
+The reserved S023/S032 assessment participants are excluded.
 
-**Development-only confidence (Stage 18).** A 14,201-window out-of-fold
-audit recorded accuracy **0.9458**, ten-bin expected calibration error
-(ECE) **0.0457**, multiclass Brier **0.0906** and **39 incorrect windows**
-with maximum predicted class probability at least 0.90. These are
-descriptive confidence statistics, not independent uncertainty
-validation. Source: [Stage 18 confidence summary](output/18_oof_confidence_summary.csv).
+**Uncalibrated out-of-fold confidence (Experiment A).** Models fit
+on all outer Training participants and produce one uncalibrated
+softmax vector per held-out base window. On **14,201** windows,
+accuracy is **0.9457**, mean confidence **0.9003**, ten-bin ECE
+**0.0454** and multiclass Brier **0.0907**. There are **39**
+incorrect predictions at confidence at least 0.90. Shuffling
+recall is **0.1187** on 219 held-out windows, with 193 errors.
+Twenty of the 39 confident mistakes are Standing misclassified
+as Sitting. These metrics are descriptive; neither high accuracy
+nor softmax confidence establishes calibrated uncertainty.
+Source: [current confidence summary](output/08_confidence_summary.csv)
+and [class error metrics](output/08_confidence_class_error_summary.csv).
 
-**Subject-disjoint temperature scaling (Stage 19).** A scalar temperature
-was fitted to Calibration-only negative log-likelihood (NLL), with
-Training, Calibration and outer Validation participants kept separate.
-The recorded mean metrics are:
+**Participant-disjoint scalar temperature scaling (Experiment B).**
+These are **newly fitted models**, not the CNNs of Experiment A.
+Inside each outer fold, four Calibration participants are separated
+from model Training, and one positive scalar temperature is fitted
+to Calibration-only labels. The temperatures are **0.6274**,
+**0.3973** and **0.5050**. On outer Validation, the
+three-fold mean metrics are:
 
 | Outer Validation metric | Uncalibrated | Temperature scaled |
 | --- | ---: | ---: |
-| ECE (10 bins) | 0.0488 | 0.0286 |
-| Multiclass Brier | 0.1082 | 0.1043 |
-| NLL | **0.2487** | 0.2573 |
+| NLL (lower is better) | **0.2494** | 0.2580 |
+| Ten-bin ECE (lower is better) | 0.0494 | **0.0286** |
+| Multiclass Brier (lower is better) | 0.1085 | **0.1044** |
 | Accuracy | 0.9275 | 0.9275 |
 
-ECE and Brier decreased on average, **NLL increased** and accuracy did
-not change. These effects are not universally favourable across folds.
-Temperature scaling is **not included** in the frozen final model.
-Source: [Stage 19 calibration means](output/19_temperature_scaling_mean_metrics.csv)
-and [fold metrics](output/19_temperature_scaling_fold_metrics.csv).
+ECE and Brier improve *on average*, but NLL deteriorates, with
+Fold 1 worsening on all three probability metrics. A positive
+scalar temperature preserves top-1 predictions and cannot be
+credited with increased classification accuracy. The fold-mean
+metrics must not be conflated with window-pooled reliability.
+Calibration is a Development-only descriptive experiment and
+is not included in the frozen final model. Sources:
+[current calibration mean metrics](output/08_calibration_mean_metrics.csv)
+and [fold metrics](output/08_calibration_fold_metrics.csv).
+
+**Historical evidence:** The earlier Stage 18/19 figures recorded
+in the [Stage 01–19 evidence register](evidence/stage_01_19_evidence_register.csv)
+reflect their original executions. They are not substituted for
+Notebook 08 results, and the previous Stage 18/19 notebook files
+have been retired after integration.
 
 **Source and minority-class audit (integrated Notebook 06 and Stage 20).** Timestamp gaps,
 annotation transitions, exclusion codes, channel diagnostics and

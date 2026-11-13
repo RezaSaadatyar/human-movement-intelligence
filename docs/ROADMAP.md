@@ -36,6 +36,20 @@ at Train caps 500/1,000. The standalone `07_` CSV/PNG exports are not
 yet in GitHub. The dated stage checklist below documents historical work
 and does not redefine the active notebook filenames.
 
+**Notebook consolidation, 13 November 2026:** Executed
+[Notebook 08](../wearable_activity_recognition/code/notebooks/08_harth_oof_confidence_and_temperature_calibration.ipynb)
+supersedes historical 18/19 with an uncalibrated out-of-fold
+confidence audit and a separately trained, participant-disjoint
+temperature-scaling evaluation. Its **17 current CSV/PNG outputs**
+are published. The confidence audit reports **0.9457** accuracy
+and **0.0454** ECE with **39** high-confidence mistakes.
+The calibration experiment reduces fold-mean ECE
+**0.0494 → 0.0286** but increases NLL **0.2494 → 0.2580**,
+with invariant accuracy; Fold 1 deteriorates on all three
+probability metrics. The earlier Stage 18/19 results and
+the dated checklist below remain historical evidence, not
+current integrated-notebook measurements.
+
 **Evidence boundary:** The legacy FINAL audit still names historical source CSVs. Its execution against consolidated 03–05 output filenames has not been reverified; no Test results or provenance records are re-created by this consolidation.
 
 | Area | Verified present status | Evidence |
