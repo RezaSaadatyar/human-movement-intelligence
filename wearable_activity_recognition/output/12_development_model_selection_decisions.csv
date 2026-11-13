@@ -1,0 +1,5 @@
+role,configuration,source,rationale
+Primary model,1D-ResNet + inverse-sqrt Weighted CE,Notebook 10 and 11 Development evidence,Highest observed mean Macro F1
+Fixed classical reference,"Random Forest, 120 trees",Notebook 10 Development evidence,Fixed classical comparator; stronger Shuffling F1
+Development neural comparator,TCN + inverse-sqrt Weighted CE,Notebook 11 robustness evidence,Seed sensitivity and reference architecture contrast
+Exploratory ResNet loss alternatives,Focal and Class-Balanced Cross-Entropy,Notebook 11 paired loss evidence,Lower mean Macro F1; minority-class precision/recall trade-off

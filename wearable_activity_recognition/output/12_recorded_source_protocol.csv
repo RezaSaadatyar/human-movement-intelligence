@@ -1,0 +1,15 @@
+property,recorded_value
+Source,HARTH v2.0
+Pinned revision,dad2cfbe89a26f72f19770419469ac037de200df
+Sampling rate (Hz),50
+Window size (samples),100
+Stride (samples),50
+Label purity,1
+Timestamp continuity,True
+Source task codes,"1, 2, 3, 4, 5, 6, 7, 8"
+Development participants,29
+Development cap per person,500
+Development windows,14201
+Reserved participants,"S023, S032"
+Reserved cap per person,500
+Other source codes,Keep observed codes; exclude non-task windows

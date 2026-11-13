@@ -1,0 +1,13 @@
+architecture,loss_method,class_code,class_support,mean_precision_across_seeds,mean_recall_across_seeds,mean_f1_across_seeds,evidence
+1D-ResNet,class_balanced,3,219,0.23089989953696818,0.7686453576864536,0.35148523144345506,Three-seed mean of pooled OOF metrics
+1D-ResNet,class_balanced,4,192,0.519495071078603,0.8958333333333334,0.6200465418014985,Three-seed mean of pooled OOF metrics
+1D-ResNet,class_balanced,5,182,0.49146142938205056,0.8388278388278388,0.6162273815335785,Three-seed mean of pooled OOF metrics
+1D-ResNet,focal,3,219,0.2721203072413055,0.6331811263318112,0.3794359649785237,Three-seed mean of pooled OOF metrics
+1D-ResNet,focal,4,192,0.586404873336659,0.8333333333333334,0.6857679392981035,Three-seed mean of pooled OOF metrics
+1D-ResNet,focal,5,182,0.5110391891075696,0.7838827838827839,0.6114158401282608,Three-seed mean of pooled OOF metrics
+1D-ResNet,weighted_ce,3,219,0.30411213337876747,0.5464231354642314,0.38744478375981267,Three-seed mean of pooled OOF metrics
+1D-ResNet,weighted_ce,4,192,0.5230359023719137,0.8454861111111112,0.6452156636038587,Three-seed mean of pooled OOF metrics
+1D-ResNet,weighted_ce,5,182,0.7265950734134208,0.7490842490842491,0.7360238750008659,Three-seed mean of pooled OOF metrics
+TCN,weighted_ce,3,219,0.26539492608637655,0.4277016742770167,0.3260719209791208,Three-seed mean of pooled OOF metrics
+TCN,weighted_ce,4,192,0.5930503220458688,0.8211805555555555,0.6845360895993807,Three-seed mean of pooled OOF metrics
+TCN,weighted_ce,5,182,0.5303656734864782,0.7838827838827839,0.6294873425448406,Three-seed mean of pooled OOF metrics

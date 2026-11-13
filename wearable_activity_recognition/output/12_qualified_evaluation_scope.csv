@@ -1,0 +1,10 @@
+item,recorded_rule
+Primary metric,Fixed-eight-class Macro F1
+Secondary metrics,accuracy; balanced_accuracy; per-class precision/recall/F1/support; per-person fixed-task Macro F1; confusion matrices
+Compared configurations,Primary 1D-ResNet and fixed Random Forest
+Preprocessing,Development fitted only
+Checkpoint,final_step
+Reserved people,"S023, S032"
+Historical exposure,Reserved participants previously inspected
+Evaluation interpretation,"Qualified previously-inspected reserved Test, not fully blind external validation"
+Model/threshold tuning using Test,Not part of the protocol

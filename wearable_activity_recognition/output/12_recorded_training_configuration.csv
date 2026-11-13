@@ -1,0 +1,19 @@
+setting,recorded_value
+Primary architecture,1D-ResNet
+Input / hidden channels,6 / 32
+Class codes,"1, 2, 3, 4, 5, 6, 7, 8"
+Loss,inverse_sqrt_weighted_ce
+Optimiser,Adam
+Learning rate,0.001
+Batch size,128
+Optimiser updates,400
+Seed,42
+Checkpoint,final_step
+Channel scaling,Development-only per-channel mean and SD
+Reference,Random Forest
+RF trees,120
+RF minimum leaf,3
+RF class weighting,balanced_subsample
+RF seed,42
+RF features per channel,"mean, std, rms, peak_to_peak, waveform_length"
+Temperature scaling,False
