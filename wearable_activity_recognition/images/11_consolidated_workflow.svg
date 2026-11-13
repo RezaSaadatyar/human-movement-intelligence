@@ -112,7 +112,7 @@
 <circle cx="1353" cy="409" r="13" fill="#E0F3E9" stroke="#279366" stroke-width="1.4"/>
 <text x="1353" y="414" font-size="16" font-weight="700" fill="#245E9D" text-anchor="middle">•</text>
 <text x="1379" y="410" font-size="12.5" font-weight="700" fill="#173453">Loss comparisons</text>
-<text x="1379" y="430" font-size="11.6" fill="#506C7E">Weighted CE · Focal · CB</text>
+<text x="1379" y="430" font-size="11.6" fill="#506C7E">Weighted CE · Focal · CB-CE</text>
 <circle cx="1353" cy="466" r="13" fill="#E0F3E9" stroke="#279366" stroke-width="1.4"/>
 <text x="1353" y="471" font-size="16" font-weight="700" fill="#245E9D" text-anchor="middle">•</text>
 <text x="1379" y="467" font-size="12.5" font-weight="700" fill="#173453">Paired evaluation</text>
@@ -162,6 +162,6 @@
 <text x="1529" y="640" font-size="13" font-weight="700" fill="#FFFFFF" text-anchor="middle">OUTPUT</text>
 <text x="1529" y="671" font-size="14.1" font-weight="700" fill="#FFFFFF" text-anchor="middle">Research Outputs</text>
 <text x="1529" y="697" font-size="11.9" fill="#D8E9F0" text-anchor="middle">CSV tables and PNG figures</text>
-<text x="1529" y="717" font-size="11.9" fill="#D8E9F0" text-anchor="middle">Current Notebook 11 results</text>
-<text x="35" y="766" font-size="12.1" fill="#506C7E">Development-only research evidence</text>
+<text x="1529" y="717" font-size="11.9" fill="#D8E9F0" text-anchor="middle">15 CSV · 3 PNG figures</text>
+<text x="35" y="766" font-size="12.1" fill="#506C7E">Development-only evidence · Repeated seeds and matched participant folds</text>
 </g></svg>
