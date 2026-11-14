@@ -21,9 +21,11 @@ For complete methods and limitations, see
   reassigned to known activities.
 - Development cohort: 29 participants and 132,397 eligible windows.
   The label-independent 500-window/person study contains 14,201 windows.
-- S023/S032 were withheld from final Development fitting but had been
-  descriptively inspected earlier. Their historical evaluation is therefore
-  **qualified same-study held-out evidence**, not blind external validation.
+- S023/S032 are withheld from final Development fitting. The current
+  Notebook 13 assessment code applies the trained models to their original
+  HARTH windows without any Test-side fitting. These participants had been
+  descriptively inspected earlier; results are therefore **qualified
+  same-study evidence**, not blind external validation.
 
 Overlapping windows are correlated; window counts must not be interpreted as
 independent participant observations.
@@ -39,7 +41,7 @@ independent participant observations.
 | Seven-model benchmark | [10](../wearable_activity_recognition/code/notebooks/10_harth_advanced_temporal_architectures_and_matched_benchmark.ipynb), [model CSV](../wearable_activity_recognition/output/10_matched_cv_model_summary.csv) | Matched three-fold, 29-participant Development comparison |
 | Multi-seed robustness | [11](../wearable_activity_recognition/code/notebooks/11_harth_multiseed_stability_and_imbalance_robustness.ipynb), [robustness CSV](../wearable_activity_recognition/output/11_robustness_model_summary.csv) | Four conditions across three seeds and three folds |
 | Selection and specification | [12](../wearable_activity_recognition/code/notebooks/12_harth_development_model_selection_and_protocol_specification.ipynb), [selection CSV](../wearable_activity_recognition/output/12_development_model_selection_evidence.csv) | Weighted 1D-ResNet primary and 120-tree Random Forest reference |
-| Final Development fitting | [13](../wearable_activity_recognition/code/notebooks/13_harth_final_development_training_and_research_synthesis.ipynb), [fitting CSV](../wearable_activity_recognition/output/13_final_training_configuration.csv) | 29-person final fitting, Development-only reload check and bounded synthesis |
+| Final Development fitting and qualified assessment | [13](../wearable_activity_recognition/code/notebooks/13_harth_final_development_training_and_research_synthesis.ipynb), [fitting CSV](../wearable_activity_recognition/output/13_final_training_configuration.csv) | Current model training and reload recorded; new S023/S032 evaluation code requires execution before reporting metrics |
 
 The latest saved Notebook 13 execution used a Tesla T4 GPU and recorded 400
 ResNet optimiser updates (approximately 4.41 seconds), a 120-tree Random
@@ -64,49 +66,64 @@ The loader restores numeric types, checks channel/class ordering and uses
 Development-only preprocessing. The CSV is not an approval or SHA-256
 manifest.
 
-The current Notebook 13 execution saved and reloaded its models through the
-CSV-based interface and created one
-`wearable_activity_recognition_Stage_13_Outputs.zip` in the Colab file
-browser. The three files are under `models/`; the stage's CSV/PNG outputs are
-under `results/`, with no nested ZIP. The older archive containing
-`inference_config.json` is not natively compatible with the updated loader.
-The [inference CSV](../wearable_activity_recognition/output/13_inference_config.csv)
-is published, but model binaries and the local ZIP have not been committed to
-GitHub. Notebook 13 Sections 08–09 now contain the recovered integer confusion
-matrices directly. They compute the earlier models' pooled and per-class
-metrics and regenerate the confusion and support plots without opening a
-retired notebook or Stage 25 ZIP. Previously saved rounded S023/S032
-participant metrics are preserved separately; individual historical window
-predictions and person-specific confusion matrices cannot be reconstructed
-from pooled counts. The revised sections are not yet executed.
+The saved Notebook 13 run demonstrated model export and reload using
+`inference_config.csv`. The updated Section 08 now loads S023 and S032
+directly from the pinned source repository (if the raw participant files
+are not already cached), applies the same windowing procedure and infers
+with the saved fitted ResNet and Random Forest. Its aligned prediction
+rows are saved as `13_qualified_aligned_predictions.csv`.
 
+The new Section 09 derives confusion matrices, activity support and
+recall from these predictions, not embedded integers. Section 11 creates
+one `wearable_activity_recognition_Stage_13_Outputs.zip`: trained model
+files under `models/` and the defined `13_` CSV/PNG files under
+`results/`. No model-specific inner ZIP or old Stage 25 archive is needed.
+The new evaluation and export have not been executed in the current
+published version. The model binaries and Colab download archive are
+not committed to ordinary Git.
 Model binaries and raw HARTH recordings are not tracked in ordinary Git
 history. Keep a trustworthy copy of the model bundle outside ephemeral
 Colab storage. Never load an untrusted `.joblib` file.
 
-## 4. Historical Qualified Results
+## 4. Qualified Same-Study Assessment
 
-Earlier saved execution evidence reported fixed-eight-class Macro F1
-**0.7182** (weighted ResNet) and **0.6817** (Random Forest), with accuracy
-**0.9020** and **0.9270**, respectively, on 1,000 overlapping windows
-from S023 and S032. True Shuffling, Stairs ascending and Stairs descending
-support was only **3**, **10** and **6** windows.
+The current Notebook 13 defines a direct assessment of its **newly
+fitted model pair** on S023 and S032. After completion of Development-only
+fitting, the original HARTH source files for these two people are read
+and windowed with the recorded 100-sample, 50-sample-stride, fully
+labelled and timestamp-continuous protocol. At most 500 eligible windows
+are selected per person without consulting activity class.
 
-The pooled results are consistent with the exact integer confusion counts
-now embedded in Notebook 13; the participant rows are rounded historical
-observations. The original aligned prediction table remains unavailable but
-is not required for count-based summaries. Do not attribute these results
-to newly fitted model files or re-score Test to fill the gap.
+The following outputs will be generated from current fitted models:
 
-The executed original assessment remains accessible at the
-[historical Notebook 25 revision](https://github.com/RezaSaadatyar/human-movement-intelligence/blob/bcffd956dd3a89edd8eb23ad1f63e360a15c72b1/wearable_activity_recognition/code/notebooks/25_final_development_training_and_inference.ipynb).
+- `13_qualified_cohort_summary.csv`: original source-window counts.
+- `13_qualified_aligned_predictions.csv`: participant, original window
+  start/end, true label and predictions from both models.
+- `13_qualified_model_summary.csv`, `13_qualified_per_subject.csv`
+  and `13_qualified_per_class.csv`: directly calculated metrics.
+- `13_qualified_confusion_counts_*.csv` and related PNG figures:
+  eight-class confusion matrices and activity-support/recall graphics.
+
+The fixed-eight-class Macro F1 includes zero contributions for missing
+true classes. Balanced accuracy is computed across observed true
+classes, as in the existing qualified evaluation module. The results
+must be interpreted as a same-study assessment of two participants
+whose recordings had previously been inspected. No threshold, model
+or hyperparameter is selected on their scores.
+
+**Status:** The revised assessment code is published but has not been
+verified with a new full execution. Do not use old displayed Test scores
+as a substitute for the outputs above.
 
 ## 5. What Can Be Verified
 
-A fresh checkout can inspect code, saved notebook displays, published CSV
-tables and figures, the declared source revision and current model configuration
-schema. It cannot independently reproduce earlier final model weights or
-historical Test predictions without the corresponding trusted artefacts.
+A fresh checkout can inspect current source code, Development results,
+the declared HARTH source revision and inference configuration. A full
+Notebook 13 run with the official source downloads and fitted models can
+also produce qualified S023/S032 predictions, metrics and matrices.
+The currently published `output/` directory does not yet contain these
+new `13_qualified_` files; generating them is not evidence of blind
+external validation.
 
 To install base dependencies from the repository root:
 
