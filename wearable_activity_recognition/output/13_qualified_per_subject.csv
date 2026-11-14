@@ -1,0 +1,5 @@
+model,subject_id,windows,true_classes_present,fixed_eight_class_macro_f1,balanced_accuracy_observed_classes,accuracy
+1D-ResNet Weighted CE,S023,500,8,0.7384409000319072,0.9558794936052541,0.9
+1D-ResNet Weighted CE,S032,500,6,0.5662407266620147,0.8508946608946609,0.904
+Random Forest,S023,500,8,0.7391499261887358,0.8375730930982832,0.956
+Random Forest,S032,500,6,0.45969083483595863,0.6826406926406926,0.898

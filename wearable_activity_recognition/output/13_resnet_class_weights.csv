@@ -1,0 +1,9 @@
+source_code,activity,development_class_weight
+1,Walking,0.4099856
+2,Running,0.76626635
+3,Shuffling,1.6601765
+4,Stairs ascending,1.7730693
+5,Stairs descending,1.8211286
+6,Standing,0.52061445
+7,Sitting,0.32833797
+8,Lying,0.7204212
