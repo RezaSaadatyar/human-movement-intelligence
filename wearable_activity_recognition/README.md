@@ -8,7 +8,7 @@ This study investigates **eight-class human activity recognition using two weara
 
 The older S023/S032 evaluation was performed on two previously inspected participants. Its **historically reported** results belong to a separate earlier fitted model pair and do not validate the newly fitted Notebook 13 artefacts. The current Notebook 13 did not re-score Test data.
 
-## 1. Dataset and experimental protocol
+## 1. Dataset and Experimental Protocol
 
 | Component | Research setting |
 | --- | --- |
