@@ -181,9 +181,11 @@ until the configuration is regenerated or converted; it is not silently accepted
 The published [`13_inference_config.csv`](output/13_inference_config.csv)
 contains Development-fitted scaler and ordered features. The latest Notebook
 13 execution has additionally saved and reloaded models with the CSV interface
-and created a single Colab ZIP. The notebook's revised historical-report
-sections and refreshed training-configuration table still need execution and
-publication. Model binaries are **not committed** to Git; retain a trusted
+and created a single Colab ZIP. Restored Sections 08–09 can recompute the earlier models' qualified
+metrics and confusion matrices once the genuine
+`25_qualified_aligned_predictions.csv` from Stage 25 is placed in `output/`.
+Those sections and the refreshed training-configuration table still need
+execution and publication. Model binaries are **not committed** to Git; retain a trusted
 copy of the locally generated ZIP.
 
 ## 6. Interpretation and Scope
