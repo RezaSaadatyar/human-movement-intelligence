@@ -10,7 +10,8 @@ reconciliation; their executed versions are recoverable from Git history.
 The latest recorded final fit used Tesla T4 CUDA (about 4.41 seconds for
 400 updates), and the CSV-based reload and flat Colab ZIP export have executed.
 The published configuration table still holds a 67.649-second earlier CPU fit;
-current outputs and revised historical presentation remain to be regenerated.
+the refreshed training configuration and original historical qualified
+metrics/figures remain to be regenerated from their respective sources.
 Historical qualified S023/S032 findings are not new Notebook 13 Test results. The chronology and planning checklists below are dated
 records, not the current implementation instructions.
 
