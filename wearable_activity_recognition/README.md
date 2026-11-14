@@ -175,11 +175,14 @@ until the configuration is regenerated or converted; it is not silently accepted
 | [`evidence/`](evidence/) | Original early-stage research evidence register |
 | [Shared Python modules](../python_modules/core/) | Model fitting, evaluation, plotting and inference |
 
-The publicly saved `13_` tables document the original CPU run. After the
-configuration change, running Sections 06 and 11 of Notebook 13 produces
-`13_inference_config.csv` and the single external ZIP; the old nested ZIP is
-not used. Trained model binaries are **not committed** to ordinary Git
-history. Keep the download archive in reliable storage.
+The published [`13_inference_config.csv`](output/13_inference_config.csv)
+was reconstructed from the saved final-fit settings, channel-scaling table
+and the established 30-feature ordering. Its values are available for
+inspection, but this reconstruction is **not** execution of the revised
+loader. Sections 06 and 11 of Notebook 13 still need to run to verify CSV
+loading and create the single external ZIP. Trained model binaries are **not
+committed** to ordinary Git history. Keep a trusted download archive in
+reliable storage.
 
 ## 6. Interpretation and Scope
 
