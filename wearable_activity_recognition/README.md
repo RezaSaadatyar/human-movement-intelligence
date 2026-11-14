@@ -152,9 +152,12 @@ and bounded scientific synthesis.
 
 To execute a notebook in Google Colab, use its repository checkout and study setup
 cells. The official HARTH source is downloaded at the pinned revision when absent.
-The optional PyTorch GPU is supported; the recorded final fit in Notebook 13 ran
-on CPU. A fresh run produces **new model artefacts** and should not inherit the
-historically reported Test results.
+The latest recorded Notebook 13 fit used an NVIDIA Tesla T4 GPU and completed
+400 ResNet updates in approximately **4.41 seconds**. A previous CPU fitting
+record (67.649 seconds) remains in the published training-configuration CSV;
+the current run's CSV should replace it when the updated final sections are
+executed and the outputs are pushed. Neither run produces independent Test
+performance for the new model artefacts.
 
 The final inference configuration uses `inference_config.csv` with explicit
 parameter positions and scalar values. The current export places
@@ -176,13 +179,12 @@ until the configuration is regenerated or converted; it is not silently accepted
 | [Shared Python modules](../python_modules/core/) | Model fitting, evaluation, plotting and inference |
 
 The published [`13_inference_config.csv`](output/13_inference_config.csv)
-was reconstructed from the saved final-fit settings, channel-scaling table
-and the established 30-feature ordering. Its values are available for
-inspection, but this reconstruction is **not** execution of the revised
-loader. Sections 06 and 11 of Notebook 13 still need to run to verify CSV
-loading and create the single external ZIP. Trained model binaries are **not
-committed** to ordinary Git history. Keep a trusted download archive in
-reliable storage.
+contains Development-fitted scaler and ordered features. The latest Notebook
+13 execution has additionally saved and reloaded models with the CSV interface
+and created a single Colab ZIP. The notebook's revised historical-report
+sections and refreshed training-configuration table still need execution and
+publication. Model binaries are **not committed** to Git; retain a trusted
+copy of the locally generated ZIP.
 
 ## 6. Interpretation and Scope
 
