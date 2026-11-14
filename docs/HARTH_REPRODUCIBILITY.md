@@ -77,10 +77,11 @@ with the saved fitted ResNet and Random Forest. Its aligned prediction
 rows are saved as `13_qualified_aligned_predictions.csv`.
 
 The new Section 09 derives confusion matrices, activity support and
-recall from these predictions, not embedded integers. Section 11 creates
-one `wearable_activity_recognition_Stage_13_Outputs.zip`: trained model
-files under `models/` and the defined `13_` CSV/PNG files under
-`results/`. No model-specific inner ZIP or old Stage 25 archive is needed.
+recall from these predictions, not embedded integers. Section 11 creates one
+`wearable_activity_recognition_Stage_13_Outputs.zip` with the fitted
+model files, inference CSV and 23 stage CSV/PNG files **at ZIP root**.
+There are no nested folders or second ZIP; its contents may be
+extracted directly into the study `output/` folder.
 Notebook 13 displays its qualified evaluation and ZIP export results.
 The ZIP and model binaries remain outside Git; the derived `13_qualified_`
 CSV/PNG files must still be committed into the study `output/` folder.
