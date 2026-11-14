@@ -314,6 +314,7 @@ def save_final_models(
         "training_seed": int(spec["random_seed"]),
     }
     _write_inference_csv(config, config_path)
+    (directory / "inference_config.json").unlink(missing_ok=True)
     return {
         "resnet": net_path,
         "reference": rf_path,
