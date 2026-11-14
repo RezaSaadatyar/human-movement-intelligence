@@ -449,11 +449,12 @@ not constitute a new independent model reproduction.
    are not proof of faithful explanation or clinical uncertainty.
    Stage 19 calibration had mixed effects and is not part of the final
    trained procedure.
-7. **Reproducibility boundary.** Public CSVs, executed notebooks and
-   provenance records allow auditing many reported outcomes. Raw HARTH
-   recordings, model weights and some local training caches are not
-   included. A successful quality gate is not an independent rerun of
-   all experiments.
+7. **Reproducibility boundary.** The published Development CSVs
+   support many analyses, but the revised qualified assessment
+   predictions and figures have not yet been executed and published.
+   Raw HARTH recordings and model binaries are not stored in
+   ordinary Git. Execution alone does not establish scientific
+   validity or independent external validation.
 
 ### Source of record
 
@@ -465,9 +466,11 @@ not constitute a new independent model reproduction.
   [Notebook 12](code/notebooks/12_harth_development_model_selection_and_protocol_specification.ipynb)
   and [Notebook 13](code/notebooks/13_harth_final_development_training_and_research_synthesis.ipynb)
   document the current benchmark, robustness, choice and fitting.
-- The historical qualified assessment is sourced from the
-  [executed former Notebook 25](https://github.com/RezaSaadatyar/human-movement-intelligence/blob/bcffd956dd3a89edd8eb23ad1f63e360a15c72b1/wearable_activity_recognition/code/notebooks/25_final_development_training_and_inference.ipynb),
-  not from Notebook 13 inference artefacts.
+- [Notebook 13](code/notebooks/13_harth_final_development_training_and_research_synthesis.ipynb)
+  now performs its qualified S023/S032 assessment using the **same
+  Development-fitted models** it saved and reloads. Its
+  `13_qualified_aligned_predictions.csv` will be the source of record
+  for the new model, class and participant metrics once executed.
 - [HARTH source adapter](code/src/harth_data.py),
   [model inference module](../python_modules/core/harth_final_inference.py)
   and [reproducibility guide](../docs/HARTH_REPRODUCIBILITY.md)
