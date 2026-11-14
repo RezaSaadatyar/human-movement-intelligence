@@ -1,9 +1,17 @@
-# Current Research Status (13 November 2026)
+# Current Research Status (14 November 2026)
 
-**HARTH study structure:** Numbered notebooks are being consolidated by scientific purpose; the established FINAL audit remains separate. The historical planning checklist below is preserved as a dated record. Frozen protocol evidence and SHA256 records are not modified by notebook consolidation.
+**Current HARTH workflow:** Notebooks 01–13 are the maintained
+experimental programme. Notebook 12 specifies the Development
+selection and Notebook 13 records final Development fitting, saved
+model interfaces and research synthesis. Earlier 24–26 and FINAL
+notebooks are retired from the current tree after content and link
+reconciliation; their executed versions are recoverable from Git history.
 
-
-**The original planning/checkpoint log below is preserved as a historical record.** Its earlier unchecked items and "pending" descriptions reflect their status when written, not the latest GitHub execution state. The FINAL audit has a saved historical execution, but has not been reverified against the consolidated current-file names. For current results, see [the HARTH study](../wearable_activity_recognition/README.md).
+The final fit previously ran on CPU, but the later CSV inference
+configuration and single-ZIP export still require execution.
+Historical qualified S023/S032 findings are not new Notebook 13
+Test results. The chronology and planning checklists below are dated
+records, not the current implementation instructions.
 
 **Notebook consolidation, 9 November 2026:** The former full-Development notebooks 08/09 are represented by [Notebook 03](../wearable_activity_recognition/code/notebooks/03_harth_full_development_audit_and_classical_cv.ipynb); the former bounded temporal CNN and matched Random Forest notebooks 10/11 are represented by [Notebook 04](../wearable_activity_recognition/code/notebooks/04_harth_temporal_cnn_and_matched_random_forest.ipynb). The canonical matched six-person Validation Macro F1 values are **0.8140 (Random Forest)** and **0.6659 (temporal CNN)**, not the superseded 0.8266 Random Forest figure in the historical log. Original checklist references below describe the old sequence, not current notebook paths.
 
@@ -63,23 +71,24 @@ Notebook 08 prediction errors. The consolidated workflow SVG
 remains a schematic. The old Notebook 20 and its stage-specific
 figure were retired after content transfer and dependency inspection.
 
-**Evidence boundary:** The legacy FINAL audit still names historical source CSVs. Its execution against consolidated 03–05 output filenames has not been reverified; no Test results or provenance records are re-created by this consolidation.
+**Evidence boundary:** The earlier FINAL audit remains a historical Git record; its saved checks were not rerun against the maintained 01–13 notebooks. No new Test evaluation or independent reproduction is claimed.
 
-| Area | Verified present status | Evidence |
+| Area | Current status | Evidence |
 | --- | --- | --- |
-| HARTH Stages 01–19 | Executed exploratory/Development experiments under different cohorts and protocols | [Evidence register](../wearable_activity_recognition/evidence/stage_01_19_evidence_register.csv) |
-| Consolidated Notebook 09 | Recorded Development source-quality and minority-activity audit | [Notebook 09](../wearable_activity_recognition/code/notebooks/09_harth_source_quality_and_minority_activity_audit.ipynb) |
-| Active Stage 21 | Advanced temporal model engineering and smoke tests | [Notebook 21](../wearable_activity_recognition/code/notebooks/21_advanced_temporal_architectures.ipynb) |
-| Active Stage 22 | Executed seven-model matched Development benchmark, 21 model-fold jobs | [Notebook 22](../wearable_activity_recognition/code/notebooks/22_unified_matched_model_benchmark.ipynb) |
-| Active Stage 23 | Executed three-seed/loss robustness, 36 neural model-fold-seed jobs | [Notebook 23](../wearable_activity_recognition/code/notebooks/23_multiseed_and_imbalance_robustness.ipynb) |
-| Active Stage 24 | Executed Development model selection and protocol review | [Notebook 24](../wearable_activity_recognition/code/notebooks/24_model_selection_and_protocol_freeze.ipynb) |
-| Active Stage 25 | Executed Development final fit and one approved qualified held-out evaluation | [Notebook 25](../wearable_activity_recognition/code/notebooks/25_final_development_training_and_inference.ipynb) |
-| Active Stage 26 | Executed file-based final evidence synthesis; recorded Quality Gate PASSED | [Notebook 26](../wearable_activity_recognition/code/notebooks/26_final_research_evidence_and_report.ipynb) |
-| Separate FINAL audit | Cross-stage research closure notebook written, initial execution not yet completed | [Final audit](../wearable_activity_recognition/code/notebooks/final_harth_research_audit_and_closure.ipynb) |
-| Biomechanical Load Estimation | Original data inspection and separately documented preliminary exploratory results, not completed robust load-estimation benchmark | [Study notes](../biomechanical_load_estimation/) |
-| Other movement science studies | Planned, not yet implemented | [Research project overview](../README.md) |
+| HARTH data, sampling and early Development | Current Notebooks 01–09 with published source and model evidence | [Study notebooks](../wearable_activity_recognition/code/notebooks/) |
+| HARTH seven-model benchmark | Notebook 10, matched three-fold Development comparison | [Notebook 10](../wearable_activity_recognition/code/notebooks/10_harth_advanced_temporal_architectures_and_matched_benchmark.ipynb) |
+| HARTH multi-seed and loss robustness | Notebook 11, four conditions across 36 model–seed–fold jobs | [Notebook 11](../wearable_activity_recognition/code/notebooks/11_harth_multiseed_stability_and_imbalance_robustness.ipynb) |
+| HARTH model selection | Notebook 12, Development-only primary/reference specification | [Notebook 12](../wearable_activity_recognition/code/notebooks/12_harth_development_model_selection_and_protocol_specification.ipynb) |
+| HARTH final Development fitting | Notebook 13; CPU fit and reload demonstrated, updated CSV artefact export awaiting execution | [Notebook 13](../wearable_activity_recognition/code/notebooks/13_harth_final_development_training_and_research_synthesis.ipynb) |
+| Historical qualified results | Earlier model pair evaluated on S023/S032; not reproduced in Notebook 13 | [Scientific document](../wearable_activity_recognition/HARTH_RESEARCH_METHODS_AND_EVIDENCE.md) |
+| Biomechanical Load Estimation | Independently maintained project, outside this HARTH clean-up | [Study README](../biomechanical_load_estimation/README.md) |
+| Other movement science studies | Planned directions, not completed implementations | [Research overview](../README.md) |
 
-**Current scientific result:** 1D-ResNet Weighted CE / 120-tree Random Forest qualified pooled fixed-eight-class Macro F1 **0.7182 / 0.6817**, from only two historically inspected same-study held-out people and 1,000 overlapping windows. This is not independent external validation or clinical deployment evidence.
+**HARTH scientific boundary:** The earlier qualified fixed-eight-class
+Macro F1 of **0.7182 / 0.6817** (weighted ResNet / Random Forest)
+belongs to historically fitted models and two previously inspected
+same-study participants. It is not blind external validation and
+does not describe the new Notebook 13 model artefacts.
 
 ## Remaining repository hygiene and release decisions
 
