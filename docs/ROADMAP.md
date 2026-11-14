@@ -7,11 +7,11 @@ model interfaces and research synthesis. Earlier 24–26 and FINAL
 notebooks are retired from the current tree after content and link
 reconciliation; their executed versions are recoverable from Git history.
 
-The final fit previously ran on CPU. A standalone CSV inference
-configuration has been reconstructed from saved scaling and fitting
-records, but the revised loader and single-ZIP export still require execution.
-Historical qualified S023/S032 findings are not new Notebook 13
-Test results. The chronology and planning checklists below are dated
+The latest recorded final fit used Tesla T4 CUDA (about 4.41 seconds for
+400 updates), and the CSV-based reload and flat Colab ZIP export have executed.
+The published configuration table still holds a 67.649-second earlier CPU fit;
+current outputs and revised historical presentation remain to be regenerated.
+Historical qualified S023/S032 findings are not new Notebook 13 Test results. The chronology and planning checklists below are dated
 records, not the current implementation instructions.
 
 **Notebook consolidation, 9 November 2026:** The former full-Development notebooks 08/09 are represented by [Notebook 03](../wearable_activity_recognition/code/notebooks/03_harth_full_development_audit_and_classical_cv.ipynb); the former bounded temporal CNN and matched Random Forest notebooks 10/11 are represented by [Notebook 04](../wearable_activity_recognition/code/notebooks/04_harth_temporal_cnn_and_matched_random_forest.ipynb). The canonical matched six-person Validation Macro F1 values are **0.8140 (Random Forest)** and **0.6659 (temporal CNN)**, not the superseded 0.8266 Random Forest figure in the historical log. Original checklist references below describe the old sequence, not current notebook paths.
@@ -80,7 +80,7 @@ figure were retired after content transfer and dependency inspection.
 | HARTH seven-model benchmark | Notebook 10, matched three-fold Development comparison | [Notebook 10](../wearable_activity_recognition/code/notebooks/10_harth_advanced_temporal_architectures_and_matched_benchmark.ipynb) |
 | HARTH multi-seed and loss robustness | Notebook 11, four conditions across 36 model–seed–fold jobs | [Notebook 11](../wearable_activity_recognition/code/notebooks/11_harth_multiseed_stability_and_imbalance_robustness.ipynb) |
 | HARTH model selection | Notebook 12, Development-only primary/reference specification | [Notebook 12](../wearable_activity_recognition/code/notebooks/12_harth_development_model_selection_and_protocol_specification.ipynb) |
-| HARTH final Development fitting | Notebook 13; CPU fit and reload demonstrated, updated CSV artefact export awaiting execution | [Notebook 13](../wearable_activity_recognition/code/notebooks/13_harth_final_development_training_and_research_synthesis.ipynb) |
+| HARTH final Development fitting | Notebook 13; CUDA fit, CSV reload and single ZIP executed; latest training CSV and newly revised reported-result tables awaiting publication | [Notebook 13](../wearable_activity_recognition/code/notebooks/13_harth_final_development_training_and_research_synthesis.ipynb) |
 | Historical qualified results | Earlier model pair evaluated on S023/S032; not reproduced in Notebook 13 | [Scientific document](../wearable_activity_recognition/HARTH_RESEARCH_METHODS_AND_EVIDENCE.md) |
 | Biomechanical Load Estimation | Independently maintained project, outside this HARTH clean-up | [Study README](../biomechanical_load_estimation/README.md) |
 | Other movement science studies | Planned directions, not completed implementations | [Research overview](../README.md) |
