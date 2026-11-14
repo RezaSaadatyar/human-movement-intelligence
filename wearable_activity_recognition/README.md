@@ -1,23 +1,12 @@
 # Wearable Activity Recognition | HARTH v2.0
 
-![HARTH-wide research workflow: wearable sensing, participant-disjoint model development, qualified assessment and FINAL evidence audit](images/study_overview.svg)
+![HARTH final Development and research evidence workflow](images/13_consolidated_workflow.svg)
 
-*Study-wide workflow: the diagram summarises the full HARTH research programme and the completed FINAL evidence audit. The numbered notebooks retain their individual workflow figures.*
+This study investigates **eight-class human activity recognition using two wearable accelerometers**. It compares classical models and temporal neural networks with participant-disjoint Development validation, source-quality checks, minority-activity analysis, robustness experiments and calibrated probability assessments.
 
-This study investigates **eight-class human activity recognition from two wearable
-accelerometers**. It compares classical machine learning and temporal deep learning
-under participant-disjoint Development evaluation, with particular attention to rare
-activities, sampling limits, model stability and the interpretation of held-out results.
+**Current study notebooks:** [01–13](code/notebooks/). Notebook 12 records the Development-supported selection of a weighted 1D-ResNet and a fixed Random Forest reference; Notebook 13 fits those models on Development, verifies the saved inference interface and synthesises the supported evidence. The former 24–26 and FINAL notebooks have been consolidated; their original executed versions remain recoverable from Git history.
 
-The experimental work was originally arranged as 26 numbered stages. The
-current notebook sequence includes consolidated **01–05**, followed by
-remaining historical **14–26**, and a separate
-[FINAL evidence audit](code/notebooks/final_harth_research_audit_and_closure.ipynb).
-The [Stage 26 evidence report](code/notebooks/26_final_research_evidence_and_report.ipynb)
-contains the executed, saved-results synthesis. The independent
-[FINAL audit](code/notebooks/final_harth_research_audit_and_closure.ipynb)
-has also been executed and committed, with its cross-stage quality gate **PASSED**
-and ten saved `final_*` outputs.
+The older S023/S032 evaluation was performed on two previously inspected participants. Its **historically reported** results belong to a separate earlier fitted model pair and do not validate the newly fitted Notebook 13 artefacts. The current Notebook 13 did not re-score Test data.
 
 ## 1. Dataset and experimental protocol
 
@@ -41,43 +30,37 @@ held-out assessment therefore **is not fully blind or external validation**, eve
 though those participants were excluded from subsequent Development model fitting
 and selection.
 
-## 2. Experimental programme
+## 2. Experimental Programme
 
-| Notebooks | Main purpose |
+| Notebook | Research purpose |
 | --- | --- |
-| [01–03](code/notebooks/) | Source inspection, annotation-safe windows, 30 statistical features and classical participant-disjoint Development evaluation |
-| [04](code/notebooks/04_harth_temporal_cnn_and_matched_random_forest.ipynb) | Bounded raw-signal temporal CNN and matched Random Forest on identical participant-disjoint Validation windows |
-| [05](code/notebooks/05_harth_class_weighting_and_grouped_model_comparison.ipynb) | Matched standard/weighted CNN loss ablation and three-model participant-grouped Development comparison |
-| [06](code/notebooks/06_harth_sampling_sensitivity_and_nested_training_scaling.ipynb) | Full-source sampling retention and fixed-Validation comparison of strictly nested 500/1,000 Train sizes for Random Forest and weighted CNN |
-| [07](code/notebooks/07_harth_grouped_nested_training_and_fixed_update_comparison.ipynb) | Three-fold grouped nested Train-size comparison and matched 400-update weighted CNN evaluation |
-| [08](code/notebooks/08_harth_oof_confidence_and_temperature_calibration.ipynb) | Executed uncalibrated OOF confidence audit and independently fitted participant-disjoint temperature calibration |
-| [09](code/notebooks/09_harth_source_quality_and_minority_activity_audit.ipynb) | Saved Development-only source integrity, minority activity support, annotation bouts, sampling caps and sensor audit; 27 current CSV/PNG outputs |
-| [21](code/notebooks/21_advanced_temporal_architectures.ipynb) | Engineering checks for TCN, Multi-Scale CNN, 1D-ResNet and Time-Series Transformer |
-| [22](code/notebooks/22_unified_matched_model_benchmark.ipynb) | Seven-model matched, three-fold Development benchmark (21 model-fold jobs) |
-| [23](code/notebooks/23_multiseed_and_imbalance_robustness.ipynb) | Three-seed architecture/loss robustness (36 neural model-fold-seed jobs) |
-| [24](code/notebooks/24_model_selection_and_protocol_freeze.ipynb) | Development-only model selection and frozen-protocol checks |
-| [25](code/notebooks/25_final_development_training_and_inference.ipynb) | Final Development fitting and separately approved qualified held-out evaluation |
-| [26](code/notebooks/26_final_research_evidence_and_report.ipynb) | Evidence report using committed full-precision results and recorded provenance |
-| [FINAL](code/notebooks/final_harth_research_audit_and_closure.ipynb) | Cross-study evidence reconciliation, source traceability and limitations of qualified held-out assessment |
+| [01–03](code/notebooks/) | Source inspection, safe window construction, 30 statistical features and classical participant-disjoint Development evaluation |
+| [04](code/notebooks/04_harth_temporal_cnn_and_matched_random_forest.ipynb) | Matched temporal CNN and Random Forest comparison |
+| [05](code/notebooks/05_harth_class_weighting_and_grouped_model_comparison.ipynb) | CNN weighting and three-model grouped comparison |
+| [06](code/notebooks/06_harth_sampling_sensitivity_and_nested_training_scaling.ipynb) | Sampling limits and nested training-set sizes |
+| [07](code/notebooks/07_harth_grouped_nested_training_and_fixed_update_comparison.ipynb) | Grouped nested training and matched optimisation budgets |
+| [08](code/notebooks/08_harth_oof_confidence_and_temperature_calibration.ipynb) | OOF confidence and separate temperature calibration |
+| [09](code/notebooks/09_harth_source_quality_and_minority_activity_audit.ipynb) | Source integrity, labels, rare-class and sampling audit |
+| [10](code/notebooks/10_harth_advanced_temporal_architectures_and_matched_benchmark.ipynb) | Seven-model participant-grouped Development benchmark |
+| [11](code/notebooks/11_harth_multiseed_stability_and_imbalance_robustness.ipynb) | Three-seed and loss-function robustness comparison |
+| [12](code/notebooks/12_harth_development_model_selection_and_protocol_specification.ipynb) | Model selection, reference choice and fitting specification |
+| [13](code/notebooks/13_harth_final_development_training_and_research_synthesis.ipynb) | Final Development fitting, model artefacts and research synthesis |
 
-Detailed methods and experimental comparisons are documented in
-[HARTH | Research Methods and Experimental Evidence](HARTH_RESEARCH_METHODS_AND_EVIDENCE.md).
+For the complete interpretation of the earlier research protocols and recorded qualified assessment, see [HARTH Research Methods and Experimental Evidence](HARTH_RESEARCH_METHODS_AND_EVIDENCE.md).
 
-## 3. Research results
+## 3. Main Results
 
 The matched Development benchmark selected **1D-ResNet with training-only
 inverse-square-root weighted cross-entropy** as the primary model. **Random Forest**
 was retained as a fixed classical comparator. Both were configured using
 Development evidence, not the qualified held-out results.
 
-| Model | Three-fold Development Macro F1 (mean ± SD) | Qualified held-out eight-class Macro F1 | Qualified held-out accuracy |
+| Model | Current three-fold Development Macro F1 (mean ± SD) | Historical qualified held-out Macro F1 | Historical qualified accuracy |
 | --- | ---: | ---: | ---: |
-| **1D-ResNet Weighted CE** | **0.8328 ± 0.0435** | **0.7182** | 0.9020 |
+| **1D-ResNet Weighted CE** | **0.8336 ± 0.0427** | **0.7182** | 0.9020 |
 | Random Forest | 0.8094 ± 0.0500 | 0.6817 | **0.9270** |
 
-The Development and qualified held-out columns represent **different participant
-sets and evaluation conditions**; the values must not be treated as a matched
-performance-difference test. On the final 1,000 overlapping windows, Shuffling
+The Development values above come from the current Notebook 10/12 evidence. The qualified values are **historically reported from the previous fitted pair**, not reproduced or attributable to Notebook 13's new models. These columns have different participants and model-fit provenance; they cannot be used as a matched performance-difference test. On the final 1,000 overlapping windows, Shuffling
 has only **3** true examples, stairs ascending **10** and stairs descending **6**.
 The study does not establish population-level, prospective or clinical validity.
 
@@ -149,101 +132,70 @@ errors. See the [activity support](output/09_activity_support_summary.csv),
 [bout summary](output/09_annotation_bout_summary.csv), and
 [source accounting](output/09_development_source_accounting.csv).
 
-The full seven-model and robustness results are reported in
-[Notebook 22](code/notebooks/22_unified_matched_model_benchmark.ipynb),
-[Notebook 23](code/notebooks/23_multiseed_and_imbalance_robustness.ipynb) and
-the [research methods report](HARTH_RESEARCH_METHODS_AND_EVIDENCE.md).
-Qualified per-class and participant-level results are available from
-[Notebook 25](code/notebooks/25_final_development_training_and_inference.ipynb).
+The current seven-model and robustness results are in
+[Notebook 10](code/notebooks/10_harth_advanced_temporal_architectures_and_matched_benchmark.ipynb),
+[Notebook 11](code/notebooks/11_harth_multiseed_stability_and_imbalance_robustness.ipynb) and their
+[CSV evidence](output/12_development_model_selection_evidence.csv).
+[Notebook 13](code/notebooks/13_harth_final_development_training_and_research_synthesis.ipynb)
+preserves the historical qualified result summary as a separately attributed,
+previously executed study finding.
 
-## 4. Repository navigation
+## 4. Running and Reviewing the Study
+
+Open the saved [Notebook 10](code/notebooks/10_harth_advanced_temporal_architectures_and_matched_benchmark.ipynb),
+[Notebook 11](code/notebooks/11_harth_multiseed_stability_and_imbalance_robustness.ipynb)
+and [Notebook 12](code/notebooks/12_harth_development_model_selection_and_protocol_specification.ipynb)
+to inspect matched Development comparisons and model-selection evidence without retraining.
+[Notebook 13](code/notebooks/13_harth_final_development_training_and_research_synthesis.ipynb)
+contains the Development fitting, saved training outputs, inference reload example
+and bounded scientific synthesis.
+
+To execute a notebook in Google Colab, use its repository checkout and study setup
+cells. The official HARTH source is downloaded at the pinned revision when absent.
+The optional PyTorch GPU is supported; the recorded final fit in Notebook 13 ran
+on CPU. A fresh run produces **new model artefacts** and should not inherit the
+historically reported Test results.
+
+The final inference configuration uses `inference_config.csv` with explicit
+parameter positions and scalar values. The current export places
+`resnet_state_dict.pt`, `random_forest.joblib` and `inference_config.csv`
+under `models/`, with `13_` tables and figures under `results/` in one
+`wearable_activity_recognition_Stage_13_Outputs.zip` outside Git. An older
+bundle containing `inference_config.json` is not compatible with the new loader
+until the configuration is regenerated or converted; it is not silently accepted.
+
+## 5. Files and Saved Outputs
 
 | Location | Contents |
 | --- | --- |
-| [`code/notebooks/`](code/notebooks/) | Consolidated Notebooks 01–09, remaining legacy 21–26 and the separate FINAL notebook |
-| [`code/src/`](code/src/) | HARTH-specific data and quality-audit utilities |
-| [`output/`](output/) | Executed experiment CSVs, figures, Stage 26 report and ten committed FINAL audit outputs (including SHA256 provenance) |
-| [`images/`](images/) | Study-level and individual notebook SVG workflow figures |
-| [`evidence/`](evidence/) | Research evidence register and original protocol proposal/approval records |
-| [Shared Python modules](../python_modules/core/) | Reusable processing, splitting, training, evaluation, plotting and Colab utilities |
+| [`code/notebooks/`](code/notebooks/) | Current 01–13 study notebooks |
+| [`code/src/`](code/src/) | HARTH-specific source readers and sampling |
+| [`output/`](output/) | Saved Development CSV tables and figures, including 12/13 outputs |
+| [`images/`](images/) | Study and numbered notebook scientific workflow diagrams |
+| [`evidence/`](evidence/) | Original early-stage research evidence register |
+| [Shared Python modules](../python_modules/core/) | Model fitting, evaluation, plotting and inference |
 
-The output directory contains recorded results, **not** a new data source.
-Full-precision CSV exports are available for active Stages 22, 23 and 25;
-Stage 26 reads these without retraining or repeating the qualified Test.
-The saved FINAL audit records a historical 20-table comparison across
-Stages 08–26. Some recorded input filenames were superseded by the
-consolidated notebooks and are not available in the current checkout.
-Its saved outputs document the earlier run; a fresh FINAL execution against
-the consolidated inputs has not been verified. It does not require model
-retraining or new qualified Test predictions.
+The publicly saved `13_` tables document the original CPU run. After the
+configuration change, running Sections 06 and 11 of Notebook 13 produces
+`13_inference_config.csv` and the single external ZIP; the old nested ZIP is
+not used. Trained model binaries are **not committed** to ordinary Git
+history. Keep the download archive in reliable storage.
 
-## 5. Running and reviewing the study
+## 6. Interpretation and Scope
 
-For a fresh Google Colab session, clone the repository once and open a notebook
-under `wearable_activity_recognition/code/notebooks/`. The notebooks use a
-common **Colab Repository Setup** cell followed by their project imports and
-shared environment utilities. Do not force-pull over uncommitted Colab work.
+The current research evidence covers participant-disjoint Development evaluation,
+model-selection robustness, source-quality limitations and a Development-only
+final fit. The original qualified S023/S032 results were reported for a separate
+historical model run; the aligned prediction CSV is not present in the current
+public `output/` directory. Historical numerical findings remain described
+in the [scientific document](HARTH_RESEARCH_METHODS_AND_EVIDENCE.md), with the
+original executed notebook recoverable from the corresponding Git revision.
 
-For optional local inspection, from the repository root:
+The study does not establish blind external validation, population-wide accuracy,
+prospective performance or clinical deployment. Overlapping windows, limited
+independent participants and low support for several activities restrict
+generalisation claims.
 
-```bash
-python -m pip install -r requirements.txt
-```
-
-Some temporal experiments also require [deep-learning dependencies](../requirements-dl.txt)
-and GPU resources. The original raw data and trained model-weight files
-are **not committed**, so independent re-execution of every experiment is not
-guaranteed by the public repository alone.
-
-To review completed scientific results **without retraining**, start with
-[Notebook 26](code/notebooks/26_final_research_evidence_and_report.ipynb)
-and its report tables in [`output/`](output/). Then inspect the executed
-[FINAL audit notebook](code/notebooks/final_harth_research_audit_and_closure.ipynb)
-and its recorded output files. FINAL performs evidence reconciliation, not
-additional fitting or held-out Test prediction.
-
-## 6. FINAL research evidence audit and closure
-
-The separate [FINAL notebook](code/notebooks/final_harth_research_audit_and_closure.ipynb)
-has **11 executed code cells, no recorded execution errors and a saved
-`FINAL HARTH | CROSS-STAGE EVIDENCE AUDIT: PASSED` Quality Gate**. Its
-20-input CSV register checks the recorded study results without reloading
-source accelerometer signals, retraining models or repeating the qualified
-assessment.
-
-The committed audit reconciles the **29-person** full Development cohort
-(**132,397** task-eligible windows), the **14,201-window** 500-cap cohort
-and the **28,201-window** nested 1,000-cap cohort. It labels the different
-evaluation protocols rather than pooling incompatible model scores.
-It also examines rare-class retention, subject-disjoint calibration,
-the seven-model benchmark, robustness evidence and the qualified held-out
-results.
-
-| Final audit output | Contents |
-| --- | --- |
-| [Source inventory](output/final_source_inventory.csv) | 20 named source/result tables with row and column counts |
-| [Development cohort audit](output/final_development_cohort_audit.csv) | Participant and eligible-window reconciliation |
-| [Development comparisons](output/final_earlier_development_comparisons.csv) and [protocol comparability](output/final_protocol_comparability.csv) | Source-labelled results and rules for interpreting comparisons |
-| [Minority sampling audit](output/final_minority_sampling_audit.csv) and [retention figure](output/final_minority_class_retention.png) | Rare-activity availability under sampling caps |
-| [Temperature scaling audit](output/final_temperature_scaling_audit.csv) | ECE, Brier, NLL and accuracy contrasts |
-| [Qualified results snapshot](output/final_qualified_results_snapshot.csv) | Recorded ResNet and Random Forest outcomes, without new Test inference |
-| [Research closure and limitations](output/final_research_closure_and_limitations.csv) | Completed evidence, scientific constraints and future validation needs |
-| [FINAL source provenance](output/final_research_audit_provenance.json) | SHA256 fingerprints of 20 input CSVs, the Stage 26 report and protocol records |
-
-The provenance record and saved Quality Gate verify agreement of the
-**available files**, not independent reproduction of the neural training
-runs or external generalisation. The qualified assessment remains limited
-to S023 and S032 and 1,000 overlapping windows.
-
-## 7. Scientific documentation and boundaries
-
-- [Research Methods and Experimental Evidence](HARTH_RESEARCH_METHODS_AND_EVIDENCE.md):
-  full research methods, matched comparisons, recorded results and limitations.
-- [Reproducibility guide](../docs/HARTH_REPRODUCIBILITY.md):
-  source version, availability of artefacts and verification limits.
-- [Stage 01–19 evidence register](evidence/stage_01_19_evidence_register.csv):
-  summary of the earlier Development experiments.
-- [Qualified evaluation approval](evidence/stage_25_protocol_approved_qualified_test.json):
-  frozen model specifications and the authorised evaluation boundary.
-
-**Current consolidation status:** Notebooks **01–09** have saved analytical outputs. The current repository contains 24 `07_`, 17 `08_` and 27 `09_` CSV/PNG outputs. Notebook 09 supersedes the historical source-quality Notebook 20. Some cells in the latest Notebook 09 retain saved outputs but no execution count; this is a record inconsistency, not a reason to invent execution history. Legacy Notebooks 21–26 and FINAL remain to be reconciled with current consolidated file interfaces. The separately recorded qualified held-out assessment is not blind, external or clinical validation.
+For sources, scientific methods and reported outcomes, see
+[HARTH Research Methods and Experimental Evidence](HARTH_RESEARCH_METHODS_AND_EVIDENCE.md)
+and the [reproducibility guide](../docs/HARTH_REPRODUCIBILITY.md).
