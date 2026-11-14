@@ -7,13 +7,14 @@ model interfaces and research synthesis. Earlier 24–26 and FINAL
 notebooks are retired from the current tree after content and link
 reconciliation; their executed versions are recoverable from Git history.
 
-The latest recorded final fit used Tesla T4 CUDA (about 4.41 seconds for
-400 updates), and the CSV-based reload and flat Colab ZIP export have executed.
-The published configuration table still holds a 67.649-second earlier CPU fit;
-the refreshed training configuration and Notebook 13's embedded historical
-count-based metrics/figures remain to be regenerated and published.
-Historical qualified S023/S032 findings are not new Notebook 13 Test results. The chronology and planning checklists below are dated
-records, not the current implementation instructions.
+The latest recorded final fit used Tesla T4 CUDA and saved a
+Development-only model reload check. Notebook 13 now includes direct
+qualified evaluation of the same fitted models on the predefined S023/S032
+cohort, producing aligned predictions, metrics and figures from raw HARTH
+windows. The revised assessment code has not yet been executed.
+The published training-configuration CSV still contains an older runtime
+and needs refreshing. The chronology and planning checklists below are
+dated research records, not active implementation instructions.
 
 **Notebook consolidation, 9 November 2026:** The former full-Development notebooks 08/09 are represented by [Notebook 03](../wearable_activity_recognition/code/notebooks/03_harth_full_development_audit_and_classical_cv.ipynb); the former bounded temporal CNN and matched Random Forest notebooks 10/11 are represented by [Notebook 04](../wearable_activity_recognition/code/notebooks/04_harth_temporal_cnn_and_matched_random_forest.ipynb). The canonical matched six-person Validation Macro F1 values are **0.8140 (Random Forest)** and **0.6659 (temporal CNN)**, not the superseded 0.8266 Random Forest figure in the historical log. Original checklist references below describe the old sequence, not current notebook paths.
 
@@ -81,16 +82,16 @@ figure were retired after content transfer and dependency inspection.
 | HARTH seven-model benchmark | Notebook 10, matched three-fold Development comparison | [Notebook 10](../wearable_activity_recognition/code/notebooks/10_harth_advanced_temporal_architectures_and_matched_benchmark.ipynb) |
 | HARTH multi-seed and loss robustness | Notebook 11, four conditions across 36 model–seed–fold jobs | [Notebook 11](../wearable_activity_recognition/code/notebooks/11_harth_multiseed_stability_and_imbalance_robustness.ipynb) |
 | HARTH model selection | Notebook 12, Development-only primary/reference specification | [Notebook 12](../wearable_activity_recognition/code/notebooks/12_harth_development_model_selection_and_protocol_specification.ipynb) |
-| HARTH final Development fitting | Notebook 13; CUDA fit, CSV reload and single ZIP executed; latest training CSV and newly revised reported-result tables awaiting publication | [Notebook 13](../wearable_activity_recognition/code/notebooks/13_harth_final_development_training_and_research_synthesis.ipynb) |
-| Historical qualified results | Archived original confusion counts integrated into Notebook 13; pooled metrics can be recomputed without historical prediction files, whereas rounded person metrics are preserved separately | [Scientific document](../wearable_activity_recognition/HARTH_RESEARCH_METHODS_AND_EVIDENCE.md) |
+| HARTH final fitting and qualified assessment | Notebook 13; Development fit recorded; current-model S023/S032 scoring and derived outputs implemented but awaiting execution | [Notebook 13](../wearable_activity_recognition/code/notebooks/13_harth_final_development_training_and_research_synthesis.ipynb) |
+| Qualified evaluation design | Same fitted ResNet and RF, S023/S032 direct source windows, aligned prediction and exact confusion outputs; qualified same-study rather than blind external Test | [Scientific document](../wearable_activity_recognition/HARTH_RESEARCH_METHODS_AND_EVIDENCE.md) |
 | Biomechanical Load Estimation | Independently maintained project, outside this HARTH clean-up | [Study README](../biomechanical_load_estimation/README.md) |
 | Other movement science studies | Planned directions, not completed implementations | [Research overview](../README.md) |
 
-**HARTH scientific boundary:** The earlier qualified fixed-eight-class
-Macro F1 of **0.7182 / 0.6817** (weighted ResNet / Random Forest)
-belongs to historically fitted models and two previously inspected
-same-study participants. It is not blind external validation and
-does not describe the new Notebook 13 model artefacts.
+**HARTH scientific boundary:** The new Notebook 13 evaluation will
+use predictions from the current final fitted models, not earlier
+count matrices or rounded results. These metrics have not been
+verified by executing the revised code. S023/S032 were inspected
+previously; assessment remains qualified same-study evidence.
 
 ## Remaining repository hygiene and release decisions
 
