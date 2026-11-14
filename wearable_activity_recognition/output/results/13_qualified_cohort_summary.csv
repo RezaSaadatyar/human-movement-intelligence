@@ -1,3 +1,0 @@
-subject_id,raw_samples,candidate_retained_windows,eligible_windows,sampled_windows,excluded_out_of_task_windows,observed_sampled_classes
-S023,137646,2567,2567,500,0,8
-S032,178341,3038,3037,500,1,6
