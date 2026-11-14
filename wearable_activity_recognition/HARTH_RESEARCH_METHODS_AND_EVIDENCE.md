@@ -362,19 +362,23 @@ The maintained model interface uses typed `inference_config.csv` alongside
 `resnet_state_dict.pt` and `random_forest.joblib`. The
 [standalone CSV](output/13_inference_config.csv) is published and the latest
 saved notebook execution shows that the CSV loader and flat Colab ZIP export
-ran. The restored historical evaluation Sections 08–09 require the original
-`25_qualified_aligned_predictions.csv` from the old Stage 25 output archive.
-When supplied, this file permits recalculating the earlier models' metrics and
-confusion matrices from saved labels and predictions without new Test inference.
-Those sections have not yet been executed.
+ran. Notebook 13 Sections 08–09 now embed the exact eight-by-eight historical
+count matrices transcribed from the earlier saved figures. They calculate
+pooled and class-specific metrics and redraw confusion plots **without the
+retired Notebook 25 or any old prediction archive**. Four rounded
+participant-specific metric rows are preserved as originally reported,
+because pooled counts cannot recover each person's confusion matrix.
+The revised sections have not yet been executed and their outputs remain
+to be regenerated.
 
 **Earlier qualified assessment, recorded by the previously executed
 Notebook 25:** S023 and S032 each contributed 500 overlapping windows.
 Both had been inspected descriptively before that evaluation, so it
-is neither blind nor external validation. The original saved aligned
-predictions are unavailable in the current output directory; these
-historically reported numbers **cannot be recomputed here** and must
-not be assigned to the newly fitted Notebook 13 artefacts.
+is neither blind nor external validation. Pooled metrics are reproducible
+from the archived integer confusion matrices now embedded in Notebook 13;
+per-person values remain rounded saved observations. The original individual
+prediction sequence is unavailable, and historical performance must not
+be assigned to the newly fitted Notebook 13 artefacts.
 
 | Historical qualified metric | Weighted 1D-ResNet | Random Forest |
 | --- | ---: | ---: |
@@ -481,7 +485,8 @@ not constitute a new independent model reproduction.
 
 **Current status:** The study is consolidated into Notebooks 01–13. The
 latest final Development fit, CSV-based reload and flat Colab ZIP export have
-saved execution evidence. The notebook's revised historical presentation and
-the current GPU runtime table still require new saved outputs. No blind
-external validation or independent reproduction of historical Test predictions
-is claimed.
+saved execution evidence. Notebook 13 now independently computes pooled
+historical metrics from embedded archived confusion counts, but those
+revised sections and the current GPU runtime table still require
+execution and publication. No blind external validation or reconstruction
+of individual historical Test predictions is claimed.
