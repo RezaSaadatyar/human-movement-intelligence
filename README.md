@@ -8,16 +8,16 @@ A Python-based research portfolio maintained by **Reza Saadatyar**. Each study h
 
 | Project | Current evidence-based status | Start here |
 | --- | --- | --- |
-| **Wearable Activity Recognition (HARTH v2.0)** | Maintained 01–13 notebooks: participant-disjoint seven-model Development comparison, multi-seed robustness and final Development fitting. Earlier two-person qualified outcomes are historical, not reproduced by the new fitted models; no blind external validation. | [Study README](wearable_activity_recognition/README.md) · [Scientific methods and evidence](wearable_activity_recognition/HARTH_RESEARCH_METHODS_AND_EVIDENCE.md) |
+| **Wearable Activity Recognition (HARTH v2.0)** | Maintained 01–13 notebooks: participant-disjoint Development comparison, multi-seed robustness, final model fitting and newly implemented source-aligned S023/S032 assessment of those final models (awaiting execution). No blind external validation. | [Study README](wearable_activity_recognition/README.md) · [Scientific methods and evidence](wearable_activity_recognition/HARTH_RESEARCH_METHODS_AND_EVIDENCE.md) |
 | **Biomechanical Load Estimation (BoneNet / Essex)** | Eight documented original-source research notebooks; **37 participants / 1,729 paired trials**, Training-only model selection, 75 temporal robustness fits and one frozen-before-Test four-person same-source evaluation (**PASSED**). Exploratory FE-model regression, not external or clinical validation. | [Study README](biomechanical_load_estimation/README.md) · [Scientific methods and evidence](biomechanical_load_estimation/BONENET_RESEARCH_METHODS_AND_EVIDENCE.md) |
 
 **Planned research directions:** Gait and movement analysis; markerless motion capture; neurorehabilitation and motor function; multimodal movement learning. These are research directions, **not completed implementations**.
 
 ## Selected HARTH evidence
 
-The current Development benchmark compared seven models on participant-disjoint folds; its primary weighted 1D-ResNet had mean Macro F1 **0.8336**. The final Development-only models are fitted in Notebook 13. A separate, earlier execution reported qualified S023/S032 Macro F1 **0.7182** for weighted ResNet and **0.6817** for Random Forest. Those historical results do not belong to the new Notebook 13 model artefacts. Earlier inspection of the two reserved people, window overlap and minority activity scarcity preclude blind external validation claims.
+The participant-grouped Development comparison evaluated seven models; its selected weighted 1D-ResNet had mean Macro F1 **0.8336**. Notebook 13 fits the selected ResNet and 120-tree Random Forest on Development, then evaluates those same fitted models on source-aligned windows from S023 and S032. Their aligned predictions, confusion matrices and metrics will be published after execution of the revised evaluation sections. Because the two participants were previously inspected and the selected windows overlap, this is qualified same-study assessment, not blind external validation.
 
-For the current analysis, model files and limitations, see the [HARTH study README](wearable_activity_recognition/README.md), [scientific evidence](wearable_activity_recognition/HARTH_RESEARCH_METHODS_AND_EVIDENCE.md) and [Notebook 13](wearable_activity_recognition/code/notebooks/13_harth_final_development_training_and_research_synthesis.ipynb). The original executed qualified assessment remains accessible in Git version history.
+For the current analysis, model files and limitations, see the [HARTH study README](wearable_activity_recognition/README.md), [scientific evidence](wearable_activity_recognition/HARTH_RESEARCH_METHODS_AND_EVIDENCE.md) and [Notebook 13](wearable_activity_recognition/code/notebooks/13_harth_final_development_training_and_research_synthesis.ipynb). The current Notebook 13 assessment requires no old model files or prediction archives.
 
 ## Selected BoneNet / Essex evidence
 
