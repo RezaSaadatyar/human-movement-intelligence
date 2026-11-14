@@ -1,10 +1,10 @@
 <svg xmlns="http://www.w3.org/2000/svg" width="1700" height="816" viewBox="0 0 1700 816" role="img" aria-labelledby="title desc">
 <title id="title">HARTH final Development training and research evidence</title>
-<desc id="desc">Notebook 13 uses the shared HARTH workflow design from Notebooks 10 to 12. Data comprise 29 Development participants and 14,201 windows derived from six acceleration channels. A weighted ResNet uses 400 Adam updates and a Random Forest has 120 trees. The five plotted loss observations are the actual saved Development training log, not validation or Test results. Inference uses PT weights, a joblib reference model and ordered CSV settings. A 24-window Development-only reload check was completed. Participants S023 and S032 were excluded. Earlier qualified Test scores cannot be attributed to these newly fitted models, and the flat archive has been created in Colab; historical count matrices are preserved directly in Notebook 13 and do not require the earlier prediction CSV.</desc>
+<desc id="desc">Notebook 13 scientific workflow following the existing HARTH figure design. A weighted 1D-ResNet and Random Forest are fitted using 29 Development participants and 14,201 selected windows. ResNet uses 400 Adam steps and Random Forest uses 120 trees. The trained models are stored with CSV inference settings, then applied without Test-side fitting to original HARTH source windows from reserved S023 and S032. The fixed 500-window/person qualified same-study assessment generates aligned predictions, fixed-eight-class model and class metrics, and confusion matrices. The two assessment participants were previously inspected: results are not blind external validation. Numerical qualified results await execution of the revised notebook code.</desc>
 <rect x="0" y="0" width="1700" height="816" rx="20" fill="#F4F9FD" stroke="#F4F9FD" stroke-width="0"/>
 <g font-family="DejaVu Sans, Arial, sans-serif">
-<text x="30" y="38" font-size="23" font-weight="700" fill="#173453">HARTH FINAL DEVELOPMENT FITTING AND RESEARCH EVIDENCE</text>
-<text x="30" y="67" font-size="15" fill="#54738A">HARTH v2.0 · 29 Development participants · 14,201 windows · Two fitted model pipelines</text>
+<text x="30" y="38" font-size="23" font-weight="700" fill="#173453">HARTH FINAL DEVELOPMENT FIT AND QUALIFIED ASSESSMENT</text>
+<text x="30" y="67" font-size="15" fill="#54738A">HARTH v2.0 · 29 Development people · S023/S032 qualified evaluation · Eight classes</text>
 <rect x="24" y="84" width="1652" height="160" rx="16" fill="#EAF3FA" stroke="#C7D9E6" stroke-width="2"/>
 <text x="49" y="105" font-size="11.5" font-weight="700" fill="#53738A">WEARABLE SENSOR CONTEXT</text>
 <g fill="none" stroke="#7298B0" stroke-width="2.5" stroke-linejoin="round" stroke-linecap="round">
@@ -31,22 +31,22 @@
 <text x="1010" y="146" font-size="13.5" fill="#506C7E">Weighted 1D-ResNet</text>
 <text x="1010" y="169" font-size="13.5" fill="#506C7E">400 Adam updates · seed 42</text>
 <text x="1010" y="192" font-size="13.5" fill="#506C7E">Random Forest · 120 trees</text>
-<text x="1340" y="115" font-size="15" font-weight="700" fill="#173453">Inference Artefacts</text>
+<text x="1340" y="115" font-size="15" font-weight="700" fill="#173453">Model Artefacts</text>
 <text x="1340" y="146" font-size="13.5" fill="#506C7E">ResNet weights · .pt</text>
 <text x="1340" y="169" font-size="13.5" fill="#506C7E">Random Forest · .joblib</text>
-<text x="1340" y="192" font-size="13.5" fill="#506C7E">Model settings · .csv</text>
+<text x="1340" y="192" font-size="13.5" fill="#506C7E">CSV inference settings</text>
 <rect x="24" y="258" width="1652" height="314" rx="16" fill="#EDF6FB" stroke="#B4CFE0" stroke-width="1.5"/>
 <rect x="38" y="272" width="268" height="32" rx="9" fill="#173453" stroke="#173453" stroke-width="1.4"/>
-<text x="172" y="293" font-size="13.5" font-weight="700" fill="#FFFFFF" text-anchor="middle">RESEARCH EVIDENCE</text>
+<text x="172" y="293" font-size="13.5" font-weight="700" fill="#FFFFFF" text-anchor="middle">EVALUATION EVIDENCE</text>
 <rect x="38" y="312" width="268" height="214" rx="12" fill="#F7FAFD" stroke="#E0EAF0" stroke-width="1.4"/>
 <text x="53" y="341" font-size="17" font-weight="700" fill="#173453">Research questions</text>
 <text x="53" y="364" font-size="15.2" font-weight="700" fill="#173453">How are final models</text>
 <text x="53" y="382" font-size="15.2" font-weight="700" fill="#173453">fitted on Development?</text>
 <text x="53" y="408" font-size="12.8" fill="#506C7E">Can saved models be reloaded?</text>
 <text x="53" y="431" font-size="12.8" fill="#506C7E">What do training logs show?</text>
-<text x="53" y="454" font-size="12.8" fill="#506C7E">What limits generalisation?</text>
-<text x="53" y="477" font-size="12.8" fill="#506C7E">What is not evaluated?</text>
-<text x="53" y="509" font-size="13" font-weight="700" fill="#176363">Development-only fitting</text>
+<text x="53" y="454" font-size="12.8" fill="#506C7E">How robust are activity classes?</text>
+<text x="53" y="477" font-size="12.8" fill="#506C7E">How do S023/S032 score?</text>
+<text x="53" y="509" font-size="13" font-weight="700" fill="#176363">Development fit + qualified assessment</text>
 <rect x="318" y="272" width="300" height="254" rx="12" fill="#FFFFFF" stroke="#B6CFDE" stroke-width="1.4"/>
 <rect x="318" y="272" width="300" height="33" rx="10" fill="#174B70" stroke="#174B70" stroke-width="1.4"/>
 <rect x="318" y="290" width="300" height="15" rx="0" fill="#174B70" stroke="#174B70" stroke-width="1.4"/>
@@ -62,7 +62,7 @@
 <rect x="1326" y="272" width="336" height="226" rx="12" fill="#FFFFFF" stroke="#B6CFDE" stroke-width="1.4"/>
 <rect x="1326" y="272" width="336" height="33" rx="10" fill="#174B70" stroke="#174B70" stroke-width="1.4"/>
 <rect x="1326" y="290" width="336" height="15" rx="0" fill="#174B70" stroke="#174B70" stroke-width="1.4"/>
-<text x="1494" y="293" font-size="13.5" font-weight="700" fill="#FFFFFF" text-anchor="middle">Inference and scope</text>
+<text x="1494" y="293" font-size="13.5" font-weight="700" fill="#FFFFFF" text-anchor="middle">Assessment scope</text>
 <g transform="translate(16 0)">
 <line x1="350" y1="477" x2="542" y2="477" stroke="#7194ab" stroke-width="1.5"/>
 <line x1="350" y1="335" x2="350" y2="477" stroke="#7194ab" stroke-width="1.5"/>
@@ -117,12 +117,12 @@
 <text x="1379" y="430" font-size="11.6" fill="#506C7E">Random Forest · 120 trees</text>
 <circle cx="1353" cy="466" r="13" fill="#E0F3E9" stroke="#279366" stroke-width="1.4"/>
 <text x="1353" y="471" font-size="16" font-weight="700" fill="#245E9D" text-anchor="middle">•</text>
-<text x="1379" y="467" font-size="12.5" font-weight="700" fill="#173453">Evaluation boundary</text>
-<text x="1379" y="487" font-size="11.6" fill="#506C7E">No new Test scoring</text>
+<text x="1379" y="467" font-size="12.5" font-weight="700" fill="#173453">Qualified evaluation</text>
+<text x="1379" y="487" font-size="11.6" fill="#506C7E">S023 / S032 inference</text>
 <rect x="318" y="536" width="1094" height="21" rx="10" fill="#DCEFE6" stroke="#CDE3D8" stroke-width="1"/>
 <circle cx="335" cy="547" r="9" fill="#267998"/>
 <text x="335" y="551" font-size="13" font-weight="700" fill="#FFFFFF" text-anchor="middle">i</text>
-<text x="353" y="551" font-size="11.8" fill="#173453">S023/S032 excluded from fitting · Historical metrics are not new model scores</text>
+<text x="353" y="551" font-size="11.8" fill="#173453">S023/S032 excluded from fitting · Two previously inspected participants</text>
 <rect x="24" y="586" width="1652" height="195" rx="16" fill="#EAF3FA" stroke="#C7D9E6" stroke-width="1.5"/>
 <rect x="38" y="612" width="210" height="130" rx="11" fill="#173453" stroke="#173453" stroke-width="1.4"/>
 <text x="143" y="640" font-size="13" font-weight="700" fill="#FFFFFF" text-anchor="middle">INPUT</text>
@@ -150,20 +150,20 @@
 <text x="934" y="685" font-size="18" font-weight="700" fill="#245E9D" text-anchor="middle">→</text>
 <rect x="947" y="612" width="198" height="130" rx="11" fill="#FFFFFF" stroke="#B9D0E0" stroke-width="1.4"/>
 <text x="1046" y="640" font-size="13" font-weight="700" fill="#173453" text-anchor="middle">04</text>
-<text x="1046" y="671" font-size="14.1" font-weight="700" fill="#173453" text-anchor="middle">Reload Check</text>
-<text x="1046" y="697" font-size="11.9" fill="#506C7E" text-anchor="middle">24 Development windows</text>
-<text x="1046" y="717" font-size="11.9" fill="#506C7E" text-anchor="middle">Training loss record</text>
+<text x="1046" y="671" font-size="14.1" font-weight="700" fill="#173453" text-anchor="middle">Qualified Assessment</text>
+<text x="1046" y="697" font-size="11.9" fill="#506C7E" text-anchor="middle">S023/S032 · cap 500 each</text>
+<text x="1046" y="717" font-size="11.9" fill="#506C7E" text-anchor="middle">Saved aligned predictions</text>
 <text x="1158" y="685" font-size="18" font-weight="700" fill="#245E9D" text-anchor="middle">→</text>
 <rect x="1171" y="612" width="198" height="130" rx="11" fill="#FFFFFF" stroke="#B9D0E0" stroke-width="1.4"/>
 <text x="1270" y="640" font-size="13" font-weight="700" fill="#173453" text-anchor="middle">05</text>
-<text x="1270" y="671" font-size="14.1" font-weight="700" fill="#173453" text-anchor="middle">Research Synthesis</text>
-<text x="1270" y="697" font-size="11.9" fill="#506C7E" text-anchor="middle">Grouped CV and robustness</text>
-<text x="1270" y="717" font-size="11.9" fill="#506C7E" text-anchor="middle">Calibration and class support</text>
+<text x="1270" y="671" font-size="14.1" font-weight="700" fill="#173453" text-anchor="middle">Scientific Synthesis</text>
+<text x="1270" y="697" font-size="11.9" fill="#506C7E" text-anchor="middle">Development CV + qualified metrics</text>
+<text x="1270" y="717" font-size="11.9" fill="#506C7E" text-anchor="middle">Class support + uncertainty</text>
 <text x="1382" y="685" font-size="18" font-weight="700" fill="#245E9D" text-anchor="middle">→</text>
 <rect x="1396" y="612" width="266" height="130" rx="11" fill="#176968" stroke="#176968" stroke-width="1.4"/>
 <text x="1529" y="640" font-size="13" font-weight="700" fill="#FFFFFF" text-anchor="middle">OUTPUT</text>
 <text x="1529" y="671" font-size="14.1" font-weight="700" fill="#FFFFFF" text-anchor="middle">Research Outputs</text>
-<text x="1529" y="697" font-size="11.9" fill="#D8E9F0" text-anchor="middle">CSV tables · figures</text>
-<text x="1529" y="717" font-size="11.9" fill="#D8E9F0" text-anchor="middle">One model ZIP · Colab</text>
-<text x="35" y="766" font-size="12.1" fill="#506C7E">Development-only fitting · Historical Test scores belong to an earlier model pair</text>
+<text x="1529" y="697" font-size="11.9" fill="#D8E9F0" text-anchor="middle">Predictions + metrics</text>
+<text x="1529" y="717" font-size="11.9" fill="#D8E9F0" text-anchor="middle">Models + plots · ZIP</text>
+<text x="35" y="766" font-size="12.1" fill="#506C7E">Current fitted models assessed on S023/S032; same-study, not blind external validation</text>
 </g></svg>
