@@ -33,7 +33,7 @@ ACTIVITY_NAMES = {
 }
 
 
-# =========================== 2. Data Acquisition =============================
+# ============================ 2. Data Acquisition ============================
 def ensure_harth_sample(data_dir, subject="S023"):
     """
     Obtain one public participant CSV from the official HARTH v2.0 repository.
@@ -86,7 +86,7 @@ def ensure_harth_sample(data_dir, subject="S023"):
     return csv_path
 
 
-# ============================= 3. Data Loading ===============================
+# ============================== 3. Data Loading ==============================
 def load_harth_subject(file_path, allow_unmapped_labels=False):
     """
     Read and validate one subject's wearable accelerometer recording.
@@ -374,7 +374,7 @@ def prepare_harth_window_cohort(
     return windows, labels, metadata, overview
 
 
-# =================== 6. Nested Temporal Training Cohort ======================
+# ==================== 6. Nested Temporal Training Cohort =====================
 def prepare_harth_nested_window_cohort(
     subjects, data_dir, task_classes=tuple(range(1, 9)),
     base_cap=500, expanded_cap=1000, window_size=100,
