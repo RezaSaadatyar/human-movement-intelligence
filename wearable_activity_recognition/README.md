@@ -1,6 +1,6 @@
 # Wearable Activity Recognition | HARTH v2.0
 
-![HARTH final Development and research evidence workflow](images/13_consolidated_workflow.svg)
+![HARTH final Development and research evidence workflow](images/13_harth_final_development_training_and_research_synthesis.svg)
 
 This study investigates **eight-class human activity recognition using two wearable accelerometers**. It compares classical models and temporal neural networks with participant-disjoint Development validation, source-quality checks, minority-activity analysis, robustness experiments and calibrated probability assessments.
 
