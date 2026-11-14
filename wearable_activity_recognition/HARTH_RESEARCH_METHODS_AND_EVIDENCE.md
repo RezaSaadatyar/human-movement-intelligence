@@ -351,17 +351,20 @@ people, using six input channels, 32 hidden channels, inverse-square-root
 class weighting, Adam (learning rate 0.001), batch size 128, seed 42
 and 400 updates. The fixed Random Forest uses 30 features, 120
 trees, minimum leaf size 3 and balanced-subsample weighting.
-The original Notebook 13 CPU run took **67.649 seconds** for ResNet.
-Its 24-window Development inference check tests artefact loading,
-not participant-held-out accuracy.
+The latest saved Notebook 13 run used an **NVIDIA Tesla T4 GPU** and recorded
+approximately **4.41 seconds** for the 400-update ResNet fit. A previous CPU
+run recorded **67.649 seconds**; that older value remains in the currently
+published training-configuration CSV and should be replaced by the next
+executed export. The 24-window Development inference check is a model-reload
+check, not participant-held-out accuracy.
 
-The updated model configuration uses typed `inference_config.csv` alongside
-`resnet_state_dict.pt` and `random_forest.joblib`. A
-[standalone configuration CSV](output/13_inference_config.csv) has been
-reconstructed from the saved Development scaling and fitting tables and
-the recorded feature order. That reconstruction does not verify execution
-of the changed loader or create a new model ZIP; the revised export still
-requires a Colab run.
+The maintained model interface uses typed `inference_config.csv` alongside
+`resnet_state_dict.pt` and `random_forest.joblib`. The
+[standalone CSV](output/13_inference_config.csv) is published and the latest
+saved notebook execution shows that the CSV loader and flat Colab ZIP export
+ran. The newly revised historical-results and class-support sections have
+not yet been executed; they will produce provenance-labelled reported tables,
+not new Test predictions.
 
 **Earlier qualified assessment, recorded by the previously executed
 Notebook 25:** S023 and S032 each contributed 500 overlapping windows.
@@ -474,9 +477,9 @@ not constitute a new independent model reproduction.
   and [reproducibility guide](../docs/HARTH_REPRODUCIBILITY.md)
   define the current source and model-file interfaces.
 
-**Current status:** The numbered study notebooks are consolidated into
-01–13. The initial final Development fit was executed, but the changed
-CSV configuration and single-ZIP packaging require re-execution before
-their new outputs can be claimed as generated. No blind external
-validation or independent reproduction of historical Test predictions
+**Current status:** The study is consolidated into Notebooks 01–13. The
+latest final Development fit, CSV-based reload and flat Colab ZIP export have
+saved execution evidence. The notebook's revised historical presentation and
+the current GPU runtime table still require new saved outputs. No blind
+external validation or independent reproduction of historical Test predictions
 is claimed.
