@@ -1,0 +1,17 @@
+setting,recorded_value
+HARTH source revision,dad2cfbe89a26f72f19770419469ac037de200df
+Development participants,29
+Development windows,14201
+Activity classes,8
+ResNet loss,inverse_sqrt_weighted_ce
+ResNet hidden channels,32
+ResNet optimiser,Adam
+ResNet learning rate,0.001
+ResNet batch size,128
+ResNet optimiser updates,400
+ResNet seed,42
+Checkpoint,final_step
+Random Forest trees,120
+Random Forest features,30
+Neural fitting time (s),67.649
+Reserved participants used for fitting,False

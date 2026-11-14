@@ -1,0 +1,7 @@
+topic,evidence,interpretation
+Development comparison,Seven matched models and three-seed robustness,Descriptive participant-grouped comparison
+Final model fitting,Weighted ResNet and Random Forest fitted on Development,Training and inference artefacts; no new Test score
+Rare-class behaviour,Source support and Shuffling precision/recall contrasts,Small class support and overlapping windows
+Calibration,Mixed Development ECE/Brier/NLL response,Not used for final fitted ResNet
+Historical qualified assessment,No aligned saved predictions supplied,Two previously inspected participants; not blind external Test
+Broader applicability,Independent validation is outside this evaluation,No clinical deployment or population-wide claim
