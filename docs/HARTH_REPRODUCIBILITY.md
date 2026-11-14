@@ -1,128 +1,122 @@
 # HARTH v2.0 | Research Reproducibility and Evidence Boundaries
 
-This guide describes what can be inspected and verified in the completed
-**Wearable Activity Recognition** study in
-[Human Movement Intelligence](../README.md). The original 26-stage research programme is undergoing notebook
-consolidation. The current tree contains consolidated
-[Notebooks 01–09](../wearable_activity_recognition/code/notebooks/),
-with saved Notebook 09 source-audit outputs, historical Stages 21–26 and the separately recorded
-[FINAL evidence audit](../wearable_activity_recognition/code/notebooks/final_harth_research_audit_and_closure.ipynb).
-The study results, scientific limitations and recorded outcomes are detailed in
-[Research Methods and Experimental Evidence](../wearable_activity_recognition/HARTH_RESEARCH_METHODS_AND_EVIDENCE.md).
+This guide describes which HARTH study outputs and model artefacts are available
+in the current [Human Movement Intelligence](../README.md) repository.
+The maintained study sequence consists of
+[Notebooks 01–13](../wearable_activity_recognition/code/notebooks/).
+The original 24–26 and FINAL notebooks document an earlier execution and are
+recoverable from Git history. They are not the maintained notebook interfaces.
 
-The completed research is **not** an independent external validation, a
-prospective deployment study or a guarantee of identical GPU training results
-across environments.
+For complete methods and limitations, see
+[HARTH Research Methods and Experimental Evidence](../wearable_activity_recognition/HARTH_RESEARCH_METHODS_AND_EVIDENCE.md).
 
-## 1. Source and experimental boundary
+## 1. Source and Evaluation Design
 
-- **Dataset:** Official [NTNU AI Lab HARTH v2.0](https://github.com/ntnu-ai-lab/harth-ml-experiments),
-  source revision `dad2cfbe89a26f72f19770419469ac037de200df`;
-  this is distinct from UCI HARTH v1.2.
-- **Inputs:** Six lower-back and thigh acceleration channels, nominal 50 Hz;
-  label-pure 100-sample windows with 50-sample stride.
-- **Task:** Eight documented activity labels (source codes 1–8).
-- **Development:** 29 participants, 132,397 eligible task windows and a
-  14,201-window bounded model-comparison cohort.
-- **Qualified held-out assessment:** S023 and S032, 500 selected windows each.
-  These two participants were descriptively examined in exploratory work.
-  The assessment therefore is same-study and not fully blind.
+- Official [NTNU AI Lab HARTH v2.0](https://github.com/ntnu-ai-lab/harth-ml-experiments)
+  at revision `dad2cfbe89a26f72f19770419469ac037de200df`, distinct from
+  the UCI HARTH v1.2 release.
+- Six acceleration channels at nominal 50 Hz, 100-sample label-pure,
+  timestamp-continuous windows and 50-sample stride.
+- Eight target classes (source codes 1–8); undocumented codes are not
+  reassigned to known activities.
+- Development cohort: 29 participants and 132,397 eligible windows.
+  The label-independent 500-window/person study contains 14,201 windows.
+- S023/S032 were withheld from final Development fitting but had been
+  descriptively inspected earlier. Their historical evaluation is therefore
+  **qualified same-study held-out evidence**, not blind external validation.
 
-The source recordings and trained model-weight files are **not committed**
-to the public repository. Source windows overlap, and rare-activity support
-in the qualified assessment is extremely limited: Shuffling **3**, stairs
-ascending **10**, stairs descending **6** windows.
+Overlapping windows are correlated; window counts must not be interpreted as
+independent participant observations.
 
-## 2. Recorded outputs available in GitHub
+## 2. Current Public Evidence
 
-| Evidence | Versioned record | What it establishes |
+| Study stage | Current evidence | Meaning |
 | --- | --- | --- |
-| Sampling retention and nested Train-size evaluation | [Notebook 06](../wearable_activity_recognition/code/notebooks/06_harth_sampling_sensitivity_and_nested_training_scaling.ipynb), [sampling counts](../wearable_activity_recognition/output/06_sampling_policy_class_counts.csv) and [model metrics](../wearable_activity_recognition/output/06_nested_validation_model_metrics.csv) | Development-only coverage and fixed-Validation results; no independent external assessment |
-| Grouped nested Train sizes and fixed optimiser updates | [Executed Notebook 07](../wearable_activity_recognition/code/notebooks/07_harth_grouped_nested_training_and_fixed_update_comparison.ipynb) | Three subject-disjoint folds, separate five-epoch and fixed-400-update protocols; 24 `07_` CSV/PNG outputs committed |
-| Uncalibrated confidence and participant-disjoint temperature scaling | [Executed Notebook 08](../wearable_activity_recognition/code/notebooks/08_harth_oof_confidence_and_temperature_calibration.ipynb), [confidence summary](../wearable_activity_recognition/output/08_confidence_summary.csv), [calibration fold metrics](../wearable_activity_recognition/output/08_calibration_fold_metrics.csv) | Three participant-disjoint folds per separate experiment; 17 current CSV/PNG outputs; mixed held-out probability metric effects |
-| HARTH source-quality and minority-activity evidence | [Integrated Notebook 09](../wearable_activity_recognition/code/notebooks/09_harth_source_quality_and_minority_activity_audit.ipynb) and [current Notebook 08 class-error context](../wearable_activity_recognition/output/08_confidence_class_error_summary.csv) | Recorded model-free Development source audit; 27 `09_` CSV/PNG outputs published; not a new independent model evaluation |
-| Seven-model Development benchmark | [Stage 22 notebook](../wearable_activity_recognition/code/notebooks/22_unified_matched_model_benchmark.ipynb) and [model summary CSV](../wearable_activity_recognition/output/22_matched_cv_model_summary.csv) | Participant-disjoint matched comparison under the bounded Development protocol |
-| Multiseed and imbalance robustness | [Stage 23 notebook](../wearable_activity_recognition/code/notebooks/23_multiseed_and_imbalance_robustness.ipynb) and [robustness summary](../wearable_activity_recognition/output/23_robustness_model_summary.csv) | Three seeds and three folds across four model/loss conditions |
-| Frozen model selection | [Stage 24 notebook](../wearable_activity_recognition/code/notebooks/24_model_selection_and_protocol_freeze.ipynb) | Development-only selection and documented source lineage |
-| Qualified held-out evaluation | [Stage 25 notebook](../wearable_activity_recognition/code/notebooks/25_final_development_training_and_inference.ipynb) and [saved model metrics](../wearable_activity_recognition/output/25_qualified_model_summary.csv) | One separately approved same-study evaluation; not external validation |
-| Final evidence synthesis | [Stage 26 notebook](../wearable_activity_recognition/code/notebooks/26_final_research_evidence_and_report.ipynb) and [report provenance](../wearable_activity_recognition/output/26_report_provenance.json) | Read-only synthesis of saved source CSVs and their SHA256 fingerprints |
-| Cross-stage research closure | [FINAL notebook](../wearable_activity_recognition/code/notebooks/final_harth_research_audit_and_closure.ipynb) and [FINAL provenance](../wearable_activity_recognition/output/final_research_audit_provenance.json) | Saved audit with 11 executed code cells and Quality Gate PASSED |
+| Source and classical modelling | [01–03 notebooks](../wearable_activity_recognition/code/notebooks/) | Source selection and participant-grouped Development evaluation |
+| Sampling and nested training | [06](../wearable_activity_recognition/code/notebooks/06_harth_sampling_sensitivity_and_nested_training_scaling.ipynb), [07](../wearable_activity_recognition/code/notebooks/07_harth_grouped_nested_training_and_fixed_update_comparison.ipynb) | Development-only sensitivity and matched studies |
+| Confidence and calibration | [08](../wearable_activity_recognition/code/notebooks/08_harth_oof_confidence_and_temperature_calibration.ipynb) | Mixed Development calibration findings; not a final-model Test |
+| Source and minority activities | [09](../wearable_activity_recognition/code/notebooks/09_harth_source_quality_and_minority_activity_audit.ipynb) | Class support, annotation and sampling limitations |
+| Seven-model benchmark | [10](../wearable_activity_recognition/code/notebooks/10_harth_advanced_temporal_architectures_and_matched_benchmark.ipynb), [model CSV](../wearable_activity_recognition/output/10_matched_cv_model_summary.csv) | Matched three-fold, 29-participant Development comparison |
+| Multi-seed robustness | [11](../wearable_activity_recognition/code/notebooks/11_harth_multiseed_stability_and_imbalance_robustness.ipynb), [robustness CSV](../wearable_activity_recognition/output/11_robustness_model_summary.csv) | Four conditions across three seeds and three folds |
+| Selection and specification | [12](../wearable_activity_recognition/code/notebooks/12_harth_development_model_selection_and_protocol_specification.ipynb), [selection CSV](../wearable_activity_recognition/output/12_development_model_selection_evidence.csv) | Weighted 1D-ResNet primary and 120-tree Random Forest reference |
+| Final Development fitting | [13](../wearable_activity_recognition/code/notebooks/13_harth_final_development_training_and_research_synthesis.ipynb), [fitting CSV](../wearable_activity_recognition/output/13_final_training_configuration.csv) | 29-person final fitting, Development-only reload check and bounded synthesis |
 
-The historically executed FINAL audit checked **20 recorded CSV inputs**,
-the Stage 26 report fingerprint and frozen protocol documents. Some
-source filenames in that saved run have since been consolidated and are
-not present under their earlier paths; a current-file re-execution has
-not been verified. Its committed outputs include
-eight audit tables, a figure and a provenance JSON. The saved Quality Gate
-reports `FINAL HARTH | CROSS-STAGE EVIDENCE AUDIT: PASSED`.
-This establishes **consistency of available recorded files**, not independent
-replication of all training runs, model weights or external Test performance.
+The saved Notebook 13 execution used CPU and recorded 400 ResNet optimiser
+updates, a 120-tree fitted Random Forest and a Development-only inference
+reload example. These checks do not establish new held-out performance.
 
-## 3. Frozen scientific approval and lineage
+## 3. Saved Models and CSV Inference Configuration
 
-The research protocol records remain under
-[`wearable_activity_recognition/evidence/`](../wearable_activity_recognition/evidence/):
+The maintained loader uses three files:
 
-- [Initial proposal](../wearable_activity_recognition/evidence/stage_25_protocol_proposal.json)
-- [Reconciled proposal](../wearable_activity_recognition/evidence/stage_25_protocol_proposal_reconciled.json)
-- [Approved qualified assessment](../wearable_activity_recognition/evidence/stage_25_protocol_approved_qualified_test.json)
+- `resnet_state_dict.pt`: PyTorch state dictionary for the fitted ResNet.
+- `random_forest.joblib`: fitted Random Forest estimator.
+- `inference_config.csv`: scalar settings and ordered sensor channels,
+  class codes, six Development channel means/standard deviations and
+  30 feature names.
 
-The historical Stage 25 labels and SHA256 identifiers are retained for
-traceability. Approval of the recorded qualified evaluation is **not**
-authorisation to repeat Test scoring for model selection. The original
-scientific executions and earlier file states remain recoverable in Git
-history; renaming a stage must not overwrite an approved fingerprint.
+The CSV uses the fields `parameter,position,value`, where `position` is
+blank for a scalar and a zero-based integer for an ordered list entry.
+The loader restores numeric types, checks channel/class ordering and uses
+Development-only preprocessing. The CSV is not an approval or SHA-256
+manifest.
 
-The [Stage 26 provenance JSON](../wearable_activity_recognition/output/26_report_provenance.json)
-contains SHA256 values for its seven source CSVs and the protocol
-manifests. The
-[FINAL provenance JSON](../wearable_activity_recognition/output/final_research_audit_provenance.json)
-contains 20 input-CSV fingerprints and the report/manifest digests.
+The updated Notebook 13 exporter creates one
+`wearable_activity_recognition_Stage_13_Outputs.zip` in the Colab file
+browser: the three files are under `models/` and the `13_` CSV/PNG results
+are under `results/`, with no nested ZIP. The original run's model ZIP
+used `inference_config.json`; that *old* bundle is not natively compatible
+with the CSV-only loader. Re-running the changed Notebook 13 export produces
+the updated archive. The new CSV and ZIP must not be claimed as executed or
+published until that happens.
 
-## 4. What a fresh checkout can verify
+Model binaries and raw HARTH recordings are not tracked in ordinary Git
+history. Keep a trustworthy copy of the model bundle outside ephemeral
+Colab storage. Never load an untrusted `.joblib` file.
 
-A GitHub checkout is sufficient to review the notebook code and saved
-outputs, inspect the committed result tables and compare the recorded
-source-file SHA256 digests. No model retraining or Test re-evaluation is
-needed to read these results.
+## 4. Historical Qualified Results
 
-From the repository root, to install the standard declared dependencies:
+Earlier saved execution evidence reported fixed-eight-class Macro F1
+**0.7182** (weighted ResNet) and **0.6817** (Random Forest), with accuracy
+**0.9020** and **0.9270**, respectively, on 1,000 overlapping windows
+from S023 and S032. True Shuffling, Stairs ascending and Stairs descending
+support was only **3**, **10** and **6** windows.
+
+These figures are **historically reported, not reproduced by Notebook 13**.
+The original aligned prediction table is not present in the current
+`output/` directory. Do not attribute the historical performance to the
+model files from the new Development fit or re-score Test to fill the gap.
+
+The executed original assessment remains accessible at the
+[historical Notebook 25 revision](https://github.com/RezaSaadatyar/human-movement-intelligence/blob/bcffd956dd3a89edd8eb23ad1f63e360a15c72b1/wearable_activity_recognition/code/notebooks/25_final_development_training_and_inference.ipynb).
+
+## 5. What Can Be Verified
+
+A fresh checkout can inspect code, saved notebook displays, published CSV
+tables and figures, the declared source revision and current model configuration
+schema. It cannot independently reproduce earlier final model weights or
+historical Test predictions without the corresponding trusted artefacts.
+
+To install base dependencies from the repository root:
 
 ```bash
 python -m pip install -r requirements.txt
 ```
 
-The optional [deep learning requirements](../requirements-dl.txt)
-support PyTorch-based methods but are not a complete, exact environment
-lockfile. Independent end-to-end reproduction additionally requires
-the original source recordings, approved preprocessing conditions,
-suitable computation and separately preserved trusted model artefacts.
+PyTorch experiments may additionally use
+[deep-learning dependencies](../requirements-dl.txt). Exact GPU equivalence
+is not guaranteed. The absence of an error in an executed notebook is not
+proof of valid group separation, unobserved-subject generalisation or a
+clinically deployable model.
 
-The repository retains [general shared-library tests](../tests/) for
-reusable utilities and other projects. HARTH-specific release-readiness
-and notebook-provenance test files have been retired from the current tree
-following study closure; they are recoverable from Git history. **Running
-the remaining tests is not a substitute for the recorded HARTH FINAL
-scientific audit.** No automatic pass result is claimed here.
+## 6. Scientific Limitations
 
-## 5. Interpretation and safety limits
+Independent participants, not overlapping windows, define the main
+evaluation groups. Minority activities remain sparse; model and loss
+comparisons apply to the recorded cohort and conditions. The separate
+Development temperature-scaling experiment improved mean ECE and Brier
+but worsened mean NLL, and its settings were not applied to the final fit.
 
-- The two final participants originate from the same dataset and were
-  inspected descriptively before the qualified assessment.
-- The 1,000 selected final windows overlap and are not 1,000 independent
-  participants or real-world evaluation trials.
-- Minority activity samples are insufficient for robust population-level
-  class-performance claims.
-- Random Forest and neural models differ in representation and fitting
-  objectives; some exploratory experiments use non-equivalent protocols.
-- Calibration outcomes from Development were mixed and were not included
-  in the selected final model.
-- Model uncertainty, prospective clinical validity, model superiority
-  across independent populations and deployment readiness are **not
-  established**.
-- Do not deserialize unknown `joblib` or pickle model files: loading
-  untrusted model artefacts may execute arbitrary code.
-
-The repository documents a **completed experimental research portfolio
-study**. Publishing a versioned GitHub Release or conducting new external
-validation would be separate, explicitly scoped actions.
+The study establishes an exploratory, participant-grouped HARTH research
+pipeline with transparent limitations. It does not establish prospective,
+external or clinical deployment validity.
