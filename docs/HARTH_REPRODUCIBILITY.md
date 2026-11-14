@@ -72,10 +72,13 @@ under `results/`, with no nested ZIP. The older archive containing
 `inference_config.json` is not natively compatible with the updated loader.
 The [inference CSV](../wearable_activity_recognition/output/13_inference_config.csv)
 is published, but model binaries and the local ZIP have not been committed to
-GitHub. The revised Notebook 13 sections on historically reported outcomes
-will generate additional research tables and a class-support figure after
-execution. Those tables are a transcription of the former Notebook 25 results,
-not independent recomputation from aligned Test predictions.
+GitHub. Restored Sections 08–09 of Notebook 13 can recalculate the historical
+model-, participant- and class-level metrics and original confusion matrices
+from `25_qualified_aligned_predictions.csv` in the original
+`wearable_activity_recognition_Stage_25_Outputs.zip`. They do not access raw
+Test recordings or assess newly fitted models. This prediction CSV is not in
+the current published `output/` directory; the restored sections have not
+been executed against it.
 
 Model binaries and raw HARTH recordings are not tracked in ordinary Git
 history. Keep a trustworthy copy of the model bundle outside ephemeral
