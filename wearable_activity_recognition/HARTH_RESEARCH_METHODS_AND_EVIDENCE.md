@@ -2,20 +2,18 @@
 
 **Study:** Wearable Activity Recognition in Human Movement Intelligence
 
-**Scope:** Eight-class accelerometer-based recognition; participant-disjoint
-Development experiments; qualified same-study held-out model assessment; saved
-scientific results and reproducibility constraints. This document reflects the
-**26 numbered research notebooks** and the distinct
-[FINAL research audit](code/notebooks/final_harth_research_audit_and_closure.ipynb).
-The FINAL notebook has **11 executed code cells, a saved PASSED Quality Gate
-and ten committed `final_*` outputs**. It audits recorded scientific evidence
-without new training or qualified Test inference.
+**Scope:** Eight-class HARTH accelerometer recognition, participant-disjoint
+Development evaluation, source and minority-activity quality, robustness,
+final Development fitting and the separately reported qualified assessment.
+The maintained notebook sequence is **01–13**.
 
-See the [study README](README.md) for navigation, the
-[Stage 26 evidence report](code/notebooks/26_final_research_evidence_and_report.ipynb)
-for the executed final synthesis, and the
-[reproducibility guide](../docs/HARTH_REPRODUCIBILITY.md) for availability and
-limitations of publicly committed artefacts.
+The earlier 24–26 and FINAL notebooks are historical executed sources,
+recoverable from Git version history. Their original Test results are not
+performance results of the new Notebook 13 model artefacts. The original
+source-aligned Test prediction CSV is not in the current public output folder.
+
+See the [study README](README.md) and
+[reproducibility guide](../docs/HARTH_REPRODUCIBILITY.md).
 
 ## 01. Research objective, source and activity definitions
 
@@ -195,7 +193,7 @@ not these engineering smoke tests.
 
 ## 04. Development benchmark and robustness evidence
 
-The matched Stage 22 benchmark uses all **29 Development participants**,
+The current matched Notebook 10 benchmark uses all **29 Development participants**,
 the same **14,201 bounded windows** and **three participant-disjoint folds**.
 It evaluates seven model configurations over **21 model-fold jobs**. Each
 neural configuration uses raw sequences, training-only normalisation, Adam
@@ -208,40 +206,40 @@ identical across the seven configurations.
 accuracy, per-class precision/recall/F1 and support, fold dispersion,
 participant-level outcomes and compute usage supplement it.
 
-| Stage 22 model | Development Macro F1 mean | Fold SD |
+| Notebook 10 model | Development Macro F1 mean | Fold SD |
 | --- | ---: | ---: |
-| **1D-ResNet** | **0.8328** | 0.0435 |
+| **1D-ResNet** | **0.8336** | 0.0427 |
 | TCN | 0.8138 | 0.0658 |
 | Random Forest | 0.8094 | 0.0500 |
 | Time-Series Transformer | 0.8006 | 0.0602 |
-| Multi-Scale CNN | 0.7946 | 0.0459 |
-| Weighted CNN | 0.7725 | 0.0274 |
-| Standard CNN | 0.6664 | 0.0633 |
+| Multi-Scale CNN | 0.7953 | 0.0483 |
+| Weighted CNN | 0.7721 | 0.0269 |
+| Standard CNN | 0.6660 | 0.0628 |
 
 The highest overall mean does not imply the best performance for every
 activity or demonstrate statistical superiority. Recorded results:
-[Stage 22 model summary](output/22_matched_cv_model_summary.csv),
-[class metrics](output/22_matched_cv_class_metrics.csv), and
-[Notebook 22](code/notebooks/22_unified_matched_model_benchmark.ipynb).
+[Notebook 10 model summary](output/10_matched_cv_model_summary.csv),
+[class metrics](output/10_matched_cv_class_metrics.csv), and
+[Notebook 10](code/notebooks/10_harth_advanced_temporal_architectures_and_matched_benchmark.ipynb).
 
-Stage 23 repeats **four model/loss conditions** across seeds
+Notebook 11 repeats **four model/loss conditions** across seeds
 **42, 123 and 2026** and three held-out participant folds, comprising
 **36 neural model-fold-seed jobs**. Weighted CE uses training-only
 inverse-square-root class weighting; ResNet also compares Focal Loss
 (`gamma=2`) and effective-number class-balanced CE (`beta=0.9999`).
 
-| Stage 23 condition | Macro F1 mean across seed-level fold means | Across-seed SD |
+| Notebook 11 condition | Macro F1 mean across seed-level fold means | Across-seed SD |
 | --- | ---: | ---: |
-| **1D-ResNet + weighted CE** | **0.8286** | 0.0052 |
-| TCN + weighted CE | 0.8105 | 0.0079 |
-| 1D-ResNet + focal loss | 0.8058 | 0.0053 |
-| 1D-ResNet + class-balanced CE | 0.7915 | 0.0191 |
+| **1D-ResNet + weighted CE** | **0.8289** | 0.0053 |
+| TCN + weighted CE | 0.8106 | 0.0078 |
+| 1D-ResNet + focal loss | 0.8057 | 0.0051 |
+| 1D-ResNet + class-balanced CE | 0.7915 | 0.0190 |
 
 These results support a documented Development choice but do not establish
 generalisation to new collections or the causal effect of architecture alone.
-Recorded results: [Stage 23 summary](output/23_robustness_model_summary.csv),
-[fold metrics](output/23_robustness_fold_metrics.csv), and
-[Notebook 23](code/notebooks/23_multiseed_and_imbalance_robustness.ipynb).
+Recorded results: [Notebook 11 summary](output/11_robustness_model_summary.csv),
+[fold metrics](output/11_robustness_fold_metrics.csv), and
+[Notebook 11](code/notebooks/11_harth_multiseed_stability_and_imbalance_robustness.ipynb).
 
 ## 05. Confidence, calibration and minority activities
 
@@ -337,134 +335,96 @@ different denominators and evaluation purposes; their descriptive
 association cannot establish a cause of classifier errors or
 independent Test performance.
 
-## 06. Frozen selection and qualified held-out results
+## 06. Current selection and historically qualified results
 
-**Selection (Stage 24).** The primary model is **1D-ResNet with
-inverse-square-root weighted cross-entropy**. The fixed comparator is
-**Random Forest**. Both choices use Development results. The model
-specifications and permission to perform the qualified assessment are
-recorded in the [approved frozen protocol](evidence/stage_25_protocol_approved_qualified_test.json).
-That historical filename is retained for provenance.
+**Development selection and final fitting:** Current
+[Notebook 12](code/notebooks/12_harth_development_model_selection_and_protocol_specification.ipynb)
+selects weighted 1D-ResNet as primary (three-fold Macro F1
+**0.8336**; three-seed average **0.8289**) and retains Random
+Forest as the classical reference. The reference has higher
+pooled Shuffling F1 (**0.5032** versus **0.3969** for ResNet)
+in the matched Notebook 10 comparison.
 
-**Final Development fitting (Stage 25).** The ResNet has six inputs,
-eight outputs, hidden channels 32, train-only normalisation and class
-weights; it uses Adam at 0.001, batch 128, seed 42 and 400 optimiser
-updates. Random Forest uses 30 deterministic features, 120 trees,
-minimum leaf size 3, `balanced_subsample` and seed 42. Neither is
-calibrated with the exploratory temperature-scaling experiment.
+Current [Notebook 13](code/notebooks/13_harth_final_development_training_and_research_synthesis.ipynb)
+fits the ResNet on all **14,201 Development windows** from 29
+people, using six input channels, 32 hidden channels, inverse-square-root
+class weighting, Adam (learning rate 0.001), batch size 128, seed 42
+and 400 updates. The fixed Random Forest uses 30 features, 120
+trees, minimum leaf size 3 and balanced-subsample weighting.
+The original Notebook 13 CPU run took **67.649 seconds** for ResNet.
+Its 24-window Development inference check tests artefact loading,
+not participant-held-out accuracy.
 
-The separately approved qualified assessment used **S023 and S032**,
-with **500 label-blind sampled windows per participant**. The same-study,
-previously inspected status of these subjects is an explicit
-interpretation limitation.
+The updated model configuration is a typed `inference_config.csv` alongside
+`resnet_state_dict.pt` and `random_forest.joblib`. The changed CSV export
+has not yet been rerun. Its absence does not invalidate the original
+Development fitting observations but does mean the new archive is not
+yet verified by execution.
 
-| Qualified held-out metric | 1D-ResNet Weighted CE | Random Forest |
+**Earlier qualified assessment, recorded by the previously executed
+Notebook 25:** S023 and S032 each contributed 500 overlapping windows.
+Both had been inspected descriptively before that evaluation, so it
+is neither blind nor external validation. The original saved aligned
+predictions are unavailable in the current output directory; these
+historically reported numbers **cannot be recomputed here** and must
+not be assigned to the newly fitted Notebook 13 artefacts.
+
+| Historical qualified metric | Weighted 1D-ResNet | Random Forest |
 | --- | ---: | ---: |
-| Fixed-eight-class pooled Macro F1 | **0.7182** | 0.6817 |
-| Pooled accuracy | 0.9020 | **0.9270** |
-| Balanced accuracy over observed true classes | **0.9234** | 0.7599 |
-| S023 Macro F1 (500 windows) | 0.7384 | 0.7391 |
-| S032 Macro F1 (500 windows) | 0.5662 | 0.4597 |
+| Fixed-eight-class Macro F1 | **0.7182** | 0.6817 |
+| Accuracy | 0.9020 | **0.9270** |
+| Balanced accuracy (observed classes) | **0.9234** | 0.7599 |
+| S023 Macro F1 | 0.7384 | 0.7391 |
+| S032 Macro F1 | 0.5662 | 0.4597 |
 
-**True activity support across the 1,000 selected windows:**
-
-| Activity | Support | Activity | Support |
+| Activity | True windows | Activity | True windows |
 | --- | ---: | --- | ---: |
 | Walking | 538 | Stairs descending | **6** |
 | Running | 86 | Standing | 127 |
 | Shuffling | **3** | Sitting | 115 |
 | Stairs ascending | **10** | Lying | 115 |
 
-S023 contains eight true task classes; S032 contains six. Because
-rare-class support is extremely limited, per-class metrics should not be
-interpreted as stable population estimates. Accuracy alone obscures
-the minority-class limitations. See the [Stage 25 model summary](output/25_qualified_model_summary.csv),
-[participant metrics](output/25_qualified_per_subject.csv),
-[class metrics](output/25_qualified_per_class.csv) and
-[qualified test provenance](output/25_qualified_test_provenance.json).
+S023 contained eight true task classes and S032 contained six.
+These window counts provide very limited support for class-specific
+performance claims. The [original executed Notebook 25 at
+bcffd956](https://github.com/RezaSaadatyar/human-movement-intelligence/blob/bcffd956dd3a89edd8eb23ad1f63e360a15c72b1/wearable_activity_recognition/code/notebooks/25_final_development_training_and_inference.ipynb)
+remains recoverable through Git history.
 
-**Saved scientific synthesis (Stage 26).** Notebook 26 reads full-precision
-committed Stage 22, 23 and 25 result CSVs and the frozen approval records.
-It writes comparative figures, small report tables and
-[`26_report_provenance.json`](output/26_report_provenance.json), including
-the SHA256 of all seven input CSVs. It performs **no retraining or new Test
-scoring**. It is not an independent reproduction of the fitted models.
+## 07. Cross-stage evidence and interpretation
 
-## 07. FINAL cross-stage evidence audit and research closure
+Historical Notebooks 26 and FINAL combined earlier saved results
+and provenance checks. Their scientific comparison boundaries are
+preserved here; their administrative hashes and approval manifests
+are not requirements of the maintained 01–13 workflow.
 
-The independent [FINAL research notebook](code/notebooks/final_harth_research_audit_and_closure.ipynb)
-was executed and committed after the Stage 26 saved-results report. All
-**11 code cells were executed**, with **no saved runtime errors**, and its
-last cell records:
-
-`FINAL HARTH | CROSS-STAGE EVIDENCE AUDIT: PASSED`
-
-**Audit design.** FINAL reads **20 committed CSV inputs** drawn from
-Stages 08, 09, 10, 13–17, 19–20, 22–23, 25 and 26. The evidence
-registry records their source filenames, column counts and row counts.
-The notebook verifies participant and source-window accounting,
-protocol comparability, rare-class sampling, temperature-scaling
-results and the selected-model/qualified-evaluation summaries.
-
-**Reconciled Development cohorts:**
-
-| Cohort | Independent participants | Recorded task-eligible or selected windows |
+| Development cohort | Independent participants | Windows |
 | --- | ---: | ---: |
-| Full Development | 29 | **132,397** |
-| Up to 500 windows per participant | 29 | **14,201** |
-| Nested up to 1,000 windows per participant | 29 | **28,201** |
+| Full eligible eight-class source | 29 | **132,397** |
+| 500-cap bounded study | 29 | **14,201** |
+| Nested 1,000-cap study | 29 | **28,201** |
 
-The cohort audit confirms participant alignment and exclusion of S023/S032
-from Development evidence. This does not make the two held-out participants
-blind external cases.
+The original Development source includes **1,946 Shuffling**,
+**1,332 Stairs ascending** and **1,066 Stairs descending** windows;
+the 500-cap selection retains **219, 192 and 182**, respectively.
+These are sampling quantities, not model sensitivity.
 
-**Minority sampling support.** The complete Development source includes
-**1,946 Shuffling**, **1,332 ascending-stairs** and **1,066
-descending-stairs** task windows. At the 500-window sampling cap, those
-counts become **219, 192 and 182**, respectively; at the 1,000-window
-cap they become **386, 375 and 348**. These percentages describe how
-many windows the selection retains, **not classifier sensitivity**.
-See the [sampling CSV](output/final_minority_sampling_audit.csv) and
-[retention figure](output/final_minority_class_retention.png).
+The current separately fitted Notebook 08 calibration study found
+mean ECE **0.0494 to 0.0286**, Brier **0.1085 to 0.1044**,
+NLL **0.2494 to 0.2580**, and unchanged accuracy **0.9275**.
+Improvements in ECE and Brier do not override worsened NLL.
+Temperature scaling was not applied to the final fit.
 
-**Protocol comparability.** The audit preserves model results under
-their original cohort, group-fold and training-budget definitions.
-It explicitly distinguishes full-cohort classical CV, capped neural
-comparisons, nested training-scale experiments, calibration folds and
-qualified held-out evaluation. It does not calculate a new overall
-leaderboard from these non-equivalent protocols. See
-[earlier Development comparisons](output/final_earlier_development_comparisons.csv)
-and the [protocol comparison register](output/final_protocol_comparability.csv).
+The full-cohort classical comparisons, capped Development folds,
+nested Train sizes, independent calibration experiments and historical
+qualified assessment differ in participant selection, training budget
+or metric interpretation. They do not form a single matched leaderboard.
 
-**Probability calibration.** FINAL verifies the Stage 19 source metrics:
-ten-bin ECE **0.0488 → 0.0286**, multiclass Brier
-**0.1082 → 0.1043**, NLL **0.2487 → 0.2573**, with
-accuracy **0.9275** in both conditions. Calibration is a
-Development-only descriptive experiment and was not incorporated
-in the frozen selected model.
-See [the calibration audit](output/final_temperature_scaling_audit.csv).
-
-**Scientific provenance.** FINAL recomputes the byte-level SHA256 for
-all **20 named input CSVs** and compares the seven sources shared with
-Stage 26 against the recorded Stage 26 input digests. It also checks
-the frozen proposal/approval records and the Stage 26 report file.
-The committed [FINAL provenance JSON](output/final_research_audit_provenance.json)
-records these fingerprints and the qualified evaluation boundary.
-The final result snapshot is sourced from the recorded
-[Stage 25 evaluation](output/25_qualified_model_summary.csv);
-it does not reproduce or rescore any Test predictions.
-
-**Committed FINAL outputs:** 8 CSV audit tables, 1 PNG figure and
-1 JSON provenance record are available in
-[`output/`](output/). The
-[research closure register](output/final_research_closure_and_limitations.csv)
-separates completed work from scientific limitations, future
-validation needs and claims the study does **not** establish.
-
-The Quality Gate demonstrates consistency of the available recorded
-results, source-file fingerprints and protocol constraints.
-It is **not** independent training replication, a new external
-evaluation or evidence of clinical readiness.
+Earlier executed
+[Notebook 26](https://github.com/RezaSaadatyar/human-movement-intelligence/blob/bcffd956dd3a89edd8eb23ad1f63e360a15c72b1/wearable_activity_recognition/code/notebooks/26_final_research_evidence_and_report.ipynb)
+and
+[FINAL research audit](https://github.com/RezaSaadatyar/human-movement-intelligence/blob/bcffd956dd3a89edd8eb23ad1f63e360a15c72b1/wearable_activity_recognition/code/notebooks/final_harth_research_audit_and_closure.ipynb)
+remain accessible in version history. Their archived outputs do
+not constitute a new independent model reproduction.
 
 ## 08. Research limitations and reproducibility
 
@@ -496,40 +456,25 @@ evaluation or evidence of clinical readiness.
 
 ### Source of record
 
-- [Notebooks 01–26](code/notebooks/) contain experimental methods and
-  saved execution evidence. The [Stage 01–19 evidence register](evidence/stage_01_19_evidence_register.csv)
-  provides cross-stage context.
-- [Notebook 09](code/notebooks/09_harth_source_quality_and_minority_activity_audit.ipynb) contains
-  the current Development source-data audit; [Stage 22](code/notebooks/22_unified_matched_model_benchmark.ipynb)
-  and [Stage 23](code/notebooks/23_multiseed_and_imbalance_robustness.ipynb)
-  provide the main matched model comparison and repeated-seed results.
-- [Stage 24](code/notebooks/24_model_selection_and_protocol_freeze.ipynb)
-  documents the frozen selection;
-  [Stage 25](code/notebooks/25_final_development_training_and_inference.ipynb)
-  contains qualified held-out results; and
-  [Stage 26](code/notebooks/26_final_research_evidence_and_report.ipynb)
-  consolidates saved evidence.
-- [FINAL cross-stage audit](code/notebooks/final_harth_research_audit_and_closure.ipynb)
-  contains executed cross-stage checks and the PASSED Quality Gate.
-  Its [source inventory](output/final_source_inventory.csv),
-  [research closure register](output/final_research_closure_and_limitations.csv)
-  and [provenance JSON](output/final_research_audit_provenance.json)
-  are committed alongside the other `final_*` outputs.
-- [Protocol proposal](evidence/stage_25_protocol_proposal.json),
-  [reconciled proposal](evidence/stage_25_protocol_proposal_reconciled.json)
-  and [approval](evidence/stage_25_protocol_approved_qualified_test.json)
-  retain the recorded research decisions.
-- [Shared Python research modules](../python_modules/core/),
-  [HARTH-specific code](code/src/),
-  [workflow figures](images/) and the
-  [reproducibility guide](../docs/HARTH_REPRODUCIBILITY.md) document
-  implementation and verification requirements.
+- [Notebooks 01–13](code/notebooks/) are the maintained current programme.
+  The [Stage 01–19 register](evidence/stage_01_19_evidence_register.csv)
+  provides early-stage historical context.
+- [Notebook 10](code/notebooks/10_harth_advanced_temporal_architectures_and_matched_benchmark.ipynb),
+  [Notebook 11](code/notebooks/11_harth_multiseed_stability_and_imbalance_robustness.ipynb),
+  [Notebook 12](code/notebooks/12_harth_development_model_selection_and_protocol_specification.ipynb)
+  and [Notebook 13](code/notebooks/13_harth_final_development_training_and_research_synthesis.ipynb)
+  document the current benchmark, robustness, choice and fitting.
+- The historical qualified assessment is sourced from the
+  [executed former Notebook 25](https://github.com/RezaSaadatyar/human-movement-intelligence/blob/bcffd956dd3a89edd8eb23ad1f63e360a15c72b1/wearable_activity_recognition/code/notebooks/25_final_development_training_and_inference.ipynb),
+  not from Notebook 13 inference artefacts.
+- [HARTH source adapter](code/src/harth_data.py),
+  [model inference module](../python_modules/core/harth_final_inference.py)
+  and [reproducibility guide](../docs/HARTH_REPRODUCIBILITY.md)
+  define the current source and model-file interfaces.
 
-**Research status:** The original 26-stage programme and FINAL
-have recorded historical experiments. The current repository includes
-consolidated Notebooks 01–09 with saved evidence; legacy 21–26 and
-FINAL still require current-file dependency review. The historical
-FINAL audit's saved quality-gate output does not prove that its original
-file interfaces can run unchanged against the consolidated tree.
-The study does **not** establish independent replication, external
-clinical validation or generalisation to new participant populations.
+**Current status:** The numbered study notebooks are consolidated into
+01–13. The initial final Development fit was executed, but the changed
+CSV configuration and single-ZIP packaging require re-execution before
+their new outputs can be claimed as generated. No blind external
+validation or independent reproduction of historical Test predictions
+is claimed.
