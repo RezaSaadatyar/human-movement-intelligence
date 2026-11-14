@@ -355,11 +355,13 @@ The original Notebook 13 CPU run took **67.649 seconds** for ResNet.
 Its 24-window Development inference check tests artefact loading,
 not participant-held-out accuracy.
 
-The updated model configuration is a typed `inference_config.csv` alongside
-`resnet_state_dict.pt` and `random_forest.joblib`. The changed CSV export
-has not yet been rerun. Its absence does not invalidate the original
-Development fitting observations but does mean the new archive is not
-yet verified by execution.
+The updated model configuration uses typed `inference_config.csv` alongside
+`resnet_state_dict.pt` and `random_forest.joblib`. A
+[standalone configuration CSV](output/13_inference_config.csv) has been
+reconstructed from the saved Development scaling and fitting tables and
+the recorded feature order. That reconstruction does not verify execution
+of the changed loader or create a new model ZIP; the revised export still
+requires a Colab run.
 
 **Earlier qualified assessment, recorded by the previously executed
 Notebook 25:** S023 and S032 each contributed 500 overlapping windows.
