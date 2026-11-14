@@ -72,13 +72,13 @@ under `results/`, with no nested ZIP. The older archive containing
 `inference_config.json` is not natively compatible with the updated loader.
 The [inference CSV](../wearable_activity_recognition/output/13_inference_config.csv)
 is published, but model binaries and the local ZIP have not been committed to
-GitHub. Restored Sections 08–09 of Notebook 13 can recalculate the historical
-model-, participant- and class-level metrics and original confusion matrices
-from `25_qualified_aligned_predictions.csv` in the original
-`wearable_activity_recognition_Stage_25_Outputs.zip`. They do not access raw
-Test recordings or assess newly fitted models. This prediction CSV is not in
-the current published `output/` directory; the restored sections have not
-been executed against it.
+GitHub. Notebook 13 Sections 08–09 now contain the recovered integer confusion
+matrices directly. They compute the earlier models' pooled and per-class
+metrics and regenerate the confusion and support plots without opening a
+retired notebook or Stage 25 ZIP. Previously saved rounded S023/S032
+participant metrics are preserved separately; individual historical window
+predictions and person-specific confusion matrices cannot be reconstructed
+from pooled counts. The revised sections are not yet executed.
 
 Model binaries and raw HARTH recordings are not tracked in ordinary Git
 history. Keep a trustworthy copy of the model bundle outside ephemeral
@@ -92,10 +92,11 @@ Earlier saved execution evidence reported fixed-eight-class Macro F1
 from S023 and S032. True Shuffling, Stairs ascending and Stairs descending
 support was only **3**, **10** and **6** windows.
 
-These figures are **historically reported, not reproduced by Notebook 13**.
-The original aligned prediction table is not present in the current
-`output/` directory. Do not attribute the historical performance to the
-model files from the new Development fit or re-score Test to fill the gap.
+The pooled results are consistent with the exact integer confusion counts
+now embedded in Notebook 13; the participant rows are rounded historical
+observations. The original aligned prediction table remains unavailable but
+is not required for count-based summaries. Do not attribute these results
+to newly fitted model files or re-score Test to fill the gap.
 
 The executed original assessment remains accessible at the
 [historical Notebook 25 revision](https://github.com/RezaSaadatyar/human-movement-intelligence/blob/bcffd956dd3a89edd8eb23ad1f63e360a15c72b1/wearable_activity_recognition/code/notebooks/25_final_development_training_and_inference.ipynb).
