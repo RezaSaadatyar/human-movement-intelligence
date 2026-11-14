@@ -7,8 +7,9 @@ model interfaces and research synthesis. Earlier 24–26 and FINAL
 notebooks are retired from the current tree after content and link
 reconciliation; their executed versions are recoverable from Git history.
 
-The final fit previously ran on CPU, but the later CSV inference
-configuration and single-ZIP export still require execution.
+The final fit previously ran on CPU. A standalone CSV inference
+configuration has been reconstructed from saved scaling and fitting
+records, but the revised loader and single-ZIP export still require execution.
 Historical qualified S023/S032 findings are not new Notebook 13
 Test results. The chronology and planning checklists below are dated
 records, not the current implementation instructions.
