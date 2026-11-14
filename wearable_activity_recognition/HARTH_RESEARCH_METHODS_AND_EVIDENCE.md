@@ -9,8 +9,9 @@ The maintained notebook sequence is **01–13**.
 
 Notebook 13 now implements evaluation of its own final fitted models using
 newly generated aligned predictions for the predefined S023/S032 cohort.
-This revised evaluation has not yet produced verified, published results;
-past output scores must not be reused as its results.
+The saved Notebook 13 now displays model, participant and class metrics
+and confusion figures from the fitted models; its corresponding standalone
+`13_qualified_` output files still need publication.
 
 See the [study README](README.md) and
 [reproducibility guide](../docs/HARTH_REPRODUCIBILITY.md).
@@ -381,15 +382,16 @@ true activity support and class recall. These outcomes are computed
 from source measurements and fitted models, not transcribed from
 previously displayed matrices or rounded scores.
 
-**Execution status and interpretation.** The qualified assessment
-code is implemented, but **the newly revised Sections 08–11 have not
-been verified by executing the current code**. No result of this new
-assessment is asserted here. S023/S032 were descriptively inspected
-earlier, and the fixed windows overlap within each participant;
-therefore the completed assessment will be **qualified same-study**
-evidence rather than blind external, population-wide or prospective
-validation. Test scores must not be used to choose or modify the
-final fitted models.
+**Results and interpretation.** The saved Notebook 13 computes
+fixed-eight-class Macro F1 **0.7182** for weighted ResNet and **0.6817**
+for Random Forest on 1,000 aligned S023/S032 windows; corresponding
+accuracies are **0.9020** and **0.9270**. The notebook displays
+participant-level and per-class metrics and the derived figures.
+The `13_qualified_` CSV/PNG files must also be copied into and
+committed from `output/` for independent machine-readable review.
+These same-study participants were descriptively inspected previously;
+the assessment is not blind external or prospective validation. No
+model adjustment using these results is authorised.
 
 ## 07. Cross-stage evidence and interpretation
 
@@ -449,12 +451,12 @@ not constitute a new independent model reproduction.
    are not proof of faithful explanation or clinical uncertainty.
    Stage 19 calibration had mixed effects and is not part of the final
    trained procedure.
-7. **Reproducibility boundary.** The published Development CSVs
-   support many analyses, but the revised qualified assessment
-   predictions and figures have not yet been executed and published.
-   Raw HARTH recordings and model binaries are not stored in
-   ordinary Git. Execution alone does not establish scientific
-   validity or independent external validation.
+7. **Reproducibility boundary.** Saved Notebook 13 outputs display
+   current-model qualified scores and figures, but the independently
+   readable `13_qualified_` prediction and metric files are not yet
+   committed. Raw HARTH recordings and model binaries are not tracked
+   in ordinary Git. Successful execution does not establish
+   population-wide or independent external validity.
 
 ### Source of record
 
@@ -469,16 +471,17 @@ not constitute a new independent model reproduction.
 - [Notebook 13](code/notebooks/13_harth_final_development_training_and_research_synthesis.ipynb)
   now performs its qualified S023/S032 assessment using the **same
   Development-fitted models** it saved and reloads. Its
-  `13_qualified_aligned_predictions.csv` will be the source of record
-  for the new model, class and participant metrics once executed.
+  `13_qualified_aligned_predictions.csv` is the machine-readable source
+  of record for model, class and participant metrics and should be
+  published alongside the saved Notebook 13 results.
 - [HARTH source adapter](code/src/harth_data.py),
   [model inference module](../python_modules/core/harth_final_inference.py)
   and [reproducibility guide](../docs/HARTH_REPRODUCIBILITY.md)
   define the current source and model-file interfaces.
 
 **Current status:** The study is consolidated into Notebooks 01–13.
-The final Development fitting and model reload have saved execution evidence.
-The current-model qualified assessment in Sections 08–09, its
-source-aligned prediction table, figures and refreshed run configuration
-require execution and publication before any assessment scores are claimed.
-No blind external, prospective or clinical validation is claimed.
+Notebook 13 contains saved Development fitting and current-model
+qualified-evaluation results, including the pooled metrics and figures.
+The independent `13_qualified_` CSV/PNG outputs and refreshed training
+configuration remain to be committed to `output/`. No blind external,
+prospective or clinical validation is claimed.

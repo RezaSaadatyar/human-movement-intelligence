@@ -4,7 +4,7 @@
 
 This study investigates **eight-class human activity recognition using two wearable accelerometers**. It compares classical models and temporal neural networks with participant-disjoint Development validation, source-quality checks, minority-activity analysis, robustness experiments and calibrated probability assessments.
 
-**Maintained notebooks:** [01–13](code/notebooks/). Notebook 12 documents Development-only model selection. Notebook 13 trains the selected models, saves their fitted inference artefacts, and now implements an assessment on **S023 and S032 using predictions from those same final fitted models**. The revised assessment code has not yet been executed.
+**Maintained notebooks:** [01–13](code/notebooks/). Notebook 12 documents Development-only model selection. Notebook 13 trains the selected models, saves their fitted inference artefacts, and now implements an assessment on **S023 and S032 using predictions from those same final fitted models**. The saved Notebook 13 displays qualified evaluation metrics and figures from the fitted models.
 
 S023/S032 are excluded from Development fitting and preprocessing. As they were inspected earlier, their later assessment is **qualified same-study evaluation**, not blind or external validation.
 
@@ -60,7 +60,7 @@ Development evidence, not the qualified held-out results.
 | **1D-ResNet Weighted CE** | **0.8336 ± 0.0427** |
 | Random Forest | 0.8094 ± 0.0500 |
 
-These values describe the **Notebook 10 Development comparison**, not the newly fitted models' S023/S032 assessment. Notebook 13 now computes qualified model, participant and class results from its own aligned predictions. **No scores are reported for the revised assessment until the code is executed and its outputs checked.** The evaluation uses two previously inspected participants with overlapping windows and is not blind external validation.
+These values describe the **Notebook 10 Development comparison**, not the newly fitted models' S023/S032 assessment. Notebook 13 now computes qualified model, participant and class results from its own aligned predictions. The saved Notebook 13 records **Macro F1 0.7182 (ResNet) and 0.6817 (Random Forest)** on 1,000 source-aligned windows (S023/S032). These scores are from the current fitting and inference workflow; the standalone stage output files have not all been published in GitHub. The evaluation uses two previously inspected participants with overlapping windows and is not blind external validation.
 
 The bounded, single-partition comparison in [Notebook 04](code/notebooks/04_harth_temporal_cnn_and_matched_random_forest.ipynb) uses **14,201 Development windows**. On the same **2,701 Validation windows** from six held-out participants, the 120-tree Random Forest attains Macro F1 **0.8140**, compared with **0.6659** for the five-epoch temporal CNN. Random Forest scores higher for all six Validation participants. These figures describe a separate restricted protocol and must not be pooled with the three-fold benchmark or the qualified held-out evaluation.
 
@@ -153,8 +153,8 @@ cells. The official HARTH source is downloaded at the pinned revision when absen
 The latest recorded Notebook 13 execution fitted the ResNet on a Tesla T4 GPU
 for 400 updates. The currently published training-configuration CSV retains
 a superseded fitting-time record; the running notebook supplies the measured
-time, and the table should be regenerated and published. The newly implemented
-qualified assessment is not yet executed and is not blind external validation.
+time, and the table should be regenerated and published. The saved Notebook 13 contains actual qualified model metrics and figures.
+This same-study assessment is not blind external validation.
 
 The final inference configuration uses `inference_config.csv` with explicit
 parameter positions and scalar values. The current export places
@@ -181,8 +181,9 @@ contains Development-fitted scaler and ordered features. The latest Notebook
 and created a single Colab ZIP. Notebook 13 Sections 08–09 now load S023/S032 directly from pinned HARTH v2.0,
 apply the newly fitted models and export **aligned window-level labels and
 predictions**, cohort summaries, metrics and original count confusion matrices.
-These updated sections require execution before their new results can be
-reported. Model binaries are **not committed** to Git; retain a trusted
+The saved notebook presents these metrics and figures, but the generated
+`13_qualified_` CSV/PNG files still need to be copied into the tracked
+`output/` directory and pushed. Model binaries are **not committed** to Git; retain a trusted
 copy of the locally generated ZIP.
 
 ## 6. Interpretation and Scope
@@ -190,9 +191,10 @@ copy of the locally generated ZIP.
 The existing published evidence covers participant-disjoint Development
 evaluation, robustness, source quality and final Development fitting.
 The revised Notebook 13 also implements **current-model inference** on the
-two predefined qualified participants; its predictions and metrics are
-not yet published. It will save the source-aligned rows needed to
-recompute every reported score and matrix. See the
+two predefined qualified participants; its predictions and metrics appear in the saved Notebook 13 output.
+Their independently readable `13_qualified_` files still need publication
+in `output/`. The new aligned-predictions CSV is essential for
+recomputing the scores and confusion counts from original prediction rows. See the
 [scientific document](HARTH_RESEARCH_METHODS_AND_EVIDENCE.md) for
 methods, provenance and limitations.
 

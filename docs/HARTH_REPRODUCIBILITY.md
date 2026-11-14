@@ -41,7 +41,7 @@ independent participant observations.
 | Seven-model benchmark | [10](../wearable_activity_recognition/code/notebooks/10_harth_advanced_temporal_architectures_and_matched_benchmark.ipynb), [model CSV](../wearable_activity_recognition/output/10_matched_cv_model_summary.csv) | Matched three-fold, 29-participant Development comparison |
 | Multi-seed robustness | [11](../wearable_activity_recognition/code/notebooks/11_harth_multiseed_stability_and_imbalance_robustness.ipynb), [robustness CSV](../wearable_activity_recognition/output/11_robustness_model_summary.csv) | Four conditions across three seeds and three folds |
 | Selection and specification | [12](../wearable_activity_recognition/code/notebooks/12_harth_development_model_selection_and_protocol_specification.ipynb), [selection CSV](../wearable_activity_recognition/output/12_development_model_selection_evidence.csv) | Weighted 1D-ResNet primary and 120-tree Random Forest reference |
-| Final Development fitting and qualified assessment | [13](../wearable_activity_recognition/code/notebooks/13_harth_final_development_training_and_research_synthesis.ipynb), [fitting CSV](../wearable_activity_recognition/output/13_final_training_configuration.csv) | Current model training and reload recorded; new S023/S032 evaluation code requires execution before reporting metrics |
+| Final Development fitting and qualified assessment | [13](../wearable_activity_recognition/code/notebooks/13_harth_final_development_training_and_research_synthesis.ipynb), [fitting CSV](../wearable_activity_recognition/output/13_final_training_configuration.csv) | Development training, model reload and qualified S023/S032 metrics displayed in Notebook 13; standalone evidence files awaiting publication |
 
 The most recently saved Notebook 13 run used a Tesla T4 GPU for 400
 ResNet optimiser updates and fitted a 120-tree Random Forest. The training
@@ -49,9 +49,9 @@ cell and notebook's own settings table report the current run's elapsed
 fitting time (approximately 3.1 seconds in the saved display), whereas
 the committed `13_final_training_configuration.csv` still contains an
 older CPU duration of 67.649 seconds. The CSV must be regenerated from
-the current execution. The new qualified assessment code is not yet
-verified by execution; none of these training observations is
-held-out classification performance.
+the current execution. The saved notebook also displays qualified held-out predictions
+and scores from these fitted models; training loss alone is not a
+classification evaluation measure.
 
 ## 3. Saved Models and CSV Inference Configuration
 
@@ -81,9 +81,9 @@ recall from these predictions, not embedded integers. Section 11 creates
 one `wearable_activity_recognition_Stage_13_Outputs.zip`: trained model
 files under `models/` and the defined `13_` CSV/PNG files under
 `results/`. No model-specific inner ZIP or old Stage 25 archive is needed.
-The new evaluation and export have not been executed in the current
-published version. The model binaries and Colab download archive are
-not committed to ordinary Git.
+Notebook 13 displays its qualified evaluation and ZIP export results.
+The ZIP and model binaries remain outside Git; the derived `13_qualified_`
+CSV/PNG files must still be committed into the study `output/` folder.
 Model binaries and raw HARTH recordings are not tracked in ordinary Git
 history. Keep a trustworthy copy of the model bundle outside ephemeral
 Colab storage. Never load an untrusted `.joblib` file.
@@ -114,9 +114,12 @@ must be interpreted as a same-study assessment of two participants
 whose recordings had previously been inspected. No threshold, model
 or hyperparameter is selected on their scores.
 
-**Status:** The revised assessment code is published but has not been
-verified with a new full execution. Do not use old displayed Test scores
-as a substitute for the outputs above.
+**Recorded results:** Saved Notebook 13 output reports fixed-eight-class
+Macro F1 **0.7182** (ResNet) and **0.6817** (Random Forest) on 1,000
+aligned S023/S032 windows; corresponding accuracies are **0.9020** and
+**0.9270**. The `13_qualified_aligned_predictions.csv` and associated
+standalone output files have not yet been committed to GitHub. These are
+qualified same-study results, not blind external validation.
 
 ## 5. What Can Be Verified
 
