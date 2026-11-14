@@ -1,7 +1,7 @@
 # ==================== Presented by: Reza Saadatyar (2026) ====================
-"""Read-only reporting of historical HARTH qualified held-out predictions.
+"""Read-only reporting of HARTH qualified same-study assessment predictions.
 
-Accept frozen predictions; do not train, calibrate, choose models or access files.
+Accept already computed predictions; do not train, calibrate or choose models.
 The eight-class task denominator stays fixed, including unsupported source classes.
 """
 from __future__ import annotations
@@ -21,7 +21,7 @@ FINAL_MODELS = ("1D-ResNet Weighted CE", "Random Forest")
 # ===================== 01. Qualified Evaluation Reports ======================
 def validate_final_test_inputs(y_true, subject_ids, predictions, classes=SOURCE_CLASSES):
     """
-    Validate source-aligned frozen predictions for both reserved individuals.
+    Validate source-aligned predictions for both qualified participants.
 
     Args:
         y_true (array-like): Original true HARTH activity labels.
@@ -33,8 +33,8 @@ def validate_final_test_inputs(y_true, subject_ids, predictions, classes=SOURCE_
         tuple: Validated target, person, predictions and task class arrays.
 
     Notes:
-        A failed validation must not lead to retraining or changing the
-        predeclared evaluation task. Only two original Test subjects are valid.
+        An invalid prediction table must not lead to retuning or changing the
+        predefined evaluation task. Only S023/S032 are in scope.
     """
     codes = np.asarray(classes, dtype=int)
     if not np.array_equal(codes, np.arange(1, 9)):
@@ -63,12 +63,12 @@ def validate_final_test_inputs(y_true, subject_ids, predictions, classes=SOURCE_
 def summarise_qualified_heldout(y_true, subject_ids, predictions,
                                 activity_names, classes=SOURCE_CLASSES):
     """
-    Summarise frozen Test predictions without any model fitting.
+    Summarise qualified model predictions without any fitting.
 
     Args:
-        y_true (array-like): Original Test activity labels aligned to windows.
-        subject_ids (array-like): Original Test participant per window.
-        predictions (dict): Pre-computed source-code predictions of both models.
+        y_true (array-like): Original HARTH labels aligned to windows.
+        subject_ids (array-like): Qualified participant per source window.
+        predictions (dict): Precomputed source-code predictions of the current fitted models.
         activity_names (dict): Official activity code-to-name mapping.
         classes (sequence[int]): Fixed task label order.
 
@@ -80,8 +80,8 @@ def summarise_qualified_heldout(y_true, subject_ids, predictions,
         Macro F1 explicitly counts all eight target classes (zero F1 for
         unsupported classes). Balanced accuracy is the mean recall of
         *observed* true classes, so it is not a fixed-eight-class statistic.
-        Overlapping windows and only two, historically inspected participants
-        preclude independent/external/clinical validation claims.
+        Overlapping windows and only two previously inspected participants
+        preclude blind/external/clinical validation claims.
     """
     true, people, checked, codes = validate_final_test_inputs(
         y_true, subject_ids, predictions, classes=classes
