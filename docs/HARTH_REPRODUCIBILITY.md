@@ -43,12 +43,15 @@ independent participant observations.
 | Selection and specification | [12](../wearable_activity_recognition/code/notebooks/12_harth_development_model_selection_and_protocol_specification.ipynb), [selection CSV](../wearable_activity_recognition/output/12_development_model_selection_evidence.csv) | Weighted 1D-ResNet primary and 120-tree Random Forest reference |
 | Final Development fitting and qualified assessment | [13](../wearable_activity_recognition/code/notebooks/13_harth_final_development_training_and_research_synthesis.ipynb), [fitting CSV](../wearable_activity_recognition/output/13_final_training_configuration.csv) | Current model training and reload recorded; new S023/S032 evaluation code requires execution before reporting metrics |
 
-The latest saved Notebook 13 execution used a Tesla T4 GPU and recorded 400
-ResNet optimiser updates (approximately 4.41 seconds), a 120-tree Random
-Forest and CSV-based Development-only inference reload. A previously published
-configuration CSV retains the older CPU fit duration of 67.649 seconds until
-outputs from the current run replace it. These observations do not establish
-new held-out performance.
+The most recently saved Notebook 13 run used a Tesla T4 GPU for 400
+ResNet optimiser updates and fitted a 120-tree Random Forest. The training
+cell and notebook's own settings table report the current run's elapsed
+fitting time (approximately 3.1 seconds in the saved display), whereas
+the committed `13_final_training_configuration.csv` still contains an
+older CPU duration of 67.649 seconds. The CSV must be regenerated from
+the current execution. The new qualified assessment code is not yet
+verified by execution; none of these training observations is
+held-out classification performance.
 
 ## 3. Saved Models and CSV Inference Configuration
 
