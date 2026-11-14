@@ -181,22 +181,26 @@ until the configuration is regenerated or converted; it is not silently accepted
 The published [`13_inference_config.csv`](output/13_inference_config.csv)
 contains Development-fitted scaler and ordered features. The latest Notebook
 13 execution has additionally saved and reloaded models with the CSV interface
-and created a single Colab ZIP. Restored Sections 08–09 can recompute the earlier models' qualified
-metrics and confusion matrices once the genuine
-`25_qualified_aligned_predictions.csv` from Stage 25 is placed in `output/`.
-Those sections and the refreshed training-configuration table still need
-execution and publication. Model binaries are **not committed** to Git; retain a trusted
+and created a single Colab ZIP. Notebook 13 Sections 08–09 now contain the exact historical confusion
+counts recovered from the earlier saved figures. They can regenerate pooled
+metrics, class-level tables and confusion plots **without downloading a
+retired notebook, Stage 25 ZIP or prediction CSV**. Participant-level
+metrics remain explicitly labelled rounded historical results. The revised
+sections and refreshed training-configuration table need execution and
+publication. Model binaries are **not committed** to Git; retain a trusted
 copy of the locally generated ZIP.
 
 ## 6. Interpretation and Scope
 
 The current research evidence covers participant-disjoint Development evaluation,
 model-selection robustness, source-quality limitations and a Development-only
-final fit. The original qualified S023/S032 results were reported for a separate
-historical model run; the aligned prediction CSV is not present in the current
-public `output/` directory. Historical numerical findings remain described
-in the [scientific document](HARTH_RESEARCH_METHODS_AND_EVIDENCE.md), with the
-original executed notebook recoverable from the corresponding Git revision.
+final fit. The original S023/S032 evaluation used an earlier fitted model pair.
+Notebook 13 preserves its exact pooled count matrices and can recompute
+historical pooled and class-level metrics, while reported per-participant
+summaries remain rounded. The original per-window prediction rows are
+unavailable, but are no longer a runtime requirement. See the
+[scientific document](HARTH_RESEARCH_METHODS_AND_EVIDENCE.md) for
+provenance and limitations.
 
 The study does not establish blind external validation, population-wide accuracy,
 prospective performance or clinical deployment. Overlapping windows, limited
