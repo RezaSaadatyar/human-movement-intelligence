@@ -7,7 +7,7 @@ Qualified same-study evaluation metrics are handled separately by
 core.harth_qualified_test_report.
 """
 
-import json
+import csv
 import random
 import time
 from pathlib import Path
@@ -160,21 +160,131 @@ def fit_final_resnet(windows, labels, protocol, *, device="cuda"):
 
 
 # ===================== 03. Save and Reload Model Artefacts =====================
+# -------------------- 1. Record the Inference CSV Schema --------------------
+_SCALAR_STRING_FIELDS = (
+    "source_dataset", "source_revision", "resnet_architecture",
+    "preprocessing_fit_scope",
+)
+_SCALAR_INTEGER_FIELDS = (
+    "resnet_hidden_channels", "window_size", "window_stride",
+    "nominal_hz", "optimiser_updates", "training_seed",
+)
+_VECTOR_STRING_FIELDS = ("sensor_columns", "feature_columns")
+_VECTOR_INTEGER_FIELDS = ("source_codes",)
+_VECTOR_FLOAT_FIELDS = ("channel_mean", "channel_std")
+
+
+def _write_inference_csv(config, path):
+    """Write typed scalar and ordered-array settings in a simple CSV table."""
+    rows = []
+    for key in (*_SCALAR_STRING_FIELDS, *_SCALAR_INTEGER_FIELDS,
+                "test_fitted_values"):
+        rows.append((key, "", str(config[key])))
+    for key in (*_VECTOR_STRING_FIELDS, *_VECTOR_INTEGER_FIELDS,
+                *_VECTOR_FLOAT_FIELDS):
+        for index, value in enumerate(config[key]):
+            if key in _VECTOR_FLOAT_FIELDS:
+                value = repr(float(value))
+            rows.append((key, index, str(value)))
+    with Path(path).open("w", newline="", encoding="utf-8") as handle:
+        writer = csv.writer(handle)
+        writer.writerow(["parameter", "position", "value"])
+        writer.writerows(rows)
+
+
+def _read_inference_csv(path):
+    """Restore the exact configured scalar types and ordered sensor vectors."""
+    scalars, vectors = {}, {}
+    with Path(path).open(newline="", encoding="utf-8") as handle:
+        reader = csv.DictReader(handle)
+        if reader.fieldnames != ["parameter", "position", "value"]:
+            raise ValueError("Inference CSV must have parameter,position,value.")
+        for row in reader:
+            key, index, value = (
+                row["parameter"], row["position"], row["value"]
+            )
+            if not key or value is None:
+                raise ValueError("Incomplete inference configuration row.")
+            if index == "":
+                if key in scalars or key in vectors:
+                    raise ValueError("Duplicate inference configuration key.")
+                scalars[key] = value
+            else:
+                try:
+                    position = int(index)
+                except (TypeError, ValueError) as exc:
+                    raise ValueError("Invalid configuration array position.") from exc
+                if position < 0 or key in scalars:
+                    raise ValueError("Invalid configuration array position.")
+                entries = vectors.setdefault(key, {})
+                if position in entries:
+                    raise ValueError("Duplicate configuration array position.")
+                entries[position] = value
+
+    scalar_keys = set((*_SCALAR_STRING_FIELDS, *_SCALAR_INTEGER_FIELDS,
+                       "test_fitted_values"))
+    vector_keys = set((*_VECTOR_STRING_FIELDS, *_VECTOR_INTEGER_FIELDS,
+                       *_VECTOR_FLOAT_FIELDS))
+    if set(scalars) != scalar_keys or set(vectors) != vector_keys:
+        raise ValueError("Incomplete or unexpected inference configuration fields.")
+    config = {key: scalars[key] for key in _SCALAR_STRING_FIELDS}
+    for key in _SCALAR_INTEGER_FIELDS:
+        config[key] = int(scalars[key])
+    if scalars["test_fitted_values"] not in ("True", "False"):
+        raise ValueError("Invalid boolean inference configuration value.")
+    config["test_fitted_values"] = (
+        scalars["test_fitted_values"] == "True"
+    )
+    for key in vector_keys:
+        values = vectors[key]
+        if sorted(values) != list(range(len(values))):
+            raise ValueError("Configuration array positions must be contiguous.")
+        ordered = [values[i] for i in range(len(values))]
+        if key in _VECTOR_INTEGER_FIELDS:
+            ordered = [int(value) for value in ordered]
+        elif key in _VECTOR_FLOAT_FIELDS:
+            ordered = [float(value) for value in ordered]
+        config[key] = ordered
+
+    expected_channels = [
+        "back_x", "back_y", "back_z", "thigh_x", "thigh_y", "thigh_z"
+    ]
+    if (config["sensor_columns"] != expected_channels
+            or config["source_codes"] != list(range(1, 9))
+            or len(config["channel_mean"]) != 6
+            or len(config["channel_std"]) != 6
+            or len(config["feature_columns"]) != 30
+            or len(set(config["feature_columns"])) != 30):
+        raise ValueError("Incompatible HARTH source or feature configuration.")
+    if (not np.isfinite(config["channel_mean"]).all()
+            or not np.isfinite(config["channel_std"]).all()
+            or any(std <= 0 for std in config["channel_std"])):
+        raise ValueError("Invalid Development-fitted channel statistics.")
+    if (config["resnet_architecture"] != "1D-ResNet"
+            or config["preprocessing_fit_scope"] != "Development only"
+            or config["test_fitted_values"]
+            or config["window_size"] != 100
+            or config["window_stride"] != 50):
+        raise ValueError("Unsupported model or preprocessing configuration.")
+    return config
+
+
+# ------------------------- 2. Save Trained Model Pair ------------------------
 def save_final_models(
     model, scaler, reference, columns, protocol, artifact_dir, *,
     source_revision,
 ):
-    """Save one Development-fitted neural/classical model pair and its settings.
+    """Save fitted ResNet, Random Forest and ordered inference settings as CSV.
 
-    The inference configuration contains feature order, channel statistics,
-    source classes and architecture parameters; it is not a release gate.
-    Only load locally generated and trusted joblib artefacts.
+    The CSV contains all values needed to apply the Development-only scaler
+    and feature ordering. These are model inference settings, not an audit
+    manifest or historical approval record. Load only trusted joblib files.
     """
     directory = Path(artifact_dir)
     directory.mkdir(parents=True, exist_ok=True)
     net_path = directory / "resnet_state_dict.pt"
     rf_path = directory / "random_forest.joblib"
-    config_path = directory / "inference_config.json"
+    config_path = directory / "inference_config.csv"
 
     torch.save(
         {name: tensor.detach().cpu()
@@ -182,30 +292,28 @@ def save_final_models(
         net_path,
     )
     joblib.dump(reference, rf_path)
-    model_spec = protocol["primary_model"]
+    spec = protocol["primary_model"]
     config = {
         "source_dataset": "HARTH v2.0",
         "source_revision": str(source_revision),
         "sensor_columns": [
             "back_x", "back_y", "back_z", "thigh_x", "thigh_y", "thigh_z"
         ],
-        "source_codes": list(model_spec["classes"]),
+        "source_codes": list(spec["classes"]),
         "channel_mean": np.asarray(scaler["mean"]).tolist(),
         "channel_std": np.asarray(scaler["std"]).tolist(),
         "feature_columns": list(columns),
-        "resnet_architecture": model_spec["architecture"],
+        "resnet_architecture": spec["architecture"],
         "resnet_hidden_channels": 32,
         "window_size": 100,
         "window_stride": 50,
         "nominal_hz": 50,
         "preprocessing_fit_scope": "Development only",
         "test_fitted_values": False,
-        "optimiser_updates": int(model_spec["optimizer_steps"]),
-        "training_seed": int(model_spec["random_seed"]),
+        "optimiser_updates": int(spec["optimizer_steps"]),
+        "training_seed": int(spec["random_seed"]),
     }
-    config_path.write_text(
-        json.dumps(config, indent=2) + "\n", encoding="utf-8"
-    )
+    _write_inference_csv(config, config_path)
     return {
         "resnet": net_path,
         "reference": rf_path,
@@ -213,32 +321,22 @@ def save_final_models(
     }
 
 
+# ---------------------- 3. Load Trusted Model Artefacts ----------------------
 def load_final_models(directory, *, device="cpu"):
+    """Load trusted Development-fitted models and their typed CSV settings.
+
+    The torch weights are loaded with weights_only=True. The joblib file
+    must come from a trusted source, because it deserialises Python objects.
     """
-    Load locally trusted Development-fitted models and inference settings.
-
-    Args:
-        directory (str | Path): Directory created by save_final_models().
-        device (str): CPU or available CUDA for ResNet inference.
-
-    Returns:
-        tuple: Evaluating ResNet, trusted Random Forest and exact JSON
-        preprocessing/class-mapping configuration.
-
-    Notes:
-        Only load locally generated trusted joblib data. Torch uses
-        weights_only=True, and both models are never refitted on input data.
-    """
-    if torch is None:
-        raise ImportError("Optional PyTorch is required.")
     root = Path(directory)
-    config = json.loads((root / "inference_config.json").read_text())
+    config = _read_inference_csv(root / "inference_config.csv")
     model = build_temporal_model(
-        "1D-ResNet", in_channels=6, n_classes=8,
-        hidden_channels=config["resnet_hidden_channels"]
+        config["resnet_architecture"], in_channels=6, n_classes=8,
+        hidden_channels=config["resnet_hidden_channels"],
     )
     state = torch.load(
-        root / "resnet_state_dict.pt", map_location="cpu", weights_only=True
+        root / "resnet_state_dict.pt",
+        map_location="cpu", weights_only=True,
     )
     model.load_state_dict(state, strict=True)
     model = model.to(device).eval()
