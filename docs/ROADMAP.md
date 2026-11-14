@@ -10,8 +10,8 @@ reconciliation; their executed versions are recoverable from Git history.
 The latest recorded final fit used Tesla T4 CUDA (about 4.41 seconds for
 400 updates), and the CSV-based reload and flat Colab ZIP export have executed.
 The published configuration table still holds a 67.649-second earlier CPU fit;
-the refreshed training configuration and original historical qualified
-metrics/figures remain to be regenerated from their respective sources.
+the refreshed training configuration and Notebook 13's embedded historical
+count-based metrics/figures remain to be regenerated and published.
 Historical qualified S023/S032 findings are not new Notebook 13 Test results. The chronology and planning checklists below are dated
 records, not the current implementation instructions.
 
@@ -82,7 +82,7 @@ figure were retired after content transfer and dependency inspection.
 | HARTH multi-seed and loss robustness | Notebook 11, four conditions across 36 model–seed–fold jobs | [Notebook 11](../wearable_activity_recognition/code/notebooks/11_harth_multiseed_stability_and_imbalance_robustness.ipynb) |
 | HARTH model selection | Notebook 12, Development-only primary/reference specification | [Notebook 12](../wearable_activity_recognition/code/notebooks/12_harth_development_model_selection_and_protocol_specification.ipynb) |
 | HARTH final Development fitting | Notebook 13; CUDA fit, CSV reload and single ZIP executed; latest training CSV and newly revised reported-result tables awaiting publication | [Notebook 13](../wearable_activity_recognition/code/notebooks/13_harth_final_development_training_and_research_synthesis.ipynb) |
-| Historical qualified results | Earlier model pair evaluated on S023/S032; not reproduced in Notebook 13 | [Scientific document](../wearable_activity_recognition/HARTH_RESEARCH_METHODS_AND_EVIDENCE.md) |
+| Historical qualified results | Archived original confusion counts integrated into Notebook 13; pooled metrics can be recomputed without historical prediction files, whereas rounded person metrics are preserved separately | [Scientific document](../wearable_activity_recognition/HARTH_RESEARCH_METHODS_AND_EVIDENCE.md) |
 | Biomechanical Load Estimation | Independently maintained project, outside this HARTH clean-up | [Study README](../biomechanical_load_estimation/README.md) |
 | Other movement science studies | Planned directions, not completed implementations | [Research overview](../README.md) |
 
