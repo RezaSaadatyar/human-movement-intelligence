@@ -1,6 +1,6 @@
 topic,evidence,interpretation
 Development comparison,Seven matched models and three-seed robustness,Descriptive participant-grouped comparison
-Final model fitting,Weighted ResNet and Random Forest fitted on Development,Training and inference artefacts; no new Test score
+Final model fitting,Weighted ResNet and Random Forest fitted on Development,Development-only fitting; qualified evaluation reported separately
 Rare-class behaviour,Source support and Shuffling precision/recall contrasts,Small class support and overlapping windows
 Calibration,Mixed Development ECE/Brier/NLL response,Not used for final fitted ResNet
 Qualified same-study evaluation,Source-aligned predictions from the current fitted ResNet and RF,Two previously inspected participants; no Test-based tuning
