@@ -362,9 +362,11 @@ The maintained model interface uses typed `inference_config.csv` alongside
 `resnet_state_dict.pt` and `random_forest.joblib`. The
 [standalone CSV](output/13_inference_config.csv) is published and the latest
 saved notebook execution shows that the CSV loader and flat Colab ZIP export
-ran. The newly revised historical-results and class-support sections have
-not yet been executed; they will produce provenance-labelled reported tables,
-not new Test predictions.
+ran. The restored historical evaluation Sections 08–09 require the original
+`25_qualified_aligned_predictions.csv` from the old Stage 25 output archive.
+When supplied, this file permits recalculating the earlier models' metrics and
+confusion matrices from saved labels and predictions without new Test inference.
+Those sections have not yet been executed.
 
 **Earlier qualified assessment, recorded by the previously executed
 Notebook 25:** S023 and S032 each contributed 500 overlapping windows.
