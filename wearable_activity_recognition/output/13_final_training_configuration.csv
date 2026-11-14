@@ -14,5 +14,5 @@ Checkpoint,final_step
 Random Forest trees,120
 Random Forest features,30
 Neural training device,cuda
-Neural fitting time (s),3.253
+Neural fitting time (s),3.08
 Reserved participants used for fitting,False
