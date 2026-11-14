@@ -323,14 +323,16 @@ def save_final_models(
 
 
 # ---------------------- 3. Load Trusted Model Artefacts ----------------------
-def load_final_models(directory, *, device="cpu"):
+def load_final_models(directory, *, device="cpu", config_filename="inference_config.csv"):
     """Load trusted Development-fitted models and their typed CSV settings.
 
     The torch weights are loaded with weights_only=True. The joblib file
     must come from a trusted source, because it deserialises Python objects.
+    For a flat Stage 13 ZIP extraction, set config_filename to
+    "13_inference_config.csv"; normal model storage uses the default name.
     """
     root = Path(directory)
-    config = _read_inference_csv(root / "inference_config.csv")
+    config = _read_inference_csv(root / config_filename)
     model = build_temporal_model(
         config["resnet_architecture"], in_channels=6, n_classes=8,
         hidden_channels=config["resnet_hidden_channels"],
