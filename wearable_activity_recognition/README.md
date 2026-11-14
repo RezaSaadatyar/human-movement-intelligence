@@ -4,9 +4,9 @@
 
 This study investigates **eight-class human activity recognition using two wearable accelerometers**. It compares classical models and temporal neural networks with participant-disjoint Development validation, source-quality checks, minority-activity analysis, robustness experiments and calibrated probability assessments.
 
-**Current study notebooks:** [01–13](code/notebooks/). Notebook 12 records the Development-supported selection of a weighted 1D-ResNet and a fixed Random Forest reference; Notebook 13 fits those models on Development, verifies the saved inference interface and synthesises the supported evidence. The former 24–26 and FINAL notebooks have been consolidated; their original executed versions remain recoverable from Git history.
+**Maintained notebooks:** [01–13](code/notebooks/). Notebook 12 documents Development-only model selection. Notebook 13 trains the selected models, saves their fitted inference artefacts, and now implements an assessment on **S023 and S032 using predictions from those same final fitted models**. The revised assessment code has not yet been executed.
 
-The older S023/S032 evaluation was performed on two previously inspected participants. Its **historically reported** results belong to a separate earlier fitted model pair and do not validate the newly fitted Notebook 13 artefacts. The current Notebook 13 did not re-score Test data.
+S023/S032 are excluded from Development fitting and preprocessing. As they were inspected earlier, their later assessment is **qualified same-study evaluation**, not blind or external validation.
 
 ## 1. Dataset and Experimental Protocol
 
@@ -44,9 +44,9 @@ and selection.
 | [10](code/notebooks/10_harth_advanced_temporal_architectures_and_matched_benchmark.ipynb) | Seven-model participant-grouped Development benchmark |
 | [11](code/notebooks/11_harth_multiseed_stability_and_imbalance_robustness.ipynb) | Three-seed and loss-function robustness comparison |
 | [12](code/notebooks/12_harth_development_model_selection_and_protocol_specification.ipynb) | Model selection, reference choice and fitting specification |
-| [13](code/notebooks/13_harth_final_development_training_and_research_synthesis.ipynb) | Final Development fitting, model artefacts and research synthesis |
+| [13](code/notebooks/13_harth_final_development_training_and_research_synthesis.ipynb) | Final Development fitting, saved model inference and qualified S023/S032 prediction-based assessment |
 
-For the complete interpretation of the earlier research protocols and recorded qualified assessment, see [HARTH Research Methods and Experimental Evidence](HARTH_RESEARCH_METHODS_AND_EVIDENCE.md).
+For the evaluation definitions, provenance and scientific limits, see [HARTH Research Methods and Experimental Evidence](HARTH_RESEARCH_METHODS_AND_EVIDENCE.md).
 
 ## 3. Main Results
 
@@ -55,14 +55,12 @@ inverse-square-root weighted cross-entropy** as the primary model. **Random Fore
 was retained as a fixed classical comparator. Both were configured using
 Development evidence, not the qualified held-out results.
 
-| Model | Current three-fold Development Macro F1 (mean ± SD) | Historical qualified held-out Macro F1 | Historical qualified accuracy |
-| --- | ---: | ---: | ---: |
-| **1D-ResNet Weighted CE** | **0.8336 ± 0.0427** | **0.7182** | 0.9020 |
-| Random Forest | 0.8094 ± 0.0500 | 0.6817 | **0.9270** |
+| Model | Three-fold Development Macro F1 (mean ± SD) |
+| --- | ---: |
+| **1D-ResNet Weighted CE** | **0.8336 ± 0.0427** |
+| Random Forest | 0.8094 ± 0.0500 |
 
-The Development values above come from the current Notebook 10/12 evidence. The qualified values are **historically reported from the previous fitted pair**, not reproduced or attributable to Notebook 13's new models. These columns have different participants and model-fit provenance; they cannot be used as a matched performance-difference test. On the final 1,000 overlapping windows, Shuffling
-has only **3** true examples, stairs ascending **10** and stairs descending **6**.
-The study does not establish population-level, prospective or clinical validity.
+These values describe the **Notebook 10 Development comparison**, not the newly fitted models' S023/S032 assessment. Notebook 13 now computes qualified model, participant and class results from its own aligned predictions. **No scores are reported for the revised assessment until the code is executed and its outputs checked.** The evaluation uses two previously inspected participants with overlapping windows and is not blind external validation.
 
 The bounded, single-partition comparison in [Notebook 04](code/notebooks/04_harth_temporal_cnn_and_matched_random_forest.ipynb) uses **14,201 Development windows**. On the same **2,701 Validation windows** from six held-out participants, the 120-tree Random Forest attains Macro F1 **0.8140**, compared with **0.6659** for the five-epoch temporal CNN. Random Forest scores higher for all six Validation participants. These figures describe a separate restricted protocol and must not be pooled with the three-fold benchmark or the qualified held-out evaluation.
 
@@ -137,8 +135,8 @@ The current seven-model and robustness results are in
 [Notebook 11](code/notebooks/11_harth_multiseed_stability_and_imbalance_robustness.ipynb) and their
 [CSV evidence](output/12_development_model_selection_evidence.csv).
 [Notebook 13](code/notebooks/13_harth_final_development_training_and_research_synthesis.ipynb)
-preserves the historical qualified result summary as a separately attributed,
-previously executed study finding.
+now generates source-aligned predictions and metrics for its own fitted models
+on the predefined qualified S023/S032 cohort, without relying on prior matrices.
 
 ## 4. Running and Reviewing the Study
 
@@ -152,12 +150,11 @@ and bounded scientific synthesis.
 
 To execute a notebook in Google Colab, use its repository checkout and study setup
 cells. The official HARTH source is downloaded at the pinned revision when absent.
-The latest recorded Notebook 13 fit used an NVIDIA Tesla T4 GPU and completed
-400 ResNet updates in approximately **4.41 seconds**. A previous CPU fitting
-record (67.649 seconds) remains in the published training-configuration CSV;
-the current run's CSV should replace it when the updated final sections are
-executed and the outputs are pushed. Neither run produces independent Test
-performance for the new model artefacts.
+The latest recorded Notebook 13 execution fitted the ResNet on a Tesla T4 GPU
+for 400 updates. The currently published training-configuration CSV retains
+a superseded fitting-time record; the running notebook supplies the measured
+time, and the table should be regenerated and published. The newly implemented
+qualified assessment is not yet executed and is not blind external validation.
 
 The final inference configuration uses `inference_config.csv` with explicit
 parameter positions and scalar values. The current export places
@@ -181,26 +178,23 @@ until the configuration is regenerated or converted; it is not silently accepted
 The published [`13_inference_config.csv`](output/13_inference_config.csv)
 contains Development-fitted scaler and ordered features. The latest Notebook
 13 execution has additionally saved and reloaded models with the CSV interface
-and created a single Colab ZIP. Notebook 13 Sections 08–09 now contain the exact historical confusion
-counts recovered from the earlier saved figures. They can regenerate pooled
-metrics, class-level tables and confusion plots **without downloading a
-retired notebook, Stage 25 ZIP or prediction CSV**. Participant-level
-metrics remain explicitly labelled rounded historical results. The revised
-sections and refreshed training-configuration table need execution and
-publication. Model binaries are **not committed** to Git; retain a trusted
+and created a single Colab ZIP. Notebook 13 Sections 08–09 now load S023/S032 directly from pinned HARTH v2.0,
+apply the newly fitted models and export **aligned window-level labels and
+predictions**, cohort summaries, metrics and original count confusion matrices.
+These updated sections require execution before their new results can be
+reported. Model binaries are **not committed** to Git; retain a trusted
 copy of the locally generated ZIP.
 
 ## 6. Interpretation and Scope
 
-The current research evidence covers participant-disjoint Development evaluation,
-model-selection robustness, source-quality limitations and a Development-only
-final fit. The original S023/S032 evaluation used an earlier fitted model pair.
-Notebook 13 preserves its exact pooled count matrices and can recompute
-historical pooled and class-level metrics, while reported per-participant
-summaries remain rounded. The original per-window prediction rows are
-unavailable, but are no longer a runtime requirement. See the
+The existing published evidence covers participant-disjoint Development
+evaluation, robustness, source quality and final Development fitting.
+The revised Notebook 13 also implements **current-model inference** on the
+two predefined qualified participants; its predictions and metrics are
+not yet published. It will save the source-aligned rows needed to
+recompute every reported score and matrix. See the
 [scientific document](HARTH_RESEARCH_METHODS_AND_EVIDENCE.md) for
-provenance and limitations.
+methods, provenance and limitations.
 
 The study does not establish blind external validation, population-wide accuracy,
 prospective performance or clinical deployment. Overlapping windows, limited
