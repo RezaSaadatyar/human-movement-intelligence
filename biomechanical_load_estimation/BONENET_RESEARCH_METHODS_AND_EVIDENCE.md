@@ -4,7 +4,7 @@
 
 **Scope:** Original Essex IMU–finite-element (FE) record recovery, participant-disjoint classical and temporal modelling, peak-error analysis, robustness and held-out Test evaluation. This report covers [Stages 01–08](README.md#2-experimental-programme) and is the companion to the [project README](README.md) and [reproducibility guide](../docs/BONENET_REPRODUCIBILITY.md).
 
-**Recorded results:** This report uses the committed execution outputs and current CSV tables from all eight notebooks. Each rerun replaces the corresponding output files. The study overview is shown in the [README](README.md); the numerical peak-error figure below supports the detailed results.
+**Recorded results:** This report uses the executed notebooks and corresponding CSV tables from all eight stages. Rerunning a stage updates its named result files. The study overview is shown in the [README](README.md); the numerical peak-error figure below supports the detailed results.
 
 ## 01. Research objective, source and FE target definitions
 
@@ -51,7 +51,7 @@ The 183 final Test trials therefore represent **four independent human clusters*
 
 **Stages 01–03 — source understanding and numerical recovery.** The project inspected the official metadata, original archive inventory, 40-person MATLAB object layout, stable record identities, numerical nested fields and temporal correspondence. The presence and eligibility of each FE series were checked rather than silently filling missing labels. The resulting current trial registry and time-coordinate tables provide the inputs for pairing and modelling.
 
-**Stage 04 — governed paired cohort.** All 1,729 eligible trials were assigned to the fixed **29/4/4 participant split**; channel schema, native FE indices and participant assignments were saved. The local reconstruction cache is intentionally Git-ignored rather than committed.
+**Stage 04 — governed paired cohort.** All 1,729 eligible trials were assigned to the fixed **29/4/4 participant split**; channel schema, native FE indices and participant assignments were saved. The reconstructed paired arrays are stored in the local processed-data directory for reuse by subsequent stages.
 
 **Stage 05 — classical regression.** The Training Mean control, Ridge regression and Random Forest benchmark were compared using five per-channel original-IMU summary features: **mean, standard deviation, minimum, maximum and root mean square**. With 42 input channels this yields **210 predictors**. Each model returns 22 values (eleven FE positions × two original FE targets) per trial. Five Training-only participant-disjoint folds determined the model-selection ranking. Ridge uses a fold-fitted StandardScaler and `alpha=10.0`; the Stage 05 Random Forest uses 200 trees, minimum leaf size 3, `max_features=1.0` and seed 2026.
 
@@ -147,7 +147,7 @@ Additional result figures: [waveform MAE](output/08_test_waveform_mae_comparison
 
 The notebooks exchange current data tables. Notebook 01 supplies trial identities, Notebook 02 supplies the pilot column schema, and Notebook 03 supplies FE-to-IMU time mapping. Notebook 04 creates paired arrays and participant assignments. Notebooks 05–07 perform model development; Notebook 08 fits the final recipes and reports Test errors.
 
-The committed [Test prediction table](output/08_test_trial_predictions.csv) contains 8,052 rows. Together with the [metrics](output/08_test_primary_secondary_metrics.csv) and [participant bootstrap](output/08_test_subject_bootstrap.csv), it supports result inspection without retraining. Detailed input/output dependencies and installation instructions are in the [running guide](../docs/BONENET_REPRODUCIBILITY.md).
+The [Test prediction table](output/08_test_trial_predictions.csv) contains 8,052 rows. Together with the [metrics](output/08_test_primary_secondary_metrics.csv) and [participant bootstrap](output/08_test_subject_bootstrap.csv), it supports result inspection without retraining. Detailed input/output dependencies and installation instructions are in the [running guide](../docs/BONENET_REPRODUCIBILITY.md).
 
 Raw MATLAB files and numerical NPZ arrays remain local. Existing downloads are reused. The paired NPZ is rebuilt when absent or older than its upstream inputs; its arrays are aligned to the trial table by key. Every Stage 07 run trains all 75 jobs again, and every Stage 08 run refits both final models. GPU results may vary across environments.
 
@@ -169,7 +169,7 @@ The separate [public BoneNet derivative](https://github.com/ZainabAltai/BoneNet-
 4. **Repeated Validation inspection.** Validation was used for diagnostics in earlier stages, so it is not blind evidence for programme-wide research decisions. Model ranking in the reported code uses Training CV.
 5. **Waveform and peak errors differ.** Lower average waveform error does not imply more accurate peak location. The peak-loss ablation did not establish a consistent benefit from adding the penalty.
 6. **Perturbation sensitivity is model-specific.** Sensor mean replacement and Gaussian noise measure responses to artificial input changes, not causal biomechanical contributions or validated sensor-removal strategies.
-7. **Replication needs source data.** Committed outputs support inspection, but full replication requires the original MATLAB files and compatible dependencies. Trained weights and local prediction files are not published; deterministic settings do not guarantee identical GPU results across systems.
+7. **Replication conditions.** Full reproduction requires the original MATLAB files, compatible software dependencies and the stated model settings. Exact neural optimisation results may vary across computing environments.
 
 The completed study provides an exploratory, participant-held-out comparison of IMU-to-FE strain predictors within the Essex cohort. Its main observed trade-off is lower waveform and peak-value error for the secondary TCN, with lower peak-position error for the primary Random Forest. The results do not establish a clinical monitoring system.
 

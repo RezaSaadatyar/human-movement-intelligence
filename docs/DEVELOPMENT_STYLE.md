@@ -1,6 +1,6 @@
 # Coding and documentation style
 
-This style guide reflects recurring patterns in the maintainer's **EEG-Transfer-Learning** and **Explainable-Medical-LLM** repositories while improving portability and research discipline.
+This guide describes the conventions used for readable, reproducible Python research code and scientific documentation in Human Movement Intelligence.
 
 ## 1. Writing language and organisation
 - Code, filenames, variable names, comments, docstrings and public repository documentation: **English**.
@@ -24,8 +24,8 @@ Use descriptive, stable experiment identifiers. When results are actually produc
 - summary/per-subject metrics and plots
 - exclusions, warnings, negative results and caveats
 
-## 4. Quality gate
-Before merging implementation changes:
+## 4. Technical verification
+When changing implementation or research outputs:
 - Verify paths, data contracts and tensor shape assumptions.
 - Run available unit or smoke tests and report the actual outcome.
 - Check that group splits are disjoint and training-only transformations stay inside the training pipeline.
@@ -33,8 +33,4 @@ Before merging implementation changes:
 - Update the relevant study README; avoid claiming a result before execution.
 
 ## 5. Code attribution
-Preserve citations and licences when drawing on third-party implementations. Any previous code reused from the maintainer's repositories should be reviewed and adapted to the new study, not copied uncritically.
-
-**Reference repositories:**
-- https://github.com/RezaSaadatyar/EEG-Transfer-Learning
-- https://github.com/RezaSaadatyar/Explainable-Medical-LLM
+Preserve source references and licences when reusing third-party implementations. Adapt reused methods to the actual dataset and evaluation protocol rather than assuming that code from another study has matching input definitions or scientific assumptions.

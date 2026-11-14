@@ -6,7 +6,7 @@
 
 This project predicts **model-derived femoral-neck principal strains (`e1` and `e3`) from seven wearable IMUs**. It compares classical regression, temporal convolutional networks and GRU/BiGRU models, examining waveform accuracy, peak magnitude, peak location and sensitivity to training seeds and input perturbations.
 
-All eight notebooks have committed execution outputs. The results below match the current CSV tables in [`output/`](output/). Rerunning a notebook replaces its current files.
+All eight notebooks contain recorded results, and the associated CSV tables and figures are available in [`output/`](output/). Rerunning a notebook updates its stage-specific results.
 
 ## 1. Dataset and experimental protocol
 
@@ -116,7 +116,7 @@ See the [running guide](../docs/BONENET_REPRODUCIBILITY.md) for file dependencie
 | [Test metrics](output/08_test_primary_secondary_metrics.csv) | Waveform and peak errors |
 | [Participant bootstrap](output/08_test_subject_bootstrap.csv) | Exploratory uncertainty over four Test participants |
 
-Original MATLAB files, reconstructed arrays, local fold prediction files and trained model weights are not committed. The saved CSVs and figures support result inspection but do not replace the original dataset for replication.
+The original MATLAB recordings, reconstructed numerical arrays and fitted model files are handled by the source and processing workflow. The result tables and figures can be inspected directly; full reproduction also requires the original dataset.
 
 ## 6. Interpretation and scope
 

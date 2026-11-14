@@ -31,6 +31,6 @@ Stage 07 executes **75 neural fits** each time its training cell runs; previous 
 
 Offline tests cover current-file replacement, array-to-trial alignment, original participant allocation, model tensor shapes, participant isolation and small synthetic training examples. Notebook syntax and current prediction-table consistency are checked without fitting on the real Test set.
 
-All eight notebooks now have committed execution outputs, together with their current CSV tables and figures. The recorded Colab runs include CUDA execution for Stages 06–08, with Tesla T4 hardware reported for Stages 07–08. These outputs document the completed calculations; GPU results can vary across environments.
+All eight notebooks include execution results, CSV tables and figures. The recorded Colab runs include CUDA execution for Stages 06–08, with Tesla T4 hardware reported for Stages 07–08. Neural results may vary across computing environments.
 
 See the [research report](../biomechanical_load_estimation/BONENET_RESEARCH_METHODS_AND_EVIDENCE.md) for methods and limitations.

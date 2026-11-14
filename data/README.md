@@ -1,8 +1,13 @@
-# Locally stored research data
+# Research data and local working directories
 
-Data files are excluded from GitHub and remain on the user's computer.
+The studies use their original research datasets and generate local numerical arrays or fitted models during execution. Use the relevant study notebooks for acquisition, processing and file locations.
 
-- `data/raw/bonenet_reference/`: public processed BoneNet Data.mat and labels.csv.
-- `data/raw/essex_femoral_neck_loading/`: previously downloaded original Essex Figshare files.
+| Study | Local directory | Purpose |
+| --- | --- | --- |
+| [HARTH v2.0](../wearable_activity_recognition/README.md) | `data/raw/harth_v2/` | Source lower-back and thigh accelerometer recordings |
+| [Essex IMU–FE](../biomechanical_load_estimation/README.md) | `data/raw/essex_femoral_neck_loading/` | Original Essex Figshare records |
+| BoneNet reference material | `data/raw/bonenet_reference/` | Reference derivative files used by the relevant source-loading workflow |
+| HARTH final models | `data/processed/harth_final_models/` | Fitted ResNet, Random Forest and inference settings |
+| Essex paired data | `data/processed/essex_femoral_neck_loading/` | Locally reconstructed aligned IMU–FE arrays |
 
-Removing obsolete Git-tracked scripts does not delete these ignored source data files. The first notebook only needs the numeric BoneNet derivative and downloads it if absent.
+For details, see the [HARTH execution guide](../docs/HARTH_REPRODUCIBILITY.md) and [Essex execution guide](../docs/BONENET_REPRODUCIBILITY.md). Respect the original dataset licences and use the stated source versions when reproducing an analysis.

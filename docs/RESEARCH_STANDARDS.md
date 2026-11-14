@@ -24,7 +24,7 @@ For **classification**, report macro F1, balanced accuracy, class-level precisio
 Compare methods on exactly the same permissible information and splits. Include an elementary baseline and analysis of negative results. Avoid claiming model-to-model superiority from a single unreplicated split.
 
 ## 5. Reproducibility
-Version configs, use stable random seeds, capture dependencies, dataset manifests and checkpoints outside the public repository where required. Separate notebooks that demonstrate results from reusable modules that generate them. Tests should check shapes, group-split disjointness, units and missing-data handling.
+Record configuration versions, random seeds, dependencies, source-data identifiers and the fitted model settings needed for reproduction. Separate stage-specific research notebooks from reusable modules. Tests should check shapes, group-split disjointness, units and missing-data handling.
 
 ## 6. Responsible interpretation
 - Public data from healthy volunteers are not patient-level clinical validation.

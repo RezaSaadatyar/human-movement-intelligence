@@ -1,18 +1,25 @@
-# Active Python code architecture
+# Research Code Architecture
 
-A minimal, understandable structure adapted from the maintainer's existing EEG and medical-LLM code conventions:
+The repository contains related but scientifically independent movement research studies. Each study keeps its notebooks, source adapters, recorded outputs and interpretation together; common Python utilities are shared where their input and output contracts are compatible.
 
-```text
-python_modules/core/
-    data_loading.py
-    data_inspection.py
-biomechanical_load_estimation/
-    src/bonenet_data.py
-    notebooks/01_data_loading_and_inspection.ipynb
-tests/test_data_loading.py
-requirements.txt
-```
+## Study organisation
 
-The general `load_data` function opens common file formats. `inspect_data` and `plot_signal` produce usable previews. The BoneNet adapter interprets its own MATLAB fields without embedding them in generic readers. The notebook imports these local functions directly; there is no custom HMI package installation.
+| Location | Purpose |
+| --- | --- |
+| [`wearable_activity_recognition/`](../wearable_activity_recognition/) | HARTH v2.0 activity recognition, with 13 notebooks, study-specific source code, results and scientific documentation |
+| [`biomechanical_load_estimation/`](../biomechanical_load_estimation/) | Essex IMU–finite-element strain modelling, with eight notebooks, paired-data logic, outputs and scientific documentation |
+| [`python_modules/core/`](../python_modules/core/) | Shared data, feature, model, evaluation, plotting and environment utilities |
+| [`data/`](../data/) | Source-data locations and locally generated numerical/model data |
+| [`docs/`](./) | Execution guidance, dataset information and research conventions |
+| [`tests/`](../tests/) | Focused tests for supported scientific and infrastructure utilities |
 
-After validating this stage in Cursor, the next objective is to prove reuse with HARTH (CSV), then incrementally develop preprocessing, subject-independent splitting, feature engineering and model training. No new function should be added without a demonstrated need and an executable output.
+## Implementation principles
+
+- Keep study-level data definitions, labels, splits and scientific conclusions independent.
+- Use shared functions only where their behaviour, units and shape assumptions are clear for each study.
+- Organise notebook stages around the analysis they perform, with code and interpretation adjacent.
+- Apply transformations fitted on Training or Development data only to the corresponding held-out partitions.
+- Store numerical research results with stable, stage-prefixed filenames and link to them from the study documents.
+- Treat an execution record, a scientific result and an external-validation claim as different forms of evidence.
+
+For the actual protocols and results, begin with the [HARTH README](../wearable_activity_recognition/README.md) or [Essex README](../biomechanical_load_estimation/README.md).
