@@ -1,213 +1,158 @@
-# HARTH | Research Methods and Experimental Evidence
+# HARTH v2.0 Wearable Activity Recognition: Research Methods and Evidence
 
-**Study:** Wearable Activity Recognition in Human Movement Intelligence
+**Study:** Wearable Activity Recognition, Human Movement Intelligence. **Maintained implementation:** [Notebooks 01–13](code/notebooks/). This document records the actual source, cohort, representations, experimental designs, model configurations, saved results and scientific limitations. For a concise entry point and practical starting locations, use the [study README](README.md); for file dependencies and model recovery, use the [execution guide](../docs/HARTH_REPRODUCIBILITY.md).
 
-**Scope:** Eight-class HARTH accelerometer recognition, participant-disjoint
-Development evaluation, source and minority-activity quality, robustness,
-final Development fitting and the separately reported qualified assessment.
-The maintained notebook sequence is **01–13**.
+**Evidence status:** Current stage-prefixed research CSV/PNG files and executed notebook displays are available in the repository, including Notebook 13's source-aligned predictions for S023/S032. The final fitted model binaries and downloadable ZIP are not in Git. Stored execution results document this research run; they do not constitute independent replication, prospective assessment or external validation.
 
-Notebook 13 now implements evaluation of its own final fitted models using
-newly generated aligned predictions for the predefined S023/S032 cohort.
-The saved Notebook 13 now displays model, participant and class metrics
-and confusion figures from the fitted models; its corresponding standalone
-`13_qualified_` output files still need publication.
+## 1. Research Objective and Scope
 
-See the [study README](README.md) and
-[reproducibility guide](../docs/HARTH_REPRODUCIBILITY.md).
+The central question is how **statistical-feature classical classifiers** compare with **raw-window temporal neural models** for eight-class recognition from two body-worn accelerometers under participant-disjoint Development evaluation. Supporting questions address minority-activity coverage, source annotation and timing integrity, sensitivity to window sampling and Training volume, optimisation budget, stochastic stability, loss-function choice, confidence and probability calibration.
 
-## 01. Research objective, source and activity definitions
+The study progresses from source-level inspection through controlled Development comparisons to a selected final weighted 1D-ResNet and fixed Random Forest reference. The final models are fitted on Development subjects and assessed on S023/S032, whose recordings were **excluded from model fitting and selection but had been examined descriptively earlier**. Consequently, the final assessment is deliberately termed **qualified same-study held-out evaluation**, not a blind Test or external validation.
 
-The central research question is how classical classifiers using statistical
-accelerometer features compare with temporal deep-learning architectures using
-raw time-series windows when participants in Training and Validation are
-disjoint. Further analyses investigate annotation integrity, activity
-imbalance, bounded sampling, training-budget sensitivity, model stability,
-probability confidence and calibration.
+Study outputs are research predictions and measured classification errors; there is no prospective deployment, real-time streaming validation, clinical inference or causal attribution of human movement mechanisms. Comparisons across the 13 notebooks must be interpreted in their own populations, budgets and selection roles.
 
-The source is the official [NTNU AI Lab HARTH v2.0 repository](https://github.com/ntnu-ai-lab/harth-ml-experiments),
-pinned to revision `dad2cfbe89a26f72f19770419469ac037de200df`.
-This source is distinct from the UCI HARTH v1.2 release.
+## 2. Data Sources, Cohort and Target Definitions
 
-The six acceleration signals are `back_x`, `back_y`, `back_z`, `thigh_x`,
-`thigh_y`, and `thigh_z`, with a nominal sampling rate of **50 Hz**.
-The predefined eight-class task uses original source labels:
+### 2.1 Source and activities
 
-| Code | Activity | Code | Activity |
+The data source is the official [NTNU AI Lab HARTH v2.0 repository](https://github.com/ntnu-ai-lab/harth-ml-experiments), pinned to Git revision `dad2cfbe89a26f72f19770419469ac037de200df`. This is **not** the UCI HARTH v1.2 release. Source recordings provide six acceleration channels from lower-back and thigh sensors (`back_x`, `back_y`, `back_z`, `thigh_x`, `thigh_y`, `thigh_z`), at nominal **50 Hz**, with source activity codes and participant identities.
+
+The task preserves these eight original class meanings:
+
+| Source code | Activity | Source code | Activity |
 | ---: | --- | ---: | --- |
 | 1 | Walking | 5 | Stairs descending |
 | 2 | Running | 6 | Standing |
 | 3 | Shuffling | 7 | Sitting |
 | 4 | Stairs ascending | 8 | Lying |
 
-Source codes **10, 11 and 17** occur in the inspected recordings but have no
-verified mapping in this research. They are retained for source auditing and
-are never silently assigned to another activity. The eight-class task excludes
-out-of-task windows **after** source-safe window construction.
+Codes 10, 11 and 17 occur in inspected recordings but are **not assigned speculative meanings**. Other observed cycling-related codes, including 13, 14, 130 and 140, remain outside the predefined eight-class task. Out-of-task segments are retained in audit accounting and excluded from the supervised task only after label-safe window construction. These source annotations are treated as supplied labels, not independently verified observations of every activity boundary.
 
-**Participants:** The source inventory contains 31 participants. The
-Development cohort has **29 participants**; S023 and S032 are reserved from
-the main Development training and model selection. Because S023 and S032 were
-descriptively examined in initial exploratory work, the reported assessment is
-a **qualified same-study held-out evaluation**, not a blinded independent
-external test.
+### 2.2 Source accounting and evaluated populations
 
-## 02. Signal processing, windows and evaluation units
+The inspected source inventory has **31 participants**. Of these, 29 contribute to Development; S023 and S032 are reserved from Development fitting and model selection. The 29-person source-quality audit records **8,006,741 samples** and **160,090 candidate windows**. The label-purity/time-continuity audit rejects 14,459 for label purity alone, 397 for continuity alone and 1,129 for both (**15,985** combined), yielding **144,105** pure/time-safe windows. Another **11,708** carry out-of-task labels, leaving **132,397 eligible eight-class Development windows**. Counts describe windows, not independent people. Source: [Notebook 09 accounting](output/09_development_source_accounting.csv).
 
-Each participant recording is segmented separately. Windows have **100
-samples (2 seconds)** and a stride of **50 samples (50% overlap)**.
-Retained windows require one consistent source activity code and valid
-timestamp continuity. Label boundaries and timing gaps are never bridged to
-construct an artificial contiguous sequence.
+| Population or sampling policy | Independent participants | Eligible or selected windows | Role |
+| --- | ---: | ---: | --- |
+| Full eight-class Development | 29 | 132,397 | Source audit and full-cohort classical evaluation |
+| Independent maximum-250 cap | 29 | 7,201 | Sampling-coverage sensitivity |
+| Label-blind maximum-500 cap | 29 | 14,201 | Main bounded Development benchmark and final fit |
+| Independent maximum-1,000 cap | 29 | 28,201 | Sampling sensitivity; separate nested expansion |
+| Qualified S023/S032 cohort | 2 | 1,000 (500 each) | Previously inspected same-source held-out assessment |
 
-Classical models use **30 numerical features**, five per channel: mean,
-population standard deviation, root mean square, peak-to-peak range and
-normalised waveform length. Temporal models use six-channel raw windows
-with input shape `(N, 6, 100)` and eight-class targets.
+For final assessment, [qualified cohort accounting](output/13_qualified_cohort_summary.csv) records S023 with 2,567 eligible windows and S032 with 3,037 eligible windows (after one out-of-task exclusion). A label-independent cap selects 500 from each. S023 has eight observed classes in its sampled windows; S032 has six. No S023/S032 windows enter the 14,201-window final Training population.
 
-**Development sample sets:**
+### 2.3 Units and scope of the target
 
-| Dataset definition | Participants | Eligible/sampled eight-class windows |
-| --- | ---: | ---: |
-| Full Development source | 29 | 132,397 |
-| Label-blind, at most 500 windows per participant | 29 | 14,201 |
-| Nested, at most 1,000 windows per participant | 29 | 28,201 |
-| Qualified same-study held-out assessment (S023/S032) | 2 | 1,000 total; 500 each |
+The supervised target is the **original eight-class activity code** of each eligible two-second window. The model predicts a window-level activity, while the person is the principal independent evaluation group. Overlapping and temporally adjacent windows create correlated observations; one thousand windows from two people do not provide one thousand independent participant-level trials.
 
-The 500-window bounded cohort is selected by fixed chronological positions
-after window eligibility checks, without consulting task labels.
-Integrated Notebook 06 also analyses a 250-window limit. The
-strictly nested scaling design used in Notebooks 06 and 07
-retain the original 500-window indices in the larger training set; this is
-distinct from independently resampling the 1,000-window population.
+## 3. Data Preparation and Representations
 
-**Group separation:** Subject identifiers define GroupKFold or fixed
-participant-level partitions. All windows belonging to one participant
-stay in the same fold for each experimental comparison. Learned
-transformations—including channel scaling, Logistic Regression scaling and
-class weights—are estimated only from the corresponding Training subjects.
-Stage 19 further separates Training, Calibration and Validation subjects.
+### 3.1 Original signal handling and window eligibility
 
-Overlapping windows are correlated observations. Reporting thousands of
-window-level predictions must not be interpreted as having thousands of
-independent human participants or experiments.
+Each participant's chronological recording is processed separately. A window contains **100 samples (2 seconds nominally)**; starts advance by **50 samples** for 50% overlap. Retained windows must have a single source activity label and valid timestamp continuity. The pipeline does not bridge a label transition or an irregular time gap to create a fictitious continuous activity sequence. Source identities and window positions are retained for downstream alignment.
 
-## 03. Models, training and matched comparisons
+The audit distinguishes label-only, continuity-only and combined failures rather than discarding all mismatches under an opaque filter. Out-of-task labels remain visible in audit summaries; they are not recoded as one of the eight task classes. The [HARTH source adapter](code/src/harth_data.py) and [Notebook 09](code/notebooks/09_harth_source_quality_and_minority_activity_audit.ipynb) provide the current implementation and observed exclusions.
 
-**Classical reference models (integrated Notebooks 02–03).** Dummy,
-scaled Logistic Regression and Random Forest use the same eight-class
-activity task and 30-feature representation. Notebook 03 evaluates the full
-29-person Development cohort in five participant-disjoint folds over
-132,397 eligible windows. Mean fold Macro F1 is **0.8353** for Random Forest,
-**0.7707** for Logistic Regression and **0.0815** for Dummy. These are not
-the same sampling or evaluation conditions as the bounded neural studies.
-Source: [Notebook 03](code/notebooks/03_harth_full_development_audit_and_classical_cv.ipynb).
+### 3.2 Classical and temporal representations
 
-**Bounded temporal comparison (Notebook 04).** A compact two-convolution
-temporal CNN consumes six-channel, 100-sample windows with training-only
-channel scaling and a predefined five-epoch endpoint. Random Forest uses
-30 deterministic statistics from the identical source windows. The single
-participant-disjoint Development split provides 10,000 Train and 2,701
-Validation windows from 20 and six participants, respectively; another
-three Development participants are unused. On the matched Validation data,
-Random Forest achieves **Macro F1 0.8140** and **balanced accuracy 0.8259**,
-versus **0.6659** and **0.6459** for the temporal CNN. Random Forest scores
-higher for all six Validation participants, with mean signed paired
-difference (CNN minus Random Forest) **−0.1505**. The CNN has **Shuffling F1
-0.000** on 15 true Shuffling windows. This evidence is descriptive and does
-not isolate a model-architecture effect, establish statistical significance
-or provide independent external validation.
-Source: [Notebook 04](code/notebooks/04_harth_temporal_cnn_and_matched_random_forest.ipynb).
+Classical models use **30 features**: for each of six acceleration channels, the mean, population standard deviation, root-mean-square magnitude, peak-to-peak range and normalised waveform length. Neural models consume raw input windows with shape **`(N, 6, 100)`** and eight activity classes. These are **different input representations**; a comparison of their configured pipelines does not isolate architecture alone.
 
-**Class-weighting and grouped comparisons (integrated Notebook 05).**
-The same bounded 14,201-window Development cohort supports two distinct
-experiments. On the fixed six-participant Validation split, standard CNN
-Macro F1 is **0.6659** and Train-weighted CNN Macro F1 is **0.7973**;
-balanced accuracy is **0.6459** and **0.8126**, respectively. Five of the
-six Validation participants have higher weighted-CNN fixed-task Macro F1.
+In learned preprocessing, each Training fold supplies its own channel mean and standard deviation, fitted without Validation subjects. Logistic Regression scaling is likewise Training-derived. Final ResNet inference uses Development-fitted six-channel statistics stored in the ordered inference CSV; Random Forest uses the recorded 30-feature ordering. The final assessment does not fit new transformations on S023/S032.
 
-In a separate three-fold participant-disjoint Development comparison,
-mean fold Macro F1 is **0.8094** for Random Forest, **0.6301** for standard
-CNN and **0.7832** for weighted CNN. Weighted CNN is higher than standard
-CNN for **27 of 29** participants; against Random Forest, it is higher
-for **14** and lower for **15**. These experiments differ from Notebook
-04's matched Random Forest versus standard CNN single-split comparison,
-and the grouped forest/CNN performance contrast includes differing
-feature representations. They do not establish independent external
-validation or a general architecture ranking.
-Sources: [Notebook 05](code/notebooks/05_harth_class_weighting_and_grouped_model_comparison.ipynb),
-[fixed-split metrics](output/05_loss_validation_metrics.csv) and
-[grouped model summary](output/05_cv_model_summary.csv).
+### 3.3 Sampling policies and nested Training data
 
-**Sampling sensitivity and nested training data (integrated Notebook 06).**
-The full eligible Development source contains **132,397** windows from
-29 participants. Independent cap-250, cap-500 and cap-1,000 sampling policies
-retain **7,201**, **14,201** and **28,201** windows. Under cap 500,
-Shuffling retains **219/1,946 (11.25%)** of its original windows and
-**26/28** of its contributing participants. These are sampling-coverage
-counts, not model recall.
+The independent 250-, 500- and 1,000-window cap policies sample fixed chronological positions **without consulting labels**. Their resulting class frequencies can nevertheless differ. A separate strictly nested Training-size comparison retains the selected 500-cap Training windows inside a larger 1,000-cap Training sample. These are **not interchangeable designs** and are never treated as if both estimated exactly the same sampling intervention.
 
-A distinct, strictly nested training-size experiment retains every
-500-cap Train source row inside the expanded 1,000-cap Train set
-(**10,000/20,000** Train windows). On the identical **2,701**
-Validation windows, Random Forest final Macro F1 changes from
-**0.8140 to 0.8644**, while weighted CNN fifth-epoch Macro F1
-changes from **0.7973 to 0.7807**. The 1,000-cap CNN reaches
-**0.8454** at epoch four, but that is not the predefined endpoint.
-The forest improves for five of six Validation participants; the
-weighted CNN improves for three and declines for three. Equal CNN
-epochs do not imply equal optimiser-update budgets. The separate grouped
-and fixed-update protocols of integrated Notebook 07 are not pooled
-with these single-split findings.
-Sources: [Notebook 06](code/notebooks/06_harth_sampling_sensitivity_and_nested_training_scaling.ipynb),
-[sampling counts](output/06_sampling_policy_class_counts.csv),
-[fixed-split metrics](output/06_nested_validation_model_metrics.csv) and
-[paired participant evidence](output/06_nested_paired_summary.csv).
+The bounded 500-cap cohort contains **219 Shuffling**, **192 ascending-stairs** and **182 descending-stairs** windows. Source Shuffling coverage is **1,946 windows from 28 participants**; the cap retains **219/1,946 (11.25%)** with 26 contributing people. Counts and effects on representation precede any model-based causal interpretation.
 
-**Participant-grouped nested scaling and fixed-update budgets
-(integrated Notebook 07).** A shared 29-participant Development cohort
-contains 14,201 base and 28,201 expanded windows. In three
-participant-disjoint folds, five-epoch mean Macro F1 changes from
-**0.8094 to 0.8080** for RF and **0.7832 to 0.7964** for weighted CNN
-(Train caps 500 to 1,000). Weighted CNN improves for **20/29**
-participants on paired fixed-task Macro F1; RF improves for **11/29**,
-declines for 16 and ties for two. A separate matched 400-update
-weighted-CNN protocol records fold-mean Macro F1 **0.7721 to 0.7921**
-but balanced accuracy **0.8021 to 0.7968**, with 17/29 participants
-showing higher Macro F1. No independent Test is performed in either.
-The executed [Notebook 07](code/notebooks/07_harth_grouped_nested_training_and_fixed_update_comparison.ipynb)
-contains the saved result tables and figures; its separate `07_`
-CSV/PNG export files have not yet been committed.
+## 4. Experimental Design and Evaluation
 
-**Advanced architectures (Stage 21).** Engineering validation covered:
+### 4.1 Partition and selection boundaries
 
-| Architecture | Implemented design | Scientific boundary |
+The maintained programme contains distinct experiments:
+
+1. **Full Development classical evaluation (Notebook 03):** five participant-disjoint folds on 132,397 eligible windows.
+2. **Bounded fixed-split comparisons (Notebooks 04–06):** a specified participant-disjoint Training/Validation split with 10,000 Training windows (20 people) and 2,701 Validation windows (six people) in the cap-500 protocol; three other Development people are unused in that comparison.
+3. **Grouped and nested Development analyses (Notebooks 05, 07, 10–11):** three participant-disjoint folds on the 29-person bounded cohort, with clearly declared Training sizes and optimisation budgets.
+4. **Confidence and separate calibration (Notebook 08):** held-out outer-fold predictions, and a distinct experiment separating Training, four Calibration participants per outer fold and Validation subjects.
+5. **Final selection and fit (Notebooks 12–13):** choose weighted 1D-ResNet and a 120-tree Random Forest **from Development evidence**, fit both on the 14,201 selected Development windows and assess on S023/S032 without tuning to their outcomes.
+
+A held-out participant is not interchangeable with an unseen dataset. Prior descriptive inspection of S023/S032 prevents a claim that the last assessment was fully blind, despite exclusion of their rows from final fitting, scaling and class-weight estimation.
+
+### 4.2 Metrics and aggregation
+
+The principal classifier-selection metric is **fixed-eight-class Macro F1**. Class-wise precision, recall, F1 and support; balanced accuracy; accuracy; participant-level F1 and confusion counts supplement it. The three-fold benchmark reports **mean and SD of fold scores**; its aggregate is not the same statistic as pooled window F1. Notebook 11's across-seed SD describes stochastic training variation over the stated folds and seeds, not population uncertainty across independently sampled people.
+
+The final qualified assessment computes fixed-eight-class Macro F1 using all eight task labels, including a zero contribution when a true class is absent from a participant's observed samples. Its **observed-class balanced accuracy** averages recall only over the true classes present. The two metric denominators therefore differ. Reported model-level metrics are computed from [1,000 aligned prediction rows](output/13_qualified_aligned_predictions.csv), not from transcribed confusion counts.
+
+Confidence analyses report a ten-bin expected calibration error (ECE), multiclass Brier score, negative log-likelihood (NLL), accuracy and high-confidence mistakes. Temperature fitting uses only permitted Calibration labels and is **not** part of the selected final model.
+
+### 4.3 Interpretation of comparisons and uncertainty
+
+Matched Training/Validation membership supports paired descriptive model comparisons within a given experiment. It does not make nested caps, different losses, alternative representations or Test observations independent replicates. Thousands of overlapping windows do not increase the independent participant count. No population-wide participant confidence interval or external-replication result is claimed for the two-person qualified assessment.
+
+## 5. Methods, Models and Configurations
+
+### 5.1 Classical, convolutional and recurrent alternatives
+
+The [full-source classical experiment](code/notebooks/03_harth_full_development_audit_and_classical_cv.ipynb) compares a Dummy baseline, scaled Logistic Regression and Random Forest on the same feature family. The [fixed-split temporal comparison](code/notebooks/04_harth_temporal_cnn_and_matched_random_forest.ipynb) pairs a compact two-convolution CNN with a Random Forest using the identical selected source windows but different derived inputs. [Notebook 05](code/notebooks/05_harth_class_weighting_and_grouped_model_comparison.ipynb) compares standard and inverse-square-root training-weighted CNN losses.
+
+[Notebook 06](code/notebooks/06_harth_sampling_sensitivity_and_nested_training_scaling.ipynb) varies sampling and strictly nested Training size; [Notebook 07](code/notebooks/07_harth_grouped_nested_training_and_fixed_update_comparison.ipynb) separately considers grouped scaling and **fixed-400-update** CNN fits. Five epochs do not imply the same number of optimiser updates across differently sized Training sets.
+
+The advanced model implementations and their saved benchmarks include:
+
+| Model | Actual design or feature scope | Relevant execution |
 | --- | --- | --- |
-| TCN | Dilated temporal residual convolutions (dilations 1, 2, 4, 8) | Window-level, non-causal; no real-time streaming demonstration |
-| Multi-Scale CNN | Parallel 3/7/15 convolutions and residual connections | Inception-inspired; not the complete InceptionTime ensemble |
-| 1D-ResNet | Temporal convolution stem and three residual stages | Used subsequently in Development model selection |
-| Time-Series Transformer | Embedding size 48, two encoder layers, four attention heads | Bidirectional within-window attention; not an explanation |
+| Random Forest | 30 features from six channels; 120 trees in selected reference | [10](code/notebooks/10_harth_advanced_temporal_architectures_and_matched_benchmark.ipynb), [13](code/notebooks/13_harth_final_development_training_and_research_synthesis.ipynb) |
+| Standard / weighted temporal CNN | Two-convolution temporal architecture; optional Training-derived class weights | [04–05](code/notebooks/) |
+| TCN | Dilated temporal residual convolutions, dilations 1, 2, 4, 8 | [10–11](code/notebooks/) |
+| Multi-Scale CNN | Parallel kernel widths 3, 7 and 15 with residual connections | [10](code/notebooks/10_harth_advanced_temporal_architectures_and_matched_benchmark.ipynb) |
+| 1D-ResNet | Convolutional stem and three residual stages; selected neural model | [10–13](code/notebooks/) |
+| Time-Series Transformer | Embedding dimension 48, two encoder layers, four attention heads | [10](code/notebooks/10_harth_advanced_temporal_architectures_and_matched_benchmark.ipynb) |
 
-Stage 21 included shape/gradient and small-data optimiser checks. Model
-performance claims come from the executed matched Stage 22 evaluation,
-not these engineering smoke tests.
+The Transformer operates over the full window and is not evidence of causal physiological explanation. The described TCN is not a demonstrated real-time streaming implementation. A smoke test of a model's shapes or gradients is not a scientific evaluation; the recorded performance comes from the matched Development runs.
 
-## 04. Development benchmark and robustness evidence
+### 5.2 Selected final fitted pair
 
-The current matched Notebook 10 benchmark uses all **29 Development participants**,
-the same **14,201 bounded windows** and **three participant-disjoint folds**.
-It evaluates seven model configurations over **21 model-fold jobs**. Each
-neural configuration uses raw sequences, training-only normalisation, Adam
-at 0.001, batch size 128, **400 optimiser updates** and seed 42; Random
-Forest instead uses deterministic statistical features and a separate
-training procedure. Loss functions and model representations are not
-identical across the seven configurations.
+Notebook 12 records selection decisions and the exact [Training configuration](output/12_recorded_training_configuration.csv). Notebook 13 implements:
 
-**Primary metric:** fixed-eight-class Macro F1. Accuracy, balanced
-accuracy, per-class precision/recall/F1 and support, fold dispersion,
-participant-level outcomes and compute usage supplement it.
+| Property | Weighted 1D-ResNet primary | Random Forest classical reference |
+| --- | --- | --- |
+| Inputs | Six-channel, 100-sample raw windows | 30 deterministic statistical features |
+| Class task | Original codes 1–8 | Original codes 1–8 |
+| Fitting cohort | 29 Development people, 14,201 selected windows | Same Development people and windows |
+| Important settings | 32 hidden channels; inverse-square-root weighted CE | 120 trees; minimum leaf size 3; `balanced_subsample` class weights |
+| Optimisation | Adam, learning rate 0.001; batch size 128; 400 updates; seed 42 | Random state 42; fitted on recorded feature ordering |
+| Selection/checkpoint | Final 400th update; no qualified-cohort checkpoint selection | Fixed selected configuration |
+| Final calibration | None | None |
 
-| Notebook 10 model | Development Macro F1 mean | Fold SD |
+The source [`12_recorded_source_protocol.csv`](output/12_recorded_source_protocol.csv), [`13_final_training_configuration.csv`](output/13_final_training_configuration.csv) and [`13_inference_config.csv`](output/13_inference_config.csv) document the current source and fitted settings. The latest recorded `13_final_training_configuration.csv` reports `cuda` and **3.605 seconds** of neural fitting time for that run; this is environment-specific wall time, not a hardware-independent performance benchmark.
+
+The shared [`harth_final_inference.py` module](../python_modules/core/harth_final_inference.py) saves the ResNet `state_dict`, fitted Random Forest and typed CSV settings, then supports loading and inference on eligible new windows. Trusted local loading normally uses `inference_config.csv` in the model directory; a flat Stage 13 export uses the equivalent stage-prefixed `13_inference_config.csv` and an explicit loader filename argument. No Test-derived scaler or calibration parameter is introduced.
+
+## 6. Results and Comparative Analysis
+
+### 6.1 Earlier classical and matched Development comparisons
+
+The **full-cohort classical five-fold Development** experiment (Notebook 03) records mean fold Macro F1 **0.8353** for Random Forest, **0.7707** for Logistic Regression and **0.0815** for Dummy. It uses 132,397 windows, so these scores are not directly matched to later capped neural studies.
+
+On the fixed six-person, **2,701-window Validation** split (Notebook 04), the Random Forest records **0.8140 Macro F1** and **0.8259 balanced accuracy**, compared with **0.6659** and **0.6459** for the standard temporal CNN. Random Forest scores higher on all six Validation participants; the descriptive paired mean signed difference (CNN minus Random Forest) is **−0.1505**. The standard CNN has **Shuffling F1 0** on 15 true Shuffling windows in that specific Validation set.
+
+Notebook 05 raises fixed-split CNN Macro F1 from **0.6659 to 0.7973** using Training-only inverse-square-root weighting; balanced accuracy changes from **0.6459 to 0.8126**. In its *separate* three-fold Development comparison, mean Macro F1 is **0.8094** for Random Forest, **0.7832** for weighted CNN and **0.6301** for standard CNN. Weighted CNN exceeds standard CNN for **27/29** Development participants, but Random Forest for only **14/29**. Evidence: [loss comparison](output/05_loss_validation_metrics.csv) and [grouped summary](output/05_cv_model_summary.csv).
+
+### 6.2 Sampling volume and optimisation budgets
+
+Notebook 06's strictly nested fixed-split Training expansion from **10,000 to 20,000** windows leaves the same 2,701 Validation windows: RF fifth/final Validation Macro F1 increases **0.8140 → 0.8644**, while weighted CNN at the predefined fifth epoch changes **0.7973 → 0.7807**. The expanded CNN reached **0.8454 at epoch four**, but that was not its predefined final endpoint. Five of six participant scores improve for RF; three improve and three deteriorate for weighted CNN. Evidence: [nested model metrics](output/06_nested_validation_model_metrics.csv), [paired people](output/06_nested_paired_summary.csv).
+
+In Notebook 07's separate **three-fold** nested Training comparison (caps 500 → 1,000), RF mean Macro F1 is **0.8094 → 0.8080**, and weighted CNN's five-epoch mean is **0.7832 → 0.7964**. With a *fixed 400-update budget* the weighted CNN changes **0.7721 → 0.7921** in Macro F1 while balanced accuracy changes **0.8021 → 0.7968**. These different endpoints and budgets preclude attributing every result solely to more data.
+
+### 6.3 Seven-model Development benchmark
+
+[Notebook 10's matched summary](output/10_matched_cv_model_summary.csv) covers **seven models, three grouped folds, 21 model-fold records, 29 people and 14,201 selected windows**:
+
+| Model | Fixed-eight-class fold-mean Macro F1 | Fold SD |
 | --- | ---: | ---: |
 | **1D-ResNet** | **0.8336** | 0.0427 |
 | TCN | 0.8138 | 0.0658 |
@@ -217,271 +162,120 @@ participant-level outcomes and compute usage supplement it.
 | Weighted CNN | 0.7721 | 0.0269 |
 | Standard CNN | 0.6660 | 0.0628 |
 
-The highest overall mean does not imply the best performance for every
-activity or demonstrate statistical superiority. Recorded results:
-[Notebook 10 model summary](output/10_matched_cv_model_summary.csv),
-[class metrics](output/10_matched_cv_class_metrics.csv), and
-[Notebook 10](code/notebooks/10_harth_advanced_temporal_architectures_and_matched_benchmark.ipynb).
+![Development model-selection trade-off: overall Macro F1 and Shuffling F1](output/12_overall_vs_shuffling_selection.png)
 
-Notebook 11 repeats **four model/loss conditions** across seeds
-**42, 123 and 2026** and three held-out participant folds, comprising
-**36 neural model-fold-seed jobs**. Weighted CE uses training-only
-inverse-square-root class weighting; ResNet also compares Focal Loss
-(`gamma=2`) and effective-number class-balanced CE (`beta=0.9999`).
+*Figure 1. Development-only model-selection trade-off. Overall fold-mean Macro F1 and pooled Shuffling F1 represent different aggregations; the chart does not demonstrate significance or unseen-source generalisation.*
 
-| Notebook 11 condition | Macro F1 mean across seed-level fold means | Across-seed SD |
+The [Notebook 12 selection decision](output/12_development_model_selection_decisions.csv) retains weighted 1D-ResNet as primary and RF as a classical comparator. Despite the highest mean overall Macro F1, the ResNet did **not** have the best recorded pooled Shuffling F1 in this comparison: RF **0.5032**, ResNet **0.3969**. These trade-offs justify retaining both models; the final selection was not made on the S023/S032 scores.
+
+### 6.4 Current fitted models on S023 and S032
+
+[Notebook 13](code/notebooks/13_harth_final_development_training_and_research_synthesis.ipynb) produces [source-window-aligned predictions](output/13_qualified_aligned_predictions.csv) with subject identifiers, original start/end positions, reference labels and predictions from each **Development-fitted** model. The two models score the **same 1,000 windows**.
+
+| Model | Fixed-eight-class Macro F1 | Accuracy | Observed-class balanced accuracy |
+| --- | ---: | ---: | ---: |
+| **1D-ResNet weighted CE** | **0.7182** | 0.9020 | **0.9234** |
+| Random Forest | 0.6817 | **0.9270** | 0.7599 |
+
+Sources: [model metrics](output/13_qualified_model_summary.csv), [confusion-count tables](output/) and [per-class report](output/13_qualified_per_class.csv).
+
+| Participant (500 windows each) | ResNet Macro F1 | RF Macro F1 | ResNet accuracy | RF accuracy | Observed classes |
+| --- | ---: | ---: | ---: | ---: | ---: |
+| S023 | 0.7384 | **0.7391** | 0.900 | **0.956** | 8 |
+| S032 | **0.5662** | 0.4597 | **0.904** | 0.898 | 6 |
+
+The overall ResNet has higher fixed-task Macro F1, while RF has higher window accuracy. These effects are not uniform across the two people. The observed qualified class support is **538 Walking, 86 Running, 3 Shuffling, 10 ascending-stairs, 6 descending-stairs, 127 Standing, 115 Sitting and 115 Lying**. A recall of 1.0 on only three examples is not reliable evidence of robust Shuffling recognition.
+
+![Qualified class recall by model with observed true-class support](output/13_qualified_class_recall.png)
+
+*Figure 2. Recall and true-class window support for the same 1,000 qualified S023/S032 windows. The very small supports of activities 3–5 and overlapping sampling limit inference.*
+
+No qualified-cohort score is used to retrospectively select a different model or tune the final pipeline. The assessment is **same-source and previously inspected**, not an untouched independent Test.
+
+## 7. Robustness, Uncertainty and Additional Analyses
+
+### 7.1 Multi-seed, loss-function and minority-class robustness
+
+Notebook 11 compares four neural model/loss conditions over seeds **42, 123 and 2026** and three participant folds: **36 fits**. Weighted CE uses Training-derived inverse-square-root class weights; ResNet alternatives are Focal Loss (`gamma=2`) and effective-number class-balanced CE (`beta=0.9999`). Source: [robustness metrics](output/11_robustness_model_summary.csv), [fold table](output/11_robustness_fold_metrics.csv) and [paired loss evidence](output/11_resnet_paired_loss_scores.csv).
+
+| Configuration | Mean Macro F1 across seed-level fold means | Across-seed SD |
 | --- | ---: | ---: |
 | **1D-ResNet + weighted CE** | **0.8289** | 0.0053 |
 | TCN + weighted CE | 0.8106 | 0.0078 |
 | 1D-ResNet + focal loss | 0.8057 | 0.0051 |
 | 1D-ResNet + class-balanced CE | 0.7915 | 0.0190 |
 
-These results support a documented Development choice but do not establish
-generalisation to new collections or the causal effect of architecture alone.
-Recorded results: [Notebook 11 summary](output/11_robustness_model_summary.csv),
-[fold metrics](output/11_robustness_fold_metrics.csv), and
-[Notebook 11](code/notebooks/11_harth_multiseed_stability_and_imbalance_robustness.ipynb).
+These repeated fits characterise training stochasticity conditional on this Development design. The 36 jobs are not 36 independent participant samples and do not establish a population confidence interval. Different losses create minority-class precision/recall trade-offs; none is retroactively called universally superior.
 
-## 05. Confidence, calibration and minority activities
+### 7.2 Confidence and separately fitted calibration
 
-[Integrated Notebook 08](code/notebooks/08_harth_oof_confidence_and_temperature_calibration.ipynb)
-has a completed saved execution and **17 committed output CSV/PNG files**.
-It uses the same 29-participant HARTH Development population, with
-**14,201 base** and **28,201 expanded** windows, for two distinct
-experiments, each with three separately fitted 400-update weighted CNNs.
-The reserved S023/S032 assessment participants are excluded.
+[Notebook 08](code/notebooks/08_harth_oof_confidence_and_temperature_calibration.ipynb) contains **two independent Development experiments** rather than reusing fitted predictions for both:
 
-**Uncalibrated out-of-fold confidence (Experiment A).** Models fit
-on all outer Training participants and produce one uncalibrated
-softmax vector per held-out base window. On **14,201** windows,
-accuracy is **0.9457**, mean confidence **0.9003**, ten-bin ECE
-**0.0454** and multiclass Brier **0.0907**. There are **39**
-incorrect predictions at confidence at least 0.90. Shuffling
-recall is **0.1187** on 219 held-out windows, with 193 errors.
-Twenty of the 39 confident mistakes are Standing misclassified
-as Sitting. These metrics are descriptive; neither high accuracy
-nor softmax confidence establishes calibrated uncertainty.
-Source: [current confidence summary](output/08_confidence_summary.csv)
-and [class error metrics](output/08_confidence_class_error_summary.csv).
+- **Uncalibrated out-of-fold audit:** on 14,201 bounded Development windows, accuracy **0.9457**, average maximum confidence **0.9003**, ten-bin ECE **0.0454**, multiclass Brier **0.0907** and **39** incorrect predictions at confidence ≥0.90. Shuffling recall is **0.1187** on 219 windows, with 193 errors. Twenty of the 39 confident errors are Standing misclassified as Sitting.
+- **Separate scalar temperature scaling:** fresh CNNs and subject-disjoint Training/Calibration/Validation roles. Fold temperatures are **0.6274**, **0.3973** and **0.5050**; Calibration participants do not become Training or outer Validation participants.
 
-**Participant-disjoint scalar temperature scaling (Experiment B).**
-These are **newly fitted models**, not the CNNs of Experiment A.
-Inside each outer fold, four Calibration participants are separated
-from model Training, and one positive scalar temperature is fitted
-to Calibration-only labels. The temperatures are **0.6274**,
-**0.3973** and **0.5050**. On outer Validation, the
-three-fold mean metrics are:
-
-| Outer Validation metric | Uncalibrated | Temperature scaled |
+| Mean outer-Validation metric | Uncalibrated | Temperature scaled |
 | --- | ---: | ---: |
-| NLL (lower is better) | **0.2494** | 0.2580 |
-| Ten-bin ECE (lower is better) | 0.0494 | **0.0286** |
-| Multiclass Brier (lower is better) | 0.1085 | **0.1044** |
+| NLL (lower better) | **0.2494** | 0.2580 |
+| Ten-bin ECE (lower better) | 0.0494 | **0.0286** |
+| Multiclass Brier (lower better) | 0.1085 | **0.1044** |
 | Accuracy | 0.9275 | 0.9275 |
 
-ECE and Brier improve *on average*, but NLL deteriorates, with
-Fold 1 worsening on all three probability metrics. A positive
-scalar temperature preserves top-1 predictions and cannot be
-credited with increased classification accuracy. The fold-mean
-metrics must not be conflated with window-pooled reliability.
-Calibration is a Development-only descriptive experiment and
-is not included in the frozen final model. Sources:
-[current calibration mean metrics](output/08_calibration_mean_metrics.csv)
-and [fold metrics](output/08_calibration_fold_metrics.csv).
+ECE and Brier improve on average; NLL worsens, and **Fold 1 deteriorates on all three probability metrics**. Temperature scaling preserves class argmax and was **not applied to the final fitted models**. The first audit's pooled ECE and the second experiment's fold-mean ECE are not identical estimands. Evidence: [OOF confidence](output/08_confidence_summary.csv), [calibration means](output/08_calibration_mean_metrics.csv) and [fold metrics](output/08_calibration_fold_metrics.csv).
 
-**Historical evidence:** The earlier Stage 18/19 figures recorded
-in the [Stage 01–19 evidence register](evidence/stage_01_19_evidence_register.csv)
-reflect their original executions. They are not substituted for
-Notebook 08 results, and the previous Stage 18/19 notebook files
-have been retired after integration.
+### 7.3 Source integrity and minority activities
 
-**Development source-quality and minority-activity audit (Notebook 09).**
-The [consolidated notebook](code/notebooks/09_harth_source_quality_and_minority_activity_audit.ipynb)
-has recorded Development-only results and 27 published `09_` CSV/PNG
-outputs. The [source accounting](output/09_development_source_accounting.csv)
-covers 29 participants and 8,006,741 raw samples. Of 160,090 candidate
-100-sample windows, 14,459 fail label purity only, 397 fail timestamp
-continuity only and 1,129 fail both checks; 144,105 pass. A further
-11,708 pure/time-safe windows contain out-of-task labels, leaving
-**132,397 eight-class eligible windows**. Codes 13, 14, 130 and 140
-denote documented cycling variants outside this task; codes 10, 11
-and 17 are unmapped rather than assigned activity labels.
+[Notebook 09](code/notebooks/09_harth_source_quality_and_minority_activity_audit.ipynb) measures source eligibility and annotation coverage independently of model performance. The full Development cohort has **1,946 Shuffling windows from 28 people (1.47%)**, **1,332 ascending-stairs from 26 (1.01%)** and **1,066 descending-stairs from 25 (0.81%)**. Among **3,359** observed Shuffling annotation bouts, **2,342 (69.72%)** are shorter than the nominal two-second analysis window; median nominal bout duration is **1.28 s**. Annotation bouts are not independently verified physical movement events.
 
-The [activity-support table](output/09_activity_support_summary.csv)
-records Shuffling **1,946 windows from 28 people** (1.47%),
-Stairs ascending **1,332 from 26** (1.01%) and Stairs descending
-**1,066 from 25** (0.81%). The [bout summary](output/09_annotation_bout_summary.csv)
-records **2,342 of 3,359 Shuffling annotation bouts (69.72%)**
-shorter than the two-second analysis window, with median nominal
-duration **1.28 s**. Bouts describe recorded annotation runs, not
-independently validated movement events. Overlapping windows are
-not independent participants.
+The [source-to-OOF context table](output/09_source_support_and_oof_error_context.csv) relates representation coverage to Development prediction errors for descriptive comparison only. It cannot identify the cause of those errors. The [channel summary](output/09_sensor_channel_summary.csv) records finite signals and notable extrema; atypical sensor values are not alone proof of hardware failure.
 
-Independent label-blind per-participant caps of 250, 500 and 1,000
-retain **7,201, 14,201 and 28,201** eligible Development windows.
-At cap 500, Shuffling retention is **219/1,946 (11.25%)**, with
-**26 of 28** original contributing participants. These separately
-sampled caps are not the nested training expansion used by
-Notebooks 06–07. The [channel summary](output/09_sensor_channel_summary.csv)
-contains no non-finite samples but records notable channel extrema
-and repeated neighbouring measurements; these observations do not
-establish hardware failure or annotation errors.
+### 7.4 Limits of uncertainty claims
 
-The [source-to-OOF context](output/09_source_support_and_oof_error_context.csv)
-joins source coverage with read-only
-[Notebook 08 class errors](output/08_confidence_class_error_summary.csv).
-The latter has **193 Shuffling errors among 219 capped windows**
-(recall **0.1187**). The source and prediction populations have
-different denominators and evaluation purposes; their descriptive
-association cannot establish a cause of classifier errors or
-independent Test performance.
+The observed variation across folds, seeds, activities and two qualified people is useful but cannot substitute for an adequately sized independent-participant uncertainty analysis. Overlapping windows and cross-validation dependence make naive independent-window confidence intervals inappropriate. No prospective, cross-device, cross-dataset, clinical or treatment-outcome robustness study is reported.
 
-## 06. Selected final models and qualified same-study evaluation
+## 8. Current Outputs and Reproducibility
 
-**Model selection and final Development fitting.** The
-[Notebook 12 selection](code/notebooks/12_harth_development_model_selection_and_protocol_specification.ipynb)
-retains weighted 1D-ResNet as primary (Development three-fold mean
-Macro F1 **0.8336**; three-seed mean **0.8289**) and Random Forest as
-the classical reference. The reference had higher pooled Shuffling F1
-(**0.5032** versus **0.3969** for ResNet) in the Notebook 10
-Development comparison. None of these Development figures is a score
-for the final S023/S032 assessment.
+### 8.1 Current public evidence and producing stages
 
-Current [Notebook 13](code/notebooks/13_harth_final_development_training_and_research_synthesis.ipynb)
-fits both models on the **14,201 selected Development windows from 29
-participants**. The neural model uses six input channels, 32 hidden
-channels, inverse-square-root weighted Cross-Entropy, Adam at 0.001,
-batch size 128, seed 42 and 400 updates. The reference uses 30
-deterministic signal features, 120 trees, minimum leaf size three
-and `balanced_subsample` class weights.
+Each maintained notebook writes/replaces its own named current `output/` files. Dependent notebooks use those explicit files; missing compatible inputs cannot silently be replaced with obsolete historical outputs.
 
-The final models are stored as `resnet_state_dict.pt` and
-`random_forest.joblib` with an ordered `inference_config.csv`
-containing Development-fitted scaling and the exact feature and class
-order. The latest saved execution demonstrates fitting and a
-24-window Development-only model reload check. The published
-`13_final_training_configuration.csv` still contains an older run's
-training time and needs refreshing from the current execution.
+| Evidence | Current source | Scientific role |
+| --- | --- | --- |
+| Full-source cohort and exclusions | [`09_development_source_accounting.csv`](output/09_development_source_accounting.csv) | Label/time eligibility and denominator audit |
+| Development baseline/comparative results | [`05_cv_model_summary.csv`](output/05_cv_model_summary.csv), [`06_nested_validation_model_metrics.csv`](output/06_nested_validation_model_metrics.csv) | Grouped and fixed-split evidence under their own protocols |
+| Matched seven-model results | [`10_matched_cv_model_summary.csv`](output/10_matched_cv_model_summary.csv) | Primary Development model selection |
+| Seed/loss robustness | [`11_robustness_model_summary.csv`](output/11_robustness_model_summary.csv) | Stochastic and loss sensitivity |
+| Selection and source configuration | [`12_recorded_training_configuration.csv`](output/12_recorded_training_configuration.csv), [`12_recorded_source_protocol.csv`](output/12_recorded_source_protocol.csv) | Frozen Development-to-final specification |
+| Final fitting and ordered inference settings | [`13_final_training_configuration.csv`](output/13_final_training_configuration.csv), [`13_inference_config.csv`](output/13_inference_config.csv) | Recorded selected-model implementation and scaler/feature order |
+| Qualified predictions and metrics | [`13_qualified_aligned_predictions.csv`](output/13_qualified_aligned_predictions.csv), [`13_qualified_model_summary.csv`](output/13_qualified_model_summary.csv) | Same-source two-person prediction-level evidence |
+| Historical early-stage evidence | [`evidence/stage_01_19_evidence_register.csv`](evidence/stage_01_19_evidence_register.csv) | Provenance of previous research stages, not a substitute for current outputs |
 
-**Current-model qualified assessment (Sections 08–09).**
-After training, Notebook 13 now independently loads the original
-HARTH recordings from **S023 and S032**, applies the same predefined
-window-size, stride, label purity, timestamp checks and maximum of 500
-selected windows per participant, and generates predictions using
-the newly fitted and reloaded neural and classical models.
-These two people are excluded from fitting, channel-scaling
-estimation, class-weight calculation and model selection.
+Additional derived confusion counts, class reports, figures and source-support tables live in [`output/`](output/). The principal workflow diagrams are in [`images/`](images/) and are distinct from numerical results.
 
-The stage writes `13_qualified_aligned_predictions.csv` with participant,
-source-window indices, true source activity code and predicted source
-codes for both models. From the identical aligned rows, it produces
-the fixed-eight-class Macro F1, accuracy, observed-class balanced
-accuracy, per-participant and per-class reports and each model's
-eight-class confusion matrix. Its plotting stage also records
-true activity support and class recall. These outcomes are computed
-from source measurements and fitted models, not transcribed from
-previously displayed matrices or rounded scores.
+### 8.2 Source, local-only artefacts and practical reproduction
 
-**Results and interpretation.** The saved Notebook 13 computes
-fixed-eight-class Macro F1 **0.7182** for weighted ResNet and **0.6817**
-for Random Forest on 1,000 aligned S023/S032 windows; corresponding
-accuracies are **0.9020** and **0.9270**. The notebook displays
-participant-level and per-class metrics and the derived figures.
-The `13_qualified_` CSV/PNG files must also be copied into and
-committed from `output/` for independent machine-readable review.
-These same-study participants were descriptively inspected previously;
-the assessment is not blind external or prospective validation. No
-model adjustment using these results is authorised.
+Raw HARTH source files are obtained using the pinned original-source loader and typically remain under `data/raw/harth_v2/`. Current-stage plots, aggregate metrics and aligned predictions are tracked; raw data, reconstruction caches, trained model binaries and the downloaded ZIP are not automatically available from GitHub.
 
-## 07. Cross-stage evidence and interpretation
+The current [Notebook 13](code/notebooks/13_harth_final_development_training_and_research_synthesis.ipynb) records an executed **flat 25-file ZIP**: 23 named `13_` CSV/PNG research files, `resnet_state_dict.pt` and `random_forest.joblib`. The single included CSV settings file is `13_inference_config.csv`; it is already one of the 23 research files. The normal fitting-side `inference_config.csv` remains under the local model directory for the default loader, not as a redundant file in the study `output/` or ZIP. The helper supports a `config_filename` argument when loading from the extracted flat bundle. The ZIP member bytes and a durable copy of both model binaries have not been independently checked here.
 
-Historical Notebooks 26 and FINAL combined earlier saved results
-and provenance checks. Their scientific comparison boundaries are
-preserved here; their administrative hashes and approval manifests
-are not requirements of the maintained 01–13 workflow.
+The [README](README.md#4-running-and-reviewing-the-study) gives the starting environment. The [reproducibility guide](../docs/HARTH_REPRODUCIBILITY.md) gives practical stage dependencies and explains what can be inspected without retraining. Loading a `.joblib` file deserialises Python objects: only use trusted model artefacts. A change in source revision, cohort, windowing, representation or selected configuration may require regenerating affected downstream outputs; a matching filename alone does not establish compatibility.
 
-| Development cohort | Independent participants | Windows |
-| --- | ---: | ---: |
-| Full eligible eight-class source | 29 | **132,397** |
-| 500-cap bounded study | 29 | **14,201** |
-| Nested 1,000-cap study | 29 | **28,201** |
+Notebook executions and saved metric files support the recorded pipeline and calculations; they do not prove byte-identical reproduction on a different GPU or software environment.
 
-The original Development source includes **1,946 Shuffling**,
-**1,332 Stairs ascending** and **1,066 Stairs descending** windows;
-the 500-cap selection retains **219, 192 and 182**, respectively.
-These are sampling quantities, not model sensitivity.
+## 9. Discussion, Limitations and Future Work
 
-The current separately fitted Notebook 08 calibration study found
-mean ECE **0.0494 to 0.0286**, Brier **0.1085 to 0.1044**,
-NLL **0.2494 to 0.2580**, and unchanged accuracy **0.9275**.
-Improvements in ECE and Brier do not override worsened NLL.
-Temperature scaling was not applied to the final fit.
+The Development benchmark provides evidence that a weighted 1D-ResNet achieved the highest **observed mean fixed-eight-class Macro F1** among the seven configured models on the study's selected folds. A Random Forest remained a useful classical comparator, including higher Development pooled Shuffling F1. On the separately fitted two-person qualified assessment, ResNet yields higher Macro F1 but lower accuracy than RF; performance also differs by person and by activity. This is a bounded comparison, **not** evidence that one architecture is universally best.
 
-The full-cohort classical comparisons, capped Development folds,
-nested Train sizes, independent calibration experiments and historical
-qualified assessment differ in participant selection, training budget
-or metric interpretation. They do not form a single matched leaderboard.
+Important limitations include:
 
-Earlier executed
-[Notebook 26](https://github.com/RezaSaadatyar/human-movement-intelligence/blob/bcffd956dd3a89edd8eb23ad1f63e360a15c72b1/wearable_activity_recognition/code/notebooks/26_final_research_evidence_and_report.ipynb)
-and
-[FINAL research audit](https://github.com/RezaSaadatyar/human-movement-intelligence/blob/bcffd956dd3a89edd8eb23ad1f63e360a15c72b1/wearable_activity_recognition/code/notebooks/final_harth_research_audit_and_closure.ipynb)
-remain accessible in version history. Their archived outputs do
-not constitute a new independent model reproduction.
+1. **Single-source, historically inspected final cohort.** S023/S032 were withheld from fitting but not entirely unseen during the wider exploratory history. The assessment is neither blind external validation nor prospective evaluation.
+2. **Only two independent assessed people.** One thousand overlapping windows do not resolve participant-level generalisation uncertainty.
+3. **Rare-activity insufficiency.** The final qualified assessment includes just three Shuffling, ten ascending-stairs and six descending-stairs windows; apparent recall can be unstable or misleading.
+4. **Different exploratory protocols.** The full Development source, capped and nested subsets, model input types, fold roles, calibration experiments and training budgets differ. Their numbers are not pooled as one benchmark or attributed causally to architecture or sample size alone.
+5. **Annotations and recording integrity.** Task labels are inherited from source annotations. Undocumented codes are not guessed; unusual signal values and short annotated bouts have not been independently validated as faults or events.
+6. **Confidence and interpretation.** Softmax probabilities are not automatically calibrated or explanatory; temperature scaling has mixed outcomes and is not part of the final model.
+7. **Artefact and execution limits.** The repository provides code and current research evidence but not all original recordings, fitted binaries or a direct inspection of the new ZIP's bytes. Saved outputs do not establish independent re-execution.
 
-## 08. Research limitations and reproducibility
+Justified future work would use genuinely untouched participant groups or an independent dataset, increase rare-activity support, examine device/placement variation and evaluate inference under appropriately defined real-time information constraints. Such work remains **proposed**, not completed. Documentation or a successfully executed notebook cannot by itself eliminate these limitations.
 
-1. **Not externally validated.** All participants belong to one source
-   collection. S023/S032 were descriptively inspected during exploration.
-   The final assessment is not prospective, independent or fully blind.
-2. **Limited independent units.** The final assessment includes two people.
-   The 1,000 selected windows overlap and cannot be treated as independent
-   participants or trials.
-3. **Minority-class scarcity.** The held-out assessment contains only
-   three Shuffling, ten ascending-stairs and six descending-stairs examples.
-   Per-class recall, precision and F1 have severe support limitations.
-4. **Unmatched exploratory experiments.** Different group assignments,
-   sampling caps, data representations and training budgets prevent a
-   scientifically valid cross-stage leaderboard or causal architectural
-   ranking.
-5. **Source annotation and signal integrity.** Undocumented codes remain
-   uninterpreted; recording annotations and unusual channel values have
-   not been independently verified against real-world ground truth.
-6. **Model probabilities.** Softmax confidence and attention weights
-   are not proof of faithful explanation or clinical uncertainty.
-   Stage 19 calibration had mixed effects and is not part of the final
-   trained procedure.
-7. **Reproducibility boundary.** Saved Notebook 13 outputs display
-   current-model qualified scores and figures, but the independently
-   readable `13_qualified_` prediction and metric files are not yet
-   committed. Raw HARTH recordings and model binaries are not tracked
-   in ordinary Git. Successful execution does not establish
-   population-wide or independent external validity.
-
-### Source of record
-
-- [Notebooks 01–13](code/notebooks/) are the maintained current programme.
-  The [Stage 01–19 register](evidence/stage_01_19_evidence_register.csv)
-  provides early-stage historical context.
-- [Notebook 10](code/notebooks/10_harth_advanced_temporal_architectures_and_matched_benchmark.ipynb),
-  [Notebook 11](code/notebooks/11_harth_multiseed_stability_and_imbalance_robustness.ipynb),
-  [Notebook 12](code/notebooks/12_harth_development_model_selection_and_protocol_specification.ipynb)
-  and [Notebook 13](code/notebooks/13_harth_final_development_training_and_research_synthesis.ipynb)
-  document the current benchmark, robustness, choice and fitting.
-- [Notebook 13](code/notebooks/13_harth_final_development_training_and_research_synthesis.ipynb)
-  now performs its qualified S023/S032 assessment using the **same
-  Development-fitted models** it saved and reloads. Its
-  `13_qualified_aligned_predictions.csv` is the machine-readable source
-  of record for model, class and participant metrics and should be
-  published alongside the saved Notebook 13 results.
-- [HARTH source adapter](code/src/harth_data.py),
-  [model inference module](../python_modules/core/harth_final_inference.py)
-  and [reproducibility guide](../docs/HARTH_REPRODUCIBILITY.md)
-  define the current source and model-file interfaces.
-
-**Current status:** The study is consolidated into Notebooks 01–13.
-Notebook 13 contains saved Development fitting and current-model
-qualified-evaluation results, including the pooled metrics and figures.
-The independent `13_qualified_` CSV/PNG outputs and refreshed training
-configuration remain to be committed to `output/`. No blind external,
-prospective or clinical validation is claimed.
+The retained [01–13 notebooks](code/notebooks/) and machine-readable [current results](output/) are the maintained sources of implementation and recorded numerical evidence. Earlier notebook versions remain recoverable from Git history, but are not dependencies of the current-stage workflow.
