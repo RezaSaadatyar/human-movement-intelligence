@@ -67,8 +67,11 @@ browser: the three files are under `models/` and the `13_` CSV/PNG results
 are under `results/`, with no nested ZIP. The original run's model ZIP
 used `inference_config.json`; that *old* bundle is not natively compatible
 with the CSV-only loader. Re-running the changed Notebook 13 export produces
-the updated archive. The new CSV and ZIP must not be claimed as executed or
-published until that happens.
+the updated archive. The [standalone inference CSV](../wearable_activity_recognition/output/13_inference_config.csv)
+is now published, reconstructed from the original run's saved fitting and
+scaling tables with the code-defined feature order. This reconstruction
+has **not** exercised the new CSV loader. The revised single-ZIP export
+has not been executed or published.
 
 Model binaries and raw HARTH recordings are not tracked in ordinary Git
 history. Keep a trustworthy copy of the model bundle outside ephemeral
