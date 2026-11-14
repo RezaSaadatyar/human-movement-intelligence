@@ -157,10 +157,11 @@ time, and the table should be regenerated and published. The saved Notebook 13 c
 This same-study assessment is not blind external validation.
 
 The final inference configuration uses `inference_config.csv` with explicit
-parameter positions and scalar values. The current export places
-`resnet_state_dict.pt`, `random_forest.joblib` and `inference_config.csv`
-under `models/`, with `13_` tables and figures under `results/` in one
-`wearable_activity_recognition_Stage_13_Outputs.zip` outside Git. An older
+parameter positions and scalar values. The Stage 13 export contains the fitted `resnet_state_dict.pt`,
+`random_forest.joblib`, `inference_config.csv` and the 23 stage research
+CSV/PNG files **directly at the root** of
+`wearable_activity_recognition_Stage_13_Outputs.zip`, without additional
+folders. Extract the contents directly into the study `output/` folder. An older
 bundle containing `inference_config.json` is not compatible with the new loader
 until the configuration is regenerated or converted; it is not silently accepted.
 
