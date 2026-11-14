@@ -58,7 +58,7 @@
 <rect x="968" y="272" width="344" height="254" rx="12" fill="#FFFFFF" stroke="#B6CFDE" stroke-width="1.4"/>
 <rect x="968" y="272" width="344" height="33" rx="10" fill="#174B70" stroke="#174B70" stroke-width="1.4"/>
 <rect x="968" y="290" width="344" height="15" rx="0" fill="#174B70" stroke="#174B70" stroke-width="1.4"/>
-<text x="1140" y="293" font-size="14" font-weight="700" fill="#FFFFFF" text-anchor="middle">Fitting diagnostics</text>
+<text x="1140" y="293" font-size="14" font-weight="700" fill="#FFFFFF" text-anchor="middle">Training diagnostics</text>
 <rect x="1326" y="272" width="336" height="226" rx="12" fill="#FFFFFF" stroke="#B6CFDE" stroke-width="1.4"/>
 <rect x="1326" y="272" width="336" height="33" rx="10" fill="#174B70" stroke="#174B70" stroke-width="1.4"/>
 <rect x="1326" y="290" width="336" height="15" rx="0" fill="#174B70" stroke="#174B70" stroke-width="1.4"/>
@@ -158,7 +158,7 @@
 <text x="1270" y="640" font-size="13" font-weight="700" fill="#173453" text-anchor="middle">05</text>
 <text x="1270" y="671" font-size="14.1" font-weight="700" fill="#173453" text-anchor="middle">Scientific Synthesis</text>
 <text x="1270" y="697" font-size="11.9" fill="#506C7E" text-anchor="middle">Development CV + qualified metrics</text>
-<text x="1270" y="717" font-size="11.9" fill="#506C7E" text-anchor="middle">Class support + uncertainty</text>
+<text x="1270" y="717" font-size="11.9" fill="#506C7E" text-anchor="middle">Class support + recall</text>
 <text x="1382" y="685" font-size="18" font-weight="700" fill="#245E9D" text-anchor="middle">→</text>
 <rect x="1396" y="612" width="266" height="130" rx="11" fill="#176968" stroke="#176968" stroke-width="1.4"/>
 <text x="1529" y="640" font-size="13" font-weight="700" fill="#FFFFFF" text-anchor="middle">OUTPUT</text>
