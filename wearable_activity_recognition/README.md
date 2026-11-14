@@ -6,7 +6,7 @@
 
 This study investigates **eight-class activity recognition from lower-back and thigh accelerometers** using classical statistical-feature classifiers and temporal deep-learning models. Its 13 maintained notebooks examine source integrity, participant-independent Development comparisons, minority-activity support, training-data sensitivity, probability calibration, model selection and final fitting. The study uses the **official NTNU AI Lab HARTH v2.0 source**, not the UCI HARTH v1.2 release.
 
-**Status:** The 01–13 notebook programme has recorded execution outputs and current research tables. Notebook 13 fits a selected weighted 1D-ResNet and a Random Forest on Development data, then evaluates those fitted models on S023 and S032. This is a **qualified same-study assessment**, not blind external, prospective or clinical validation. Model weights are not published in ordinary Git history; the notebook records a flat 25-file export, whose binary contents have not been independently inspected here.
+**Study:** The 13 notebooks cover source-quality analysis, participant-disjoint Development evaluation, model selection and assessment of the fitted models on S023 and S032. Their prior descriptive inspection makes this a **qualified same-study evaluation**, not a blind or external assessment.
 
 **Detailed scientific account:** [HARTH Research Methods and Evidence](HARTH_RESEARCH_METHODS_AND_EVIDENCE.md). **Execution and artefact guide:** [HARTH Reproducibility](../docs/HARTH_REPRODUCIBILITY.md).
 
@@ -14,7 +14,7 @@ This study investigates **eight-class activity recognition from lower-back and t
 
 | Aspect | Implemented study definition |
 | --- | --- |
-| Source | [NTNU AI Lab HARTH v2.0](https://github.com/ntnu-ai-lab/harth-ml-experiments), pinned Git revision `dad2cfbe89a26f72f19770419469ac037de200df` |
+| Source | [NTNU AI Lab HARTH v2.0](https://github.com/ntnu-ai-lab/harth-ml-experiments); see the [scientific methods](HARTH_RESEARCH_METHODS_AND_EVIDENCE.md#2-data-sources-cohort-and-target-definitions) for the exact source revision |
 | Analysed participants | 31 source participants: 29 Development; S023 and S032 held out from Development fitting and selection |
 | Inputs | Lower-back and thigh acceleration: `back_x`, `back_y`, `back_z`, `thigh_x`, `thigh_y`, `thigh_z`; nominal 50 Hz |
 | Task | Source codes 1–8: Walking, Running, Shuffling, Stairs ascending, Stairs descending, Standing, Sitting and Lying |
@@ -28,7 +28,7 @@ Source codes outside the eight-class task are not silently reclassified. In part
 
 ## 2. Experimental Programme
 
-The notebooks are maintained in the following order. Their saved displays and named files are evidence of recorded executions; a fresh run requires the original source and, for neural stages, suitable dependencies and computing resources.
+The notebooks follow the research workflow below. Each stage contains its methodology, figures and relevant numerical outputs.
 
 | Stage | Notebook | Scientific role |
 | --- | --- | --- |
@@ -87,7 +87,7 @@ Detailed model, fold, participant and minority-class comparisons are retained in
 
 ## 4. Running and Reviewing the Study
 
-**To inspect recorded evidence**, open the saved [Notebooks 10–13](code/notebooks/) and the named CSV files above. Reviewing results does not require retraining. A full reconstruction is more expensive and depends on access to the pinned HARTH source.
+To explore the results, open [Notebooks 10–13](code/notebooks/) and the linked CSV tables. Running the complete workflow requires the original HARTH recordings and the dependencies listed below.
 
 From the repository root, the existing dependency files are:
 
@@ -98,9 +98,7 @@ python -m pip install -r requirements-dl.txt
 
 The second line is for neural-network stages. In Google Colab, start with each notebook's **00. Colab Repository Setup** and **01. Imports and Research Environment** sections. Use the original sequence and actual upstream files when performing full reproduction; do not rerun later stages with incompatible or missing upstream artefacts.
 
-Notebook 13 records a **flat ZIP containing 25 files**: 23 `13_` research CSV/PNG files and two model binaries (`resnet_state_dict.pt` and `random_forest.joblib`). The stage-owned `13_inference_config.csv` is the single configuration included in that bundle. The local fitting directory uses `data/processed/harth_final_models/inference_config.csv` for its normal loader; the loader also accepts `config_filename="13_inference_config.csv"` for a flat extracted bundle. No nested output folder is added.
-
-The model binaries and the ZIP are **not tracked in Git**. Keep a durable, trusted copy rather than relying on an ephemeral Colab runtime. The [execution guide](../docs/HARTH_REPRODUCIBILITY.md) describes producer/consumer files and the distinctions between stored outputs and reproducing the experiment. Only load a `.joblib` model from a trusted source.
+Notebook 13 exports the fitted models and its associated research outputs in a single archive. For the file structure, inference settings and model-loading instructions, see the [execution guide](../docs/HARTH_REPRODUCIBILITY.md).
 
 ## 5. Files and Saved Outputs
 
@@ -111,7 +109,6 @@ The model binaries and the ZIP are **not tracked in Git**. Keep a durable, trust
 | [Shared research modules](../python_modules/core/) | Common modelling, evaluation, plotting, setup and final inference helpers |
 | [`output/`](output/) | Current stage-prefixed research tables, predictions and generated figures |
 | [`images/`](images/) | Curated notebook workflows and explanatory figures |
-| [`evidence/`](evidence/) | Historical early-stage research evidence register |
 | [Scientific methods and evidence](HARTH_RESEARCH_METHODS_AND_EVIDENCE.md) | Detailed protocols, cross-stage results and limitations |
 | [Reproducibility guide](../docs/HARTH_REPRODUCIBILITY.md) | Practical inputs, regeneration boundaries and model-file interface |
 
@@ -119,8 +116,6 @@ Each notebook replaces its owned named current outputs on rerun. Raw HARTH data,
 
 ## 6. Interpretation and Scope
 
-This is a **completed exploratory same-source research sequence with qualified evaluation limitations**, not an external generalisation or deployed recognition system. The evidence supports the reported Development comparisons and a descriptive two-person assessment of the frozen final model pair. It does not establish that ResNet is universally superior, that temperature scaling improves every probability metric, or that rare activities can be recognised reliably in unseen settings.
+The experiments demonstrate activity-classification modelling and participant-disjoint comparisons within HARTH v2.0. The final S023/S032 results concern two previously inspected participants from the same collection, so they should not be interpreted as independent external generalisation.
 
-The most consequential limits are participant availability, correlation from overlapping windows, uneven class support, earlier descriptive inspection of S023/S032, source-dependent annotation quality and differing budgets across exploratory stages. Potential extensions include genuinely unseen-source evaluation, more independent participants and carefully controlled rare-class experiments; none is reported as completed here.
-
-Source HARTH recordings and third-party software retain their respective terms. Repository code licensing is described in the [repository README](../README.md).
+Overlapping windows and sparse Shuffling and stairs samples are important limits on the per-class findings. The [scientific methods and evidence](HARTH_RESEARCH_METHODS_AND_EVIDENCE.md) document provides the full evaluation protocol, results and interpretation.

@@ -13,6 +13,6 @@ Existing raw files are reused. If `MATLAB.zip` is absent, the downloader tries t
 
 Notebooks 02–03 inspect the original nested tables, source labels and FE time positions. Notebook 04 builds pairs and assigns participants. FE targets are not assumed to occur at every tenth IMU position; the source time coordinates determine the actual matching indices. Training-only transforms and participant-disjoint evaluation are retained.
 
-The original archive and full numerical arrays are not committed into the code tree. The much larger Visual3D archive is unnecessary for the notebook sequence.
+The original MATLAB source archive and reconstructed numerical arrays are kept in the local data directories described above. The much larger Visual3D archive is not required for the notebook sequence.
 
 See the [source inventory](DATA_MANIFEST_ESSEX_V13.md), [execution guide](BONENET_REPRODUCIBILITY.md) and [research report](../biomechanical_load_estimation/BONENET_RESEARCH_METHODS_AND_EVIDENCE.md).

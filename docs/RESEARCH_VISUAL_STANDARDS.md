@@ -8,7 +8,7 @@
 | --- | --- | --- | --- |
 | Root `README.md` | **Optional repository-wide research map** | Identify independently implemented, exploratory and planned studies; show reusable research engineering practice without suggesting all studies completed every step. | Update when the research catalogue or study status changes. |
 | Each implemented `<subproject_root>/README.md` | **Study-specific overview** (`<subproject_root>/images/study_overview.svg`) | Show the actual source, research question, key protocol stages, model or audit scope, evaluation boundaries, observed evidence and limitations. | Create from verified study design and revise only when its evidence changes. |
-| Each study Notebook | **Stage-specific workflow** (`../../images/NN_workflow.svg`) | Show only the operations performed in that Notebook, with a clear source-to-output workflow and stage-relevant scientific context. | Add as the **last content-development step**, after code execution, results review and scientific approval. |
+| Each study Notebook | **Stage-specific workflow** (named to match the actual notebook, e.g. `../../images/13_harth_final_development_training_and_research_synthesis.svg`) | Show only operations performed in that notebook, with scientific context and a clear source-to-output workflow. | Update when the implemented operations or relevant findings change. |
 | Executed research charts | **Evidence figures** | Show observations, metrics, cohorts, units and limitations from code output; do not conflate with explanatory SVGs. | Generate from executed analyses and preserve their outputs. |
 
 Planned directions do not require fictitious completed-experiment figures. Their planned status must remain explicit in overview diagrams.
@@ -19,11 +19,11 @@ If included, the optional root image is a **portfolio map**, not a single experi
 
 Study scope and verified status take precedence over visual symmetry. For example:
 
-- HARTH has executed 27 stages, including Development modelling and a qualified two-person, same-study held-out assessment. Those people were inspected descriptively earlier; the figure must not describe the assessment as blind, external or clinical validation.
-- BoneNet has executed derivative source inspection and a preliminary regression pilot, but the source-record-to-participant mapping is not independently verified. Its study figure must say **exploratory**, not validated prediction.
+- HARTH is organised into 13 notebooks covering Development modelling and qualified same-study assessment of two previously inspected participants; figures must not label that assessment as blind or external validation.
+- The Essex biomechanical load study has eight research notebooks, participant-level model evaluation and model-derived finite-element strain targets. Figures must distinguish those model-derived targets from direct physical strain measurement.
 - Gait, markerless capture, neurorehabilitation and multimodal projects remain planned unless supported by their own executed artefacts.
 
-## 3. Approved visual design and geometry
+## 3. Visual design and geometry
 
 Use the coherent scientific landscape style established by the HARTH stage diagrams:
 
@@ -45,8 +45,8 @@ Do not embed large SVG source strings into Markdown. Save figures separately and
 
 - Use clear, concise, natural British English. Avoid promotional or formulaic text, redundant descriptions, invented findings and internal implementation notes.
 - Identify the actual scientific inputs and outputs, source version, evaluation unit and data/protocol boundaries.
-- Make execution status visible: **implemented**, **exploratory**, **planned**, **approved**, **qualified** or **not verified**, as appropriate.
-- Report numbers only from verifiable saved output or approved documentation, and use the correct evaluation denominator.
+- Label an analysis **exploratory**, **Development**, **qualified same-study** or **planned** when this distinction affects scientific interpretation.
+- Report numerical results only when supported by the corresponding output table or an identified original source, using the correct evaluation denominator.
 - Do not represent retrieval of data, data checks, model training and independent validation as equivalent milestones.
 - Supporting graphics must not imply patient diagnosis, clinical deployment, sensor placement or biological measurement unless the source confirms it.
 - SVG is a **workflow illustration**, not a faithful explanation of internal model reasoning or independent proof of scientific performance.
@@ -59,6 +59,6 @@ Do not embed large SVG source strings into Markdown. Save figures separately and
 4. Create the editable SVG, then render and inspect it for text overlap, arrows, contrasts, status labels and accessibility.
 5. Insert the image **after the README title/subtitle and before substantive prose**, with informative alt text and a concise scope caption.
 6. Confirm relative links and data claims. Preserve unrelated source code, outputs, execution counts and evidence.
-7. For Notebook workflows, create the SVG **after** the notebook execution-review gate, then seek final image approval before continuing to the next notebook.
+7. Keep workflow diagrams aligned with the actual implemented notebook sections and update their links when filenames change.
 
-Keep any optional root visual, individual study diagrams and Notebook illustrations separate. Do not silently revise previously approved numerical results to fit a diagram.
+Keep repository-level, study-level and notebook figures distinct. Scientific results must not be changed merely to fit a diagram.

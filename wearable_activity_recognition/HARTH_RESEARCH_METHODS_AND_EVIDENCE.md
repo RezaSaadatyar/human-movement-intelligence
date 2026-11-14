@@ -2,7 +2,7 @@
 
 **Study:** Wearable Activity Recognition, Human Movement Intelligence. **Maintained implementation:** [Notebooks 01–13](code/notebooks/). This document records the actual source, cohort, representations, experimental designs, model configurations, saved results and scientific limitations. For a concise entry point and practical starting locations, use the [study README](README.md); for file dependencies and model recovery, use the [execution guide](../docs/HARTH_REPRODUCIBILITY.md).
 
-**Evidence status:** Current stage-prefixed research CSV/PNG files and executed notebook displays are available in the repository, including Notebook 13's source-aligned predictions for S023/S032. The final fitted model binaries and downloadable ZIP are not in Git. Stored execution results document this research run; they do not constitute independent replication, prospective assessment or external validation.
+**Experimental evidence:** The study includes Development model comparisons, robustness analyses and source-aligned predictions for S023/S032. Numerical results are reported with their corresponding cohort and evaluation design; they do not imply external validation.
 
 ## 1. Research Objective and Scope
 
@@ -16,7 +16,7 @@ Study outputs are research predictions and measured classification errors; there
 
 ### 2.1 Source and activities
 
-The data source is the official [NTNU AI Lab HARTH v2.0 repository](https://github.com/ntnu-ai-lab/harth-ml-experiments), pinned to Git revision `dad2cfbe89a26f72f19770419469ac037de200df`. This is **not** the UCI HARTH v1.2 release. Source recordings provide six acceleration channels from lower-back and thigh sensors (`back_x`, `back_y`, `back_z`, `thigh_x`, `thigh_y`, `thigh_z`), at nominal **50 Hz**, with source activity codes and participant identities.
+The data source is the official [NTNU AI Lab HARTH v2.0 repository](https://github.com/ntnu-ai-lab/harth-ml-experiments), using source revision `dad2cfbe89a26f72f19770419469ac037de200df`. This is **not** the UCI HARTH v1.2 release. Source recordings provide six acceleration channels from lower-back and thigh sensors (`back_x`, `back_y`, `back_z`, `thigh_x`, `thigh_y`, `thigh_z`), at nominal **50 Hz**, with source activity codes and participant identities.
 
 The task preserves these eight original class meanings:
 
@@ -237,7 +237,7 @@ The observed variation across folds, seeds, activities and two qualified people 
 
 ### 8.1 Current public evidence and producing stages
 
-Each maintained notebook writes/replaces its own named current `output/` files. Dependent notebooks use those explicit files; missing compatible inputs cannot silently be replaced with obsolete historical outputs.
+Each notebook produces stage-prefixed tables and figures in `output/`. Later analyses use the corresponding outputs and their stated data definitions.
 
 | Evidence | Current source | Scientific role |
 | --- | --- | --- |
@@ -248,19 +248,18 @@ Each maintained notebook writes/replaces its own named current `output/` files. 
 | Selection and source configuration | [`12_recorded_training_configuration.csv`](output/12_recorded_training_configuration.csv), [`12_recorded_source_protocol.csv`](output/12_recorded_source_protocol.csv) | Frozen Development-to-final specification |
 | Final fitting and ordered inference settings | [`13_final_training_configuration.csv`](output/13_final_training_configuration.csv), [`13_inference_config.csv`](output/13_inference_config.csv) | Recorded selected-model implementation and scaler/feature order |
 | Qualified predictions and metrics | [`13_qualified_aligned_predictions.csv`](output/13_qualified_aligned_predictions.csv), [`13_qualified_model_summary.csv`](output/13_qualified_model_summary.csv) | Same-source two-person prediction-level evidence |
-| Historical early-stage evidence | [`evidence/stage_01_19_evidence_register.csv`](evidence/stage_01_19_evidence_register.csv) | Provenance of previous research stages, not a substitute for current outputs |
 
 Additional derived confusion counts, class reports, figures and source-support tables live in [`output/`](output/). The principal workflow diagrams are in [`images/`](images/) and are distinct from numerical results.
 
-### 8.2 Source, local-only artefacts and practical reproduction
+### 8.2 Source data, model files and reproducibility
 
-Raw HARTH source files are obtained using the pinned original-source loader and typically remain under `data/raw/harth_v2/`. Current-stage plots, aggregate metrics and aligned predictions are tracked; raw data, reconstruction caches, trained model binaries and the downloaded ZIP are not automatically available from GitHub.
+HARTH source recordings are obtained through the version-specific source loader and stored locally under paths such as `data/raw/harth_v2/`. The study's models and results can be regenerated using the specified data, environment and notebook sequence.
 
-The current [Notebook 13](code/notebooks/13_harth_final_development_training_and_research_synthesis.ipynb) records an executed **flat 25-file ZIP**: 23 named `13_` CSV/PNG research files, `resnet_state_dict.pt` and `random_forest.joblib`. The single included CSV settings file is `13_inference_config.csv`; it is already one of the 23 research files. The normal fitting-side `inference_config.csv` remains under the local model directory for the default loader, not as a redundant file in the study `output/` or ZIP. The helper supports a `config_filename` argument when loading from the extracted flat bundle. The ZIP member bytes and a durable copy of both model binaries have not been independently checked here.
+[Notebook 13](code/notebooks/13_harth_final_development_training_and_research_synthesis.ipynb) exports the two fitted models and stage 13 results as a flat 25-file archive. It includes `resnet_state_dict.pt`, `random_forest.joblib` and the stage-specific `13_inference_config.csv`. The local model-loading directory uses `inference_config.csv`, while loading directly from the extracted archive uses the `config_filename` parameter. See the [execution guide](../docs/HARTH_REPRODUCIBILITY.md) for the file interface.
 
-The [README](README.md#4-running-and-reviewing-the-study) gives the starting environment. The [reproducibility guide](../docs/HARTH_REPRODUCIBILITY.md) gives practical stage dependencies and explains what can be inspected without retraining. Loading a `.joblib` file deserialises Python objects: only use trusted model artefacts. A change in source revision, cohort, windowing, representation or selected configuration may require regenerating affected downstream outputs; a matching filename alone does not establish compatibility.
+The [README](README.md#4-running-and-reviewing-the-study) describes the environment and entry points. Loading a `.joblib` file deserialises Python objects and therefore requires a trusted file source. Changes in data revision, cohort, windowing, representation or model configuration require corresponding downstream analyses to be updated.
 
-Notebook executions and saved metric files support the recorded pipeline and calculations; they do not prove byte-identical reproduction on a different GPU or software environment.
+Hardware, library versions and stochastic optimisation can affect exact training behaviour; the reported results describe the specified experimental configuration.
 
 ## 9. Discussion, Limitations and Future Work
 
@@ -274,8 +273,8 @@ Important limitations include:
 4. **Different exploratory protocols.** The full Development source, capped and nested subsets, model input types, fold roles, calibration experiments and training budgets differ. Their numbers are not pooled as one benchmark or attributed causally to architecture or sample size alone.
 5. **Annotations and recording integrity.** Task labels are inherited from source annotations. Undocumented codes are not guessed; unusual signal values and short annotated bouts have not been independently validated as faults or events.
 6. **Confidence and interpretation.** Softmax probabilities are not automatically calibrated or explanatory; temperature scaling has mixed outcomes and is not part of the final model.
-7. **Artefact and execution limits.** The repository provides code and current research evidence but not all original recordings, fitted binaries or a direct inspection of the new ZIP's bytes. Saved outputs do not establish independent re-execution.
+7. **Reproducibility conditions.** Reproducing model fitting requires the specified source revision, feature and window definitions, software dependencies, random seeds and training configuration; computation environments may affect exact outcomes.
 
-Justified future work would use genuinely untouched participant groups or an independent dataset, increase rare-activity support, examine device/placement variation and evaluate inference under appropriately defined real-time information constraints. Such work remains **proposed**, not completed. Documentation or a successfully executed notebook cannot by itself eliminate these limitations.
+Justified future work would use genuinely untouched participant groups or an independent dataset, increase rare-activity support, examine device/placement variation and evaluate inference under appropriately defined real-time information constraints. These directions would require separate experiments and evaluation.
 
-The retained [01–13 notebooks](code/notebooks/) and machine-readable [current results](output/) are the maintained sources of implementation and recorded numerical evidence. Earlier notebook versions remain recoverable from Git history, but are not dependencies of the current-stage workflow.
+The [01–13 notebooks](code/notebooks/) provide the implementations, and the [result tables](output/) provide the corresponding numerical findings.

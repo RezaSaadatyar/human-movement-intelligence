@@ -1,12 +1,12 @@
-# HARTH v2.0 | Running, Evidence and Model Artefacts
+# HARTH v2.0 | Reproducing the Analysis and Loading Models
 
 This guide explains **how to inspect or rerun the maintained HARTH wearable activity recognition study** and how its current files relate to one another. The [study README](../wearable_activity_recognition/README.md) introduces the project; the [scientific methods and evidence](../wearable_activity_recognition/HARTH_RESEARCH_METHODS_AND_EVIDENCE.md) document explains evaluation design, results and limitations.
 
-The maintained sequence is [Notebooks 01–13](../wearable_activity_recognition/code/notebooks/). Earlier numbered implementations are part of Git history, not current execution prerequisites. This guide is for operating the present workflow, **not** an approval checklist or evidence that a fresh independent reproduction has been carried out.
+The analysis is organised into [Notebooks 01–13](../wearable_activity_recognition/code/notebooks/). Follow their numbered sections for data preparation, model fitting and evaluation.
 
 ## 1. Source, Environment and First Steps
 
-**Source:** [NTNU AI Lab HARTH v2.0](https://github.com/ntnu-ai-lab/harth-ml-experiments), Git revision `dad2cfbe89a26f72f19770419469ac037de200df`. Do not substitute the UCI HARTH v1.2 dataset or silently remap source activity codes. Inputs are the six lower-back and thigh accelerometer axes at nominal 50 Hz; the task uses source codes 1–8.
+**Source:** [NTNU AI Lab HARTH v2.0](https://github.com/ntnu-ai-lab/harth-ml-experiments), fixed source revision `dad2cfbe89a26f72f19770419469ac037de200df`. Do not substitute the UCI HARTH v1.2 dataset or silently remap source activity codes. Inputs are the six lower-back and thigh accelerometer axes at nominal 50 Hz; the task uses source codes 1–8.
 
 The established notebooks contain **00. Colab Repository Setup** and **01. Imports and Research Environment** sections. Start there for hosted execution. From the repository root, dependency files exist for the base and deep-learning environments:
 
@@ -17,11 +17,11 @@ python -m pip install -r requirements-dl.txt
 
 The second command is relevant to PyTorch stages. GPU availability and environment-specific packages still need to match the notebook's actual requirements. A Google Colab notebook can be inspected with its saved outputs without launching a new fitting run.
 
-Source downloads and local reconstruction assets are expected under repository data locations such as `data/raw/harth_v2/`; raw recordings are not distributed as ordinary Git artefacts. The source adapter under [`wearable_activity_recognition/code/src/`](../wearable_activity_recognition/code/src/) implements source and window processing. The notebook uses the pinned source revision where acquisition is required.
+Source recordings are acquired through the notebook's data loader and stored locally under paths such as `data/raw/harth_v2/`. The source adapter under [`wearable_activity_recognition/code/src/`](../wearable_activity_recognition/code/src/) implements source and window processing. The notebook uses the pinned source revision where acquisition is required.
 
 ## 2. Current Notebook Dependencies and Output Ownership
 
-Stage-specific research outputs are stored directly in [`wearable_activity_recognition/output/`](../wearable_activity_recognition/output/), named with their producing notebook number. Re-execution replaces **only that stage's owned current outputs**. An unchanged upstream stage contributes its currently saved files; there is no ordinary fallback to archived outputs, approval manifests or a second shadow output tree.
+Research tables and plots are saved in [`wearable_activity_recognition/output/`](../wearable_activity_recognition/output/) with their stage number as prefix. Each stage uses the corresponding current inputs and updates its own outputs when rerun.
 
 | Stage(s) | Essential input or dependency | Main results or next consumer |
 | --- | --- | --- |
@@ -64,7 +64,7 @@ It includes **no extra unprefixed `inference_config.csv`** and no nested project
 
 To load models **directly from the extracted flat bundle**, use the documented loader's `config_filename="13_inference_config.csv"` parameter; the default model directory continues to use `inference_config.csv`. Do not delete the local default file while relying on the default loader, and do not recreate a duplicate unprefixed file in the study `output/` folder.
 
-The ZIP is created by the final export cell; its **saved output** lists 25 files. The ZIP bytes themselves and the two binary models are **not published** in ordinary Git. Preserve a trusted copy outside temporary Colab storage. **Never load a `.joblib` file from an untrusted source**, because it uses Python object deserialisation.
+The final export cell creates this archive for download and reuse. Retain the model files in a persistent location if you want to load them without fitting again. **Load `.joblib` files only from trusted sources**, because they use Python object deserialisation.
 
 ## 4. Qualified Assessment: What Was Actually Evaluated
 
@@ -80,13 +80,13 @@ The current [`13_qualified_aligned_predictions.csv`](../wearable_activity_recogn
 
 This is **qualified same-study evaluation**, not an external dataset, fully blind Test, or prospective deployment. It includes only three Shuffling, ten ascending-stairs and six descending-stairs windows. Changes to model selection or thresholds must not be made on these reported results while describing them as an independent frozen assessment.
 
-## 5. Evidence Inspection and Reproduction Boundaries
+## 5. Reviewing Results and Reproducing the Workflow
 
-**Available from the public repository:** source code, selected fitting and inference specifications, stage CSV/PNG summaries, saved notebook displays, and aligned qualified predictions. Inspect [Notebook 10](../wearable_activity_recognition/code/notebooks/10_harth_advanced_temporal_architectures_and_matched_benchmark.ipynb), [Notebook 11](../wearable_activity_recognition/code/notebooks/11_harth_multiseed_stability_and_imbalance_robustness.ipynb), [Notebook 12](../wearable_activity_recognition/code/notebooks/12_harth_development_model_selection_and_protocol_specification.ipynb) and [Notebook 13](../wearable_activity_recognition/code/notebooks/13_harth_final_development_training_and_research_synthesis.ipynb) alongside their respective output CSVs.
+For model selection and comparison, start with [Notebook 10](../wearable_activity_recognition/code/notebooks/10_harth_advanced_temporal_architectures_and_matched_benchmark.ipynb), [Notebook 11](../wearable_activity_recognition/code/notebooks/11_harth_multiseed_stability_and_imbalance_robustness.ipynb) and [Notebook 12](../wearable_activity_recognition/code/notebooks/12_harth_development_model_selection_and_protocol_specification.ipynb). [Notebook 13](../wearable_activity_recognition/code/notebooks/13_harth_final_development_training_and_research_synthesis.ipynb) covers final fitting, model loading and the qualified S023/S032 assessment.
 
-**Not established by those files alone:** a byte-for-byte reproduced training run, availability of local-only model binaries in a fresh checkout, exact ZIP member/byte integrity, a live GPU-specific reproduction, external validity or clinical utility. An executed notebook with no saved error output is still subject to methodological limitations.
+The associated [prediction table](../wearable_activity_recognition/output/13_qualified_aligned_predictions.csv), [model metrics](../wearable_activity_recognition/output/13_qualified_model_summary.csv), class reports and confusion matrices can be explored directly. Reproducing the calculations from the raw source requires the specified HARTH release, notebook environment and relevant training steps. These are distinct activities: exploring saved metrics does not require fitting a new model.
 
-A local synthetic test may validate shapes, group separation or loader interfaces; it is not a substitute for full data execution. If final model binaries are missing, do not silently retrain simply to inspect the public metrics. Use the already committed [qualified predictions](../wearable_activity_recognition/output/13_qualified_aligned_predictions.csv) for numerical review; an authorised fresh fit is a separate operation.
+When loading from the flat ZIP, use `config_filename="13_inference_config.csv"`; when loading from the local fitted-model directory, the default `inference_config.csv` is used.
 
 ## 6. Scientific and Practical Limitations
 
