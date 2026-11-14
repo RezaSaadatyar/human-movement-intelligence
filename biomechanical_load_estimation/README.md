@@ -86,8 +86,6 @@ For a new calculation, run Notebooks **01–08 in order**. In Colab, start with 
 
 ```bash
 python -m pip install -r requirements.txt
-# Required for the neural experiments:
-python -m pip install -r requirements-dl.txt
 ```
 
 The notebooks install `mat-io==1.0.1` for MATLAB table decoding. They reuse existing raw downloads, write public tables and plots to `output/`, and retain numerical arrays locally under `data/processed/essex_femoral_neck_loading/`.

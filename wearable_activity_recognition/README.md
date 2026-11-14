@@ -2,7 +2,7 @@
 
 ![HARTH activity recognition workflow from source preparation to Development modelling and qualified same-study assessment](images/study_overview.svg)
 
-*Figure 1. Study-wide workflow covering source preparation, participant-disjoint Development comparisons, model selection and qualified same-study assessment. The diagram is schematic; numerical findings are supported by the saved result tables.*
+*Figure 1. Study-wide workflow with a scientific-context layer, illustrated sensor and windowing representations, Development and qualified-assessment results, and the end-to-end research process. Signal traces are schematic; the displayed Macro F1 values are drawn from saved outputs.*
 
 This study investigates **eight-class activity recognition from lower-back and thigh accelerometers** using classical statistical-feature classifiers and temporal deep-learning models. Its 13 maintained notebooks examine source integrity, participant-independent Development comparisons, minority-activity support, training-data sensitivity, probability calibration, model selection and final fitting. The study uses the **official NTNU AI Lab HARTH v2.0 source**, not the UCI HARTH v1.2 release.
 
@@ -89,14 +89,13 @@ Detailed model, fold, participant and minority-class comparisons are retained in
 
 To explore the results, open [Notebooks 10–13](code/notebooks/) and the linked CSV tables. Running the complete workflow requires the original HARTH recordings and the dependencies listed below.
 
-From the repository root, the existing dependency files are:
+From the repository root, install the study dependencies from the single requirements file:
 
 ```bash
 python -m pip install -r requirements.txt
-python -m pip install -r requirements-dl.txt
 ```
 
-The second line is for neural-network stages. In Google Colab, start with each notebook's **00. Colab Repository Setup** and **01. Imports and Research Environment** sections. Use the original sequence and actual upstream files when performing full reproduction; do not rerun later stages with incompatible or missing upstream artefacts.
+This includes PyTorch for neural-network stages. For a platform-specific CUDA build, consult the official PyTorch installation guidance. In Google Colab, start with each notebook's **00. Colab Repository Setup** and **01. Imports and Research Environment** sections. Use the original sequence and actual upstream files when performing full reproduction; do not rerun later stages with incompatible or missing upstream artefacts.
 
 Notebook 13 exports the fitted models and its associated research outputs in a single archive. For the file structure, inference settings and model-loading instructions, see the [execution guide](../docs/HARTH_REPRODUCIBILITY.md).
 

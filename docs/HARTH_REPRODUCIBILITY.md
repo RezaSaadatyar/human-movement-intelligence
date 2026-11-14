@@ -8,14 +8,13 @@ The analysis is organised into [Notebooks 01–13](../wearable_activity_recognit
 
 **Source:** [NTNU AI Lab HARTH v2.0](https://github.com/ntnu-ai-lab/harth-ml-experiments), fixed source revision `dad2cfbe89a26f72f19770419469ac037de200df`. Do not substitute the UCI HARTH v1.2 dataset or silently remap source activity codes. Inputs are the six lower-back and thigh accelerometer axes at nominal 50 Hz; the task uses source codes 1–8.
 
-The established notebooks contain **00. Colab Repository Setup** and **01. Imports and Research Environment** sections. Start there for hosted execution. From the repository root, dependency files exist for the base and deep-learning environments:
+The established notebooks contain **00. Colab Repository Setup** and **01. Imports and Research Environment** sections. Start there for hosted execution. From the repository root, use the single dependency file for scientific computing, notebooks and deep-learning models:
 
 ```bash
 python -m pip install -r requirements.txt
-python -m pip install -r requirements-dl.txt
 ```
 
-The second command is relevant to PyTorch stages. GPU availability and environment-specific packages still need to match the notebook's actual requirements. A Google Colab notebook can be inspected with its saved outputs without launching a new fitting run.
+The dependency file includes PyTorch. For a specialised CUDA build, follow the official PyTorch installation guidance for the target platform. GPU availability and environment-specific packages must still meet the notebook's requirements. A Google Colab notebook can be inspected with its saved outputs without launching a new fitting run.
 
 Source recordings are acquired through the notebook's data loader and stored locally under paths such as `data/raw/harth_v2/`. The source adapter under [`wearable_activity_recognition/code/src/`](../wearable_activity_recognition/code/src/) implements source and window processing. The notebook uses the pinned source revision where acquisition is required.
 

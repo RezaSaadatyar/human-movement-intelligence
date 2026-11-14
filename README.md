@@ -52,13 +52,12 @@ human-movement-intelligence/
 ├── docs/
 │   ├── HARTH_REPRODUCIBILITY.md
 │   └── BONENET_REPRODUCIBILITY.md
-├── requirements.txt
-└── requirements-dl.txt
+└── requirements.txt
 ```
 
 ## Getting started
 
-Install the relevant dependencies from [`requirements.txt`](requirements.txt), with optional deep-learning dependencies in [`requirements-dl.txt`](requirements-dl.txt). Consult each study's README before running its notebooks; some experiments need source datasets, additional compute or locally retained model artefacts.
+Install the study dependencies, including PyTorch for neural modelling, using the single [`requirements.txt`](requirements.txt) file. Consult each study's README before running its notebooks; some experiments need source datasets, additional compute or locally retained model artefacts.
 
 For dataset preparation and local source locations, see the [data access guidance](data/README.md). The study notebooks and evidence tables document the implemented analyses and the scope of their results.
 

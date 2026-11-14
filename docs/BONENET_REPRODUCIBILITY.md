@@ -1,6 +1,6 @@
 # Essex IMU–FE study: running the notebooks
 
-The study has eight notebooks under `biomechanical_load_estimation/code/notebooks/`. Run them in numerical order for a full calculation. In Colab, start with **Colab Repository Setup**. Local output files are preserved during repository updates. Unrelated upstream changes can be applied; conflicting updates are deferred while the notebook continues with its current checkout. Locally, install `requirements.txt`; neural experiments also need `requirements-dl.txt`. The notebooks install `mat-io==1.0.1` for the original MATLAB tables and use the shared device and plotting helpers.
+The study has eight notebooks under `biomechanical_load_estimation/code/notebooks/`. Run them in numerical order for a full calculation. In Colab, start with **Colab Repository Setup**. Local output files are preserved during repository updates. Unrelated upstream changes can be applied; conflicting updates are deferred while the notebook continues with its current checkout. Locally, install the shared `requirements.txt`, which includes PyTorch for neural experiments. The notebooks install `mat-io==1.0.1` for the original MATLAB tables and use the shared device and plotting helpers.
 
 ## Current input and output files
 

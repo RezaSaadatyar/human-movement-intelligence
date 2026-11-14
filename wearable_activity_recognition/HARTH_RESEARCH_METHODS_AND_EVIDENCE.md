@@ -128,7 +128,7 @@ Notebook 12 records selection decisions and the exact [Training configuration](o
 | Selection/checkpoint | Final 400th update; no qualified-cohort checkpoint selection | Fixed selected configuration |
 | Final calibration | None | None |
 
-The source [`12_recorded_source_protocol.csv`](output/12_recorded_source_protocol.csv), [`13_final_training_configuration.csv`](output/13_final_training_configuration.csv) and [`13_inference_config.csv`](output/13_inference_config.csv) document the current source and fitted settings. The latest recorded `13_final_training_configuration.csv` reports `cuda` and **3.605 seconds** of neural fitting time for that run; this is environment-specific wall time, not a hardware-independent performance benchmark.
+The source [`12_recorded_source_protocol.csv`](output/12_recorded_source_protocol.csv), [`13_final_training_configuration.csv`](output/13_final_training_configuration.csv) and [`13_inference_config.csv`](output/13_inference_config.csv) document the source revision, final model settings and ordered inference configuration.
 
 The shared [`harth_final_inference.py` module](../python_modules/core/harth_final_inference.py) saves the ResNet `state_dict`, fitted Random Forest and typed CSV settings, then supports loading and inference on eligible new windows. Trusted local loading normally uses `inference_config.csv` in the model directory; a flat Stage 13 export uses the equivalent stage-prefixed `13_inference_config.csv` and an explicit loader filename argument. No Test-derived scaler or calibration parameter is introduced.
 

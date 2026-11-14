@@ -27,14 +27,15 @@ Study scope and verified status take precedence over visual symmetry. For exampl
 
 Use the coherent scientific landscape style established by the HARTH stage diagrams:
 
-- **Reference SVG:** `1700 × 480 px`, `viewBox="0 0 1700 480"`; editable vector, meaningful `<title>` and `<desc>` for accessibility.
+- **Reference SVG:** `1700 × 816 px`, `viewBox="0 0 1700 816"`; editable vector, meaningful `<title>` and `<desc>` for accessibility.
 - **Main frame:** rounded corners (`20 px`), background `#F4F9FD`.
 - **Title and subtitle:** top of image, left aligned; approximately `23 px` bold and `15 px`.
-- **Upper scientific-context layer:** reference `x=24, y=84, width=1652, height=160`, fill `#EAF3FA`. Arrange four coherent context areas or adapt for the scientific question: data/modality, cohort/schema, protocol, outputs/evidence and boundaries.
-- **Lower process layer:** reference `x=24, y=262, width=1652, height=174`. Use input, numbered scientific operations and output with aligned rounded boxes, concise titles and left-to-right arrows.
-- **Standard seven-block geometry:** 208 × 132 px blocks, initial x=38 and y=287, with 236 px horizontal increments. Six short arrows are centred at y=353, 2.2 px thick, using `#245E9D`.
+- **Upper scientific-context layer:** reference `x=24, y=84, width=1652, height=160`, fill `#EAF3FA`. Arrange coherent areas for data/modality, population, protocol, results and evaluation boundaries.
+- **Middle illustrated-evidence layer:** reference `x=24, y=258, width=1652, height=314`, fill `#EDF6FB`. Use labelled drawings, signals, representations or appropriately sourced numerical evidence to explain the actual work. Distinguish illustrative traces from measured data.
+- **Lower research-process layer:** reference `x=24, y=586, width=1652, height=195`. Use source/input, scientific operations and current outputs with aligned rounded blocks and left-to-right arrows.
+- **Seven-block example:** approximately 208 × 132 px per block, initial x=38 and y=610, with 236 px horizontal increments. Arrows connect adjacent blocks, using `#245E9D`.
 - **Colours:** dark input/output `#173453`; white intermediate blocks with `#B8CFDE` borders; main text `#173453`; explanatory text `#506C7E`.
-- **Caption:** concise source-to-evidence summary at approximately y=465.
+- **Caption:** concise source-to-evidence summary near the lower edge (approximately y=767).
 - **Typography:** scientific, legible, concise; standard font stack `DejaVu Sans, Arial, sans-serif`. Avoid clipped labels, crowded columns and tiny text.
 
 The **five intermediate steps in the seven-block example are not mandatory**. Use the number required to faithfully represent the scientific operations and adjust width, spacing or canvas as needed. **SVG step numbers are independent from Notebook Code Cell numbers**; they represent workflow operations, not a one-to-one notebook index. Avoid artificial stage splitting or merging to force a fixed count.

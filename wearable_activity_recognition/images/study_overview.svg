@@ -1,25 +1,169 @@
-<svg xmlns="http://www.w3.org/2000/svg" width="1700" height="480" viewBox="0 0 1700 480" role="img" aria-labelledby="title desc">
-<title id="title">HARTH v2.0 wearable activity recognition: complete research workflow and evidence</title>
-<desc id="desc">Study-wide HARTH v2.0 research workflow: six-channel wearable accelerometer data, label-pure and time-safe windows, statistical and temporal features, participant-disjoint Development benchmarking, repeated-seed robustness and frozen selection, qualified same-study held-out evaluation, and scientific interpretation of the qualified same-study assessment. The two held-out participants were previously inspected descriptively; this is not blind external validation.</desc>
-<defs><marker id="small-arrow" markerUnits="userSpaceOnUse" markerWidth="6" markerHeight="6" refX="5.5" refY="3" orient="auto"><path d="M0 0 L6 3 L0 6 Z" fill="#245E9D"/></marker></defs>
-<rect width="1700" height="480" rx="20" fill="#F4F9FD"/>
+<svg xmlns="http://www.w3.org/2000/svg" width="1700" height="816" viewBox="0 0 1700 816" role="img" aria-labelledby="title desc">
+<title id="title">HARTH v2.0 wearable activity recognition: study-wide workflow and research evidence</title>
+<desc id="desc">Three-layer scientific illustration of the HARTH study. The top layer summarises official six-channel source data, participant-disjoint Development, selected models and the qualified S023/S032 assessment. The middle layer schematically illustrates worn sensors, label-safe signal windows, saved Development model-comparison results, and two-person same-source assessment. The bottom layer maps the research pipeline from source windows through model selection to current outputs. Synthetic traces are illustrative. S023/S032 were previously inspected; this is not independent external or blind validation.</desc>
+<defs><marker id="arrow" markerUnits="userSpaceOnUse" markerWidth="6" markerHeight="6" refX="5.5" refY="3" orient="auto"><path d="M0 0 L6 3 L0 6 Z" fill="#245E9D"/></marker></defs>
+<rect x="0" y="0" width="1700" height="816" rx="20" fill="#F4F9FD" stroke="#F4F9FD" stroke-width="0"/>
 <g font-family="DejaVu Sans, Arial, sans-serif">
-<text x="30" y="38" font-size="25" fill="#173453" font-weight="700">HARTH v2.0 | WEARABLE ACTIVITY RECOGNITION RESEARCH</text>
-<text x="30" y="67" font-size="17" fill="#54738A">Eight activities · participant-disjoint Development · seven-model benchmark · qualified same-study assessment</text>
+<text x="30" y="38" font-size="23" fill="#173453" font-weight="700">HARTH v2.0 | WEARABLE ACTIVITY RECOGNITION</text>
+<text x="30" y="67" font-size="15" fill="#54738A" >Six-channel wearable signals · participant-grouped Development · model selection · qualified same-source assessment</text>
 <rect x="24" y="84" width="1652" height="160" rx="16" fill="#EAF3FA" stroke="#C7D9E6" stroke-width="2"/>
-<rect x="24" y="262" width="1652" height="174" rx="16" fill="#EAF3FA" stroke="#C7D9E6" stroke-width="2"/>
-<g aria-label="Four study context panels"><g aria-label="HARTH SOURCE DATA"><text x="50" y="115" font-size="17" fill="#173453" font-weight="700">HARTH SOURCE DATA</text><text x="50" y="145" font-size="15" fill="#506C7E">Lower-back and thigh IMUs</text><text x="50" y="167" font-size="15" fill="#506C7E">Six axes · nominal 50 Hz</text><text x="50" y="189" font-size="15" fill="#506C7E">Eight documented task activities</text><text x="50" y="229" font-size="14" fill="#54738A">Authors' official pinned v2.0 revision</text></g>
-<g aria-label="DEVELOPMENT PROTOCOL"><text x="380" y="115" font-size="17" fill="#173453" font-weight="700">DEVELOPMENT PROTOCOL</text><text x="380" y="145" font-size="15" fill="#506C7E">29 people · 14,201 benchmark windows</text><text x="380" y="167" font-size="15" fill="#506C7E">2 s windows · 50-sample stride</text><text x="380" y="189" font-size="15" fill="#506C7E">Participant-disjoint model folds</text><text x="380" y="229" font-size="14" fill="#54738A">Seven-model CV; separate 36-fit robustness</text></g>
-<g aria-label="QUALIFIED HELD-OUT EVALUATION"><text x="742" y="115" font-size="17" fill="#173453" font-weight="700">QUALIFIED HELD-OUT EVALUATION</text><text x="742" y="145" font-size="15" fill="#506C7E">S023 and S032 · 500 windows each</text><text x="742" y="167" font-size="15" fill="#506C7E">Previously inspected descriptively</text><text x="742" y="189" font-size="15" fill="#506C7E">No Test-driven model adjustment</text><text x="742" y="229" font-size="14" fill="#54738A">Qualified same-study, not blind / external</text></g>
-<g aria-label="SCIENTIFIC RESULTS &amp; SCOPE"><text x="1110" y="115" font-size="17" fill="#173453" font-weight="700">SCIENTIFIC RESULTS &amp; SCOPE</text><text x="1110" y="145" font-size="15" fill="#506C7E">ResNet held-out Macro F1: 0.7182</text><text x="1110" y="167" font-size="15" fill="#506C7E">RF held-out Macro F1: 0.6817</text><text x="1110" y="189" font-size="15" fill="#506C7E">Rare-class support is very limited</text><text x="1110" y="229" font-size="14" fill="#54738A">Two participants, same source</text></g></g>
-<g aria-label="Six horizontal scientific workflow arrows"><path d="M252 353 H266" fill="none" stroke="#245E9D" stroke-width="2.2" stroke-linecap="round" marker-end="url(#small-arrow)"/><path d="M488 353 H502" fill="none" stroke="#245E9D" stroke-width="2.2" stroke-linecap="round" marker-end="url(#small-arrow)"/><path d="M724 353 H738" fill="none" stroke="#245E9D" stroke-width="2.2" stroke-linecap="round" marker-end="url(#small-arrow)"/><path d="M960 353 H974" fill="none" stroke="#245E9D" stroke-width="2.2" stroke-linecap="round" marker-end="url(#small-arrow)"/><path d="M1196 353 H1210" fill="none" stroke="#245E9D" stroke-width="2.2" stroke-linecap="round" marker-end="url(#small-arrow)"/><path d="M1432 353 H1446" fill="none" stroke="#245E9D" stroke-width="2.2" stroke-linecap="round" marker-end="url(#small-arrow)"/></g>
-<g aria-label="Seven research process blocks"><g class="process-block" aria-label="HARTH v2.0"><rect x="38" y="287" width="208" height="132" rx="15" fill="#173453" stroke="#173453" stroke-width="1.8"/><text x="142" y="310" font-size="14.5" fill="#A7E9DF" font-weight="700" text-anchor="middle">INPUT</text><text x="142" y="336" font-size="16" fill="#FFFFFF" font-weight="700" text-anchor="middle">HARTH v2.0</text><text x="142" y="358" font-size="13.8" fill="#DFEDF4" text-anchor="middle">Six IMU channels</text><text x="142" y="378" font-size="13.8" fill="#DFEDF4" text-anchor="middle">Participant recordings</text><text x="142" y="398" font-size="13.8" fill="#DFEDF4" text-anchor="middle">Documented activities</text></g>
-<g class="process-block" aria-label="Validate Windows"><rect x="274" y="287" width="208" height="132" rx="15" fill="#FFFFFF" stroke="#B8CFDE" stroke-width="1.8"/><text x="378" y="310" font-size="14.5" fill="#497992" font-weight="700" text-anchor="middle">WINDOWS</text><text x="378" y="336" font-size="16" fill="#173453" font-weight="700" text-anchor="middle">Validate Windows</text><text x="378" y="358" font-size="13.8" fill="#506C7E" text-anchor="middle">Timestamp continuity</text><text x="378" y="378" font-size="13.8" fill="#506C7E" text-anchor="middle">Single-activity labels</text><text x="378" y="398" font-size="13.8" fill="#506C7E" text-anchor="middle">100 points; stride 50</text></g>
-<g class="process-block" aria-label="Build Features"><rect x="510" y="287" width="208" height="132" rx="15" fill="#FFFFFF" stroke="#B8CFDE" stroke-width="1.8"/><text x="614" y="310" font-size="14.5" fill="#497992" font-weight="700" text-anchor="middle">FEATURES</text><text x="614" y="336" font-size="16" fill="#173453" font-weight="700" text-anchor="middle">Build Features</text><text x="614" y="358" font-size="13.8" fill="#506C7E" text-anchor="middle">Time-series windows</text><text x="614" y="378" font-size="13.8" fill="#506C7E" text-anchor="middle">30 RF statistics</text><text x="614" y="398" font-size="13.8" fill="#506C7E" text-anchor="middle">Train-only scaling</text></g>
-<g class="process-block" aria-label="Benchmark Models"><rect x="746" y="287" width="208" height="132" rx="15" fill="#FFFFFF" stroke="#B8CFDE" stroke-width="1.8"/><text x="850" y="310" font-size="14.5" fill="#497992" font-weight="700" text-anchor="middle">MODELS</text><text x="850" y="336" font-size="16" fill="#173453" font-weight="700" text-anchor="middle">Benchmark Models</text><text x="850" y="358" font-size="13.8" fill="#506C7E" text-anchor="middle">7 matched configurations</text><text x="850" y="378" font-size="13.8" fill="#506C7E" text-anchor="middle">Participant-held-out CV</text><text x="850" y="398" font-size="13.8" fill="#506C7E" text-anchor="middle">Class-level analysis</text></g>
-<g class="process-block" aria-label="Select and Freeze"><rect x="982" y="287" width="208" height="132" rx="15" fill="#FFFFFF" stroke="#B8CFDE" stroke-width="1.8"/><text x="1086" y="310" font-size="14.5" fill="#497992" font-weight="700" text-anchor="middle">FREEZE</text><text x="1086" y="336" font-size="16" fill="#173453" font-weight="700" text-anchor="middle">Select and Freeze</text><text x="1086" y="358" font-size="13.8" fill="#506C7E" text-anchor="middle">Seed / loss robustness</text><text x="1086" y="378" font-size="13.8" fill="#506C7E" text-anchor="middle">Choose ResNet and RF</text><text x="1086" y="398" font-size="13.8" fill="#506C7E" text-anchor="middle">Development-only selection</text></g>
-<g class="process-block" aria-label="Qualified Assessment"><rect x="1218" y="287" width="208" height="132" rx="15" fill="#FFFFFF" stroke="#B8CFDE" stroke-width="1.8"/><text x="1322" y="310" font-size="14.5" fill="#497992" font-weight="700" text-anchor="middle">ASSESS</text><text x="1322" y="336" font-size="16" fill="#173453" font-weight="700" text-anchor="middle">Qualified Assessment</text><text x="1322" y="358" font-size="13.8" fill="#506C7E" text-anchor="middle">Two same-study people</text><text x="1322" y="378" font-size="13.8" fill="#506C7E" text-anchor="middle">1,000 selected windows</text><text x="1322" y="398" font-size="13.8" fill="#506C7E" text-anchor="middle">Development-only settings</text></g>
-<g class="process-block" aria-label="Results and Study Scope"><rect x="1454" y="287" width="208" height="132" rx="15" fill="#173453" stroke="#173453" stroke-width="1.8"/><text x="1558" y="310" font-size="14.5" fill="#A7E9DF" font-weight="700" text-anchor="middle">OUTPUT</text><text x="1558" y="336" font-size="16" fill="#FFFFFF" font-weight="700" text-anchor="middle">Results &amp; Scope</text><text x="1558" y="358" font-size="13.8" fill="#DFEDF4" text-anchor="middle">Evidence synthesis</text><text x="1558" y="378" font-size="13.8" fill="#DFEDF4" text-anchor="middle">Class-level findings</text><text x="1558" y="398" font-size="13.8" fill="#DFEDF4" text-anchor="middle">No external validation</text></g></g>
-<text x="30" y="465" font-size="14.5" fill="#54738A">Source review → windows and features → Development comparisons → model selection → qualified assessment → results and limitations</text>
+<text x="49" y="114" font-size="16" fill="#173453" font-weight="700">SOURCE AND TASK</text>
+<text x="49" y="145" font-size="14" fill="#506C7E" >Official NTNU HARTH v2.0</text>
+<text x="49" y="167" font-size="14" fill="#506C7E" >Lower-back and thigh accelerometers</text>
+<text x="49" y="189" font-size="14" fill="#506C7E" >Six channels · 50 Hz · eight activities</text>
+<text x="49" y="229" font-size="13" fill="#54738A" >Original participant recordings</text>
+<text x="451" y="114" font-size="16" fill="#173453" font-weight="700">DEVELOPMENT PROTOCOL</text>
+<text x="451" y="145" font-size="14" fill="#506C7E" >29 participants · 14,201 windows</text>
+<text x="451" y="167" font-size="14" fill="#506C7E" >Participant-disjoint grouped CV</text>
+<text x="451" y="189" font-size="14" fill="#506C7E" >Separate three-seed loss robustness</text>
+<text x="451" y="229" font-size="13" fill="#54738A" >All selection within Development</text>
+<line x1="434" y1="104" x2="434" y2="225" stroke="#C5D7E4" stroke-width="1.4" stroke-linecap="round"/>
+<text x="853" y="114" font-size="16" fill="#173453" font-weight="700">SELECTED MODELS</text>
+<text x="853" y="145" font-size="14" fill="#506C7E" >Seven-model benchmark</text>
+<text x="853" y="167" font-size="14" fill="#506C7E" >Weighted 1D-ResNet primary</text>
+<text x="853" y="189" font-size="14" fill="#506C7E" >Random Forest classical reference</text>
+<text x="853" y="229" font-size="13" fill="#54738A" >Final fit on Development only</text>
+<line x1="836" y1="104" x2="836" y2="225" stroke="#C5D7E4" stroke-width="1.4" stroke-linecap="round"/>
+<text x="1255" y="114" font-size="16" fill="#173453" font-weight="700">QUALIFIED ASSESSMENT</text>
+<text x="1255" y="145" font-size="14" fill="#506C7E" >S023 and S032 · 500 windows each</text>
+<text x="1255" y="167" font-size="14" fill="#506C7E" >Previously inspected descriptively</text>
+<text x="1255" y="189" font-size="14" fill="#506C7E" >Same-source fitted-model predictions</text>
+<text x="1255" y="229" font-size="13" fill="#54738A" >Not blind or external validation</text>
+<line x1="1238" y1="104" x2="1238" y2="225" stroke="#C5D7E4" stroke-width="1.4" stroke-linecap="round"/>
+<rect x="24" y="258" width="1652" height="314" rx="16" fill="#EDF6FB" stroke="#B4CFE0" stroke-width="1.5"/>
+<text x="49" y="282" font-size="12" fill="#53738A" font-weight="700" letter-spacing="0.4">SIGNALS, REPRESENTATIONS AND EVALUATION EVIDENCE</text>
+<rect x="39" y="295" width="391" height="255" rx="14" fill="#FFFFFF" stroke="#B8CFDE" stroke-width="1.5"/>
+<text x="56" y="321" font-size="14.4" fill="#173453" font-weight="700">SOURCE SIGNALS</text>
+<line x1="56" y1="333" x2="413" y2="333" stroke="#D8E5EE" stroke-width="1.1" stroke-linecap="round"/>
+<rect x="446" y="295" width="391" height="255" rx="14" fill="#FFFFFF" stroke="#B8CFDE" stroke-width="1.5"/>
+<text x="463" y="321" font-size="14.4" fill="#173453" font-weight="700">SAFE WINDOWS &amp; FEATURES</text>
+<line x1="463" y1="333" x2="820" y2="333" stroke="#D8E5EE" stroke-width="1.1" stroke-linecap="round"/>
+<rect x="853" y="295" width="391" height="255" rx="14" fill="#FFFFFF" stroke="#B8CFDE" stroke-width="1.5"/>
+<text x="870" y="321" font-size="14.4" fill="#173453" font-weight="700">DEVELOPMENT COMPARISON</text>
+<line x1="870" y1="333" x2="1227" y2="333" stroke="#D8E5EE" stroke-width="1.1" stroke-linecap="round"/>
+<rect x="1260" y="295" width="400" height="255" rx="14" fill="#FFFFFF" stroke="#B8CFDE" stroke-width="1.5"/>
+<text x="1277" y="321" font-size="14.4" fill="#173453" font-weight="700">QUALIFIED ASSESSMENT</text>
+<line x1="1277" y1="333" x2="1643" y2="333" stroke="#D8E5EE" stroke-width="1.1" stroke-linecap="round"/>
+<g aria-label="Wearable IMU sensor placement and illustrative signal traces">
+<circle cx="107" cy="358" r="13" fill="#FFFFFF" stroke="#7298B0" stroke-width="2.4"/>
+<path d="M93 374 Q107 370 121 374 L125 424 Q107 432 89 424 Z" fill="#D9E7F1" stroke="#7298B0" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round" />
+<path d="M92 382 L78 402 L73 422 M122 382 L137 402 L142 422 M96 430 L90 458 L84 474 M118 430 L124 456 L132 474" fill="none" stroke="#7298B0" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round" />
+<rect x="101" y="412" width="13" height="12" rx="2" fill="#245E9D" stroke="#FFFFFF" stroke-width="1"/>
+<rect x="89" y="438" width="13" height="12" rx="2" fill="#245E9D" stroke="#FFFFFF" stroke-width="1"/>
+<line x1="114" y1="418" x2="165" y2="418" stroke="#245E9D" stroke-width="1.4" stroke-linecap="round"/>
+<line x1="102" y1="443" x2="165" y2="443" stroke="#245E9D" stroke-width="1.4" stroke-linecap="round"/>
+<text x="169" y="422" font-size="12.4" fill="#173453" >Lower back</text>
+<text x="169" y="448" font-size="12.4" fill="#173453" >Thigh</text>
+<text x="256" y="354" font-size="11.5" fill="#54738A" >Schematic 3-axis traces</text>
+<path d="M255.0 373.0 L260.3 370.0 L265.6 369.9 L270.9 370.2 L276.2 371.6 L281.5 376.6 L286.8 382.5 L292.1 383.5 L297.4 378.1 L302.7 371.6 L308.0 369.2 L313.3 369.9 L318.6 371.0 L323.9 373.0 L329.2 377.8 L334.5 383.0 L339.8 382.9 L345.1 376.8 L350.4 370.3 L355.7 368.5 L361.0 370.2 L366.3 372.0 L371.6 374.3 L376.9 378.9 L382.2 383.2 L387.5 382.1 L392.8 375.4" fill="none" stroke="#245E9D" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" />
+<path d="M255.0 396.3 L260.3 400.4 L265.6 403.4 L270.9 405.8 L276.2 408.9 L281.5 410.3 L286.8 406.4 L292.1 398.9 L297.4 394.6 L302.7 396.7 L308.0 401.5 L313.3 404.7 L318.6 406.7 L323.9 409.0 L329.2 409.5 L334.5 405.0 L339.8 397.7 L345.1 394.3 L350.4 397.3 L355.7 402.7 L361.0 406.0 L366.3 407.4 L371.6 408.8 L376.9 408.5 L382.2 403.6 L387.5 396.7 L392.8 394.2" fill="none" stroke="#3D9588" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" />
+<path d="M255.0 432.7 L260.3 435.8 L265.6 436.0 L270.9 435.9 L276.2 434.6 L281.5 429.7 L286.8 423.7 L292.1 422.4 L297.4 427.6 L302.7 434.1 L308.0 436.7 L313.3 436.1 L318.6 435.2 L323.9 433.3 L329.2 428.5 L334.5 423.2 L339.8 422.9 L345.1 428.9 L350.4 435.4 L355.7 437.4 L361.0 435.9 L366.3 434.2 L371.6 432.0 L376.9 427.4 L382.2 422.9 L387.5 423.7 L392.8 430.3" fill="none" stroke="#C08746" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" />
+<text x="62" y="504" font-size="12.8" fill="#506C7E" >IMUs provide six input acceleration axes</text>
+<text x="62" y="531" font-size="12.1" fill="#54738A" >Signal traces are illustrative, not raw data</text>
 </g>
-</svg>
+<g aria-label="Overlapping windows with distinct statistical and temporal model representations">
+<text x="466" y="355" font-size="12.2" fill="#506C7E" >Continuous, single-activity signal</text>
+<path d="M466 397 L486 392 L505 399 L523 381 L542 386 L561 408 L579 389 L598 401 L617 385 L637 391 L656 399 L676 379 L696 393 L716 389 L736 404 L756 386 L780 392 L812 389" fill="none" stroke="#245E9D" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" />
+<rect x="469" y="373" width="185" height="48" rx="6" fill="#E8F2FA" stroke="#5388B1" stroke-width="1.5"/>
+<rect x="560" y="373" width="185" height="48" rx="6" fill="#DDF4F0" stroke="#36998E" stroke-width="1.5"/>
+<text x="481" y="437" font-size="11.5" fill="#245E9D" >Window 1: 100 samples</text>
+<text x="615" y="451" font-size="11.5" fill="#268377" >Window 2: 100 samples</text>
+<path d="M469 464 H560" fill="none" stroke="#245E9D" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round" marker-end="url(#arrow)"/>
+<text x="474" y="483" font-size="12" fill="#506C7E" >50-sample stride</text>
+<rect x="465" y="493" width="157" height="25" rx="6" fill="#DCECF7" stroke="#DCECF7" stroke-width="0"/>
+<text x="474" y="510" font-size="11.8" fill="#173453" >Raw sequences (6 × 100)</text>
+<rect x="643" y="493" width="174" height="25" rx="6" fill="#DDF2EC" stroke="#DDF2EC" stroke-width="0"/>
+<text x="654" y="510" font-size="11.8" fill="#173453" >30 statistical features</text>
+<text x="465" y="535" font-size="11.7" fill="#54738A" >Train-only scaling; participant identities retained</text>
+</g>
+<g aria-label="Saved participant-grouped Development Macro F1 for selected model examples">
+<text x="876" y="355" font-size="12.2" fill="#506C7E" >Mean Macro F1 · 3 participant-held-out folds</text>
+<text x="876" y="387" font-size="13" fill="#173453" >ResNet</text>
+<rect x="1007" y="376" width="154" height="14" rx="6" fill="#DDEAF3" stroke="#DDEAF3" stroke-width="0"/>
+<rect x="1007" y="376" width="128" height="14" rx="6" fill="#245E9D" stroke="#245E9D" stroke-width="0"/>
+<text x="1173" y="388" font-size="12" fill="#173453" font-weight="700">0.8336</text>
+<text x="876" y="421" font-size="13" fill="#173453" >TCN</text>
+<rect x="1007" y="410" width="154" height="14" rx="6" fill="#DDEAF3" stroke="#DDEAF3" stroke-width="0"/>
+<rect x="1007" y="410" width="125" height="14" rx="6" fill="#3D9588" stroke="#3D9588" stroke-width="0"/>
+<text x="1173" y="422" font-size="12" fill="#173453" font-weight="700">0.8138</text>
+<text x="876" y="455" font-size="13" fill="#173453" >RF</text>
+<rect x="1007" y="444" width="154" height="14" rx="6" fill="#DDEAF3" stroke="#DDEAF3" stroke-width="0"/>
+<rect x="1007" y="444" width="125" height="14" rx="6" fill="#B67A49" stroke="#B67A49" stroke-width="0"/>
+<text x="1173" y="456" font-size="12" fill="#173453" font-weight="700">0.8094</text>
+<text x="876" y="492" font-size="12.6" fill="#506C7E" >Seven configured models in total</text>
+<text x="876" y="519" font-size="12.2" fill="#506C7E" >Independent seed/loss robustness: 36 fits</text>
+<text x="876" y="537" font-size="11.5" fill="#54738A" >Descriptive comparison, not superiority proof</text>
+</g>
+<g aria-label="Previously inspected same-study assessment and corresponding final model scores">
+<circle cx="1314" cy="359" r="11" fill="#DCECF7" stroke="#7298B0" stroke-width="1.8"/>
+<path d="M1295 392 Q1295 376 1314 376 Q1333 376 1333 392" fill="#E6F0F7" stroke="#7298B0" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round" />
+<text x="1314" y="414" font-size="12.5" fill="#173453" text-anchor="middle" font-weight="700">S023</text>
+<text x="1314" y="431" font-size="11.7" fill="#506C7E" text-anchor="middle">500 windows</text>
+<circle cx="1483" cy="359" r="11" fill="#DCECF7" stroke="#7298B0" stroke-width="1.8"/>
+<path d="M1464 392 Q1464 376 1483 376 Q1502 376 1502 392" fill="#E6F0F7" stroke="#7298B0" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round" />
+<text x="1483" y="414" font-size="12.5" fill="#173453" text-anchor="middle" font-weight="700">S032</text>
+<text x="1483" y="431" font-size="11.7" fill="#506C7E" text-anchor="middle">500 windows</text>
+<line x1="1339" y1="397" x2="1457" y2="397" stroke="#C7D9E6" stroke-width="1.4" stroke-linecap="round"/>
+<text x="1281" y="460" font-size="12.1" fill="#506C7E" >Final fixed-eight-class Macro F1:</text>
+<text x="1281" y="481" font-size="13" fill="#173453" >ResNet</text>
+<rect x="1385" y="470" width="170" height="14" rx="6" fill="#DDEAF3" stroke="#DDEAF3" stroke-width="0"/>
+<rect x="1385" y="470" width="122" height="14" rx="6" fill="#245E9D" stroke="#245E9D" stroke-width="0"/>
+<text x="1566" y="482" font-size="12" fill="#173453" font-weight="700">0.7182</text>
+<text x="1281" y="506" font-size="13" fill="#173453" >RF</text>
+<rect x="1385" y="495" width="170" height="14" rx="6" fill="#DDEAF3" stroke="#DDEAF3" stroke-width="0"/>
+<rect x="1385" y="495" width="116" height="14" rx="6" fill="#B67A49" stroke="#B67A49" stroke-width="0"/>
+<text x="1566" y="507" font-size="12" fill="#173453" font-weight="700">0.6817</text>
+<text x="1281" y="536" font-size="11.9" fill="#54738A" >Two people · rare classes sparsely represented</text>
+</g>
+<text x="49" y="566" font-size="11.5" fill="#506C7E" >Schematic signals and sensor icons; model bars use the saved, differently scoped Macro F1 summaries.</text>
+<rect x="24" y="586" width="1652" height="195" rx="16" fill="#EAF3FA" stroke="#C7D9E6" stroke-width="1.5"/>
+<rect x="38" y="610" width="208" height="132" rx="15" fill="#173453" stroke="#173453" stroke-width="1.8"/>
+<text x="142" y="634" font-size="12.5" fill="#A7E9DF" font-weight="700" text-anchor="middle">INPUT</text>
+<text x="142" y="659" font-size="14.4" fill="#FFFFFF" font-weight="700" text-anchor="middle">HARTH v2.0</text>
+<text x="142" y="681" font-size="11.9" fill="#DFEDF4" text-anchor="middle">Six accelerometer axes</text>
+<text x="142" y="701" font-size="11.9" fill="#DFEDF4" text-anchor="middle">29 Development people</text>
+<text x="142" y="721" font-size="11.9" fill="#DFEDF4" text-anchor="middle">Eight task activities</text>
+<path d="M251 678 H268" fill="none" stroke="#245E9D" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round" marker-end="url(#arrow)"/>
+<rect x="274" y="610" width="208" height="132" rx="15" fill="#FFFFFF" stroke="#B8CFDE" stroke-width="1.8"/>
+<text x="378" y="634" font-size="12.5" fill="#497992" font-weight="700" text-anchor="middle">PREPARE</text>
+<text x="378" y="659" font-size="14.4" fill="#173453" font-weight="700" text-anchor="middle">Safe windows</text>
+<text x="378" y="681" font-size="11.9" fill="#506C7E" text-anchor="middle">Pure labels / valid time</text>
+<text x="378" y="701" font-size="11.9" fill="#506C7E" text-anchor="middle">100 samples · stride 50</text>
+<text x="378" y="721" font-size="11.9" fill="#506C7E" text-anchor="middle">Aligned source indices</text>
+<path d="M487 678 H504" fill="none" stroke="#245E9D" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round" marker-end="url(#arrow)"/>
+<rect x="510" y="610" width="208" height="132" rx="15" fill="#FFFFFF" stroke="#B8CFDE" stroke-width="1.8"/>
+<text x="614" y="634" font-size="12.5" fill="#497992" font-weight="700" text-anchor="middle">REPRESENT</text>
+<text x="614" y="659" font-size="14.4" fill="#173453" font-weight="700" text-anchor="middle">Inputs &amp; features</text>
+<text x="614" y="681" font-size="11.9" fill="#506C7E" text-anchor="middle">Raw six-axis sequences</text>
+<text x="614" y="701" font-size="11.9" fill="#506C7E" text-anchor="middle">30 classical statistics</text>
+<text x="614" y="721" font-size="11.9" fill="#506C7E" text-anchor="middle">Train-only scaling</text>
+<path d="M723 678 H740" fill="none" stroke="#245E9D" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round" marker-end="url(#arrow)"/>
+<rect x="746" y="610" width="208" height="132" rx="15" fill="#FFFFFF" stroke="#B8CFDE" stroke-width="1.8"/>
+<text x="850" y="634" font-size="12.5" fill="#497992" font-weight="700" text-anchor="middle">COMPARE</text>
+<text x="850" y="659" font-size="14.4" fill="#173453" font-weight="700" text-anchor="middle">Model benchmark</text>
+<text x="850" y="681" font-size="11.9" fill="#506C7E" text-anchor="middle">Seven model configurations</text>
+<text x="850" y="701" font-size="11.9" fill="#506C7E" text-anchor="middle">Grouped Development CV</text>
+<text x="850" y="721" font-size="11.9" fill="#506C7E" text-anchor="middle">Class-level evaluation</text>
+<path d="M959 678 H976" fill="none" stroke="#245E9D" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round" marker-end="url(#arrow)"/>
+<rect x="982" y="610" width="208" height="132" rx="15" fill="#FFFFFF" stroke="#B8CFDE" stroke-width="1.8"/>
+<text x="1086" y="634" font-size="12.5" fill="#497992" font-weight="700" text-anchor="middle">SELECT</text>
+<text x="1086" y="659" font-size="14.4" fill="#173453" font-weight="700" text-anchor="middle">Development choice</text>
+<text x="1086" y="681" font-size="11.9" fill="#506C7E" text-anchor="middle">Seed and loss robustness</text>
+<text x="1086" y="701" font-size="11.9" fill="#506C7E" text-anchor="middle">Weighted ResNet primary</text>
+<text x="1086" y="721" font-size="11.9" fill="#506C7E" text-anchor="middle">RF classical reference</text>
+<path d="M1195 678 H1212" fill="none" stroke="#245E9D" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round" marker-end="url(#arrow)"/>
+<rect x="1218" y="610" width="208" height="132" rx="15" fill="#FFFFFF" stroke="#B8CFDE" stroke-width="1.8"/>
+<text x="1322" y="634" font-size="12.5" fill="#497992" font-weight="700" text-anchor="middle">ASSESS</text>
+<text x="1322" y="659" font-size="14.4" fill="#173453" font-weight="700" text-anchor="middle">Qualified assessment</text>
+<text x="1322" y="681" font-size="11.9" fill="#506C7E" text-anchor="middle">Development-fitted pair</text>
+<text x="1322" y="701" font-size="11.9" fill="#506C7E" text-anchor="middle">S023 / S032 predictions</text>
+<text x="1322" y="721" font-size="11.9" fill="#506C7E" text-anchor="middle">No Test-side fitting</text>
+<path d="M1431 678 H1448" fill="none" stroke="#245E9D" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round" marker-end="url(#arrow)"/>
+<rect x="1454" y="610" width="208" height="132" rx="15" fill="#173453" stroke="#173453" stroke-width="1.8"/>
+<text x="1558" y="634" font-size="12.5" fill="#A7E9DF" font-weight="700" text-anchor="middle">OUTPUT</text>
+<text x="1558" y="659" font-size="14.4" fill="#FFFFFF" font-weight="700" text-anchor="middle">Research evidence</text>
+<text x="1558" y="681" font-size="11.9" fill="#DFEDF4" text-anchor="middle">Aligned saved predictions</text>
+<text x="1558" y="701" font-size="11.9" fill="#DFEDF4" text-anchor="middle">Model/class metrics</text>
+<text x="1558" y="721" font-size="11.9" fill="#DFEDF4" text-anchor="middle">Reproducibility details</text>
+<text x="37" y="767" font-size="12.4" fill="#54738A" >Data source → safe windows → matched Development models → model choice → qualified assessment → interpretation and reuse</text>
+</g></svg>
