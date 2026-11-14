@@ -7,10 +7,10 @@ Development evaluation, source and minority-activity quality, robustness,
 final Development fitting and the separately reported qualified assessment.
 The maintained notebook sequence is **01–13**.
 
-The earlier 24–26 and FINAL notebooks are historical executed sources,
-recoverable from Git version history. Their original Test results are not
-performance results of the new Notebook 13 model artefacts. The original
-source-aligned Test prediction CSV is not in the current public output folder.
+Notebook 13 now implements evaluation of its own final fitted models using
+newly generated aligned predictions for the predefined S023/S032 cohort.
+This revised evaluation has not yet produced verified, published results;
+past output scores must not be reused as its results.
 
 See the [study README](README.md) and
 [reproducibility guide](../docs/HARTH_REPRODUCIBILITY.md).
@@ -335,71 +335,61 @@ different denominators and evaluation purposes; their descriptive
 association cannot establish a cause of classifier errors or
 independent Test performance.
 
-## 06. Current selection and historically qualified results
+## 06. Selected final models and qualified same-study evaluation
 
-**Development selection and final fitting:** Current
-[Notebook 12](code/notebooks/12_harth_development_model_selection_and_protocol_specification.ipynb)
-selects weighted 1D-ResNet as primary (three-fold Macro F1
-**0.8336**; three-seed average **0.8289**) and retains Random
-Forest as the classical reference. The reference has higher
-pooled Shuffling F1 (**0.5032** versus **0.3969** for ResNet)
-in the matched Notebook 10 comparison.
+**Model selection and final Development fitting.** The
+[Notebook 12 selection](code/notebooks/12_harth_development_model_selection_and_protocol_specification.ipynb)
+retains weighted 1D-ResNet as primary (Development three-fold mean
+Macro F1 **0.8336**; three-seed mean **0.8289**) and Random Forest as
+the classical reference. The reference had higher pooled Shuffling F1
+(**0.5032** versus **0.3969** for ResNet) in the Notebook 10
+Development comparison. None of these Development figures is a score
+for the final S023/S032 assessment.
 
 Current [Notebook 13](code/notebooks/13_harth_final_development_training_and_research_synthesis.ipynb)
-fits the ResNet on all **14,201 Development windows** from 29
-people, using six input channels, 32 hidden channels, inverse-square-root
-class weighting, Adam (learning rate 0.001), batch size 128, seed 42
-and 400 updates. The fixed Random Forest uses 30 features, 120
-trees, minimum leaf size 3 and balanced-subsample weighting.
-The latest saved Notebook 13 run used an **NVIDIA Tesla T4 GPU** and recorded
-approximately **4.41 seconds** for the 400-update ResNet fit. A previous CPU
-run recorded **67.649 seconds**; that older value remains in the currently
-published training-configuration CSV and should be replaced by the next
-executed export. The 24-window Development inference check is a model-reload
-check, not participant-held-out accuracy.
+fits both models on the **14,201 selected Development windows from 29
+participants**. The neural model uses six input channels, 32 hidden
+channels, inverse-square-root weighted Cross-Entropy, Adam at 0.001,
+batch size 128, seed 42 and 400 updates. The reference uses 30
+deterministic signal features, 120 trees, minimum leaf size three
+and `balanced_subsample` class weights.
 
-The maintained model interface uses typed `inference_config.csv` alongside
-`resnet_state_dict.pt` and `random_forest.joblib`. The
-[standalone CSV](output/13_inference_config.csv) is published and the latest
-saved notebook execution shows that the CSV loader and flat Colab ZIP export
-ran. Notebook 13 Sections 08–09 now embed the exact eight-by-eight historical
-count matrices transcribed from the earlier saved figures. They calculate
-pooled and class-specific metrics and redraw confusion plots **without the
-retired Notebook 25 or any old prediction archive**. Four rounded
-participant-specific metric rows are preserved as originally reported,
-because pooled counts cannot recover each person's confusion matrix.
-The revised sections have not yet been executed and their outputs remain
-to be regenerated.
+The final models are stored as `resnet_state_dict.pt` and
+`random_forest.joblib` with an ordered `inference_config.csv`
+containing Development-fitted scaling and the exact feature and class
+order. The latest saved execution demonstrates fitting and a
+24-window Development-only model reload check. The published
+`13_final_training_configuration.csv` still contains an older run's
+training time and needs refreshing from the current execution.
 
-**Earlier qualified assessment, recorded by the previously executed
-Notebook 25:** S023 and S032 each contributed 500 overlapping windows.
-Both had been inspected descriptively before that evaluation, so it
-is neither blind nor external validation. Pooled metrics are reproducible
-from the archived integer confusion matrices now embedded in Notebook 13;
-per-person values remain rounded saved observations. The original individual
-prediction sequence is unavailable, and historical performance must not
-be assigned to the newly fitted Notebook 13 artefacts.
+**Current-model qualified assessment (Sections 08–09).**
+After training, Notebook 13 now independently loads the original
+HARTH recordings from **S023 and S032**, applies the same predefined
+window-size, stride, label purity, timestamp checks and maximum of 500
+selected windows per participant, and generates predictions using
+the newly fitted and reloaded neural and classical models.
+These two people are excluded from fitting, channel-scaling
+estimation, class-weight calculation and model selection.
 
-| Historical qualified metric | Weighted 1D-ResNet | Random Forest |
-| --- | ---: | ---: |
-| Fixed-eight-class Macro F1 | **0.7182** | 0.6817 |
-| Accuracy | 0.9020 | **0.9270** |
-| Balanced accuracy (observed classes) | **0.9234** | 0.7599 |
-| S023 Macro F1 | 0.7384 | 0.7391 |
-| S032 Macro F1 | 0.5662 | 0.4597 |
+The stage writes `13_qualified_aligned_predictions.csv` with participant,
+source-window indices, true source activity code and predicted source
+codes for both models. From the identical aligned rows, it produces
+the fixed-eight-class Macro F1, accuracy, observed-class balanced
+accuracy, per-participant and per-class reports and each model's
+eight-class confusion matrix. Its plotting stage also records
+true activity support and class recall. These outcomes are computed
+from source measurements and fitted models, not transcribed from
+previously displayed matrices or rounded scores.
 
-| Activity | True windows | Activity | True windows |
-| --- | ---: | --- | ---: |
-| Walking | 538 | Stairs descending | **6** |
-| Running | 86 | Standing | 127 |
-| Shuffling | **3** | Sitting | 115 |
-| Stairs ascending | **10** | Lying | 115 |
-
-S023 contained eight true task classes and S032 contained six.
-These window counts provide very limited support for class-specific
-performance claims. The [original executed Notebook 25 at
-bcffd956](https://github.com/RezaSaadatyar/human-movement-intelligence/blob/bcffd956dd3a89edd8eb23ad1f63e360a15c72b1/wearable_activity_recognition/code/notebooks/25_final_development_training_and_inference.ipynb)
-remains recoverable through Git history.
+**Execution status and interpretation.** The qualified assessment
+code is implemented, but **the newly revised Sections 08–11 have not
+been verified by executing the current code**. No result of this new
+assessment is asserted here. S023/S032 were descriptively inspected
+earlier, and the fixed windows overlap within each participant;
+therefore the completed assessment will be **qualified same-study**
+evidence rather than blind external, population-wide or prospective
+validation. Test scores must not be used to choose or modify the
+final fitted models.
 
 ## 07. Cross-stage evidence and interpretation
 
@@ -483,10 +473,9 @@ not constitute a new independent model reproduction.
   and [reproducibility guide](../docs/HARTH_REPRODUCIBILITY.md)
   define the current source and model-file interfaces.
 
-**Current status:** The study is consolidated into Notebooks 01–13. The
-latest final Development fit, CSV-based reload and flat Colab ZIP export have
-saved execution evidence. Notebook 13 now independently computes pooled
-historical metrics from embedded archived confusion counts, but those
-revised sections and the current GPU runtime table still require
-execution and publication. No blind external validation or reconstruction
-of individual historical Test predictions is claimed.
+**Current status:** The study is consolidated into Notebooks 01–13.
+The final Development fitting and model reload have saved execution evidence.
+The current-model qualified assessment in Sections 08–09, its
+source-aligned prediction table, figures and refreshed run configuration
+require execution and publication before any assessment scores are claimed.
+No blind external, prospective or clinical validation is claimed.
