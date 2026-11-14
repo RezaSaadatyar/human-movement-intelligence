@@ -38,6 +38,8 @@ Research tables and plots are saved in [`wearable_activity_recognition/output/`]
 
 **Data contracts:** The central classification task uses 100-sample, 50-stride windows, single-label and timestamp-continuity checks, eight original activity codes and participant grouping. The bounded main Development cohort has **29 participants and 14,201 windows**; the full source has **132,397 eligible Development windows**. If the dataset, windowing, identities, class order, model or selected configuration changes, regenerate the affected downstream files before combining results. A CSV existing on disk does not by itself establish scientific compatibility.
 
+**Large derived feature table:** Notebook 03 generates `wearable_activity_recognition/output/03_development29_statistical_features.csv` locally using the original HARTH recordings and its stated feature inputs. This large table is not included in the public repository; rerun Notebook 03 if the complete participant-aligned feature matrix is needed. Published aggregate metrics and figures can be reviewed without it.
+
 Some training and calibration notebooks perform substantial fitting. Opening a reporting notebook must not be confused with launching an expensive execution or producing new independent Test evidence.
 
 ## 3. Final Fitted Models and Flat Stage 13 Export

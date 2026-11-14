@@ -1,8 +1,8 @@
 # Wearable Activity Recognition | HARTH v2.0
 
-![HARTH final Development fitting and qualified same-study evaluation workflow](images/13_harth_final_development_training_and_research_synthesis.svg)
+![HARTH activity recognition workflow from source preparation to Development modelling and qualified same-study assessment](images/study_overview.svg)
 
-*Figure 1. Implemented final-stage workflow: participant-disjoint Development fitting, saved-model inference and qualified assessment on two previously inspected HARTH participants. Illustrative signal traces are schematic; numerical findings are supported by the saved tables.*
+*Figure 1. Study-wide workflow covering source preparation, participant-disjoint Development comparisons, model selection and qualified same-study assessment. The diagram is schematic; numerical findings are supported by the saved result tables.*
 
 This study investigates **eight-class activity recognition from lower-back and thigh accelerometers** using classical statistical-feature classifiers and temporal deep-learning models. Its 13 maintained notebooks examine source integrity, participant-independent Development comparisons, minority-activity support, training-data sensitivity, probability calibration, model selection and final fitting. The study uses the **official NTNU AI Lab HARTH v2.0 source**, not the UCI HARTH v1.2 release.
 
@@ -112,7 +112,7 @@ Notebook 13 exports the fitted models and its associated research outputs in a s
 | [Scientific methods and evidence](HARTH_RESEARCH_METHODS_AND_EVIDENCE.md) | Detailed protocols, cross-stage results and limitations |
 | [Reproducibility guide](../docs/HARTH_REPRODUCIBILITY.md) | Practical inputs, regeneration boundaries and model-file interface |
 
-Each notebook replaces its owned named current outputs on rerun. Raw HARTH data, reconstruction caches, model weights and temporary ZIPs are not automatically distributed with the repository.
+Each notebook replaces its own named current outputs on rerun. The original recordings, the full Stage 03 statistical-feature table and fitted model binaries are obtained or generated locally. See the [reproducibility guide](../docs/HARTH_REPRODUCIBILITY.md) for the required inputs and reconstruction steps.
 
 ## 6. Interpretation and Scope
 

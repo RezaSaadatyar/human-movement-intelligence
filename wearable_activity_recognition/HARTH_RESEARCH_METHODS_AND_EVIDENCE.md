@@ -249,6 +249,8 @@ Each notebook produces stage-prefixed tables and figures in `output/`. Later ana
 | Final fitting and ordered inference settings | [`13_final_training_configuration.csv`](output/13_final_training_configuration.csv), [`13_inference_config.csv`](output/13_inference_config.csv) | Recorded selected-model implementation and scaler/feature order |
 | Qualified predictions and metrics | [`13_qualified_aligned_predictions.csv`](output/13_qualified_aligned_predictions.csv), [`13_qualified_model_summary.csv`](output/13_qualified_model_summary.csv) | Same-source two-person prediction-level evidence |
 
+The complete Stage 03 participant-aligned statistical-feature matrix is generated locally from the source data rather than distributed in the repository; its production and reuse are described in the [reproducibility guide](../docs/HARTH_REPRODUCIBILITY.md). Published aggregate results remain available without that matrix.
+
 Additional derived confusion counts, class reports, figures and source-support tables live in [`output/`](output/). The principal workflow diagrams are in [`images/`](images/) and are distinct from numerical results.
 
 ### 8.2 Source data, model files and reproducibility
