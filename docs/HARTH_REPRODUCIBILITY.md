@@ -41,9 +41,12 @@ independent participant observations.
 | Selection and specification | [12](../wearable_activity_recognition/code/notebooks/12_harth_development_model_selection_and_protocol_specification.ipynb), [selection CSV](../wearable_activity_recognition/output/12_development_model_selection_evidence.csv) | Weighted 1D-ResNet primary and 120-tree Random Forest reference |
 | Final Development fitting | [13](../wearable_activity_recognition/code/notebooks/13_harth_final_development_training_and_research_synthesis.ipynb), [fitting CSV](../wearable_activity_recognition/output/13_final_training_configuration.csv) | 29-person final fitting, Development-only reload check and bounded synthesis |
 
-The saved Notebook 13 execution used CPU and recorded 400 ResNet optimiser
-updates, a 120-tree fitted Random Forest and a Development-only inference
-reload example. These checks do not establish new held-out performance.
+The latest saved Notebook 13 execution used a Tesla T4 GPU and recorded 400
+ResNet optimiser updates (approximately 4.41 seconds), a 120-tree Random
+Forest and CSV-based Development-only inference reload. A previously published
+configuration CSV retains the older CPU fit duration of 67.649 seconds until
+outputs from the current run replace it. These observations do not establish
+new held-out performance.
 
 ## 3. Saved Models and CSV Inference Configuration
 
@@ -61,17 +64,18 @@ The loader restores numeric types, checks channel/class ordering and uses
 Development-only preprocessing. The CSV is not an approval or SHA-256
 manifest.
 
-The updated Notebook 13 exporter creates one
+The current Notebook 13 execution saved and reloaded its models through the
+CSV-based interface and created one
 `wearable_activity_recognition_Stage_13_Outputs.zip` in the Colab file
-browser: the three files are under `models/` and the `13_` CSV/PNG results
-are under `results/`, with no nested ZIP. The original run's model ZIP
-used `inference_config.json`; that *old* bundle is not natively compatible
-with the CSV-only loader. Re-running the changed Notebook 13 export produces
-the updated archive. The [standalone inference CSV](../wearable_activity_recognition/output/13_inference_config.csv)
-is now published, reconstructed from the original run's saved fitting and
-scaling tables with the code-defined feature order. This reconstruction
-has **not** exercised the new CSV loader. The revised single-ZIP export
-has not been executed or published.
+browser. The three files are under `models/`; the stage's CSV/PNG outputs are
+under `results/`, with no nested ZIP. The older archive containing
+`inference_config.json` is not natively compatible with the updated loader.
+The [inference CSV](../wearable_activity_recognition/output/13_inference_config.csv)
+is published, but model binaries and the local ZIP have not been committed to
+GitHub. The revised Notebook 13 sections on historically reported outcomes
+will generate additional research tables and a class-support figure after
+execution. Those tables are a transcription of the former Notebook 25 results,
+not independent recomputation from aligned Test predictions.
 
 Model binaries and raw HARTH recordings are not tracked in ordinary Git
 history. Keep a trustworthy copy of the model bundle outside ephemeral
