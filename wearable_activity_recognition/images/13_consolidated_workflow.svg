@@ -1,6 +1,6 @@
 <svg xmlns="http://www.w3.org/2000/svg" width="1700" height="816" viewBox="0 0 1700 816" role="img" aria-labelledby="title desc">
 <title id="title">HARTH final Development training and research evidence</title>
-<desc id="desc">Notebook 13 uses the shared HARTH workflow design from Notebooks 10 to 12. Data comprise 29 Development participants and 14,201 windows derived from six acceleration channels. A weighted ResNet uses 400 Adam updates and a Random Forest has 120 trees. The five plotted loss observations are the actual saved Development training log, not validation or Test results. Inference uses PT weights, a joblib reference model and ordered CSV settings. A 24-window Development-only reload check was completed. Participants S023 and S032 were excluded. Earlier qualified Test scores cannot be attributed to these newly fitted models, and the flat archive has been created in Colab; historical confusion matrices require the original saved Stage 25 predictions CSV.</desc>
+<desc id="desc">Notebook 13 uses the shared HARTH workflow design from Notebooks 10 to 12. Data comprise 29 Development participants and 14,201 windows derived from six acceleration channels. A weighted ResNet uses 400 Adam updates and a Random Forest has 120 trees. The five plotted loss observations are the actual saved Development training log, not validation or Test results. Inference uses PT weights, a joblib reference model and ordered CSV settings. A 24-window Development-only reload check was completed. Participants S023 and S032 were excluded. Earlier qualified Test scores cannot be attributed to these newly fitted models, and the flat archive has been created in Colab; historical count matrices are preserved directly in Notebook 13 and do not require the earlier prediction CSV.</desc>
 <rect x="0" y="0" width="1700" height="816" rx="20" fill="#F4F9FD" stroke="#F4F9FD" stroke-width="0"/>
 <g font-family="DejaVu Sans, Arial, sans-serif">
 <text x="30" y="38" font-size="23" font-weight="700" fill="#173453">HARTH FINAL DEVELOPMENT FITTING AND RESEARCH EVIDENCE</text>
@@ -122,7 +122,7 @@
 <rect x="318" y="536" width="1094" height="21" rx="10" fill="#DCEFE6" stroke="#CDE3D8" stroke-width="1"/>
 <circle cx="335" cy="547" r="9" fill="#267998"/>
 <text x="335" y="551" font-size="13" font-weight="700" fill="#FFFFFF" text-anchor="middle">i</text>
-<text x="353" y="551" font-size="11.8" fill="#173453">S023/S032 excluded from fitting · Previous qualified scores are not reproduced here</text>
+<text x="353" y="551" font-size="11.8" fill="#173453">S023/S032 excluded from fitting · Historical metrics are not new model scores</text>
 <rect x="24" y="586" width="1652" height="195" rx="16" fill="#EAF3FA" stroke="#C7D9E6" stroke-width="1.5"/>
 <rect x="38" y="612" width="210" height="130" rx="11" fill="#173453" stroke="#173453" stroke-width="1.4"/>
 <text x="143" y="640" font-size="13" font-weight="700" fill="#FFFFFF" text-anchor="middle">INPUT</text>
