@@ -126,7 +126,7 @@ Sources: [Notebook 04 participant assignments](output/04_subject_split_assignmen
 
 Random Forest remained lower in overall waveform MAE. Yet on the **four-person Validation** set, Dilated TCN had lower e1/e3 **peak-value** errors than Random Forest: **0.0005855 / 0.0014333** versus **0.0006625 / 0.0016423**. The neural model had *higher* e1/e3 **peak-position** errors: **1.615 / 1.495** versus **1.417 / 1.005** original FE indices.
 
-This establishes a development-notebook **trade-off**, not blanket deep-learning superiority. The source target peaks are computed on the eleven original FE coordinates; the integer index difference is not a physical time difference in seconds.
+This establishes a development-phase **trade-off**, not blanket deep-learning superiority. The source target peaks are computed on the eleven original FE coordinates; the integer index difference is not a physical time difference in seconds.
 
 Sources: [Notebook 06 Training CV](output/06_training_cv_model_summary.csv), [Notebook 06 Validation results](output/06_validation_model_metrics.csv).
 
