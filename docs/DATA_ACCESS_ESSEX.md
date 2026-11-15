@@ -2,7 +2,7 @@
 
 **Source:** [Essex Figshare v13](https://doi.org/10.6084/m9.figshare.30225739.v13).
 
-Start with Notebook 01 in `biomechanical_load_estimation/code/notebooks/`. It uses the current file manifest, the source README, participant workbook and MATLAB archive. No separate inspection scripts or JSON reports are required.
+Start with Notebook 01 in `biomechanical_load_estimation/code/notebooks/`. It uses the current file manifest, the source README, participant workbook and MATLAB archive.
 
 - Raw downloads: `data/raw/essex_femoral_neck_loading/`.
 - Extracted participant files: `data/raw/essex_femoral_neck_loading/matlab_records/`.

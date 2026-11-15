@@ -198,7 +198,7 @@ def fixed_subject_splits(eligible, registry):
     return subjects, assigned, summary, activities
 
 
-# =========== 03. Training-Only Statistics and Ignored Array Cache ============
+# =========== 03. Training-Only Statistics and Local Array Storage ============
 def training_channel_stats(arrays, assigned):
     """Compute only training-subject statistics; leave source arrays unchanged."""
     mask = assigned["split"].to_numpy() == "TRAIN"
@@ -282,8 +282,8 @@ def read_training_folds(output_dir, training_trials):
 def load_paired_data(output_dir, processed_dir, raw_dir, reader, assigned):
     """Use current arrays; rebuild when absent or older than upstream tables.
 
-    No historical versions or hashes are read. Arrays are aligned to the
-    current trial table by key, not by an assumed row order.
+    Arrays are aligned to the current trial table by key rather than an
+    assumed row order.
     """
     output_dir, processed_dir, raw_dir = map(Path, (output_dir, processed_dir, raw_dir))
     cache = processed_dir / "essex_imu_fe_pairs_v13.npz"

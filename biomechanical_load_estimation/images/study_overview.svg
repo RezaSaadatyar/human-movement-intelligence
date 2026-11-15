@@ -1,6 +1,6 @@
 <svg xmlns="http://www.w3.org/2000/svg" width="1700" height="816" viewBox="0 0 1700 816" role="img" aria-labelledby="study-title study-desc">
 <title id="study-title">BIOMECHANICAL LOAD ESTIMATION | WEARABLE IMU–FE RESEARCH</title>
-<desc id="desc">Essex IMU–FE research workflow. Each notebook reads current upstream data and replaces its current output tables. Numerical values shown refer to the previous completed study run.</desc>
+<desc id="desc">Study-wide overview of original Essex IMU signals, native FE target alignment, participant-disjoint Development comparisons and four-person held-out Test. Numerical results come from saved tables; signals are schematic and do not establish external or clinical validity.</desc>
 <defs><marker id="small-arrow" markerUnits="userSpaceOnUse" markerWidth="6" markerHeight="6" refX="5.5" refY="3" orient="auto"><path d="M0 0 L6 3 L0 6 Z" fill="#245E9D"/></marker></defs>
 <rect x="0" y="0" width="1700" height="816" rx="20" fill="#F4F9FD"/>
 <g font-family="DejaVu Sans, Arial, sans-serif">
@@ -117,10 +117,10 @@
 <text x="1322" y="381" font-size="12.8" fill="#506C7E" text-anchor="middle">33-person Development fit</text>
 <text x="1322" y="401" font-size="12.8" fill="#506C7E" text-anchor="middle">Fixed Test evaluation</text>
 </g>
-<g role="group" aria-label="Final Test Audit">
+<g role="group" aria-label="Final Test Results">
 <rect x="1454" y="287" width="208" height="132" rx="15" fill="#176363" stroke="#176363" stroke-width="1.8"/>
 <text x="1558" y="310" font-size="13.2" fill="#BCEDE5" font-weight="700" text-anchor="middle">EVIDENCE</text>
-<text x="1558" y="337" font-size="14.5" font-weight="700" fill="#FFFFFF" text-anchor="middle">Final Test Audit</text>
+<text x="1558" y="337" font-size="14.5" font-weight="700" fill="#FFFFFF" text-anchor="middle">Final Test Results</text>
 <text x="1558" y="361" font-size="12.8" fill="#D2E9EE" text-anchor="middle">4 held-out participants</text>
 <text x="1558" y="381" font-size="12.8" fill="#D2E9EE" text-anchor="middle">183 trials, 8,052 rows</text>
 <text x="1558" y="401" font-size="12.8" fill="#D2E9EE" text-anchor="middle">Current results saved</text>

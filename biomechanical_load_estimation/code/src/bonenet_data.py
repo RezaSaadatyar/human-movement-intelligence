@@ -19,7 +19,7 @@ def ensure_bonenet_files(data_dir):
     Download two public source files only when absent locally.
 
     Args:
-        data_dir (str | Path): Local raw-data folder, ignored by Git.
+        data_dir (str | Path): Local directory for original data files.
 
     Returns:
         Path: Directory containing Data.mat and labels.csv.

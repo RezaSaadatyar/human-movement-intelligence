@@ -1,6 +1,6 @@
 <svg xmlns="http://www.w3.org/2000/svg" width="1700" height="816" viewBox="0 0 1700 816" role="img" aria-labelledby="title desc">
 <title id="title">Final Evaluation | Frozen primary Random Forest, descriptive Dilated TCN and one-time same-source Test</title>
-<desc id="desc">Essex IMU–FE research workflow. Each notebook reads current upstream data and replaces its current output tables. Numerical values shown refer to the previous completed study run.</desc>
+<desc id="desc">Stage 08 schematic of fixed primary Random Forest and secondary Dilated TCN refitted on 33 Development participants and evaluated on four held-out same-source Test participants. Results are not external validation.</desc>
 <defs><marker id="arrow" markerUnits="userSpaceOnUse" markerWidth="7" markerHeight="7" refX="6" refY="3.5" orient="auto"><path d="M0 0 L7 3.5 L0 7 Z" fill="#2B648C"/></marker></defs>
 <rect x="0" y="0" width="1700" height="816" rx="19" fill="#F4F9FD"/>
 <g font-family="DejaVu Sans, Arial, sans-serif">
