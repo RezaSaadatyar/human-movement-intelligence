@@ -46,7 +46,7 @@ def fit_neural(
     model_name: str, train_table: pd.DataFrame, processed_dir,
     classes: np.ndarray, *, device, seed: int = 42, epochs: int = 10,
     patience: int = 3, batch_size: int = 96, learning_rate: float = 1e-3,
-    fixed_epochs: int | None = None,
+    fixed_epochs: int | None = None, show_progress: bool = False,
 ):
     """Train on permitted subjects only; use a Training-only inner holdout.
 
@@ -89,6 +89,7 @@ def fit_neural(
     start = perf_counter()
     n_epochs = int(fixed_epochs if fixed_epochs is not None else epochs)
     for epoch in range(1, n_epochs + 1):
+        epoch_started = perf_counter()
         model.train()
         losses = []
         for emg, acc, label in train_loader:
@@ -112,9 +113,20 @@ def fit_neural(
                 best_state = deepcopy({k: v.detach().cpu() for k, v in model.state_dict().items()})
             else:
                 misses += 1
-        history.append({"epoch": epoch, "train_loss": float(np.mean(losses)),
+        epoch_loss = float(np.mean(losses))
+        history.append({"epoch": epoch, "train_loss": epoch_loss,
                         "inner_validation_macro_f1": val_f1, "model_id": model_name,
                         "seed": seed})
+        if show_progress:
+            validation_text = (
+                f"{val_f1:.4f}" if np.isfinite(val_f1) else "not evaluated"
+            )
+            print(
+                f"  {model_name} | seed={seed} | epoch {epoch}/{n_epochs} "
+                f"| loss={epoch_loss:.4f} | inner macro F1={validation_text} "
+                f"| {perf_counter() - epoch_started:.1f} s",
+                flush=True,
+            )
         if val_loader is not None and misses >= patience:
             break
     if best_state is not None:
