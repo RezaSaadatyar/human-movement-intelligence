@@ -1,0 +1,156 @@
+"""Synthetic integration tests for NinaPro source pairing and model contracts.
+
+These tests do not contain, redistribute or pretend to reproduce NinaPro data.
+"""
+
+from pathlib import Path
+import io
+import sys
+import zipfile
+
+import numpy as np
+import pandas as pd
+import pytest
+from scipy.io import savemat
+
+STUDY_SRC = Path(__file__).resolve().parents[1] / "multimodal_movement_learning" / "code" / "src"
+sys.path.insert(0, str(STUDY_SRC))
+
+from ninapro_source import load_exercise, contiguous_segments
+from ninapro_dataset import (
+    build_window_registry, select_windows_uniformly, window_features,
+    save_source_arrays, construct_feature_arrays, assign_participants,
+    check_artifact_alignment, PairedWindowDataset,
+)
+from ninapro_evaluation import (
+    build_classical, aligned_probabilities, participant_metrics,
+    paired_subject_bootstrap, fixed_class_metrics,
+)
+from ninapro_models import UNIMODAL_MODELS, FUSION_MODELS, build_neural_model
+from ninapro_training import fit_neural, predict_neural
+
+
+def _fake_archive(location: Path, person: int, *, seed: int):
+    rng = np.random.default_rng(seed)
+    n = 4500
+    labels = np.repeat([0, 1, 0, 2, 3], 900)
+    repetitions = np.repeat([0, 1, 0, 2, 3], 900)
+    emg = rng.normal(0, .3, size=(n, 12)).astype(np.float32)
+    acc = rng.normal(0, 1, size=(n, 36)).astype(np.float32)
+    # The two sensor arrays share sample rows and corrected labels.
+    payload = {
+        "emg": emg, "acc": acc,
+        "stimulus": labels.reshape(-1, 1),
+        "restimulus": labels.reshape(-1, 1),
+        "repetition": repetitions.reshape(-1, 1),
+        "rerepetition": repetitions.reshape(-1, 1),
+    }
+    buffer = io.BytesIO()
+    savemat(buffer, payload)
+    path = location / f"DB2_s{person}.zip"
+    with zipfile.ZipFile(path, "w", compression=zipfile.ZIP_DEFLATED) as archive:
+        archive.writestr(f"DB2/S{person}_E1_A1.mat", buffer.getvalue())
+    return path
+
+
+def _cohort(tmp_path, people=10):
+    processed = tmp_path / "data" / "processed" / "ninapro_db2"
+    raw = tmp_path / "data" / "raw" / "ninapro_db2"
+    processed.mkdir(parents=True)
+    raw.mkdir(parents=True)
+    pieces = []
+    for person in range(1, people + 1):
+        src = _fake_archive(raw, person, seed=person)
+        record = load_exercise(src, person, exercise=1)
+        assert record.emg.shape == (4500, 12)
+        assert record.acc.shape == (4500, 36)
+        index, segments = build_window_registry(record, {0, 1, 2, 3})
+        assert not index.empty
+        assert (index.end_sample - index.start_sample == 600).all()
+        assert len(segments) == 5
+        pieces.append(index)
+        save_source_arrays(record, processed)
+    canonical = select_windows_uniformly(pd.concat(pieces, ignore_index=True), cap_per_subject=10)
+    fe, fa = construct_feature_arrays(canonical, processed)
+    return canonical, processed, fe, fa
+
+
+def test_source_zip_pairing_and_segment_identity(tmp_path):
+    src = _fake_archive(tmp_path, 1, seed=1)
+    record = load_exercise(src, 1)
+    assert record.restimulus.shape == (4500,)
+    assert contiguous_segments(record.restimulus, record.rerepetition) == [
+        (0, 900, 0, 0), (900, 1800, 1, 1), (1800, 2700, 0, 0),
+        (2700, 3600, 2, 2), (3600, 4500, 3, 3),
+    ]
+    index, _ = build_window_registry(record, {0, 1, 2, 3})
+    assert index.window_key.is_unique
+    # Every window is fully contained in a corrected-label/repetition segment.
+    for row in index.itertuples(index=False):
+        assert np.unique(record.restimulus[row.start_sample:row.end_sample]).tolist() == [row.label]
+
+
+def test_feature_alignment_and_frozen_person_groups(tmp_path):
+    index, processed, fe, fa = _cohort(tmp_path)
+    assert fe.shape == (100, 48)
+    assert fa.shape == (100, 96)
+    check_artifact_alignment(index, (fe, fa))
+    split, folds = assign_participants(index, test_people=2, folds=4, seed=42)
+    test_people = set(split.loc[split.role == "Test", "subject_id"])
+    assert test_people.isdisjoint(set(folds.subject_id))
+    assert folds.subject_id.nunique() == 8
+    dataset = PairedWindowDataset(index.iloc[:5], processed, classes=np.array([0, 1, 2, 3]))
+    x, a, y = dataset[0]
+    assert tuple(x.shape) == (12, 600)
+    assert tuple(a.shape) == (36, 600)
+    assert y.item() in {0, 1, 2, 3}
+
+
+def test_fixed_class_probabilities_and_paired_metrics(tmp_path):
+    index, processed, fe, fa = _cohort(tmp_path)
+    classes = np.array([0, 1, 2, 3])
+    model = build_classical("B1_logreg")
+    model.fit(fe[:60], index.label.to_numpy()[:60])
+    probs = aligned_probabilities(model, fe[60:], classes)
+    assert np.allclose(probs.sum(axis=1), 1)
+    rows = index.iloc[60:].reset_index(drop=True)
+    scores = participant_metrics(rows, probs, classes, model_id="B1_logreg")
+    assert len(scores) == rows.subject_id.nunique()
+    assert np.isfinite(scores.macro_f1).all()
+    ci = paired_subject_bootstrap(np.array([-.05, .04, .0]))
+    assert ci["independent_test_people"] == 3
+
+
+def test_all_neural_forward_interfaces():
+    import torch
+    emg = torch.randn(2, 12, 600)
+    acc = torch.randn(2, 36, 600)
+    for name in (*UNIMODAL_MODELS, *FUSION_MODELS):
+        model = build_neural_model(name, 4).eval()
+        with torch.no_grad():
+            if "_emg_" in name:
+                output = model(emg)
+            elif "_acc_" in name:
+                output = model(acc)
+            else:
+                output = model(emg, acc)
+        assert output.shape == (2, 4), name
+        assert np.isfinite(output.numpy()).all(), name
+
+
+def test_neural_training_and_inference_with_synthetic_people(tmp_path):
+    import torch
+    index, processed, fe, fa = _cohort(tmp_path, people=7)
+    training = index.loc[index.subject_id.isin(["S01", "S02", "S03", "S04", "S05"])].copy()
+    validation = index.loc[index.subject_id == "S06"].copy()
+    classes = np.array([0, 1, 2, 3])
+    model, stats, history, info = fit_neural(
+        "D1_emg_cnn", training, processed, classes,
+        device=torch.device("cpu"), seed=4, fixed_epochs=1, batch_size=16,
+    )
+    probs = predict_neural("D1_emg_cnn", model, validation, processed,
+                           classes, stats, device=torch.device("cpu"))
+    assert probs.shape == (len(validation), len(classes))
+    assert np.allclose(probs.sum(axis=1), 1, atol=1e-5)
+    assert info["best_epochs"] == 1
+    assert not history.empty

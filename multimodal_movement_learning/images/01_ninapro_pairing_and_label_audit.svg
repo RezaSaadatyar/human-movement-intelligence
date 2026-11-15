@@ -1,0 +1,34 @@
+<svg xmlns="http://www.w3.org/2000/svg" width="1700" height="480" viewBox="0 0 1700 480" role="img" font-family="DejaVu Sans, Arial, sans-serif">
+<title>Original multimodal source and annotation evidence</title>
+<desc>Original participant ZIP to E1 MATLAB fields to paired physical-time source grid. Source inspection establishes the pairing and target contract; no classifier or performance estimate is involved.</desc>
+<rect width="1700" height="480" fill="#F4F9FD"/>
+<text x="40" y="46" fill="#173453" font-size="26" font-weight="bold"><tspan x="40" dy="0">Original multimodal source and annotation evidence</tspan></text>
+<rect x="40" y="73" width="1620" height="108" rx="15" fill="#EAF3FA" stroke="#C7D9E6" stroke-width="2"/>
+<text x="62" y="110" fill="#173453" font-size="18" font-weight="bold"><tspan x="62" dy="0">Original participant ZIP to E1 MATLAB fields to paired physical-time source grid</tspan></text>
+<text x="62" y="150" fill="#506C7E" font-size="15" font-weight="normal"><tspan x="62" dy="0">Published sEMG (12 columns) and acceleration (36 columns) are recorded together; corrected labels supply targets, not inputs</tspan></text>
+<rect x="40" y="202" width="1620" height="210" rx="15" fill="#EAF3FA" stroke="#C7D9E6" stroke-width="2"/>
+<rect x="56" y="235" width="294" height="136" rx="12" fill="#FFFFFF" stroke="#B8CFDE" stroke-width="2"/>
+<text x="72" y="268" fill="#173453" font-size="18" font-weight="bold"><tspan x="72" dy="0">Official DB2 archive</tspan></text>
+<text x="72" y="308" fill="#506C7E" font-size="14" font-weight="normal"><tspan x="72" dy="0">Person-specific ZIP</tspan><tspan x="72" dy="24">Original E1 recordings</tspan></text>
+<path d="M359 305 h15" stroke="#245E9D" stroke-width="3" stroke-linecap="round"/>
+<path d="M368 298 l8 7 -8 7" stroke="#245E9D" stroke-width="3" fill="none" stroke-linejoin="round"/>
+<rect x="382" y="235" width="294" height="136" rx="12" fill="#FFFFFF" stroke="#B8CFDE" stroke-width="2"/>
+<text x="398" y="268" fill="#173453" font-size="18" font-weight="bold"><tspan x="398" dy="0">Paired MAT arrays</tspan></text>
+<text x="398" y="308" fill="#506C7E" font-size="14" font-weight="normal"><tspan x="398" dy="0">12 sEMG channels</tspan><tspan x="398" dy="24">36 acceleration columns</tspan></text>
+<path d="M685 305 h15" stroke="#245E9D" stroke-width="3" stroke-linecap="round"/>
+<path d="M694 298 l8 7 -8 7" stroke="#245E9D" stroke-width="3" fill="none" stroke-linejoin="round"/>
+<rect x="708" y="235" width="294" height="136" rx="12" fill="#FFFFFF" stroke="#B8CFDE" stroke-width="2"/>
+<text x="724" y="268" fill="#173453" font-size="18" font-weight="bold"><tspan x="724" dy="0">Source time base</tspan></text>
+<text x="724" y="308" fill="#506C7E" font-size="14" font-weight="normal"><tspan x="724" dy="0">Shared released rows</tspan><tspan x="724" dy="24">Original rates identified</tspan></text>
+<path d="M1011 305 h15" stroke="#245E9D" stroke-width="3" stroke-linecap="round"/>
+<path d="M1020 298 l8 7 -8 7" stroke="#245E9D" stroke-width="3" fill="none" stroke-linejoin="round"/>
+<rect x="1034" y="235" width="294" height="136" rx="12" fill="#FFFFFF" stroke="#B8CFDE" stroke-width="2"/>
+<text x="1050" y="268" fill="#173453" font-size="18" font-weight="bold"><tspan x="1050" dy="0">Corrected annotations</tspan></text>
+<text x="1050" y="308" fill="#506C7E" font-size="14" font-weight="normal"><tspan x="1050" dy="0">Gesture and rest codes</tspan><tspan x="1050" dy="24">Repeated trial segments</tspan></text>
+<path d="M1337 305 h15" stroke="#245E9D" stroke-width="3" stroke-linecap="round"/>
+<path d="M1346 298 l8 7 -8 7" stroke="#245E9D" stroke-width="3" fill="none" stroke-linejoin="round"/>
+<rect x="1360" y="235" width="294" height="136" rx="12" fill="#FFFFFF" stroke="#B8CFDE" stroke-width="2"/>
+<text x="1376" y="268" fill="#173453" font-size="18" font-weight="bold"><tspan x="1376" dy="0">Evidence outputs</tspan></text>
+<text x="1376" y="308" fill="#506C7E" font-size="14" font-weight="normal"><tspan x="1376" dy="0">Pairing and channel registry</tspan><tspan x="1376" dy="24">Aligned source example</tspan></text>
+<text x="40" y="448" fill="#54738A" font-size="15" font-weight="normal"><tspan x="40" dy="0">Source inspection establishes the pairing and target contract; no classifier or performance estimate is involved.</tspan></text>
+</svg>
