@@ -1,6 +1,6 @@
 <svg xmlns="http://www.w3.org/2000/svg" width="1700" height="816" viewBox="0 0 1700 816" role="img" aria-labelledby="title desc">
 <title id="title">Essex classical baseline study | Training-only classical regression and participant-independent validation</title>
-<desc id="desc">Stage 05 schematic of trial-level statistical features and classical regression with participant-grouped Training folds, followed by separate diagnostic Validation. Test participants are excluded from model selection.</desc>
+<desc id="desc">Notebook 05 schematic of trial-level statistical features and classical regression with participant-grouped Training folds, followed by separate diagnostic Validation. Test participants are excluded from model selection.</desc>
 <defs><marker id="arrow" markerUnits="userSpaceOnUse" markerWidth="7" markerHeight="7" refX="6" refY="3.5" orient="auto"><path d="M0 0 L7 3.5 L0 7 Z" fill="#2B648C"/></marker></defs>
 <rect x="0" y="0" width="1700" height="816" rx="19" fill="#F4F9FD"/>
 <g font-family="DejaVu Sans, Arial, sans-serif">
