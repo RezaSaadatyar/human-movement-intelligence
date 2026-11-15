@@ -63,9 +63,10 @@
 </g>
 <g aria-label="Overlapping windows with distinct statistical and temporal model representations">
 <text x="466" y="355" font-size="12.2" fill="#506C7E" >Continuous, single-activity signal</text>
-<path d="M466 397 L486 392 L505 399 L523 381 L542 386 L561 408 L579 389 L598 401 L617 385 L637 391 L656 399 L676 379 L696 393 L716 389 L736 404 L756 386 L780 392 L812 389" fill="none" stroke="#245E9D" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" />
-<rect x="469" y="373" width="185" height="48" rx="6" fill="#E8F2FA" stroke="#5388B1" stroke-width="1.5"/>
-<rect x="560" y="373" width="185" height="48" rx="6" fill="#DDF4F0" stroke="#36998E" stroke-width="1.5"/>
+<path d="M466 397 L486 392 L505 399 L523 381 L542 386 L561 408 L579 389 L598 401 L617 385 L637 391 L656 399 L676 379 L696 393 L716 389 L736 404 L756 386 L780 392 L812 389" fill="none" stroke="#245E9D" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round" opacity="0.35"/>
+<rect x="469" y="373" width="185" height="48" rx="6" fill="#E8F2FA" stroke="#5388B1" stroke-width="1.5" fill-opacity="0.35"/>
+<rect x="560" y="373" width="185" height="48" rx="6" fill="#DDF4F0" stroke="#36998E" stroke-width="1.5" fill-opacity="0.35"/>
+<path d="M466 397 L486 392 L505 399 L523 381 L542 386 L561 408 L579 389 L598 401 L617 385 L637 391 L656 399 L676 379 L696 393 L716 389 L736 404 L756 386 L780 392 L812 389" fill="none" stroke="#245E9D" stroke-width="2.0" stroke-linecap="round" stroke-linejoin="round" />
 <text x="481" y="437" font-size="11.5" fill="#245E9D" >Window 1: 100 samples</text>
 <text x="615" y="451" font-size="11.5" fill="#268377" >Window 2: 100 samples</text>
 <path d="M469 464 H560" fill="none" stroke="#245E9D" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round" marker-end="url(#arrow)"/>
