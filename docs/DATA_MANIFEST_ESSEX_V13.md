@@ -13,7 +13,7 @@ The following inventory was recorded from the official version-13 file list. The
 | MATLAB.zip | 224.68 | 63190690 | Core data, obtain after README |
 | angles.xlsx | 29.73 | 63342406 | Joint-angle analysis, later |
 | OpenSim.zip | 10.40 | 63190519 | Optional MSK modelling |
-| Visual3D.zip | 18414.04 | 63341380 | Optional, not used in this eight-stage analysis (approximately 18 GiB) |
+| Visual3D.zip | 18414.04 | 63341380 | Optional, not used in this eight-notebook analysis (approximately 18 GiB) |
 
 Notebook 01 reads the current source manifest and obtains the required support files and `MATLAB.zip`. Existing downloads are reused under `data/raw/essex_femoral_neck_loading/`; extracted participant files are written to `matlab_records/` below that folder.
 
