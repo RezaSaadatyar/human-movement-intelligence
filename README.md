@@ -21,9 +21,11 @@ For the current methods, model-file interface and limitations, see the [HARTH st
 
 ## Selected BoneNet / Essex evidence
 
-The original [Essex Figshare v13](https://doi.org/10.6084/m9.figshare.30225739.v13) study pathway reconstructed the original seven-IMU to eleven-position FE model targets for **1,729 eligible trials from 37 participants**. Five grouped Training folds selected **Random Forest** as the frozen primary model; Stage 07 additionally examined temporal CNN/TCN and GRU/BiGRU over **75 Training-only robustness fits**.
+The original [Essex Figshare v13](https://doi.org/10.6084/m9.figshare.30225739.v13) study pathway reconstructed the original seven-IMU to eleven-position FE model targets for **1,729 eligible trials from 37 participants**. Five grouped Training folds selected the **Random Forest model family** for primary reporting; Stage 07 additionally examined temporal CNN/TCN and GRU/BiGRU over **75 Training-only robustness fits**.
 
 The recorded final evaluation used four participant-held-out subjects (183 trials) from the **same source**, with primary and secondary model choices specified before Test. The primary RF reached **0.0009384** subject-balanced MAE; a fixed secondary Dilated TCN reached **0.0008759** and had lower e1/e3 peak-value errors, while RF located the peak indices more accurately. The four-person paired bootstrap interval for the observed model difference spans zero; these are not population-level, external or clinical validity results.
+
+The Stage 05 Random Forest CV used `max_features=1.0` (all 210 predictors per split), but the separately configured Stage 08 Random Forest used `max_features=1` (one predictor per split). The latter setting was recorded before the published Test results; the reason for departing from the Stage 05 recipe is not established. Consequently, the Stage 05 CV score is **not a validation score for the exact Stage 08 Random Forest configuration**. The reported Test results remain those of the actual Stage 08 implementation, without Test-driven retuning.
 
 For methods and exact source limitations, see the [BoneNet scientific report](biomechanical_load_estimation/BONENET_RESEARCH_METHODS_AND_EVIDENCE.md), [final Stage 08 metrics](biomechanical_load_estimation/output/08_test_primary_secondary_metrics.csv), [study-wide workflow](biomechanical_load_estimation/images/study_overview.svg) and [reproducibility guide](docs/BONENET_REPRODUCIBILITY.md).
 
