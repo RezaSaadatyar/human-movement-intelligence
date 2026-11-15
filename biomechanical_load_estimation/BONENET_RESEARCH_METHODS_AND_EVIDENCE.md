@@ -2,9 +2,9 @@
 
 **Study:** Biomechanical Load Estimation, Human Movement Intelligence.
 
-**Scope:** Original Essex IMU–finite-element (FE) record recovery, participant-disjoint classical and temporal modelling, peak-error analysis, robustness and held-out Test evaluation. This report covers [Stages 01–08](README.md#2-experimental-programme) and is the companion to the [project README](README.md) and [reproducibility guide](../docs/BONENET_REPRODUCIBILITY.md).
+**Scope:** Original Essex IMU–finite-element (FE) record recovery, participant-disjoint classical and temporal modelling, peak-error analysis, robustness and held-out Test evaluation. This report covers [Notebooks 01–08](README.md#2-experimental-programme) and is the companion to the [project README](README.md) and [reproducibility guide](../docs/BONENET_REPRODUCIBILITY.md).
 
-**Recorded results:** This report uses the executed notebooks and corresponding CSV tables from all eight stages. Rerunning a stage updates its named result files. The study overview is shown in the [README](README.md); the numerical peak-error figure below supports the detailed results.
+**Recorded results:** This report uses the executed notebooks and corresponding CSV tables from all eight notebooks. Rerunning a notebook updates its named result files. The study overview is shown in the [README](README.md); the numerical peak-error figure below supports the detailed results.
 
 ## 1. Research Objective and Scope
 
@@ -43,20 +43,20 @@ The separate [public BoneNet derivative](https://github.com/ZainabAltai/BoneNet-
 
 The original nested MATLAB objects were decoded and numerically reconstructed without treating interpolated derivatives as original evidence. Original trial keys and provenance were retained; the time-coordinate audit established which eleven positions in the 101-sample IMU grid correspond to the original FE target values. For all 1,729 eligible trials, the zero-based IMU indices are `[0, 9, 19, 29, 39, 49, 59, 69, 79, 89, 99]`. The temporal models read network features **at those exact positions**. No synthetic 101-point FE ground truth is used.
 
-### Source audit and governed paired cohort (Stages 01–04)
+### Source audit and governed paired cohort (Notebooks 01–04)
 
-**Stages 01–03 — source understanding and numerical recovery.** The project inspected the official metadata, original archive inventory, 40-person MATLAB object layout, stable record identities, numerical nested fields and temporal correspondence. The presence and eligibility of each FE series were checked rather than silently filling missing labels. The resulting current trial registry and time-coordinate tables provide the inputs for pairing and modelling.
+**Notebooks 01–03 — source understanding and numerical recovery.** The project inspected the official metadata, original archive inventory, 40-person MATLAB object layout, stable record identities, numerical nested fields and temporal correspondence. The presence and eligibility of each FE series were checked rather than silently filling missing labels. The resulting current trial registry and time-coordinate tables provide the inputs for pairing and modelling.
 
-**Stage 04 — governed paired cohort.** All 1,729 eligible trials were assigned to the fixed **29/4/4 participant split**; channel schema, native FE indices and participant assignments were saved. The reconstructed paired arrays are stored in the local processed-data directory for reuse by subsequent stages.
+**Notebook 04 — governed paired cohort.** All 1,729 eligible trials were assigned to the fixed **29/4/4 participant split**; channel schema, native FE indices and participant assignments were saved. The reconstructed paired arrays are stored in the local processed-data directory for reuse by subsequent notebooks.
 
 ## 4. Experimental Design and Evaluation
 
-**Participant allocation after source recovery (Stage 04):**
+**Participant allocation after source recovery (Notebook 04):**
 
 | Partition | Participants | Eligible trials | Role |
 | --- | ---: | ---: | --- |
-| Training | 29 | 1,354 | Grouped model selection and all Stage 07 robustness jobs |
-| Diagnostic Validation | 4 | 192 | Predefined diagnostic comparison in Stages 05–06, not new Stage 07 selection |
+| Training | 29 | 1,354 | Grouped model selection and all Notebook 07 robustness jobs |
+| Diagnostic Validation | 4 | 192 | Predefined diagnostic comparison in Notebooks 05–06, not new Notebook 07 selection |
 | Reserved Test | 4 | 183 | Final evaluation, separate from model fitting and selection |
 | **Total** | **37** | **1,729** | All source-eligible observations |
 | Final Development (Training + Validation) | 33 | 1,546 | Final fitting after model selection |
@@ -67,23 +67,23 @@ The main scoring unit is the **participant**, not the individual FE position. In
 
 The 183 final Test trials therefore represent **four independent human clusters**, not 183 independent people or 4,026 independent physiological measurements.
 
-**Model selection boundary:** Stage 05 classical and Stage 07 principal-architecture comparisons use the Training-only grouped evidence. The no-peak-loss TCN is a diagnostic ablation, not a primary-selection candidate.
+**Model selection boundary:** Notebook 05 classical and Notebook 07 principal-architecture comparisons use the Training-only grouped evidence. The no-peak-loss TCN is a diagnostic ablation, not a primary-selection candidate.
 
 ## 5. Methods, Models and Configurations
 
-### Classical regression (Stage 05)
+### Classical regression (Notebook 05)
 
-**Stage 05 — classical regression.** The Training Mean control, Ridge regression and Random Forest benchmark were compared using five per-channel original-IMU summary features: **mean, standard deviation, minimum, maximum and root mean square**. With 42 input channels this yields **210 predictors**. Each model returns 22 values (eleven FE positions × two original FE targets) per trial. Five Training-only participant-disjoint folds determined the model-selection ranking. Ridge uses a fold-fitted StandardScaler and `alpha=10.0`; the Stage 05 Random Forest uses 200 trees, minimum leaf size 3, `max_features=1.0` and seed 2026.
+**Notebook 05 — classical regression.** The Training Mean control, Ridge regression and Random Forest benchmark were compared using five per-channel original-IMU summary features: **mean, standard deviation, minimum, maximum and root mean square**. With 42 input channels this yields **210 predictors**. Each model returns 22 values (eleven FE positions × two original FE targets) per trial. Five Training-only participant-disjoint folds determined the model-selection ranking. Ridge uses a fold-fitted StandardScaler and `alpha=10.0`; the Notebook 05 Random Forest uses 200 trees, minimum leaf size 3, `max_features=1.0` and seed 2026.
 
-### Temporal regression and peak-aware objective (Stage 06)
+### Temporal regression and peak-aware objective (Notebook 06)
 
-Stage 06 compared two compact neural models: a **Temporal CNN** and a residual **Dilated TCN**. Both consume the complete original 101×42 IMU sequence and use an exact 11-position FE index readout. Both used identical predefined training epochs (**35 per fold**), AdamW, training-fold-only standardisation and the same normalised waveform-plus-peak objective (peak weight **0.25**). The architectures have different parameter counts. The saved Stage 06 execution reports CUDA.
+Notebook 06 compared two compact neural models: a **Temporal CNN** and a residual **Dilated TCN**. Both consume the complete original 101×42 IMU sequence and use an exact 11-position FE index readout. Both used identical predefined training epochs (**35 per fold**), AdamW, training-fold-only standardisation and the same normalised waveform-plus-peak objective (peak weight **0.25**). The architectures have different parameter counts. The saved Notebook 06 execution reports CUDA.
 
-### Robustness model configurations (Stage 07)
+### Robustness model configurations (Notebook 07)
 
-Stage 07 introduced **GRU** and **bidirectional GRU (BiGRU)** as recurrent architectures alongside Temporal CNN and Dilated TCN. One additional Dilated TCN configuration removed the peak-loss penalty. Each of the **five configurations × three fixed seeds (2026/2027/2028) × five Training-fold assignments** ran for **35 epochs**, producing **75 actual completed neural training jobs** and **2,625 recorded epoch-loss rows**, all using Training only. The recorded GPU was Tesla T4.
+Notebook 07 introduced **GRU** and **bidirectional GRU (BiGRU)** as recurrent architectures alongside Temporal CNN and Dilated TCN. One additional Dilated TCN configuration removed the peak-loss penalty. Each of the **five configurations × three fixed seeds (2026/2027/2028) × five Training-fold assignments** ran for **35 epochs**, producing **75 actual completed neural training jobs** and **2,625 recorded epoch-loss rows**, all using Training only. The recorded GPU was Tesla T4.
 
-### Final Development configuration and held-out Test (Stage 08)
+### Final Development configuration and held-out Test (Notebook 08)
 
 **Model roles and settings.** The Training-only comparisons selected Random Forest as the primary model family; Dilated TCN is the predefined secondary comparison. Final settings are defined in [`final_model_settings()`](code/src/essex_stage08_final.py):
 
@@ -96,29 +96,29 @@ Stage 07 introduced **GRU** and **bidirectional GRU (BiGRU)** as recurrent archi
 | Peak-loss weight | Not applicable | 0.25 |
 | Random seed | 2026 | 2128 |
 
-**Selected-to-final Random Forest configuration difference.** Stage 05 trained and selected the Random Forest family using `max_features=1.0` (**float**), which exposes all **210 predictors** as candidates at each tree split. The Stage 08 implementation used `max_features=1` (**integer**), which samples **one candidate predictor** per split. The parameter types and estimator behaviour differ: the Training OOF MAE **0.0007950** is evidence for the Stage 05 recipe, **not** a Training-CV estimate of the exact Stage 08 recipe. The held-out Test MAE **0.0009384** belongs to the model actually fitted using the Stage 08 settings. These scores also use different fitting populations and evaluation partitions, so their difference cannot be attributed solely to adding Validation participants.
+**Selected-to-final Random Forest configuration difference.** Notebook 05 trained and selected the Random Forest family using `max_features=1.0` (**float**), which exposes all **210 predictors** as candidates at each tree split. The Notebook 08 implementation used `max_features=1` (**integer**), which samples **one candidate predictor** per split. The parameter types and estimator behaviour differ: the Training OOF MAE **0.0007950** is evidence for the Notebook 05 recipe, **not** a Training-CV estimate of the exact Notebook 08 recipe. The held-out Test MAE **0.0009384** belongs to the model actually fitted using the Notebook 08 settings. These scores also use different fitting populations and evaluation partitions, so their difference cannot be attributed solely to adding Validation participants.
 
-**Historical provenance and unresolved rationale.** The [2 November 2026 pre-Test Stage 08 protocol commit](https://github.com/RezaSaadatyar/human-movement-intelligence/commit/d7ae38438f8bf7f5c9510fc61c24b4a4eb349087) explicitly recorded the integer value `1`, before the later commit documenting the final Test results. The historical protocol checker compared the setting numerically with `1.0`, which in Python does not distinguish integer `1` from floating-point `1.0`; it therefore did not enforce equivalence of the parameter **types**. The inspected history does not establish an independent scientific justification for the change. The pre-Test record supports its chronology, **not** the claim that the exact Stage 05 configuration was selected and evaluated unchanged. This is a configuration-consistency limitation, not evidence of Test-informed tuning. A future evaluation of the exact Stage 05-selected recipe would require an explicitly governed scientific correction and new fitting/evaluation, not a documentation-only edit.
+**Recorded Notebook 08 settings.** The [2 November 2026 pre-Test Notebook 08 protocol commit](https://github.com/RezaSaadatyar/human-movement-intelligence/commit/d7ae38438f8bf7f5c9510fc61c24b4a4eb349087) specifies the integer value `1`, before the commit documenting the final Test results. The original protocol check compared this parameter numerically with `1.0`; Python considers these values numerically equal, although scikit-learn interprets the integer and float types differently for `max_features`. The source history records both configurations without explaining the reason for the difference.
 
 **Final fitting.** Both models were fitted on **33 Development participants / 1,546 trials**, combining Training and diagnostic Validation after selection. The recorded final TCN has **51,986 parameters** and used Tesla T4 CUDA. Test labels are excluded from fitting and model selection.
 
 ## 6. Results and Comparative Analysis
 
-### Classical model comparison (Stage 05)
+### Classical model comparison (Notebook 05)
 
-| Stage 05 classical model | Training OOF subject-balanced MAE | Diagnostic Validation subject-balanced MAE |
+| Notebook 05 classical model | Training OOF subject-balanced MAE | Diagnostic Validation subject-balanced MAE |
 | --- | ---: | ---: |
 | Training mean | 0.0012562 | 0.0012673 |
 | Ridge | 0.0012156 | 0.0008758 |
 | **Random Forest** | **0.0007950** | **0.0006771** |
 
-The earlier Validation set was inspected during model development. It is therefore an informative **diagnostic** set, but not a prospectively blind, external evaluation. Random Forest had the lowest predefined **Training** metric and was selected as the primary model family; its final Stage 08 settings are documented in Section 5. The Test results did not change that reporting role.
+The earlier Validation set was inspected during model development. It is therefore an informative **diagnostic** set, but not a prospectively blind, external evaluation. Random Forest had the lowest predefined **Training** metric and was selected as the primary model family; its final Notebook 08 settings are documented in Section 5. The Test results did not change that reporting role.
 
-Sources: [Stage 04 participant assignments](output/04_subject_split_assignments.csv), [Stage 05 CV model summary](output/05_training_cv_model_summary.csv), [Stage 05 Validation results](output/05_validation_model_metrics.csv), and the corresponding notebook methods.
+Sources: [Notebook 04 participant assignments](output/04_subject_split_assignments.csv), [Notebook 05 CV model summary](output/05_training_cv_model_summary.csv), [Notebook 05 Validation results](output/05_validation_model_metrics.csv), and the corresponding notebook methods.
 
-### Temporal model comparison (Stage 06)
+### Temporal model comparison (Notebook 06)
 
-| Stage 06 architecture | Training OOF subject-balanced MAE | Diagnostic Validation subject-balanced MAE |
+| Notebook 06 architecture | Training OOF subject-balanced MAE | Diagnostic Validation subject-balanced MAE |
 | --- | ---: | ---: |
 | Temporal CNN | 0.0009036 | 0.0007517 |
 | **Dilated TCN** | **0.0008474** | **0.0007151** |
@@ -126,11 +126,11 @@ Sources: [Stage 04 participant assignments](output/04_subject_split_assignments.
 
 Random Forest remained lower in overall waveform MAE. Yet on the **four-person Validation** set, Dilated TCN had lower e1/e3 **peak-value** errors than Random Forest: **0.0005855 / 0.0014333** versus **0.0006625 / 0.0016423**. The neural model had *higher* e1/e3 **peak-position** errors: **1.615 / 1.495** versus **1.417 / 1.005** original FE indices.
 
-This establishes a development-stage **trade-off**, not blanket deep-learning superiority. The source target peaks are computed on the eleven original FE coordinates; the integer index difference is not a physical time difference in seconds.
+This establishes a development-notebook **trade-off**, not blanket deep-learning superiority. The source target peaks are computed on the eleven original FE coordinates; the integer index difference is not a physical time difference in seconds.
 
-Sources: [Stage 06 Training CV](output/06_training_cv_model_summary.csv), [Stage 06 Validation results](output/06_validation_model_metrics.csv).
+Sources: [Notebook 06 Training CV](output/06_training_cv_model_summary.csv), [Notebook 06 Validation results](output/06_validation_model_metrics.csv).
 
-### Final participant-held-out Test (Stage 08)
+### Final participant-held-out Test (Notebook 08)
 
 **Held-out Test.** Four participants excluded from model fitting contributed 183 trials and **8,052 prediction rows** (183 × eleven positions × two targets × two models). Rerunning Notebook 08 refits the predefined models and replaces its current outputs; it does not create a new independent evaluation sample.
 
@@ -154,28 +154,28 @@ Additional result figures: [waveform MAE](output/08_test_waveform_mae_comparison
 
 ## 7. Robustness, Uncertainty and Additional Analyses
 
-### Multi-seed robustness, ablation and perturbation analysis (Stage 07)
+### Multi-seed robustness, ablation and perturbation analysis (Notebook 07)
 
-| Stage 07 Training OOF model/configuration | Mean subject-balanced MAE | Research role |
+| Notebook 07 Training OOF model/configuration | Mean subject-balanced MAE | Research role |
 | --- | ---: | --- |
 | Dilated TCN **without** peak loss | 0.0008624 | Controlled ablation only; not eligible for primary selection |
 | **Dilated TCN** | **0.0008769** | Best mean among four predefined principal neural architectures |
 | BiGRU | 0.0008800 | Close recurrent comparison |
 | GRU | 0.0008898 | Recurrent comparison |
 | Temporal CNN | 0.0009152 | Convolutional comparison |
-| Random Forest (Stage 05 locked) | **0.0007950** | Previously recorded primary classical comparator |
+| Random Forest (Notebook 05 locked) | **0.0007950** | Previously recorded primary classical comparator |
 
-These neural values are means over three seed-specific, full Training OOF metrics; the classical reference comes from Stage 05's earlier training run. The comparison is **not** a claim of capacity-matched training or a statistically significant architecture ranking.
+These neural values are means over three seed-specific, full Training OOF metrics; the classical reference comes from Notebook 05's earlier training run. The comparison is **not** a claim of capacity-matched training or a statistically significant architecture ranking.
 
-**Peak-loss ablation.** Removing the 0.25 peak loss lowered three-seed Dilated TCN mean waveform MAE from **0.0008769** to **0.0008624**. Peak-value and peak-index results did not establish a reliable improvement from *adding* the penalty; per-seed and target effects varied, and the exploratory participant bootstrap for the paired waveform difference included zero. The Stage 06 diagnostic Validation peak advantage therefore cannot be causally attributed to the chosen peak penalty.
+**Peak-loss ablation.** Removing the 0.25 peak loss lowered three-seed Dilated TCN mean waveform MAE from **0.0008769** to **0.0008624**. Peak-value and peak-index results did not establish a reliable improvement from *adding* the penalty; per-seed and target effects varied, and the exploratory participant bootstrap for the paired waveform difference included zero. The Notebook 06 diagnostic Validation peak advantage therefore cannot be causally attributed to the chosen peak penalty.
 
 **Participant-level sensitivity.** A single prespecified Dilated TCN seed (2026) underwent original six-channel IMU-group mean replacement and fixed normalised Gaussian noise tests on out-of-fold Training trials. Replacing the **right-thigh (RTH)** sensor group produced the largest average error increase, about **+0.0001060**. Fixed Gaussian noise (SD 0.10 in fold-standardised units) produced an approximately **+0.00000171** mean change. These are defined *model-response perturbations*, not physical sensor failures or causal biomechanical importance estimates.
 
-**Selection.** A predeclared Training-only rule compared the principal architectures with the locked Random Forest CV score, excluding the no-peak ablation from primary selection. **Random Forest remained the primary Stage 08 candidate.** No new Stage 07 model ranking was performed using the previously inspected Validation or reserved Test sets.
+**Selection.** A predeclared Training-only rule compared the principal architectures with the locked Random Forest CV score, excluding the no-peak ablation from primary selection. **Random Forest remained the primary Notebook 08 candidate.** No new Notebook 07 model ranking was performed using the previously inspected Validation or reserved Test sets.
 
-Sources: [Stage 07 model stability](output/07_training_model_stability_summary.csv), [Training-only candidate decision](output/07_training_candidate_decision.csv), [peak-loss ablation](output/07_peak_loss_ablation.csv), [sensor/noise sensitivity](output/07_sensor_noise_sensitivity.csv).
+Sources: [Notebook 07 model stability](output/07_training_model_stability_summary.csv), [Training-only candidate decision](output/07_training_candidate_decision.csv), [peak-loss ablation](output/07_peak_loss_ablation.csv), [sensor/noise sensitivity](output/07_sensor_noise_sensitivity.csv).
 
-### Four-participant Test uncertainty (Stage 08)
+### Four-participant Test uncertainty (Notebook 08)
 
 The exploratory paired whole-participant bootstrap for **TCN − RF subject-balanced waveform MAE** was **−0.0000625**, with a 95% percentile interval of **[−0.0001859, +0.0000431]** over only four Test participants (2,000 draws). The interval includes zero. It is not confirmatory evidence of population-level model superiority.
 
@@ -185,14 +185,14 @@ The notebooks exchange current data tables. Notebook 01 supplies trial identitie
 
 The [Test prediction table](output/08_test_trial_predictions.csv) contains 8,052 rows. Together with the [metrics](output/08_test_primary_secondary_metrics.csv) and [participant bootstrap](output/08_test_subject_bootstrap.csv), it supports result inspection without retraining. Detailed input/output dependencies and installation instructions are in the [running guide](../docs/BONENET_REPRODUCIBILITY.md).
 
-Raw MATLAB files and numerical NPZ arrays remain local. Existing downloads are reused. The paired NPZ is rebuilt when absent or older than its upstream inputs; its arrays are aligned to the trial table by key. Every Stage 07 run trains all 75 jobs again, and every Stage 08 run refits both final models. GPU results may vary across environments.
+Raw MATLAB files and numerical NPZ arrays remain local. Existing downloads are reused. The paired NPZ is rebuilt when absent or older than its upstream inputs; its arrays are aligned to the trial table by key. Every Notebook 07 run trains all 75 jobs again, and every Notebook 08 run refits both final models. GPU results may vary across environments.
 
 ## 9. Discussion, Limitations and Future Work
 
 1. **One source and four Test participants.** Participant-held-out performance does not establish independent-site or prospective generalisation. Multiple trials and FE positions do not increase the number of Test participants. The four-participant bootstrap interval for the model difference includes zero.
 2. **Model-derived targets.** FE strains are unitless simulation outputs. In-vivo strain, physical peak delays in seconds and clinical validity were not measured by this analysis.
-3. **Selected-to-final RF mismatch and different evaluation protocols.** Stage 07 neural metrics average three seeds, while final models use one fixed seed each. More importantly, the final RF uses integer `max_features=1` rather than Stage 05's float `1.0`. The value `1` was recorded in the pre-Test protocol, but no supporting scientific rationale for this change was identified. The Stage 05 CV result cannot be treated as the development estimate of the exact final RF configuration. The recorded Test results are preserved as an exploratory assessment of the configuration actually fitted; no retrospective Test-driven parameter choice is justified.
-4. **Repeated Validation inspection.** Validation was used for diagnostics in earlier stages, so it is not blind evidence for programme-wide research decisions. Model ranking in the reported code uses Training CV.
+3. **Different model-fitting schedules.** Notebook 07 reports three-seed neural metrics, while Notebook 08 uses one fixed seed for each final model. The Random Forest configuration used by each notebook is recorded in Section 5.
+4. **Repeated Validation inspection.** Validation was used for diagnostics in earlier notebooks, so it is not blind evidence for programme-wide research decisions. Model ranking in the reported code uses Training CV.
 5. **Waveform and peak errors differ.** Lower average waveform error does not imply more accurate peak location. The peak-loss ablation did not establish a consistent benefit from adding the penalty.
 6. **Perturbation sensitivity is model-specific.** Sensor mean replacement and Gaussian noise measure responses to artificial input changes, not causal biomechanical contributions or validated sensor-removal strategies.
 7. **Replication conditions.** Full reproduction requires the original MATLAB files, compatible software dependencies and the stated model settings. Exact neural optimisation results may vary across computing environments.
