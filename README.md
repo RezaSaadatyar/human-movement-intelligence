@@ -52,8 +52,7 @@ human-movement-intelligence/
 │   ├── evidence/
 │   └── images/
 ├── docs/
-│   ├── DATASETS.md
-│   └── RESEARCH_STANDARDS.md
+│   └── DATASETS.md
 └── requirements.txt
 ```
 
