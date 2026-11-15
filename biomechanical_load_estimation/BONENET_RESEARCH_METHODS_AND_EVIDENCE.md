@@ -4,8 +4,6 @@
 
 **Scope:** Original Essex IMU–finite-element (FE) record recovery, participant-disjoint classical and temporal modelling, peak-error analysis, robustness and held-out Test evaluation. This report covers [Notebooks 01–08](README.md#2-experimental-programme) and is the companion to the [project README](README.md) and [reproducibility guide](../docs/BONENET_REPRODUCIBILITY.md).
 
-**Recorded results:** This report uses the executed notebooks and corresponding CSV tables from all eight notebooks. Rerunning a notebook updates its named result files. The study overview is shown in the [README](README.md); the numerical peak-error figure below supports the detailed results.
-
 ## 1. Research Objective and Scope
 
 The central research question is whether lower-body wearable inertial signals can predict **model-derived femoral-neck principal-strain trajectories**, and whether temporal neural models improve average waveform, peak-value or peak-position error compared with classical regression when participants are separated.
