@@ -5,7 +5,7 @@
 <rect x="0" y="0" width="1700" height="480" rx="20" fill="#F4F9FD"/>
 <g font-family="DejaVu Sans, Arial, sans-serif">
 <text x="30" y="38" font-size="23" font-weight="700" fill="#173453">FINAL RESEARCH RESULTS | ESSEX HELD-OUT TEST</text>
-<text x="30" y="67" font-size="15" fill="#54738A">Current tables from Stages 01–08 · fixed models · participant-held-out evaluation</text>
+<text x="30" y="67" font-size="15" fill="#54738A">Current tables from Notebooks 01–08 · fixed models · participant-held-out evaluation</text>
 <rect x="24" y="84" width="1652" height="160" rx="16" fill="#EAF3FA" stroke="#C7D9E6" stroke-width="2"/>
 <rect x="24" y="262" width="1652" height="174" rx="16" fill="#EAF3FA" stroke="#C7D9E6" stroke-width="2"/>
 <g stroke="#7298B0" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><circle cx="102" cy="129" r="11" fill="#FFFFFF"/><path d="M88 143 Q102 139 116 143 L122 183 Q102 190 82 183 Z" fill="#D9E7F1"/><path d="M89 150 L72 169 L67 182 M116 150 L132 169 L138 182 M91 185 L83 205 L76 225 M111 185 L119 205 L127 225" fill="none"/></g><g fill="#245E9D" stroke="#FFFFFF" stroke-width="1"><rect x="96" y="173" width="12" height="9" rx="2"/><rect x="84" y="189" width="11" height="9" rx="2"/><rect x="111" y="189" width="11" height="9" rx="2"/><rect x="79" y="205" width="11" height="9" rx="2"/><rect x="117" y="205" width="11" height="9" rx="2"/><rect x="70" y="218" width="11" height="9" rx="2"/><rect x="124" y="218" width="11" height="9" rx="2"/></g>
@@ -33,7 +33,7 @@
 <path d="M1190 354 H1211" fill="none" stroke="#245E9D" stroke-width="2.2" marker-end="url(#small-arrow)"/>
 <path d="M1426 354 H1447" fill="none" stroke="#245E9D" stroke-width="2.2" marker-end="url(#small-arrow)"/><g role="group" aria-label="Verify Source">
 <rect x="38" y="287" width="208" height="132" rx="15" fill="#173453" stroke="#173453" stroke-width="1.8"/>
-<text x="142" y="310" font-size="13.2" fill="#BCEDE5" font-weight="700" text-anchor="middle">STAGES 01–04</text>
+<text x="142" y="310" font-size="13.2" fill="#BCEDE5" font-weight="700" text-anchor="middle">NOTEBOOKS 01–04</text>
 <text x="142" y="337" font-size="14.5" font-weight="700" fill="#FFFFFF" text-anchor="middle">Verify Source</text>
 <text x="142" y="361" font-size="12.8" fill="#D2E9EE" text-anchor="middle">Original MATLAB archive</text>
 <text x="142" y="381" font-size="12.8" fill="#D2E9EE" text-anchor="middle">Native FE time positions</text>
@@ -41,7 +41,7 @@
 </g>
 <g role="group" aria-label="Locked RF Evidence">
 <rect x="274" y="287" width="208" height="132" rx="15" fill="#FFFFFF" stroke="#B8CFDE" stroke-width="1.8"/>
-<text x="378" y="310" font-size="13.2" fill="#4C7A92" font-weight="700" text-anchor="middle">STAGE 05</text>
+<text x="378" y="310" font-size="13.2" fill="#4C7A92" font-weight="700" text-anchor="middle">NOTEBOOK 05</text>
 <text x="378" y="337" font-size="14.5" font-weight="700" fill="#173453" text-anchor="middle">Locked RF Evidence</text>
 <text x="378" y="361" font-size="12.8" fill="#506C7E" text-anchor="middle">Five-fold grouped Train CV</text>
 <text x="378" y="381" font-size="12.8" fill="#506C7E" text-anchor="middle">Subject MAE: 0.0007950</text>
@@ -49,7 +49,7 @@
 </g>
 <g role="group" aria-label="Temporal Evidence">
 <rect x="510" y="287" width="208" height="132" rx="15" fill="#FFFFFF" stroke="#B8CFDE" stroke-width="1.8"/>
-<text x="614" y="310" font-size="13.2" fill="#4C7A92" font-weight="700" text-anchor="middle">STAGES 06–07</text>
+<text x="614" y="310" font-size="13.2" fill="#4C7A92" font-weight="700" text-anchor="middle">NOTEBOOKS 06–07</text>
 <text x="614" y="337" font-size="14.5" font-weight="700" fill="#173453" text-anchor="middle">Temporal Evidence</text>
 <text x="614" y="361" font-size="12.8" fill="#506C7E" text-anchor="middle">TCN / CNN / GRU / BiGRU</text>
 <text x="614" y="381" font-size="12.8" fill="#506C7E" text-anchor="middle">3 seeds × 5 grouped folds</text>
@@ -65,7 +65,7 @@
 </g>
 <g role="group" aria-label="Held-Out Test">
 <rect x="982" y="287" width="208" height="132" rx="15" fill="#FFFFFF" stroke="#B8CFDE" stroke-width="1.8"/>
-<text x="1086" y="310" font-size="13.2" fill="#4C7A92" font-weight="700" text-anchor="middle">STAGE 08</text>
+<text x="1086" y="310" font-size="13.2" fill="#4C7A92" font-weight="700" text-anchor="middle">NOTEBOOK 08</text>
 <text x="1086" y="337" font-size="14.5" font-weight="700" fill="#173453" text-anchor="middle">Held-Out Test</text>
 <text x="1086" y="361" font-size="12.8" fill="#506C7E" text-anchor="middle">Use current paired arrays</text>
 <text x="1086" y="381" font-size="12.8" fill="#506C7E" text-anchor="middle">183 held-out Test trials</text>
