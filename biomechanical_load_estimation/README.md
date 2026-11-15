@@ -2,11 +2,11 @@
 
 ![Essex study overview: wearable IMU inputs, native FE targets, participant-level splits and model evaluation](images/study_overview.svg)
 
-*Eight-stage workflow from original MATLAB records to participant-held-out model evaluation. The signal traces in this diagram are schematic; numerical results come from the saved output tables.*
+*Eight-notebook workflow from original MATLAB records to participant-held-out model evaluation. The signal traces in this diagram are schematic; numerical results come from the saved output tables.*
 
 This project predicts **model-derived femoral-neck principal strains (`e1` and `e3`) from seven wearable IMUs**. It compares classical regression, temporal convolutional networks and GRU/BiGRU models, examining waveform accuracy, peak magnitude, peak location and sensitivity to training seeds and input perturbations.
 
-All eight notebooks contain recorded results, and the associated CSV tables and figures are available in [`output/`](output/). Rerunning a notebook updates its stage-specific results.
+All eight notebooks contain recorded results, and the associated CSV tables and figures are available in [`output/`](output/). Rerunning a notebook updates its own results.
 
 ## 1. Dataset and Experimental Protocol
 
@@ -45,24 +45,24 @@ The [research methods and results](BONENET_RESEARCH_METHODS_AND_EVIDENCE.md) des
 
 ### Training-only model comparison
 
-Random Forest was selected as the primary model family using Training-only grouped CV. Dilated TCN provides the predefined secondary comparison. Stage 07 evaluated five neural configurations over three seeds and five folds, giving **75 fits**. The no-peak-loss TCN was a diagnostic ablation, excluded from the primary selection pool.
+Random Forest was selected as the primary model family using Training-only grouped CV. Dilated TCN provides the predefined secondary comparison. Notebook 07 evaluated five neural configurations over three seeds and five folds, giving **75 fits**. The no-peak-loss TCN was a diagnostic ablation, excluded from the primary selection pool.
 
 | Model / condition | Training OOF subject-balanced MAE | Comparison |
 | --- | ---: | --- |
-| Random Forest | 0.0007950 | Stage 05, five folds |
-| Dilated TCN | 0.0008769 | Stage 07, three-seed mean |
-| BiGRU | 0.0008800 | Stage 07, three-seed mean |
-| GRU | 0.0008898 | Stage 07, three-seed mean |
-| Temporal CNN | 0.0009152 | Stage 07, three-seed mean |
-| Dilated TCN without peak loss | 0.0008624 | Stage 07, ablation only |
+| Random Forest | 0.0007950 | Notebook 05, five folds |
+| Dilated TCN | 0.0008769 | Notebook 07, three-seed mean |
+| BiGRU | 0.0008800 | Notebook 07, three-seed mean |
+| GRU | 0.0008898 | Notebook 07, three-seed mean |
+| Temporal CNN | 0.0009152 | Notebook 07, three-seed mean |
+| Dilated TCN without peak loss | 0.0008624 | Notebook 07, ablation only |
 
 The peak-loss experiment did not establish a consistent benefit from adding the 0.25 penalty. Right-thigh sensor mean replacement produced the largest average error increase among the seven tested sensor groups; this describes the model's response to an artificial perturbation.
 
 ### Final participant-held-out Test
 
-The final models were fitted on 33 Development participants and evaluated on the four Test participants. Their settings are defined in [`final_model_settings()`](code/src/essex_stage08_final.py). The Stage 05 Random Forest used the **float** `max_features=1.0`, meaning all **210 candidate predictors** were considered at each tree split. The Stage 08 Random Forest used the **integer** `max_features=1`, meaning **one candidate predictor** per split. These produce different fitted-model recipes despite the superficially similar numbers.
+The final models were fitted on 33 Development participants and evaluated on the four Test participants. Their settings are defined in [`final_model_settings()`](code/src/essex_stage08_final.py). The Notebook 05 Random Forest used the **float** `max_features=1.0`, meaning all **210 candidate predictors** were considered at each tree split. The Notebook 08 Random Forest used the **integer** `max_features=1`, meaning **one candidate predictor** per split. These produce different fitted-model recipes despite the superficially similar numbers.
 
-The integer setting was already present in the [Stage 08 protocol committed on 2 November 2026 before the recorded final Test results](https://github.com/RezaSaadatyar/human-movement-intelligence/commit/d7ae38438f8bf7f5c9510fc61c24b4a4eb349087). However, the reviewed source history does not establish why this parameter was changed from the Stage 05 selection recipe. Therefore the Stage 05 Training-CV MAE of **0.0007950** selects the **Random Forest family under the Stage 05 configuration**; it does **not** independently validate the exact Stage 08 configuration. The reported Stage 08 Test MAE of **0.0009384** belongs to the model actually fitted with `max_features=1`. The [scientific methods report](BONENET_RESEARCH_METHODS_AND_EVIDENCE.md#final-development-configuration-and-held-out-test-stage-08) documents the evidence and limits; the Test scores have not been used to choose a replacement setting.
+The `max_features=1` setting was recorded in the [Notebook 08 pre-Test protocol committed on 2 November 2026](https://github.com/RezaSaadatyar/human-movement-intelligence/commit/d7ae38438f8bf7f5c9510fc61c24b4a4eb349087). The **0.0007950** Training-CV MAE belongs to Notebook 05's Random Forest configuration; the **0.0009384** Test MAE belongs to Notebook 08's configuration. Both are described in the [scientific methods report](BONENET_RESEARCH_METHODS_AND_EVIDENCE.md#final-development-configuration-and-held-out-test-notebook-08).
 
 | Test metric | Primary Random Forest | Secondary Dilated TCN |
 | --- | ---: | ---: |
