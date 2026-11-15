@@ -8,7 +8,7 @@ This study investigates **eight-class activity recognition from lower-back and t
 
 **Study:** The 13 notebooks cover source-quality analysis, participant-disjoint Development evaluation, model selection and assessment of the fitted models on S023 and S032. Their prior descriptive inspection makes this a **qualified same-study evaluation**, not a blind or external assessment.
 
-**Detailed scientific account:** [HARTH Research Methods and Evidence](HARTH_RESEARCH_METHODS_AND_EVIDENCE.md). **Execution and artefact guide:** [HARTH Reproducibility](../docs/HARTH_REPRODUCIBILITY.md).
+**Detailed scientific account:** [HARTH Research Methods and Evidence](HARTH_RESEARCH_METHODS_AND_EVIDENCE.md). **Execution and artefact details:** [Running and Reviewing the Study](#4-running-and-reviewing-the-study).
 
 ## 1. Dataset and Experimental Protocol
 
@@ -97,7 +97,39 @@ python -m pip install -r requirements.txt
 
 This includes PyTorch for neural-network stages. For a platform-specific CUDA build, consult the official PyTorch installation guidance. In Google Colab, start with each notebook's **00. Colab Repository Setup** and **01. Imports and Research Environment** sections. Use the original sequence and actual upstream files when performing full reproduction; do not rerun later stages with incompatible or missing upstream artefacts.
 
-Notebook 13 exports the fitted models and its associated research outputs in a single archive. For the file structure, inference settings and model-loading instructions, see the [execution guide](../docs/HARTH_REPRODUCIBILITY.md).
+### Notebook dependencies and regeneration
+
+| Notebooks | Essential inputs and boundary | Principal owned outputs |
+| --- | --- | --- |
+| 01 | Official pinned HARTH v2.0 recordings and original activity codes | `01_` source/eligibility, windows and local arrays |
+| 02–03 | Source records and eligible windows | `02_` exploratory ML; `03_` full Development cohort/classical CV |
+| 04–05 | Bounded participant-disjoint samples and Training-fitted transforms | `04_` CNN/RF; `05_` class-weighting and grouped comparisons |
+| 06–07 | Common source identities, separate sampling caps and nested-Training rules | `06_` sampling coverage; `07_` grouped/fixed-update evidence |
+| 08–09 | Development participants, Calibration roles or original source annotations | `08_` confidence/calibration; `09_` source-quality and class-support audits |
+| 10–11 | Matched 29-person Development folds and Training-only metrics | `10_` seven-model benchmark; `11_` seed/loss robustness |
+| 12 | Notebook 10 and 11 Development evidence | Selected-model and fitted-source protocol |
+| 13 | Notebook 12 specification, original 14,201 Development windows and S023/S032 recordings | Fitted models, inference settings, aligned predictions, metrics and ZIP |
+
+Notebooks overwrite their own current `output/` tables and figures. Preserve the original source revision, source label mapping, participant identities, window eligibility rules, channel order and training partitions when regenerating downstream results. Notebook 03's `output/03_development29_statistical_features.csv` is a **large locally generated table, not published in this repository**; regenerate it from the original source through Notebook 03 when the complete feature matrix is required. Existing aggregate tables and graphics can be examined without that file or retraining.
+
+The original input is pinned to NTNU AI Lab HARTH v2.0 commit `dad2cfbe89a26f72f19770419469ac037de200df`; source recordings are stored locally under `data/raw/harth_v2/`. See [Dataset Sources and Access](../docs/DATASETS.md#21-harth-v20).
+
+### Final fitted model files and loading
+
+Notebook 13 fits and reloads a weighted 1D-ResNet and 120-tree Random Forest. The local model directory uses:
+
+```text
+data/processed/harth_final_models/
+    resnet_state_dict.pt
+    random_forest.joblib
+    inference_config.csv
+```
+
+The default loader in [`python_modules/core/harth_final_inference.py`](../python_modules/core/harth_final_inference.py) expects that **unprefixed** `inference_config.csv` in the local model directory. The separate research copy [`output/13_inference_config.csv`](output/13_inference_config.csv) records parameter positions, ordered channels and their Development mean/SD, statistical-feature names, class order, window length and model settings.
+
+The recorded flat export `wearable_activity_recognition_Stage_13_Outputs.zip` contains **25 root-level files**: 23 numbered CSV/PNG research outputs (including `13_inference_config.csv`) and two model binaries (`resnet_state_dict.pt`, `random_forest.joblib`). It contains no extra unprefixed config file or nested project directory. When loading directly from the extracted archive, use `config_filename="13_inference_config.csv"`; the ordinary local model directory continues to use `inference_config.csv`. Keep the default local settings file if relying on the default loader. Load `.joblib` only from trusted sources because it deserialises Python objects.
+
+This is the recorded model-file interface, not a claim that an unprovided local binary is available in GitHub. The final S023/S032 results concern two previously inspected people from the same HARTH collection, not a blind external Test set.
 
 ## 5. Files and Saved Outputs
 
@@ -109,9 +141,8 @@ Notebook 13 exports the fitted models and its associated research outputs in a s
 | [`output/`](output/) | Current stage-prefixed research tables, predictions and generated figures |
 | [`images/`](images/) | Curated notebook workflows and explanatory figures |
 | [Scientific methods and evidence](HARTH_RESEARCH_METHODS_AND_EVIDENCE.md) | Detailed protocols, cross-stage results and limitations |
-| [Reproducibility guide](../docs/HARTH_REPRODUCIBILITY.md) | Practical inputs, regeneration boundaries and model-file interface |
 
-Each notebook replaces its own named current outputs on rerun. The original recordings, the full Stage 03 statistical-feature table and fitted model binaries are obtained or generated locally. See the [reproducibility guide](../docs/HARTH_REPRODUCIBILITY.md) for the required inputs and reconstruction steps.
+Each notebook replaces its own named current outputs on rerun. The original recordings, Notebook 03 statistical-feature table and fitted model binaries are obtained or generated locally. Their source dependencies and the model-loading interface are described in Section 4.
 
 ## 6. Interpretation and Scope
 

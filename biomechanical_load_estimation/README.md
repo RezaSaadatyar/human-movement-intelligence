@@ -94,7 +94,24 @@ The notebooks install `mat-io==1.0.1` for MATLAB table decoding. They reuse exis
 
 If an upstream notebook has not been rerun, downstream notebooks read its current saved tables. Notebook 04 writes the paired NPZ; later notebooks rebuild it when absent or older than its inputs. Notebook 07 trains all 75 jobs again on re-execution. Notebook 08 refits both final models and replaces its Test outputs. A rerun is not a new independent validation sample.
 
-See the [running guide](../docs/BONENET_REPRODUCIBILITY.md) for file dependencies and environment details.
+### Notebook inputs and owned outputs
+
+| Notebook | Essential inputs | Current outputs |
+| --- | --- | --- |
+| 01 | Original Essex Figshare v13 files | Trial registry, source summaries and file manifest |
+| 02 | Notebook 01 registry and original MATLAB objects | Column schema, pilot decoding tables and audit |
+| 03 | Notebook 01 registry and Notebook 02 schema | Original FE-to-IMU time mapping and numeric audit |
+| 04 | Registry, mapping and MATLAB source files | Trial/participant assignments and local paired NPZ |
+| 05 | Trial assignments and paired arrays | Classical CV/Validation metrics and grouped Training fold registry |
+| 06 | Paired arrays, assignments and Notebook 05 folds | Temporal model metrics and diagnostic figures |
+| 07 | Training arrays, folds and previous Development results | Three-seed model robustness, ablation and candidate comparison |
+| 08 | Development/Test assignments, current arrays and fixed final recipes | Test predictions, primary/secondary metrics and figures |
+
+Notebooks write numbered, current CSV/PNG results directly to [`output/`](output/), replacing their own files on rerun. The raw archive is retained locally under `data/raw/essex_femoral_neck_loading/`; original MATLAB tables are decoded with the pinned `mat-io==1.0.1` package. Downloaded archives are reused, and new transfers are checked for completeness and safe ZIP extraction. Notebook 04 constructs `data/processed/essex_femoral_neck_loading/essex_imu_fe_pairs_v13.npz`; later notebooks reuse or reconstruct it when relevant upstream files are newer. Data tables and arrays remain aligned using source trial keys.
+
+**Verification recorded for the implemented workflow:** offline tests cover current-output replacement, array/trial alignment, original participant assignments, shapes, participant isolation and small synthetic training examples. Existing prediction tables were checked without refitting the original Test cohort. Notebook 06–08 outputs record CUDA execution, including a Tesla T4 for Notebooks 07–08. Actual model fitting depends on the user's environment and may be computationally substantial.
+
+For the official Figshare v13 file inventory, download paths and data integrity checks, consult [Dataset Sources and Access](../docs/DATASETS.md#22-essex-figshare-v13). Refer to the [scientific methods](BONENET_RESEARCH_METHODS_AND_EVIDENCE.md) for evaluation settings and limitations.
 
 ## 5. Files and Saved Outputs
 

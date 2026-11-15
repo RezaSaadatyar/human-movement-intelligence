@@ -10,4 +10,4 @@ The studies use their original research datasets and generate local numerical ar
 | HARTH final models | `data/processed/harth_final_models/` | Fitted ResNet, Random Forest and inference settings |
 | Essex paired data | `data/processed/essex_femoral_neck_loading/` | Locally reconstructed aligned IMU–FE arrays |
 
-For details, see the [HARTH execution guide](../docs/HARTH_REPRODUCIBILITY.md) and [Essex execution guide](../docs/BONENET_REPRODUCIBILITY.md). Respect the original dataset licences and use the stated source versions when reproducing an analysis.
+For dataset provenance, file inventories and download locations, see [Research Datasets and Access](../docs/DATASETS.md). For the notebook execution sequence and saved outputs, see the [HARTH study README](../wearable_activity_recognition/README.md#4-running-and-reviewing-the-study) and [Essex study README](../biomechanical_load_estimation/README.md#4-running-and-reviewing-the-study). Respect the source providers' dataset licences and fixed versions.

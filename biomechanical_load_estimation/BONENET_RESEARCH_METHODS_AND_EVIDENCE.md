@@ -2,7 +2,7 @@
 
 **Study:** Biomechanical Load Estimation, Human Movement Intelligence.
 
-**Scope:** Original Essex IMU–finite-element (FE) record recovery, participant-disjoint classical and temporal modelling, peak-error analysis, robustness and held-out Test evaluation. This report covers [Notebooks 01–08](README.md#2-experimental-programme) and is the companion to the [project README](README.md) and [reproducibility guide](../docs/BONENET_REPRODUCIBILITY.md).
+**Scope:** Original Essex IMU–finite-element (FE) record recovery, participant-disjoint classical and temporal modelling, peak-error analysis, robustness and held-out Test evaluation. This report covers [Notebooks 01–08](README.md#2-experimental-programme) and is the companion to the [project README](README.md) and [study execution instructions](README.md#4-running-and-reviewing-the-study).
 
 ## 1. Research Objective and Scope
 
@@ -181,7 +181,7 @@ The exploratory paired whole-participant bootstrap for **TCN − RF subject-bala
 
 The notebooks exchange current data tables. Notebook 01 supplies trial identities, Notebook 02 supplies the pilot column schema, and Notebook 03 supplies FE-to-IMU time mapping. Notebook 04 creates paired arrays and participant assignments. Notebooks 05–07 perform model development; Notebook 08 fits the final recipes and reports Test errors.
 
-The [Test prediction table](output/08_test_trial_predictions.csv) contains 8,052 rows. Together with the [metrics](output/08_test_primary_secondary_metrics.csv) and [participant bootstrap](output/08_test_subject_bootstrap.csv), it supports result inspection without retraining. Detailed input/output dependencies and installation instructions are in the [running guide](../docs/BONENET_REPRODUCIBILITY.md).
+The [Test prediction table](output/08_test_trial_predictions.csv) contains 8,052 rows. Together with the [metrics](output/08_test_primary_secondary_metrics.csv) and [participant bootstrap](output/08_test_subject_bootstrap.csv), it supports result inspection without retraining. Detailed input/output dependencies and installation instructions are in the [notebook execution instructions](README.md#4-running-and-reviewing-the-study).
 
 Raw MATLAB files and numerical NPZ arrays remain local. Existing downloads are reused. The paired NPZ is rebuilt when absent or older than its upstream inputs; its arrays are aligned to the trial table by key. Every Notebook 07 run trains all 75 jobs again, and every Notebook 08 run refits both final models. GPU results may vary across environments.
 
@@ -197,4 +197,4 @@ Raw MATLAB files and numerical NPZ arrays remain local. Existing downloads are r
 
 The completed study provides an exploratory, participant-held-out comparison of IMU-to-FE strain predictors within the Essex cohort. Its main observed trade-off is lower waveform and peak-value error for the secondary TCN, with lower peak-position error for the primary Random Forest. The results do not establish a clinical monitoring system.
 
-**Related files:** [Project README](README.md) · [Running guide](../docs/BONENET_REPRODUCIBILITY.md) · [Final model settings](code/src/essex_stage08_final.py) · [Test metrics](output/08_test_primary_secondary_metrics.csv).
+**Related files:** [Project README](README.md) · [Running instructions](README.md#4-running-and-reviewing-the-study) · [Final model settings](code/src/essex_stage08_final.py) · [Test metrics](output/08_test_primary_secondary_metrics.csv).

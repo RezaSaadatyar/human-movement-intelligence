@@ -1,6 +1,6 @@
 # HARTH v2.0 Wearable Activity Recognition: Research Methods and Evidence
 
-**Study:** Wearable Activity Recognition, Human Movement Intelligence. **Maintained implementation:** [Notebooks 01–13](code/notebooks/). This document records the actual source, cohort, representations, experimental designs, model configurations, saved results and scientific limitations. For a concise entry point and practical starting locations, use the [study README](README.md); for file dependencies and model recovery, use the [execution guide](../docs/HARTH_REPRODUCIBILITY.md).
+**Study:** Wearable Activity Recognition, Human Movement Intelligence. **Maintained implementation:** [Notebooks 01–13](code/notebooks/). This document records the actual source, cohort, representations, experimental designs, model configurations, saved results and scientific limitations. For a concise entry point and practical starting locations, use the [study README](README.md); for file dependencies and model recovery, use the [study execution instructions](README.md#4-running-and-reviewing-the-study).
 
 **Experimental evidence:** The study includes Development model comparisons, robustness analyses and source-aligned predictions for S023/S032. Numerical results are reported with their corresponding cohort and evaluation design; they do not imply external validation.
 
@@ -249,7 +249,7 @@ Each notebook produces stage-prefixed tables and figures in `output/`. Later ana
 | Final fitting and ordered inference settings | [`13_final_training_configuration.csv`](output/13_final_training_configuration.csv), [`13_inference_config.csv`](output/13_inference_config.csv) | Recorded selected-model implementation and scaler/feature order |
 | Qualified predictions and metrics | [`13_qualified_aligned_predictions.csv`](output/13_qualified_aligned_predictions.csv), [`13_qualified_model_summary.csv`](output/13_qualified_model_summary.csv) | Same-source two-person prediction-level evidence |
 
-The complete Stage 03 participant-aligned statistical-feature matrix is generated locally from the source data rather than distributed in the repository; its production and reuse are described in the [reproducibility guide](../docs/HARTH_REPRODUCIBILITY.md). Published aggregate results remain available without that matrix.
+The complete Stage 03 participant-aligned statistical-feature matrix is generated locally from the source data rather than distributed in the repository; its production and reuse are described in the [study execution instructions](README.md#4-running-and-reviewing-the-study). Published aggregate results remain available without that matrix.
 
 Additional derived confusion counts, class reports, figures and source-support tables live in [`output/`](output/). The principal workflow diagrams are in [`images/`](images/) and are distinct from numerical results.
 
@@ -257,7 +257,7 @@ Additional derived confusion counts, class reports, figures and source-support t
 
 HARTH source recordings are obtained through the version-specific source loader and stored locally under paths such as `data/raw/harth_v2/`. The study's models and results can be regenerated using the specified data, environment and notebook sequence.
 
-[Notebook 13](code/notebooks/13_harth_final_development_training_and_research_synthesis.ipynb) exports the two fitted models and stage 13 results as a flat 25-file archive. It includes `resnet_state_dict.pt`, `random_forest.joblib` and the stage-specific `13_inference_config.csv`. The local model-loading directory uses `inference_config.csv`, while loading directly from the extracted archive uses the `config_filename` parameter. See the [execution guide](../docs/HARTH_REPRODUCIBILITY.md) for the file interface.
+[Notebook 13](code/notebooks/13_harth_final_development_training_and_research_synthesis.ipynb) exports the two fitted models and stage 13 results as a flat 25-file archive. It includes `resnet_state_dict.pt`, `random_forest.joblib` and the stage-specific `13_inference_config.csv`. The local model-loading directory uses `inference_config.csv`, while loading directly from the extracted archive uses the `config_filename` parameter. See the [study execution instructions](README.md#4-running-and-reviewing-the-study) for the file interface.
 
 The [README](README.md#4-running-and-reviewing-the-study) describes the environment and entry points. Loading a `.joblib` file deserialises Python objects and therefore requires a trusted file source. Changes in data revision, cohort, windowing, representation or model configuration require corresponding downstream analyses to be updated.
 
