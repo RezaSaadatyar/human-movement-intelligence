@@ -8,7 +8,7 @@ This project predicts **model-derived femoral-neck principal strains (`e1` and `
 
 All eight notebooks contain recorded results, and the associated CSV tables and figures are available in [`output/`](output/). Rerunning a notebook updates its stage-specific results.
 
-## 1. Dataset and experimental protocol
+## 1. Dataset and Experimental Protocol
 
 | Component | Setting |
 | --- | --- |
@@ -26,7 +26,7 @@ All eight notebooks contain recorded results, and the associated CSV tables and 
 
 Participants remain separate across Training, Validation and Test. Five grouped Training folds support model selection. Validation provides development diagnostics; Test is used for the final comparison.
 
-## 2. Experimental programme
+## 2. Experimental Programme
 
 | Notebook | Purpose |
 | --- | --- |
@@ -41,7 +41,7 @@ Participants remain separate across Training, Validation and Test. Five grouped 
 
 The [research methods and results](BONENET_RESEARCH_METHODS_AND_EVIDENCE.md) describe the model settings, evaluation units and interpretation in detail.
 
-## 3. Main results
+## 3. Main Results
 
 ### Training-only model comparison
 
@@ -60,7 +60,7 @@ The peak-loss experiment did not establish a consistent benefit from adding the 
 
 ### Final participant-held-out Test
 
-The final models were fitted on 33 Development participants and evaluated on the four Test participants. Their settings are defined in [`final_model_settings()`](code/src/essex_stage08_final.py). The final Random Forest uses `max_features=1` (one candidate feature per split), whereas the Stage 05 baseline uses `max_features=1.0` (all features); the [methods report](BONENET_RESEARCH_METHODS_AND_EVIDENCE.md#06-final-development-fit-and-held-out-test-stage-08) records this distinction.
+The final models were fitted on 33 Development participants and evaluated on the four Test participants. Their settings are defined in [`final_model_settings()`](code/src/essex_stage08_final.py). The final Random Forest uses `max_features=1` (one candidate feature per split), whereas the Stage 05 baseline uses `max_features=1.0` (all features); the [methods report](BONENET_RESEARCH_METHODS_AND_EVIDENCE.md#final-development-configuration-and-held-out-test-stage-08) records this distinction.
 
 | Test metric | Primary Random Forest | Secondary Dilated TCN |
 | --- | ---: | ---: |
@@ -78,7 +78,7 @@ Dilated TCN had **6.7% lower observed subject-balanced waveform MAE** and lower 
 
 Sources: [classical CV](output/05_training_cv_model_summary.csv), [multi-seed robustness](output/07_training_model_stability_summary.csv), [final Test metrics](output/08_test_primary_secondary_metrics.csv) and [participant bootstrap](output/08_test_subject_bootstrap.csv). Development CV and final Test use different fitted models and evaluation samples.
 
-## 4. Running and reviewing the study
+## 4. Running and Reviewing the Study
 
 To inspect the results, open the executed notebooks or the saved tables below. Retraining is not needed to review them.
 
@@ -94,7 +94,7 @@ If an upstream notebook has not been rerun, downstream notebooks read its curren
 
 See the [running guide](../docs/BONENET_REPRODUCIBILITY.md) for file dependencies and environment details.
 
-## 5. Files and saved outputs
+## 5. Files and Saved Outputs
 
 | Location | Contents |
 | --- | --- |
@@ -116,8 +116,8 @@ See the [running guide](../docs/BONENET_REPRODUCIBILITY.md) for file dependencie
 
 The original MATLAB recordings, reconstructed numerical arrays and fitted model files are handled by the source and processing workflow. The result tables and figures can be inspected directly; full reproduction also requires the original dataset.
 
-## 6. Interpretation and scope
+## 6. Interpretation and Scope
 
 The completed workflow is an exploratory benchmark of **FE-model-derived strain prediction** within one source cohort. Targets are unitless simulation outputs, not measured in-vivo strain or clinical injury risk. Test includes only four participants from the same collection, so the results do not establish external or prospective generalisation. Waveform accuracy, peak magnitude and peak location measure different aspects of prediction quality.
 
-The separate [public BoneNet derivative](https://github.com/ZainabAltai/BoneNet-A-Framework-for-Rapid-and-Accurate-Prediction-of-Femoral-Neck-strains-from-Exercise-Data) is not the dataset used for these eight notebooks. Its distinction from the original Essex records is explained in the [methods report](BONENET_RESEARCH_METHODS_AND_EVIDENCE.md#08-source-coverage-and-the-separate-bonenet-derivative).
+The separate [public BoneNet derivative](https://github.com/ZainabAltai/BoneNet-A-Framework-for-Rapid-and-Accurate-Prediction-of-Femoral-Neck-strains-from-Exercise-Data) is not the dataset used for these eight notebooks. Its distinction from the original Essex records is explained in the [methods report](BONENET_RESEARCH_METHODS_AND_EVIDENCE.md#source-coverage-and-the-separate-bonenet-derivative).
