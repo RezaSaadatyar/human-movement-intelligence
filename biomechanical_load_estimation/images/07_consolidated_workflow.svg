@@ -1,6 +1,6 @@
 <svg xmlns="http://www.w3.org/2000/svg" width="1700" height="816" viewBox="0 0 1700 816" role="img" aria-labelledby="title desc">
 <title id="title">robustness study | Multi-seed robustness, GRU and BiGRU, peak-loss ablation</title>
-<desc id="desc">Stage 07 schematic of Training-only robustness using five neural configurations across three seeds and five participant folds, with peak-loss ablation and bounded sensor perturbations. No additional Test selection is performed.</desc>
+<desc id="desc">Notebook 07 schematic of Training-only robustness using five neural configurations across three seeds and five participant folds, with peak-loss ablation and bounded sensor perturbations. No additional Test selection is performed.</desc>
 <defs><marker id="arrow" markerUnits="userSpaceOnUse" markerWidth="7" markerHeight="7" refX="6" refY="3.5" orient="auto"><path d="M0 0 L7 3.5 L0 7 Z" fill="#2B648C"/></marker></defs>
 <rect x="0" y="0" width="1700" height="816" rx="19" fill="#F4F9FD"/>
 <g font-family="DejaVu Sans, Arial, sans-serif">
