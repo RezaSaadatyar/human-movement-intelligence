@@ -15,9 +15,9 @@
 
 The intended contribution is a reproducible, controlled *comparison* of two modalities and their fusion under a person-independent split, rather than a novel network architecture or a claimed prosthetic controller. A negative result is valid. No other study's trained model, subject counts, label mapping or evaluation numbers are transferred into this one.
 
-**Within scope:** Source audit, synchronised paired-window extraction, non-force prompted hand gestures plus rest, compact classical classifiers, early/late fusion, modality ablation, per-participant evaluation and measured computational cost.
+**Within scope:** Source audit, synchronised paired-window extraction, non-force prompted hand gestures plus rest, classical classifiers, **unimodal 1D-CNN/TCN/BiGRU**, **two-branch deep fusion, gated/cross-attention fusion and deep late fusion**, controlled modality ablations, per-participant evaluation, multi-seed robustness of selected finalists and measured computational cost.
 
-**Outside scope:** Glove/force prediction, video prompts as model inputs, real-time prosthetic control, amputee/stroke clinical outcomes, cross-device external validation, large attention architectures and experiments using DB5/DB3 as interchangeable evaluation data.
+**Outside scope:** Glove/force prediction, video prompts as model inputs, real-time prosthetic control, amputee/stroke clinical outcomes, cross-device external validation, training foundation models or unbounded architecture sweeps, and experiments using DB5/DB3 as interchangeable evaluation data. Compact attention-based fusion is explicitly within scope; pretrained large-scale language/vision Transformers are not.
 
 ## 2. Data Sources, Cohort and Target Definitions
 
@@ -70,6 +70,7 @@ Proposed lightweight features, computed separately per eligible paired window:
 - **sEMG:** per-channel RMS, mean absolute value, waveform length and a log-variance or stable amplitude-dispersion feature (approximately 48 summary features from 12 channels).
 - **Accelerometry:** per-axis mean and standard deviation (72 features for 36 axes), plus two summary features of each three-axis sensor magnitude when justified (approximately 24 additional features).
 - **Early fusion:** concatenate the two feature vectors from the **same window key**. Count exact columns after real extraction; reject missing/misordered source channels rather than silently filling them.
+- **Deep temporal inputs:** retain aligned signal tensors per window as `X_emg [W, T, 12]` and `X_acc [W, T, 36]` when supported by the released schema; adapt to `channels-first` within the PyTorch data interface and record actual tensor layout. The common stored row grid does not create new independent 148-Hz acceleration observations. Validate physical time correspondence and document any modality-specific downsampling or anti-alias filtering. Prevent normalisation leakage by fitting source-derived parameters inside Development folds.
 
 Train-only per-feature scaling, class weights and any imputation belong inside an estimator pipeline fitted independently within each Development fold. No global per-subject feature normalisation using held-out Test signals unless explicitly defined as a separate unlabelled adaptation condition. Preserve raw source arrays locally, and store smaller row-keyed feature matrices under `data/processed/ninapro_db2/` rather than adding large derived datasets to Git history.
 
@@ -102,32 +103,53 @@ No reported metric is available yet. Balanced accuracy over missing classes, zer
 | B0 | Training-prior / majority-class classifier | Sanity lower bound, predicts on same eligible windows |
 | B1 | sEMG-only feature classifier | Regularised multinomial logistic regression; simple Random Forest as optional matched alternate |
 | B2 | Accelerometer-only feature classifier | Same estimator family and Development tuning budget as B1 |
+| D1–D3 | Unimodal temporal networks | 1D-CNN, TCN and BiGRU on single-modality source windows using common subject folds |
 | F1 | Early fusion | Concatenate B1/B2 features and fit a matched classifier, no cross-person input leakage |
 | F2 | Late probability fusion | Blend two independently trained, properly aligned class-probability vectors using fixed or Development-selected weights |
+| F3–F5 | Neural multimodal fusion | Two-branch learned-embedding fusion, deep late fusion and compact gated/cross-attention fusion, all tuned inside Development |
 
-A small regularisation grid for logistic regression (e.g. `C=0.1,1,10`) and a bounded Random Forest option can be used **only in Development**. These are planning defaults rather than fitted values. Begin with the lightest interpretable baseline and do not impose new neural models on the five-notebook MVP. If probability calibration is needed, fit it using Training-only inner folds; class probability order must match the fixed class list.
+A small regularisation grid for logistic regression (e.g. `C=0.1,1,10`) and a bounded Random Forest option can be used **only in Development**. These are planning defaults rather than fitted values. Build interpretable baselines first, then evaluate the prespecified bounded neural models in the same five-notebook study; do not drop deep architectures from the authorised scope. If probability calibration is needed, fit it using Training-only inner folds; class probability order must match the fixed class list.
 
-### 5.2 Modality ablation and failure handling
+### 5.2 Deep-learning architectures and bounded training budget
+
+Deep models are **included in the core planned comparison**, not an indefinite future add-on. The five-notebook sequence remains unchanged, but its third and fourth notebooks now include neural training.
+
+| Planned deep arm | Signal input and research purpose | Architecture and training constraints |
+| --- | --- | --- |
+| D1 — sEMG 1D-CNN | Original aligned `X_emg` windows | Compact convolutional blocks, normalisation, pooling and classifier; standard neural baseline |
+| D2 — accelerometer 1D-CNN / TCN | Original aligned `X_acc` windows | Compare a matched CNN or dilated temporal convolution under the same Development folds |
+| D3 — temporal alternative (TCN or BiGRU) | Both modalities separately where feasible | A bounded TCN and BiGRU temporal comparator; report architecture-specific capacity rather than asserting equal parameter counts |
+| F3 — dual-branch deep fusion | Paired sEMG and acceleration windows | Separate CNN/TCN encoders; concatenate learned embeddings; train a common classification head |
+| F4 — deep late fusion | Outputs of independently fitted neural unimodal branches | Align class-probability order; determine any mixing weights inside Development only |
+| F5 — gated / cross-attention fusion | Paired learned features from both branches | Small gated/attention fusion block with controlled heads/layers; assess whether it improves on simple embedding concatenation |
+
+The exact depth, kernel lengths, widths, dropout, optimiser, learning rate and stopping policy will be **recorded before comparisons** and justified for the confirmed source lengths. Initial bounded options include 2–3 temporal blocks, hidden widths around 32–128, early stopping with a Training-only inner holdout, AdamW and cross-entropy; these are **proposals, not executed settings**.
+
+To keep the work tractable while including deep learning: use one common five-fold grouped Development comparison for the principal arms where computationally feasible; start with one prespecified random seed for initial neural screening and use three seeds for the Development finalists. If compute forces a reduced fold/seed budget, label the exploratory comparison accordingly rather than combining it into a falsely matched leaderboard. Log accelerator, fit duration, peak device memory where available, parameter count and CPU inference latency. Do not let unapproved Test feedback select architecture or modify preprocessing.
+
+A larger deep model is not automatically stronger. Interpret any fusion gain against the **best Development-selected unimodal deep or classical model**, not just a weak baseline, with identical eligible windows and participant groups. Compare parameter counts and training budgets; if modality-specific sampling rates are used, align by physical time and ensure the two branches represent the same acquisition window.
+
+### 5.3 Modality ablation and failure handling
 
 Compare removal of either modality, contiguous missing-acceleration intervals, one-axis corruption and a reduced sensor subset. Distinguish *simulated* missingness from missing source data. Do not silently use zero-valued vectors as valid missing-modality inference unless the model has an explicitly trained and documented missing-input policy.
 
 All arms must share the same subject and window keys for an interpretable fusion comparison. Source label correction, filtered sEMG, window purity and grouping controls apply equally across arms.
 
-### 5.3 Implementation ownership
+### 5.4 Implementation ownership
 
 Reuse existing `python_modules/core/` functions only after inspecting their interface and testing compatibility with DB2: subject-disjoint splitting, grouped metrics, `plot_style`, `save_figure`, Colab setup, device selection and output saving. The existing HARTH windowing helpers were developed for a different rate and label taxonomy; they are **candidates**, not authorised cross-study conversions.
 
-Add a small `code/src/` reader, synchronised-window/feature module and compact model-evaluation helpers only when Notebook 01–04 actually require them. Implement limited synthetic checks for row/key alignment, no subject overlap, train-only feature fitting, class/probability order and reproducible output replacement. Preserve existing shared tests and studies.
+Add a small `code/src/` reader, synchronised-window/feature module, PyTorch neural architectures and compact evaluation helpers only when Notebook 01–04 actually require them. Implement limited synthetic checks for row/key alignment, no subject overlap, train-only feature fitting, class/probability order and reproducible output replacement. Preserve existing shared tests and studies.
 
 ## 6. Results and Comparative Analysis
 
-**No project results have been produced.** The intended comparisons are Development-only per-person macro F1 of B0/B1/B2/F1/F2, followed by one held-out person-independent Test comparison of preselected arms. The final figure should show per-person fused-minus-unimodal differences rather than a single selectively favourable pooled score.
+**No project results have been produced.** The intended comparisons are Development-only per-person macro F1 of classical B0/B1/B2/F1/F2 plus unimodal neural D1–D3 and deep fusion F3–F5; only Development-selected arms progress to a single held-out person-independent Test comparison. The final figure should show per-person fused-minus-unimodal differences rather than a single selectively favourable pooled score.
 
 Only results from executed compatible code and the associated current `output/` tables will be reported. For context only: [Hu et al. (2024)](https://doi.org/10.3390/s24092702) reported a DB2 fusion accuracy for a **within-person repetition-split design**, which is not directly comparable to this planned person-independent macro-F1 endpoint. [Zhang et al. (2023)](https://doi.org/10.1109/JSEN.2023.3266872) published an intersubject sEMG/accelerometer fusion approach; its existence precludes a novelty claim that intersubject fusion itself is unexplored.
 
 ## 7. Robustness, Uncertainty and Additional Analyses
 
-**Planned, not executed:** 200-/400-ms window sensitivity; missing-acceleration segments, one-axis/sensor removal and compact acceleration sensor selection; per-class/person disagreement; training and inference cost. Fused and unimodal performance will be reported under the same Development folds and paired Test windows.
+**Planned, not executed:** 200-/400-ms window sensitivity; missing-acceleration segments, one-axis/sensor removal and compact acceleration sensor selection; per-class/person disagreement; selected deep-model seed stability (initial seed plus up to three finalist seeds), cross-modal gate/attention ablation; measured training/inference cost, model size and GPU memory when applicable. Fused and unimodal performance will be reported under the same Development folds and paired Test windows.
 
 Five held-out Test people would provide only a small cluster-bootstrap sample. Any reported interval will be descriptive, not a claim that an effect generalises across all people, hand tasks or devices. If fusion fails or performs worse for some people, preserve those results.
 
@@ -143,17 +165,17 @@ The following paths are **owned output targets**, not files that currently exist
 | --- | --- | --- |
 | `01_ninapro_pairing_and_label_audit.ipynb` | Official pilot ZIP / MATLAB fields, sensor and label schema, source alignment and missingness | `01_pairing_registry.csv`, `01_sensor_dictionary.csv`, `01_alignment_examples.png` |
 | `02_signal_processing_and_aligned_windows.ipynb` | Validated source inventory; label, time and pairing contracts; trial-safe windows and features | `02_aligned_trial_index.csv`, `02_window_index.csv`, `02_channel_quality.png`; local aligned arrays/features |
-| `03_unimodal_grouped_baselines.ipynb` | Frozen eligible class list, feature matrices and Test isolation; B0/B1/B2 Training CV | `03_dev_unimodal_metrics.csv`, `03_oof_predictions.csv`, `03_class_errors.png` |
-| `04_fusion_and_modality_ablations.ipynb` | Same windows/folds as 03; F1/F2 and perturbation evaluation on Development | `04_dev_fusion_metrics.csv`, `04_oof_paired_differences.csv`, `04_fusion_comparison.png`, `04_modality_sensitivity.png` |
+| `03_unimodal_grouped_baselines.ipynb` | Frozen class list and Test isolation; B0/B1/B2 classical grouped CV plus unimodal 1D-CNN, TCN and BiGRU Development comparisons | `03_dev_unimodal_metrics.csv`, `03_dev_neural_metrics.csv`, `03_oof_predictions.csv`, `03_neural_oof_predictions.csv`, `03_learning_curves.png`, `03_class_errors.png` |
+| `04_fusion_and_modality_ablations.ipynb` | Same windows/folds as 03; classical F1/F2, two-branch F3, deep late F4 and gated/attention F5 plus Development-only ablations | `04_dev_fusion_metrics.csv`, `04_dev_deep_fusion_metrics.csv`, `04_oof_paired_differences.csv`, `04_fusion_robustness.csv`, `04_fusion_comparison.png`, `04_modality_sensitivity.png` |
 | `05_frozen_person_independent_test.ipynb` | Fixed settings; all Development people for final fit; reserved Test people for a single comparison | `05_test_predictions.csv`, `05_test_metrics.csv`, `05_subject_differences.png`, `05_cost_accuracy.png` |
 
 Notebook-specific scientific sections anticipated:
 
 - **01:** source download/inventory; MATLAB field audit; EMG–Acc pairing; original/corrected annotations; participant and repetition coverage; source evidence and interpretation.
 - **02:** physical-time mapping; signal quality; label transitions and purity; paired windows; feature extraction; eligible counts and frozen split IDs; saved row keys.
-- **03:** Development split integrity; train-only scalers and class weighting; majority/logistic regression and optionally RF; per-fold/participant metrics and OOF predictions; error interpretation.
-- **04:** early fusion; probability order/alignment; late fusion weights and any inner-fold calibration; matched comparisons; sensor and dropout ablations; Development-only selection.
-- **05:** read frozen Development decision; fit specified final models; apply to reserved people once; paired model/subject metrics; cluster-bootstrap uncertainty and compute metrics; concise scope conclusion.
+- **03:** Development split integrity; train-only scalers/class weighting; majority/logistic regression/Random Forest; 1D-CNN, TCN and BiGRU unimodal models; matched person folds, fit/seed budgets, OOF predictions, learning curves and error interpretation.
+- **04:** classical early/late fusion; neural two-branch embedding fusion and neural late fusion; bounded gated/cross-attention fusion; probability/label alignment; seed and sensor/dropout ablations; Development-only selection with measured computation.
+- **05:** read frozen Development decisions for classical and deep arms; refit selected final configurations on all permitted Development people; apply to reserved people without Test-based selection; paired subject metrics, cluster-bootstrap uncertainty, CPU inference and measured GPU training costs; concise conclusion.
 
 Each implemented notebook will contain the established **00. Colab Repository Setup** and **01. Imports and Research Environment** sections, numbered scientific Markdown and code headings, and an independently curated SVG whose filename matches the notebook stem. SVGs explain actual implemented operations; no Test scores or empirical waveforms will be invented in a planning diagram.
 
@@ -169,7 +191,7 @@ Pilot one person, inspect feasibility, then stream all eligible people; do not l
 
 ## 9. Discussion, Limitations and Future Work
 
-The study is planned, so no conclusions about EMG-only, acceleration-only or fusion performance can yet be drawn. The original healthy-participant, prompted-movement protocol is a controlled sensor classification task, not a demonstration of prosthetic control or rehabilitation impact. Any subsequent estimate will concern the source-defined labels, signal representations, participants and recording conditions actually evaluated.
+The study is planned, so no conclusions about classical baselines, unimodal deep learning or classical/neural fusion performance can yet be drawn. The original healthy-participant, prompted-movement protocol is a controlled sensor classification task, not a demonstration of prosthetic control or rehabilitation impact. Any subsequent estimate will concern the source-defined labels, signal representations, participants and recording conditions actually evaluated.
 
 Source priorities for Notebook 01 are accessible official ZIPs, confirmed MATLAB variable names and shapes, alignment after released preprocessing, the class/repetition dictionary, the provenance of corrected labels and the terms of using/distributing the original data. A pilot may reveal practical changes needed before fixing the full participant split; such changes should follow actual evidence, not a Test score.
 
