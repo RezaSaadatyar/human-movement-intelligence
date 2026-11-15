@@ -8,7 +8,7 @@ A Python-based research portfolio maintained by **Reza Saadatyar**. Each study h
 
 | Project | Current evidence-based status | Start here |
 | --- | --- | --- |
-| **Wearable Activity Recognition (HARTH v2.0)** | Executed 01–13 notebook programme with 29-person Development model selection, fitted weighted 1D-ResNet and Random Forest, and aligned predictions and qualified metrics for S023/S032. Same-source, previously inspected assessment; no blind external validation. | [Study README](wearable_activity_recognition/README.md) · [Scientific methods and evidence](wearable_activity_recognition/HARTH_RESEARCH_METHODS_AND_EVIDENCE.md) · [Execution guide](docs/HARTH_REPRODUCIBILITY.md) |
+| **Wearable Activity Recognition (HARTH v2.0)** | Executed 01–13 notebook programme with 29-person Development model selection, fitted weighted 1D-ResNet and Random Forest, and aligned predictions and qualified metrics for S023/S032. Same-source, previously inspected assessment; no blind external validation. | [Study README](wearable_activity_recognition/README.md) · [Scientific methods and evidence](wearable_activity_recognition/HARTH_RESEARCH_METHODS_AND_EVIDENCE.md) · [How to run](wearable_activity_recognition/README.md#4-running-and-reviewing-the-study) |
 | **Biomechanical Load Estimation (BoneNet / Essex)** | Eight documented original-source research notebooks; **37 participants / 1,729 paired trials**, Training-only model selection, 75 temporal robustness fits and one frozen-before-Test four-person same-source evaluation. Exploratory FE-model regression, not external or clinical validation. | [Study README](biomechanical_load_estimation/README.md) · [Scientific methods and evidence](biomechanical_load_estimation/BONENET_RESEARCH_METHODS_AND_EVIDENCE.md) |
 
 **Planned research directions:** Gait and movement analysis; markerless motion capture; neurorehabilitation and motor function; multimodal movement learning. These are research directions, **not completed implementations**.
@@ -17,7 +17,7 @@ A Python-based research portfolio maintained by **Reza Saadatyar**. Each study h
 
 The seven-model, participant-grouped Development benchmark selected a weighted 1D-ResNet with mean fold Macro F1 **0.8336**. Notebook 13 fits that ResNet and a 120-tree Random Forest on 14,201 Development windows, then evaluates both on **1,000 source-aligned S023/S032 windows**. The [qualified model summary](wearable_activity_recognition/output/13_qualified_model_summary.csv) records fixed-eight-class Macro F1 **0.7182** (ResNet) and **0.6817** (Random Forest), alongside accuracies **0.9020** and **0.9270**. The [aligned prediction rows](wearable_activity_recognition/output/13_qualified_aligned_predictions.csv), figures and notebook 13 tables are available for numerical review. Both participants were previously inspected and their windows overlap: this is qualified same-study assessment, **not** blind external validation.
 
-For the current methods, model-file interface and limitations, see the [HARTH study README](wearable_activity_recognition/README.md), [scientific evidence](wearable_activity_recognition/HARTH_RESEARCH_METHODS_AND_EVIDENCE.md), [execution guide](docs/HARTH_REPRODUCIBILITY.md) and [Notebook 13](wearable_activity_recognition/code/notebooks/13_harth_final_development_training_and_research_synthesis.ipynb). The current workflow uses the fitted model pair described in Notebook 13.
+For the current methods, model-file interface and limitations, see the [HARTH study README](wearable_activity_recognition/README.md), [scientific evidence](wearable_activity_recognition/HARTH_RESEARCH_METHODS_AND_EVIDENCE.md), [execution details](wearable_activity_recognition/README.md#4-running-and-reviewing-the-study) and [Notebook 13](wearable_activity_recognition/code/notebooks/13_harth_final_development_training_and_research_synthesis.ipynb). The current workflow uses the fitted model pair described in Notebook 13.
 
 ## Selected BoneNet / Essex evidence
 
@@ -27,7 +27,7 @@ The recorded final evaluation used four participant-held-out subjects (183 trial
 
 Notebook 05 Random Forest CV used `max_features=1.0` (all 210 predictors considered per split), while the final Notebook 08 Random Forest used `max_features=1` (one candidate predictor per split). Both settings and their corresponding results are identified in the study report.
 
-For methods and exact source limitations, see the [BoneNet scientific report](biomechanical_load_estimation/BONENET_RESEARCH_METHODS_AND_EVIDENCE.md), [final Notebook 08 metrics](biomechanical_load_estimation/output/08_test_primary_secondary_metrics.csv), [study-wide workflow](biomechanical_load_estimation/images/study_overview.svg) and [reproducibility guide](docs/BONENET_REPRODUCIBILITY.md).
+For methods and exact source limitations, see the [BoneNet scientific report](biomechanical_load_estimation/BONENET_RESEARCH_METHODS_AND_EVIDENCE.md), [final Notebook 08 metrics](biomechanical_load_estimation/output/08_test_primary_secondary_metrics.csv), [study-wide workflow](biomechanical_load_estimation/images/study_overview.svg) and [running instructions](biomechanical_load_estimation/README.md#4-running-and-reviewing-the-study).
 
 ## Repository structure
 
@@ -52,8 +52,8 @@ human-movement-intelligence/
 │   ├── evidence/
 │   └── images/
 ├── docs/
-│   ├── HARTH_REPRODUCIBILITY.md
-│   └── BONENET_REPRODUCIBILITY.md
+│   ├── DATASETS.md
+│   └── RESEARCH_STANDARDS.md
 └── requirements.txt
 ```
 
@@ -61,6 +61,6 @@ human-movement-intelligence/
 
 Install the study dependencies, including PyTorch for neural modelling, using the single [`requirements.txt`](requirements.txt) file. Consult each study's README before running its notebooks; some experiments need source datasets, additional compute or locally retained model artefacts.
 
-For dataset preparation and local source locations, see the [data access guidance](data/README.md). The study notebooks and evidence tables document the implemented analyses and the scope of their results.
+For original dataset inventories, download methods and local source locations, see [Research Datasets and Access](docs/DATASETS.md) and the [local data directory guide](data/README.md). The study notebooks and evidence tables document the implemented analyses and the scope of their results.
 
 Original repository code is covered by the [MIT licence](LICENSE). Source datasets and third-party materials retain their own terms.

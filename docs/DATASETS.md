@@ -11,13 +11,43 @@ The active studies use distinct original datasets, model inputs, targets and par
 
 The active HARTH study uses the **NTNU AI Lab v2.0 source**, not the [UCI HARTH release](https://archive.ics.uci.edu/dataset/779/harth). The Essex study uses **model-derived FE targets**, not direct in-vivo strain measurements or clinical outcomes.
 
-## 2. Download and Local Storage
+## 2. Source Access and Local Storage
 
-Use the data acquisition sections of the research notebooks. The expected local directories and their purposes are summarised in the [data README](../data/README.md).
+### 2.1 HARTH v2.0
 
-For Essex, the [source inventory](DATA_MANIFEST_ESSEX_V13.md) identifies the files used by the v13 workflow and the [data-access guide](DATA_ACCESS_ESSEX.md) explains download and extraction. For HARTH, the pinned source revision and window eligibility rules are described in the [scientific methods](../wearable_activity_recognition/HARTH_RESEARCH_METHODS_AND_EVIDENCE.md) and [execution guide](HARTH_REPRODUCIBILITY.md).
+Use the official [NTNU AI Lab HARTH repository](https://github.com/ntnu-ai-lab/harth-ml-experiments) at the study's fixed revision `dad2cfbe89a26f72f19770419469ac037de200df`; it is **not** the UCI HARTH v1.2 release. The recorded task uses six lower-back/thigh accelerometer channels at nominal 50 Hz and source activity codes 1–8, with 100-sample windows and stride 50. Do not infer labels for other source codes.
 
-Keep the data version, sensor definitions, participant identities, original target units and time alignment consistent with the study protocol. Data access and reuse are governed by the source providers' terms.
+Use the acquisition and window-building routines in [HARTH Notebook 01](../wearable_activity_recognition/code/notebooks/01_harth_data_foundation.ipynb) and the maintained source adapter in [`code/src/`](../wearable_activity_recognition/code/src/). Source recordings are stored locally under `data/raw/harth_v2/`. Model artefacts generated later are stored under `data/processed/harth_final_models/`. See the [HARTH README](../wearable_activity_recognition/README.md#4-running-and-reviewing-the-study) for execution order and [scientific methods](../wearable_activity_recognition/HARTH_RESEARCH_METHODS_AND_EVIDENCE.md) for eligibility and split rules.
+
+### 2.2 Essex Figshare v13
+
+**Original dataset:** [Essex Figshare v13](https://doi.org/10.6084/m9.figshare.30225739.v13), described by [Hollinger et al.](https://doi.org/10.1038/s41597-026-07429-3). Figshare article ID **30225739**, version **13**. This is the original MATLAB collection, not the separate 444-record BoneNet derivative.
+
+The following file inventory was recorded from the official v13 source list. These figures describe source files; they are not hard-coded runtime assertions.
+
+| File | Size (MiB) | Figshare file ID | Recommended action |
+| --- | ---: | ---: | --- |
+| README.md | 0.01 | 63343417 | Download and inspect first |
+| SubCharacteristics.xlsx | 0.03 | 63342400 | Download and inspect first |
+| MATLAB.zip | 224.68 | 63190690 | Core data, obtain after README |
+| angles.xlsx | 29.73 | 63342406 | Joint-angle analysis, later |
+| OpenSim.zip | 10.40 | 63190519 | Optional MSK modelling |
+| Visual3D.zip | 18414.04 | 63341380 | Optional, not used in this eight-notebook analysis (approximately 18 GiB) |
+
+Begin with the source `README.md` and `SubCharacteristics.xlsx`, then obtain `MATLAB.zip` for the executed study. The joint-angle, OpenSim and Visual3D files are optional for these notebooks; in particular the approximately 18 GiB Visual3D archive was not needed. The initial source inventory recorded **42 ZIP entries**, including **40 participant MAT files** under `MATLAB/Processed Data/`, and approximately **224.79 MiB** of uncompressed content.
+
+The current original-source workflow is managed by [Essex Notebook 01](../biomechanical_load_estimation/code/notebooks/01_original_dataset_audit_and_trial_registry.ipynb):
+
+| Local path | Contents |
+| --- | --- |
+| `data/raw/essex_femoral_neck_loading/` | Downloaded original source files |
+| `data/raw/essex_femoral_neck_loading/matlab_records/` | Extracted participant MAT files |
+| `data/processed/essex_femoral_neck_loading/essex_imu_fe_pairs_v13.npz` | Locally reconstructed IMU–FE trial pairs |
+| [`biomechanical_load_estimation/output/`](../biomechanical_load_estimation/output/) | Public source audits, trial metadata, metrics and figures |
+
+Existing source downloads are reused. When `MATLAB.zip` is unavailable, the source loader tries the project data release and official Figshare endpoints for the same v13 archive. A new transfer is checked for completion before replacement; extraction checks ZIP paths and CRC integrity. Original participant/trial identifiers are preserved. Notebooks 02–03 inspect nested tables, numeric columns and **source FE time coordinates**. Notebook 04 creates paired arrays and participant-disjoint splits; FE observations are **not** assumed to occur at every tenth IMU sample. Transformations used for learning are fitted within the appropriate Training/Development partition.
+
+The current [Figshare file manifest](../biomechanical_load_estimation/output/01_dataset_figshare_file_manifest.csv), [Essex README](../biomechanical_load_estimation/README.md) and [scientific methods](../biomechanical_load_estimation/BONENET_RESEARCH_METHODS_AND_EVIDENCE.md) provide the source and study-specific details.
 
 ## 3. Additional Public Collections
 
