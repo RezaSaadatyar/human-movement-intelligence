@@ -2,7 +2,7 @@
 
 **Research question:** Do paired accelerometer signals add value to surface electromyography (sEMG) for hand-movement recognition in previously unseen participants?
 
-**Status:** Planned study; dataset sources and literature reviewed, but no NinaPro archives inspected locally, no notebooks implemented, and no experiments executed. This is a five-notebook, participant-independent comparison of single-modality and fusion methods.
+**Status:** Planned study; dataset sources and literature reviewed, but no NinaPro archives inspected locally, no notebooks implemented, and no experiments executed. This is a five-notebook, participant-independent comparison of classical machine learning, deep temporal architectures and cross-modal fusion methods; deep-learning experiments are now part of the planned core study.
 
 **Detailed scientific plan:** [Multimodal Research Methods and Evidence](MULTIMODAL_RESEARCH_METHODS_AND_EVIDENCE.md).
 
@@ -19,7 +19,7 @@
 | Independent evaluation unit | Participant; trials and overlapping windows are nested within participants |
 | Proposed final partition | Five participant-held-out Test people; remaining 35 for Development-only grouped cross-validation (five person-disjoint folds); exact IDs recorded before model evaluation |
 | Primary measure | Fixed-class macro F1 per Test participant, averaged equally across participants |
-| Main comparisons | Prior-class baseline; sEMG-only; accelerometer-only; early feature fusion; late probability fusion |
+| Main comparisons | Prior-class and classical unimodal baselines; deep sEMG/accelerometer models (1D-CNN, TCN and BiGRU); early and late fusion; two-branch CNN/TCN fusion and gated/cross-attention fusion |
 
 **Input boundary:** Use only sEMG and accelerometer measurements for prediction. Keep subject IDs, exercise/repetition IDs and labels for grouping, alignment and reporting, **not as predictive features**. Exclude dataglove, force, displayed cue signals and subject demographics from model inputs.
 
@@ -33,9 +33,9 @@ The following five notebooks are the agreed planning sequence. They will be crea
 | --- | --- | --- |
 | `01_ninapro_pairing_and_label_audit.ipynb` | Inspect a real subject ZIP, exercise MATLAB variables, synchronised sEMG/accelerometer shape, corrected labels, repetitions and missing data | `01_pairing_registry.csv`, `01_sensor_dictionary.csv`, `01_alignment_examples.png` |
 | `02_signal_processing_and_aligned_windows.ipynb` | Define eligible non-force classes, reconstruct source-timed paired windows, inspect signal quality and generate participant-preserving feature arrays | `02_aligned_trial_index.csv`, `02_window_index.csv`, `02_channel_quality.png`; local processed features |
-| `03_unimodal_grouped_baselines.ipynb` | Run identical person-grouped Development folds with prior-class, sEMG-only and accelerometer-only baselines | `03_dev_unimodal_metrics.csv`, `03_oof_predictions.csv`, `03_class_errors.png` |
-| `04_fusion_and_modality_ablations.ipynb` | Compare early and late fusion on exactly the same Development windows; assess controlled missing-input and sensor-reduction conditions | `04_dev_fusion_metrics.csv`, `04_oof_paired_differences.csv`, `04_fusion_comparison.png`, `04_modality_sensitivity.png` |
-| `05_frozen_person_independent_test.ipynb` | Freeze the selected configuration on Development, fit once and evaluate on reserved Test people; compare per-person gains and compute costs | `05_test_predictions.csv`, `05_test_metrics.csv`, `05_subject_differences.png`, `05_cost_accuracy.png` |
+| `03_unimodal_grouped_baselines.ipynb` | Compare prior-class, logistic regression and Random Forest baselines with **unimodal 1D-CNN, TCN and BiGRU** models on matched participant-grouped Development folds | `03_dev_unimodal_metrics.csv`, `03_dev_neural_metrics.csv`, `03_oof_predictions.csv`, `03_neural_oof_predictions.csv`, `03_learning_curves.png`, `03_class_errors.png` |
+| `04_fusion_and_modality_ablations.ipynb` | Compare classical early/late fusion with **dual-branch CNN/TCN embedding fusion, deep late fusion and compact gated/cross-attention fusion** on the same Development windows and groups; run modality ablations | `04_dev_fusion_metrics.csv`, `04_dev_deep_fusion_metrics.csv`, `04_oof_paired_differences.csv`, `04_fusion_robustness.csv`, `04_fusion_comparison.png`, `04_modality_sensitivity.png` |
+| `05_frozen_person_independent_test.ipynb` | Freeze the Development-selected **classical/deep model and fusion configuration**, refit using permitted Development people and evaluate on reserved Test participants without Test-based model choice; measure per-person gains and CPU/GPU costs | `05_test_predictions.csv`, `05_test_metrics.csv`, `05_subject_differences.png`, `05_cost_accuracy.png` |
 
 Notebook Markdown, code grouping, Colab checkout, input/output contracts and notebook-specific SVG diagrams will follow the approved Prompts 02 and 04 when implementation begins. Curated SVG filenames will match their corresponding complete notebook filenames. There are no experimental plots or notebook diagrams to link at present.
 
@@ -43,7 +43,7 @@ Notebook Markdown, code grouping, Colab checkout, input/output contracts and not
 
 **Not available: experiments have not started.**
 
-The planned test compares each fusion method with the **better observed unimodal baseline on the same participants and windows**. Reporting will include participant-macro F1, fixed-class balanced accuracy, confusion matrices, per-person paired differences, a participant-level uncertainty interval, and runtime/model size when measured. A neutral or negative fusion result remains a valid outcome.
+The planned final Test compares the Development-selected classical/deep fusion model with the **strongest Development-selected unimodal comparator on the same participants and windows**, preserving model capacity and measured training/inference cost in interpretation. Reporting will include participant-macro F1, fixed-class balanced accuracy, confusion matrices, per-person paired differences, a participant-level uncertainty interval, and runtime/model size when measured. A neutral or negative fusion result remains a valid outcome.
 
 This section will be updated from the study's own executed output tables. Published third-party scores are background literature, not results from this repository.
 
@@ -53,10 +53,12 @@ This section will be updated from the study's own executed output tables. Publis
 
 **Planned workflow:**
 1. Obtain one official subject ZIP as a pilot; verify download terms and inspect its archive and MATLAB schema safely.
-2. Implement and inspect Notebook 01, then create the remaining four notebooks and their owned outputs.
+2. Implement the five notebooks and their study-owned source modules, including PyTorch unimodal and fusion models. Validate interfaces on small synthetic fixtures before large training; source-specific corrections remain subject to actual-file inspection.
 3. Store acquired ZIP/MAT files only under `data/raw/ninapro_db2/`; store potentially large aligned arrays/features under `data/processed/ninapro_db2/`. The repository's `.gitignore` excludes these files.
 4. Run Notebooks 01–05 in order after they have been implemented and checked. Use the existing root `requirements.txt`, subject to a real dependency check. A typical installation, **not yet execution-tested for this study**, is `python -m pip install -r requirements.txt`.
 5. Follow the notebook-specific output files under `output/`. Each notebook owns and replaces its current files; later notebooks consume those files, not historical fallbacks.
+
+**Neural experiment budget:** Plan an initial one-seed Development benchmark across the same participant folds; evaluate multi-seed robustness for selected finalists rather than every architecture. Use a Colab GPU when available, without making any specific GPU model an assumption. Unimodal branches and fusion candidates must have logged hyperparameters, fold IDs, seeds, model sizes, fitting costs and matched input windows. No neural results have been measured yet.
 
 Loading all 40 source archives simultaneously is not required. The Dryad listing shows that a typical DB2 subject ZIP is hundreds of megabytes; pilot and full-cohort ingestion should process subjects incrementally. Source data, training and final Test results have **not** been downloaded or executed for this project.
 
@@ -78,7 +80,7 @@ Empty tracked directories contain only a `.gitkeep` marker until their first rea
 
 ## 6. Interpretation and Scope
 
-This study is designed to measure **whether acceleration adds information to sEMG in a specific person-independent, prompted hand-movement classification task**. The enrolled NinaPro DB2 population consists of intact volunteers, so future results would not alone establish amputee performance, prosthesis control, clinical usefulness, online operation or generalisation across acquisition devices.
+This study is designed to measure **whether acceleration adds information to sEMG in a specific person-independent, prompted hand-movement classification task**, using classical models alongside implemented-from-scratch deep temporal and multimodal fusion architectures when development begins. The enrolled NinaPro DB2 population consists of intact volunteers, so future results would not alone establish amputee performance, prosthesis control, clinical usefulness, online operation or generalisation across acquisition devices.
 
 The released signals were already processed for synchronisation and sEMG interference removal. Any additional filtering must be justified against those original processing steps. The corrected labels may have been aligned from sEMG, so this provenance must be reported when comparing modalities. Modality pairing, source labels and eligibility are first-inspection items, not presumed results.
 
