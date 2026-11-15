@@ -60,7 +60,9 @@ The peak-loss experiment did not establish a consistent benefit from adding the 
 
 ### Final participant-held-out Test
 
-The final models were fitted on 33 Development participants and evaluated on the four Test participants. Their settings are defined in [`final_model_settings()`](code/src/essex_stage08_final.py). The final Random Forest uses `max_features=1` (one candidate feature per split), whereas the Stage 05 baseline uses `max_features=1.0` (all features); the [methods report](BONENET_RESEARCH_METHODS_AND_EVIDENCE.md#final-development-configuration-and-held-out-test-stage-08) records this distinction.
+The final models were fitted on 33 Development participants and evaluated on the four Test participants. Their settings are defined in [`final_model_settings()`](code/src/essex_stage08_final.py). The Stage 05 Random Forest used the **float** `max_features=1.0`, meaning all **210 candidate predictors** were considered at each tree split. The Stage 08 Random Forest used the **integer** `max_features=1`, meaning **one candidate predictor** per split. These produce different fitted-model recipes despite the superficially similar numbers.
+
+The integer setting was already present in the [Stage 08 protocol committed on 2 November 2026 before the recorded final Test results](https://github.com/RezaSaadatyar/human-movement-intelligence/commit/d7ae38438f8bf7f5c9510fc61c24b4a4eb349087). However, the reviewed source history does not establish why this parameter was changed from the Stage 05 selection recipe. Therefore the Stage 05 Training-CV MAE of **0.0007950** selects the **Random Forest family under the Stage 05 configuration**; it does **not** independently validate the exact Stage 08 configuration. The reported Stage 08 Test MAE of **0.0009384** belongs to the model actually fitted with `max_features=1`. The [scientific methods report](BONENET_RESEARCH_METHODS_AND_EVIDENCE.md#final-development-configuration-and-held-out-test-stage-08) documents the evidence and limits; the Test scores have not been used to choose a replacement setting.
 
 | Test metric | Primary Random Forest | Secondary Dilated TCN |
 | --- | ---: | ---: |
