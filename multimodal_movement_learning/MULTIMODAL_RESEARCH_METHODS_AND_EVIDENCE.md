@@ -1,6 +1,6 @@
 # Multimodal Movement Learning: Research Methods and Evidence
 
-**Current status:** A source-reviewed research protocol for NinaPro DB2, not yet an implemented or executed study. The [README](README.md) gives navigation and entry points; this document defines the proposed scientific analysis, data contracts, model comparisons and reporting boundaries. It does not contain project-generated results.
+**Current status:** Five notebooks and the study-specific Python modules are implemented. Notebooks 01–02 have been executed on original NinaPro DB2 E1 data and their source, window-cohort, feature and participant-split evidence is recorded below. Notebook 03 has partial Development execution; neural/fusion comparisons and final Test evaluation remain incomplete. The [README](README.md) provides entry points, while this document distinguishes observed dataset results from planned predictive evaluation.
 
 ## 1. Research Objective and Scope
 
@@ -27,7 +27,7 @@ The intended contribution is a reproducible, controlled *comparison* of two moda
 - Atzori, M. et al. (2014), ‘[Electromyography data for non-invasive naturally-controlled robotic hand prostheses](https://doi.org/10.1038/sdata.2014.53)’, *Scientific Data*, 1, 140053. The paper describes acquisition, synchronisation, filtering and relabelling.
 - [Original Dryad data deposition](https://doi.org/10.5061/dryad.1k84r) provides separate DB2 subject ZIPs (subject 1 approximately 470 MB). The deposited 23.27 GB total is for DB1–DB3 jointly, **not** DB2 alone. Dryad normally distributes its published datasets under CC0, but the usage/distribution conditions applying to the selected official NinaPro files should be checked before redistributing any data.
 
-The official web page has inconsistent text (‘10 repetitions’ in one overview passage, ‘6 repetitions’ in the detailed protocol). Use six as a source-supported **planning value**, then inventory the exercise files before any fixed class/repetition assertions. The initial official data sample has **not** been downloaded or opened.
+The official web page has inconsistent text (‘10 repetitions’ in one overview passage, ‘6 repetitions’ in the detailed protocol). The executed S01 E1 source inspection observed repetition codes **0–6**, with six corrected non-rest segments per E1 movement label. The participant archive contained three exercise MATLAB files and occupied **448.47 MiB** in the recorded environment. This observation supports the analysed E1 protocol but should not be extrapolated blindly to every exercise.
 
 ### 2.2 Sensing and original signal processing
 
@@ -45,9 +45,9 @@ Corrected movement boundaries were generated using a procedure involving the EMG
 
 ### 2.3 Proposed inclusion cohort and class definition
 
-**Primary task proposal for a compact first release:** the complete set of source-labelled gestures in the **basic finger-movement exercise (the first non-force exercise)** plus Rest, rather than selecting favourable gestures after training. The exact `exercise` identifier, per-exercise label codes, `restimulus` transitions and valid repetitions are to be frozen following Notebook 01's genuine source audit. The second non-force exercise (grasping/functional movement) is a separately reported extension, not silently pooled into the primary task.
+**Current primary task:** the basic finger-movement exercise **E1**, using the verified source corrected labels **0–17** (Rest plus seventeen non-rest movements). This is the complete observed E1 class set, rather than a post-hoc favourable class selection. The second non-force exercise (grasping/functional movement) is a separately reported extension, not silently pooled into the primary task.
 
-Subjects will be considered eligible according to source availability, valid paired `emg`/`acc` streams and agreed class support, without reference to any model scores. Report the number of source people, eligible people, repetitions and windows after inspection; the 40-person number is an **original release count**, not a measured final modelling cohort.
+Eligibility was determined from original source availability, paired `emg`/`acc` streams and corrected label support, without reference to model performance. The executed E1 inventory includes **40 participants** and **337,853 eligible paired source windows**. A predeclared, time-uniform cap of **1,000 windows per person** retained **40,000** for modelling. These are observed current-cohort counts, not fixed requirements for all future data releases.
 
 **Unit hierarchy:** `subject_id` → `exercise_id` → `repetition_id` / `trial_key` → source sample interval → aligned window. Rest intervals require a stable source-based segment identity and cannot be pooled across different people's recordings. Independently identifying actual motion onset using future Test labels is not permitted.
 
@@ -55,20 +55,20 @@ Subjects will be considered eligible according to source availability, valid pai
 
 ### 3.1 Source archive, MATLAB and pairing contract
 
-Notebook 01 will download or locate a single official pilot subject archive, then check archive integrity and safe extraction, MATLAB keys, shapes, finite values, source pre-processing and the supplied label dictionary. Use the real released `emg` and `acc` arrays, not independently recorded or class-name-matched streams.
+Notebook 01 inspected the original S01 archive and E1 MATLAB fields. It recorded **1,808,331 common released sample rows** with `emg` shape **(1,808,331, 12)**, `acc` shape **(1,808,331, 36)**, **18 corrected label codes** and **205 contiguous corrected-label/repetition segments**. Both modality arrays were fully finite in this participant. Source fields were paired by the same published row grid, not by post-hoc class matching. The S01 nominal duration on that grid is **904.1655 seconds**; native accelerometer timestamps were not independently recovered.
 
 The intended trial/window registry contains: `subject_id`, `exercise_id`, `source_file`, `repetition_id`, `original_label`, `corrected_label`, `segment_id`, source sample `start/end`, physical-time `start_s/end_s`, `emg/acc` coverage, source rate assumptions and exclusion reason where relevant. Confirm which variables have a common stored row/time grid and whether native timestamps are actually retained. Never invent timestamps absent from source files.
 
 ### 3.2 Windowing and sensor features
 
-**Initial authoring default (to be verified on source data):** 300-ms windows stepped every 100 ms, with full within-segment label consistency, no crossing between exercises, subjects, repetitions, corrected class transitions or source gaps. Alternative 200-ms/400-ms durations are Development-only sensitivity analyses. Avoid treating overlapping windows as independent evaluation subjects.
+**Executed E1 windowing:** 300-ms windows stepped every 100 ms, with full within-segment label consistency and no crossing between exercises, subjects, repetitions, corrected class transitions or source gaps. Alternative 200-ms/400-ms durations are Development-only sensitivity analyses. Avoid treating overlapping windows as independent evaluation subjects.
 
 Signals that the distributed archive already synchronised may be windowed on the **released common time grid**, with time in seconds derived from verified stored sampling metadata. Inspect raw/native rate assumptions rather than independently reinterpolating one stream. For accelerometer statistical features, avoid frequency claims exceeding the native 148-Hz acquisition bandwidth.
 
-Proposed lightweight features, computed separately per eligible paired window:
+Implemented lightweight features, computed separately per selected paired window:
 
-- **sEMG:** per-channel RMS, mean absolute value, waveform length and a log-variance or stable amplitude-dispersion feature (approximately 48 summary features from 12 channels).
-- **Accelerometry:** per-axis mean and standard deviation (72 features for 36 axes), plus two summary features of each three-axis sensor magnitude when justified (approximately 24 additional features).
+- **sEMG:** per-channel RMS, mean absolute value, normalised waveform length and log variance; **48 summary features** from the 12 channels, forming a current matrix **(40,000, 48)**.
+- **Accelerometry:** per-axis mean and standard deviation (72 features for 36 axes), plus mean and standard deviation of the 12 sensor magnitudes (24 more); **96 total features**, forming a current matrix **(40,000, 96)**.
 - **Early fusion:** concatenate the two feature vectors from the **same window key**. Count exact columns after real extraction; reject missing/misordered source channels rather than silently filling them.
 - **Deep temporal inputs:** retain aligned signal tensors per window as `X_emg [W, T, 12]` and `X_acc [W, T, 36]` when supported by the released schema; adapt to `channels-first` within the PyTorch data interface and record actual tensor layout. The common stored row grid does not create new independent 148-Hz acceleration observations. Validate physical time correspondence and document any modality-specific downsampling or anti-alias filtering. Prevent normalisation leakage by fitting source-derived parameters inside Development folds.
 
@@ -78,9 +78,9 @@ Train-only per-feature scaling, class weights and any imputation belong inside a
 
 ### 4.1 Participant independence and frozen evaluation
 
-After the complete pre-modelling eligibility audit, select the reserved Test participants deterministically (proposed `random_state=42`, five people when the expected 40 are usable), record the exact IDs, and never use their windows for feature/scaler fitting, hyperparameter selection or fusion weighting. Use all remaining eligible participants for Development-only five-fold grouped evaluation when feasible.
+After the completed source-cohort audit, Notebook 02 assigned participants deterministically using **`random_state=42`**. Five participants are reserved for Test and 35 for Development, with all windows of a person retaining one role. All five Development validation folds contain seven separate people. Test windows must not be used for feature/scaler fitting, hyperparameter selection or fusion weighting.
 
-The plan of 35 Development and five Test participants is **conditional on source eligibility**, not an observed split. The Test participant IDs and the exact eligible task classes must be declared and recorded before fitting and before viewing Test predictions. If subject/class coverage makes the proposed design unsuitable, revise the plan using source feasibility information before any Test evaluation.
+The **35 Development / five Test** split and eligible **0–17** class set are recorded in `output/02_participant_split_assignments.csv`, `02_development_fold_assignments.csv` and `01_label_dictionary.csv`. These assignments preceded the subsequently run Development comparisons. If subject/class coverage makes the proposed design unsuitable, revise the plan using source feasibility information before any Test evaluation.
 
 **Primary selection:** compare all candidate arms on the same eligible Development windows and the same participant-grouped folds. Choose models and fusion combination using Development evidence alone. A separate independent Validation split is not required if fold-based model selection and inner-Development calibration are used honestly. For tuned models, keep tuning and probability calibration inside the corresponding Training partition; never fit a scaler or calibrator on an evaluation fold's labels.
 
@@ -143,7 +143,9 @@ Add a small `code/src/` reader, synchronised-window/feature module, PyTorch neur
 
 ## 6. Results and Comparative Analysis
 
-**No project results have been produced.** The intended comparisons are Development-only per-person macro F1 of classical B0/B1/B2/F1/F2 plus unimodal neural D1–D3 and deep fusion F3–F5; only Development-selected arms progress to a single held-out person-independent Test comparison. The final figure should show per-person fused-minus-unimodal differences rather than a single selectively favourable pooled score.
+**Recorded data-preparation results:** S01 E1 has **1,808,331 stored rows** (12 sEMG and 36 acceleration columns), corrected labels **0–17**, 205 source segments and a **100% finite-value fraction** in the two inspected source arrays. Across 40 participants, the implemented E1 process found **337,853 source-eligible paired windows** and retained **40,000** under the predetermined 1,000-per-person selection. The retained cohort has **35 Development and five held-out Test people** with five Development folds. **These results describe data construction, not classifier performance.**
+
+The intended predictive comparisons are Development-only per-person macro F1 of classical B0/B1/B2/F1/F2 plus unimodal neural D1–D3 and deep fusion F3–F5; only Development-selected arms progress to a single held-out person-independent Test comparison. The complete neural/fusion programme and final Test evaluation are not reported as executed. The final figure should show per-person fused-minus-unimodal differences rather than a single selectively favourable pooled score.
 
 Only results from executed compatible code and the associated current `output/` tables will be reported. For context only: [Hu et al. (2024)](https://doi.org/10.3390/s24092702) reported a DB2 fusion accuracy for a **within-person repetition-split design**, which is not directly comparable to this planned person-independent macro-F1 endpoint. [Zhang et al. (2023)](https://doi.org/10.1109/JSEN.2023.3266872) published an intersubject sEMG/accelerometer fusion approach; its existence precludes a novelty claim that intersubject fusion itself is unexplored.
 
@@ -159,7 +161,7 @@ An optional second non-force exercise may be studied as an explicitly separate t
 
 ### 8.1 Planned notebook sequence and file contracts
 
-The following paths are **owned output targets**, not files that currently exist.
+The Notebook 01 and 02 paths below are **existing current outputs** generated from original source data. The Notebook 03–05 entries describe their corresponding model-evaluation output contracts and should be interpreted alongside the actual completed runs.
 
 | Notebook | Required input and operations | Named output targets |
 | --- | --- | --- |
@@ -181,18 +183,18 @@ Each implemented notebook will contain the established **00. Colab Repository Se
 
 ### 8.2 Local and tracked artefact boundaries
 
-- Local-only `data/raw/ninapro_db2/`: original ZIP archives and subject MATLAB files.
-- Local-only `data/processed/ninapro_db2/`: row-keyed aligned arrays, feature matrices and compact pairing intermediates.
-- Study-owned `output/`: current public CSV evidence and numerical plots **only after execution**.
-- Curated `images/`: explanatory SVGs created when the corresponding notebook is implemented.
-- Repository root `requirements.txt`: existing general dependencies; compatibility with source loading and runtime to be checked during implementation.
+- Local `data/raw/ninapro_db2/`: original subject ZIP archives, downloaded once per available runtime and reused when found.
+- Local `data/processed/ninapro_db2/`: 40-person per-exercise source arrays and feature matrices, reused when available; missing arrays can be reconstructed from the original archives.
+- Study-owned `output/`: recorded `01_*` and `02_*` source/paired-window CSV and PNG outputs, including the frozen participant assignments; downstream `03_*`–`05_*` results belong to their actual executions.
+- Curated `images/`: five editable notebook-specific workflow SVGs; these are scientific process diagrams, not computed numerical plots.
+- Repository root `requirements.txt`: the scientific environment dependencies used by the implementation; full runtime consistency remains dependent on the executing Colab/Python environment.
 
-Pilot one person, inspect feasibility, then stream all eligible people; do not load all source ZIPs into memory at once. The Dryad listing shows single-person ZIPs of several hundred megabytes. Existing local data and outputs should be reused when scientifically compatible, with each notebook replacing its own current named outputs upon rerun.
+The executed sequence first inspected S01, then processed all 40 participants one at a time. Per-person original ZIPs are typically hundreds of megabytes, whereas the `output/` tables are small source/selection contracts. A fresh ephemeral Colab session may lack both `data/raw/` and `data/processed/`, in which case numeric input reconstruction can require fresh source downloads. Moving multi-GiB dense signal tensors to `output/` is not a practical replacement for persistent large-data storage. Each notebook replaces only its own named current outputs on rerun.
 
 ## 9. Discussion, Limitations and Future Work
 
-The study is planned, so no conclusions about classical baselines, unimodal deep learning or classical/neural fusion performance can yet be drawn. The original healthy-participant, prompted-movement protocol is a controlled sensor classification task, not a demonstration of prosthetic control or rehabilitation impact. Any subsequent estimate will concern the source-defined labels, signal representations, participants and recording conditions actually evaluated.
+The source-audit and participant-cohort stages have been executed, but their successful execution alone does not validate the classification protocol. Complete, scientifically interpreted evidence for neural models, fusion effects and final Test performance is not available. The original healthy-participant, prompted-movement protocol is a controlled sensor classification task, not a demonstration of prosthetic control or rehabilitation impact. Any subsequent estimate will concern the source-defined labels, signal representations, participants and recording conditions actually evaluated.
 
-Source priorities for Notebook 01 are accessible official ZIPs, confirmed MATLAB variable names and shapes, alignment after released preprocessing, the class/repetition dictionary, the provenance of corrected labels and the terms of using/distributing the original data. A pilot may reveal practical changes needed before fixing the full participant split; such changes should follow actual evidence, not a Test score.
+The actual S01 and 40-participant E1 inspection supports the current source dimensions, corrected label set and frozen person assignments. Important interpretation limits remain: sEMG-informed corrected boundaries, the interpolated accelerometer stream, the high Rest proportion, and the reduced 1,000-window-per-person modelling cohort. None of these measurements establishes native sensor clock accuracy or performance in real-time prosthetic use.
 
 **Key references:** [NinaPro DB2 guide](https://ninapro.hevs.ch/instructions/DB2.html); [Atzori et al. (2014)](https://doi.org/10.1038/sdata.2014.53); [Dryad source record](https://doi.org/10.5061/dryad.1k84r); [Hu et al. (2024)](https://doi.org/10.3390/s24092702); [Zhang et al. (2023)](https://doi.org/10.1109/JSEN.2023.3266872).
