@@ -8,6 +8,7 @@ The active studies use distinct original datasets, model inputs, targets and par
 | --- | --- | --- | --- |
 | [Wearable Activity Recognition](../wearable_activity_recognition/README.md) | [NTNU AI Lab HARTH v2.0](https://github.com/ntnu-ai-lab/harth-ml-experiments) | Six lower-back/thigh acceleration channels; eight original activity codes | Original source revision and windowing rules are given in the [HARTH methods](../wearable_activity_recognition/HARTH_RESEARCH_METHODS_AND_EVIDENCE.md) |
 | [Biomechanical Load Estimation](../biomechanical_load_estimation/README.md) | [Essex Figshare v13](https://doi.org/10.6084/m9.figshare.30225739.v13), described by [Hollinger et al.](https://doi.org/10.1038/s41597-026-07429-3) | Seven lower-body IMUs and model-derived femoral-neck principal-strain targets | Source files and participant/trial exclusions are documented in the [Essex methods](../biomechanical_load_estimation/BONENET_RESEARCH_METHODS_AND_EVIDENCE.md) |
+| [Multimodal Movement Learning](../multimodal_movement_learning/README.md) **(planned)** | [NinaPro DB2](https://ninapro.hevs.ch/instructions/DB2.html) / [Dryad](https://doi.org/10.5061/dryad.1k84r) | Paired 12-channel sEMG and 36-column triaxial acceleration; prompted hand-movement labels | First confirm the official per-subject MATLAB files, corrected labels and synchronisation; no source archives or results obtained yet |
 
 The active HARTH study uses the **NTNU AI Lab v2.0 source**, not the [UCI HARTH release](https://archive.ics.uci.edu/dataset/779/harth). The Essex study uses **model-derived FE targets**, not direct in-vivo strain measurements or clinical outcomes.
 
@@ -48,6 +49,20 @@ The current original-source workflow is managed by [Essex Notebook 01](../biomec
 Existing source downloads are reused. When `MATLAB.zip` is unavailable, the source loader tries the project data release and official Figshare endpoints for the same v13 archive. A new transfer is checked for completion before replacement; extraction checks ZIP paths and CRC integrity. Original participant/trial identifiers are preserved. Notebooks 02–03 inspect nested tables, numeric columns and **source FE time coordinates**. Notebook 04 creates paired arrays and participant-disjoint splits; FE observations are **not** assumed to occur at every tenth IMU sample. Transformations used for learning are fitted within the appropriate Training/Development partition.
 
 The current [Figshare file manifest](../biomechanical_load_estimation/output/01_dataset_figshare_file_manifest.csv), [Essex README](../biomechanical_load_estimation/README.md) and [scientific methods](../biomechanical_load_estimation/BONENET_RESEARCH_METHODS_AND_EVIDENCE.md) provide the source and study-specific details.
+
+### 2.3 NinaPro DB2 — Multimodal Movement Learning (planned)
+
+The official [NinaPro DB2 source](https://ninapro.hevs.ch/instructions/DB2.html) lists 40 intact participants and separate source ZIP archives. The [original data descriptor](https://doi.org/10.1038/sdata.2014.53) identifies sEMG sampled at 2,000 Hz and triaxial accelerometers originally sampled at approximately 148 Hz; published streams were synchronised to a common higher-rate representation. The released dictionary lists 12 `emg` and 36 `acc` columns, as well as labels and repetition identifiers. The data descriptor records correction of movement boundaries after acquisition.
+
+The [Dryad original deposition](https://doi.org/10.5061/dryad.1k84r) lists individual DB2 subject ZIPs; its full 23.27 GB listing includes DB1–DB3, not only DB2. Retrieve a single participant's archive first, verify file integrity, observe actual MATLAB fields, and then acquire eligible people incrementally. Do not commit original ZIP/MAT archives, processed sample arrays or participant-specific source data. Standard local working paths:
+
+| Planned local path | Purpose |
+| --- | --- |
+| `data/raw/ninapro_db2/` | Source subject archives and MATLAB exercise files |
+| `data/processed/ninapro_db2/` | Compact aligned feature matrices and source row/window identifiers |
+| [`multimodal_movement_learning/output/`](../multimodal_movement_learning/output/) | Future generated, study-owned CSV summaries and figures only after execution |
+
+The intended task is a selected non-force exercise plus rest, using sEMG and acceleration only; `glove`, `force`, subject/repetition IDs and displayed cue timing are not predictors. The [study README](../multimodal_movement_learning/README.md) and [scientific plan](../multimodal_movement_learning/MULTIMODAL_RESEARCH_METHODS_AND_EVIDENCE.md) describe the five planned notebooks and person-disjoint evaluation. The pilot file has not been downloaded or inspected in this project.
 
 ## 3. Additional Public Collections
 
