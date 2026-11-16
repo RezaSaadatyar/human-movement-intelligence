@@ -39,7 +39,7 @@ def build_classical(name: str, seed: int = 42):
         return DummyClassifier(strategy="prior")
     if name.endswith("_logreg"):
         return make_pipeline(StandardScaler(), LogisticRegression(
-            C=1.0, max_iter=500, class_weight="balanced", random_state=seed,
+            C=1.0, max_iter=2000, class_weight="balanced", random_state=seed,
         ))
     if name.endswith("_rf"):
         return RandomForestClassifier(
