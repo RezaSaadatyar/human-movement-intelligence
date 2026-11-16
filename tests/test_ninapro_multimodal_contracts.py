@@ -20,7 +20,7 @@ from ninapro_source import load_exercise, contiguous_segments
 from ninapro_dataset import (
     build_window_registry, select_windows_uniformly, window_features,
     save_source_arrays, construct_feature_arrays, assign_participants,
-    check_artifact_alignment, PairedWindowDataset,
+    check_artifact_alignment, PairedWindowDataset, ensure_numerical_cache,
 )
 from ninapro_evaluation import (
     build_classical, aligned_probabilities, participant_metrics,
@@ -154,3 +154,65 @@ def test_neural_training_and_inference_with_synthetic_people(tmp_path):
     assert np.allclose(probs.sum(axis=1), 1, atol=1e-5)
     assert info["best_epochs"] == 1
     assert not history.empty
+
+
+def test_numerical_cache_reuses_existing_features_without_recomputation(
+    tmp_path, monkeypatch, capsys,
+):
+    """Complete local caches should not read ZIPs or extract features again."""
+    import ninapro_dataset
+    import ninapro_source
+
+    index, processed, expected_emg, expected_acc = _cohort(tmp_path, people=3)
+    np.save(processed / "02_emg_features.npy", expected_emg)
+    np.save(processed / "02_acc_features.npy", expected_acc)
+
+    def unexpected_work(*args, **kwargs):
+        raise AssertionError("A complete cache must not require reconstruction.")
+
+    monkeypatch.setattr(ninapro_dataset, "construct_feature_arrays", unexpected_work)
+    monkeypatch.setattr(ninapro_source, "ensure_subject_archive", unexpected_work)
+
+    emg, acc = ensure_numerical_cache(
+        tmp_path, index, allow_source_download=False, verbose=True,
+    )
+    np.testing.assert_allclose(emg, expected_emg)
+    np.testing.assert_allclose(acc, expected_acc)
+    output = capsys.readouterr().out
+    assert "Paired E1 source arrays: 3/3 participants present." in output
+    assert "Reused both saved statistical feature arrays" in output
+
+
+def test_numerical_cache_recovers_only_missing_subject_arrays(
+    tmp_path, capsys,
+):
+    """A missing local array is regenerated from its existing source ZIP."""
+    index, processed, expected_emg, expected_acc = _cohort(tmp_path, people=3)
+    np.save(processed / "02_emg_features.npy", expected_emg)
+    np.save(processed / "02_acc_features.npy", expected_acc)
+    (processed / "02_S02_E1_acc.npy").unlink()
+
+    emg, acc = ensure_numerical_cache(
+        tmp_path, index, allow_source_download=False, verbose=True,
+    )
+    assert (processed / "02_S02_E1_emg.npy").is_file()
+    assert (processed / "02_S02_E1_acc.npy").is_file()
+    np.testing.assert_allclose(emg, expected_emg)
+    np.testing.assert_allclose(acc, expected_acc)
+    output = capsys.readouterr().out
+    assert "Paired E1 source arrays: 2/3 participants present." in output
+    assert "S02: missing processed source arrays" in output
+    assert "Reused both saved statistical feature arrays" in output
+
+
+def test_numerical_cache_recreates_missing_feature_matrices(tmp_path, capsys):
+    """Feature extraction happens only if required saved matrices are absent."""
+    index, processed, expected_emg, expected_acc = _cohort(tmp_path, people=3)
+    emg, acc = ensure_numerical_cache(
+        tmp_path, index, allow_source_download=False, verbose=True,
+    )
+    np.testing.assert_allclose(emg, expected_emg)
+    np.testing.assert_allclose(acc, expected_acc)
+    assert (processed / "02_emg_features.npy").is_file()
+    assert (processed / "02_acc_features.npy").is_file()
+    assert "Saved statistical features" in capsys.readouterr().out

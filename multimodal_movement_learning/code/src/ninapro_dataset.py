@@ -283,44 +283,147 @@ def training_channel_stats(index: pd.DataFrame, processed_dir: Path, *,
     return result
 
 # ==================== 05. Reconstruct Local Numerical Cache ===================
-def ensure_numerical_cache(root: Path, index: pd.DataFrame, *,
-                           allow_source_download: bool = True) -> tuple[np.ndarray, np.ndarray]:
-    """Reconstruct local input matrices in a fresh kernel from original data.
+def ensure_numerical_cache(
+    root: Path, index: pd.DataFrame, *,
+    allow_source_download: bool = True,
+    verbose: bool = False,
+) -> tuple[np.ndarray, np.ndarray]:
+    """Reuse aligned feature/source arrays; rebuild only missing numerical inputs.
 
-    Index/roles are always read from Notebook 02's current outputs. This
-    operation never changes the selected window rows or participant roles.
+    The canonical Notebook 02 window index and its participant assignments are
+    not modified. Logging reports whether the executing runtime actually has
+    the saved source and feature arrays. It does not require the original ZIP
+    archives when valid processed arrays are already available.
     """
+    from time import perf_counter
     from ninapro_source import ensure_subject_archive, load_exercise
 
     root = Path(root)
     raw = root / "data" / "raw" / "ninapro_db2"
     processed = root / "data" / "processed" / "ninapro_db2"
     processed.mkdir(parents=True, exist_ok=True)
-    for subject_id in sorted(index.subject_id.unique()):
-        subject = int(str(subject_id).removeprefix("S"))
-        emg_path = processed / f"02_{subject_id}_E1_emg.npy"
-        acc_path = processed / f"02_{subject_id}_E1_acc.npy"
-        if not emg_path.is_file() or not acc_path.is_file():
-            source = ensure_subject_archive(raw, subject, download=allow_source_download)
-            record = load_exercise(source, subject, exercise=1)
-            save_source_arrays(record, processed)
-        # Check that all saved source indices remain in the available arrays.
-        maximum = int(index.loc[index.subject_id == subject_id, "end_sample"].max())
-        if maximum > len(np.load(emg_path, mmap_mode="r")) or maximum > len(np.load(acc_path, mmap_mode="r")):
-            raise ValueError(f"Cached source arrays do not cover window indices for {subject_id}.")
+
+    # Derive required source spans once, instead of repeatedly filtering all
+    # 40,000 window rows for each participant.
+    maximum_by_subject = index.groupby("subject_id", sort=True)["end_sample"].max()
+    required_pairs = [
+        (
+            str(subject_id),
+            int(str(subject_id).removeprefix("S")),
+            int(maximum),
+            processed / f"02_{subject_id}_E1_emg.npy",
+            processed / f"02_{subject_id}_E1_acc.npy",
+        )
+        for subject_id, maximum in maximum_by_subject.items()
+    ]
+    ready_count = sum(
+        emg_path.is_file() and acc_path.is_file()
+        for _, _, _, emg_path, acc_path in required_pairs
+    )
     emg_file = processed / "02_emg_features.npy"
     acc_file = processed / "02_acc_features.npy"
+
+    if verbose:
+        print(f"Numerical cache directory: {processed}", flush=True)
+        print(
+            f"Paired E1 source arrays: {ready_count}/{len(required_pairs)} "
+            "participants present.",
+            flush=True,
+        )
+        print(
+            "Statistical feature files: "
+            f"sEMG={'available' if emg_file.is_file() else 'missing'}, "
+            f"Acc={'available' if acc_file.is_file() else 'missing'}.",
+            flush=True,
+        )
+
+    # Deep temporal models require the saved source-grid arrays, even when
+    # the compact classical feature matrices are already available.
+    for subject_id, subject, maximum, emg_path, acc_path in required_pairs:
+        if not emg_path.is_file() or not acc_path.is_file():
+            started = perf_counter()
+            if verbose:
+                print(
+                    f"{subject_id}: missing processed source arrays; "
+                    "recovering E1 from the local archive or official source...",
+                    flush=True,
+                )
+            source = ensure_subject_archive(
+                raw, subject, download=allow_source_download
+            )
+            record = load_exercise(source, subject, exercise=1)
+            save_source_arrays(record, processed)
+            if verbose:
+                print(
+                    f"{subject_id}: paired arrays ready "
+                    f"({perf_counter() - started:.1f} s).",
+                    flush=True,
+                )
+
+        # Opening .npy files with mmap_mode reads array metadata rather than
+        # materialising all source samples in RAM.
+        emg = np.load(emg_path, mmap_mode="r", allow_pickle=False)
+        acc = np.load(acc_path, mmap_mode="r", allow_pickle=False)
+        if (
+            emg.ndim != 2 or acc.ndim != 2
+            or emg.shape[1] != 12 or acc.shape[1] != 36
+            or maximum > len(emg) or maximum > len(acc)
+        ):
+            raise ValueError(
+                f"{subject_id}: cached source arrays are incompatible with "
+                "Notebook 02's window boundaries or sensor dimensions."
+            )
+        del emg, acc
+
+    if verbose:
+        print(
+            f"Validated paired source arrays for {len(required_pairs)} "
+            "participants.",
+            flush=True,
+        )
+
+    # Existing valid features are loaded without recomputation; both arrays
+    # must retain the exact number/order of Notebook 02's window rows.
     if emg_file.is_file() and acc_file.is_file():
-        emg_features = np.load(emg_file, mmap_mode="r")
-        acc_features = np.load(acc_file, mmap_mode="r")
         try:
+            emg_features = np.load(
+                emg_file, mmap_mode="r", allow_pickle=False
+            )
+            acc_features = np.load(
+                acc_file, mmap_mode="r", allow_pickle=False
+            )
             check_artifact_alignment(index, (emg_features, acc_features))
+            if emg_features.shape[1] != 48 or acc_features.shape[1] != 96:
+                raise ValueError("Unexpected saved feature dimensions.")
+        except (ValueError, OSError, EOFError) as exc:
+            if verbose:
+                print(
+                    f"Existing feature cache could not be reused ({exc}). "
+                    "Recomputing features from the fixed window index...",
+                    flush=True,
+                )
+        else:
+            if verbose:
+                print(
+                    "Reused both saved statistical feature arrays; "
+                    "no feature extraction required.",
+                    flush=True,
+                )
             return emg_features, acc_features
-        except ValueError:
-            # Unusable caches are regenerated from the canonical window index.
-            pass
+
+    if verbose:
+        print(
+            "Extracting statistical features for the fixed paired windows...",
+            flush=True,
+        )
+    started = perf_counter()
     emg_features, acc_features = construct_feature_arrays(index, processed)
+    check_artifact_alignment(index, (emg_features, acc_features))
     np.save(emg_file, emg_features)
     np.save(acc_file, acc_features)
-    check_artifact_alignment(index, (emg_features, acc_features))
+    if verbose:
+        print(
+            f"Saved statistical features ({perf_counter() - started:.1f} s).",
+            flush=True,
+        )
     return emg_features, acc_features
