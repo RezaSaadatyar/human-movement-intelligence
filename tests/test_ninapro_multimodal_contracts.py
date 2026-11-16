@@ -21,6 +21,7 @@ from ninapro_dataset import (
     build_window_registry, select_windows_uniformly, window_features,
     save_source_arrays, construct_feature_arrays, assign_participants,
     check_artifact_alignment, PairedWindowDataset, ensure_numerical_cache,
+    training_channel_stats,
 )
 from ninapro_evaluation import (
     build_classical, aligned_probabilities, participant_metrics,
@@ -216,3 +217,75 @@ def test_numerical_cache_recreates_missing_feature_matrices(tmp_path, capsys):
     assert (processed / "02_emg_features.npy").is_file()
     assert (processed / "02_acc_features.npy").is_file()
     assert "Saved statistical features" in capsys.readouterr().out
+
+
+def test_modality_specific_windows_match_original_paired_tensor(tmp_path):
+    """Reading one modality leaves its original samples and targets unchanged."""
+    import torch
+
+    index, processed, _, _ = _cohort(tmp_path, people=3)
+    subset = index.iloc[:6]
+    labels = np.array([0, 1, 2, 3])
+    paired = PairedWindowDataset(subset, processed, classes=labels)
+    emg_only = PairedWindowDataset(subset, processed, classes=labels, modality="emg")
+    acc_only = PairedWindowDataset(subset, processed, classes=labels, modality="acc")
+    for i in range(len(subset)):
+        full_emg, full_acc, target = paired[i]
+        emg, empty_acc, emg_target = emg_only[i]
+        empty_emg, acc, acc_target = acc_only[i]
+        torch.testing.assert_close(emg, full_emg, rtol=0, atol=0)
+        torch.testing.assert_close(acc, full_acc, rtol=0, atol=0)
+        assert empty_acc.shape == (0, 0) and empty_emg.shape == (0, 0)
+        assert emg_target.item() == acc_target.item() == target.item()
+    assert all(acc is None for _, acc in emg_only._cache.values())
+    assert all(emg is None for emg, _ in acc_only._cache.values())
+    with pytest.raises(ValueError, match="Unsupported input modality"):
+        PairedWindowDataset(subset, processed, modality="unknown")
+
+
+def test_unimodal_training_statistics_match_used_paired_channels(tmp_path):
+    """Removing unused I/O must not alter fold-specific normalisation."""
+    index, processed, _, _ = _cohort(tmp_path, people=3)
+    paired = training_channel_stats(index, processed, max_windows=12)
+    for name in ("emg", "acc"):
+        subset = training_channel_stats(
+            index, processed, max_windows=12, modality=name,
+        )
+        np.testing.assert_allclose(
+            subset[f"{name}_mean"], paired[f"{name}_mean"], rtol=0, atol=0
+        )
+        np.testing.assert_allclose(
+            subset[f"{name}_std"], paired[f"{name}_std"], rtol=0, atol=0
+        )
+        other = "acc" if name == "emg" else "emg"
+        assert np.all(subset[f"{other}_mean"] == 0)
+        assert np.all(subset[f"{other}_std"] == 1)
+
+
+def test_loader_prefetch_policy_and_modality_only_batches(tmp_path):
+    """CPU tests use local workers; CUDA configuration enables prefetching."""
+    import torch
+    from ninapro_training import _loader
+
+    index, processed, _, _ = _cohort(tmp_path, people=3)
+    subset = index.iloc[:8]
+    classes = np.array([0, 1, 2, 3])
+    stats = training_channel_stats(subset, processed, max_windows=8, modality="emg")
+    cpu_loader = _loader(
+        subset, processed, classes, stats, batch_size=4,
+        shuffle=False, model_name="D1_emg_cnn", device=torch.device("cpu"),
+    )
+    emg, acc, labels = next(iter(cpu_loader))
+    assert emg.shape == (4, 12, 600)
+    assert acc.shape == (4, 0, 0)
+    assert labels.shape == (4,)
+    assert cpu_loader.num_workers == 0
+    assert cpu_loader.pin_memory is False
+
+    cuda_loader = _loader(
+        subset, processed, classes, stats, batch_size=4,
+        shuffle=False, model_name="D1_emg_cnn", device=torch.device("cuda"),
+    )
+    assert cuda_loader.num_workers == 2
+    assert cuda_loader.pin_memory is True
+    assert cuda_loader.persistent_workers is True

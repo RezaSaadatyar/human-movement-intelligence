@@ -36,10 +36,31 @@ def _model_logits(name: str, model, emg, acc):
     return model(emg, acc)
 
 
-def _loader(table, processed_dir, classes, stats, *, batch_size, shuffle):
-    dataset = PairedWindowDataset(table, processed_dir, classes=classes, **stats)
-    return DataLoader(dataset, batch_size=batch_size, shuffle=shuffle,
-                      num_workers=0, pin_memory=False)
+def _input_modality(model_name: str) -> str:
+    """Select the used modality without changing the registered model."""
+    if "_emg_" in model_name:
+        return "emg"
+    if "_acc_" in model_name:
+        return "acc"
+    return "both"
+
+
+def _loader(table, processed_dir, classes, stats, *, batch_size, shuffle,
+            model_name: str, device):
+    """Prefetch only required source channels for the selected compute device."""
+    use_cuda = torch.device(device).type == "cuda"
+    workers = 2 if use_cuda else 0
+    dataset = PairedWindowDataset(
+        table, processed_dir, classes=classes,
+        modality=_input_modality(model_name), **stats,
+    )
+    options = dict(
+        batch_size=batch_size, shuffle=shuffle,
+        num_workers=workers, pin_memory=use_cuda,
+    )
+    if workers:
+        options.update(persistent_workers=True, prefetch_factor=2)
+    return DataLoader(dataset, **options)
 
 
 def fit_neural(
@@ -70,11 +91,25 @@ def fit_neural(
     else:
         inner = None
         fitting = train_table
-    stats = training_channel_stats(fitting, processed_dir)
-    train_loader = _loader(fitting, processed_dir, classes, stats,
-                           batch_size=batch_size, shuffle=True)
+    stats = training_channel_stats(
+        fitting, processed_dir, modality=_input_modality(model_name),
+    )
+    train_loader = _loader(
+        fitting, processed_dir, classes, stats, batch_size=batch_size,
+        shuffle=True, model_name=model_name, device=device,
+    )
     val_loader = None if inner is None else _loader(
-        inner, processed_dir, classes, stats, batch_size=batch_size, shuffle=False)
+        inner, processed_dir, classes, stats, batch_size=batch_size,
+        shuffle=False, model_name=model_name, device=device,
+    )
+    if show_progress:
+        print(
+            f"  Data loader: {_input_modality(model_name)} only "
+            f"| workers={train_loader.num_workers} "
+            f"| pinned memory={train_loader.pin_memory} "
+            f"| batch size={batch_size}",
+            flush=True,
+        )
     model = build_neural_model(model_name, len(classes)).to(device)
     optimizer = torch.optim.AdamW(model.parameters(), lr=learning_rate,
                                   weight_decay=1e-3)
@@ -91,16 +126,27 @@ def fit_neural(
     for epoch in range(1, n_epochs + 1):
         epoch_started = perf_counter()
         model.train()
-        losses = []
+        # Accumulate training loss on-device; synchronise once per epoch,
+        # rather than transferring each minibatch's loss to the CPU.
+        accumulated_loss = torch.zeros((), device=device)
+        number_of_batches = 0
         for emg, acc, label in train_loader:
-            emg, acc, label = emg.to(device), acc.to(device), label.to(device)
+            if "_emg_" in model_name:
+                emg = emg.to(device, non_blocking=True)
+            elif "_acc_" in model_name:
+                acc = acc.to(device, non_blocking=True)
+            else:
+                emg = emg.to(device, non_blocking=True)
+                acc = acc.to(device, non_blocking=True)
+            label = label.to(device, non_blocking=True)
             optimizer.zero_grad(set_to_none=True)
             logits = _model_logits(model_name, model, emg, acc)
             loss = F.cross_entropy(logits, label, weight=criterion_weight)
             loss.backward()
             torch.nn.utils.clip_grad_norm_(model.parameters(), max_norm=1.0)
             optimizer.step()
-            losses.append(float(loss.detach().cpu()))
+            accumulated_loss.add_(loss.detach())
+            number_of_batches += 1
         val_f1 = np.nan
         if val_loader is not None:
             probs = _predict_loader(model_name, model, val_loader, device)
@@ -113,7 +159,7 @@ def fit_neural(
                 best_state = deepcopy({k: v.detach().cpu() for k, v in model.state_dict().items()})
             else:
                 misses += 1
-        epoch_loss = float(np.mean(losses))
+        epoch_loss = float((accumulated_loss / number_of_batches).item())
         history.append({"epoch": epoch, "train_loss": epoch_loss,
                         "inner_validation_macro_f1": val_f1, "model_id": model_name,
                         "seed": seed})
@@ -149,7 +195,13 @@ def _predict_loader(name, model, loader, device, *, perturbation: str | None = N
     model.eval()
     probabilities = []
     for emg, acc, _ in loader:
-        emg, acc = emg.to(device), acc.to(device)
+        if "_emg_" in name:
+            emg = emg.to(device, non_blocking=True)
+        elif "_acc_" in name:
+            acc = acc.to(device, non_blocking=True)
+        else:
+            emg = emg.to(device, non_blocking=True)
+            acc = acc.to(device, non_blocking=True)
         if perturbation == "acc_missing_mean":
             acc = torch.zeros_like(acc)
         elif perturbation == "acc_sensor_01_missing_mean":
@@ -166,8 +218,10 @@ def _predict_loader(name, model, loader, device, *, perturbation: str | None = N
 
 def predict_neural(name, model, table, processed_dir, classes, stats, *,
                    device, batch_size=128, perturbation=None):
-    loader = _loader(table.reset_index(drop=True), processed_dir, classes, stats,
-                     batch_size=batch_size, shuffle=False)
+    loader = _loader(
+        table.reset_index(drop=True), processed_dir, classes, stats,
+        batch_size=batch_size, shuffle=False, model_name=name, device=device,
+    )
     return _predict_loader(name, model, loader, device, perturbation=perturbation)
 
 
@@ -177,8 +231,11 @@ def benchmark_cpu(name, model, table, processed_dir, classes, stats, *, windows=
         return float("nan")
     cpu_model = deepcopy(model).to("cpu").eval()
     subset = table.iloc[:min(windows, len(table))].reset_index(drop=True)
-    loader = _loader(subset, processed_dir, classes, stats,
-                     batch_size=min(windows, len(table)), shuffle=False)
+    loader = _loader(
+        subset, processed_dir, classes, stats,
+        batch_size=min(windows, len(table)), shuffle=False,
+        model_name=name, device=torch.device("cpu"),
+    )
     with torch.inference_mode():
         emg, acc, _ = next(iter(loader))
         for _ in range(2):

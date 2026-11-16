@@ -204,71 +204,120 @@ def check_artifact_alignment(index: pd.DataFrame, features: tuple[np.ndarray, np
 
 # ========================= 04. Lazy Neural Windows ===========================
 class PairedWindowDataset:
-    """Read original source-grid windows lazily from memory-mapped subject files.
+    """Read only the required modality from source-aligned, memory-mapped windows.
 
-    A model receives source rows [time, channel] for the same physical window.
-    No signal from other subjects, labels or cue timing enters the tensors.
+    The default 'both' interface remains compatible with fusion models and
+    existing callers. Each example is [channels, source-grid samples].
+    Participant identifiers and source boundaries remain metadata, not inputs.
     """
 
     def __init__(self, window_index: pd.DataFrame, processed_dir: Path, *,
                  emg_mean=None, emg_std=None, acc_mean=None, acc_std=None,
-                 classes=None):
+                 classes=None, modality: str = "both"):
+        if modality not in ("emg", "acc", "both"):
+            raise ValueError(f"Unsupported input modality: {modality}")
+        self.modality = modality
         self.table = window_index.reset_index(drop=True)
         self.processed_dir = Path(processed_dir)
         self.emg_mean = np.zeros(12, np.float32) if emg_mean is None else np.asarray(emg_mean, np.float32)
         self.emg_std = np.ones(12, np.float32) if emg_std is None else np.asarray(emg_std, np.float32)
         self.acc_mean = np.zeros(36, np.float32) if acc_mean is None else np.asarray(acc_mean, np.float32)
         self.acc_std = np.ones(36, np.float32) if acc_std is None else np.asarray(acc_std, np.float32)
-        self._cache: dict[str, tuple[np.ndarray, np.ndarray]] = {}
-        self.class_to_index = {int(label): i for i, label in enumerate(classes)} if classes is not None else None
+
+        # Read the immutable window identifiers once, not via pandas.iloc
+        # inside every training minibatch and every DataLoader worker.
+        self._subjects = self.table.subject_id.astype(str).to_numpy()
+        self._starts = self.table.start_sample.to_numpy(dtype=np.int64)
+        self._ends = self.table.end_sample.to_numpy(dtype=np.int64)
+        label_codes = self.table.label.to_numpy(dtype=np.int64)
+        self.class_to_index = (
+            {int(label): i for i, label in enumerate(classes)}
+            if classes is not None else None
+        )
+        if self.class_to_index is None:
+            self._labels = label_codes
+        else:
+            self._labels = np.asarray(
+                [self.class_to_index[int(label)] for label in label_codes],
+                dtype=np.int64,
+            )
+        # Per-worker, on-demand mmap handles; large signal arrays stay on disk.
+        self._cache: dict[str, tuple[np.ndarray | None, np.ndarray | None]] = {}
 
     def __len__(self) -> int:
-        return len(self.table)
+        return len(self._subjects)
 
-    def _arrays(self, subject: str) -> tuple[np.ndarray, np.ndarray]:
+    def _arrays(self, subject: str) -> tuple[np.ndarray | None, np.ndarray | None]:
         if subject not in self._cache:
-            self._cache[subject] = (
-                np.load(self.processed_dir / f"02_{subject}_E1_emg.npy", mmap_mode="r"),
-                np.load(self.processed_dir / f"02_{subject}_E1_acc.npy", mmap_mode="r"),
+            emg = (
+                np.load(
+                    self.processed_dir / f"02_{subject}_E1_emg.npy",
+                    mmap_mode="r", allow_pickle=False,
+                )
+                if self.modality in ("emg", "both") else None
             )
+            acc = (
+                np.load(
+                    self.processed_dir / f"02_{subject}_E1_acc.npy",
+                    mmap_mode="r", allow_pickle=False,
+                )
+                if self.modality in ("acc", "both") else None
+            )
+            self._cache[subject] = (emg, acc)
         return self._cache[subject]
 
     def __getitem__(self, idx: int):
         import torch
-        row = self.table.iloc[int(idx)]
-        emg, acc = self._arrays(str(row.subject_id))
-        a, b = int(row.start_sample), int(row.end_sample)
-        x = (np.asarray(emg[a:b], np.float32) - self.emg_mean) / np.maximum(self.emg_std, 1e-5)
-        z = (np.asarray(acc[a:b], np.float32) - self.acc_mean) / np.maximum(self.acc_std, 1e-5)
-        return (torch.from_numpy(np.ascontiguousarray(x.T)),
-                torch.from_numpy(np.ascontiguousarray(z.T)),
-                torch.tensor(
-                    int(row.label) if self.class_to_index is None
-                    else self.class_to_index[int(row.label)], dtype=torch.long))
+        i = int(idx)
+        emg, acc = self._arrays(self._subjects[i])
+        a, b = int(self._starts[i]), int(self._ends[i])
+
+        if emg is None:
+            x = torch.empty((0, 0), dtype=torch.float32)
+        else:
+            values = np.asarray(emg[a:b], dtype=np.float32)
+            scaled = (values - self.emg_mean) / np.maximum(self.emg_std, 1e-5)
+            x = torch.from_numpy(np.ascontiguousarray(scaled.T))
+
+        if acc is None:
+            z = torch.empty((0, 0), dtype=torch.float32)
+        else:
+            values = np.asarray(acc[a:b], dtype=np.float32)
+            scaled = (values - self.acc_mean) / np.maximum(self.acc_std, 1e-5)
+            z = torch.from_numpy(np.ascontiguousarray(scaled.T))
+
+        return x, z, torch.tensor(int(self._labels[i]), dtype=torch.long)
 
 
 def training_channel_stats(index: pd.DataFrame, processed_dir: Path, *,
-                           max_windows: int = 4000, seed: int = 42) -> dict[str, np.ndarray]:
-    """Fit per-channel centring/scaling from Training people only.
+                           max_windows: int = 4000, seed: int = 42,
+                           modality: str = "both") -> dict[str, np.ndarray]:
+    """Fit per-channel normalisation using only the permitted Training people.
 
-    Deterministic time-uniform subset bounds the scan; no Test rows can be
-    supplied by the caller for a legitimate inductive evaluation.
+    A fixed Training-only time-uniform subset is used unchanged. For a
+    unimodal network, the unused modality is not read and receives neutral
+    normalisation parameters; paired fusion still uses both modalities.
     """
     if index.empty:
         raise ValueError("Cannot estimate channel statistics from an empty training set.")
+    if modality not in ("emg", "acc", "both"):
+        raise ValueError(f"Unsupported input modality: {modality}")
     sample = np.linspace(0, len(index) - 1, min(len(index), max_windows), dtype=int)
     sample_rows = index.iloc[np.unique(sample)]
-    totals = {key: np.zeros(n, np.float64) for key, n in (("emg", 12), ("acc", 36))}
-    squares = {key: np.zeros(n, np.float64) for key, n in (("emg", 12), ("acc", 36))}
+    active = ("emg", "acc") if modality == "both" else (modality,)
+    sizes = {"emg": 12, "acc": 36}
+    totals = {name: np.zeros(sizes[name], np.float64) for name in active}
+    squares = {name: np.zeros(sizes[name], np.float64) for name in active}
     count = 0
     caches: dict[tuple[str, str], np.ndarray] = {}
     for row in sample_rows.itertuples(index=False):
         length = int(row.end_sample - row.start_sample)
-        for name in ("emg", "acc"):
+        for name in active:
             key = (row.subject_id, name)
             if key not in caches:
                 caches[key] = np.load(
-                    Path(processed_dir) / f"02_{row.subject_id}_E1_{name}.npy", mmap_mode="r"
+                    Path(processed_dir) / f"02_{row.subject_id}_E1_{name}.npy",
+                    mmap_mode="r", allow_pickle=False,
                 )
             block = np.asarray(caches[key][row.start_sample:row.end_sample], np.float64)
             totals[name] += block.sum(axis=0)
@@ -276,11 +325,16 @@ def training_channel_stats(index: pd.DataFrame, processed_dir: Path, *,
         count += length
     result = {}
     for name in ("emg", "acc"):
+        if name not in active:
+            result[f"{name}_mean"] = np.zeros(sizes[name], np.float32)
+            result[f"{name}_std"] = np.ones(sizes[name], np.float32)
+            continue
         mean = totals[name] / count
         var = np.maximum(0, squares[name] / count - mean ** 2)
         result[f"{name}_mean"] = mean.astype(np.float32)
         result[f"{name}_std"] = np.maximum(np.sqrt(var), 1e-5).astype(np.float32)
     return result
+
 
 # ==================== 05. Reconstruct Local Numerical Cache ===================
 def ensure_numerical_cache(
