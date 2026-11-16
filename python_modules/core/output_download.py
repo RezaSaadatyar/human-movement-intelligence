@@ -73,7 +73,7 @@ def download_outputs_from_colab(folder, stage):
     # Keep the downloadable ZIP outside the repository, never in Git.
     download_dir = Path("/content") if Path("/content").is_dir() else root.parent
     archive_path = (
-        download_dir / f"{output_dir.parent.name}_Stage_{stage_id}_Outputs.zip"
+        download_dir / f"{output_dir.parent.name}_Notebook_{stage_id}_Outputs.zip"
     )
     with ZipFile(
         archive_path, mode="w", compression=ZIP_DEFLATED, allowZip64=True
@@ -82,7 +82,7 @@ def download_outputs_from_colab(folder, stage):
             archive.write(path, arcname=path.relative_to(output_dir).as_posix())
 
     print("-" * 72)
-    print(f"Notebook stage: {stage_id}")
+    print(f"Notebook {stage_id}")
     print(f"Files packaged: {len(selected)}")
     for path in selected:
         print("  +", path.relative_to(output_dir).as_posix())
