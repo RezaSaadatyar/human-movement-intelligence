@@ -1,7 +1,7 @@
 <svg xmlns="http://www.w3.org/2000/svg" width="1700" height="816" viewBox="0 0 1700 816" role="img" aria-labelledby="title desc">
 <title id="title">NinaPro DB2: Aligned Windows and Independent Person Splits</title>
-<desc id="desc">Executed 40-person E1 source inventory, deterministic 300-ms label-pure paired window selection, 48/96 feature vectors and participant-disjoint Development and Test partitions.</desc>
-<defs><marker id="arrow" markerUnits="userSpaceOnUse" markerWidth="6" markerHeight="6" refX="5.5" refY="3" orient="auto"><path d="M0 0 L6 3 L0 6 Z" fill="#245E9D"/></marker></defs>
+<desc id="desc">Executed 40-person E1 source inventory, deterministic paired-window selection, feature extraction and participant-disjoint Development/Test assignment. The middle panel shows how the signal is processed.</desc>
+<defs><marker id="arrow" markerUnits="userSpaceOnUse" markerWidth="8" markerHeight="8" refX="7.3" refY="4" orient="auto"><path d="M0 0 L8 4 L0 8 Z" fill="#245E9D"/></marker></defs>
 <rect width="1700" height="816" rx="20" fill="#F4F9FD"/>
 <text x="30" y="38" font-family="DejaVu Sans, Arial, sans-serif" font-size="23" font-weight="700" fill="#173453">NINAPRO DB2: ALIGNED WINDOWS AND INDEPENDENT PERSON SPLITS</text>
 <text x="30" y="68" font-family="DejaVu Sans, Arial, sans-serif" font-size="14.5" fill="#54738A">40 participants · 337,853 eligible source windows · 40,000 retained pairs · No model fitting</text>
@@ -9,103 +9,118 @@
 <rect x="24" y="258" width="1652" height="311" rx="16" fill="#EAF3FA" stroke="#C7D9E6" stroke-width="2"/>
 <rect x="24" y="584" width="1652" height="177" rx="16" fill="#EAF3FA" stroke="#C7D9E6" stroke-width="2"/>
 <text x="49" y="107" font-family="DejaVu Sans, Arial, sans-serif" font-size="11.6" fill="#54738A" font-weight="700">WEARABLE SENSOR CONTEXT</text>
-<rect x="53" y="119" width="94" height="65" rx="9" fill="#D9EAF6" stroke="#A9C9DB" stroke-width="1.1"/>
-<rect x="64" y="129" width="13" height="10" rx="2" fill="#245E9D"/>
-<rect x="67" y="131" width="7" height="6" rx="1" fill="#9FCBE2"/>
-<rect x="83" y="129" width="13" height="10" rx="2" fill="#245E9D"/>
-<rect x="86" y="131" width="7" height="6" rx="1" fill="#9FCBE2"/>
-<rect x="102" y="129" width="13" height="10" rx="2" fill="#245E9D"/>
-<rect x="105" y="131" width="7" height="6" rx="1" fill="#9FCBE2"/>
-<rect x="121" y="129" width="13" height="10" rx="2" fill="#245E9D"/>
-<rect x="124" y="131" width="7" height="6" rx="1" fill="#9FCBE2"/>
-<rect x="64" y="147" width="13" height="10" rx="2" fill="#245E9D"/>
-<rect x="67" y="149" width="7" height="6" rx="1" fill="#9FCBE2"/>
-<rect x="83" y="147" width="13" height="10" rx="2" fill="#245E9D"/>
-<rect x="86" y="149" width="7" height="6" rx="1" fill="#9FCBE2"/>
-<rect x="102" y="147" width="13" height="10" rx="2" fill="#245E9D"/>
-<rect x="105" y="149" width="7" height="6" rx="1" fill="#9FCBE2"/>
-<rect x="121" y="147" width="13" height="10" rx="2" fill="#245E9D"/>
-<rect x="124" y="149" width="7" height="6" rx="1" fill="#9FCBE2"/>
-<rect x="64" y="165" width="13" height="10" rx="2" fill="#245E9D"/>
-<rect x="67" y="167" width="7" height="6" rx="1" fill="#9FCBE2"/>
-<rect x="83" y="165" width="13" height="10" rx="2" fill="#245E9D"/>
-<rect x="86" y="167" width="7" height="6" rx="1" fill="#9FCBE2"/>
-<rect x="102" y="165" width="13" height="10" rx="2" fill="#245E9D"/>
-<rect x="105" y="167" width="7" height="6" rx="1" fill="#9FCBE2"/>
-<rect x="121" y="165" width="13" height="10" rx="2" fill="#245E9D"/>
-<rect x="124" y="167" width="7" height="6" rx="1" fill="#9FCBE2"/>
-<text x="163" y="134" font-family="DejaVu Sans, Arial, sans-serif" font-size="14" fill="#173453" font-weight="700">12 Delsys</text>
-<text x="163" y="158" font-family="DejaVu Sans, Arial, sans-serif" font-size="12.1" fill="#506C7E">sEMG channels</text>
-<text x="163" y="179" font-family="DejaVu Sans, Arial, sans-serif" font-size="12.1" fill="#506C7E">36 Acc axes</text>
-<text x="50" y="209" font-family="DejaVu Sans, Arial, sans-serif" font-size="10.6" fill="#53738A">Illustrative sensor modules</text>
-<text x="373" y="116" font-family="DejaVu Sans, Arial, sans-serif" font-size="15" fill="#173453" font-weight="700">Source Population</text>
-<text x="373" y="141" font-family="DejaVu Sans, Arial, sans-serif" font-size="12.6" fill="#506C7E">40 intact participants</text>
-<text x="373" y="161" font-family="DejaVu Sans, Arial, sans-serif" font-size="12.6" fill="#506C7E">Original E1 recordings</text>
-<text x="373" y="181" font-family="DejaVu Sans, Arial, sans-serif" font-size="12.6" fill="#506C7E">Corrected codes 0–17</text>
-<text x="693" y="116" font-family="DejaVu Sans, Arial, sans-serif" font-size="15" fill="#173453" font-weight="700">Paired Time Windows</text>
-<text x="693" y="141" font-family="DejaVu Sans, Arial, sans-serif" font-size="12.6" fill="#506C7E">300-ms interval (600 rows)</text>
-<text x="693" y="161" font-family="DejaVu Sans, Arial, sans-serif" font-size="12.6" fill="#506C7E">100-ms temporal step</text>
-<text x="693" y="181" font-family="DejaVu Sans, Arial, sans-serif" font-size="12.6" fill="#506C7E">No label-boundary crossing</text>
-<text x="1014" y="116" font-family="DejaVu Sans, Arial, sans-serif" font-size="15" fill="#173453" font-weight="700">Feature Representations</text>
-<text x="1014" y="141" font-family="DejaVu Sans, Arial, sans-serif" font-size="12.6" fill="#506C7E">sEMG: 48 statistics</text>
-<text x="1014" y="161" font-family="DejaVu Sans, Arial, sans-serif" font-size="12.6" fill="#506C7E">Acceleration: 96 statistics</text>
-<text x="1014" y="181" font-family="DejaVu Sans, Arial, sans-serif" font-size="12.6" fill="#506C7E">Same paired window keys</text>
-<text x="1353" y="116" font-family="DejaVu Sans, Arial, sans-serif" font-size="15" fill="#173453" font-weight="700">Independent Evaluation</text>
-<text x="1353" y="141" font-family="DejaVu Sans, Arial, sans-serif" font-size="12.6" fill="#506C7E">35 Development people</text>
-<text x="1353" y="161" font-family="DejaVu Sans, Arial, sans-serif" font-size="12.6" fill="#506C7E">Five grouped folds</text>
-<text x="1353" y="181" font-family="DejaVu Sans, Arial, sans-serif" font-size="12.6" fill="#506C7E">Five reserved Test people</text>
+<circle cx="104.6" cy="142.8" r="11.399999999999999" fill="#E9F1F7" stroke="#1B5177" stroke-width="1.8"/>
+<line x1="104.6" y1="154.2" x2="104.6" y2="203.6" stroke="#7A9BB4" stroke-width="3.0"/>
+<line x1="104.6" y1="165.6" x2="68.5" y2="178.9" stroke="#7A9BB4" stroke-width="3.0"/>
+<line x1="104.6" y1="165.6" x2="141.64999999999998" y2="175.1" stroke="#7A9BB4" stroke-width="3.0"/>
+<line x1="104.6" y1="203.6" x2="79.9" y2="235.89999999999998" stroke="#7A9BB4" stroke-width="3.0"/>
+<line x1="104.6" y1="203.6" x2="130.25" y2="235.89999999999998" stroke="#7A9BB4" stroke-width="3.0"/>
+<line x1="141.64999999999998" y1="175.1" x2="163.5" y2="196.0" stroke="#2770E8" stroke-width="4.0"/>
+<line x1="163.5" y1="196.0" x2="176.79999999999998" y2="211.2" stroke="#2770E8" stroke-width="4.0"/>
+<rect x="150.2" y="182.7" width="9.5" height="7.6" rx="2" fill="#245E9D"/>
+<rect x="152.1" y="184.6" width="5.699999999999999" height="3.8" rx="1" fill="#A5CEE5"/>
+<rect x="156.85" y="190.3" width="9.5" height="7.6" rx="2" fill="#245E9D"/>
+<rect x="158.75" y="192.2" width="5.699999999999999" height="3.8" rx="1" fill="#A5CEE5"/>
+<rect x="163.5" y="197.89999999999998" width="9.5" height="7.6" rx="2" fill="#245E9D"/>
+<rect x="165.39999999999998" y="199.8" width="5.699999999999999" height="3.8" rx="1" fill="#A5CEE5"/>
+<rect x="170.15" y="205.5" width="9.5" height="7.6" rx="2" fill="#245E9D"/>
+<rect x="172.04999999999998" y="207.39999999999998" width="5.699999999999999" height="3.8" rx="1" fill="#A5CEE5"/>
+<rect x="176.79999999999998" y="213.1" width="9.5" height="7.6" rx="2" fill="#245E9D"/>
+<rect x="178.7" y="215.0" width="5.699999999999999" height="3.8" rx="1" fill="#A5CEE5"/>
+<rect x="183.45" y="220.7" width="9.5" height="7.6" rx="2" fill="#245E9D"/>
+<rect x="185.35" y="222.6" width="5.699999999999999" height="3.8" rx="1" fill="#A5CEE5"/>
+<text x="192.0" y="184.6" font-family="DejaVu Sans, Arial, sans-serif" font-size="11.5" fill="#173453" font-weight="700">Forearm recording zone</text>
+<text x="192.0" y="203.6" font-family="DejaVu Sans, Arial, sans-serif" font-size="11.2" fill="#506C7E">12 sEMG sensors + tri-axial</text>
+<text x="192.0" y="219.75" font-family="DejaVu Sans, Arial, sans-serif" font-size="11.2" fill="#506C7E">acceleration from the same modules</text>
+<text x="372" y="116" font-family="DejaVu Sans, Arial, sans-serif" font-size="15" fill="#173453" font-weight="700">Source Population</text>
+<text x="372" y="141" font-family="DejaVu Sans, Arial, sans-serif" font-size="12.6" fill="#506C7E">40 intact participants</text>
+<text x="372" y="161" font-family="DejaVu Sans, Arial, sans-serif" font-size="12.6" fill="#506C7E">Original E1 recordings</text>
+<text x="372" y="181" font-family="DejaVu Sans, Arial, sans-serif" font-size="12.6" fill="#506C7E">Corrected labels 0–17</text>
+<text x="690" y="116" font-family="DejaVu Sans, Arial, sans-serif" font-size="15" fill="#173453" font-weight="700">Paired Time Windows</text>
+<text x="690" y="141" font-family="DejaVu Sans, Arial, sans-serif" font-size="12.6" fill="#506C7E">300-ms interval (600 rows)</text>
+<text x="690" y="161" font-family="DejaVu Sans, Arial, sans-serif" font-size="12.6" fill="#506C7E">100-ms temporal step</text>
+<text x="690" y="181" font-family="DejaVu Sans, Arial, sans-serif" font-size="12.6" fill="#506C7E">No label-boundary crossing</text>
+<text x="1010" y="116" font-family="DejaVu Sans, Arial, sans-serif" font-size="15" fill="#173453" font-weight="700">Feature Representations</text>
+<text x="1010" y="141" font-family="DejaVu Sans, Arial, sans-serif" font-size="12.6" fill="#506C7E">sEMG: 48 statistics</text>
+<text x="1010" y="161" font-family="DejaVu Sans, Arial, sans-serif" font-size="12.6" fill="#506C7E">Acceleration: 96 statistics</text>
+<text x="1010" y="181" font-family="DejaVu Sans, Arial, sans-serif" font-size="12.6" fill="#506C7E">Same paired window keys</text>
+<text x="1336" y="116" font-family="DejaVu Sans, Arial, sans-serif" font-size="15" fill="#173453" font-weight="700">Independent Evaluation</text>
+<text x="1336" y="141" font-family="DejaVu Sans, Arial, sans-serif" font-size="12.6" fill="#506C7E">35 Development people</text>
+<text x="1336" y="161" font-family="DejaVu Sans, Arial, sans-serif" font-size="12.6" fill="#506C7E">Five grouped folds</text>
+<text x="1336" y="181" font-family="DejaVu Sans, Arial, sans-serif" font-size="12.6" fill="#506C7E">Five reserved Test people</text>
 <rect x="38" y="272" width="236" height="263" rx="13" fill="#FFFFFF" stroke="#B8CFDE" stroke-width="1.7"/>
 <rect x="38" y="272" width="236" height="32" rx="10" fill="#1A5279"/>
 <rect x="38" y="287" width="236" height="18" rx="0" fill="#1A5279"/>
 <text x="156.0" y="293" font-family="DejaVu Sans, Arial, sans-serif" font-size="12.2" fill="#FFFFFF" font-weight="700" text-anchor="middle">PROCESSING SCOPE</text>
 <text x="56" y="329" font-family="DejaVu Sans, Arial, sans-serif" font-size="15" fill="#173453" font-weight="700">What is produced?</text>
-<text x="56" y="359" font-family="DejaVu Sans, Arial, sans-serif" font-size="12.4" fill="#506C7E">Complete E1 source audit,</text>
-<text x="56" y="381" font-family="DejaVu Sans, Arial, sans-serif" font-size="12.4" fill="#506C7E">label-pure temporal</text>
-<text x="56" y="403" font-family="DejaVu Sans, Arial, sans-serif" font-size="12.4" fill="#506C7E">windows, matched feature</text>
-<text x="56" y="425" font-family="DejaVu Sans, Arial, sans-serif" font-size="12.4" fill="#506C7E">arrays and participant-</text>
-<text x="56" y="447" font-family="DejaVu Sans, Arial, sans-serif" font-size="12.4" fill="#506C7E">independent split IDs.</text>
-<rect x="53" y="477" width="207" height="36" rx="9" fill="#F3F8FC" stroke="#D8E5EE" stroke-width="1"/>
-<text x="157" y="501" font-family="DejaVu Sans, Arial, sans-serif" font-size="11.9" fill="#116A66" font-weight="700" text-anchor="middle">No Test-based tuning</text>
+<text x="56" y="358" font-family="DejaVu Sans, Arial, sans-serif" font-size="12.4" fill="#506C7E">Complete E1 source audit,</text>
+<text x="56" y="380" font-family="DejaVu Sans, Arial, sans-serif" font-size="12.4" fill="#506C7E">label-pure temporal</text>
+<text x="56" y="402" font-family="DejaVu Sans, Arial, sans-serif" font-size="12.4" fill="#506C7E">windows, matched feature</text>
+<text x="56" y="424" font-family="DejaVu Sans, Arial, sans-serif" font-size="12.4" fill="#506C7E">arrays and participant-</text>
+<text x="56" y="446" font-family="DejaVu Sans, Arial, sans-serif" font-size="12.4" fill="#506C7E">independent split IDs.</text>
+<rect x="53" y="476" width="207" height="36" rx="9" fill="#F3F8FC" stroke="#D8E5EE" stroke-width="1"/>
+<text x="157" y="500" font-family="DejaVu Sans, Arial, sans-serif" font-size="11.9" fill="#116A66" font-weight="700" text-anchor="middle">No Test-based tuning</text>
 <rect x="287" y="272" width="325" height="263" rx="13" fill="#FFFFFF" stroke="#B8CFDE" stroke-width="1.7"/>
 <rect x="287" y="272" width="325" height="32" rx="10" fill="#1A5279"/>
 <rect x="287" y="287" width="325" height="18" rx="0" fill="#1A5279"/>
-<text x="449.5" y="293" font-family="DejaVu Sans, Arial, sans-serif" font-size="12.2" fill="#FFFFFF" font-weight="700" text-anchor="middle">Paired windowing (schematic)</text>
-<text x="307" y="337" font-family="DejaVu Sans, Arial, sans-serif" font-size="11.2" fill="#506C7E">Corrected E1 segments</text>
-<rect x="313" y="360" width="110" height="29" rx="3" fill="#D5E8F5" stroke="#A6C9DC" stroke-width="1.7"/>
-<rect x="424" y="360" width="81" height="29" rx="3" fill="#D3F2E7" stroke="#A4DCC9" stroke-width="1.7"/>
-<rect x="506" y="360" width="80" height="29" rx="3" fill="#FDE8D4" stroke="#EDC8A2" stroke-width="1.7"/>
-<text x="369" y="380" font-family="DejaVu Sans, Arial, sans-serif" font-size="11.5" fill="#173453" font-weight="700" text-anchor="middle">Rest</text>
-<text x="465" y="380" font-family="DejaVu Sans, Arial, sans-serif" font-size="10.6" fill="#173453" font-weight="700" text-anchor="middle">Gesture 1</text>
-<text x="545" y="380" font-family="DejaVu Sans, Arial, sans-serif" font-size="10.6" fill="#173453" font-weight="700" text-anchor="middle">Gesture 2</text>
-<text x="307" y="420" font-family="DejaVu Sans, Arial, sans-serif" font-size="11.2" fill="#506C7E">Matched E1 windows</text>
-<rect x="318" y="430" width="48" height="30" rx="3" fill="none" stroke="#2770E8" stroke-width="1.6"/>
-<rect x="369" y="430" width="48" height="30" rx="3" fill="none" stroke="#2770E8" stroke-width="1.6"/>
-<rect x="430" y="430" width="33" height="30" rx="3" fill="none" stroke="#2770E8" stroke-width="1.6"/>
-<rect x="468" y="430" width="33" height="30" rx="3" fill="none" stroke="#2770E8" stroke-width="1.6"/>
-<rect x="510" y="430" width="33" height="30" rx="3" fill="none" stroke="#116A66" stroke-width="1.6"/>
-<rect x="548" y="430" width="33" height="30" rx="3" fill="none" stroke="#116A66" stroke-width="1.6"/>
-<text x="448" y="489" font-family="DejaVu Sans, Arial, sans-serif" font-size="11.2" fill="#506C7E" text-anchor="middle">300 ms window  ·  100 ms step</text>
-<rect x="306" y="510" width="291" height="20" rx="9" fill="#EAF3FA"/>
-<text x="452" y="524" font-family="DejaVu Sans, Arial, sans-serif" font-size="11.1" fill="#506C7E" text-anchor="middle">No crossing of label transitions</text>
+<text x="449.5" y="293" font-family="DejaVu Sans, Arial, sans-serif" font-size="12.2" fill="#FFFFFF" font-weight="700" text-anchor="middle">Wearable source and window origin</text>
+<circle cx="355.76" cy="334.68" r="9.84" fill="#E9F1F7" stroke="#1B5177" stroke-width="1.8"/>
+<line x1="355.76" y1="344.52" x2="355.76" y2="387.15999999999997" stroke="#7A9BB4" stroke-width="3.0"/>
+<line x1="355.76" y1="354.36" x2="324.6" y2="365.84" stroke="#7A9BB4" stroke-width="3.0"/>
+<line x1="355.76" y1="354.36" x2="387.74" y2="362.56" stroke="#7A9BB4" stroke-width="3.0"/>
+<line x1="355.76" y1="387.15999999999997" x2="334.44" y2="415.03999999999996" stroke="#7A9BB4" stroke-width="3.0"/>
+<line x1="355.76" y1="387.15999999999997" x2="377.9" y2="415.03999999999996" stroke="#7A9BB4" stroke-width="3.0"/>
+<line x1="387.74" y1="362.56" x2="406.6" y2="380.6" stroke="#2770E8" stroke-width="4.0"/>
+<line x1="406.6" y1="380.6" x2="418.08" y2="393.72" stroke="#2770E8" stroke-width="4.0"/>
+<rect x="395.12" y="369.12" width="8.2" height="6.56" rx="2" fill="#245E9D"/>
+<rect x="396.76" y="370.76" width="4.92" height="3.28" rx="1" fill="#A5CEE5"/>
+<rect x="400.86" y="375.68" width="8.2" height="6.56" rx="2" fill="#245E9D"/>
+<rect x="402.5" y="377.32" width="4.92" height="3.28" rx="1" fill="#A5CEE5"/>
+<rect x="406.6" y="382.24" width="8.2" height="6.56" rx="2" fill="#245E9D"/>
+<rect x="408.24" y="383.88" width="4.92" height="3.28" rx="1" fill="#A5CEE5"/>
+<rect x="412.34" y="388.8" width="8.2" height="6.56" rx="2" fill="#245E9D"/>
+<rect x="413.98" y="390.44" width="4.92" height="3.28" rx="1" fill="#A5CEE5"/>
+<rect x="418.08" y="395.36" width="8.2" height="6.56" rx="2" fill="#245E9D"/>
+<rect x="419.72" y="397.0" width="4.92" height="3.28" rx="1" fill="#A5CEE5"/>
+<rect x="423.82" y="401.92" width="8.2" height="6.56" rx="2" fill="#245E9D"/>
+<rect x="425.46" y="403.56" width="4.92" height="3.28" rx="1" fill="#A5CEE5"/>
+<text x="435.29999999999995" y="370.76" font-family="DejaVu Sans, Arial, sans-serif" font-size="11.5" fill="#173453" font-weight="700">Sensor zone</text>
+<text x="435.29999999999995" y="389.62" font-family="DejaVu Sans, Arial, sans-serif" font-size="11.2" fill="#506C7E">sEMG + Acc</text>
+<rect x="304" y="455" width="136" height="29" rx="3" fill="#D5E8F5" stroke="#A6C9DC" stroke-width="1.7"/>
+<rect x="442" y="455" width="83" height="29" rx="3" fill="#D3F2E7" stroke="#A4DCC9" stroke-width="1.7"/>
+<rect x="527" y="455" width="67" height="29" rx="3" fill="#FDE8D4" stroke="#EDC8A2" stroke-width="1.7"/>
+<text x="372" y="474" font-family="DejaVu Sans, Arial, sans-serif" font-size="11.2" fill="#173453" font-weight="700" text-anchor="middle">Rest</text>
+<text x="484" y="474" font-family="DejaVu Sans, Arial, sans-serif" font-size="10.2" fill="#173453" font-weight="700" text-anchor="middle">Gesture 1</text>
+<text x="560" y="474" font-family="DejaVu Sans, Arial, sans-serif" font-size="10.2" fill="#173453" font-weight="700" text-anchor="middle">Gesture 2</text>
+<text x="452" y="518" font-family="DejaVu Sans, Arial, sans-serif" font-size="11.0" fill="#506C7E" text-anchor="middle">Corrected E1 source timeline → label-pure windows</text>
 <rect x="624" y="272" width="325" height="263" rx="13" fill="#FFFFFF" stroke="#B8CFDE" stroke-width="1.7"/>
 <rect x="624" y="272" width="325" height="32" rx="10" fill="#1A5279"/>
 <rect x="624" y="287" width="325" height="18" rx="0" fill="#1A5279"/>
-<text x="786.5" y="293" font-family="DejaVu Sans, Arial, sans-serif" font-size="12.2" fill="#FFFFFF" font-weight="700" text-anchor="middle">Feature engineering</text>
-<text x="645" y="346" font-family="DejaVu Sans, Arial, sans-serif" font-size="11.4" fill="#506C7E">Paired window feature counts</text>
-<text x="649" y="394" font-family="DejaVu Sans, Arial, sans-serif" font-size="12.1" fill="#173453" font-weight="700">sEMG</text>
-<rect x="718" y="379" width="85.0" height="24" rx="3" fill="#2770E8"/>
-<text x="924" y="397" font-family="DejaVu Sans, Arial, sans-serif" font-size="12" fill="#173453" font-weight="700" text-anchor="end">48</text>
-<text x="649" y="455" font-family="DejaVu Sans, Arial, sans-serif" font-size="12.1" fill="#173453" font-weight="700">Acc</text>
-<rect x="718" y="440" width="170.0" height="24" rx="3" fill="#116A66"/>
-<text x="924" y="458" font-family="DejaVu Sans, Arial, sans-serif" font-size="12" fill="#173453" font-weight="700" text-anchor="end">96</text>
-<text x="650" y="510" font-family="DejaVu Sans, Arial, sans-serif" font-size="11.2" fill="#506C7E">40,000 × 48 / 40,000 × 96</text>
+<text x="786.5" y="293" font-family="DejaVu Sans, Arial, sans-serif" font-size="12.2" fill="#FFFFFF" font-weight="700" text-anchor="middle">Signal processing pathway (schematic)</text>
+<line x1="647" y1="484" x2="905" y2="484" stroke="#91ABC1" stroke-width="1"/>
+<line x1="647" y1="347" x2="647" y2="484" stroke="#91ABC1" stroke-width="1"/>
+<line x1="647" y1="381.25" x2="905" y2="381.25" stroke="#D9E6EF" stroke-width="0.7" stroke-dasharray="3 3"/>
+<line x1="647" y1="415.5" x2="905" y2="415.5" stroke="#D9E6EF" stroke-width="0.7" stroke-dasharray="3 3"/>
+<line x1="647" y1="449.75" x2="905" y2="449.75" stroke="#D9E6EF" stroke-width="0.7" stroke-dasharray="3 3"/>
+<text x="653" y="355" font-family="DejaVu Sans, Arial, sans-serif" font-size="10.4" fill="#506C7E">Released paired recordings</text>
+<rect x="731" y="365" width="64" height="73" rx="2" fill="#E5F5EF"/>
+<text x="652" y="373" font-family="DejaVu Sans, Arial, sans-serif" font-size="10.4" fill="#506C7E">sEMG</text>
+<polyline points="665.0,382.0 666.4,384.6 667.9,385.9 669.3,385.6 670.8,384.9 672.2,384.7 673.7,384.9 675.1,384.9 676.6,384.3 678.0,383.9 679.5,384.4 680.9,385.7 682.4,386.6 683.8,385.9 685.3,383.6 686.7,381.1 688.2,379.5 689.6,379.1 691.1,379.0 692.5,378.7 694.0,378.3 695.4,378.7 696.9,379.8 698.3,380.7 699.8,380.3 701.2,378.8 702.7,377.4 704.1,377.5 705.6,379.1 707.0,381.2 708.5,382.7 709.9,383.5 711.4,384.4 712.8,385.5 714.3,386.3 715.7,386.0 717.2,384.5 718.6,383.2 720.1,383.3 721.5,384.6 723.0,386.1 724.4,386.4 725.9,385.5 727.3,384.2 728.8,383.1 730.2,382.3 731.7,380.9 733.1,379.0 734.6,377.5 736.0,377.5 737.5,378.9 738.9,380.4 740.4,380.8 741.8,379.8 743.3,378.6 744.7,378.2 746.2,378.6 747.6,379.1 749.1,379.4 750.5,379.9 752.0,381.4 753.4,383.9 754.9,386.0 756.3,386.6 757.8,385.6 759.2,384.2 760.7,383.7 762.1,384.2 763.6,384.9 765.0,385.1 766.5,384.9 767.9,385.0 769.4,385.5 770.8,385.6 772.3,384.3 773.7,381.7 775.2,379.1 776.6,377.9 778.1,378.3 779.5,379.2 781.0,379.5 782.4,379.3 783.9,379.2 785.3,379.6 786.8,379.9 788.2,379.5 789.7,378.3 791.1,377.5 792.6,378.3 794.0,380.6 795.5,383.3 796.9,384.8 798.4,385.2 799.8,385.0 801.3,385.2 802.7,385.4 804.2,385.2 805.6,384.2 807.1,383.4 808.5,383.8 810.0,385.3 811.4,386.6 812.9,386.5 814.3,384.7 815.8,382.5 817.2,380.9 818.7,380.1 820.1,379.4 821.6,378.5 823.0,377.8 824.5,378.2 825.9,379.5 827.4,380.8 828.8,380.7 830.3,379.3 831.7,377.8 833.2,377.5 834.6,378.5 836.1,380.1 837.5,381.3 839.0,382.2 840.4,383.4 841.9,385.2 843.3,386.5 844.8,386.5 846.2,385.0 847.7,383.5 849.1,383.2 850.6,384.2 852.0,385.5 853.5,386.0 854.9,385.5 856.4,384.8 857.8,384.3 859.3,383.7 860.7,382.2 862.2,379.9 863.6,377.8 865.1,377.3 866.5,378.4 868.0,379.9 869.4,380.4 870.9,379.9 872.3,379.0 873.8,378.7 875.2,379.0 876.7,379.0 878.1,378.7 879.6,378.7 881.0,380.0" fill="none" stroke="#2770E8" stroke-width="1.9" stroke-linecap="round" stroke-linejoin="round"/>
+<text x="652" y="414" font-family="DejaVu Sans, Arial, sans-serif" font-size="10.4" fill="#506C7E">Acc</text>
+<polyline points="665.0,423.0 666.4,425.3 667.9,426.3 669.3,425.9 670.8,425.0 672.2,424.7 673.7,425.0 675.1,425.1 676.6,424.8 678.0,424.8 679.5,425.7 680.9,427.6 682.4,429.1 683.8,429.1 685.3,427.5 686.7,425.5 688.2,424.5 689.6,424.6 691.1,424.9 692.5,424.7 694.0,424.5 695.4,424.7 696.9,425.5 698.3,425.9 699.8,424.9 701.2,422.5 702.7,420.2 704.1,419.3 705.6,419.8 707.0,420.7 708.5,421.1 709.9,420.9 711.4,420.7 712.8,420.9 714.3,421.0 715.7,420.1 717.2,418.3 718.6,416.9 720.1,417.0 721.5,418.7 723.0,420.7 724.4,421.8 725.9,421.7 727.3,421.4 728.8,421.5 730.2,421.8 731.7,421.6 733.1,420.9 734.6,420.6 736.0,421.6 737.5,423.9 738.9,426.2 740.4,427.1 741.8,426.5 743.3,425.5 744.7,425.1 746.2,425.3 747.6,425.5 749.1,425.3 750.5,425.2 752.0,426.0 753.4,427.7 754.9,429.0 756.3,428.9 757.8,427.1 759.2,425.0 760.7,423.9 762.1,424.0 763.6,424.3 765.0,424.2 766.5,423.9 767.9,424.0 769.4,424.7 770.8,425.0 772.3,424.0 773.7,421.7 775.2,419.4 776.6,418.5 778.1,419.2 779.5,420.3 781.0,420.8 782.4,420.6 783.9,420.4 785.3,420.6 786.8,420.7 788.2,419.9 789.7,418.3 791.1,417.1 792.6,417.3 794.0,419.1 795.5,421.3 796.9,422.4 798.4,422.4 799.8,422.0 801.3,422.1 802.7,422.4 804.2,422.3 805.6,421.7 807.1,421.5 808.5,422.5 810.0,424.8 811.4,427.0 812.9,427.8 814.3,427.1 815.8,425.9 817.2,425.4 818.7,425.5 820.1,425.7 821.6,425.5 823.0,425.4 824.5,426.1 825.9,427.6 827.4,428.8 828.8,428.5 830.3,426.6 831.7,424.4 833.2,423.2 834.6,423.2 836.1,423.7 837.5,423.6 839.0,423.3 840.4,423.3 841.9,423.9 843.3,424.1 844.8,423.1 846.2,420.8 847.7,418.7 849.1,417.9 850.6,418.6 852.0,419.9 853.5,420.6 854.9,420.4 856.4,420.2 857.8,420.4 859.3,420.6 860.7,419.9 862.2,418.5 863.6,417.4 865.1,417.8 866.5,419.7 868.0,422.0 869.4,423.2 870.9,423.1 872.3,422.7 873.8,422.7 875.2,423.0 876.7,423.0 878.1,422.5 879.6,422.3 881.0,423.3" fill="none" stroke="#F29C52" stroke-width="1.9" stroke-linecap="round" stroke-linejoin="round"/>
+<text x="890" y="443" font-family="DejaVu Sans, Arial, sans-serif" font-size="10.4" fill="#116A66" font-weight="700" text-anchor="end">300-ms aligned crop</text>
+<rect x="656" y="451" width="105" height="21" rx="4" fill="#E8F2FC" stroke="#C2D9EF" stroke-width="1"/>
+<rect x="775" y="451" width="112" height="21" rx="4" fill="#EDF8F1" stroke="#C7E8D9" stroke-width="1"/>
+<text x="708" y="465" font-family="DejaVu Sans, Arial, sans-serif" font-size="10.1" fill="#173453" font-weight="700" text-anchor="middle">48 sEMG features</text>
+<text x="831" y="465" font-family="DejaVu Sans, Arial, sans-serif" font-size="10.1" fill="#173453" font-weight="700" text-anchor="middle">96 Acc features</text>
+<text x="776.0" y="502" font-family="DejaVu Sans, Arial, sans-serif" font-size="11.0" fill="#506C7E" text-anchor="middle">Shared original source-row indices</text>
 <rect x="961" y="272" width="315" height="263" rx="13" fill="#FFFFFF" stroke="#B8CFDE" stroke-width="1.7"/>
 <rect x="961" y="272" width="315" height="32" rx="10" fill="#1A5279"/>
 <rect x="961" y="287" width="315" height="18" rx="0" fill="#1A5279"/>
 <text x="1118.5" y="293" font-family="DejaVu Sans, Arial, sans-serif" font-size="12.2" fill="#FFFFFF" font-weight="700" text-anchor="middle">Cohort and split evidence</text>
 <rect x="978" y="322" width="281" height="30" rx="6" fill="#E6F0F7" stroke="#C9DCE8" stroke-width="1"/>
 <text x="991" y="342" font-family="DejaVu Sans, Arial, sans-serif" font-size="11.5" fill="#173453" font-weight="700">Cohort unit</text>
-<text x="1145" y="342" font-family="DejaVu Sans, Arial, sans-serif" font-size="11.5" fill="#173453" font-weight="700">Observed</text>
+<text x="1144" y="342" font-family="DejaVu Sans, Arial, sans-serif" font-size="11.5" fill="#173453" font-weight="700">Observed</text>
 <text x="985" y="376" font-family="DejaVu Sans, Arial, sans-serif" font-size="11.1" fill="#173453" font-weight="700">Eligible E1 windows</text>
 <text x="1144" y="376" font-family="DejaVu Sans, Arial, sans-serif" font-size="11.2" fill="#506C7E">337,853</text>
 <line x1="978" y1="389" x2="1257" y2="389" stroke="#DDE8EE" stroke-width="1"/>
@@ -122,7 +137,7 @@
 <rect x="1287" y="272" width="376" height="32" rx="10" fill="#1A5279"/>
 <rect x="1287" y="287" width="376" height="18" rx="0" fill="#1A5279"/>
 <text x="1475.0" y="293" font-family="DejaVu Sans, Arial, sans-serif" font-size="12.2" fill="#FFFFFF" font-weight="700" text-anchor="middle">Recorded preparation evidence</text>
-<rect x="1300" y="319" width="318" height="199" rx="10" fill="#F1FAF6" stroke="#CFEBDD" stroke-width="1.1"/>
+<rect x="1300" y="319" width="318" height="199" rx="10" fill="#EDF8F1" stroke="#CFEBDD" stroke-width="1.1"/>
 <circle cx="1323" cy="352" r="13" fill="#17936D"/>
 <polyline points="1316.0,352.0 1321.0,357.0 1330.0,347.0" fill="none" stroke="#FFFFFF" stroke-width="2.7" stroke-linecap="round" stroke-linejoin="round"/>
 <text x="1344" y="350" font-family="DejaVu Sans, Arial, sans-serif" font-size="12.5" fill="#173453" font-weight="700">40 source people</text>
@@ -138,58 +153,52 @@
 <rect x="309" y="539" width="1026" height="21" rx="12" fill="#E2F4EE" stroke="#CAEBDD" stroke-width="1"/>
 <circle cx="331" cy="549.5" r="8" fill="#287C95"/>
 <text x="331" y="554" font-family="DejaVu Sans, Arial, sans-serif" font-size="10" fill="#FFFFFF" font-weight="700" text-anchor="middle">i</text>
-<text x="346" y="554" font-family="DejaVu Sans, Arial, sans-serif" font-size="11.2" fill="#173453">Window diagram is schematic; cohort counts and feature dimensions are recorded research outputs.</text>
+<text x="346" y="554" font-family="DejaVu Sans, Arial, sans-serif" font-size="11.2" fill="#173453">Illustrative signal crops, not a new filtering operation. Counts and feature dimensions are observed outputs.</text>
 <rect x="38" y="601" width="209" height="129" rx="13" fill="#173453"/>
 <text x="142.5" y="628" font-family="DejaVu Sans, Arial, sans-serif" font-size="13" fill="#BFE8E7" font-weight="700" text-anchor="middle">INPUT</text>
-<text x="142.5" y="651" font-family="DejaVu Sans, Arial, sans-serif" font-size="12.9" fill="#FFFFFF" font-weight="700" text-anchor="middle">Paired E1 data</text>
-<text x="142.5" y="673" font-family="DejaVu Sans, Arial, sans-serif" font-size="11.3" fill="#FFFFFF" text-anchor="middle">40 participant ZIPs</text>
-<text x="142.5" y="693" font-family="DejaVu Sans, Arial, sans-serif" font-size="11.3" fill="#FFFFFF" text-anchor="middle">12 sEMG + 36 Acc</text>
-<line x1="250" y1="669" x2="265" y2="669" stroke="#245E9D" stroke-width="2.0"/>
-<path d="M 265 669 l -8 -4 v 8 z" fill="#245E9D"/>
+<text x="142.5" y="652" font-family="DejaVu Sans, Arial, sans-serif" font-size="11.2" fill="#FFFFFF" font-weight="700" text-anchor="middle">Paired E1 data</text>
+<text x="142.5" y="671" font-family="DejaVu Sans, Arial, sans-serif" font-size="11.2" fill="#FFFFFF" font-weight="700" text-anchor="middle">40 participant ZIPs</text>
+<text x="142.5" y="690" font-family="DejaVu Sans, Arial, sans-serif" font-size="11.2" fill="#FFFFFF" font-weight="700" text-anchor="middle">12 sEMG + 36 Acc</text>
+<line x1="250" y1="669" x2="265" y2="669" stroke="#245E9D" stroke-width="2.0" marker-end="url(#arrow)"/>
 <rect x="269" y="601" width="208" height="129" rx="12" fill="#FFFFFF" stroke="#B8CFDE" stroke-width="1.8"/>
 <text x="373.0" y="626" font-family="DejaVu Sans, Arial, sans-serif" font-size="12.8" fill="#447F9B" font-weight="700" text-anchor="middle">01</text>
 <text x="373.0" y="649" font-family="DejaVu Sans, Arial, sans-serif" font-size="12.6" fill="#173453" font-weight="700" text-anchor="middle">Inspect Sources</text>
 <text x="373.0" y="670" font-family="DejaVu Sans, Arial, sans-serif" font-size="10.9" fill="#506C7E" text-anchor="middle">Original E1 recordings</text>
 <text x="373.0" y="690" font-family="DejaVu Sans, Arial, sans-serif" font-size="10.9" fill="#506C7E" text-anchor="middle">Verify corrected labels</text>
 <text x="373.0" y="710" font-family="DejaVu Sans, Arial, sans-serif" font-size="10.9" fill="#506C7E" text-anchor="middle">Retain person identity</text>
-<line x1="482" y1="669" x2="498" y2="669" stroke="#245E9D" stroke-width="2.0"/>
-<path d="M 498 669 l -8 -4 v 8 z" fill="#245E9D"/>
+<line x1="482" y1="669" x2="498" y2="669" stroke="#245E9D" stroke-width="2.0" marker-end="url(#arrow)"/>
 <rect x="501" y="601" width="208" height="129" rx="12" fill="#FFFFFF" stroke="#B8CFDE" stroke-width="1.8"/>
 <text x="605.0" y="626" font-family="DejaVu Sans, Arial, sans-serif" font-size="12.8" fill="#447F9B" font-weight="700" text-anchor="middle">02</text>
 <text x="605.0" y="649" font-family="DejaVu Sans, Arial, sans-serif" font-size="12.6" fill="#173453" font-weight="700" text-anchor="middle">Segment Windows</text>
 <text x="605.0" y="670" font-family="DejaVu Sans, Arial, sans-serif" font-size="10.9" fill="#506C7E" text-anchor="middle">300-ms source slices</text>
 <text x="605.0" y="690" font-family="DejaVu Sans, Arial, sans-serif" font-size="10.9" fill="#506C7E" text-anchor="middle">100-ms stepping</text>
 <text x="605.0" y="710" font-family="DejaVu Sans, Arial, sans-serif" font-size="10.9" fill="#506C7E" text-anchor="middle">Strict label purity</text>
-<line x1="714" y1="669" x2="730" y2="669" stroke="#245E9D" stroke-width="2.0"/>
-<path d="M 730 669 l -8 -4 v 8 z" fill="#245E9D"/>
+<line x1="714" y1="669" x2="730" y2="669" stroke="#245E9D" stroke-width="2.0" marker-end="url(#arrow)"/>
 <rect x="733" y="601" width="208" height="129" rx="12" fill="#FFFFFF" stroke="#B8CFDE" stroke-width="1.8"/>
 <text x="837.0" y="626" font-family="DejaVu Sans, Arial, sans-serif" font-size="12.8" fill="#447F9B" font-weight="700" text-anchor="middle">03</text>
 <text x="837.0" y="649" font-family="DejaVu Sans, Arial, sans-serif" font-size="12.6" fill="#173453" font-weight="700" text-anchor="middle">Select Cohort</text>
 <text x="837.0" y="670" font-family="DejaVu Sans, Arial, sans-serif" font-size="10.9" fill="#506C7E" text-anchor="middle">1,000 windows/person</text>
 <text x="837.0" y="690" font-family="DejaVu Sans, Arial, sans-serif" font-size="10.9" fill="#506C7E" text-anchor="middle">40,000 retained total</text>
 <text x="837.0" y="710" font-family="DejaVu Sans, Arial, sans-serif" font-size="10.9" fill="#506C7E" text-anchor="middle">Time-uniform selection</text>
-<line x1="946" y1="669" x2="962" y2="669" stroke="#245E9D" stroke-width="2.0"/>
-<path d="M 962 669 l -8 -4 v 8 z" fill="#245E9D"/>
+<line x1="946" y1="669" x2="962" y2="669" stroke="#245E9D" stroke-width="2.0" marker-end="url(#arrow)"/>
 <rect x="965" y="601" width="208" height="129" rx="12" fill="#FFFFFF" stroke="#B8CFDE" stroke-width="1.8"/>
 <text x="1069.0" y="626" font-family="DejaVu Sans, Arial, sans-serif" font-size="12.8" fill="#447F9B" font-weight="700" text-anchor="middle">04</text>
 <text x="1069.0" y="649" font-family="DejaVu Sans, Arial, sans-serif" font-size="12.6" fill="#173453" font-weight="700" text-anchor="middle">Extract Features</text>
 <text x="1069.0" y="670" font-family="DejaVu Sans, Arial, sans-serif" font-size="10.9" fill="#506C7E" text-anchor="middle">48 sEMG statistics</text>
 <text x="1069.0" y="690" font-family="DejaVu Sans, Arial, sans-serif" font-size="10.9" fill="#506C7E" text-anchor="middle">96 Acc statistics</text>
 <text x="1069.0" y="710" font-family="DejaVu Sans, Arial, sans-serif" font-size="10.9" fill="#506C7E" text-anchor="middle">Local numerical arrays</text>
-<line x1="1178" y1="669" x2="1194" y2="669" stroke="#245E9D" stroke-width="2.0"/>
-<path d="M 1194 669 l -8 -4 v 8 z" fill="#245E9D"/>
+<line x1="1178" y1="669" x2="1194" y2="669" stroke="#245E9D" stroke-width="2.0" marker-end="url(#arrow)"/>
 <rect x="1197" y="601" width="208" height="129" rx="12" fill="#FFFFFF" stroke="#B8CFDE" stroke-width="1.8"/>
 <text x="1301.0" y="626" font-family="DejaVu Sans, Arial, sans-serif" font-size="12.8" fill="#447F9B" font-weight="700" text-anchor="middle">05</text>
 <text x="1301.0" y="649" font-family="DejaVu Sans, Arial, sans-serif" font-size="12.6" fill="#173453" font-weight="700" text-anchor="middle">Freeze Person Roles</text>
 <text x="1301.0" y="670" font-family="DejaVu Sans, Arial, sans-serif" font-size="10.9" fill="#506C7E" text-anchor="middle">35 Development</text>
 <text x="1301.0" y="690" font-family="DejaVu Sans, Arial, sans-serif" font-size="10.9" fill="#506C7E" text-anchor="middle">5 Test people</text>
 <text x="1301.0" y="710" font-family="DejaVu Sans, Arial, sans-serif" font-size="10.9" fill="#506C7E" text-anchor="middle">5 independent folds</text>
-<line x1="1397" y1="669" x2="1428" y2="669" stroke="#245E9D" stroke-width="2.0"/>
-<path d="M 1428 669 l -8 -4 v 8 z" fill="#245E9D"/>
+<line x1="1397" y1="669" x2="1428" y2="669" stroke="#245E9D" stroke-width="2.0" marker-end="url(#arrow)"/>
 <rect x="1433" y="601" width="232" height="129" rx="13" fill="#116A66"/>
 <text x="1549" y="628" font-family="DejaVu Sans, Arial, sans-serif" font-size="13" fill="#BFE8E7" font-weight="700" text-anchor="middle">OUTPUT</text>
-<text x="1549" y="651" font-family="DejaVu Sans, Arial, sans-serif" font-size="13" fill="#FFFFFF" font-weight="700" text-anchor="middle">Notebook 02</text>
-<text x="1549" y="673" font-family="DejaVu Sans, Arial, sans-serif" font-size="11" fill="#FFFFFF" text-anchor="middle">Window/fold CSVs</text>
-<text x="1549" y="693" font-family="DejaVu Sans, Arial, sans-serif" font-size="11" fill="#FFFFFF" text-anchor="middle">Inputs to Notebook 03</text>
+<text x="1549" y="652" font-family="DejaVu Sans, Arial, sans-serif" font-size="11.2" fill="#FFFFFF" font-weight="700" text-anchor="middle">Notebook 02</text>
+<text x="1549" y="671" font-family="DejaVu Sans, Arial, sans-serif" font-size="11.2" fill="#FFFFFF" font-weight="700" text-anchor="middle">Window/fold CSVs</text>
+<text x="1549" y="690" font-family="DejaVu Sans, Arial, sans-serif" font-size="11.2" fill="#FFFFFF" font-weight="700" text-anchor="middle">Inputs to Notebook 03</text>
 <text x="30" y="789" font-family="DejaVu Sans, Arial, sans-serif" font-size="12.2" fill="#53738A">Original E1 data → source-safe paired windows → selected modelling cohort → features → person-disjoint evaluation</text>
 </svg>
