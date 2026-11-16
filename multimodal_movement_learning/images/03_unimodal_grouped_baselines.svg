@@ -1,34 +1,191 @@
-<svg xmlns="http://www.w3.org/2000/svg" width="1700" height="480" viewBox="0 0 1700 480" role="img" font-family="DejaVu Sans, Arial, sans-serif">
-<title>Unimodal source-specific and learned temporal representations</title>
-<desc>Development participants to matched grouped folds to classical and temporal classifiers. Model selection uses Development evidence; internal stopping subsets remain inside each Training fold.</desc>
-<rect width="1700" height="480" fill="#F4F9FD"/>
-<text x="40" y="46" fill="#173453" font-size="26" font-weight="bold"><tspan x="40" dy="0">Unimodal source-specific and learned temporal representations</tspan></text>
-<rect x="40" y="73" width="1620" height="108" rx="15" fill="#EAF3FA" stroke="#C7D9E6" stroke-width="2"/>
-<text x="62" y="110" fill="#173453" font-size="18" font-weight="bold"><tspan x="62" dy="0">Development participants to matched grouped folds to classical and temporal classifiers</tspan></text>
-<text x="62" y="150" fill="#506C7E" font-size="15" font-weight="normal"><tspan x="62" dy="0">Every model uses the same window identities and fixed corrected E1 class set; Test people remain outside fitting</tspan></text>
-<rect x="40" y="202" width="1620" height="210" rx="15" fill="#EAF3FA" stroke="#C7D9E6" stroke-width="2"/>
-<rect x="56" y="235" width="294" height="136" rx="12" fill="#FFFFFF" stroke="#B8CFDE" stroke-width="2"/>
-<text x="72" y="268" fill="#173453" font-size="18" font-weight="bold"><tspan x="72" dy="0">Development folds</tspan></text>
-<text x="72" y="308" fill="#506C7E" font-size="14" font-weight="normal"><tspan x="72" dy="0">Person-independent CV</tspan><tspan x="72" dy="24">Training-only scaling</tspan></text>
-<path d="M359 305 h15" stroke="#245E9D" stroke-width="3" stroke-linecap="round"/>
-<path d="M368 298 l8 7 -8 7" stroke="#245E9D" stroke-width="3" fill="none" stroke-linejoin="round"/>
-<rect x="382" y="235" width="294" height="136" rx="12" fill="#FFFFFF" stroke="#B8CFDE" stroke-width="2"/>
-<text x="398" y="268" fill="#173453" font-size="18" font-weight="bold"><tspan x="398" dy="0">sEMG models</tspan></text>
-<text x="398" y="308" fill="#506C7E" font-size="14" font-weight="normal"><tspan x="398" dy="0">Logistic Regression / RF</tspan><tspan x="398" dy="24">CNN / TCN / BiGRU</tspan></text>
-<path d="M685 305 h15" stroke="#245E9D" stroke-width="3" stroke-linecap="round"/>
-<path d="M694 298 l8 7 -8 7" stroke="#245E9D" stroke-width="3" fill="none" stroke-linejoin="round"/>
-<rect x="708" y="235" width="294" height="136" rx="12" fill="#FFFFFF" stroke="#B8CFDE" stroke-width="2"/>
-<text x="724" y="268" fill="#173453" font-size="18" font-weight="bold"><tspan x="724" dy="0">Acc models</tspan></text>
-<text x="724" y="308" fill="#506C7E" font-size="14" font-weight="normal"><tspan x="724" dy="0">Logistic Regression / RF</tspan><tspan x="724" dy="24">CNN / TCN / BiGRU</tspan></text>
-<path d="M1011 305 h15" stroke="#245E9D" stroke-width="3" stroke-linecap="round"/>
-<path d="M1020 298 l8 7 -8 7" stroke="#245E9D" stroke-width="3" fill="none" stroke-linejoin="round"/>
-<rect x="1034" y="235" width="294" height="136" rx="12" fill="#FFFFFF" stroke="#B8CFDE" stroke-width="2"/>
-<text x="1050" y="268" fill="#173453" font-size="18" font-weight="bold"><tspan x="1050" dy="0">Matched predictions</tspan></text>
-<text x="1050" y="308" fill="#506C7E" font-size="14" font-weight="normal"><tspan x="1050" dy="0">Source class order</tspan><tspan x="1050" dy="24">Out-of-fold probabilities</tspan></text>
-<path d="M1337 305 h15" stroke="#245E9D" stroke-width="3" stroke-linecap="round"/>
-<path d="M1346 298 l8 7 -8 7" stroke="#245E9D" stroke-width="3" fill="none" stroke-linejoin="round"/>
-<rect x="1360" y="235" width="294" height="136" rx="12" fill="#FFFFFF" stroke="#B8CFDE" stroke-width="2"/>
-<text x="1376" y="268" fill="#173453" font-size="18" font-weight="bold"><tspan x="1376" dy="0">Model comparison</tspan></text>
-<text x="1376" y="308" fill="#506C7E" font-size="14" font-weight="normal"><tspan x="1376" dy="0">Participant-macro F1</tspan><tspan x="1376" dy="24">Capacity and fit cost</tspan></text>
-<text x="40" y="448" fill="#54738A" font-size="15" font-weight="normal"><tspan x="40" dy="0">Model selection uses Development evidence; internal stopping subsets remain inside each Training fold.</tspan></text>
+<?xml version='1.0' encoding='UTF-8'?>
+<svg xmlns="http://www.w3.org/2000/svg" width="1700" height="816" viewBox="0 0 1700 816" role="img" aria-labelledby="title desc">
+  <title id="title">Participant-grouped sEMG and acceleration classification</title>
+  <desc id="desc">Five-band research figure. Forearm sensor origin, fixed original E1 class labels, matched classical and temporal unimodal methods, five participant-independent Development folds and OOF fusion-ready evidence. Schematics are conceptual, not predictive results.</desc>
+  <defs>
+    <marker id="arr" markerUnits="userSpaceOnUse" markerWidth="6" markerHeight="6" refX="5.5" refY="3" orient="auto">
+      <path d="M0 0 L6 3 L0 6 Z" fill="#245E9D"/>
+    </marker>
+    <style>text { font-family: DejaVu Sans, Arial, sans-serif; font-weight: 400; }
+.figure-title { font-size:23px; font-weight:700; fill:#173453; }
+.subtitle { font-size:15px; fill:#54738A; }
+.source-heading { font-size:11.5px; font-weight:700; fill:#53738A; }
+.source-label { font-size:13px; fill:#173453; }
+.context-heading { font-size:15px; font-weight:700; fill:#173453; }
+.context-body { font-size:13.5px; fill:#506C7E; }
+.section-label { font-size:13.2px; font-weight:700; fill:#FFFFFF; }
+.focus-heading { font-size:16.5px; font-weight:700; fill:#173453; }
+.focus-body { font-size:13.1px; fill:#506C7E; }
+.qualification { font-size:11.5px; font-weight:700; fill:#506C7E; }
+.card-heading { font-size:13.5px; font-weight:700; fill:#FFFFFF; }
+.card-body { font-size:12.1px; fill:#506C7E; }
+.chart-label { font-size:11.8px; fill:#506C7E; }
+.scientific-note { font-size:12.1px; font-weight:700; fill:#173453; }
+.workflow-id { font-size:12.5px; font-weight:700; fill:#506C7E; }
+.workflow-heading { font-size:15px; font-weight:700; fill:#173453; }
+.workflow-body { font-size:12.1px; fill:#506C7E; }
+.terminal-id { font-size:12.5px; font-weight:700; fill:#DBF2EF; }
+.terminal-heading { font-size:15px; font-weight:700; fill:#FFFFFF; }
+.terminal-body { font-size:12.1px; fill:#DBF2EF; }
+.footer { font-size:13.3px; fill:#54738A; }</style>
+  </defs>
+  <rect id="canvas" x="0" y="0" width="1700" height="816" rx="20" fill="#F4F9FD"/>
+  <g id="band-0-header">
+    <text id="text-001" x="30" y="38" class="figure-title" data-container="canvas">NINAPRO DB2: PARTICIPANT-GROUPED UNIMODAL CLASSIFICATION</text>
+    <text id="text-002" x="30" y="67" class="subtitle" data-container="canvas">Paired E1 sEMG and accelerometry · Classical baselines + CNN / TCN / BiGRU · Development-only comparisons</text>
+  </g>
+  <g id="band-1-context">
+    <rect id="context-container" x="24" y="84" width="1652" height="160" rx="16" fill="#EAF3FA" stroke="#C7D9E6" stroke-width="2"/>
+    <g id="source-schematic" data-slot="replace-for-actual-data-source">
+      <g stroke="#7298B0" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round" id="replaceable-human-outline">
+        <circle cx="102" cy="129" r="11" fill="#FFFFFF"/>
+        <path d="M88 143 Q102 139 116 143 L122 183 Q102 190 82 183 Z" fill="#D9E7F1"/>
+        <path d="M89 150 L72 169 L67 182 M116 150 L132 169 L138 182 M91 185 L83 205 L76 225 M111 185 L119 205 L127 225" fill="none"/>
+      <path d="M124 160 L137 180" stroke="#245E9D" stroke-width="2.7" fill="none"/><rect x="118" y="157" width="8" height="8" rx="1.4" fill="#245E9D" stroke="#FFFFFF" stroke-width="1"/><rect x="123" y="165" width="8" height="8" rx="1.4" fill="#245E9D" stroke="#FFFFFF" stroke-width="1"/><rect x="128" y="173" width="8" height="8" rx="1.4" fill="#245E9D" stroke="#FFFFFF" stroke-width="1"/><rect x="133" y="180" width="8" height="8" rx="1.4" fill="#245E9D" stroke="#FFFFFF" stroke-width="1"/></g>
+      <text id="text-003" x="153" y="110" class="source-heading" data-container="context-container">WEARABLE SENSOR CONTEXT</text>
+      <text id="text-004" x="153" y="157" class="source-label" data-container="context-container">Forearm sEMG</text>
+      <text id="text-005" x="153" y="182" class="source-label" data-container="context-container">Tri-axial Acc</text>
+      <text id="text-006" x="153" y="207" class="source-label" data-container="context-container">Paired recordings</text>
+    </g>
+    <g id="context-module-1">
+      <text id="text-007" x="358" y="115" class="context-heading" data-container="context-container">Dataset and Task</text>
+      <text id="text-008" x="358" y="148" class="context-body" data-container="context-container">NinaPro DB2 / Exercise E1</text>
+      <text id="text-009" x="358" y="174" class="context-body" data-container="context-container">18 labels: Rest + 17 gestures</text>
+      <text id="text-010" x="358" y="200" class="context-body" data-container="context-container">40,000 source-aligned windows</text>
+    </g>
+    <g id="context-module-2">
+      <text id="text-011" x="690" y="115" class="context-heading" data-container="context-container">Development Cohort</text>
+      <text id="text-012" x="690" y="148" class="context-body" data-container="context-container">35 independent participants</text>
+      <text id="text-013" x="690" y="174" class="context-body" data-container="context-container">35,000 paired labelled windows</text>
+      <text id="text-014" x="690" y="200" class="context-body" data-container="context-container">5 person-disjoint outer folds</text>
+    </g>
+    <g id="context-module-3">
+      <text id="text-015" x="1020" y="115" class="context-heading" data-container="context-container">Model Families</text>
+      <text id="text-016" x="1020" y="148" class="context-body" data-container="context-container">Training-prior reference</text>
+      <text id="text-017" x="1020" y="174" class="context-body" data-container="context-container">Logistic Regression / Forest</text>
+      <text id="text-018" x="1020" y="200" class="context-body" data-container="context-container">CNN, TCN and BiGRU</text>
+    </g>
+    <g id="context-module-4">
+      <text id="text-019" x="1360" y="115" class="context-heading" data-container="context-container">Research Boundary</text>
+      <text id="text-020" x="1360" y="148" class="context-body" data-container="context-container">Training-only normalisation</text>
+      <text id="text-021" x="1360" y="174" class="context-body" data-container="context-container">7 validation people per fold</text>
+      <text id="text-022" x="1360" y="200" class="context-body" data-container="context-container">5 Test participants held out</text>
+    </g>
+  </g>
+  <g id="band-2-analysis">
+    <rect id="analysis-container" x="24" y="258" width="1652" height="314" rx="16" fill="#EDF6FB" stroke="#B4CFE0" stroke-width="1.5"/>
+    <g id="analysis-focus">
+      <rect id="section-label-box" x="38" y="272" width="238" height="32" rx="9" fill="#173453" stroke="#173453" stroke-width="1.5"/>
+      <text id="text-023" x="157" y="293" class="section-label" text-anchor="middle" data-container="section-label-box">MATCHED MODEL EVIDENCE</text>
+      <rect id="focus-card" x="38" y="312" width="238" height="215" rx="10" fill="#F7FAFD" stroke="#DFEAF0" stroke-width="1.5"/>
+      <text id="text-024" x="54" y="344" class="focus-heading" data-container="focus-card">What is compared?</text>
+      <text id="text-025" x="54" y="389" class="focus-body" data-container="focus-card">sEMG versus Acc</text>
+      <text id="text-026" x="54" y="416" class="focus-body" data-container="focus-card">Classical vs temporal</text>
+      <text id="text-027" x="54" y="443" class="focus-body" data-container="focus-card">Group-independent F1</text>
+      <text id="text-028" x="54" y="470" class="focus-body" data-container="focus-card">Equal person weighting</text>
+      <text id="text-029" x="54" y="508" class="qualification" data-container="focus-card">No Test model selection</text>
+    </g>
+    <g id="evidence-panel-1">
+      <rect id="evidence-card-1" x="292" y="272" width="324" height="254" rx="12" fill="#FFFFFF" stroke="#B6CFDE" stroke-width="1.5"/>
+      <path id="evidence-header-1" d="M303 272 H605 Q616 272 616 283 V305 H292 V283 Q292 272 303 272 Z" fill="#174B70"/>
+      <text id="text-030" x="454.0" y="294" class="card-heading" text-anchor="middle" data-container="evidence-card-1">sEMG: 48 features</text>
+      <g id="evidence-content-1" data-slot="scientific-content">
+        <text x="309" y="339" class="card-body">12-channel sEMG source</text><path d="M 313.0 368.0 L 319.8 374.3 L 326.6 371.7 L 333.4 372.0 L 340.2 377.7 L 347.0 375.5 L 353.8 368.6 L 360.6 369.5 L 367.4 369.9 L 374.2 362.2 L 381.0 359.3 L 387.8 363.9 L 394.6 362.7 L 401.4 359.4 L 408.2 365.5 L 415.0 371.5 L 421.8 369.2 L 428.6 370.7 L 435.4 377.6 L 442.2 376.2 L 449.0 370.5 L 455.8 372.3 L 462.6 372.6 L 469.4 364.5 L 476.2 361.3 L 483.0 364.8 L 489.8 362.1 L 496.6 357.9 L 503.4 363.4 L 510.2 368.6 L 517.0 366.3 L 523.8 368.7 L 530.6 376.4 L 537.4 375.7 L 544.2 371.4 L 551.0 374.5 L 557.8 375.1 L 564.6 367.1 L 571.4 364.0 L 578.2 366.7" stroke="#236CDE" stroke-width="1.8" fill="none" stroke-linecap="round"/><path d="M442 403 h32" fill="none" stroke="#245E9D" stroke-width="2" marker-end="url(#arr)"/><rect x="304" y="411" width="292" height="35" rx="6" fill="#F7FAFD" stroke="#B6CFDE" stroke-width="1.1"/><text x="450.0" y="433" class="card-body" text-anchor="middle">RMS · MAV · WL · log variance</text><text x="316" y="482" class="card-body">48 fixed statistics / window</text><text x="316" y="506" class="chart-label">Training-only scaler for LogReg</text></g>
+    </g>
+    <g id="evidence-panel-2">
+      <rect id="evidence-card-2" x="630" y="272" width="324" height="254" rx="12" fill="#FFFFFF" stroke="#B6CFDE" stroke-width="1.5"/>
+      <path id="evidence-header-2" d="M641 272 H943 Q954 272 954 283 V305 H630 V283 Q630 272 641 272 Z" fill="#174B70"/>
+      <text id="text-034" x="792.0" y="294" class="card-heading" text-anchor="middle" data-container="evidence-card-2">Acceleration: 96 features</text>
+      <g id="evidence-content-2" data-slot="scientific-content">
+        <text x="650" y="339" class="card-body">36 acceleration columns</text><path d="M 652.0 362.0 L 660.1 363.9 L 668.2 365.7 L 676.3 367.2 L 684.4 368.3 L 692.5 368.9 L 700.6 369.0 L 708.7 368.5 L 716.8 367.5 L 724.9 366.1 L 733.0 364.3 L 741.1 362.4 L 749.2 360.5 L 757.3 358.7 L 765.4 357.1 L 773.5 355.9 L 781.6 355.2 L 789.7 355.0 L 797.8 355.4 L 805.9 356.3 L 814.0 357.6 L 822.1 359.3 L 830.2 361.1 L 838.3 363.1 L 846.4 365.0 L 854.5 366.6 L 862.6 367.9 L 870.7 368.7 L 878.8 369.0 L 886.9 368.8 L 895.0 368.0 L 903.1 366.7 L 911.2 365.1 L 919.3 363.3 L 927.4 361.3" stroke="#236CDE" stroke-width="1.6" fill="none"/><path d="M 652.0 389.9 L 660.1 390.7 L 668.2 391.0 L 676.3 390.7 L 684.4 390.0 L 692.5 388.7 L 700.6 387.1 L 708.7 385.3 L 716.8 383.3 L 724.9 381.4 L 733.0 379.7 L 741.1 378.4 L 749.2 377.4 L 757.3 377.0 L 765.4 377.2 L 773.5 377.8 L 781.6 379.0 L 789.7 380.5 L 797.8 382.3 L 805.9 384.3 L 814.0 386.2 L 822.1 387.9 L 830.2 389.4 L 838.3 390.4 L 846.4 390.9 L 854.5 390.9 L 862.6 390.4 L 870.7 389.3 L 878.8 387.9 L 886.9 386.1 L 895.0 384.2 L 903.1 382.2 L 911.2 380.4 L 919.3 378.9 L 927.4 377.8" stroke="#E87929" stroke-width="1.6" fill="none"/><path d="M 652.0 412.4 L 660.1 411.3 L 668.2 409.8 L 676.3 408.1 L 684.4 406.2 L 692.5 404.2 L 700.6 402.4 L 708.7 400.9 L 716.8 399.8 L 724.9 399.1 L 733.0 399.0 L 741.1 399.5 L 749.2 400.4 L 757.3 401.8 L 765.4 403.5 L 773.5 405.4 L 781.6 407.4 L 789.7 409.2 L 797.8 410.8 L 805.9 412.0 L 814.0 412.8 L 822.1 413.0 L 830.2 412.7 L 838.3 411.8 L 846.4 410.5 L 854.5 408.9 L 862.6 407.0 L 870.7 405.1 L 878.8 403.2 L 886.9 401.5 L 895.0 400.2 L 903.1 399.3 L 911.2 399.0 L 919.3 399.2 L 927.4 399.9" stroke="#168C5B" stroke-width="1.6" fill="none"/><rect x="644" y="434" width="294" height="35" rx="6" fill="#F7FAFD" stroke="#B6CFDE" stroke-width="1.1"/><text x="791.0" y="456" class="card-body" text-anchor="middle">Axis and 3-axis magnitude stats</text><text x="650" y="492" class="card-body">96 fixed statistics / window</text><text x="650" y="512" class="chart-label">Mean and standard deviation</text></g>
+    </g>
+    <g id="evidence-panel-3">
+      <rect id="evidence-card-3" x="968" y="272" width="324" height="254" rx="12" fill="#FFFFFF" stroke="#B6CFDE" stroke-width="1.5"/>
+      <path id="evidence-header-3" d="M979 272 H1281 Q1292 272 1292 283 V305 H968 V283 Q968 272 979 272 Z" fill="#174B70"/>
+      <text id="text-038" x="1130.0" y="294" class="card-heading" text-anchor="middle" data-container="evidence-card-3">Temporal models (schematic)</text>
+      <g id="evidence-content-3" data-slot="scientific-content">
+        <text x="986" y="335" class="card-body">12 sEMG or 36 Acc channels</text><rect x="991" y="350" width="117" height="31" rx="6" stroke="#236CDE" stroke-width="1.5" fill="#F7FAFD"/><text x="1049" y="371" class="card-body" text-anchor="middle">1D-CNN</text><path d="M1113 365.5 h26" fill="none" stroke="#245E9D" stroke-width="2" marker-end="url(#arr)"/><rect x="1150" y="350" width="111" height="31" rx="6" stroke="#B6CFDE" stroke-width="1.2" fill="#FFFFFF"/><text x="1205.5" y="371" class="card-body" text-anchor="middle">Class logits</text><rect x="991" y="399" width="117" height="31" rx="6" stroke="#E87929" stroke-width="1.5" fill="#F7FAFD"/><text x="1049" y="420" class="card-body" text-anchor="middle">Dilated TCN</text><path d="M1113 414.5 h26" fill="none" stroke="#245E9D" stroke-width="2" marker-end="url(#arr)"/><rect x="1150" y="399" width="111" height="31" rx="6" stroke="#B6CFDE" stroke-width="1.2" fill="#FFFFFF"/><text x="1205.5" y="420" class="card-body" text-anchor="middle">Class logits</text><rect x="991" y="448" width="117" height="31" rx="6" stroke="#168C5B" stroke-width="1.5" fill="#F7FAFD"/><text x="1049" y="469" class="card-body" text-anchor="middle">BiGRU</text><path d="M1113 463.5 h26" fill="none" stroke="#245E9D" stroke-width="2" marker-end="url(#arr)"/><rect x="1150" y="448" width="111" height="31" rx="6" stroke="#B6CFDE" stroke-width="1.2" fill="#FFFFFF"/><text x="1205.5" y="469" class="card-body" text-anchor="middle">Class logits</text><text x="989" y="512" class="chart-label">Six modality-specific arms</text></g>
+    </g>
+    <g id="evidence-panel-4">
+      <rect id="evidence-card-4" x="1306" y="272" width="356" height="254" rx="12" fill="#FFFFFF" stroke="#B6CFDE" stroke-width="1.5"/>
+      <path id="evidence-header-4" d="M1317 272 H1651 Q1662 272 1662 283 V305 H1306 V283 Q1306 272 1317 272 Z" fill="#174B70"/>
+      <text id="text-042" x="1484.0" y="294" class="card-heading" text-anchor="middle" data-container="evidence-card-4">Grouped Development evidence</text>
+      <g id="evidence-content-4" data-slot="scientific-content">
+        <text x="1323" y="340" class="card-body">35 Development participants</text><rect x="1326" y="357" width="52" height="46" rx="7" fill="#EAF3FA" stroke="#B6CFDE" stroke-width="1.1"/><text x="1352" y="377" class="workflow-id" text-anchor="middle">01</text><text x="1352" y="393" class="chart-label" text-anchor="middle">7 people</text><rect x="1388" y="357" width="52" height="46" rx="7" fill="#EAF3FA" stroke="#B6CFDE" stroke-width="1.1"/><text x="1414" y="377" class="workflow-id" text-anchor="middle">02</text><text x="1414" y="393" class="chart-label" text-anchor="middle">7 people</text><rect x="1450" y="357" width="52" height="46" rx="7" fill="#EAF3FA" stroke="#B6CFDE" stroke-width="1.1"/><text x="1476" y="377" class="workflow-id" text-anchor="middle">03</text><text x="1476" y="393" class="chart-label" text-anchor="middle">7 people</text><rect x="1512" y="357" width="52" height="46" rx="7" fill="#EAF3FA" stroke="#B6CFDE" stroke-width="1.1"/><text x="1538" y="377" class="workflow-id" text-anchor="middle">04</text><text x="1538" y="393" class="chart-label" text-anchor="middle">7 people</text><rect x="1574" y="357" width="52" height="46" rx="7" fill="#EAF3FA" stroke="#B6CFDE" stroke-width="1.1"/><text x="1600" y="377" class="workflow-id" text-anchor="middle">05</text><text x="1600" y="393" class="chart-label" text-anchor="middle">7 people</text><text x="1324" y="438" class="card-body">Outer Validation: unseen people</text><text x="1324" y="465" class="card-body">5 Test people excluded</text><text x="1324" y="497" class="chart-label">OOF class scores aligned by window</text></g>
+    </g>
+    <g id="optional-scientific-note" data-optional="true">
+      <rect id="note-strip" x="301" y="540" width="1064" height="25" rx="12" fill="#E0F2EC" stroke="#D3EAE2" stroke-width="1.5"/>
+      <circle cx="324" cy="552" r="9" fill="#23749A"/>
+      <text id="text-046" x="324" y="556" class="scientific-note" text-anchor="middle" style="fill:#FFFFFF; font-size:12px">i</text>
+      <text id="text-047" x="342" y="556" class="scientific-note" data-container="note-strip">Methods schematic: trained model scores are not asserted here; Test people do not influence Development selection.</text>
+    </g>
+  </g>
+  <g id="band-3-workflow">
+    <rect id="workflow-container" x="24" y="588" width="1652" height="174" rx="16" fill="#EAF3FA" stroke="#C7D9E6" stroke-width="2"/>
+    <g id="workflow-input">
+      <rect id="workflow-node-0" x="38" y="613" width="208" height="132" rx="15" fill="#173453" stroke="#173453" stroke-width="1.8"/>
+      <text id="text-048" x="142" y="636" class="terminal-id" text-anchor="middle" data-container="workflow-node-0">INPUT</text>
+      <text id="text-049" x="142" y="662" class="terminal-heading" text-anchor="middle" data-container="workflow-node-0">Paired E1 windows</text>
+      <text id="text-050" x="142" y="684" class="terminal-body" text-anchor="middle" data-container="workflow-node-0">35 Development people</text>
+      <text id="text-051" x="142" y="704" class="terminal-body" text-anchor="middle" data-container="workflow-node-0">12 sEMG / 36 Acc</text>
+      <text id="text-052" x="142" y="724" class="terminal-body" text-anchor="middle" data-container="workflow-node-0">Fixed 18-class targets</text>
+    </g>
+    <path id="workflow-connector-0" d="M252 679 H266" fill="none" stroke="#245E9D" stroke-width="2.2" stroke-linecap="round" marker-end="url(#arr)"/>
+    <g id="workflow-process-1">
+      <rect id="workflow-node-1" x="274" y="613" width="208" height="132" rx="15" fill="#FFFFFF" stroke="#B8CFDE" stroke-width="1.8"/>
+      <text id="text-053" x="378" y="636" class="workflow-id" text-anchor="middle" data-container="workflow-node-1">01</text>
+      <text id="text-054" x="378" y="662" class="workflow-heading" text-anchor="middle" data-container="workflow-node-1">Assign Group Folds</text>
+      <text id="text-055" x="378" y="684" class="workflow-body" text-anchor="middle" data-container="workflow-node-1">5 participant folds</text>
+      <text id="text-056" x="378" y="704" class="workflow-body" text-anchor="middle" data-container="workflow-node-1">7 validation people</text>
+      <text id="text-057" x="378" y="724" class="workflow-body" text-anchor="middle" data-container="workflow-node-1">No shared participants</text>
+    </g>
+    <path id="workflow-connector-1" d="M488 679 H502" fill="none" stroke="#245E9D" stroke-width="2.2" stroke-linecap="round" marker-end="url(#arr)"/>
+    <g id="workflow-process-2">
+      <rect id="workflow-node-2" x="510" y="613" width="208" height="132" rx="15" fill="#FFFFFF" stroke="#B8CFDE" stroke-width="1.8"/>
+      <text id="text-058" x="614" y="636" class="workflow-id" text-anchor="middle" data-container="workflow-node-2">02</text>
+      <text id="text-059" x="614" y="662" class="workflow-heading" text-anchor="middle" data-container="workflow-node-2">Classical Models</text>
+      <text id="text-060" x="614" y="684" class="workflow-body" text-anchor="middle" data-container="workflow-node-2">Prior / LogReg / RF</text>
+      <text id="text-061" x="614" y="704" class="workflow-body" text-anchor="middle" data-container="workflow-node-2">Training-only scaling</text>
+      <text id="text-062" x="614" y="724" class="workflow-body" text-anchor="middle" data-container="workflow-node-2">Fixed label order</text>
+    </g>
+    <path id="workflow-connector-2" d="M724 679 H738" fill="none" stroke="#245E9D" stroke-width="2.2" stroke-linecap="round" marker-end="url(#arr)"/>
+    <g id="workflow-process-3">
+      <rect id="workflow-node-3" x="746" y="613" width="208" height="132" rx="15" fill="#FFFFFF" stroke="#B8CFDE" stroke-width="1.8"/>
+      <text id="text-063" x="850" y="636" class="workflow-id" text-anchor="middle" data-container="workflow-node-3">03</text>
+      <text id="text-064" x="850" y="662" class="workflow-heading" text-anchor="middle" data-container="workflow-node-3">Temporal Models</text>
+      <text id="text-065" x="850" y="684" class="workflow-body" text-anchor="middle" data-container="workflow-node-3">CNN / TCN / BiGRU</text>
+      <text id="text-066" x="850" y="704" class="workflow-body" text-anchor="middle" data-container="workflow-node-3">Separate modality arms</text>
+      <text id="text-067" x="850" y="724" class="workflow-body" text-anchor="middle" data-container="workflow-node-3">Inner Training holdout</text>
+    </g>
+    <path id="workflow-connector-3" d="M960 679 H974" fill="none" stroke="#245E9D" stroke-width="2.2" stroke-linecap="round" marker-end="url(#arr)"/>
+    <g id="workflow-process-4">
+      <rect id="workflow-node-4" x="982" y="613" width="208" height="132" rx="15" fill="#FFFFFF" stroke="#B8CFDE" stroke-width="1.8"/>
+      <text id="text-068" x="1086" y="636" class="workflow-id" text-anchor="middle" data-container="workflow-node-4">04</text>
+      <text id="text-069" x="1086" y="662" class="workflow-heading" text-anchor="middle" data-container="workflow-node-4">Build OOF Evidence</text>
+      <text id="text-070" x="1086" y="684" class="workflow-body" text-anchor="middle" data-container="workflow-node-4">Per-person macro F1</text>
+      <text id="text-071" x="1086" y="704" class="workflow-body" text-anchor="middle" data-container="workflow-node-4">Aligned probabilities</text>
+      <text id="text-072" x="1086" y="724" class="workflow-body" text-anchor="middle" data-container="workflow-node-4">Record fitting time</text>
+    </g>
+    <path id="workflow-connector-4" d="M1196 679 H1210" fill="none" stroke="#245E9D" stroke-width="2.2" stroke-linecap="round" marker-end="url(#arr)"/>
+    <g id="workflow-process-5">
+      <rect id="workflow-node-5" x="1218" y="613" width="208" height="132" rx="15" fill="#FFFFFF" stroke="#B8CFDE" stroke-width="1.8"/>
+      <text id="text-073" x="1322" y="636" class="workflow-id" text-anchor="middle" data-container="workflow-node-5">05</text>
+      <text id="text-074" x="1322" y="662" class="workflow-heading" text-anchor="middle" data-container="workflow-node-5">Compare Models</text>
+      <text id="text-075" x="1322" y="684" class="workflow-body" text-anchor="middle" data-container="workflow-node-5">Identical validation IDs</text>
+      <text id="text-076" x="1322" y="704" class="workflow-body" text-anchor="middle" data-container="workflow-node-5">Mean across people</text>
+      <text id="text-077" x="1322" y="724" class="workflow-body" text-anchor="middle" data-container="workflow-node-5">Select Development arm</text>
+    </g>
+    <path id="workflow-connector-5" d="M1432 679 H1446" fill="none" stroke="#245E9D" stroke-width="2.2" stroke-linecap="round" marker-end="url(#arr)"/>
+    <g id="workflow-output">
+      <rect id="workflow-node-6" x="1454" y="613" width="208" height="132" rx="15" fill="#176363" stroke="#176363" stroke-width="1.8"/>
+      <text id="text-078" x="1558" y="636" class="terminal-id" text-anchor="middle" data-container="workflow-node-6">OUTPUT</text>
+      <text id="text-079" x="1558" y="662" class="terminal-heading" text-anchor="middle" data-container="workflow-node-6">Unimodal evidence</text>
+      <text id="text-080" x="1558" y="684" class="terminal-body" text-anchor="middle" data-container="workflow-node-6">Fold metrics + curves</text>
+      <text id="text-081" x="1558" y="704" class="terminal-body" text-anchor="middle" data-container="workflow-node-6">Aligned OOF scores</text>
+      <text id="text-082" x="1558" y="724" class="terminal-body" text-anchor="middle" data-container="workflow-node-6">Inputs to fusion</text>
+    </g>
+  </g>
+  <g id="band-4-summary">
+    <text id="text-083" x="30" y="792" class="footer" data-container="canvas">Independent participants → matched unimodal fits → per-person Development scores → fixed fusion comparator</text>
+  </g>
 </svg>
