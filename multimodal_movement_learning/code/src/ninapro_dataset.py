@@ -377,42 +377,21 @@ def ensure_numerical_cache(
     emg_file = processed / "02_emg_features.npy"
     acc_file = processed / "02_acc_features.npy"
 
-    if verbose:
-        print(f"Numerical cache directory: {processed}", flush=True)
-        print(
-            f"Paired E1 source arrays: {ready_count}/{len(required_pairs)} "
-            "participants present.",
-            flush=True,
-        )
-        print(
-            "Statistical feature files: "
-            f"sEMG={'available' if emg_file.is_file() else 'missing'}, "
-            f"Acc={'available' if acc_file.is_file() else 'missing'}.",
-            flush=True,
-        )
+    # Keep notebook logs focused on input preparation rather than cache
+    # internals; the validation and source-recovery behaviour is unchanged.
+    recovering_sources = ready_count < len(required_pairs)
+    if verbose and recovering_sources:
+        print("Preparing paired sEMG and acceleration recordings...", flush=True)
 
     # Deep temporal models require the saved source-grid arrays, even when
     # the compact classical feature matrices are already available.
     for subject_id, subject, maximum, emg_path, acc_path in required_pairs:
         if not emg_path.is_file() or not acc_path.is_file():
-            started = perf_counter()
-            if verbose:
-                print(
-                    f"{subject_id}: missing processed source arrays; "
-                    "recovering E1 from the local archive or official source...",
-                    flush=True,
-                )
             source = ensure_subject_archive(
                 raw, subject, download=allow_source_download
             )
             record = load_exercise(source, subject, exercise=1)
             save_source_arrays(record, processed)
-            if verbose:
-                print(
-                    f"{subject_id}: paired arrays ready "
-                    f"({perf_counter() - started:.1f} s).",
-                    flush=True,
-                )
 
         # Opening .npy files with mmap_mode reads array metadata rather than
         # materialising all source samples in RAM.
@@ -429,10 +408,9 @@ def ensure_numerical_cache(
             )
         del emg, acc
 
-    if verbose:
+    if verbose and recovering_sources:
         print(
-            f"Validated paired source arrays for {len(required_pairs)} "
-            "participants.",
+            f"Paired recordings ready for {len(required_pairs)} participants.",
             flush=True,
         )
 
@@ -449,13 +427,9 @@ def ensure_numerical_cache(
             check_artifact_alignment(index, (emg_features, acc_features))
             if emg_features.shape[1] != 48 or acc_features.shape[1] != 96:
                 raise ValueError("Unexpected saved feature dimensions.")
-        except (ValueError, OSError, EOFError) as exc:
+        except (ValueError, OSError, EOFError):
             if verbose:
-                print(
-                    f"Existing feature cache could not be reused ({exc}). "
-                    "Recomputing features from the fixed window index...",
-                    flush=True,
-                )
+                print("Preparing statistical feature arrays...", flush=True)
         else:
             if verbose:
                 print(
@@ -466,10 +440,7 @@ def ensure_numerical_cache(
             return emg_features, acc_features
 
     if verbose:
-        print(
-            "Extracting statistical features for the fixed paired windows...",
-            flush=True,
-        )
+        print("Extracting statistical features from the paired windows...", flush=True)
     started = perf_counter()
     emg_features, acc_features = construct_feature_arrays(index, processed)
     check_artifact_alignment(index, (emg_features, acc_features))

@@ -180,8 +180,9 @@ def test_numerical_cache_reuses_existing_features_without_recomputation(
     np.testing.assert_allclose(emg, expected_emg)
     np.testing.assert_allclose(acc, expected_acc)
     output = capsys.readouterr().out
-    assert "Paired E1 source arrays: 3/3 participants present." in output
     assert "Reused both saved statistical feature arrays" in output
+    assert "missing processed source arrays" not in output
+    assert "Preparing paired sEMG" not in output
 
 
 def test_numerical_cache_recovers_only_missing_subject_arrays(
@@ -201,8 +202,9 @@ def test_numerical_cache_recovers_only_missing_subject_arrays(
     np.testing.assert_allclose(emg, expected_emg)
     np.testing.assert_allclose(acc, expected_acc)
     output = capsys.readouterr().out
-    assert "Paired E1 source arrays: 2/3 participants present." in output
-    assert "S02: missing processed source arrays" in output
+    assert "Preparing paired sEMG and acceleration recordings" in output
+    assert "Paired recordings ready for 3 participants." in output
+    assert "missing processed source arrays" not in output
     assert "Reused both saved statistical feature arrays" in output
 
 
