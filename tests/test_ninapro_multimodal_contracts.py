@@ -289,3 +289,75 @@ def test_loader_prefetch_policy_and_modality_only_batches(tmp_path):
     assert cuda_loader.num_workers == 2
     assert cuda_loader.pin_memory is True
     assert cuda_loader.persistent_workers is True
+
+
+def test_staged_acceleration_matches_streamed_windows_and_targets(tmp_path):
+    """GPU-cache preparation preserves every original float32 window and label."""
+    import torch
+    from ninapro_training import _loader, _stage_acceleration_windows
+
+    index, processed, _, _ = _cohort(tmp_path, people=3)
+    rows = index.iloc[:23].reset_index(drop=True)
+    classes = np.array([0, 1, 2, 3])
+    stats = training_channel_stats(
+        rows, processed, modality="acc", max_windows=12,
+    )
+    original = _loader(
+        rows, processed, classes, stats, batch_size=5, shuffle=False,
+        model_name="D1_acc_cnn", device=torch.device("cpu"),
+    )
+    cached = _stage_acceleration_windows(
+        rows, processed, classes, stats, batch_size=5,
+        device=torch.device("cpu"), shuffle=False,
+    )
+    assert len(cached) == len(original)
+    for (emg_old, acc_old, labels_old), (emg_new, acc_new, labels_new) in zip(
+        original, cached,
+    ):
+        assert emg_old.shape == emg_new.shape
+        assert emg_new.numel() == 0
+        torch.testing.assert_close(acc_new, acc_old, rtol=0, atol=0)
+        torch.testing.assert_close(labels_new, labels_old, rtol=0, atol=0)
+
+    # A second epoch reuses exactly the same prepared windows.
+    repeated = list(cached)
+    assert len(repeated) == len(cached)
+    for (_, acc_first, labels_first), (_, acc_again, labels_again) in zip(
+        cached, repeated,
+    ):
+        torch.testing.assert_close(acc_first, acc_again, rtol=0, atol=0)
+        torch.testing.assert_close(labels_first, labels_again, rtol=0, atol=0)
+
+
+def test_acceleration_cuda_cache_does_not_run_on_cpu(tmp_path):
+    """Memory-dependent caching cannot accidentally affect a CPU-only run."""
+    import torch
+    from ninapro_training import _can_stage_acceleration
+
+    index, _, _, _ = _cohort(tmp_path, people=3)
+    use_cache, requested_gib = _can_stage_acceleration(
+        index, None, torch.device("cpu"),
+    )
+    assert use_cache is False
+    assert requested_gib == 0.0
+
+
+def test_gpu_acceleration_batches_retain_window_count_and_epoch_order():
+    """Shuffled GPU-resident batches cover every sample exactly once."""
+    import torch
+    from ninapro_training import _GPUAccelerationBatches
+
+    windows = torch.arange(8 * 36 * 4, dtype=torch.float32).reshape(8, 36, 4)
+    labels = torch.arange(8, dtype=torch.long)
+    cached = _GPUAccelerationBatches(
+        windows, labels, batch_size=3, shuffle=True,
+    )
+    assert len(cached) == 3
+    for _ in range(2):
+        emitted = []
+        for unused, acc, target in cached:
+            assert unused.numel() == 0
+            assert acc.shape[1:] == (36, 4)
+            torch.testing.assert_close(acc, windows.index_select(0, target))
+            emitted.extend(target.tolist())
+        assert sorted(emitted) == list(range(8))

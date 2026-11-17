@@ -63,6 +63,103 @@ def _loader(table, processed_dir, classes, stats, *, batch_size, shuffle,
     return DataLoader(dataset, **options)
 
 
+class _GPUAccelerationBatches:
+    """Index contiguous GPU-resident acceleration windows in whole batches.
+
+    Training-only centring has already been applied by PairedWindowDataset.
+    This avoids per-window Python indexing and repeated source-file reads in
+    every epoch. One batch is assembled with a single GPU index operation.
+    """
+
+    def __init__(self, acceleration, targets, *, batch_size: int, shuffle: bool):
+        if len(acceleration) != len(targets):
+            raise ValueError("Cached acceleration windows and labels differ.")
+        self.acceleration = acceleration
+        self.targets = targets
+        self.batch_size = int(batch_size)
+        self.shuffle = bool(shuffle)
+        self.num_workers = 0
+        self.pin_memory = False
+
+    def __len__(self):
+        return (len(self.targets) + self.batch_size - 1) // self.batch_size
+
+    def __iter__(self):
+        n = len(self.targets)
+        device = self.acceleration.device
+        order = (
+            torch.randperm(n, device=device)
+            if self.shuffle else torch.arange(n, device=device)
+        )
+        for indices in order.split(self.batch_size):
+            batch_acc = self.acceleration.index_select(0, indices)
+            batch_labels = self.targets.index_select(0, indices)
+            unused_emg = torch.empty(
+                (len(indices), 0, 0), dtype=torch.float32, device=device,
+            )
+            yield unused_emg, batch_acc, batch_labels
+
+
+def _stage_acceleration_windows(
+    table, processed_dir, classes, stats, *, batch_size, device,
+    shuffle: bool,
+):
+    """Read each requested acceleration window once into contiguous GPU memory.
+
+    The index order is preserved, and normalisation is identical to the
+    existing per-window NumPy implementation. This helper can also be tested
+    on a CPU with a small synthetic cohort; production staging is CUDA-only.
+    """
+    if table.empty:
+        raise ValueError("Cannot stage empty acceleration windows.")
+    lengths = (table.end_sample - table.start_sample).unique()
+    if len(lengths) != 1 or int(lengths[0]) < 1:
+        raise ValueError("Acceleration staging requires a fixed window length.")
+    length = int(lengths[0])
+    n = len(table)
+    acceleration = torch.empty(
+        (n, 36, length), dtype=torch.float32, device=device,
+    )
+    targets = torch.empty(n, dtype=torch.long, device=device)
+    source = _loader(
+        table, processed_dir, classes, stats, batch_size=batch_size,
+        shuffle=False, model_name="D1_acc_cnn", device=device,
+    )
+    offset = 0
+    for _, acc, label in source:
+        batch = len(label)
+        acceleration[offset:offset + batch].copy_(
+            acc.to(device, non_blocking=True), non_blocking=True,
+        )
+        targets[offset:offset + batch].copy_(
+            label.to(device, non_blocking=True), non_blocking=True,
+        )
+        offset += batch
+    if offset != n:
+        raise ValueError("Not all expected acceleration windows were staged.")
+    if torch.device(device).type == "cuda":
+        torch.cuda.synchronize(device)
+    del source
+    return _GPUAccelerationBatches(
+        acceleration, targets, batch_size=batch_size, shuffle=shuffle,
+    )
+
+
+def _can_stage_acceleration(fitting, inner, device) -> tuple[bool, float]:
+    """Keep a conservative CUDA reserve for the model and its activations."""
+    if torch.device(device).type != "cuda" or not torch.cuda.is_available():
+        return False, 0.0
+    lengths = (fitting.end_sample - fitting.start_sample).unique()
+    if len(lengths) != 1:
+        return False, 0.0
+    windows = len(fitting) + (0 if inner is None else len(inner))
+    storage_bytes = windows * 36 * int(lengths[0]) * 4
+    free_bytes, total_bytes = torch.cuda.mem_get_info(device)
+    reserve_bytes = max(4 * (1024 ** 3), int(total_bytes * 0.25))
+    safe_space = max(0, free_bytes - reserve_bytes)
+    return storage_bytes <= safe_space * 0.75, storage_bytes / (1024 ** 3)
+
+
 def fit_neural(
     model_name: str, train_table: pd.DataFrame, processed_dir,
     classes: np.ndarray, *, device, seed: int = 42, epochs: int = 10,
@@ -91,25 +188,76 @@ def fit_neural(
     else:
         inner = None
         fitting = train_table
+    preparation_started = perf_counter()
     stats = training_channel_stats(
         fitting, processed_dir, modality=_input_modality(model_name),
     )
-    train_loader = _loader(
-        fitting, processed_dir, classes, stats, batch_size=batch_size,
-        shuffle=True, model_name=model_name, device=device,
-    )
-    val_loader = None if inner is None else _loader(
-        inner, processed_dir, classes, stats, batch_size=batch_size,
-        shuffle=False, model_name=model_name, device=device,
-    )
+    train_loader, val_loader = None, None
+    staged = False
+    if _input_modality(model_name) == "acc":
+        can_stage, required_gib = _can_stage_acceleration(
+            fitting, inner, device,
+        )
+        if can_stage:
+            if show_progress:
+                print(
+                    f"  Acceleration cache: staging {required_gib:.2f} GiB "
+                    "of Training-only normalised windows on CUDA...",
+                    flush=True,
+                )
+            stage_started = perf_counter()
+            try:
+                train_loader = _stage_acceleration_windows(
+                    fitting, processed_dir, classes, stats,
+                    batch_size=batch_size, device=device, shuffle=True,
+                )
+                if inner is not None:
+                    val_loader = _stage_acceleration_windows(
+                        inner, processed_dir, classes, stats,
+                        batch_size=batch_size, device=device, shuffle=False,
+                    )
+                staged = True
+            except torch.cuda.OutOfMemoryError:
+                train_loader, val_loader = None, None
+                torch.cuda.empty_cache()
+                if show_progress:
+                    print(
+                        "  Acceleration cache exceeded available VRAM; "
+                        "falling back to streamed windows.",
+                        flush=True,
+                    )
+            if staged and show_progress:
+                print(
+                    f"  Acceleration cache ready in "
+                    f"{perf_counter() - stage_started:.1f} s; "
+                    "reused across all epochs of this fold.",
+                    flush=True,
+                )
+        elif show_progress and torch.device(device).type == "cuda":
+            print(
+                f"  Acceleration cache: {required_gib:.2f} GiB requested; "
+                "insufficient safe VRAM, using streamed windows.",
+                flush=True,
+            )
+    if train_loader is None:
+        train_loader = _loader(
+            fitting, processed_dir, classes, stats, batch_size=batch_size,
+            shuffle=True, model_name=model_name, device=device,
+        )
+        val_loader = None if inner is None else _loader(
+            inner, processed_dir, classes, stats, batch_size=batch_size,
+            shuffle=False, model_name=model_name, device=device,
+        )
     if show_progress:
         print(
             f"  Data loader: {_input_modality(model_name)} only "
+            f"| {'GPU-cached' if staged else 'streamed'} "
             f"| workers={train_loader.num_workers} "
             f"| pinned memory={train_loader.pin_memory} "
             f"| batch size={batch_size}",
             flush=True,
         )
+    preparation_seconds = perf_counter() - preparation_started
     model = build_neural_model(model_name, len(classes)).to(device)
     optimizer = torch.optim.AdamW(model.parameters(), lr=learning_rate,
                                   weight_decay=1e-3)
@@ -147,6 +295,10 @@ def fit_neural(
             optimizer.step()
             accumulated_loss.add_(loss.detach())
             number_of_batches += 1
+        if torch.device(device).type == "cuda":
+            torch.cuda.synchronize(device)
+        train_seconds = perf_counter() - epoch_started
+        validation_started = perf_counter()
         val_f1 = np.nan
         if val_loader is not None:
             probs = _predict_loader(model_name, model, val_loader, device)
@@ -159,10 +311,14 @@ def fit_neural(
                 best_state = deepcopy({k: v.detach().cpu() for k, v in model.state_dict().items()})
             else:
                 misses += 1
+        validation_seconds = perf_counter() - validation_started
         epoch_loss = float((accumulated_loss / number_of_batches).item())
+        epoch_seconds = perf_counter() - epoch_started
         history.append({"epoch": epoch, "train_loss": epoch_loss,
                         "inner_validation_macro_f1": val_f1, "model_id": model_name,
-                        "seed": seed})
+                        "seed": seed, "training_seconds": train_seconds,
+                        "inner_validation_seconds": validation_seconds,
+                        "epoch_seconds": epoch_seconds})
         if show_progress:
             validation_text = (
                 f"{val_f1:.4f}" if np.isfinite(val_f1) else "not evaluated"
@@ -170,7 +326,9 @@ def fit_neural(
             print(
                 f"  {model_name} | seed={seed} | epoch {epoch}/{n_epochs} "
                 f"| loss={epoch_loss:.4f} | inner macro F1={validation_text} "
-                f"| {perf_counter() - epoch_started:.1f} s",
+                f"| train={train_seconds:.1f} s | "
+                f"inner validation={validation_seconds:.1f} s | "
+                f"total={epoch_seconds:.1f} s",
                 flush=True,
             )
         if val_loader is not None and misses >= patience:
@@ -184,6 +342,8 @@ def fit_neural(
         "model_id": model_name, "seed": seed, "best_epochs": int(best_epoch),
         "fit_seconds": float(fit_seconds),
         "parameter_count": count_parameters(model),
+        "data_preparation_seconds": float(preparation_seconds),
+        "acceleration_gpu_cached": bool(staged),
         "inner_validation_people": 0 if inner is None else inner.subject_id.nunique(),
         "device": str(device),
     }
