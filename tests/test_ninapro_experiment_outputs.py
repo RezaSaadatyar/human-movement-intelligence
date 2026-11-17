@@ -17,7 +17,7 @@ from ninapro_experiments import (
     load_completed_model, run_classical_arm, run_unimodal_arm,
 )
 from ninapro_models import UNIMODAL_MODELS
-from ninapro_evaluation import build_classical
+from ninapro_evaluation import build_classical, per_class_oof_report, participant_metrics
 
 
 def synthetic_metadata():
@@ -156,3 +156,59 @@ def test_neural_fits_with_synthetic_source_windows(tmp_path):
     )
     assert len(metrics) == 6 and len(predictions) == len(rows)
     assert set(history.validation_fold) == {0, 1}
+
+
+def test_per_class_oof_report_preserves_participant_macro_f1_definition():
+    """Absent classes count as zero for each person's fixed-class macro F1."""
+    labels = np.array([0, 1, 2, 3])
+    table = pd.DataFrame({
+        "subject_id": ["S01", "S02", "S03", "S04"],
+        "window_key": ["one", "two", "three", "four"],
+        "label": [0, 1, 2, 0],
+    })
+    probabilities = np.eye(4, dtype=np.float32)[[0, 1, 2, 0]]
+    report = per_class_oof_report(
+        table, probabilities, labels, model_id="B1_rf",
+    )
+    metrics = participant_metrics(
+        table, probabilities, labels, model_id="B1_rf",
+    )
+    assert len(report) == len(labels)
+    assert report.class_label.tolist() == labels.tolist()
+    assert report.support_windows.tolist() == [2, 1, 1, 0]
+    assert report.participants_with_support.tolist() == [2, 1, 1, 0]
+    assert (report.loc[report.class_label == 3, [
+        "pooled_precision", "pooled_recall", "pooled_f1",
+        "mean_participant_precision", "mean_participant_recall",
+        "mean_participant_f1",
+    ]] == 0).all().all()
+    assert np.isclose(
+        report.mean_participant_f1.mean(), metrics.macro_f1.mean(),
+    )
+    assert np.isclose(metrics.macro_f1.mean(), 0.25)
+    assert np.isclose(report.pooled_f1.mean(), 0.75)
+
+
+def test_per_class_oof_report_catches_alignment_and_invalid_inputs():
+    labels = np.array([0, 1])
+    table = pd.DataFrame({
+        "subject_id": ["S01", "S02"],
+        "window_key": ["first", "second"],
+        "label": [0, 1],
+    })
+    probabilities = np.eye(2, dtype=np.float32)
+    with pytest.raises(ValueError, match="probability rows differ"):
+        per_class_oof_report(
+            table, probabilities[:1], labels, model_id="B1_rf",
+        )
+    with pytest.raises(ValueError, match="missing values"):
+        per_class_oof_report(
+            table, np.full((2, 2), np.nan), labels,
+            model_id="B1_rf",
+        )
+    duplicated = table.copy()
+    duplicated.loc[1, "window_key"] = duplicated.loc[0, "window_key"]
+    with pytest.raises(ValueError, match="duplicate window keys"):
+        per_class_oof_report(
+            duplicated, probabilities, labels, model_id="B1_rf",
+        )

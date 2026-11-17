@@ -8,7 +8,7 @@ import pandas as pd
 from sklearn.dummy import DummyClassifier
 from sklearn.ensemble import RandomForestClassifier
 from sklearn.linear_model import LogisticRegression
-from sklearn.metrics import confusion_matrix, f1_score
+from sklearn.metrics import confusion_matrix, f1_score, precision_recall_fscore_support
 from sklearn.pipeline import make_pipeline
 from sklearn.preprocessing import StandardScaler
 
@@ -99,6 +99,67 @@ def participant_metrics(
         output.append({"model_id": model_id, "subject_id": subject,
                        "validation_fold": fold, "seed": seed, **score})
     return pd.DataFrame(output)
+
+
+def per_class_oof_report(
+    metadata: pd.DataFrame, probabilities: np.ndarray, classes: np.ndarray,
+    *, model_id: str,
+) -> pd.DataFrame:
+    """Describe each fixed class across the same Development OOF windows.
+
+    Pooled precision/recall/F1 summarise individual windows. The participant-
+    mean columns give each held-out person equal weight, treating unsupported
+    classes as zero in the fixed-class macro-F1 convention. These are
+    descriptive OOF diagnostics, not independent Test estimates.
+    """
+    rows = metadata.reset_index(drop=True)
+    classes = np.asarray(classes, dtype=int)
+    probabilities = np.asarray(probabilities)
+    if rows.empty or len(rows) != len(probabilities):
+        raise ValueError("Per-class OOF metadata and probability rows differ.")
+    if probabilities.shape != (len(rows), len(classes)):
+        raise ValueError("Per-class OOF probability columns are misaligned.")
+    if not np.isfinite(probabilities).all():
+        raise ValueError("Per-class OOF probabilities contain missing values.")
+    if "window_key" in rows and not rows.window_key.is_unique:
+        raise ValueError("Per-class OOF input contains duplicate window keys.")
+    true = rows.label.to_numpy(dtype=int)
+    if not np.isin(true, classes).all():
+        raise ValueError("Per-class OOF labels are outside the fixed class set.")
+    predicted = predictions_from_probabilities(probabilities, classes)
+    pooled_p, pooled_r, pooled_f, support = precision_recall_fscore_support(
+        true, predicted, labels=classes, zero_division=0,
+    )
+    per_person_p, per_person_r, per_person_f, support_per_person = [], [], [], []
+    for _, part in rows.groupby("subject_id", sort=True):
+        positions = part.index.to_numpy(dtype=int)
+        person_p, person_r, person_f, person_support = (
+            precision_recall_fscore_support(
+                true[positions], predicted[positions],
+                labels=classes, zero_division=0,
+            )
+        )
+        per_person_p.append(person_p)
+        per_person_r.append(person_r)
+        per_person_f.append(person_f)
+        support_per_person.append(person_support)
+
+    people_with_support = (np.stack(support_per_person) > 0).sum(axis=0)
+    return pd.DataFrame({
+        "model_id": model_id,
+        "class_label": classes,
+        "support_windows": support.astype(int),
+        "predicted_windows": np.asarray(
+            [(predicted == label).sum() for label in classes], dtype=int,
+        ),
+        "participants_with_support": people_with_support.astype(int),
+        "pooled_precision": pooled_p,
+        "pooled_recall": pooled_r,
+        "pooled_f1": pooled_f,
+        "mean_participant_precision": np.stack(per_person_p).mean(axis=0),
+        "mean_participant_recall": np.stack(per_person_r).mean(axis=0),
+        "mean_participant_f1": np.stack(per_person_f).mean(axis=0),
+    })
 
 
 def select_model(metrics: pd.DataFrame, candidates: list[str] | tuple[str, ...]) -> tuple[str, pd.DataFrame]:
