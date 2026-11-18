@@ -193,6 +193,10 @@ def test_notebook04_cells_are_structured_and_unexecuted():
                for cell in code_cells) == 2
     assert sum("run_fixed_late_arm(" in "".join(cell["source"])
                for cell in code_cells) == 3
+    all_code = "\n".join("".join(cell["source"]) for cell in code_cells)
+    assert "04_all_fusion_per_class_metrics.csv" in all_code
+    assert "04_fusion_class_errors_normalised.png" in all_code
+    assert "04_fusion_per_class_f1_heatmap.png" in all_code
     for cell in code_cells:
         source = "".join(cell["source"])
         if not source.lstrip().startswith(
