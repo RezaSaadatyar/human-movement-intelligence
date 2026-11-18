@@ -21,9 +21,10 @@ from ninapro_fusion_experiments import (
     load_unimodal_oof, load_completed_fusion_arm,
     run_early_fusion_arm, run_fixed_late_arm,
 )
-from ninapro_models import UNIMODAL_MODELS
+from ninapro_models import UNIMODAL_MODELS, FUSION_MODELS
 from ninapro_training import (
     _loader, _stage_paired_windows, _can_stage_paired,
+    fit_neural, predict_neural,
 )
 
 
@@ -236,3 +237,44 @@ def test_notebook04_scientific_svg_matches_five_band_reference():
         element.get("id") for element in root.iter()
         if element.get("id") is not None
     }) == sum(element.get("id") is not None for element in root.iter())
+
+
+@pytest.mark.parametrize("model_name", FUSION_MODELS)
+def test_neural_fusion_cpu_training_and_predictive_contract(
+    tmp_path, model_name,
+):
+    """One synthetic epoch tests paired forward, backward and held-out OOF."""
+    _, development, processed = _tiny_cohort(tmp_path)
+    classes = np.array([0, 1])
+    fitting = development.loc[
+        development.validation_fold != 0
+    ].reset_index(drop=True)
+    validation = development.loc[
+        development.validation_fold == 0
+    ].reset_index(drop=True)
+    device = torch.device("cpu")
+    trained, stats, history, info = fit_neural(
+        model_name, fitting, processed, classes, device=device,
+        seed=42, epochs=1, patience=1, batch_size=8,
+    )
+    assert info["model_id"] == model_name
+    assert len(history) == 1
+    assert not info["paired_gpu_cached"]
+    predicted = predict_neural(
+        model_name, trained, validation, processed,
+        classes, stats, device=device, batch_size=8,
+    )
+    assert predicted.shape == (len(validation), len(classes))
+    assert np.isfinite(predicted).all()
+    np.testing.assert_allclose(
+        predicted.sum(axis=1), np.ones(len(validation)),
+        atol=1e-5,
+    )
+    if model_name in ("F3_dual_cnn", "F5_cross_attention"):
+        ablated = predict_neural(
+            model_name, trained, validation, processed,
+            classes, stats, device=device, batch_size=8,
+            perturbation="acc_missing_mean",
+        )
+        assert ablated.shape == predicted.shape
+        assert np.isfinite(ablated).all()
