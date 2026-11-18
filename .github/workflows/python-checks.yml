@@ -9,6 +9,8 @@ on:
       - "biomechanical_load_estimation/code/notebooks/**"
       - "wearable_activity_recognition/code/src/**"
       - "wearable_activity_recognition/code/notebooks/**"
+      - "multimodal_movement_learning/code/src/**"
+      - "multimodal_movement_learning/code/notebooks/**"
       - "tests/**"
       - ".github/workflows/python-checks.yml"
   workflow_dispatch:
@@ -30,8 +32,12 @@ jobs:
       - name: Install standard Python dependencies
         run: python -m pip install -r requirements.txt
       - name: Check Python syntax
-        run: python -m compileall -q python_modules biomechanical_load_estimation/code/src wearable_activity_recognition/code/src tests
+        run: python -m compileall -q python_modules biomechanical_load_estimation/code/src wearable_activity_recognition/code/src multimodal_movement_learning/code/src tests
+      - name: Install NinaPro test runner
+        run: python -m pip install pytest
       - name: Run offline tests
         run: python -m unittest discover -s tests -v
+      - name: Validate NinaPro scientific and notebook contracts
+        run: python -m pytest -q tests/test_ninapro_multimodal_contracts.py tests/test_ninapro_experiment_outputs.py tests/test_ninapro_fusion_contracts.py
       - name: Validate Essex notebook syntax and current result tables
         run: python -m unittest discover -s tests -p 'test_essex_workflow.py' -v

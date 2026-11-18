@@ -100,6 +100,80 @@ class _GPUAccelerationBatches:
             yield unused_emg, batch_acc, batch_labels
 
 
+class _GPUPairedBatches:
+    """Return paired float32 windows directly from fold-local GPU storage."""
+
+    def __init__(self, emg, acceleration, targets, *, batch_size, shuffle):
+        if not (len(emg) == len(acceleration) == len(targets)):
+            raise ValueError("GPU paired cache has misaligned sample counts.")
+        self.emg = emg
+        self.acceleration = acceleration
+        self.targets = targets
+        self.batch_size = int(batch_size)
+        self.shuffle = bool(shuffle)
+        self.num_workers = 0
+        self.pin_memory = False
+
+    def __len__(self):
+        return (len(self.targets) + self.batch_size - 1) // self.batch_size
+
+    def __iter__(self):
+        n = len(self.targets)
+        device = self.targets.device
+        indices = (
+            torch.randperm(n, device=device)
+            if self.shuffle else torch.arange(n, device=device)
+        )
+        for selected in indices.split(self.batch_size):
+            yield (
+                self.emg.index_select(0, selected),
+                self.acceleration.index_select(0, selected),
+                self.targets.index_select(0, selected),
+            )
+
+
+def _stage_paired_windows(
+    table, processed_dir, classes, stats, *, batch_size, device, shuffle,
+    model_name,
+):
+    """Stage identical source-aligned sEMG and acceleration windows once."""
+    if table.empty:
+        raise ValueError("Cannot stage empty paired windows.")
+    lengths = (table.end_sample - table.start_sample).unique()
+    if len(lengths) != 1 or int(lengths[0]) < 1:
+        raise ValueError("Paired GPU staging requires a fixed window length.")
+    n, length = len(table), int(lengths[0])
+    emg = torch.empty((n, 12, length), dtype=torch.float32, device=device)
+    acc = torch.empty((n, 36, length), dtype=torch.float32, device=device)
+    targets = torch.empty(n, dtype=torch.long, device=device)
+    source = _loader(
+        table, processed_dir, classes, stats,
+        batch_size=batch_size, shuffle=False, model_name=model_name,
+        device=device,
+    )
+    offset = 0
+    for source_emg, source_acc, labels in source:
+        count = len(labels)
+        emg[offset:offset + count].copy_(
+            source_emg.to(device, non_blocking=True), non_blocking=True,
+        )
+        acc[offset:offset + count].copy_(
+            source_acc.to(device, non_blocking=True), non_blocking=True,
+        )
+        targets[offset:offset + count].copy_(
+            labels.to(device, non_blocking=True), non_blocking=True,
+        )
+        offset += count
+    if offset != n:
+        raise ValueError("Not all requested paired windows were staged.")
+    if torch.device(device).type == "cuda":
+        torch.cuda.synchronize(device)
+    del source
+    return _GPUPairedBatches(
+        emg, acc, targets, batch_size=batch_size, shuffle=shuffle,
+    )
+
+
 def _stage_acceleration_windows(
     table, processed_dir, classes, stats, *, batch_size, device,
     shuffle: bool,
@@ -145,19 +219,29 @@ def _stage_acceleration_windows(
     )
 
 
-def _can_stage_acceleration(fitting, inner, device) -> tuple[bool, float]:
-    """Keep a conservative CUDA reserve for the model and its activations."""
+def _can_stage_channels(fitting, inner, device, *, channels):
+    """Reserve ample VRAM for convolution activations before caching windows."""
     if torch.device(device).type != "cuda" or not torch.cuda.is_available():
         return False, 0.0
     lengths = (fitting.end_sample - fitting.start_sample).unique()
-    if len(lengths) != 1:
+    if len(lengths) != 1 or int(lengths[0]) < 1:
         return False, 0.0
     windows = len(fitting) + (0 if inner is None else len(inner))
-    storage_bytes = windows * 36 * int(lengths[0]) * 4
+    bytes_needed = windows * channels * int(lengths[0]) * 4
     free_bytes, total_bytes = torch.cuda.mem_get_info(device)
     reserve_bytes = max(4 * (1024 ** 3), int(total_bytes * 0.25))
     safe_space = max(0, free_bytes - reserve_bytes)
-    return storage_bytes <= safe_space * 0.75, storage_bytes / (1024 ** 3)
+    return bytes_needed <= safe_space * 0.75, bytes_needed / (1024 ** 3)
+
+
+def _can_stage_acceleration(fitting, inner, device) -> tuple[bool, float]:
+    """Preserve the tested acceleration-only capacity policy."""
+    return _can_stage_channels(fitting, inner, device, channels=36)
+
+
+def _can_stage_paired(fitting, inner, device) -> tuple[bool, float]:
+    """Budget twelve sEMG and thirty-six acceleration channels jointly."""
+    return _can_stage_channels(fitting, inner, device, channels=48)
 
 
 def fit_neural(
@@ -194,49 +278,57 @@ def fit_neural(
     )
     train_loader, val_loader = None, None
     staged = False
-    if _input_modality(model_name) == "acc":
-        can_stage, required_gib = _can_stage_acceleration(
-            fitting, inner, device,
+    modality = _input_modality(model_name)
+    if modality in ("acc", "both"):
+        can_stage, required_gib = (
+            _can_stage_acceleration(fitting, inner, device)
+            if modality == "acc" else _can_stage_paired(fitting, inner, device)
         )
+        cache_name = "Acceleration" if modality == "acc" else "Paired"
         if can_stage:
             if show_progress:
                 print(
-                    f"  Acceleration cache: staging {required_gib:.2f} GiB "
-                    "of Training-only normalised windows on CUDA...",
+                    f"  {cache_name} cache: preparing {required_gib:.2f} GiB "
+                    "of Training-normalised windows on CUDA...",
                     flush=True,
                 )
             stage_started = perf_counter()
             try:
-                train_loader = _stage_acceleration_windows(
-                    fitting, processed_dir, classes, stats,
-                    batch_size=batch_size, device=device, shuffle=True,
-                )
-                if inner is not None:
-                    val_loader = _stage_acceleration_windows(
-                        inner, processed_dir, classes, stats,
-                        batch_size=batch_size, device=device, shuffle=False,
+                def prepare(table, shuffle):
+                    if modality == "acc":
+                        return _stage_acceleration_windows(
+                            table, processed_dir, classes, stats,
+                            batch_size=batch_size, device=device, shuffle=shuffle,
+                        )
+                    return _stage_paired_windows(
+                        table, processed_dir, classes, stats,
+                        batch_size=batch_size, device=device, shuffle=shuffle,
+                        model_name=model_name,
                     )
+                train_loader = prepare(fitting, True)
+                if inner is not None:
+                    val_loader = prepare(inner, False)
                 staged = True
             except torch.cuda.OutOfMemoryError:
                 train_loader, val_loader = None, None
                 torch.cuda.empty_cache()
                 if show_progress:
                     print(
-                        "  Acceleration cache exceeded available VRAM; "
-                        "falling back to streamed windows.",
+                        f"  {cache_name} cache exceeded available VRAM; "
+                        "using streamed input windows.",
                         flush=True,
                     )
             if staged and show_progress:
                 print(
-                    f"  Acceleration cache ready in "
+                    f"  {cache_name} cache ready in "
                     f"{perf_counter() - stage_started:.1f} s; "
-                    "reused across all epochs of this fold.",
+                    "reused across the fold's training epochs.",
                     flush=True,
                 )
         elif show_progress and torch.device(device).type == "cuda":
             print(
-                f"  Acceleration cache: {required_gib:.2f} GiB requested; "
-                "insufficient safe VRAM, using streamed windows.",
+                f"  {cache_name} cache: {required_gib:.2f} GiB required; "
+                "using streamed input windows to preserve GPU memory.",
                 flush=True,
             )
     if train_loader is None:
@@ -250,7 +342,7 @@ def fit_neural(
         )
     if show_progress:
         print(
-            f"  Data loader: {_input_modality(model_name)} only "
+            f"  Data loader: {modality} "
             f"| {'GPU-cached' if staged else 'streamed'} "
             f"| workers={train_loader.num_workers} "
             f"| pinned memory={train_loader.pin_memory} "
@@ -343,7 +435,8 @@ def fit_neural(
         "fit_seconds": float(fit_seconds),
         "parameter_count": count_parameters(model),
         "data_preparation_seconds": float(preparation_seconds),
-        "acceleration_gpu_cached": bool(staged),
+        "acceleration_gpu_cached": bool(staged and modality == "acc"),
+        "paired_gpu_cached": bool(staged and modality == "both"),
         "inner_validation_people": 0 if inner is None else inner.subject_id.nunique(),
         "device": str(device),
     }
