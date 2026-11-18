@@ -4,6 +4,7 @@ from __future__ import annotations
 
 import json
 from pathlib import Path
+import xml.etree.ElementTree as ET
 import sys
 
 import numpy as np
@@ -203,3 +204,35 @@ def test_notebook04_cells_are_structured_and_unexecuted():
             "# ======================== 00. Colab Repository Setup"
         ):
             compile(source, "notebook04-cell", "exec")
+
+
+def test_notebook04_scientific_svg_matches_five_band_reference():
+    """Fusion figure keeps editable scientific content in the common geometry."""
+    svg_file = (
+        REPO / "multimodal_movement_learning" / "images"
+        / "04_fusion_and_modality_ablations.svg"
+    )
+    root = ET.parse(svg_file).getroot()
+    namespace = "{http://www.w3.org/2000/svg}"
+    assert root.get("width") == "1700"
+    assert root.get("height") == "816"
+    assert root.get("viewBox") == "0 0 1700 816"
+    labelled = [
+        "".join(element.itertext())
+        for element in root.iter(f"{namespace}text")
+    ]
+    assert not any(text.startswith("BAND ") for text in labelled)
+    assert any("Development" in text for text in labelled)
+    assert any("Test" in text for text in labelled)
+    assert any("F2 / F4" in text for text in labelled)
+    assert any("F3" in text for text in labelled)
+    assert any("F5" in text for text in labelled)
+    panels = [
+        element for element in root.iter(f"{namespace}g")
+        if element.get("id", "").startswith("evidence-panel-")
+    ]
+    assert len(panels) == 4
+    assert len({
+        element.get("id") for element in root.iter()
+        if element.get("id") is not None
+    }) == sum(element.get("id") is not None for element in root.iter())
