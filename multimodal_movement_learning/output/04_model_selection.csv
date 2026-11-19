@@ -1,0 +1,3 @@
+selection_role,model_id,component_emg,component_acc
+unimodal_comparator,B1_rf,,
+fusion_comparator,F1_rf,,
