@@ -1,34 +1,210 @@
-<svg xmlns="http://www.w3.org/2000/svg" width="1700" height="480" viewBox="0 0 1700 480" role="img" font-family="DejaVu Sans, Arial, sans-serif">
-<title>Frozen model comparison on previously unseen participants</title>
-<desc>Development-selected recipes to all-Development refits to reserved Test evaluation. Offline within-dataset generalisation is measured; findings do not establish online prosthetic or clinical performance.</desc>
-<rect width="1700" height="480" fill="#F4F9FD"/>
-<text x="40" y="46" fill="#173453" font-size="26" font-weight="bold"><tspan x="40" dy="0">Frozen model comparison on previously unseen participants</tspan></text>
-<rect x="40" y="73" width="1620" height="108" rx="15" fill="#EAF3FA" stroke="#C7D9E6" stroke-width="2"/>
-<text x="62" y="110" fill="#173453" font-size="18" font-weight="bold"><tspan x="62" dy="0">Development-selected recipes to all-Development refits to reserved Test evaluation</tspan></text>
-<text x="62" y="150" fill="#506C7E" font-size="15" font-weight="normal"><tspan x="62" dy="0">Model choice and neural epoch count are fixed from Development before the labels of reserved people enter scoring</tspan></text>
-<rect x="40" y="202" width="1620" height="210" rx="15" fill="#EAF3FA" stroke="#C7D9E6" stroke-width="2"/>
-<rect x="56" y="235" width="294" height="136" rx="12" fill="#FFFFFF" stroke="#B8CFDE" stroke-width="2"/>
-<text x="72" y="268" fill="#173453" font-size="18" font-weight="bold"><tspan x="72" dy="0">Frozen recipes</tspan></text>
-<text x="72" y="308" fill="#506C7E" font-size="14" font-weight="normal"><tspan x="72" dy="0">Unimodal comparator</tspan><tspan x="72" dy="24">Fusion comparator</tspan></text>
-<path d="M359 305 h15" stroke="#245E9D" stroke-width="3" stroke-linecap="round"/>
-<path d="M368 298 l8 7 -8 7" stroke="#245E9D" stroke-width="3" fill="none" stroke-linejoin="round"/>
-<rect x="382" y="235" width="294" height="136" rx="12" fill="#FFFFFF" stroke="#B8CFDE" stroke-width="2"/>
-<text x="398" y="268" fill="#173453" font-size="18" font-weight="bold"><tspan x="398" dy="0">Development refits</tspan></text>
-<text x="398" y="308" fill="#506C7E" font-size="14" font-weight="normal"><tspan x="398" dy="0">Fixed preprocessing</tspan><tspan x="398" dy="24">Selected training epochs</tspan></text>
-<path d="M685 305 h15" stroke="#245E9D" stroke-width="3" stroke-linecap="round"/>
-<path d="M694 298 l8 7 -8 7" stroke="#245E9D" stroke-width="3" fill="none" stroke-linejoin="round"/>
-<rect x="708" y="235" width="294" height="136" rx="12" fill="#FFFFFF" stroke="#B8CFDE" stroke-width="2"/>
-<text x="724" y="268" fill="#173453" font-size="18" font-weight="bold"><tspan x="724" dy="0">Held-out predictions</tspan></text>
-<text x="724" y="308" fill="#506C7E" font-size="14" font-weight="normal"><tspan x="724" dy="0">Same paired Test windows</tspan><tspan x="724" dy="24">Fixed source classes</tspan></text>
-<path d="M1011 305 h15" stroke="#245E9D" stroke-width="3" stroke-linecap="round"/>
-<path d="M1020 298 l8 7 -8 7" stroke="#245E9D" stroke-width="3" fill="none" stroke-linejoin="round"/>
-<rect x="1034" y="235" width="294" height="136" rx="12" fill="#FFFFFF" stroke="#B8CFDE" stroke-width="2"/>
-<text x="1050" y="268" fill="#173453" font-size="18" font-weight="bold"><tspan x="1050" dy="0">Independent outcomes</tspan></text>
-<text x="1050" y="308" fill="#506C7E" font-size="14" font-weight="normal"><tspan x="1050" dy="0">Per-person macro F1</tspan><tspan x="1050" dy="24">Paired uncertainty</tspan></text>
-<path d="M1337 305 h15" stroke="#245E9D" stroke-width="3" stroke-linecap="round"/>
-<path d="M1346 298 l8 7 -8 7" stroke="#245E9D" stroke-width="3" fill="none" stroke-linejoin="round"/>
-<rect x="1360" y="235" width="294" height="136" rx="12" fill="#FFFFFF" stroke="#B8CFDE" stroke-width="2"/>
-<text x="1376" y="268" fill="#173453" font-size="18" font-weight="bold"><tspan x="1376" dy="0">Scientific interpretation</tspan></text>
-<text x="1376" y="308" fill="#506C7E" font-size="14" font-weight="normal"><tspan x="1376" dy="0">Class-specific errors</tspan><tspan x="1376" dy="24">Measured CPU cost</tspan></text>
-<text x="40" y="448" fill="#54738A" font-size="15" font-weight="normal"><tspan x="40" dy="0">Offline within-dataset generalisation is measured; findings do not establish online prosthetic or clinical performance.</tspan></text>
-</svg>
+<?xml version="1.0" encoding="UTF-8"?>
+<svg xmlns="http://www.w3.org/2000/svg" width="1700" height="816" viewBox="0 0 1700 816" role="img" aria-labelledby="title desc">
+<title id="title">NinaPro DB2: frozen person-independent multimodal evaluation</title>
+<desc id="desc">Five-band editable workflow for the fixed Development-selected B1_rf sEMG comparator and F1_rf early-fusion Random Forest; both are refitted on 35 Development participants and evaluated once on five reserved Test participants. The schematic contains no Test results.</desc>
+<defs>
+  <marker id="arr" markerUnits="userSpaceOnUse" markerWidth="6" markerHeight="6" refX="5.5" refY="3" orient="auto"><path d="M0 0 L6 3 L0 6 Z" fill="#245E9D"/></marker>
+  <style>
+  text{font-family:DejaVu Sans,Arial,sans-serif;font-weight:400}
+  .figure-title{font-size:23px;font-weight:700;fill:#173453}
+  .subtitle{font-size:15px;fill:#54738A}
+  .source-heading{font-size:11.5px;font-weight:700;fill:#53738A}
+  .source-label{font-size:13px;fill:#173453}
+  .context-heading{font-size:15px;font-weight:700;fill:#173453}
+  .context-body{font-size:13.5px;fill:#506C7E}
+  .section-label{font-size:13.2px;font-weight:700;fill:#FFFFFF}
+  .focus-heading{font-size:16.5px;font-weight:700;fill:#173453}
+  .focus-body{font-size:13.1px;fill:#506C7E}
+  .qualification{font-size:11.5px;font-weight:700;fill:#506C7E}
+  .card-heading{font-size:13.5px;font-weight:700;fill:#FFFFFF}
+  .card-body{font-size:12.1px;fill:#506C7E}
+  .chart-label{font-size:11.8px;fill:#506C7E}
+  .scientific-note{font-size:12.1px;font-weight:700;fill:#173453}
+  .workflow-id{font-size:12.5px;font-weight:700;fill:#506C7E}
+  .workflow-heading{font-size:15px;font-weight:700;fill:#173453}
+  .workflow-body{font-size:12.1px;fill:#506C7E}
+  .terminal-id{font-size:12.5px;font-weight:700;fill:#DBF2EF}
+  .terminal-heading{font-size:15px;font-weight:700;fill:#FFFFFF}
+  .terminal-body{font-size:12.1px;fill:#DBF2EF}
+  .footer{font-size:13.3px;fill:#54738A}
+  .small-box{fill:#F7FAFD;stroke:#B8CFDE;stroke-width:1.4}
+  .symbol{font-size:13px;font-weight:700;fill:#245E9D}
+  </style>
+</defs>
+<rect x="0" y="0" width="1700" height="816" rx="20" fill="#F4F9FD" stroke="none" stroke-width="1"/>
+<g id="band-0-header">
+<text id="figure-text-001" x="30" y="38" class="figure-title">NINAPRO DB2: FROZEN PERSON-INDEPENDENT TEST</text>
+<text id="figure-text-002" x="30" y="67" class="subtitle">Development-frozen models · Same held-out people · Per-class and participant-level evaluation</text>
+</g>
+<g id="band-1-context">
+<rect x="24" y="84" width="1652" height="160" rx="16" fill="#EAF3FA" stroke="#C7D9E6" stroke-width="2"/>
+<g id="source-schematic">
+<g stroke="#7298B0" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round">
+<circle cx="102" cy="129" r="11" fill="#FFFFFF"/><path d="M88 143 Q102 139 116 143 L122 183 Q102 190 82 183 Z" fill="#D9E7F1"/><path d="M89 150 L72 169 L67 182 M116 150 L132 169 L138 182 M91 185 L83 205 L76 225 M111 185 L119 205 L127 225" fill="none"/>
+</g>
+<path d="M124 160 L137 180" stroke="#245E9D" stroke-width="2.5" fill="none"/><rect x="118" y="157" width="8" height="8" rx="1.4" fill="#245E9D" stroke="#FFFFFF"/><rect x="123" y="165" width="8" height="8" rx="1.4" fill="#245E9D" stroke="#FFFFFF"/><rect x="128" y="173" width="8" height="8" rx="1.4" fill="#245E9D" stroke="#FFFFFF"/><rect x="133" y="180" width="8" height="8" rx="1.4" fill="#245E9D" stroke="#FFFFFF"/>
+<text id="figure-text-003" x="153" y="110" class="source-heading">WEARABLE SENSOR SOURCE</text>
+<text id="figure-text-004" x="153" y="157" class="source-label">12-channel sEMG</text>
+<text id="figure-text-005" x="153" y="182" class="source-label">36-axis acceleration</text>
+<text id="figure-text-006" x="153" y="207" class="source-label">Source-aligned E1</text>
+</g>
+<g class="context-module">
+<text id="figure-text-007" x="358" y="115" class="context-heading">Data and Labels</text>
+<text id="figure-text-008" x="358" y="148" class="context-body">NinaPro DB2 / Exercise E1</text>
+<text id="figure-text-009" x="358" y="174" class="context-body">18 corrected classes (0–17)</text>
+<text id="figure-text-010" x="358" y="200" class="context-body">40,000 paired windows</text>
+</g>
+<g class="context-module">
+<text id="figure-text-011" x="690" y="115" class="context-heading">Frozen Development Decision</text>
+<text id="figure-text-012" x="690" y="148" class="context-body">35 participants / 35,000 windows</text>
+<text id="figure-text-013" x="690" y="174" class="context-body">sEMG-only B1_rf comparator</text>
+<text id="figure-text-014" x="690" y="200" class="context-body">Early-fusion F1_rf comparator</text>
+</g>
+<g class="context-module">
+<text id="figure-text-015" x="1020" y="115" class="context-heading">Independent Test Group</text>
+<text id="figure-text-016" x="1020" y="148" class="context-body">5 reserved participants</text>
+<text id="figure-text-017" x="1020" y="174" class="context-body">5,000 aligned paired windows</text>
+<text id="figure-text-018" x="1020" y="200" class="context-body">No Test-based model choice</text>
+</g>
+<g class="context-module">
+<text id="figure-text-019" x="1360" y="115" class="context-heading">Scientific Boundary</text>
+<text id="figure-text-020" x="1360" y="148" class="context-body">All fitting: Development only</text>
+<text id="figure-text-021" x="1360" y="174" class="context-body">Fixed classes and split</text>
+<text id="figure-text-022" x="1360" y="200" class="context-body">Offline within-dataset evaluation</text>
+</g>
+</g>
+<g id="band-2-analysis">
+<rect x="24" y="258" width="1652" height="314" rx="16" fill="#EDF6FB" stroke="#B4CFE0" stroke-width="1.4"/>
+<rect x="38" y="272" width="238" height="32" rx="9" fill="#173453" stroke="#173453" stroke-width="1.4"/>
+<text id="n05-focus-label" x="157" y="293" class="section-label" text-anchor="middle">FROZEN TEST PROTOCOL</text>
+<rect x="38" y="312" width="238" height="215" rx="10" fill="#F7FAFD" stroke="#DFEAF0" stroke-width="1.4"/>
+<text id="n05-focus-heading" x="54" y="344" class="focus-heading">Analysis focus</text>
+<text id="n05-focus-1" x="54" y="389" class="focus-body">Same 5 Test people</text>
+<text id="n05-focus-2" x="54" y="416" class="focus-body">B1_rf vs F1_rf</text>
+<text id="n05-focus-3" x="54" y="443" class="focus-body">18-class macro F1</text>
+<text id="n05-focus-4" x="54" y="470" class="focus-body">Paired uncertainty</text>
+<text id="n05-focus-5" x="54" y="508" class="qualification">No Test-based tuning</text>
+<g id="n05-evidence-panel-1">
+<rect x="292" y="272" width="324" height="254" rx="12" fill="#FFFFFF" stroke="#B6CFDE" stroke-width="1.4"/>
+<path d="M303 272 H605 Q616 272 616 283 V305 H292 V283 Q292 272 303 272 Z" fill="#174B70"/>
+<text id="n05-panel-heading-1" x="454" y="294" class="card-heading" text-anchor="middle">Development-frozen choice</text>
+<rect x="308" y="326" width="292" height="45" rx="8" fill="#F7FAFD" stroke="#B8CFDE" stroke-width="1.4"/>
+<text id="n05-panel-1a" x="322" y="352" class="card-body">B1_rf  |  sEMG-only Random Forest</text>
+<rect x="308" y="382" width="292" height="45" rx="8" fill="#F7FAFD" stroke="#B8CFDE" stroke-width="1.4"/>
+<text id="n05-panel-1b" x="322" y="408" class="card-body">F1_rf  |  Early-fusion Random Forest</text>
+<text id="n05-panel-1c" x="312" y="462" class="card-body">Fixed from participant-grouped OOF</text>
+<text id="n05-panel-1d" x="312" y="489" class="card-body">No held-out Test labels used</text>
+</g>
+<g id="n05-evidence-panel-2">
+<rect x="630" y="272" width="324" height="254" rx="12" fill="#FFFFFF" stroke="#B6CFDE" stroke-width="1.4"/>
+<path d="M641 272 H943 Q954 272 954 283 V305 H630 V283 Q630 272 641 272 Z" fill="#174B70"/>
+<text id="n05-panel-heading-2" x="792" y="294" class="card-heading" text-anchor="middle">Development-only refit</text>
+<rect x="646" y="327" width="138" height="40" rx="8" fill="#F7FAFD" stroke="#B8CFDE" stroke-width="1.4"/>
+<text id="n05-panel-2a" x="715" y="353" class="chart-label" text-anchor="middle">48 sEMG features</text>
+<rect x="798" y="327" width="140" height="40" rx="8" fill="#F7FAFD" stroke="#B8CFDE" stroke-width="1.4"/>
+<text id="n05-panel-2b" x="868" y="353" class="chart-label" text-anchor="middle">96 Acc features</text>
+<text id="n05-panel-2c" x="650" y="401" class="card-body">B1_rf uses sEMG only</text>
+<text id="n05-panel-2d" x="650" y="431" class="card-body">F1_rf concatenates 144 features</text>
+<text id="n05-panel-2e" x="650" y="461" class="card-body">35 Development people for fitting</text>
+<text id="n05-panel-2f" x="650" y="491" class="card-body">Frozen model hyperparameters</text>
+</g>
+<g id="n05-evidence-panel-3">
+<rect x="968" y="272" width="324" height="254" rx="12" fill="#FFFFFF" stroke="#B6CFDE" stroke-width="1.4"/>
+<path d="M979 272 H1281 Q1292 272 1292 283 V305 H968 V283 Q968 272 979 272 Z" fill="#174B70"/>
+<text id="n05-panel-heading-3" x="1130" y="294" class="card-heading" text-anchor="middle">Reserved Test comparison</text>
+<circle cx="1016" cy="353" r="13" fill="#EAF3FA" stroke="#245E9D" stroke-width="1.5"/>
+<circle cx="1071" cy="353" r="13" fill="#EAF3FA" stroke="#245E9D" stroke-width="1.5"/>
+<circle cx="1126" cy="353" r="13" fill="#EAF3FA" stroke="#245E9D" stroke-width="1.5"/>
+<circle cx="1181" cy="353" r="13" fill="#EAF3FA" stroke="#245E9D" stroke-width="1.5"/>
+<circle cx="1236" cy="353" r="13" fill="#EAF3FA" stroke="#245E9D" stroke-width="1.5"/>
+<text id="n05-panel-3a" x="988" y="394" class="card-body">S05 / S08 / S19 / S33 / S40</text>
+<text id="n05-panel-3b" x="988" y="426" class="card-body">5,000 matched, source-keyed windows</text>
+<text id="n05-panel-3c" x="988" y="458" class="card-body">Same class order for both models</text>
+<text id="n05-panel-3d" x="988" y="489" class="card-body">Test labels used for scoring only</text>
+</g>
+<g id="n05-evidence-panel-4">
+<rect x="1306" y="272" width="356" height="254" rx="12" fill="#FFFFFF" stroke="#B6CFDE" stroke-width="1.4"/>
+<path d="M1317 272 H1651 Q1662 272 1662 283 V305 H1306 V283 Q1306 272 1317 272 Z" fill="#174B70"/>
+<text id="n05-panel-heading-4" x="1484" y="294" class="card-heading" text-anchor="middle">Evidence and limitations</text>
+<circle cx="1329" cy="342" r="4" fill="#245E9D"/>
+<text id="n05-panel-4-0" x="1342" y="347" class="card-body">Participant-level macro F1</text>
+<circle cx="1329" cy="386" r="4" fill="#245E9D"/>
+<text id="n05-panel-4-1" x="1342" y="391" class="card-body">Per-class precision/recall/F1</text>
+<circle cx="1329" cy="430" r="4" fill="#245E9D"/>
+<text id="n05-panel-4-2" x="1342" y="435" class="card-body">Paired bootstrap + CPU cost</text>
+<circle cx="1329" cy="474" r="4" fill="#245E9D"/>
+<text id="n05-panel-4-3" x="1342" y="479" class="card-body">Offline DB2 only; no clinical claim</text>
+</g>
+<rect x="301" y="540" width="1361" height="25" rx="12" fill="#E0F2EC" stroke="#D3EAE2" stroke-width="1.4"/>
+<circle cx="324" cy="552" r="9" fill="#23749A"/>
+<text id="n05-note-i" x="324" y="556" class="section-label" text-anchor="middle">i</text>
+<text id="n05-note" x="342" y="556" class="scientific-note">Methods diagram only: no held-out Test scores are shown; participant-level results are produced by Notebook 05.</text>
+</g>
+<g id="band-3-workflow">
+<rect x="24" y="588" width="1652" height="174" rx="16" fill="#EAF3FA" stroke="#C7D9E6" stroke-width="1.4"/>
+<g id="n05-workflow-node-0">
+<rect x="38" y="613" width="208" height="132" rx="15" fill="#173453" stroke="#173453" stroke-width="1.4"/>
+<text id="n05-workflow-id-0" x="142" y="636" class="terminal-id" text-anchor="middle">INPUT</text>
+<text id="n05-workflow-title-0" x="142" y="662" class="terminal-heading" text-anchor="middle">Frozen study inputs</text>
+<text id="n05-workflow-body-0-0" x="142" y="684" class="terminal-body" text-anchor="middle">Notebook 02 features</text>
+<text id="n05-workflow-body-0-1" x="142" y="704" class="terminal-body" text-anchor="middle">Notebook 04 selection</text>
+<text id="n05-workflow-body-0-2" x="142" y="724" class="terminal-body" text-anchor="middle">Fixed class order</text>
+</g>
+<path d="M252 679 H266" fill="none" stroke="#245E9D" stroke-width="2.2" stroke-linecap="round" marker-end="url(#arr)"/>
+<g id="n05-workflow-node-1">
+<rect x="274" y="613" width="208" height="132" rx="15" fill="#FFFFFF" stroke="#B8CFDE" stroke-width="1.4"/>
+<text id="n05-workflow-id-1" x="378" y="636" class="workflow-id" text-anchor="middle">01</text>
+<text id="n05-workflow-title-1" x="378" y="662" class="workflow-heading" text-anchor="middle">Confirm roles</text>
+<text id="n05-workflow-body-1-0" x="378" y="684" class="workflow-body" text-anchor="middle">35 Development</text>
+<text id="n05-workflow-body-1-1" x="378" y="704" class="workflow-body" text-anchor="middle">5 reserved Test</text>
+<text id="n05-workflow-body-1-2" x="378" y="724" class="workflow-body" text-anchor="middle">No participant overlap</text>
+</g>
+<path d="M488 679 H502" fill="none" stroke="#245E9D" stroke-width="2.2" stroke-linecap="round" marker-end="url(#arr)"/>
+<g id="n05-workflow-node-2">
+<rect x="510" y="613" width="208" height="132" rx="15" fill="#FFFFFF" stroke="#B8CFDE" stroke-width="1.4"/>
+<text id="n05-workflow-id-2" x="614" y="636" class="workflow-id" text-anchor="middle">02</text>
+<text id="n05-workflow-title-2" x="614" y="662" class="workflow-heading" text-anchor="middle">Refit B1_rf</text>
+<text id="n05-workflow-body-2-0" x="614" y="684" class="workflow-body" text-anchor="middle">48 sEMG features</text>
+<text id="n05-workflow-body-2-1" x="614" y="704" class="workflow-body" text-anchor="middle">Development only</text>
+<text id="n05-workflow-body-2-2" x="614" y="724" class="workflow-body" text-anchor="middle">Fixed configuration</text>
+</g>
+<path d="M724 679 H738" fill="none" stroke="#245E9D" stroke-width="2.2" stroke-linecap="round" marker-end="url(#arr)"/>
+<g id="n05-workflow-node-3">
+<rect x="746" y="613" width="208" height="132" rx="15" fill="#FFFFFF" stroke="#B8CFDE" stroke-width="1.4"/>
+<text id="n05-workflow-id-3" x="850" y="636" class="workflow-id" text-anchor="middle">03</text>
+<text id="n05-workflow-title-3" x="850" y="662" class="workflow-heading" text-anchor="middle">Refit F1_rf</text>
+<text id="n05-workflow-body-3-0" x="850" y="684" class="workflow-body" text-anchor="middle">144 paired features</text>
+<text id="n05-workflow-body-3-1" x="850" y="704" class="workflow-body" text-anchor="middle">Development only</text>
+<text id="n05-workflow-body-3-2" x="850" y="724" class="workflow-body" text-anchor="middle">Fixed configuration</text>
+</g>
+<path d="M960 679 H974" fill="none" stroke="#245E9D" stroke-width="2.2" stroke-linecap="round" marker-end="url(#arr)"/>
+<g id="n05-workflow-node-4">
+<rect x="982" y="613" width="208" height="132" rx="15" fill="#FFFFFF" stroke="#B8CFDE" stroke-width="1.4"/>
+<text id="n05-workflow-id-4" x="1086" y="636" class="workflow-id" text-anchor="middle">04</text>
+<text id="n05-workflow-title-4" x="1086" y="662" class="workflow-heading" text-anchor="middle">Predict Test</text>
+<text id="n05-workflow-body-4-0" x="1086" y="684" class="workflow-body" text-anchor="middle">Same 5 people</text>
+<text id="n05-workflow-body-4-1" x="1086" y="704" class="workflow-body" text-anchor="middle">Both frozen models</text>
+<text id="n05-workflow-body-4-2" x="1086" y="724" class="workflow-body" text-anchor="middle">18 class probabilities</text>
+</g>
+<path d="M1196 679 H1210" fill="none" stroke="#245E9D" stroke-width="2.2" stroke-linecap="round" marker-end="url(#arr)"/>
+<g id="n05-workflow-node-5">
+<rect x="1218" y="613" width="208" height="132" rx="15" fill="#FFFFFF" stroke="#B8CFDE" stroke-width="1.4"/>
+<text id="n05-workflow-id-5" x="1322" y="636" class="workflow-id" text-anchor="middle">05</text>
+<text id="n05-workflow-title-5" x="1322" y="662" class="workflow-heading" text-anchor="middle">Score and compare</text>
+<text id="n05-workflow-body-5-0" x="1322" y="684" class="workflow-body" text-anchor="middle">Per-person macro F1</text>
+<text id="n05-workflow-body-5-1" x="1322" y="704" class="workflow-body" text-anchor="middle">Per-class F1</text>
+<text id="n05-workflow-body-5-2" x="1322" y="724" class="workflow-body" text-anchor="middle">Paired uncertainty</text>
+</g>
+<path d="M1432 679 H1446" fill="none" stroke="#245E9D" stroke-width="2.2" stroke-linecap="round" marker-end="url(#arr)"/>
+<g id="n05-workflow-node-6">
+<rect x="1454" y="613" width="208" height="132" rx="15" fill="#176363" stroke="#176363" stroke-width="1.4"/>
+<text id="n05-workflow-id-6" x="1558" y="636" class="terminal-id" text-anchor="middle">OUTPUT</text>
+<text id="n05-workflow-title-6" x="1558" y="662" class="terminal-heading" text-anchor="middle">Held-out evidence</text>
+<text id="n05-workflow-body-6-0" x="1558" y="684" class="terminal-body" text-anchor="middle">Test scores and errors</text>
+<text id="n05-workflow-body-6-1" x="1558" y="704" class="terminal-body" text-anchor="middle">Confusion matrices</text>
+<text id="n05-workflow-body-6-2" x="1558" y="724" class="terminal-body" text-anchor="middle">CPU cost and caveats</text>
+</g>
+</g>
+<g id="band-4-summary">
+<text id="n05-footer" x="30" y="792" class="footer">Frozen Development recipes → paired Test predictions → per-person scores, class errors and uncertainty; no clinical or real-time claim.</text>
+</g></svg>
