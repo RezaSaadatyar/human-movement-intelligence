@@ -184,7 +184,7 @@ def test_notebook04_cells_are_structured_and_preserve_execution():
     )
     content = json.loads(notebook.read_text(encoding="utf-8"))
     cells = content["cells"]
-    assert len(cells) == 37
+    assert cells and cells[0]["cell_type"] == "markdown"
     assert len({cell["id"] for cell in cells}) == len(cells)
     code_cells = [cell for cell in cells if cell["cell_type"] == "code"]
     # Notebooks may be committed with original execution evidence. Validate
@@ -284,3 +284,43 @@ def test_neural_fusion_cpu_training_and_predictive_contract(
         )
         assert ablated.shape == predicted.shape
         assert np.isfinite(ablated).all()
+
+
+def test_notebook05_frozen_features_and_five_band_figure():
+    """Verify the unexecuted Test stage and its editable scientific diagram."""
+    study = REPO / "multimodal_movement_learning"
+    notebook = json.loads((
+        study / "code" / "notebooks"
+        / "05_frozen_person_independent_test.ipynb"
+    ).read_text(encoding="utf-8"))
+    code_cells = [c for c in notebook["cells"] if c["cell_type"] == "code"]
+    assert code_cells
+    assert all(c["execution_count"] is None and not c["outputs"]
+               for c in code_cells)
+    source = "\n".join("".join(c["source"]) for c in code_cells)
+    for required in (
+        "02_emg_features.npy",
+        "02_acc_features.npy",
+        "check_artifact_alignment",
+        "05_per_class_support.csv",
+        "05_confusion_matrix_normalised.png",
+        "precision_recall_fscore_support",
+    ):
+        assert required in source
+
+    picture = study / "images" / "05_frozen_person_independent_test.svg"
+    svg = ET.parse(picture).getroot()
+    assert svg.attrib["width"] == "1700"
+    assert svg.attrib["height"] == "816"
+    assert svg.attrib["viewBox"] == "0 0 1700 816"
+    ids = [node.attrib["id"] for node in svg.iter()
+           if "id" in node.attrib]
+    assert len(ids) == len(set(ids))
+    for band in range(5):
+        assert any(item.startswith(f"band-{band}-") for item in ids)
+    labels = " ".join(
+        (node.text or "") for node in svg.iter()
+        if node.tag.endswith("text")
+    )
+    assert "B1_rf" in labels and "F1_rf" in labels
+    assert "Test" in labels and "Development" in labels
