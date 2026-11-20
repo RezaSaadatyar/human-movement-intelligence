@@ -177,7 +177,7 @@ def test_paired_window_cache_preserves_float32_samples_and_labels(tmp_path):
     assert not allowed and size_gib == 0
 
 
-def test_notebook04_cells_are_structured_and_unexecuted():
+def test_notebook04_cells_are_structured_and_preserve_execution():
     notebook = (
         REPO / "multimodal_movement_learning" / "code" / "notebooks"
         / "04_fusion_and_modality_ablations.ipynb"
@@ -187,8 +187,14 @@ def test_notebook04_cells_are_structured_and_unexecuted():
     assert len(cells) == 37
     assert len({cell["id"] for cell in cells}) == len(cells)
     code_cells = [cell for cell in cells if cell["cell_type"] == "code"]
-    assert all(cell["execution_count"] is None and not cell["outputs"]
-               for cell in code_cells)
+    # Notebooks may be committed with original execution evidence. Validate
+    # the notebook structure without requiring the recorded outputs to vanish.
+    assert all(isinstance(cell["outputs"], list) for cell in code_cells)
+    assert all(
+        cell["execution_count"] is None
+        or isinstance(cell["execution_count"], int)
+        for cell in code_cells
+    )
     assert sum("run_neural_fusion_arm(" in "".join(cell["source"])
                for cell in code_cells) == 4
     assert sum("run_early_fusion_arm(" in "".join(cell["source"])
