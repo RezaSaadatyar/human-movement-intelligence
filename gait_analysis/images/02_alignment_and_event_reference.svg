@@ -1,7 +1,7 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <svg xmlns="http://www.w3.org/2000/svg" width="1700" height="816" viewBox="0 0 1700 816" role="img" aria-labelledby="figure-title figure-desc">
 <title id="figure-title">GAIT ANALYSIS | ALIGNMENT AND EVENT REFERENCE</title>
-<desc id="figure-desc">Editable scientific schematic of the Alignment and Event Reference workflow with source, measured context, analysis panels and five-stage processing. No empirical gait performance is asserted prior to original-data execution.</desc>
+<desc id="figure-desc">Editable scientific schematic of the Alignment and Event Reference workflow with source, measured context, analysis panels and five-stage processing. Illustrations are schematic. No force-contact event reference or timing performance has yet been validated.</desc>
 <defs><marker id="arr" markerUnits="userSpaceOnUse" markerWidth="6" markerHeight="6" refX="5.5" refY="3" orient="auto"><path d="M0 0 L6 3 L0 6 Z" fill="#245E9D"/></marker><style>
 text{font-family:'DejaVu Sans',Arial,sans-serif}
 .figure-title{font-size:23px;font-weight:700;fill:#173453}
@@ -47,7 +47,7 @@ text{font-family:'DejaVu Sans',Arial,sans-serif}
 <path id="imu-signal-line" d="M96 190 H99 L101 186 L104 194 L107 188 H111" fill="none" stroke="#D6EFFD" stroke-width="1.5" stroke-linejoin="round" stroke-linecap="round"/>
 <text id="source-heading" x="153" y="110" class="source-heading">LOWER-LIMB SOURCE</text>
 <text id="source-imu" x="153" y="158" class="source-label">Foot/shank IMU</text>
-<text id="source-force" x="153" y="183" class="source-label">Force contact reference</text>
+<text id="source-force" x="153" y="183" class="source-label">Force reference candidate</text>
 <text id="source-side" x="153" y="208" class="source-label">Same-trial time + side</text>
 </g>
 <g id="ctx-0">
@@ -152,7 +152,7 @@ text{font-family:'DejaVu Sans',Arial,sans-serif}
 <rect id="scientific-note-bg" x="301" y="540" width="1361" height="25" rx="12" fill="#E0F2EC" stroke="#D3EAE2" stroke-width="1.5"/>
 <circle id="scientific-info" cx="324" cy="552" r="9" fill="#23749A"/>
 <text id="info-i" x="324" y="556" class="section-label" text-anchor="middle">i</text>
-<text id="scientific-caveat" x="342" y="556" class="scientific-note">Schematic curves only; Notebook 01 plots the observed AB06 signals. Force-axis interpretation and synchronisation remain unverified.</text>
+<text id="scientific-caveat" x="342" y="556" class="scientific-note">Conceptual waveforms only; Notebook 02 plots recorded signals. Force-reference validity and timing remain unverified.</text>
 </g>
 <g id="band-3-workflow">
 <rect id="workflow-bg" x="24" y="588" width="1652" height="174" rx="16" fill="#EAF3FA" stroke="#C7D9E6" stroke-width="2"/>
