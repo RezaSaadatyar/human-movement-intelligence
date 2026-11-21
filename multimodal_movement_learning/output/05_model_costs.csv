@@ -1,0 +1,3 @@
+comparison_role,model_id,fit_seconds,model_size_bytes,parameter_count,cpu_ms_per_window
+unimodal_comparator,B1_rf,42.10630460500002,307812242,,0.5790380499998804
+fusion_comparator,F1_rf,78.05265239700003,260835858,,0.5512771750000311

@@ -1,0 +1,2 @@
+fusion_model,unimodal_model,fusion_mean_subject_macro_f1,unimodal_mean_subject_macro_f1,mean_difference,bootstrap_2_5pct,bootstrap_97_5pct,independent_test_people,bootstrap_draws
+F1_rf,B1_rf,0.3126004929466787,0.2511778771051384,0.061422615841540296,0.03333717411942638,0.08043436783694025,5,2000
