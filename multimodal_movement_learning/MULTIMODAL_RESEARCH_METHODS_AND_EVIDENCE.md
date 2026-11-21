@@ -1,156 +1,144 @@
-# Multimodal Movement Learning: Research Methods and Evidence
+# Multimodal Movement Learning | NinaPro DB2: Research Methods and Evidence
 
-**Research evidence:** Original NinaPro DB2 E1 source and cohort outputs are recorded in Notebooks 01–02. Executed Notebook 03 reports eleven unimodal Development methods; executed Notebook 04 reports nine fusion methods, paired Development differences, synthetic acceleration perturbations, neural seed repetitions and the frozen `B1_rf`/`F1_rf` comparison. **Notebook 05 now records the frozen five-person independent Test comparison, including participant, per-class, uncertainty and computation evidence.**
+**Study:** Multimodal Movement Learning, Human Movement Intelligence. **Maintained implementation:** [Notebooks 01–05](code/notebooks/). This document records the original-source cohort, data representations, experimental protocol, implemented model configurations, Development comparisons, frozen Test evaluation, robustness analyses and scientific interpretation. For the concise overview, study figures and practical execution guide, see the [study README](README.md) and [Running and Reviewing the Study](README.md#4-running-and-reviewing-the-study).
+
+**Evidence status:** The five notebook stages contain recorded original-source, Development and held-out Test outputs. All numerical findings below refer to the stated NinaPro DB2 Exercise E1 cohort and saved result files; this is an **offline, within-source participant-disjoint evaluation**, not external or prospective validation.
 
 ## 1. Research Objective and Scope
 
-**Working title:** *Do Paired Accelerometer Signals Add Value to sEMG for Cross-Participant Hand-Movement Recognition?*
+The primary research question is whether adding **paired triaxial acceleration** to **surface electromyography (sEMG)** improves recognition of corrected finger-movement classes for previously unseen people, compared with the stronger Development-selected unimodal model. Both modalities originate from the same released source intervals and must be compared under a common window, participant and class definition.
 
-**Primary question:** For the same source-defined hand movements, participant groups, aligned recording intervals and evaluation windows, does adding the Delsys accelerometer measurements improve macro F1 compared with the better of sEMG-only and accelerometer-only predictors when evaluated on unseen people?
+The implemented study evaluates three related questions:
 
-- **H1:** Feature-level fusion may improve average participant-level macro F1 over the stronger unimodal predictor.
-- **H2:** Any observed benefit may vary by person/class and may not persist with missing or corrupted acceleration data.
-- **H3 (secondary):** Reducing the number of accelerometer sensors may retain useful complementary information.
-- **Null:** Fusion offers no reliable gain under the common participant-disjoint protocol.
+1. **Unimodal evidence:** How do classical statistical-feature models and temporal 1D-CNN, TCN and BiGRU networks compare for sEMG alone and acceleration alone?
+2. **Complementary information:** Does early, late or learned multimodal fusion improve **participant-mean fixed-class macro F1** over the stronger unimodal Development comparator?
+3. **Consistency and robustness:** Does the observed effect vary by participant, corrected movement class, neural seed or synthetic acceleration perturbation?
 
-The intended contribution is a reproducible, controlled *comparison* of two modalities and their fusion under a person-independent split, rather than a novel network architecture or a claimed prosthetic controller. A negative result is valid. No other study's trained model, subject counts, label mapping or evaluation numbers are transferred into this one.
+Five notebooks form a single experimental sequence: source inspection (01), paired-window cohort and fixed partitions (02), unimodal Development models (03), fusion Development models and frozen selection (04), and final refitting and evaluation on five reserved Test people (05). [Model selection](output/04_model_selection.csv) precedes the last comparison; Test outcomes do not replace the selected model pair.
 
-**Within scope:** Source audit, synchronised paired-window extraction, non-force prompted hand gestures plus rest, classical classifiers, **unimodal 1D-CNN/TCN/BiGRU**, **two-branch deep fusion, gated/cross-attention fusion and deep late fusion**, controlled modality ablations, per-participant evaluation, multi-seed robustness of selected finalists and measured computational cost.
-
-**Outside scope:** Glove/force prediction, video prompts as model inputs, real-time prosthetic control, amputee/stroke clinical outcomes, cross-device external validation, training foundation models or unbounded architecture sweeps, and experiments using DB5/DB3 as interchangeable evaluation data. Compact attention-based fusion is explicitly within scope; pretrained large-scale language/vision Transformers are not.
+The intended contribution is a **controlled, source-aligned comparison and reproducible research workflow**, not a claim of a new neural architecture, a prosthetic controller, a clinical system or a physiological causal mechanism. Reduced-sensor and other exercise analyses are not reported as completed experiments.
 
 ## 2. Data Sources, Cohort and Target Definitions
 
-### 2.1 Original sources and availability
+### 2.1 Original source and acquisition context
 
-- [NinaPro DB2 source and subject ZIP directory](https://ninapro.hevs.ch/instructions/DB2.html): 40 intact participants, 49 prompted movements plus rest across basic finger, grasp/functional and force exercises. It distributes one MATLAB file per exercise per participant in the subject archive.
-- Atzori, M. et al. (2014), ‘[Electromyography data for non-invasive naturally-controlled robotic hand prostheses](https://doi.org/10.1038/sdata.2014.53)’, *Scientific Data*, 1, 140053. The paper describes acquisition, synchronisation, filtering and relabelling.
-- [Original Dryad data deposition](https://doi.org/10.5061/dryad.1k84r) provides separate DB2 subject ZIPs (subject 1 approximately 470 MB). The deposited 23.27 GB total is for DB1–DB3 jointly, **not** DB2 alone. Dryad normally distributes its published datasets under CC0, but the usage/distribution conditions applying to the selected official NinaPro files should be checked before redistributing any data.
+The data are from [NinaPro Database 2 (DB2)](https://ninapro.hevs.ch/instructions/DB2.html) and its [original Dryad deposition](https://doi.org/10.5061/dryad.1k84r), described by Atzori et al. (2014), ‘[Electromyography data for non-invasive naturally-controlled robotic hand prostheses](https://doi.org/10.1038/sdata.2014.53)’, *Scientific Data*, 1, 140053. DB2 comprises recordings from **40 intact participants** across several prompted movement exercises. This study processes only **Exercise 1 (E1)**, the basic non-force finger-movement task.
 
-The official web page has inconsistent text (‘10 repetitions’ in one overview passage, ‘6 repetitions’ in the detailed protocol). The executed S01 E1 source inspection observed repetition codes **0–6**, with six corrected non-rest segments per E1 movement label. The participant archive contained three exercise MATLAB files and occupied **448.47 MiB** in the recorded environment. This observation supports the analysed E1 protocol but should not be extrapolated blindly to every exercise.
+The original sensor system includes **12 sEMG channels** and **12 triaxial accelerometers (36 acceleration columns)**. sEMG was acquired at approximately **2,000 Hz** and acceleration at approximately **148 Hz**; the released arrays were synchronised onto a common **2,000-Hz stored sample-row grid**. The common row grid is essential to paired-window extraction but does **not** mean that the acceleration channels contain 2,000 independent native measurements per second.
 
-### 2.2 Sensing and original signal processing
+The released MATLAB fields distinguish original displayed-cue annotations (`stimulus`, `repetition`) from retrospectively corrected `restimulus` and `rerepetition`. Corrections used information derived from sEMG. The implemented supervised target is **`restimulus`**, not an assumed ground-truth motor-onset marker independent of both sensing modalities. The original corrected repetition identifier is retained for segment provenance.
 
-| Variable (official dictionary) | Documented role | Proposed use |
-| --- | --- | --- |
-| `emg` — 12 channels | Delsys Trigno sEMG, acquired at 2,000 Hz | Primary physiological input |
-| `acc` — 36 channels | Three acceleration axes per each of 12 Trigno sensors; native accelerometer acquisition at approximately 148 Hz | Second input; not 36 independent devices and not a gyroscope |
-| `stimulus` / `restimulus` | Displayed-cue label / retrospectively refined movement-boundary label | Annotation source; provisional target is validated `restimulus` |
-| `repetition` / `rerepetition` | Original / refined repetition identifiers | Segment identity and audit only |
-| `glove`, `force` | Kinematic and force measurements | Excluded from predictive features |
+### 2.2 Observed source coverage and modelling cohort
 
-The original data descriptor reports synchronisation of released streams through interpolation to the highest rate and interference cleaning of Delsys sEMG before release. Consequently an accelerometer column stored on a 2,000-Hz row grid is **not** evidence of 2,000 independent accelerometer readings per second. Record whether released `emg`, `acc` and labels have exactly matched row counts, and do not apply a default second 50-Hz filter without evidence it is needed.
+[Notebook 01](code/notebooks/01_ninapro_pairing_and_label_audit.ipynb) examined the original S01 archive: E1 contained **1,808,331** matched released rows, with shapes **(1,808,331, 12)** for sEMG and **(1,808,331, 36)** for acceleration. Its 18 corrected labels and repeated movements produced **205** source-derived contiguous label/repetition segments. Both inspected sensor arrays had complete finite-value coverage for that participant. The observed corrected repetition values were 0–6, consistent with six non-Rest movement repetitions; the source website's broader repetition descriptions are not used to relabel data.
 
-Corrected movement boundaries were generated using a procedure involving the EMG data. The final protocol must cite that annotation provenance, since it can be relevant to comparative performance of the two sensing modalities. Neither `restimulus` nor any cue/repetition field may enter predictors.
+[Notebook 02](code/notebooks/02_signal_processing_and_aligned_windows.ipynb) then processed all 40 original E1 participant recordings. Its current source and selection accounting is:
 
-### 2.3 Recorded cohort and class definition
+| Analytical level | Observed count | Meaning |
+| --- | ---: | --- |
+| Source participants inspected | **40** | Original DB2 E1 participants |
+| Eligible paired E1 windows | **337,853** | Source-derived, label-pure, finite paired intervals before the selection cap |
+| Retained modelling windows | **40,000** | 1,000 windows per participant, selected independently of model scores |
+| Development | **35 people / 35,000 windows** | Candidate comparison and model selection |
+| Reserved Test | **5 people / 5,000 windows** | Frozen-model comparison only |
+| Development outer folds | **5 × 7 people** | Person-disjoint out-of-fold assessment |
 
-**Current primary task:** the basic finger-movement exercise **E1**, using the verified source corrected labels **0–17** (Rest plus seventeen non-rest movements). This is the complete observed E1 class set, rather than a post-hoc favourable class selection. The second non-force exercise (grasping/functional movement) is a separately reported extension, not silently pooled into the primary task.
+The reserved Test identities are **S05, S08, S19, S33 and S40**. Participant allocations are saved in [`02_participant_split_assignments.csv`](output/02_participant_split_assignments.csv), with outer folds in [`02_development_fold_assignments.csv`](output/02_development_fold_assignments.csv). The [selected window index](output/02_window_index.csv) preserves each original source-window key and row order.
 
-Eligibility was determined from original source availability, paired `emg`/`acc` streams and corrected label support, without reference to model performance. The executed E1 inventory includes **40 participants** and **337,853 eligible paired source windows**. A predeclared, time-uniform cap of **1,000 windows per person** retained **40,000** for modelling. These are observed current-cohort counts, not fixed requirements for all future data releases.
+### 2.3 Inputs, target and unit hierarchy
 
-**Unit hierarchy:** `subject_id` → `exercise_id` → `repetition_id` / `trial_key` → source sample interval → aligned window. Rest intervals require a stable source-based segment identity and cannot be pooled across different people's recordings. Independently identifying actual motion onset using future Test labels is not permitted.
+The target consists of the **18 original corrected E1 codes (0–17)**: Rest (0) and 17 finger-movement classes. It is a **window-level classification**, with the participant as the independent evaluation unit. Source samples, overlapping windows and repeated movements are nested observations, not extra independent people.
+
+Only the measured **sEMG and acceleration** channels enter predictive models. `subject_id`, corrected label, `repetition_id`, `segment_id`, window indices, file references and timestamps are used for provenance, eligibility, folds or evaluation. The released `glove`, `force` and cue fields, along with participant demographics, are **not predictors**. The audited [class dictionary](output/01_label_dictionary.csv) fixes class codes; source eligibility is not modified after observing Test scores.
 
 ## 3. Data Preparation and Representations
 
-### 3.1 Source archive, MATLAB and pairing contract
+### 3.1 Source pairing, segment eligibility and temporal windows
 
-Notebook 01 inspected the original S01 archive and E1 MATLAB fields. It recorded **1,808,331 common released sample rows** with `emg` shape **(1,808,331, 12)**, `acc` shape **(1,808,331, 36)**, **18 corrected label codes** and **205 contiguous corrected-label/repetition segments**. Both modality arrays were fully finite in this participant. Source fields were paired by the same published row grid, not by post-hoc class matching. The S01 nominal duration on that grid is **904.1655 seconds**; native accelerometer timestamps were not independently recovered.
+The [NinaPro source adapter](code/src/ninapro_source.py) reads the original subject archive and matched E1 MATLAB fields; the [dataset module](code/src/ninapro_dataset.py) constructs source-keyed windows and feature arrays. The pipeline preserves the distributed temporal representation rather than independently upsampling acceleration again.
 
-The intended trial/window registry contains: `subject_id`, `exercise_id`, `source_file`, `repetition_id`, `original_label`, `corrected_label`, `segment_id`, source sample `start/end`, physical-time `start_s/end_s`, `emg/acc` coverage, source rate assumptions and exclusion reason where relevant. Confirm which variables have a common stored row/time grid and whether native timestamps are actually retained. Never invent timestamps absent from source files.
+A candidate window has **300 ms / 600 released sample rows**, with starts advanced by **100 ms / 200 rows** inside a contiguous corrected-label/repetition segment. Windows must contain finite sEMG and acceleration observations and cannot cross a corrected-class transition, repetition boundary, participant boundary or exercise boundary. Both modalities share the exact half-open source interval `[start_sample, end_sample)` and a unique `window_key`.
 
-### 3.2 Windowing and sensor features
+Eligible windows are ordered within each person. A fixed, **label-blind 1,000-window-per-participant cap** selects approximately time-uniform positions in that eligible order; it does not oversample favourable labels or apply a model-dependent class balancing procedure. Original class imbalance is therefore retained in the selected cohort.
 
-**Executed E1 windowing:** 300-ms windows stepped every 100 ms, with full within-segment label consistency and no crossing between exercises, subjects, repetitions, corrected class transitions or source gaps. Alternative 200-ms/400-ms durations are Development-only sensitivity analyses. Avoid treating overlapping windows as independent evaluation subjects.
+### 3.2 Statistical and temporal model inputs
 
-Signals that the distributed archive already synchronised may be windowed on the **released common time grid**, with time in seconds derived from verified stored sampling metadata. Inspect raw/native rate assumptions rather than independently reinterpolating one stream. For accelerometer statistical features, avoid frequency claims exceeding the native 148-Hz acquisition bandwidth.
+Two paired, float32 statistical feature matrices were created from the same 40,000 window keys:
 
-Implemented lightweight features, computed separately per selected paired window:
+| Modality | Implemented window statistics | Matrix |
+| --- | --- | --- |
+| sEMG (12 channels) | Per-channel root mean square, mean absolute value, waveform length normalised by sample differences, and log variance | **40,000 × 48** |
+| Acceleration (36 columns) | Per-axis mean and standard deviation (72 values), plus mean and SD of each of 12 triaxial sensor magnitudes (24 values) | **40,000 × 96** |
+| Classical early fusion | Concatenation of paired sEMG and acceleration statistics from the same `window_key` | **40,000 × 144** |
 
-- **sEMG:** per-channel RMS, mean absolute value, normalised waveform length and log variance; **48 summary features** from the 12 channels, forming a current matrix **(40,000, 48)**.
-- **Accelerometry:** per-axis mean and standard deviation (72 features for 36 axes), plus mean and standard deviation of the 12 sensor magnitudes (24 more); **96 total features**, forming a current matrix **(40,000, 96)**.
-- **Early fusion:** concatenate the two feature vectors from the **same window key**. Count exact columns after real extraction; reject missing/misordered source channels rather than silently filling them.
-- **Deep temporal inputs:** retain aligned signal tensors per window as `X_emg [W, T, 12]` and `X_acc [W, T, 36]` when supported by the released schema; adapt to `channels-first` within the PyTorch data interface and record actual tensor layout. The common stored row grid does not create new independent 148-Hz acceleration observations. Validate physical time correspondence and document any modality-specific downsampling or anti-alias filtering. Prevent normalisation leakage by fitting source-derived parameters inside Development folds.
+Temporal models consume the **original 600-row paired windows**, with 12 sEMG or 36 acceleration channels (both modalities for learned fusion). The [training interface](code/src/ninapro_training.py) performs required channel-layout conversion and Training-derived channel normalisation. Memory-eligible windows may be staged on a GPU for efficiency; that engineering choice does not change the participant groups or scientific inputs.
 
-Train-only per-feature scaling, class weights and any imputation belong inside an estimator pipeline fitted independently within each Development fold. No global per-subject feature normalisation using held-out Test signals unless explicitly defined as a separate unlabelled adaptation condition. Preserve raw source arrays locally, and store smaller row-keyed feature matrices under `data/processed/ninapro_db2/` rather than adding large derived datasets to Git history.
+Numerical arrays are aligned to `window_row` in the [canonical window index](output/02_window_index.csv). Class labels and participant identifiers are not concatenated as numerical predictors. Logistic Regression uses a **Training-fold-fitted StandardScaler**; Random Forest does not require a fitted scaler. Neural channel statistics and inner-Training stopping decisions are obtained without outer Validation or reserved Test labels.
 
 ## 4. Experimental Design and Evaluation
 
-### 4.1 Participant independence and frozen evaluation
+### 4.1 Fixed participant roles and Development selection
 
-After the completed source-cohort audit, Notebook 02 assigned participants deterministically using **`random_state=42`**. Five participants are reserved for Test and 35 for Development, with all windows of a person retaining one role. All five Development validation folds contain seven separate people. Test windows must not be used for feature/scaler fitting, hyperparameter selection or fusion weighting.
+Notebook 02 used deterministic seed **42** for participant-level Development/Test allocation and a separate seeded permutation for the five Development folds. Each person's full set of windows stays within one assigned role, and the five outer folds each evaluate **seven unseen Development participants** against a fitting group of 28 Development participants.
 
-The **35 Development / five Test** split and eligible **0–17** class set are recorded in `output/02_participant_split_assignments.csv`, `02_development_fold_assignments.csv` and `01_label_dictionary.csv`. These assignments preceded the subsequently run Development comparisons. If subject/class coverage makes the proposed design unsuitable, revise the plan using source feasibility information before any Test evaluation.
+Notebooks 03 and 04 use the same original source-window identities, 18-class label order, 35 Development people and fixed outer folds. Candidate rankings use the **mean of the 35 individual out-of-fold participant macro-F1 scores**; they are not rankings by pooled-window accuracy. Models are selected in Development, before the final comparison. The [selection file](output/04_model_selection.csv) freezes `B1_rf` (unimodal) and `F1_rf` (fusion).
 
-**Primary selection:** compare all candidate arms on the same eligible Development windows and the same participant-grouped folds. Choose models and fusion combination using Development evidence alone. A separate independent Validation split is not required if fold-based model selection and inner-Development calibration are used honestly. For tuned models, keep tuning and probability calibration inside the corresponding Training partition; never fit a scaler or calibrator on an evaluation fold's labels.
+Notebook 05 refits these **unchanged classical recipes** on all **35 Development participants** and applies them once to the **five reserved Test participants**. Test labels are used for scoring, not for preprocessing fitting, hyperparameter changes, fusion-weight selection or a retrospective change of the comparator.
 
-### 4.2 Endpoint definitions
+### 4.2 Metrics and aggregation
 
-- **Primary:** calculate fixed-class macro F1 **separately for each independent Test participant**, then average these per-person values equally.
-- **Main comparison:** for each Test participant, compare the frozen fused method with the **Development-selected** stronger unimodal comparator, using the exact same paired windows. The choice of comparator may not be switched using Test results.
-- **Secondary:** fixed-class balanced accuracy, per-class precision/recall/support, per-participant confusion matrices, coverage/exclusions, and absolute/relative fusion differences.
-- **Uncertainty:** descriptive paired participant bootstrap over reserved independent Test people, with interval interpretation limited by their small number. Do not treat thousands of overlapping windows as independent bootstrap units.
-- **Computation:** measured fitting time, per-window CPU inference time, model size, selected window length and modality availability.
+For a given participant, fixed-class macro F1 is the arithmetic mean of F1 over all **18 corrected E1 classes**, with zero-division cases mapped to zero. The primary result is the **equal-participant mean** of these 18-class macro-F1 scores. Fixed-class balanced accuracy similarly averages the 18 source-class recalls, assigning zero to classes without true support. These definitions deliberately differ from metrics that average only over observed classes.
 
-Notebooks 03 and 04 report participant-balanced Development macro F1 for eleven unimodal and nine fusion arms; Notebook 05 now reports the fixed five-person Test comparison separately. The updated notebook additionally computes per-class OOF support, precision, recall and F1 with explicit pooled-window versus participant-mean aggregation. Unsupported classes receive zero under the fixed-class participant-macro convention, and class-support counts are preserved.
+Secondary evidence includes accuracy, per-participant scores, pooled-window per-class precision/recall/F1 and support, paired participant differences, count-based and **true-class-row-normalised** confusion matrices, and fit/inference cost. The per-class pooled metrics use individual windows as the calculation denominator; they must not be substituted for the participant-mean selection endpoint.
+
+The final comparison uses **`F1_rf − B1_rf` macro F1 for each of the same five Test people**. Descriptive uncertainty is a **2,000-draw paired whole-participant bootstrap** over those five differences (seed 42; 2.5th and 97.5th percentiles). Overlapping Test windows are never treated as independent bootstrap units. This interval is conditional on the fitted models and evaluated participants.
 
 ## 5. Methods, Models and Configurations
 
-### 5.1 Matched baseline and fusion arms
+### 5.1 Implemented classical and unimodal candidates
 
-| Arm | Predictor and scientific purpose | Configuration principle |
+[Notebook 03](code/notebooks/03_unimodal_grouped_baselines.ipynb) compares **11 candidates**: one Training-prior control, four classical modality-specific classifiers and six temporal neural classifiers.
+
+| Arm or models | Input and implemented configuration | Evaluation role |
 | --- | --- | --- |
-| B0 | Training-prior / majority-class classifier | Sanity lower bound, predicts on same eligible windows |
-| B1 | sEMG-only feature classifier | Implemented Logistic Regression and 120-tree Random Forest on 48 statistical features |
-| B2 | Acceleration-only feature classifier | Implemented Logistic Regression and 120-tree Random Forest on 96 statistical features |
-| D1–D3 | Unimodal temporal networks | 1D-CNN, TCN and BiGRU on single-modality source windows using common subject folds |
-| F1 | Early fusion | Concatenate B1/B2 features and fit a matched classifier, no cross-person input leakage |
-| F2 | Late probability fusion | Fixed 0.5/0.5 average of matched class-aligned OOF model probabilities |
-| F3–F5 | Neural multimodal fusion | Executed dual-branch CNN/TCN, deep late fusion and gated/cross-attention variants with Development-only selection |
+| `B0_prior` | Training-derived class-prior classifier; no sensor input | No-signal reference |
+| `B1_logreg` / `B2_logreg` | sEMG or acceleration statistics; StandardScaler plus class-balanced Logistic Regression (`C=1.0`, `max_iter=2000`) | Classical unimodal comparison |
+| `B1_rf` / `B2_rf` | Same modality-specific feature matrices; 120-tree Random Forest, `min_samples_leaf=2`, `max_features="sqrt"`, `class_weight="balanced_subsample"` | Classical unimodal comparison |
+| `D1_emg_cnn` / `D1_acc_cnn` | Source-aligned single-modality windows; compact temporal 1D-CNN | Neural baseline |
+| `D2_emg_tcn` / `D2_acc_tcn` | Single-modality windows; dilated/residual temporal convolution | Temporal alternative |
+| `D3_emg_bigru` / `D3_acc_bigru` | Single-modality windows; bidirectional GRU-based encoder | Recurrent alternative |
 
-The executed classical Logistic Regression uses `C=1.0`, `max_iter=2000` and class-balanced fitting with Training-fold scaling. Random Forest uses 120 trees, minimum leaf size two and class-balanced subsampling. No unexecuted hyperparameter grid or probability calibration is reported as performed. Both early and late fusion use the fixed source-class order; late-fusion weights are 0.5/0.5 and not fitted from outer Validation labels.
+### 5.2 Implemented fusion candidates and neural protocol
 
-### 5.2 Deep-learning architectures and bounded training budget
+[Notebook 04](code/notebooks/04_fusion_and_modality_ablations.ipynb) compares **nine fusion arms** on matched Development participants and classes:
 
-Deep models were executed in the core Development comparison in Notebooks 03 and 04. The five-notebook study sequence and separate reserved Test boundary remain unchanged.
-
-| Implemented deep arm | Signal input and research purpose | Architecture and training constraints |
+| Model family | Implemented fusion operation | Models |
 | --- | --- | --- |
-| D1 — sEMG 1D-CNN | Original aligned `X_emg` windows | Compact convolutional blocks, normalisation, pooling and classifier; standard neural baseline |
-| D2 — accelerometer 1D-CNN / TCN | Original aligned `X_acc` windows | Compare a matched CNN or dilated temporal convolution under the same Development folds |
-| D3 — temporal alternative (TCN or BiGRU) | Both modalities separately where feasible | A bounded TCN and BiGRU temporal comparator; report architecture-specific capacity rather than asserting equal parameter counts |
-| F3 — dual-branch deep fusion | Paired sEMG and acceleration windows | Separate CNN/TCN encoders; concatenate learned embeddings; train a common classification head |
-| F4 — deep late fusion | Outputs of independently fitted neural unimodal branches | Align class-probability order; determine any mixing weights inside Development only |
-| F5 — gated / cross-attention fusion | Paired learned features from both branches | Small gated/attention fusion block with controlled heads/layers; assess whether it improves on simple embedding concatenation |
+| Early classical fusion | Concatenate 48 sEMG and 96 acceleration statistics, fit a matched classifier | `F1_logreg`, `F1_rf` |
+| Classical late fusion | Fixed equal-weight (0.5/0.5) average of matched, class-aligned unimodal OOF probabilities | `F2_logreg`, `F2_rf` |
+| Neural late fusion | Fixed equal-weight average of independently fitted Development-selected unimodal neural outputs | `F4_deep_late` |
+| Learned embedding fusion | Separate sEMG/acceleration encoders with concatenated representations and shared classifier | `F3_dual_cnn`, `F3_dual_tcn` |
+| Learned gated and attention fusion | Paired temporal branches with a gate or compact two-head cross-attention | `F5_gated`, `F5_cross_attention` |
 
-The original-data Development runs used five subject-disjoint folds, seed 42, a maximum of ten epochs, patience three, batch size 96 and Training-only inner validation for neural checkpoint selection. Architecture definitions, learning rate and optimiser implementation are preserved in `code/src/ninapro_models.py` and `code/src/ninapro_training.py`; these statements describe the executed settings rather than optional untested grids.
+The temporal models were trained on **five person-disjoint Development folds** using primary seed **42**, maximum **10 epochs**, patience **3**, batch size **96**, **AdamW** (`learning_rate=1e-3`, `weight_decay=1e-3`), Training-derived class-weighted cross-entropy and gradient clipping at norm **1.0**. Checkpoint selection uses an inner holdout of Training people, not outer Validation/Test labels. [`ninapro_models.py`](code/src/ninapro_models.py) defines the networks; [`ninapro_training.py`](code/src/ninapro_training.py) implements training and prediction.
 
-The executed neural fusion arms completed all five grouped Development folds at seed 42. The highest-scoring neural fusion architecture, `F3_dual_tcn`, was additionally fitted using seeds 43 and 44. These extra runs do not modify the original seed-42 selection, provide independent subjects or substitute for held-out Test evidence. Notebook 05 records fitted-model size, fit duration and CPU inference latency after the frozen classical refits; peak device-memory measurements are not asserted.
+The final Test did **not** retrain a neural finalist: the frozen winners were the **classical** `B1_rf` and `F1_rf`. Notebook 05 refitted their original 120-tree configurations on 35 Development people using seed 42. The sEMG comparator receives **48 features**; the fused model receives **144 features**. Neither fit introduces a Test-derived transformation or altered hyperparameter. The [classical constructor](code/src/ninapro_evaluation.py) is the maintained configuration reference.
 
-A larger deep model is not automatically stronger. Interpret any fusion gain against the **best Development-selected unimodal deep or classical model**, not just a weak baseline, with identical eligible windows and participant groups. Compare parameter counts and training budgets; if modality-specific sampling rates are used, align by physical time and ensure the two branches represent the same acquisition window.
+### 5.3 Sensor sensitivity and implementation boundaries
 
+Notebook 04 tested **three synthetic acceleration mean-replacement conditions** on the fitted `F3_dual_cnn` and `F5_cross_attention` methods: replacing all acceleration columns, replacing one triaxial accelerometer group, or replacing a contiguous acceleration interval. These are **inference-time interventions**, not training for missing-sensor conditions or observations of physical device failures. Their scope is limited to those two neural arms and the tested synthetic changes.
 
-**Notebook 04 engineering implementation:** The fusion models retain separate 12-channel sEMG and 36-column accelerometer encoders, fixed original 600-row windows, the five participant-disjoint folds and the same ten-epoch maximum, patience-three stopping and batch size 96. When safe GPU capacity permits, both modalities are Training-normalised and staged once per fold; a streamed fallback preserves the identical scientific inputs. Each of the four deep fusion architectures is executed and saved independently by fold. Classical early fusion uses the 48+96 source-window statistical concatenation; F2 and F4 late fusion use fixed 0.5/0.5 class-probability averaging. No Test-derived weights or outcomes enter these fits. Per-class OOF precision, recall, F1, support and confusion plots are derived from the resulting probabilities using the same participant-mean metric contract as Notebook 03. The recorded Notebook 04 source execution, CSV metrics and visualisations now constitute observed **Development** fusion evidence, not independent Test performance.
-
-### 5.3 Modality ablation and failure handling
-
-Notebook 04 executed three **synthetic acceleration mean-replacement conditions** for `F3_dual_cnn` and `F5_cross_attention`: all acceleration channels, one accelerometer group and a contiguous acceleration interval. The models were fitted without these interventions. These are inference sensitivity analyses, not observed physical sensor failures, missing-modality training or a general assessment of sEMG sensor loss. No unexecuted corruption or sensor-selection experiment is claimed as completed.
-
-All arms must share the same subject and window keys for an interpretable fusion comparison. Source label correction, filtered sEMG, window purity and grouping controls apply equally across arms.
-
-### 5.4 Implementation ownership
-
-Reuse existing `python_modules/core/` functions only after inspecting their interface and testing compatibility with DB2: subject-disjoint splitting, grouped metrics, `plot_style`, `save_figure`, Colab setup, device selection and output saving. The existing HARTH windowing helpers were developed for a different rate and label taxonomy; they are **candidates**, not authorised cross-study conversions.
-
-The implemented `code/src/` reader, paired-window/feature modules, PyTorch architectures, training routines and evaluation helpers support the five notebook stages. Offline tests cover relevant row/key alignment, subject separation, class/probability order, model interfaces and output contracts. These synthetic checks are not substitutes for reproducing the original-source results.
+Shared repository utilities provide Colab setup, device selection and plotting. NinaPro-specific data ingestion, source-window pairing, fitting and evaluation remain in [`code/src/`](code/src/), separate from other studies' datasets, model settings and reported results.
 
 ## 6. Results and Comparative Analysis
 
-**Recorded data preparation:** S01 E1 contains 1,808,331 released sample rows (12 sEMG and 36 accelerometer columns), corrected labels 0–17 and 205 source segments. Across 40 participants, Notebook 02 found 337,853 source-eligible paired windows and retained 40,000 using 1,000 per person, including 35 Development people across five seven-person Validation folds and five reserved Test people.
+### 6.1 Source and Development unimodal findings
 
-**Recorded Notebook 03 Development evidence:** The following figures are mean fixed-18-class macro F1, calculated separately for each held-out Development participant and then averaged equally over 35 people. The original five grouped folds and source-window identities were shared across model arms.
+The original-source review established common stored-row pairing for E1; Notebook 02 retained **40,000 of 337,853 eligible windows** across 40 people. The final 35-person Development subset comprised **35,000 windows** and five seven-person outer folds.
 
-| Model | sEMG | Acceleration |
+[Notebook 03's current results](output/03_all_unimodal_metrics.csv) report the following **equal-participant mean fixed-18-class Development macro F1**:
+
+| Model family | sEMG | Acceleration |
 | --- | ---: | ---: |
 | Logistic Regression | 0.208411 | 0.103442 |
 | Random Forest | **0.234836** | **0.128978** |
@@ -158,29 +146,35 @@ The implemented `code/src/` reader, paired-window/feature modules, PyTorch archi
 | TCN | 0.212824 | 0.070928 |
 | BiGRU | 0.187360 | 0.065538 |
 
-The Training-prior baseline yielded **0.034971**. The Development-selected unimodal comparator was **`B1_rf`**, the sEMG Random Forest. The saved evaluation indicates a marked gap between sEMG and acceleration, with acceleration Random Forest exceeding the acceleration neural architectures. These are descriptive model comparisons on Development people, not independent Test estimates or claims of significant superiority.
+The `B0_prior` reference scored **0.034971**. `B1_rf` was the highest-scoring unimodal Development model, while `D1_emg_cnn` (0.218176) was the strongest sEMG neural alternative. These observations are based on the same Development protocol; they do not imply that acceleration lacks physiological value outside the tested representations or that Random Forest is universally preferable.
 
-**Executed class-specific evidence:** Notebook 03 reports precision, recall, F1, predicted-window counts and true-class support for every corrected class using the original OOF probabilities. Both pooled-window and participant-mean metrics are retained; the equal-person mean of the class F1 values reconstructs the primary participant-balanced macro F1. The published table for the selected `B1_rf` reports 16,329 Rest windows (class 0) among 35,000 Development windows, with pooled recall 0.902321. In contrast, class 8 has pooled recall 0.022079. The count confusion matrix, true-class-row-normalised confusion matrix and eleven-model class-F1 heatmap reveal this marked per-class variation without suggesting independent Test performance.
+### 6.2 Matched Development fusion findings and frozen selection
 
-**Executed Notebook 04 fusion comparison:** The nine fusion candidates were compared on the same 35 Development participants using original OOF window identities and the 18-class equal-participant macro F1 endpoint.
+[Notebook 04's fusion scores](output/04_all_fusion_metrics.csv) were measured on the same **35 Development people**, using the same participant-mean endpoint.
 
-| Fusion model | Mean Development participant macro F1 |
+| Fusion candidate | Development participant-mean macro F1 |
 | --- | ---: |
-| `F1_rf` (early Random Forest) | **0.263012** |
-| `F2_rf` (fixed late Random Forest) | 0.246213 |
-| `F2_logreg` (fixed late Logistic Regression) | 0.164609 |
-| `F1_logreg` (early Logistic Regression) | 0.163162 |
+| **`F1_rf` — early Random Forest** | **0.263012** |
+| `F2_rf` — fixed late Random Forest | 0.246213 |
+| `F2_logreg` — fixed late Logistic Regression | 0.164609 |
+| `F1_logreg` — early Logistic Regression | 0.163162 |
 | `F3_dual_tcn` | 0.154582 |
 | `F5_cross_attention` | 0.153039 |
 | `F3_dual_cnn` | 0.149861 |
 | `F4_deep_late` | 0.140728 |
 | `F5_gated` | 0.140232 |
 
-The fixed Development-selected unimodal comparator `B1_rf` scored **0.234836**. Relative to this comparator, selected `F1_rf` improved mean participant macro F1 by **0.028176** units, with positive paired differences for **25/35** Development participants and negative differences for **10/35**. No independent Test outcome entered model or fusion-weight selection. The selected fusion model's pooled Rest recall (class 0) was **0.942189**, whereas its pooled class-8 recall was **0.045078**. Count and normalised confusion plots and per-class F1 therefore provide important qualifications to the aggregate result.
+The Development comparison favoured `F1_rf` over the fixed `B1_rf` unimodal reference (**0.234836**) by **+0.028176** macro-F1 units. Its [paired participant comparison](output/04_oof_paired_differences.csv) was positive for **25 people** and negative for **10**. The selection was recorded in [`04_model_selection.csv`](output/04_model_selection.csv) before the frozen Test.
 
-**Executed Notebook 05 frozen Test comparison:** Development evidence selected `B1_rf` (sEMG-only Random Forest) and `F1_rf` (early-fusion Random Forest) before Test evaluation. Both frozen 120-tree models were refitted on all 35 Development participants, using the original 48-column sEMG and 96-column acceleration features. The same 5,000 windows from five reserved people (S05, S08, S19, S33, S40) were then scored, with no Test-based model or hyperparameter selection.
+![Nine fusion candidates measured on matched Development participants](output/04_fusion_comparison.png)
 
-| Test participant | B1_rf macro F1 | F1_rf macro F1 | Fusion minus unimodal |
+*Figure 1. Participant-mean Development fusion scores; the dashed line marks the selected sEMG-only reference. The comparison does not contain Test outcomes.*
+
+### 6.3 Frozen five-person Test findings
+
+[Notebook 05](code/notebooks/05_frozen_person_independent_test.ipynb) refitted both selected Random Forests using all 35 Development people and scored **identical windows** from the five reserved Test participants. The [source-keyed Test prediction table](output/05_test_predictions.csv) records 10,000 model/window prediction rows: 5,000 distinct windows evaluated by each of two models.
+
+| Test participant | `B1_rf` macro F1 | `F1_rf` macro F1 | Fusion minus unimodal |
 | --- | ---: | ---: | ---: |
 | S05 | 0.284875 | 0.347756 | +0.062881 |
 | S08 | 0.201423 | 0.288869 | +0.087445 |
@@ -189,57 +183,95 @@ The fixed Development-selected unimodal comparator `B1_rf` scored **0.234836**. 
 | S40 | 0.246208 | 0.315845 | +0.069637 |
 | **Equal-participant mean** | **0.251178** | **0.312600** | **+0.061423** |
 
-Corresponding mean fixed-class balanced accuracy was **0.287890** and **0.350991**, respectively. These results represent previously unseen participants **within the same NinaPro DB2 E1 source**, not an external device, clinical or prospective validation study.
+Mean fixed-class balanced accuracy was **0.287890** for `B1_rf` and **0.350991** for `F1_rf`. The overall observation is a higher **participant-mean Test macro F1** for early fusion, but the benefit was smaller for S19 and only **five independent Test people** contribute to the paired estimate.
 
-Published third-party results are background literature with distinct protocols. In particular, Hu et al. (2024) reported a within-person repetition-split DB2 fusion accuracy that is not directly comparable to this person-independent macro-F1 endpoint. Zhang et al. (2023) established related intersubject sEMG/accelerometer fusion work, so intersubject fusion itself is not a novel concept.
+![Paired participant-level macro-F1 differences on the reserved Test cohort](output/05_subject_differences.png)
+
+*Figure 2. Each bar is one held-out person's `F1_rf − B1_rf` macro-F1 difference. The 5,000 windows do not constitute 5,000 independent participants.*
+
+### 6.4 Class-level errors and uneven movement recognition
+
+[Per-class Test precision, recall, F1 and support](output/05_per_class_support.csv) demonstrate that aggregate improvement does not mean reliable recognition of every corrected movement:
+
+| Class under `F1_rf` | True Test windows | Pooled recall | Pooled F1 |
+| --- | ---: | ---: | ---: |
+| Rest (0) | **2,691** | **0.819398** | 0.817121 |
+| Movement 7 | 175 | 0.017143 | **0.028986** |
+| Movement 8 | 131 | 0.045802 | **0.069364** |
+
+Rest represented **53.8%** of Test windows compared with **46.7%** in Development. Consequently, pooled-window accuracy is affected by the differing class mix and is not interchangeable with the primary participant-mean, fixed-class macro F1. The [count confusion matrix](output/05_confusion_matrix.png) and [true-class-normalised version](output/05_confusion_matrix_normalised.png) show complementary views of these errors.
+
+![True-class-normalised confusion matrix for the frozen fused Test model](output/05_confusion_matrix_normalised.png)
+
+*Figure 3. Rows are normalised by their true-class support. The uneven diagonal indicates limited recognition of some movement classes despite the positive aggregate paired result.*
+
 ## 7. Robustness, Uncertainty and Additional Analyses
 
-**Recorded multi-seed stability:** Development-selected neural finalists were repeated with seeds 43 and 44 on the same five grouped folds. `D1_emg_cnn` yielded 0.213478 and 0.216074, compared with 0.218176 at seed 42; `D2_acc_tcn` yielded 0.070353 and 0.074801, compared with 0.070928 at seed 42. These repetitions probe fitting variability within the same cohort, not additional independent people. The executed fusion perturbations use three synthetic acceleration-replacement conditions for two neural arms. For neural fusion finalist `F3_dual_tcn`, additional seed scores were **0.119353** (43) and **0.124863** (44) versus **0.154582** (42). The original Development selection is retained. Notebook 05 also reports the executed Test participant differences and their descriptive bootstrap uncertainty.
+### 7.1 Additional neural seeds and synthetic acceleration perturbations
 
-**Observed paired Test uncertainty:** All five differences were positive; the range was **+0.008327 to +0.087445** macro-F1 units, with an equal-participant mean **+0.061423**. The recorded **2,000-draw paired participant bootstrap** yielded descriptive percentile limits **0.033337–0.080434**. Five independent people, rather than overlapping Test windows, were the resampling units. The small sample cannot support population-wide superiority or an unqualified significance claim.
+The principal Development neural results use seed **42**. The selected sEMG and acceleration neural finalists in Notebook 03 were repeated with seeds **43 and 44**, maintaining the same participant folds. The selected neural fusion finalist `F3_dual_tcn` was similarly repeated in Notebook 04:
 
-**Class and computation limitations:** Rest (class 0) accounts for **2,691/5,000 (53.8%)** of Test windows, versus **16,329/35,000 (46.7%)** in Development. This shift in class composition is one reason pooled window accuracy must not replace the participant-mean, fixed-class macro F1 endpoint. Pooled recall for Rest under `F1_rf` was **0.819398**, whereas pooled F1 for classes 7 and 8 was **0.028986** and **0.069364**. Pooled class metrics are not interchangeable with the primary equal-participant macro F1. Observed fit durations were approximately **42.1 s** for `B1_rf` and **78.1 s** for `F1_rf`; serialised model sizes were **307.8 MB** and **260.8 MB**. CPU inference timing was measured on a 64-window sample, approximately **0.579** and **0.551 ms/window** respectively, so the small timing difference is not a generalisable speed advantage.
+| Neural finalist | Seed 42 | Seed 43 | Seed 44 | Context |
+| --- | ---: | ---: | ---: | --- |
+| `D1_emg_cnn` | 0.218176 | 0.213478 | 0.216074 | Development sEMG finalist |
+| `D2_acc_tcn` | 0.070928 | 0.070353 | 0.074801 | Development acceleration finalist |
+| `F3_dual_tcn` | 0.154582 | 0.119353 | 0.124863 | Development fusion finalist |
 
-An optional second non-force exercise may be studied as an explicitly separate task after the primary configuration and results have been recorded; it will not be selected because its Test result appears more favourable.
+These are **additional fittings on the same Development participants**, not independent participant replications. The original seed-42 selection was not retroactively replaced. Source evidence: [unimodal seed metrics](output/03_neural_multiseed_metrics.csv), [fusion seed metrics](output/04_F3_dual_tcn_extra_seed_metrics.csv).
+
+The [synthetic acceleration perturbation results](output/04_fusion_robustness.csv) examine all-channel, single-sensor and contiguous-interval mean replacement in two fitted neural fusion models. Their results are descriptive stress tests of those fitted models and **not** a demonstration of actual sensor failures or trained missing-modality tolerance. Reduced-sensor retraining, external sensors and online disturbance experiments were not performed.
+
+### 7.2 Five-person Test uncertainty and measured computation
+
+The [paired Test summary](output/05_test_summary.csv) reports an observed equal-participant mean difference (`F1_rf − B1_rf`) of **+0.061423**, with **2,000 whole-person bootstrap draws** and descriptive 2.5th–97.5th percentile limits **0.033337–0.080434**. All five observed differences were positive, although the smallest was only **+0.008327**. With five independent people, the interval is a limited descriptive characterisation of this sample and does not establish population-wide superiority.
+
+The [recorded Test model costs](output/05_model_costs.csv) were:
+
+| Recorded resource | `B1_rf` | `F1_rf` |
+| --- | ---: | ---: |
+| Development-only refit time | 42.1 s | 78.1 s |
+| Serialised model size | 307.8 MB | 260.8 MB |
+| Small-sample CPU inference | 0.579 ms/window | 0.551 ms/window |
+
+The CPU timing used a **64-window sample**, warm-up calls and repeated `predict_proba` operations. These are environment-specific, limited measurements; the small observed latency difference should not be interpreted as a robust deployment speed ranking. Size denotes serialised fitted estimator bytes, not neural parameter count, and no streaming system was benchmarked.
 
 ## 8. Current Outputs and Reproducibility
 
-### 8.1 Notebook sequence and file contracts
+### 8.1 Current public numerical evidence
 
-Notebooks 01–04 have tracked execution evidence: original-source audit, source-paired windows, eleven unimodal Development models and nine fusion Development models. Notebook 03's original aggregate `03_oof_probabilities.npz` is tracked in `output/` despite the general NPZ ignore rule, and Notebook 04's keyed CSV/PNG results and `04_model_selection.csv` are committed. Ten Notebook 04 model-specific/consolidated probability NPZ files remain in its downloadable Colab output archive, not Git. Notebook 05 is **executed** and its ten current `05_*` output files record source-keyed predictions, participant scores, paired uncertainty, per-class metrics and four figures.
+The stage-prefixed output files provide sufficient original evidence to inspect the reported comparisons. They are written by the corresponding notebook and replaced by that stage on a rerun.
 
-| Notebook | Required input and operations | Named output targets |
+| Evidence | Current file | Producing stage and scientific use |
 | --- | --- | --- |
-| `01_ninapro_pairing_and_label_audit.ipynb` | Official pilot ZIP / MATLAB fields, sensor and label schema, source alignment and missingness | `01_pairing_registry.csv`, `01_sensor_dictionary.csv`, `01_alignment_examples.png` |
-| `02_signal_processing_and_aligned_windows.ipynb` | Validated source inventory; label, time and pairing contracts; trial-safe windows and features | `02_aligned_trial_index.csv`, `02_window_index.csv`, `02_channel_quality.png`; local aligned arrays/features |
-| `03_unimodal_grouped_baselines.ipynb` | Fixed class set and reserved Test isolation; grouped Development B0/B1/B2 plus temporal CNN/TCN/BiGRU; seed robustness and class-specific OOF summaries | `03_all_unimodal_metrics.csv`, `03_oof_probabilities.npz`, `03_selected_model_per_class_metrics.csv`, `03_all_models_per_class_metrics.csv`, `03_class_errors.png`, `03_class_errors_normalised.png`, `03_per_class_f1_heatmap.png` |
-| `04_fusion_and_modality_ablations.ipynb` | Matched source keys, validated Notebook 03 soft OOF probabilities, independent classical early/late and neural paired-fusion fits, seed robustness and synthetic acceleration replacement | `04_dev_fusion_metrics.csv`, `04_dev_deep_fusion_metrics.csv`, `04_oof_paired_differences.csv`, `04_model_selection.csv`, `04_fusion_robustness.csv`, `04_fusion_comparison.png`, `04_subject_paired_differences.png`, `04_modality_sensitivity.png`, `04_all_fusion_per_class_metrics.csv`, `04_selected_fusion_per_class_metrics.csv`, `04_fusion_class_errors_normalised.png`, `04_fusion_per_class_f1_heatmap.png` |
-| `05_frozen_person_independent_test.ipynb` | Executed frozen `B1_rf`/`F1_rf` Development-only refits and five-person Test comparison | `05_test_predictions.csv`, `05_test_metrics.csv`, `05_test_summary.csv`, `05_subject_differences.csv`, `05_per_class_support.csv`, `05_model_costs.csv`, `05_subject_differences.png`, `05_cost_accuracy.png`, `05_confusion_matrix.png`, `05_confusion_matrix_normalised.png` |
+| Corrected E1 classes | [`01_label_dictionary.csv`](output/01_label_dictionary.csv) | 01; fixed source target definition |
+| Source-keyed selected cohort | [`02_window_index.csv`](output/02_window_index.csv) | 02; paired source intervals, labels and row order |
+| Person roles and folds | [Split](output/02_participant_split_assignments.csv) · [folds](output/02_development_fold_assignments.csv) | 02; fixed Development/Test boundary |
+| Unimodal Development metrics | [`03_all_unimodal_metrics.csv`](output/03_all_unimodal_metrics.csv) | 03; 11-arm participant comparisons |
+| Source-aligned OOF probabilities | [`03_oof_probabilities.npz`](output/03_oof_probabilities.npz) | 03; genuine soft inputs for late fusion |
+| Fusion Development metrics | [`04_all_fusion_metrics.csv`](output/04_all_fusion_metrics.csv) | 04; nine-arm participant comparisons |
+| Frozen Development decisions | [`04_model_selection.csv`](output/04_model_selection.csv) | 04; selected `B1_rf` and `F1_rf` |
+| Final Test predictions | [`05_test_predictions.csv`](output/05_test_predictions.csv) | 05; aligned labels, predictions and 18 class probabilities for both models |
+| Participant scores and paired uncertainty | [`05_test_metrics.csv`](output/05_test_metrics.csv) · [`05_test_summary.csv`](output/05_test_summary.csv) | 05; main endpoint and participant-level bootstrap |
+| Class-wise errors and costs | [Per-class scores](output/05_per_class_support.csv) · [costs](output/05_model_costs.csv) | 05; secondary diagnostic and compute measurements |
 
-Notebook-specific scientific sections anticipated:
+The [five research notebooks](code/notebooks/) preserve their recorded outputs and the [stage-specific SVGs](images/) illustrate the implemented workflows. The numeric plots in [`output/`](output/) are computed figures rather than decorative or simulated measurement traces.
 
-- **01:** source download/inventory; MATLAB field audit; EMG–Acc pairing; original/corrected annotations; participant and repetition coverage; source evidence and interpretation.
-- **02:** physical-time mapping; signal quality; label transitions and purity; paired windows; feature extraction; eligible counts and frozen split IDs; saved row keys.
-- **03:** Development split integrity; train-only scalers/class weighting; majority/logistic regression/Random Forest; 1D-CNN, TCN and BiGRU unimodal models; matched person folds, fit/seed budgets, OOF predictions, learning curves and error interpretation.
-- **04:** classical early/late fusion; neural two-branch embedding fusion and neural late fusion; bounded gated/cross-attention fusion; probability/label alignment; seed and sensor/dropout ablations; Development-only selection with measured computation.
-- **05:** executed frozen `B1_rf`/`F1_rf` Development-only refits on the 48/96-column feature matrices, with five-person Test evaluation, paired participant uncertainty, per-class F1, confusion matrices and cost reporting.
+### 8.2 Source access, environment and regeneration
 
-Each implemented notebook will contain the established **00. Colab Repository Setup** and **01. Imports and Research Environment** sections, numbered scientific Markdown and code headings, and an independently curated SVG whose filename matches the notebook stem. SVGs explain actual implemented operations; no Test scores or empirical waveforms will be invented in a planning diagram.
+For a new source-based run, use the [official NinaPro DB2 files](https://ninapro.hevs.ch/instructions/DB2.html) and the [repository requirements](../requirements.txt), then follow the [notebook execution order](README.md#4-running-and-reviewing-the-study). Notebook 01 inspects source pairing; Notebook 02 produces source-window identities, feature matrices and participant assignments; Notebooks 03–04 perform the Development comparison; Notebook 05 consumes the frozen choice.
 
-### 8.2 Local and tracked artefact boundaries
+The two compact Notebook 02 statistical arrays, `02_emg_features.npy` and `02_acc_features.npy`, are available at [`data/processed/ninapro_db2/`](../data/processed/ninapro_db2/) for the current classical Test. A complete neural re-execution also requires the original per-person time-series arrays, which the source-aware loader reconstructs as needed. Readers **do not need to retrieve the entire original source corpus merely to inspect the saved result tables**.
 
-- Local `data/raw/ninapro_db2/`: original subject ZIP archives, downloaded once per available runtime and reused when found.
-- `data/processed/ninapro_db2/`: the two Notebook 02 feature matrices needed for this classical Test are **now tracked in Git**; per-person source-length arrays remain untracked.
-- Study-owned `output/`: tracked `01_*`–`05_*` CSV/PNG files and `03_oof_probabilities.npz`, explicitly exempted from the global NPZ ignore pattern. Notebook 04's other probability NPZ files remain in its Colab archive. Notebook 05 requires only the two Git-tracked feature matrices at `data/processed/ninapro_db2/`, not the original source-length signals.
-- Curated `images/`: five editable notebook-specific workflow SVGs; these are scientific process diagrams, not computed numerical plots.
-- Repository root `requirements.txt`: the scientific environment dependencies used by the implementation; full runtime consistency remains dependent on the executing Colab/Python environment.
+Implementation and methodological roles are split across [`ninapro_source.py`](code/src/ninapro_source.py), [`ninapro_dataset.py`](code/src/ninapro_dataset.py), [`ninapro_experiments.py`](code/src/ninapro_experiments.py), [`ninapro_fusion_experiments.py`](code/src/ninapro_fusion_experiments.py), [`ninapro_models.py`](code/src/ninapro_models.py), [`ninapro_training.py`](code/src/ninapro_training.py) and [`ninapro_evaluation.py`](code/src/ninapro_evaluation.py). The offline [NinaPro contract tests](../tests/test_ninapro_fusion_contracts.py) check important alignment, source-key and saved-score properties; synthetic and static tests are not substitutes for independent reproduction of every original model fit.
 
-The executed sequence first inspected S01, then processed all 40 participants one at a time. Per-person original ZIPs are typically hundreds of megabytes, whereas the `output/` tables are small source/selection contracts. A fresh Colab session may lack original recordings, but the two compact features needed for the frozen classical Test are restored from a normal Git checkout. Moving multi-GiB dense signal tensors to `output/` is not a practical replacement for persistent large-data storage. Each notebook replaces only its own named current outputs on rerun.
+Rerunning a notebook writes its own current stage outputs. A change in source cohort, feature construction, participant assignment, class definition or frozen selection requires compatible downstream stages to be regenerated; existing stored Test outcomes must not be mixed with a different scientific protocol.
 
 ## 9. Discussion, Limitations and Future Work
 
-Original source/cohort processing, the Notebook 03 unimodal and Notebook 04 fusion Development comparisons, and the frozen Notebook 05 Test have recorded execution evidence. The dominant Rest class, participant variability, sEMG-informed corrected boundaries and interpolated acceleration stream complicate interpretation of class-level and modality-specific performance. Successful notebook execution does not establish that a model generalises to independent Test people, different acquisition devices or rehabilitation settings. The observed five-person Test comparison favoured early fusion on participant-mean macro F1, but the limited cohort, dominant Rest class and weak movement-specific performance constrain the conclusion.
+The central comparison was answered for the defined NinaPro DB2 E1 experiment: **adding paired acceleration features in an early-fusion Random Forest increased the observed participant-mean fixed-class macro F1 relative to the Development-selected sEMG-only Random Forest** on the reserved Test cohort. The Development result and final Test result are separate measurements; neither provides grounds to retune the frozen model pair after inspecting Test.
 
-The actual S01 and 40-participant E1 inspection supports the current source dimensions, corrected label set and frozen person assignments. Important interpretation limits remain: sEMG-informed corrected boundaries, the interpolated accelerometer stream, the high Rest proportion, and the reduced 1,000-window-per-person modelling cohort. None of these measurements establishes native sensor clock accuracy or performance in real-time prosthetic use.
+The main limitation is **only five independent held-out Test participants**, selected before model selection from the 40-person source cohort. They contribute 5,000 windows but only five independent person-level observations, restricting the precision and wider generalisability of the measured benefit. Recognition quality also varies sharply by movement class and Rest is frequent. The approximately 148-Hz native accelerometer stream is represented on a 2,000-Hz released row grid, and movement-boundary corrections were informed by sEMG; these source properties matter to any modality-specific interpretation.
 
-**Key references:** [NinaPro DB2 guide](https://ninapro.hevs.ch/instructions/DB2.html); [Atzori et al. (2014)](https://doi.org/10.1038/sdata.2014.53); [Dryad source record](https://doi.org/10.5061/dryad.1k84r); [Hu et al. (2024)](https://doi.org/10.3390/s24092702); [Zhang et al. (2023)](https://doi.org/10.1109/JSEN.2023.3266872).
+The study is limited to **offline, prompted, non-force E1 movements from one collection of intact volunteers**. It does not report external-device or site validation, real-time prosthetic control, clinical benefit, amputee or stroke performance, or naturally occurring sensor failures. Broader evaluation would require more independent participants and a separately defined external/online protocol. Other exercise sets or sensor-reduction experiments would be **new studies**, not retroactive additions to these Test results.
+
+**Original-source references:** [NinaPro DB2](https://ninapro.hevs.ch/instructions/DB2.html); [Atzori et al. (2014)](https://doi.org/10.1038/sdata.2014.53); [Dryad data deposition](https://doi.org/10.5061/dryad.1k84r). Related fusion literature noted in the earlier design includes [Hu et al. (2024)](https://doi.org/10.3390/s24092702) and [Zhang et al. (2023)](https://doi.org/10.1109/JSEN.2023.3266872); their separate designs and metrics are **not** pooled into this study's findings.
