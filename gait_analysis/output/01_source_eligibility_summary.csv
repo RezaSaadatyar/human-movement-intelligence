@@ -1,5 +1,9 @@
 item,value
-source_participants_observed,3
-candidate_imu_force_pairs,9
-validated_reference_pairs,pending original-time/channel/side inspection
+source_participants_target,9
+source_participants_observed,6
+source_participants_with_selected_pairs,6
+source_acquisition_complete,False
+candidate_imu_force_pairs,18
+readable_pairs_with_native_time_overlap,18
+validated_reference_pairs,not yet independently established
 force_contact_event_results,not generated in source inspection
