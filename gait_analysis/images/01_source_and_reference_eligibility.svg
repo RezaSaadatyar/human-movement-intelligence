@@ -1,0 +1,190 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<svg xmlns="http://www.w3.org/2000/svg" width="1700" height="816" viewBox="0 0 1700 816" role="img" aria-labelledby="figure-title figure-desc">
+<title id="figure-title">GAIT ANALYSIS | SOURCE AND REFERENCE ELIGIBILITY</title>
+<desc id="figure-desc">Editable scientific schematic of the Source and Reference Eligibility workflow with source, measured context, analysis panels and five-stage processing. No empirical gait performance is asserted prior to original-data execution.</desc>
+<defs><marker id="arr" markerUnits="userSpaceOnUse" markerWidth="6" markerHeight="6" refX="5.5" refY="3" orient="auto"><path d="M0 0 L6 3 L0 6 Z" fill="#245E9D"/></marker><style>
+text{font-family:'DejaVu Sans',Arial,sans-serif}
+.figure-title{font-size:23px;font-weight:700;fill:#173453}
+.subtitle{font-size:15px;fill:#54738A}
+.source-heading{font-size:11.5px;font-weight:700;fill:#53738A}
+.source-label{font-size:13px;fill:#173453}
+.context-heading{font-size:15px;font-weight:700;fill:#173453}
+.context-body{font-size:13.5px;fill:#506C7E}
+.section-label{font-size:13.2px;font-weight:700;fill:#FFFFFF}
+.focus-heading{font-size:16.5px;font-weight:700;fill:#173453}
+.focus-body{font-size:13.1px;fill:#506C7E}
+.qualification{font-size:11.5px;font-weight:700;fill:#506C7E}
+.card-heading{font-size:13.5px;font-weight:700;fill:#FFFFFF}
+.card-body{font-size:12.1px;fill:#506C7E}
+.chart-label{font-size:11.8px;fill:#506C7E}
+.scientific-note{font-size:12.1px;font-weight:700;fill:#173453}
+.workflow-id{font-size:12.5px;font-weight:700;fill:#506C7E}
+.workflow-heading{font-size:15px;font-weight:700;fill:#173453}
+.workflow-body{font-size:12.1px;fill:#506C7E}
+.terminal-id{font-size:12.5px;font-weight:700;fill:#DBF2EF}
+.terminal-heading{font-size:15px;font-weight:700;fill:#FFFFFF}
+.terminal-body{font-size:12.1px;fill:#DBF2EF}
+.footer{font-size:13.3px;fill:#54738A}
+</style></defs>
+<rect id="canvas" x="0" y="0" width="1700" height="816" rx="20" fill="#F4F9FD"/>
+<g id="band-0-header">
+<text id="main-title" x="30" y="38" class="figure-title">GAIT ANALYSIS | SOURCE AND REFERENCE ELIGIBILITY</text>
+<text id="main-subtitle" x="30" y="67" class="subtitle">Original Camargo source, side and timebase audit</text>
+</g>
+<g id="band-1-context">
+<rect id="context-bg" x="24" y="84" width="1652" height="160" rx="16" fill="#EAF3FA" stroke="#C7D9E6" stroke-width="2"/>
+<g id="source-illustration">
+<path id="schematic-shank" d="M88 121 Q78 135 78 161 L84 206 L84 225 L117 225 L126 204 L122 170 Q120 140 114 121" fill="#D9E7F1" stroke="#7298B0" stroke-width="2.5" stroke-linejoin="round"/>
+<path id="schematic-foot" d="M85 219 Q81 232 70 231 L42 232 Q37 232 36 237 Q39 241 48 241 L123 241 L118 219" fill="#D9E7F1" stroke="#7298B0" stroke-width="2.5" stroke-linejoin="round"/>
+<rect id="imu-marker" x="88" y="180" width="28" height="20" rx="5" fill="#245E9D" stroke="#FFFFFF" stroke-width="1.5"/>
+<text id="source-heading" x="153" y="110" class="source-heading">LOWER-LIMB SOURCE</text>
+<text id="source-imu" x="153" y="158" class="source-label">Foot/shank IMU</text>
+<text id="source-force" x="153" y="183" class="source-label">Force contact reference</text>
+<text id="source-side" x="153" y="208" class="source-label">Same-trial time + side</text>
+</g>
+<g id="ctx-0">
+<text id="ctx-0-title" x="358" y="115" class="context-heading">Physical inputs</text>
+<text id="ctx-0-line-0" x="358" y="148" class="context-body">IMU gyroscope</text>
+<text id="ctx-0-line-1" x="358" y="174" class="context-body">Original force measurement</text>
+<text id="ctx-0-line-2" x="358" y="200" class="context-body">Native timestamps</text>
+</g>
+<g id="ctx-1">
+<text id="ctx-1-title" x="688" y="115" class="context-heading">Measurement target</text>
+<text id="ctx-1-line-0" x="688" y="148" class="context-body">Initial contact (IC)</text>
+<text id="ctx-1-line-1" x="688" y="174" class="context-body">Terminal contact (TC)</text>
+<text id="ctx-1-line-2" x="688" y="200" class="context-body">Stride duration</text>
+</g>
+<g id="ctx-2">
+<text id="ctx-2-title" x="1018" y="115" class="context-heading">Evaluation units</text>
+<text id="ctx-2-line-0" x="1018" y="148" class="context-body">Participant &gt; trial</text>
+<text id="ctx-2-line-1" x="1018" y="174" class="context-body">Condition &gt; matched event</text>
+<text id="ctx-2-line-2" x="1018" y="200" class="context-body">Person-balanced estimates</text>
+</g>
+<g id="ctx-3">
+<text id="ctx-3-title" x="1348" y="115" class="context-heading">Scientific boundaries</text>
+<text id="ctx-3-line-0" x="1348" y="148" class="context-body">Training-only choices</text>
+<text id="ctx-3-line-1" x="1348" y="174" class="context-body">Held-out people for Test</text>
+<text id="ctx-3-line-2" x="1348" y="200" class="context-body">Offline same-source evidence</text>
+</g>
+</g>
+<g id="band-2-analysis">
+<rect id="analysis-bg" x="24" y="258" width="1652" height="314" rx="16" fill="#EDF6FB" stroke="#B4CFE0" stroke-width="1.5"/>
+<rect id="focus-label-bg" x="38" y="272" width="238" height="32" rx="9" fill="#173453" stroke="#173453" stroke-width="1.5"/>
+<text id="focus-label" x="157" y="293" class="section-label" text-anchor="middle">ANALYSIS FOCUS</text>
+<rect id="focus-card" x="38" y="312" width="238" height="215" rx="10" fill="#F7FAFD" stroke="#DFEAF0" stroke-width="1.5"/>
+<text id="focus-heading" x="54" y="344" class="focus-heading">Stage-specific task</text>
+<text id="focus-p1" x="54" y="389" class="focus-body">When do contacts occur?</text>
+<text id="focus-p2" x="54" y="416" class="focus-body">How accurate is IMU?</text>
+<text id="focus-p3" x="54" y="443" class="focus-body">Do conditions matter?</text>
+<text id="focus-p4" x="54" y="470" class="focus-body">Are people independent?</text>
+<text id="focus-note" x="54" y="508" class="qualification">No scores before execution</text>
+<g id="panel-0">
+<rect id="panel-0-border" x="292" y="272" width="324" height="254" rx="12" fill="#FFFFFF" stroke="#B6CFDE" stroke-width="1.5"/>
+<path id="panel-0-cap" d="M304 272 H604 Q616 272 616 284 V305 H292 V284 Q292 272 304 272 Z" fill="#174B70"/>
+<text id="panel-0-head" x="454" y="294" class="card-heading" text-anchor="middle">Original source</text>
+<text id="panel-0-line-0" x="310" y="340" class="card-body">Camargo et al. (2021)</text>
+<text id="panel-0-line-1" x="310" y="382" class="card-body">22 healthy people reported</text>
+<text id="panel-0-line-2" x="310" y="424" class="card-body">IMU / force recordings</text>
+<text id="panel-0-line-3" x="310" y="466" class="card-body">Data pairing to verify</text>
+</g>
+<g id="panel-1">
+<rect id="panel-1-border" x="630" y="272" width="324" height="254" rx="12" fill="#FFFFFF" stroke="#B6CFDE" stroke-width="1.5"/>
+<path id="panel-1-cap" d="M642 272 H942 Q954 272 954 284 V305 H630 V284 Q630 272 642 272 Z" fill="#174B70"/>
+<text id="panel-1-head" x="792" y="294" class="card-heading" text-anchor="middle">Gait contacts</text>
+<text id="panel-1-line-0" x="648" y="340" class="card-body">Reference: force threshold</text>
+<text id="panel-1-line-1" x="648" y="382" class="card-body">Estimator: IMU peaks</text>
+<text id="panel-1-line-2" x="648" y="424" class="card-body">Side + clock must agree</text>
+<text id="panel-1-line-3" x="648" y="466" class="card-body">Event misses kept</text>
+</g>
+<g id="panel-2">
+<rect id="panel-2-border" x="968" y="272" width="324" height="254" rx="12" fill="#FFFFFF" stroke="#B6CFDE" stroke-width="1.5"/>
+<path id="panel-2-cap" d="M980 272 H1280 Q1292 272 1292 284 V305 H968 V284 Q968 272 980 272 Z" fill="#174B70"/>
+<text id="panel-2-head" x="1130" y="294" class="card-heading" text-anchor="middle">Development</text>
+<text id="panel-2-line-0" x="986" y="340" class="card-body">Participant-disjoint folds</text>
+<text id="panel-2-line-1" x="986" y="382" class="card-body">B0 fixed detector</text>
+<text id="panel-2-line-2" x="986" y="424" class="card-body">B1 tuned detector</text>
+<text id="panel-2-line-3" x="986" y="466" class="card-body">Match events one-to-one</text>
+</g>
+<g id="panel-3">
+<rect id="panel-3-border" x="1306" y="272" width="356" height="254" rx="12" fill="#FFFFFF" stroke="#B6CFDE" stroke-width="1.5"/>
+<path id="panel-3-cap" d="M1318 272 H1650 Q1662 272 1662 284 V305 H1306 V284 Q1306 272 1318 272 Z" fill="#174B70"/>
+<text id="panel-3-head" x="1484" y="294" class="card-heading" text-anchor="middle">Final evaluation</text>
+<text id="panel-3-line-0" x="1324" y="340" class="card-body">Frozen model recipe</text>
+<text id="panel-3-line-1" x="1324" y="382" class="card-body">Held-out participants</text>
+<text id="panel-3-line-2" x="1324" y="424" class="card-body">Initial-contact timing MAE</text>
+<text id="panel-3-line-3" x="1324" y="466" class="card-body">Sensitivity + uncertainty</text>
+</g>
+<rect id="scientific-note-bg" x="301" y="540" width="1361" height="25" rx="12" fill="#E0F2EC" stroke="#D3EAE2" stroke-width="1.5"/>
+<circle id="scientific-info" cx="324" cy="552" r="9" fill="#23749A"/>
+<text id="info-i" x="324" y="556" class="section-label" text-anchor="middle">i</text>
+<text id="scientific-caveat" x="342" y="556" class="scientific-note">Protocol diagram only. Original-time reference eligibility and participant splits must be verified before evaluation.</text>
+</g>
+<g id="band-3-workflow">
+<rect id="workflow-bg" x="24" y="588" width="1652" height="174" rx="16" fill="#EAF3FA" stroke="#C7D9E6" stroke-width="2"/>
+<g id="workflow-node-0">
+<rect id="node-0-bg" x="38" y="613" width="208" height="132" rx="15" fill="#173453" stroke="#173453" stroke-width="1.8"/>
+<text id="node-0-id" x="142" y="636" class="terminal-id" text-anchor="middle">INPUT</text>
+<text id="node-0-head" x="142" y="662" class="terminal-heading" text-anchor="middle">Camargo source</text>
+<text id="node-0-line-0" x="142" y="684" class="terminal-body" text-anchor="middle">Native IMU / force</text>
+<text id="node-0-line-1" x="142" y="704" class="terminal-body" text-anchor="middle">Trial and side keys</text>
+<text id="node-0-line-2" x="142" y="724" class="terminal-body" text-anchor="middle">Recorded time</text>
+</g>
+<path id="connector-0" d="M252 679 H266" stroke="#245E9D" stroke-width="2.2" fill="none" stroke-linecap="round" marker-end="url(#arr)"/>
+<g id="workflow-node-1">
+<rect id="node-1-bg" x="274" y="613" width="208" height="132" rx="15" fill="#FFFFFF" stroke="#B8CFDE" stroke-width="1.8"/>
+<text id="node-1-id" x="378" y="636" class="workflow-id" text-anchor="middle">01</text>
+<text id="node-1-head" x="378" y="662" class="workflow-heading" text-anchor="middle">Sensor inventory</text>
+<text id="node-1-line-0" x="378" y="684" class="workflow-body" text-anchor="middle">Trial eligibility</text>
+<text id="node-1-line-1" x="378" y="704" class="workflow-body" text-anchor="middle">Original field names</text>
+<text id="node-1-line-2" x="378" y="724" class="workflow-body" text-anchor="middle">No fabricated labels</text>
+</g>
+<path id="connector-1" d="M488 679 H502" stroke="#245E9D" stroke-width="2.2" fill="none" stroke-linecap="round" marker-end="url(#arr)"/>
+<g id="workflow-node-2">
+<rect id="node-2-bg" x="510" y="613" width="208" height="132" rx="15" fill="#FFFFFF" stroke="#B8CFDE" stroke-width="1.8"/>
+<text id="node-2-id" x="614" y="636" class="workflow-id" text-anchor="middle">02</text>
+<text id="node-2-head" x="614" y="662" class="workflow-heading" text-anchor="middle">Trial identity</text>
+<text id="node-2-line-0" x="614" y="684" class="workflow-body" text-anchor="middle">Review timebase</text>
+<text id="node-2-line-1" x="614" y="704" class="workflow-body" text-anchor="middle">Verify side + force</text>
+<text id="node-2-line-2" x="614" y="724" class="workflow-body" text-anchor="middle">Event alignment</text>
+</g>
+<path id="connector-2" d="M724 679 H738" stroke="#245E9D" stroke-width="2.2" fill="none" stroke-linecap="round" marker-end="url(#arr)"/>
+<g id="workflow-node-3">
+<rect id="node-3-bg" x="746" y="613" width="208" height="132" rx="15" fill="#FFFFFF" stroke="#B8CFDE" stroke-width="1.8"/>
+<text id="node-3-id" x="850" y="636" class="workflow-id" text-anchor="middle">03</text>
+<text id="node-3-head" x="850" y="662" class="workflow-heading" text-anchor="middle">Channel inventory</text>
+<text id="node-3-line-0" x="850" y="684" class="workflow-body" text-anchor="middle">Stride timing</text>
+<text id="node-3-line-1" x="850" y="704" class="workflow-body" text-anchor="middle">Cadence and CV</text>
+<text id="node-3-line-2" x="850" y="724" class="workflow-body" text-anchor="middle">Reference evidence</text>
+</g>
+<path id="connector-3" d="M960 679 H974" stroke="#245E9D" stroke-width="2.2" fill="none" stroke-linecap="round" marker-end="url(#arr)"/>
+<g id="workflow-node-4">
+<rect id="node-4-bg" x="982" y="613" width="208" height="132" rx="15" fill="#FFFFFF" stroke="#B8CFDE" stroke-width="1.8"/>
+<text id="node-4-id" x="1086" y="636" class="workflow-id" text-anchor="middle">04</text>
+<text id="node-4-head" x="1086" y="662" class="workflow-heading" text-anchor="middle">Native timestamps</text>
+<text id="node-4-line-0" x="1086" y="684" class="workflow-body" text-anchor="middle">Grouped Development</text>
+<text id="node-4-line-1" x="1086" y="704" class="workflow-body" text-anchor="middle">Fixed and tuned rules</text>
+<text id="node-4-line-2" x="1086" y="724" class="workflow-body" text-anchor="middle">Frozen parameters</text>
+</g>
+<path id="connector-4" d="M1196 679 H1210" stroke="#245E9D" stroke-width="2.2" fill="none" stroke-linecap="round" marker-end="url(#arr)"/>
+<g id="workflow-node-5">
+<rect id="node-5-bg" x="1218" y="613" width="208" height="132" rx="15" fill="#FFFFFF" stroke="#B8CFDE" stroke-width="1.8"/>
+<text id="node-5-id" x="1322" y="636" class="workflow-id" text-anchor="middle">05</text>
+<text id="node-5-head" x="1322" y="662" class="workflow-heading" text-anchor="middle">Eligibility decision</text>
+<text id="node-5-line-0" x="1322" y="684" class="workflow-body" text-anchor="middle">Held-out participants</text>
+<text id="node-5-line-1" x="1322" y="704" class="workflow-body" text-anchor="middle">Event MAE and misses</text>
+<text id="node-5-line-2" x="1322" y="724" class="workflow-body" text-anchor="middle">Person uncertainty</text>
+</g>
+<path id="connector-5" d="M1432 679 H1446" stroke="#245E9D" stroke-width="2.2" fill="none" stroke-linecap="round" marker-end="url(#arr)"/>
+<g id="workflow-node-6">
+<rect id="node-6-bg" x="1454" y="613" width="208" height="132" rx="15" fill="#176363" stroke="#176363" stroke-width="1.8"/>
+<text id="node-6-id" x="1558" y="636" class="terminal-id" text-anchor="middle">OUTPUT</text>
+<text id="node-6-head" x="1558" y="662" class="terminal-heading" text-anchor="middle">Gait evidence</text>
+<text id="node-6-line-0" x="1558" y="684" class="terminal-body" text-anchor="middle">Current CSV / PNG</text>
+<text id="node-6-line-1" x="1558" y="704" class="terminal-body" text-anchor="middle">Source-keyed results</text>
+<text id="node-6-line-2" x="1558" y="724" class="terminal-body" text-anchor="middle">Qualified conclusions</text>
+</g>
+</g>
+<g id="band-4-summary">
+<text id="footer-summary" x="30" y="792" class="footer">Camargo original trial review → independent force contacts → IMU detections → participant-level gait timing evidence</text>
+</g>
+</svg>
