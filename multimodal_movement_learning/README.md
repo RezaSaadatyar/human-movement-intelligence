@@ -1,8 +1,8 @@
 # Multimodal Movement Learning | NinaPro DB2
 
-![Frozen person-independent evaluation workflow: paired sEMG and accelerometry, Development-selected Random Forests and held-out Test](images/05_frozen_person_independent_test.svg)
+![Study-wide NinaPro DB2 E1 workflow from Notebook 01 source audit through Notebook 05 frozen Test](images/study_overview.svg)
 
-*Figure 1. The frozen final-evaluation workflow. The diagram is a methodological schematic; numerical scores are documented in the saved Test tables and figures.*
+*Figure 1. Complete five-notebook workflow: original source audit (01), paired windows and participant allocation (02), unimodal Development benchmarks (03), fusion Development selection (04), and frozen five-person Test (05). The forearm illustration is schematic; the Development and Test macro-F1 values come from the saved outputs.*
 
 This completed five-notebook study examines whether **paired accelerometer measurements improve surface electromyography (sEMG)-based finger-movement classification for previously unseen participants**. It uses original NinaPro Database 2 (DB2) Exercise E1 recordings, fixed participant-disjoint Development folds, classical and temporal neural models, and a separately reserved five-person Test group.
 
@@ -41,7 +41,7 @@ The five executed notebooks are kept in their scientific order. Each notebook co
 | 04 | [Multimodal Fusion and Sensor Perturbation](code/notebooks/04_fusion_and_modality_ablations.ipynb) | Compare nine early, late and learned fusion candidates on matched Development people; freeze the final comparator pair |
 | 05 | [Frozen Person-Independent Test](code/notebooks/05_frozen_person_independent_test.ipynb) | Refit `B1_rf` and `F1_rf` on Development only; evaluate both on the five reserved Test people and report class and cost diagnostics |
 
-The notebook-specific workflow diagrams are in [`images/`](images/). The implementation modules are in [`code/src/`](code/src/), and each stage writes its current named research results to [`output/`](output/).
+The [study-wide overview](images/study_overview.svg) connects all five stages. Their individual workflow diagrams remain separately available in [`images/`](images/), including the [Notebook 05 final-evaluation diagram](images/05_frozen_person_independent_test.svg). The implementation modules are in [`code/src/`](code/src/), and each stage writes its current named research results to [`output/`](output/).
 
 ## 3. Main Results
 
@@ -117,7 +117,7 @@ Source access and data-use guidance: [Research Datasets and Access](../docs/DATA
 | [`code/notebooks/`](code/notebooks/) | Five executed scientific notebook stages |
 | [`code/src/`](code/src/) | NinaPro source reading, paired windows, models, training and evaluation |
 | [`output/`](output/) | Current source/cohort, Development and Test CSV/PNG evidence |
-| [`images/`](images/) | Five editable stage-specific workflow diagrams |
+| [`images/`](images/) | One editable [study-wide overview](images/study_overview.svg) plus five editable stage-specific workflow SVGs |
 | [Notebook 02 feature matrices](../data/processed/ninapro_db2/) | Compact statistical inputs for the frozen classical evaluation |
 | [Shared research modules](../python_modules/core/) | Repository setup, device and plotting utilities |
 | [Detailed methods and evidence](MULTIMODAL_RESEARCH_METHODS_AND_EVIDENCE.md) | Method definitions, full model comparison, robustness and limitations |
