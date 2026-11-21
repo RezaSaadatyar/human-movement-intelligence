@@ -508,15 +508,15 @@ class GaitContractTests(unittest.TestCase):
             self.assertEqual(set(observed.subject_id), {"AB06", "AB07"})
 
     def test_notebook02_contract_review_is_descriptive_and_gated(self):
-        """Section 02 records candidates; Section 03 still protects labels."""
+        """Source-inspection run completes without invalid contact labels."""
         path = REPO / "gait_analysis/code/notebooks" / (
             "02_alignment_and_event_reference.ipynb"
         )
         notebook = json.loads(path.read_text(encoding="utf8"))
-        review = next(c for c in notebook["cells"]
-                      if c.get("id") == "c-02-03")
-        reference = next(c for c in notebook["cells"]
-                         if c.get("id") == "c-02-04")
+        cell = {
+            c["id"]: c for c in notebook["cells"]
+            if c.get("cell_type") == "code"
+        }
         with tempfile.TemporaryDirectory() as tmp:
             output = Path(tmp)
             rows = [{
@@ -533,20 +533,90 @@ class GaitContractTests(unittest.TestCase):
                 {"column": "Treadmill_R_vy", "modality": "fp"},
             ]).to_csv(output / "01_observed_columns.csv", index=False)
             variables = {
-                "output_dir": output, "np": np, "pd": pd,
-                "display": lambda *args: None,
+                "output_dir": output, "source_root": output,
+                "np": np, "pd": pd, "display": lambda *args: None,
             }
-            exec(compile("".join(review["source"]), "nb02_stage02", "exec"),
-                 variables)
-            contract = pd.read_csv(output / "02_source_contract_review.csv")
-            self.assertEqual(len(contract), 6)
-            self.assertIn("FORCE_UPWARD_SIGN", set(contract.setting))
+            for stage in ("c-02-03", "c-02-04", "c-02-05", "c-02-06"):
+                exec(compile("".join(cell[stage]["source"]),
+                             stage, "exec"), variables)
+            review = pd.read_csv(output / "02_source_contract_review.csv")
+            self.assertEqual(len(review), 6)
+            self.assertIn("FORCE_UPWARD_SIGN", set(review.setting))
             self.assertFalse(variables["IMU_FORCE_TIMEBASE_CONFIRMED"])
-            with self.assertRaisesRegex(
-                ValueError, "reference construction remains unavailable"
-            ):
-                exec(compile("".join(reference["source"]),
-                             "nb02_stage03", "exec"), variables)
+            self.assertFalse(variables["reference_ready"])
+            self.assertTrue(variables["eligible"].empty)
+            self.assertFalse((output / "02_reference_events.csv").exists())
+            self.assertFalse((output / "02_participant_roles.csv").exists())
+
+    def test_notebook02_source_diagnostic_uses_real_recorded_fields(self):
+        """Inspect genuine numeric source streams without fabricated events."""
+        import matplotlib
+        matplotlib.use("Agg")
+        import matplotlib.pyplot as plt
+
+        path = REPO / "gait_analysis/code/notebooks" / (
+            "02_alignment_and_event_reference.ipynb"
+        )
+        notebook = json.loads(path.read_text(encoding="utf8"))
+        stage = next(c for c in notebook["cells"]
+                     if c.get("id") == "c-02-03")
+        with tempfile.TemporaryDirectory() as tmp:
+            base = Path(tmp)
+            raw = base / "source"
+            raw.mkdir()
+            imu = pd.DataFrame({
+                "Header": np.arange(0., 6., .005),
+            })
+            imu["foot_Gyro_Y"] = np.sin(imu.Header.to_numpy())
+            imu["shank_Gyro_Y"] = np.cos(imu.Header.to_numpy())
+            force = pd.DataFrame({
+                "Header": np.arange(0., 6., .001),
+            })
+            force["Treadmill_R_vy"] = 400 * (
+                1 + np.sin(force.Header.to_numpy())
+            )
+            force["Treadmill_L_vy"] = 400 * (
+                1 - np.sin(force.Header.to_numpy())
+            )
+            (raw / "imu").mkdir()
+            (raw / "fp").mkdir()
+            imu.to_csv(raw / "imu/trial.csv", index=False)
+            force.to_csv(raw / "fp/trial.csv", index=False)
+            pd.DataFrame([{
+                "subject_id": "AB06", "session_id": "session",
+                "condition": "treadmill", "trial_id": "trial",
+                "imu_path": "imu/trial.csv", "fp_path": "fp/trial.csv",
+                "candidate_pair": True,
+            }]).to_csv(base / "01_candidate_pairs.csv", index=False)
+            pd.DataFrame([
+                {"column": "foot_Gyro_Y", "modality": "imu"},
+                {"column": "Treadmill_R_vy", "modality": "fp"},
+            ]).to_csv(base / "01_observed_columns.csv", index=False)
+            saved = []
+            variables = {
+                "np": np, "pd": pd, "plt": plt,
+                "display": lambda *args: None,
+                "output_dir": base, "source_root": raw,
+                "read_sensor_table": read_sensor_table,
+                "validate_timebase": validate_timebase,
+                "save_figure": lambda fig, destination: saved.append(
+                    str(destination)
+                ),
+            }
+            try:
+                exec(compile("".join(stage["source"]),
+                             "c-02-03", "exec"), variables)
+                self.assertEqual(len(variables["axes"][0].lines), 2)
+                self.assertEqual(len(variables["axes"][1].lines), 2)
+                self.assertTrue(saved[0].endswith(
+                    "02_source_contract_diagnostic.png"
+                ))
+                self.assertFalse(
+                    variables["IMU_FORCE_TIMEBASE_CONFIRMED"]
+                )
+            finally:
+                if "fig" in variables:
+                    plt.close(variables["fig"])
 
     def test_source_summary_and_download_share_notebook_final_section(self):
         """Gait Notebook 01 ends in one numbered scientific summary step."""
