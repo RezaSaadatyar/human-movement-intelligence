@@ -271,12 +271,14 @@ def _mendeley_public_file_metadata(
     from urllib.request import Request, urlopen
 
     opener = opener or urlopen
+    # The public-api route supports anonymous access to a pinned version.
+    # Prefer it to authenticated APIs; the latter remain fallbacks.
     urls = [
+        f"https://data.mendeley.com/public-api/datasets/{dataset_id}/files"
+        f"?folder_id=root&version={int(version)}",
         f"https://api.data.mendeley.com/datasets/publics/{dataset_id}/files"
         f"?version={int(version)}",
         f"https://api.data.mendeley.com/datasets/{dataset_id}/files"
-        f"?version={int(version)}",
-        f"https://api.data.mendeley.com/datasets/{dataset_id}"
         f"?version={int(version)}",
     ]
     errors = []
@@ -366,10 +368,21 @@ def download_mendeley_pilot_archive(
     file_id = metadata.get("id")
     if not file_id:
         raise ValueError("Mendeley response lacks an identifiable file UUID.")
-    url = (
+    # Public dataset metadata may include a fresh, short-lived download URL.
+    # Otherwise request the canonical file redirect from the official API.
+    from urllib.parse import urlsplit
+    direct_url = details.get("download_url") or metadata.get("download_url")
+    if direct_url:
+        parsed = urlsplit(direct_url)
+        if parsed.scheme != "https" or not parsed.hostname or (
+            parsed.username or parsed.password
+        ):
+            raise ValueError("Mendeley metadata contained an unsafe file URL.")
+    redirect_url = (
         f"https://api.data.mendeley.com/datasets/{dataset_id}/files/"
         f"{file_id}/file_downloaded?version={version}"
     )
+    urls = [direct_url, redirect_url] if direct_url else [redirect_url]
     opener = opener or urlopen
     partial = destination / f"{filename}.part"
     start = partial.stat().st_size if partial.exists() else 0
@@ -378,38 +391,66 @@ def download_mendeley_pilot_archive(
     headers = {"User-Agent": "HumanMovementIntelligence/1.0"}
     if start:
         headers["Range"] = f"bytes={start}-"
-    try:
-        with opener(Request(url, headers=headers), timeout=90) as response:
-            code = response.getcode()
-            content_range = response.headers.get("Content-Range", "")
-            resume = (
-                start > 0 and code == 206 and
-                content_range.startswith(f"bytes {start}-")
-            )
-            if start and not resume:
-                start = 0
-            mode = "ab" if resume else "wb"
-            size_written = start
-            print(f"Downloading official {filename} from Mendeley "
-                  f"(version {version}, approximately 1.12 GB).")
-            with partial.open(mode) as stream:
-                while True:
-                    block = response.read(2 * 1024 * 1024)
-                    if not block:
-                        break
-                    size_written += len(block)
-                    if size_written > max_bytes:
-                        raise ValueError("Download exceeded pilot ZIP size limit.")
-                    stream.write(block)
-    except OSError as error:
+    attempts = []
+    downloaded = False
+    for url in urls:
+        existing = partial.stat().st_size if partial.exists() else 0
+        headers = {"User-Agent": "HumanMovementIntelligence/1.0"}
+        if existing:
+            headers["Range"] = f"bytes={existing}-"
+        try:
+            with opener(Request(url, headers=headers), timeout=90) as response:
+                code = response.getcode()
+                content_range = response.headers.get("Content-Range", "")
+                resume = (
+                    existing > 0 and code == 206 and
+                    content_range.startswith(f"bytes {existing}-")
+                )
+                mode = "ab" if resume else "wb"
+                count = existing if resume else 0
+                next_report = count + 100 * 1024 * 1024
+                print(f"Fetching Camargo {filename} (version {version}) "
+                      "directly from the official public source.")
+                with partial.open(mode) as stream:
+                    while True:
+                        block = response.read(2 * 1024 * 1024)
+                        if not block:
+                            break
+                        count += len(block)
+                        if count > max_bytes:
+                            raise ValueError(
+                                "Single-participant ZIP exceeded the "
+                                "configured maximum size."
+                            )
+                        stream.write(block)
+                        if count >= next_report:
+                            if expected_size:
+                                print(f"Received {count / 1e6:.0f} MB / "
+                                      f"{expected_size / 1e6:.0f} MB")
+                            else:
+                                print(f"Received {count / 1e6:.0f} MB")
+                            next_report = count + 100 * 1024 * 1024
+            if expected_size is not None and count != expected_size:
+                attempts.append(
+                    f"Incomplete response: {count} of {expected_size} bytes"
+                )
+                continue
+            if not zipfile.is_zipfile(partial):
+                attempts.append("Response was not a valid ZIP archive")
+                partial.unlink(missing_ok=True)
+                continue
+            downloaded = True
+            break
+        except OSError as error:
+            attempts.append(f"{type(error).__name__}: {error}")
+    if not downloaded:
         raise RuntimeError(
-            "Official Mendeley transfer failed or was blocked. "
-            f"The partial file, if any, is at {partial}. "
-            "You may instead download AB06.zip from "
-            "https://data.mendeley.com/datasets/fcgm3chfff/1 "
-            "and place it in /content/, or specify a Google Drive path. "
-            f"Original error: {error}"
-        ) from error
+            f"Automatic retrieval of {filename} from Mendeley failed. "
+            "Both the public file URL (when provided) and the official "
+            "file redirect were attempted. No full-dataset download "
+            "was attempted. Check the Colab network and these diagnostics: "
+            + " | ".join(attempts)
+        )
     if expected_size is not None and partial.stat().st_size != expected_size:
         raise RuntimeError(
             f"Incomplete participant download: received "

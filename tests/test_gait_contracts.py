@@ -111,8 +111,10 @@ class GaitContractTests(unittest.TestCase):
         metadata = [{
             "id": "12345678-1234-1234-1234-123456789abc",
             "filename": "AB06.zip", "size": len(payload),
-            "content_details": {"sha256_hash": hashlib.sha256(
-                payload).hexdigest()},
+            "content_details": {
+                "sha256_hash": hashlib.sha256(payload).hexdigest(),
+                "download_url": "https://files.mendeley.example/AB06.zip",
+            },
         }]
 
         class FakeResponse(io.BytesIO):
@@ -127,9 +129,9 @@ class GaitContractTests(unittest.TestCase):
         def opener(request, timeout):
             url = request.full_url
             seen.append(url)
-            if url.endswith("/files?version=1"):
+            if url.endswith("/files?folder_id=root&version=1"):
                 return FakeResponse(json.dumps(metadata).encode())
-            if "file_downloaded?version=1" in url:
+            if url == "https://files.mendeley.example/AB06.zip":
                 return FakeResponse(payload)
             raise AssertionError("Unexpected network path: " + url)
 
@@ -147,6 +149,74 @@ class GaitContractTests(unittest.TestCase):
             )
             self.assertEqual(target, target2)
             self.assertEqual(len(seen), 2)
+
+    def test_mendeley_metadata_fallback_to_official_public_api(self):
+        """If anonymous listing is blocked, try the documented files API."""
+        from camargo_source import _mendeley_public_file_metadata
+
+        class FakeResponse(io.BytesIO):
+            def __init__(self, payload):
+                super().__init__(payload)
+                self.headers = {}
+
+        seen = []
+
+        def opener(request, timeout):
+            seen.append(request.full_url)
+            if "/public-api/" in request.full_url:
+                raise OSError("Public listing temporarily unavailable")
+            if "api.data.mendeley.com/datasets/publics/" in request.full_url:
+                return FakeResponse(json.dumps([{
+                    "filename": "AB06.zip", "id": "uuid-from-official-api",
+                    "size": 1024,
+                }]).encode())
+            raise AssertionError("Unexpected URL: " + request.full_url)
+
+        found = _mendeley_public_file_metadata(opener=opener)
+        self.assertEqual(found["filename"], "AB06.zip")
+        self.assertEqual(len(seen), 2)
+        self.assertIn("version=1", seen[0])
+        self.assertIn("version=1", seen[1])
+
+    def test_download_falls_back_when_first_public_file_url_fails(self):
+        """An expired direct URL must not prevent the official redirect."""
+        raw = io.BytesIO()
+        with zipfile.ZipFile(raw, "w") as archive:
+            archive.writestr("AB06/s/treadmill/imu/t.csv", "Header,x\n1,2\n")
+            archive.writestr("AB06/s/treadmill/fp/t.csv", "Header,x\n1,2\n")
+        payload = raw.getvalue()
+        info = [{"filename": "AB06.zip", "id": "valid-file-uuid",
+                 "size": len(payload),
+                 "content_details": {
+                     "download_url": "https://files.mendeley.example/expired"
+                 }}]
+
+        class FakeResponse(io.BytesIO):
+            def __init__(self, payload):
+                super().__init__(payload)
+                self.headers = {}
+
+            def getcode(self):
+                return 200
+
+        seen = []
+        def opener(req, timeout):
+            seen.append(req.full_url)
+            if "folder_id=root&version=1" in req.full_url:
+                return FakeResponse(json.dumps(info).encode())
+            if req.full_url.endswith("/expired"):
+                raise OSError("Signed URL expired")
+            if "file_downloaded?version=1" in req.full_url:
+                return FakeResponse(payload)
+            raise AssertionError(req.full_url)
+
+        with tempfile.TemporaryDirectory() as tmp:
+            archive = download_mendeley_pilot_archive(
+                Path(tmp), max_bytes=10_000, opener=opener
+            )
+            self.assertTrue(zipfile.is_zipfile(archive))
+            self.assertEqual(archive.read_bytes(), payload)
+            self.assertEqual(len(seen), 3)
 
     def test_time_contract_requires_monotonicity_and_actual_overlap(self):
         frame = pd.DataFrame({"Header": [0.0, 0.1, 0.2],
