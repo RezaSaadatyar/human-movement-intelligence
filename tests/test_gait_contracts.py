@@ -29,6 +29,18 @@ from gait_experiments import (
 
 
 class GaitContractTests(unittest.TestCase):
+    def test_colab_setup_imports_public_package_and_registers_study(self):
+        """Ensure the repaired Notebook 01 import resolves in a checkout."""
+        from python_modules.core.colab_setup import setup_colab
+
+        root = setup_colab(
+            "gait_analysis", root=REPO, sync_mode="off",
+            module_refresh="off",
+        )
+        self.assertEqual(root, REPO.resolve())
+        from core.plot_style import plot_style
+        self.assertTrue(callable(plot_style))
+
     def test_source_inventory_and_pairing(self):
         with tempfile.TemporaryDirectory() as folder:
             root = Path(folder)
