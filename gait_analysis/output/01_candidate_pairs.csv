@@ -1,0 +1,2 @@
+subject_id,session_id,condition,trial_id,imu_path,fp_path,candidate_pair,pair_issue
+AB06,10_09_18,treadmill,treadmill_01_01,AB06/10_09_18/treadmill/imu/treadmill_01_01.mat,AB06/10_09_18/treadmill/fp/treadmill_01_01.mat,True,

@@ -1,0 +1,3 @@
+subject_id,session_id,condition,sensor,trial_id,relative_path,format,size_bytes
+AB06,10_09_18,treadmill,fp,treadmill_01_01,AB06/10_09_18/treadmill/fp/treadmill_01_01.mat,.mat,11367266
+AB06,10_09_18,treadmill,imu,treadmill_01_01,AB06/10_09_18/treadmill/imu/treadmill_01_01.mat,.mat,5323460
