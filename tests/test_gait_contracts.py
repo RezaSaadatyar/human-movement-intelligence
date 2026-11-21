@@ -727,6 +727,65 @@ class GaitContractTests(unittest.TestCase):
             if "fig" in variables:
                 plt.close(variables["fig"])
 
+    def test_every_gait_notebook_import_is_in_environment_cell(self):
+        """Do not allow hidden imports in setup, plotting or model cells."""
+        import ast
+
+        notebooks = sorted(
+            (REPO / "gait_analysis/code/notebooks").glob("*.ipynb")
+        )
+        self.assertEqual(len(notebooks), 5)
+        for path in notebooks:
+            nb = json.loads(path.read_text(encoding="utf8"))
+            code = [c for c in nb["cells"]
+                    if c["cell_type"] == "code"]
+            self.assertIn(
+                "01. Imports and Research Environment",
+                "".join(code[1]["source"])
+            )
+            for index, cell in enumerate(code):
+                source = "".join(cell["source"])
+                tree = ast.parse(source, filename=path.name)
+                imported = [
+                    node for node in ast.walk(tree)
+                    if isinstance(node, (ast.Import, ast.ImportFrom))
+                ]
+                if index == 1:
+                    self.assertGreater(len(imported), 0, path.name)
+                else:
+                    self.assertFalse(
+                        imported, f"{path.name}: imports in cell "
+                        f"{cell.get('id')}"
+                    )
+
+    def test_colab_checkout_has_no_imports_and_preserves_repo_target(self):
+        """IPython checkout can be inspected without cloning a repository."""
+        class FakeShell:
+            def __init__(self):
+                self.calls = []
+
+            def system(self, command):
+                self.calls.append(("system", command))
+
+            def run_line_magic(self, name, value):
+                self.calls.append(("magic", name, value))
+
+        folder = REPO / "gait_analysis/code/notebooks"
+        for path in sorted(folder.glob("*.ipynb")):
+            nb = json.loads(path.read_text(encoding="utf8"))
+            setup = next(c for c in nb["cells"]
+                         if c.get("cell_type") == "code")
+            shell = FakeShell()
+            namespace = {"get_ipython": lambda: shell}
+            exec(compile("".join(setup["source"]),
+                         path.name, "exec"), namespace)
+            self.assertEqual(len(shell.calls), 2)
+            self.assertIn("git clone -q", shell.calls[0][1])
+            self.assertEqual(
+                shell.calls[1],
+                ("magic", "cd", "/content/human-movement-intelligence"),
+            )
+
     def test_notebook_code_static_syntax_and_scientific_stages(self):
         import ast
         paths = sorted((REPO / "gait_analysis/code/notebooks").glob("*.ipynb"))
