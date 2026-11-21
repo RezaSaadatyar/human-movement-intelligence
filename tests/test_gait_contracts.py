@@ -380,6 +380,93 @@ class GaitContractTests(unittest.TestCase):
         self.assertEqual(len(rows), 1)
         self.assertTrue(np.isfinite(participant_selection_score(rows)))
 
+    def test_gait_final_cells_package_their_own_outputs(self):
+        """Each numbered notebook ends with the approved download helper."""
+        folder = REPO / "gait_analysis" / "code" / "notebooks"
+        for number, path in enumerate(sorted(folder.glob("*.ipynb")), 1):
+            nb = json.loads(path.read_text(encoding="utf8"))
+            imports = "".join([
+                c for c in nb["cells"] if c["cell_type"] == "code"
+            ][1]["source"])
+            self.assertIn("from core.output_download import "
+                          "download_outputs_from_colab", imports)
+            self.assertIn(f"NOTEBOOK_NUMBER = {number}", imports)
+            self.assertIn("Research Summary and Output Download",
+                          "".join(nb["cells"][-2]["source"]))
+            last = "".join(nb["cells"][-1]["source"])
+            self.assertIn('folder="gait_analysis/output"', last)
+            self.assertIn('stage=f"{NOTEBOOK_NUMBER:02d}"', last)
+
+    def test_gait_figures_have_editable_signal_and_event_panels(self):
+        """Six conceptual SVGs retain fixed five-band design and annotations."""
+        from xml.etree import ElementTree as ET
+
+        images = REPO / "gait_analysis" / "images"
+        figures = sorted(images.glob("*.svg"))
+        self.assertEqual(len(figures), 6)
+        for figure in figures:
+            element = ET.parse(figure).getroot()
+            self.assertEqual(element.attrib.get("viewBox"), "0 0 1700 816")
+            ids = [child.attrib["id"] for child in element.iter()
+                   if "id" in child.attrib]
+            self.assertEqual(len(ids), len(set(ids)))
+            for number in range(5):
+                self.assertTrue(
+                    any(value.startswith(f"band-{number}-")
+                        for value in ids)
+                )
+            for suffix in ("imu-wave", "force-wave"):
+                self.assertIn(f"panel-0-{suffix}", ids)
+            self.assertIn("panel-1-pulses", ids)
+            self.assertIn("panel-2-ref-line", ids)
+            text = " ".join(child.text or "" for child in element.iter())
+            self.assertIn("Schematic curves only", text)
+            self.assertIn("unverified", text)
+
+    def test_source_plot_produces_two_numeric_panels_offline(self):
+        """Execute just the Notebook 01 plot cell with synthetic source rows."""
+        import types
+        import matplotlib
+        matplotlib.use("Agg")
+        import matplotlib.pyplot as plt
+
+        source = REPO / "gait_analysis/code/notebooks"
+        path = source / "01_source_and_reference_eligibility.ipynb"
+        nb = json.loads(path.read_text(encoding="utf8"))
+        cell = next(c for c in nb["cells"] if c.get("id") == "c-01-06")
+        imu_t = np.arange(12., 17., 0.005)
+        fp_t = np.arange(12., 17., 0.001)
+        imu = pd.DataFrame({
+            "Header": imu_t,
+            "foot_Gyro_Y": np.sin(imu_t),
+            "shank_Gyro_Y": np.cos(imu_t),
+        })
+        force = pd.DataFrame({
+            "Header": fp_t,
+            "Treadmill_R_vy": 400 + 200 * np.sin(fp_t),
+            "Treadmill_L_vy": 450 - 200 * np.sin(fp_t),
+        })
+        saved = []
+        variables = {
+            "imu_table": imu, "fp_table": force,
+            "imu_time": imu_t, "fp_time": fp_t,
+            "np": np, "pd": pd, "plt": plt,
+            "sample": types.SimpleNamespace(
+                subject_id="AB06", trial_id="treadmill_01_01"
+            ),
+            "preview_channels": preview_channels,
+            "output_dir": Path("/not/used"),
+            "save_figure": lambda fig, output: saved.append(str(output)),
+        }
+        try:
+            exec(compile("".join(cell["source"]), path.name, "exec"), variables)
+            self.assertEqual(len(variables["axes"][0].lines), 2)
+            self.assertEqual(len(variables["axes"][1].lines), 2)
+            self.assertTrue(saved[0].endswith("01_sensor_source_preview.png"))
+        finally:
+            if "fig" in variables:
+                plt.close(variables["fig"])
+
     def test_notebook_code_static_syntax_and_scientific_stages(self):
         import ast
         paths = sorted((REPO / "gait_analysis/code/notebooks").glob("*.ipynb"))
