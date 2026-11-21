@@ -10,9 +10,9 @@ A Python-based research portfolio maintained by **Reza Saadatyar**. Each study h
 | --- | --- | --- |
 | **Wearable Activity Recognition (HARTH v2.0)** | Executed 01–13 notebook programme with 29-person Development model selection, fitted weighted 1D-ResNet and Random Forest, and aligned predictions and qualified metrics for S023/S032. Same-source, previously inspected assessment; no blind external validation. | [Study README](wearable_activity_recognition/README.md) · [Scientific methods and evidence](wearable_activity_recognition/HARTH_RESEARCH_METHODS_AND_EVIDENCE.md) · [How to run](wearable_activity_recognition/README.md#4-running-and-reviewing-the-study) |
 | **Biomechanical Load Estimation (BoneNet / Essex)** | Eight documented original-source research notebooks; **37 participants / 1,729 paired trials**, Training-only model selection, 75 temporal robustness fits and one frozen-before-Test four-person same-source evaluation. Exploratory FE-model regression, not external or clinical validation. | [Study README](biomechanical_load_estimation/README.md) · [Scientific methods and evidence](biomechanical_load_estimation/BONENET_RESEARCH_METHODS_AND_EVIDENCE.md) |
-| **Multimodal Movement Learning (NinaPro DB2)** | **Source and cohort studies executed (01–02):** 40 original E1 participants, 337,853 eligible paired windows and a 40,000-window selected cohort with 35 Development and five reserved Test people. Five notebooks implemented; neural/fusion and final Test evaluation not complete. | [Study README](multimodal_movement_learning/README.md) · [Research methods and protocol](multimodal_movement_learning/MULTIMODAL_RESEARCH_METHODS_AND_EVIDENCE.md) |
+| **Multimodal Movement Learning (NinaPro DB2)** | **All five notebooks executed with recorded evidence:** 40 E1 participants, 40,000 paired windows, eleven unimodal and nine fusion Development comparisons. Frozen `F1_rf` early fusion reached **0.3126** participant-mean Test macro F1 versus **0.2512** for `B1_rf` on five held-out people (paired difference **+0.0614**). Offline within-dataset evaluation, not external or clinical validation. | [Study README](multimodal_movement_learning/README.md) · [Research methods and protocol](multimodal_movement_learning/MULTIMODAL_RESEARCH_METHODS_AND_EVIDENCE.md) |
 
-**Other planned research directions:** Gait and movement analysis; markerless motion capture; neurorehabilitation and motor function. These are proposals, **not completed implementations**. The separate [Multimodal Movement Learning](multimodal_movement_learning/README.md) study is implemented and progressing through original-data execution, with source and cohort construction recorded.
+**Other planned research directions:** Gait and movement analysis; markerless motion capture; neurorehabilitation and motor function. These are proposals, **not completed implementations**. The separate [Multimodal Movement Learning](multimodal_movement_learning/README.md) study has completed its five-notebook, source-based Development and held-out Test programme, subject to the scientific limits documented in its report.
 
 ## Selected HARTH evidence
 
@@ -55,10 +55,10 @@ human-movement-intelligence/
 ├── multimodal_movement_learning/
 │   ├── README.md
 │   ├── MULTIMODAL_RESEARCH_METHODS_AND_EVIDENCE.md
-│   ├── code/notebooks/                # Planned notebooks; not implemented
-│   ├── code/src/                      # Reserved, empty
-│   ├── images/                        # Reserved, empty
-│   └── output/                        # Reserved, no results
+│   ├── code/notebooks/                # Five executed source/Development/Test notebooks
+│   ├── code/src/                      # NinaPro source, modelling and evaluation modules
+│   ├── images/                        # Five editable workflow SVGs
+│   └── output/                        # Recorded 01–05 CSV/PNG evidence
 ├── docs/
 │   └── DATASETS.md
 └── requirements.txt

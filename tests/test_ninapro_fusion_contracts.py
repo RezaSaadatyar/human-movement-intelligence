@@ -329,3 +329,83 @@ def test_notebook05_frozen_features_and_five_band_figure():
     )
     assert "B1_rf" in labels and "F1_rf" in labels
     assert "Test" in labels and "Development" in labels
+
+def test_frozen_test_predictions_reconstruct_saved_metrics():
+    """Verify fixed selected recipes, matched source keys and saved Test F1."""
+    from sklearn.metrics import f1_score
+
+    study = REPO / "multimodal_movement_learning"
+    saved = study / "output"
+    original = pd.read_csv(
+        saved / "02_window_index.csv",
+        usecols=["window_key", "subject_id", "label"],
+    )
+    roles = pd.read_csv(saved / "02_participant_split_assignments.csv")
+    test_people = set(roles.loc[roles.role == "Test", "subject_id"])
+    test_index = original.loc[
+        original.subject_id.isin(test_people)
+    ].reset_index(drop=True)
+    classes = np.sort(
+        pd.read_csv(saved / "01_label_dictionary.csv").label.to_numpy(int)
+    )
+    selection = pd.read_csv(saved / "04_model_selection.csv")
+    chosen = dict(zip(selection.selection_role, selection.model_id))
+    predictions = pd.read_csv(saved / "05_test_predictions.csv")
+    metrics = pd.read_csv(saved / "05_test_metrics.csv")
+    summary = pd.read_csv(saved / "05_test_summary.csv").iloc[0]
+
+    assert test_people
+    assert test_index.window_key.is_unique
+    assert set(predictions.comparison_role) == set(chosen)
+    assert not predictions.duplicated(["comparison_role", "window_key"]).any()
+    assert len(predictions) == len(test_index) * len(chosen)
+
+    computed = {}
+    for role, model_id in chosen.items():
+        frame = predictions.loc[predictions.comparison_role == role]
+        assert set(frame.model_id) == {model_id}
+        assert set(frame.window_key) == set(test_index.window_key)
+        aligned = frame.set_index("window_key").loc[test_index.window_key]
+        assert np.array_equal(
+            aligned.subject_id.to_numpy(), test_index.subject_id.to_numpy()
+        )
+        assert np.array_equal(
+            aligned.label.to_numpy(int), test_index.label.to_numpy(int)
+        )
+        scores = aligned[[f"p_class_{int(x)}" for x in classes]].to_numpy(float)
+        assert np.isfinite(scores).all()
+        np.testing.assert_allclose(scores.sum(axis=1), 1, atol=1e-5)
+        predicted = classes[scores.argmax(axis=1)]
+        assert np.array_equal(
+            aligned.predicted_label.to_numpy(int), predicted
+        )
+        actual_rows = metrics.loc[metrics.comparison_role == role]
+        assert set(actual_rows.subject_id) == test_people
+        scores_by_person = []
+        for person in sorted(test_people):
+            mask = test_index.subject_id.to_numpy() == person
+            score = f1_score(
+                test_index.label.to_numpy(int)[mask], predicted[mask],
+                labels=classes, average="macro", zero_division=0,
+            )
+            stored = actual_rows.loc[
+                actual_rows.subject_id == person, "macro_f1"
+            ]
+            assert len(stored) == 1
+            np.testing.assert_allclose(stored.iloc[0], score, atol=1e-12)
+            scores_by_person.append(score)
+        computed[role] = float(np.mean(scores_by_person))
+
+    np.testing.assert_allclose(
+        summary["unimodal_mean_subject_macro_f1"],
+        computed["unimodal_comparator"], atol=1e-12,
+    )
+    np.testing.assert_allclose(
+        summary["fusion_mean_subject_macro_f1"],
+        computed["fusion_comparator"], atol=1e-12,
+    )
+    np.testing.assert_allclose(
+        summary["mean_difference"],
+        computed["fusion_comparator"] - computed["unimodal_comparator"],
+        atol=1e-12,
+    )

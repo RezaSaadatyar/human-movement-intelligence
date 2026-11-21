@@ -8,7 +8,7 @@ The active studies use distinct original datasets, model inputs, targets and par
 | --- | --- | --- | --- |
 | [Wearable Activity Recognition](../wearable_activity_recognition/README.md) | [NTNU AI Lab HARTH v2.0](https://github.com/ntnu-ai-lab/harth-ml-experiments) | Six lower-back/thigh acceleration channels; eight original activity codes | Original source revision and windowing rules are given in the [HARTH methods](../wearable_activity_recognition/HARTH_RESEARCH_METHODS_AND_EVIDENCE.md) |
 | [Biomechanical Load Estimation](../biomechanical_load_estimation/README.md) | [Essex Figshare v13](https://doi.org/10.6084/m9.figshare.30225739.v13), described by [Hollinger et al.](https://doi.org/10.1038/s41597-026-07429-3) | Seven lower-body IMUs and model-derived femoral-neck principal-strain targets | Source files and participant/trial exclusions are documented in the [Essex methods](../biomechanical_load_estimation/BONENET_RESEARCH_METHODS_AND_EVIDENCE.md) |
-| [Multimodal Movement Learning](../multimodal_movement_learning/README.md) **(source/cohort executed)** | [NinaPro DB2](https://ninapro.hevs.ch/instructions/DB2.html) / [Dryad](https://doi.org/10.5061/dryad.1k84r) | Paired 12-channel sEMG and 36-column triaxial acceleration; prompted hand-movement labels | Original E1 participant archives and common stored source-grid pairing inspected; 40 people, 337,853 eligible paired windows, 40,000 selected windows, and person-disjoint 35/5 roles. No independent native sensor clock validation or final model Test results. |
+| [Multimodal Movement Learning](../multimodal_movement_learning/README.md) **(five notebooks executed)** | [NinaPro DB2](https://ninapro.hevs.ch/instructions/DB2.html) / [Dryad](https://doi.org/10.5061/dryad.1k84r) | Paired 12-channel sEMG and 36-column triaxial acceleration; corrected E1 hand-movement labels | Original E1 source and 40-person paired cohort inspected; 40,000 selected windows (35 Development and five reserved Test people). Frozen Test macro F1: `F1_rf` **0.3126** versus `B1_rf` **0.2512**; offline same-source evaluation, not native sensor-clock verification or external clinical validation. |
 
 The active HARTH study uses the **NTNU AI Lab v2.0 source**, not the [UCI HARTH release](https://archive.ics.uci.edu/dataset/779/harth). The Essex study uses **model-derived FE targets**, not direct in-vivo strain measurements or clinical outcomes.
 
@@ -50,19 +50,19 @@ Existing source downloads are reused. When `MATLAB.zip` is unavailable, the sour
 
 The current [Figshare file manifest](../biomechanical_load_estimation/output/01_dataset_figshare_file_manifest.csv), [Essex README](../biomechanical_load_estimation/README.md) and [scientific methods](../biomechanical_load_estimation/BONENET_RESEARCH_METHODS_AND_EVIDENCE.md) provide the source and study-specific details.
 
-### 2.3 NinaPro DB2 — Multimodal Movement Learning (planned)
+### 2.3 NinaPro DB2 — Multimodal Movement Learning (executed)
 
 The official [NinaPro DB2 source](https://ninapro.hevs.ch/instructions/DB2.html) lists 40 intact participants and separate source ZIP archives. The [original data descriptor](https://doi.org/10.1038/sdata.2014.53) identifies sEMG sampled at 2,000 Hz and triaxial accelerometers originally sampled at approximately 148 Hz; published streams were synchronised to a common higher-rate representation. The released dictionary lists 12 `emg` and 36 `acc` columns, as well as labels and repetition identifiers. The data descriptor records correction of movement boundaries after acquisition.
 
-The [Dryad original deposition](https://doi.org/10.5061/dryad.1k84r) lists individual DB2 subject ZIPs; its full 23.27 GB listing includes DB1–DB3, not only DB2. Retrieve a single participant's archive first, verify file integrity, observe actual MATLAB fields, and then acquire eligible people incrementally. Do not commit original ZIP/MAT archives, processed sample arrays or participant-specific source data. Standard local working paths:
+The [Dryad original deposition](https://doi.org/10.5061/dryad.1k84r) lists individual DB2 subject ZIPs; its full 23.27 GB listing includes DB1–DB3, not only DB2. The executed workflow first inspected S01 E1, then processed all 40 original participant archives incrementally. Original ZIP/MAT archives and source-length per-subject arrays remain untracked; the **two compact statistical feature matrices** are a deliberate exception tracked in Git for reproducing the frozen classical Test. Preserve original-source attribution and apply applicable redistribution terms. Current storage paths:
 
-| Planned local path | Purpose |
+| Path | Purpose and current tracking |
 | --- | --- |
-| `data/raw/ninapro_db2/` | Source subject archives and MATLAB exercise files |
-| `data/processed/ninapro_db2/` | Compact aligned feature matrices and source row/window identifiers |
-| [`multimodal_movement_learning/output/`](../multimodal_movement_learning/output/) | Future generated, study-owned CSV summaries and figures only after execution |
+| `data/raw/ninapro_db2/` | Source subject ZIP/MAT files, downloaded into the runtime and not tracked in Git |
+| `data/processed/ninapro_db2/` | Git-tracked `02_emg_features.npy` (48 columns) and `02_acc_features.npy` (96 columns); large source-length signals remain local/untracked |
+| [`multimodal_movement_learning/output/`](../multimodal_movement_learning/output/) | Current `01_*`–`05_*` source, Development and frozen Test CSV/PNG evidence, plus original Notebook 03 OOF probability NPZ |
 
-The intended task is a selected non-force exercise plus rest, using sEMG and acceleration only; `glove`, `force`, subject/repetition IDs and displayed cue timing are not predictors. The [study README](../multimodal_movement_learning/README.md) and [scientific plan](../multimodal_movement_learning/MULTIMODAL_RESEARCH_METHODS_AND_EVIDENCE.md) describe the five planned notebooks and person-disjoint evaluation. The pilot file has not been downloaded or inspected in this project.
+The implemented task is corrected Exercise E1 (Rest plus 17 non-force finger movements), using sEMG and acceleration only; `glove`, `force`, subject/repetition IDs and displayed cue timing are not predictors. All five notebooks have recorded source, Development or Test execution. The [study README](../multimodal_movement_learning/README.md) and [scientific methods and evidence](../multimodal_movement_learning/MULTIMODAL_RESEARCH_METHODS_AND_EVIDENCE.md) document the fixed selection, the five-person participant-disjoint Test findings and the important limits on within-dataset inference.
 
 ## 3. Additional Public Collections
 
