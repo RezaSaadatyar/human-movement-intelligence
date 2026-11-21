@@ -10,9 +10,9 @@ A Python-based research portfolio maintained by **Reza Saadatyar**. Each study h
 | --- | --- | --- |
 | **Wearable Activity Recognition (HARTH v2.0)** | Executed 01–13 notebook programme with 29-person Development model selection, fitted weighted 1D-ResNet and Random Forest, and aligned predictions and qualified metrics for S023/S032. Same-source, previously inspected assessment; no blind external validation. | [Study README](wearable_activity_recognition/README.md) · [Scientific methods and evidence](wearable_activity_recognition/HARTH_RESEARCH_METHODS_AND_EVIDENCE.md) · [How to run](wearable_activity_recognition/README.md#4-running-and-reviewing-the-study) |
 | **Biomechanical Load Estimation (BoneNet / Essex)** | Eight documented original-source research notebooks; **37 participants / 1,729 paired trials**, Training-only model selection, 75 temporal robustness fits and one frozen-before-Test four-person same-source evaluation. Exploratory FE-model regression, not external or clinical validation. | [Study README](biomechanical_load_estimation/README.md) · [Scientific methods and evidence](biomechanical_load_estimation/BONENET_RESEARCH_METHODS_AND_EVIDENCE.md) |
-| **Multimodal Movement Learning (NinaPro DB2)** | **All five notebooks executed with recorded evidence:** 40 E1 participants, 40,000 paired windows, eleven unimodal and nine fusion Development comparisons. Frozen `F1_rf` early fusion reached **0.3126** participant-mean Test macro F1 versus **0.2512** for `B1_rf` on five held-out people (paired difference **+0.0614**). Offline within-dataset evaluation, not external or clinical validation. | [Study README](multimodal_movement_learning/README.md) · [Research methods and protocol](multimodal_movement_learning/MULTIMODAL_RESEARCH_METHODS_AND_EVIDENCE.md) |
+| **Multimodal Movement Learning (NinaPro DB2)** | **Five executed notebooks (01–05):** source audit, 40,000 aligned E1 windows from 40 people, eleven unimodal and nine fusion Development candidates, and frozen Test on five reserved people. Early fusion `F1_rf` recorded **0.3126** participant-mean Test macro F1 versus **0.2512** for sEMG-only `B1_rf` (**+0.0614** paired mean). Offline same-source evidence, not external or clinical validation. | [Study README](multimodal_movement_learning/README.md) · [Scientific methods and evidence](multimodal_movement_learning/MULTIMODAL_RESEARCH_METHODS_AND_EVIDENCE.md) · [Complete study diagram](multimodal_movement_learning/images/study_overview.svg) |
 
-**Other planned research directions:** Gait and movement analysis; markerless motion capture; neurorehabilitation and motor function. These are proposals, **not completed implementations**. The separate [Multimodal Movement Learning](multimodal_movement_learning/README.md) study has completed its five-notebook, source-based Development and held-out Test programme, subject to the scientific limits documented in its report.
+**Other planned research directions:** Gait and movement analysis; markerless motion capture; neurorehabilitation and motor function. These are proposals, **not completed implementations**. Each of the three established studies above has its own methods, results, diagrams and evaluation boundaries.
 
 ## Selected HARTH evidence
 
@@ -29,6 +29,14 @@ The recorded final evaluation used four participant-held-out subjects (183 trial
 Notebook 05 Random Forest CV used `max_features=1.0` (all 210 predictors considered per split), while the final Notebook 08 Random Forest used `max_features=1` (one candidate predictor per split). Both settings and their corresponding results are identified in the study report.
 
 For methods and exact source limitations, see the [BoneNet scientific report](biomechanical_load_estimation/BONENET_RESEARCH_METHODS_AND_EVIDENCE.md), [final Notebook 08 metrics](biomechanical_load_estimation/output/08_test_primary_secondary_metrics.csv), [study-wide workflow](biomechanical_load_estimation/images/study_overview.svg) and [running instructions](biomechanical_load_estimation/README.md#4-running-and-reviewing-the-study).
+
+## Selected NinaPro DB2 multimodal evidence
+
+The completed [five-stage NinaPro DB2 E1 study](multimodal_movement_learning/README.md) audits original paired **12-channel sEMG and 36-column acceleration** recordings, selects **40,000 aligned windows from 40 people**, and compares eleven unimodal and nine fusion methods using five participant-grouped Development folds. The [complete workflow diagram](multimodal_movement_learning/images/study_overview.svg) shows Notebook 01 source inspection, Notebook 02 cohort construction, Notebook 03 unimodal models, Notebook 04 fusion selection and Notebook 05 frozen Test.
+
+The Development-selected **early-fusion Random Forest (`F1_rf`)** achieved **0.2630** participant-mean fixed-18-class macro F1, versus **0.2348** for the selected sEMG-only reference (`B1_rf`). After both models were refitted on the 35 Development people, the [final Test summary](multimodal_movement_learning/output/05_test_summary.csv) reported **0.3126** versus **0.2512** on **five reserved people**, a paired mean difference of **+0.0614**. The five-person bootstrap limits are descriptive; some movement classes remain difficult to recognise. This is **offline within-dataset evaluation**, not evidence of real-time control or clinical applicability.
+
+For reproducible stage definitions, model configurations and individual class/participant outcomes, see the [scientific methods and evidence](multimodal_movement_learning/MULTIMODAL_RESEARCH_METHODS_AND_EVIDENCE.md), [selected Development models](multimodal_movement_learning/output/04_model_selection.csv), [source-keyed Test predictions](multimodal_movement_learning/output/05_test_predictions.csv) and [study execution instructions](multimodal_movement_learning/README.md#4-running-and-reviewing-the-study).
 
 ## Repository structure
 
@@ -57,7 +65,7 @@ human-movement-intelligence/
 │   ├── MULTIMODAL_RESEARCH_METHODS_AND_EVIDENCE.md
 │   ├── code/notebooks/                # Five executed source/Development/Test notebooks
 │   ├── code/src/                      # NinaPro source, modelling and evaluation modules
-│   ├── images/                        # Five editable workflow SVGs
+│   ├── images/                        # Study overview and five notebook SVGs
 │   └── output/                        # Recorded 01–05 CSV/PNG evidence
 ├── docs/
 │   └── DATASETS.md
