@@ -16,7 +16,8 @@ sys.path.insert(0, str(SRC))
 
 from gait_contract_evidence import (
     audit_candidate_pairs, inspect_source_pair, inspect_timestamp,
-    validate_explicit_contract,
+    validate_explicit_contract, recorded_unit_contact_candidates,
+    audit_recorded_force_candidates,
 )
 
 
@@ -133,6 +134,62 @@ class GaitSourceEvidenceTests(unittest.TestCase):
             self.assertFalse(bool(y.physical_axis_verified))
             self.assertFalse(bool(y.units_verified_newtons))
             self.assertFalse(bool(y.foot_side_verified))
+
+
+    def test_original_unit_contact_candidates_are_not_reference_labels(self):
+        """Real-unit pulse candidates remain distinct from verified IC/TC."""
+        t = np.arange(0, 6, 0.001)
+        f = np.zeros_like(t)
+        for onset in (1.0, 2.0, 3.0, 4.0):
+            f[(t >= onset) & (t < onset + 0.55)] = 810.0
+        detected = recorded_unit_contact_candidates(t, f)
+        self.assertEqual(len(detected), 4)
+        self.assertEqual(detected.candidate_onset_header.iloc[0], 1.0)
+        self.assertTrue(
+            set(detected.columns).isdisjoint(
+                {"t_reference_s", "event_type", "is_verified"}
+            )
+        )
+        self.assertTrue(
+            recorded_unit_contact_candidates(t, -f).empty
+        )
+        with self.assertRaisesRegex(ValueError, "strictly increasing"):
+            recorded_unit_contact_candidates(t[::-1], f[::-1])
+
+    def test_cross_trial_candidate_audit_is_original_data_only(self):
+        """Six trial/side/threshold rows, never a scientifically valid reference."""
+        t = np.arange(0, 6, 0.001)
+        f = np.zeros_like(t)
+        for onset in (1.0, 2.0, 3.0, 4.0):
+            f[(t >= onset) & (t < onset + 0.55)] = 810.0
+        fp = pd.DataFrame({
+            "Header": t, "Treadmill_R_vy": f,
+            "Treadmill_L_vy": np.roll(f, 500),
+        })
+        with tempfile.TemporaryDirectory() as folder:
+            (Path(folder) / "fp.mat").write_bytes(b"synthetic")
+            registry = pd.DataFrame([{
+                "subject_id": "S01", "session_id": "X",
+                "condition": "treadmill", "trial_id": "t01",
+                "fp_path": "fp.mat", "candidate_pair": True,
+            }])
+            diag, candidates = audit_recorded_force_candidates(
+                registry, Path(folder), lambda p: fp,
+                lambda x, label: x.Header.to_numpy(float),
+            )
+            self.assertEqual(len(diag), 6)
+            self.assertEqual(len(candidates), 8)
+            self.assertTrue(diag.inspection_status.eq("inspected").all())
+            self.assertFalse(diag.physical_reference_validated.any())
+            self.assertFalse(candidates.physical_reference_validated.any())
+            self.assertTrue(
+                set(candidates).isdisjoint(
+                    {"t_reference_s", "event_type"}
+                )
+            )
+            self.assertTrue(
+                set(diag.threshold_recorded_units) == {10, 20, 30}
+            )
 
     def test_notebook_extension_preserves_deferred_scientific_boundary(self):
         notebook = REPO / "gait_analysis/code/notebooks" / (

@@ -244,3 +244,197 @@ def validate_explicit_contract(*, gyro_column: str | None,
         "FORCE_SCALE_TO_NEWTONS": float(force_scale_to_newtons),
         "IMU_FORCE_TIMEBASE_CONFIRMED": True,
     }
+
+
+# ================ 06. Candidate Contact Diagnostics (NOT Reference) ===========
+
+def recorded_unit_contact_candidates(
+    time_s, force_recorded, *, threshold_recorded=20.0,
+    min_contact_s=0.08, min_swing_s=0.06,
+) -> pd.DataFrame:
+    """Extract exploratory source-amplitude crossings, never verified IC/TC.
+
+    The threshold is in ORIGINAL RECORDED UNITS, not asserted to be newtons.
+    A force source with an unknown physical axis/side may generate attractive
+    but invalid candidates. This output must not enter final evaluation.
+    """
+    t = np.asarray(time_s, dtype=float)
+    f = np.asarray(force_recorded, dtype=float)
+    if (t.ndim != 1 or f.ndim != 1 or t.size != f.size or t.size < 4
+            or not np.isfinite(t).all() or not np.isfinite(f).all()
+            or np.any(np.diff(t) <= 0)):
+        raise ValueError("Candidate force/time arrays must be finite, 1-D, "
+                         "strictly increasing and matched in length.")
+    if (not np.isfinite(threshold_recorded) or threshold_recorded <= 0
+            or min_contact_s <= 0 or min_swing_s <= 0):
+        raise ValueError("Invalid exploratory contact parameters.")
+    active = f >= threshold_recorded
+    changes = np.r_[0, np.flatnonzero(np.diff(active.astype(np.int8))) + 1,
+                    len(t)]
+    segments = [
+        (int(a), int(b), bool(active[a]))
+        for a, b in zip(changes[:-1], changes[1:])
+    ]
+    rows = []
+    for i, (a, b, loaded) in enumerate(segments):
+        if not loaded or i == 0 or i == len(segments) - 1:
+            continue
+        pre = segments[i - 1]
+        post = segments[i + 1]
+        if (t[b - 1] - t[a] < min_contact_s
+                or t[a] - t[pre[0]] < min_swing_s
+                or t[post[1] - 1] - t[post[0]] < min_swing_s):
+            continue
+        rows.append({"candidate_onset_header": float(t[a]),
+                     "candidate_offset_header": float(t[b]),
+                     "candidate_duration_header": float(t[b] - t[a]),
+                     "threshold_recorded_units": float(threshold_recorded)})
+    return pd.DataFrame(rows, columns=[
+        "candidate_onset_header", "candidate_offset_header",
+        "candidate_duration_header", "threshold_recorded_units",
+    ])
+
+
+def audit_recorded_force_candidates(pairs: pd.DataFrame, source_root: Path,
+                                    read_sensor_table: Callable,
+                                    validate_timebase: Callable,
+                                    thresholds_recorded=(10.0, 20.0, 30.0)
+                                    ) -> tuple[pd.DataFrame, pd.DataFrame]:
+    """Screen both treadmill sides for all candidate trials in original units.
+
+    No sensor unit, physical vertical axis, side or event clock is declared
+    verified. A per-trial exclusion is kept visible, never silently dropped.
+    This may be executed before the final independent reference contract.
+    """
+    source_root = Path(source_root)
+    required = {"subject_id", "session_id", "condition", "trial_id",
+                "fp_path", "candidate_pair"}
+    absent = required - set(pairs.columns)
+    if absent:
+        raise ValueError(f"Candidate registry missing fields: {sorted(absent)}")
+    if not thresholds_recorded or any(
+        not np.isfinite(x) or x <= 0 for x in thresholds_recorded
+    ):
+        raise ValueError("Invalid candidate source-unit thresholds.")
+    records, events = [], []
+    identities = set()
+    for row in pairs.itertuples(index=False):
+        if not (bool(row.candidate_pair) and row.condition == "treadmill"):
+            continue
+        identity = tuple(str(getattr(row, field)) for field in
+                         ("subject_id", "session_id", "condition", "trial_id"))
+        if identity in identities:
+            raise ValueError(f"Duplicate candidate trial identity: {identity}")
+        identities.add(identity)
+        base = dict(zip(("subject_id", "session_id", "condition", "trial_id"),
+                        identity))
+        try:
+            path = source_root / row.fp_path
+            if not path.is_file():
+                raise FileNotFoundError(
+                    f"Original force recording is unavailable: {path}"
+                )
+            force = read_sensor_table(path)
+            t = np.asarray(validate_timebase(force, "force"), dtype=float)
+            for name in ("Treadmill_R_vy", "Treadmill_L_vy"):
+                if name not in force:
+                    raise KeyError(f"Missing observed candidate: {name}")
+                values = pd.to_numeric(force[name], errors="raise").to_numpy(
+                    dtype=float
+                )
+                if not np.isfinite(values).all():
+                    raise ValueError(f"Non-finite recorded force: {name}")
+                for threshold in thresholds_recorded:
+                    c = recorded_unit_contact_candidates(
+                        t, values, threshold_recorded=threshold
+                    )
+                    onset = c.candidate_onset_header.to_numpy(dtype=float)
+                    intervals = np.diff(onset)
+                    plausible = ((intervals >= 0.35) &
+                                 (intervals <= 3.0))
+                    records.append({
+                        **base, "candidate_channel": name,
+                        "threshold_recorded_units": float(threshold),
+                        "inspection_status": "inspected",
+                        "n_contact_candidates": len(c),
+                        "n_plausible_same_side_intervals": int(plausible.sum()),
+                        "median_same_side_interval_header": (
+                            float(np.median(intervals[plausible]))
+                            if plausible.any() else np.nan
+                        ),
+                        "median_candidate_duration_header": (
+                            float(c.candidate_duration_header.median())
+                            if len(c) else np.nan
+                        ),
+                        "source_p99": float(np.percentile(values, 99)),
+                        "source_p01": float(np.percentile(values, 1)),
+                        "physical_reference_validated": False,
+                        "inspection_note": "",
+                    })
+                    # Save primary, predeclared 20 original-unit candidate
+                    # events only. The other thresholds are QC comparisons.
+                    if threshold == 20.0:
+                        events.extend({
+                            **base, "candidate_channel": name,
+                            "threshold_recorded_units": 20.0,
+                            "candidate_onset_header":
+                                float(r.candidate_onset_header),
+                            "candidate_offset_header":
+                                float(r.candidate_offset_header),
+                            "physical_reference_validated": False,
+                        } for r in c.itertuples(index=False))
+        except (FileNotFoundError, KeyError, TypeError, ValueError,
+                OSError) as error:
+            records.append({
+                **base, "candidate_channel": "",
+                "threshold_recorded_units": np.nan,
+                "inspection_status": "not_inspected",
+                "n_contact_candidates": 0,
+                "n_plausible_same_side_intervals": 0,
+                "median_same_side_interval_header": np.nan,
+                "median_candidate_duration_header": np.nan,
+                "source_p99": np.nan, "source_p01": np.nan,
+                "physical_reference_validated": False,
+                "inspection_note": str(error),
+            })
+    return pd.DataFrame.from_records(records), pd.DataFrame.from_records(events)
+
+
+def plot_recorded_force_candidate_probe(
+    force_table: pd.DataFrame, original_header, candidates: pd.DataFrame,
+    out_path: Path, *, window_s: float = 8.0
+) -> Path:
+    """Display candidate contact intervals, not ground-truth annotations."""
+    import matplotlib.pyplot as plt
+    times = np.asarray(original_header, dtype=float)
+    if len(times) < 3 or not np.isfinite(times).all():
+        raise ValueError("Missing original source timestamps for plot.")
+    start = float(times[0])
+    use = (times >= start) & (times <= start + window_s)
+    fig, axes = plt.subplots(2, 1, figsize=(11, 6), sharex=True,
+                             layout="constrained")
+    for ax, name in zip(axes, ("Treadmill_R_vy", "Treadmill_L_vy")):
+        if name not in force_table:
+            raise KeyError(f"Missing force channel {name}")
+        ax.plot(times[use], force_table.loc[use, name],
+                linewidth=0.8, label=f"{name} (recorded units)")
+        ax.axhline(20.0, linewidth=1.0, linestyle="--",
+                   label="20 recorded units (exploratory)")
+        group = candidates.loc[
+            candidates.candidate_channel.eq(name)
+        ] if not candidates.empty else pd.DataFrame()
+        for r in group.itertuples(index=False):
+            if start <= r.candidate_onset_header <= start + window_s:
+                ax.axvline(r.candidate_onset_header,
+                           linewidth=0.7, alpha=0.45)
+        ax.set_ylabel("Original recorded units")
+        ax.legend(loc="upper right", fontsize=8)
+        ax.grid(alpha=0.2)
+    axes[1].set_xlabel("Original Header (seconds per source metadata)")
+    axes[0].set_title("Source-unit candidate transitions; NOT verified IC/TC",
+                      loc="left")
+    output = Path(out_path)
+    output.parent.mkdir(parents=True, exist_ok=True)
+    fig.savefig(output, dpi=130, bbox_inches="tight")
+    plt.close(fig)
+    return output
