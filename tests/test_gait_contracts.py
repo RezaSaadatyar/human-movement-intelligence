@@ -5,6 +5,9 @@ import importlib.util
 import json
 import sys
 import tempfile
+import io
+import json
+import hashlib
 import zipfile
 import unittest
 from pathlib import Path
@@ -17,7 +20,8 @@ SOURCE = REPO / "gait_analysis" / "code" / "src"
 sys.path.insert(0, str(SOURCE))
 
 from camargo_source import (inventory_files, paired_trials, validate_timebase,
-    extract_pilot_trial_from_zip, locate_pilot_source_archive)
+    extract_pilot_trial_from_zip, locate_pilot_source_archive,
+    download_mendeley_pilot_archive)
 from gait_alignment import mapped_series, validated_overlap
 from gait_reference import force_contact_events, reference_strides, stride_summary
 from gait_event_detectors import peak_events, candidate_features
@@ -94,6 +98,55 @@ class GaitContractTests(unittest.TestCase):
                 archive.writestr("../unsafe.csv", "a")
             with self.assertRaises(ValueError):
                 extract_pilot_trial_from_zip(z, base / "out")
+
+    def test_official_pilot_download_uses_version_one_and_checks_archive(self):
+        """Exercise metadata lookup, single-file streaming and SHA256 offline."""
+        raw = io.BytesIO()
+        with zipfile.ZipFile(raw, "w") as archive:
+            archive.writestr("AB06/session/treadmill/imu/trial.csv",
+                             "Header,signal\n0,1\n0.1,2\n0.2,3\n")
+            archive.writestr("AB06/session/treadmill/fp/trial.csv",
+                             "Header,force\n0,0\n0.1,750\n0.2,0\n")
+        payload = raw.getvalue()
+        metadata = [{
+            "id": "12345678-1234-1234-1234-123456789abc",
+            "filename": "AB06.zip", "size": len(payload),
+            "content_details": {"sha256_hash": hashlib.sha256(
+                payload).hexdigest()},
+        }]
+
+        class FakeResponse(io.BytesIO):
+            def __init__(self, value):
+                super().__init__(value)
+                self.headers = {}
+
+            def getcode(self):
+                return 200
+
+        seen = []
+        def opener(request, timeout):
+            url = request.full_url
+            seen.append(url)
+            if url.endswith("/files?version=1"):
+                return FakeResponse(json.dumps(metadata).encode())
+            if "file_downloaded?version=1" in url:
+                return FakeResponse(payload)
+            raise AssertionError("Unexpected network path: " + url)
+
+        with tempfile.TemporaryDirectory() as tmp:
+            target = download_mendeley_pilot_archive(
+                Path(tmp), max_bytes=100_000, opener=opener
+            )
+            self.assertEqual(target.name, "AB06.zip")
+            self.assertTrue(zipfile.is_zipfile(target))
+            self.assertEqual(target.read_bytes(), payload)
+            self.assertEqual(len(seen), 2)
+            # Rerun reuses the verified archive without further HTTP requests.
+            target2 = download_mendeley_pilot_archive(
+                Path(tmp), max_bytes=100_000, opener=opener
+            )
+            self.assertEqual(target, target2)
+            self.assertEqual(len(seen), 2)
 
     def test_time_contract_requires_monotonicity_and_actual_overlap(self):
         frame = pd.DataFrame({"Header": [0.0, 0.1, 0.2],
