@@ -78,3 +78,85 @@ def build_training_candidates(trials, polarity=1, cutoff_hz=10.0,
 def fit_classical_candidate_model(training_trials, seed=42):
     X, y = build_training_candidates(training_trials)
     return fit_peak_scorer(X, y, seed=seed)
+
+
+# ========================== 03. Classical Comparisons ======================
+PARAMETER_GRID = (
+    {"polarity": p, "prominence": level, "min_interval_s": 0.45,
+     "cutoff_hz": 10.0}
+    for p in (-1, 1) for level in (0.3, 0.6, 1.0, 1.5)
+)
+
+
+def parameter_grid():
+    """Return the same predefined, finite candidate grid on every call."""
+    return [dict(polarity=p, prominence=level,
+                 min_interval_s=0.45, cutoff_hz=10.0)
+            for p in (-1, 1) for level in (0.3, 0.6, 1.0, 1.5)]
+
+
+def evaluate_trial_collection(trials, configuration, model_id,
+                              tolerance_s=0.15):
+    """Evaluate prepared IMU/force pairs without pooling dependent events."""
+    rows = []
+    for meta, (t, gyro, reference) in trials:
+        _, result = evaluate_rule_trial(
+            t, gyro, reference, tolerance_s=tolerance_s, **configuration
+        )
+        rows.append({**meta, "model_id": model_id, **result})
+    return pd.DataFrame(rows)
+
+
+def participant_selection_score(results):
+    """Penalise missed and extra events as well as localisation error.
+
+    A method predicting no events must not win by an artificially low MAE.
+    The score is an a priori Development-only engineering selection objective;
+    its constituent metrics remain separately reported.
+    """
+    if results.empty:
+        return float("inf")
+    by_person = results.groupby("subject_id", sort=True).apply(
+        lambda x: pd.Series({
+            "n_ref": x.n_reference.sum(), "n_pred": x.n_predicted.sum(),
+            "n_match": x.n_matched.sum(),
+            "mae": np.average(
+                x.loc[x.n_matched > 0, "timing_mae_ms"],
+                weights=x.loc[x.n_matched > 0, "n_matched"],
+            ) if x.n_matched.sum() else 1000.0,
+        }), include_groups=False,
+    )
+    sens = by_person.n_match / by_person.n_ref.replace(0, np.nan)
+    prec = by_person.n_match / by_person.n_pred.replace(0, np.nan)
+    penalty = 150.0 * (2.0 - sens.fillna(0) - prec.fillna(0))
+    return float((by_person.mae + penalty).mean())
+
+
+def choose_rule_config(training_trials, tolerance_s=0.15):
+    """Select the rule configuration from provided Development training data."""
+    if not training_trials:
+        raise ValueError("Cannot tune detector without Development trials.")
+    candidates = []
+    for config in parameter_grid():
+        scored = evaluate_trial_collection(
+            training_trials, config, "B1_tuned", tolerance_s
+        )
+        candidates.append((participant_selection_score(scored), config))
+    return min(candidates, key=lambda item: item[0])[1]
+
+
+FIXED_BASELINE = {
+    "polarity": 1, "prominence": 0.5, "min_interval_s": 0.45,
+    "cutoff_hz": 10.0,
+}
+
+
+def load_trial_collection(cache_root, eligible_rows):
+    """Load precomputed signals with identifying columns from the trial table."""
+    records = []
+    for row in eligible_rows.itertuples(index=False):
+        t, gyro, refs = read_prepared_trial(cache_root, row.trial_key)
+        meta = {k: getattr(row, k) for k in
+                ("subject_id", "session_id", "condition", "trial_id", "trial_key")}
+        records.append((meta, (t, gyro, refs)))
+    return records
