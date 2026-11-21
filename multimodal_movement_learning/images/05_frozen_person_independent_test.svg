@@ -45,7 +45,7 @@
 <path d="M124 160 L137 180" stroke="#245E9D" stroke-width="2.5" fill="none"/><rect x="118" y="157" width="8" height="8" rx="1.4" fill="#245E9D" stroke="#FFFFFF"/><rect x="123" y="165" width="8" height="8" rx="1.4" fill="#245E9D" stroke="#FFFFFF"/><rect x="128" y="173" width="8" height="8" rx="1.4" fill="#245E9D" stroke="#FFFFFF"/><rect x="133" y="180" width="8" height="8" rx="1.4" fill="#245E9D" stroke="#FFFFFF"/>
 <text id="figure-text-003" x="153" y="110" class="source-heading">WEARABLE SENSOR SOURCE</text>
 <text id="figure-text-004" x="153" y="157" class="source-label">12-channel sEMG</text>
-<text id="figure-text-005" x="153" y="182" class="source-label">36-axis acceleration</text>
+<text id="figure-text-005" x="153" y="182" class="source-label">36 acceleration columns</text>
 <text id="figure-text-006" x="153" y="207" class="source-label">Source-aligned E1</text>
 </g>
 <g class="context-module">
