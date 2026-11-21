@@ -1,0 +1,7 @@
+channel,n_inspected_trials,median_p01_source,median_p99_source,median_signal_source,median_near_zero_fraction,physical_axis_verified,units_verified_newtons,foot_side_verified
+Treadmill_L_vx,27,-28.7628173828125,99.21035766601527,18.5394287109375,0.37740310619840495,False,False,False
+Treadmill_L_vy,27,0,930.328369140625,398.5595703125,0.3690298559495754,False,False,False
+Treadmill_L_vz,27,-199.2034912109375,190.4296875,0,0.3957904720724742,False,False,False
+Treadmill_R_vx,27,-93.1549072265625,32.04345703125,-15.411376953125,0.3913387961051688,False,False,False
+Treadmill_R_vy,27,0,921.8063354492178,409.393310546875,0.37750811423170216,False,False,False
+Treadmill_R_vz,27,-202.1514892578125,198.93112182617133,0,0.41033141110261934,False,False,False

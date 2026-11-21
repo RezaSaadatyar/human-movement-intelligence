@@ -96,6 +96,44 @@ class GaitSourceEvidenceTests(unittest.TestCase):
                              ["inspected", "not_inspected"])
             self.assertEqual(len(components), 6)
 
+    def test_screening_uses_source_units_and_keeps_physical_status_false(self):
+        """Reproduce the new source-only screening cell with synthetic data."""
+        notebook = REPO / "gait_analysis/code/notebooks" / (
+            "02_alignment_and_event_reference.ipynb"
+        )
+        cells = json.loads(notebook.read_text(encoding="utf-8"))["cells"]
+        source = next(
+            "".join(cell["source"]) for cell in cells
+            if cell.get("id") == "gait-02a-source-code"
+        )
+        heading = "# --------------- 3. Summarise Observed Force-Channel Evidence"
+        self.assertIn(heading, source)
+        snippet = source[source.index(heading):]
+        with tempfile.TemporaryDirectory() as folder:
+            values = pd.DataFrame([
+                {"channel": "Treadmill_R_vy", "trial_id": "a",
+                 "p01_source": 0.0, "p99_source": 800.0,
+                 "median_source": 350.0, "near_zero_fraction_relative": 0.3},
+                {"channel": "Treadmill_R_vy", "trial_id": "b",
+                 "p01_source": 0.0, "p99_source": 950.0,
+                 "median_source": 400.0, "near_zero_fraction_relative": 0.4},
+                {"channel": "Treadmill_R_vx", "trial_id": "a",
+                 "p01_source": -80.0, "p99_source": 30.0,
+                 "median_source": -10.0, "near_zero_fraction_relative": 0.2},
+            ])
+            namespace = {
+                "component_evidence": values, "pd": pd,
+                "output_dir": Path(folder), "display": lambda *args: None,
+            }
+            exec(compile(snippet, "screening", "exec"), namespace)
+            saved = pd.read_csv(Path(folder) / "02_force_channel_screening.csv")
+            y = saved.loc[saved.channel == "Treadmill_R_vy"].iloc[0]
+            self.assertEqual(int(y.n_inspected_trials), 2)
+            self.assertAlmostEqual(float(y.median_p99_source), 875)
+            self.assertFalse(bool(y.physical_axis_verified))
+            self.assertFalse(bool(y.units_verified_newtons))
+            self.assertFalse(bool(y.foot_side_verified))
+
     def test_notebook_extension_preserves_deferred_scientific_boundary(self):
         notebook = REPO / "gait_analysis/code/notebooks" / (
             "02_alignment_and_event_reference.ipynb"
