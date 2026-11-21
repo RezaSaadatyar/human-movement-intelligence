@@ -17,6 +17,11 @@ import pandas as pd
 SENSOR_NAMES = {"imu", "fp", "conditions", "gcRight", "gcLeft"}
 SUPPORTED = {".csv", ".parquet", ".mat"}
 
+# A bounded, original-version cohort. Its suitability remains subject to QA.
+PART1_V1_SUBJECT_ARCHIVES = tuple(
+    f"AB{subject:02d}.zip" for subject in range(6, 15)
+)
+
 
 # =========================== 01. Source Discovery ===========================
 def inventory_files(source_root: Path) -> pd.DataFrame:
@@ -425,10 +430,11 @@ def download_mendeley_pilot_archive(
     from urllib.request import Request, urlopen
 
     destination = Path(destination)
-    if filename != "AB06.zip" or dataset_id != "fcgm3chfff" or version != 1:
+    if (filename not in PART1_V1_SUBJECT_ARCHIVES or
+            dataset_id != "fcgm3chfff" or version != 1):
         raise ValueError(
-            "The initial pilot downloader is pinned to Camargo "
-            "Part 1 Version 1, AB06.zip only."
+            "The bounded source downloader only accepts Camargo "
+            "Part 1 Version 1, AB06.zip through AB14.zip."
         )
     if max_bytes > 1_600_000_000 or max_bytes <= 0:
         raise ValueError("Invalid maximum allowed pilot archive size.")
@@ -566,3 +572,116 @@ def download_mendeley_pilot_archive(
     partial.replace(target)
     print("Validated original Camargo ZIP:", target)
     return target
+
+
+# ===================== 05. Bounded Paired Trial Selection ====================
+def extract_selected_trial_pairs_from_zip(
+    archive_path: Path, destination: Path, subject_id: str,
+    condition="treadmill", max_pairs=3,
+    max_member_bytes=250_000_000, max_extract_bytes=750_000_000,
+) -> list[dict]:
+    """Extract a bounded, reproducible set of original IMU/FP trial pairs.
+
+    Selection spans the sorted available trial identifiers without assigning
+    walking speed or evaluating labels. All selected paired files retain the
+    original subject/session/mode/source names. Outputs are source files,
+    not proof that the force axes or clocks are scientifically eligible.
+    """
+    import shutil
+    import tempfile
+
+    subject_id = str(subject_id).upper()
+    if not re.fullmatch(r"AB\d{2}", subject_id):
+        raise ValueError("Expected a single ABxx participant ID.")
+    if max_pairs < 1 or max_pairs > 5:
+        raise ValueError("Select between one and five paired trials per person.")
+    root = Path(destination)
+    archive_path = Path(archive_path)
+    if not archive_path.is_file():
+        raise FileNotFoundError(f"Missing original ZIP: {archive_path}")
+    grouped = {}
+    with zipfile.ZipFile(archive_path) as bundle:
+        for info in bundle.infolist():
+            if info.is_dir():
+                continue
+            original = info.filename.replace("\\", "/")
+            parts = Path(original).parts
+            if not parts or ".." in parts or Path(original).is_absolute():
+                raise ValueError(f"Unsafe ZIP member: {info.filename}")
+            positions = [i for i, part in enumerate(parts)
+                         if part.upper() == subject_id]
+            if len(positions) != 1:
+                continue
+            rel = parts[positions[0]:]
+            if (len(rel) != 5 or rel[0].upper() != subject_id
+                    or rel[2].lower() != condition.lower()
+                    or rel[3].lower() not in {"imu", "fp"}
+                    or Path(rel[4]).suffix.lower() not in SUPPORTED):
+                continue
+            if info.file_size > max_member_bytes:
+                raise ValueError(
+                    f"Source member exceeds single-file size limit: {original}"
+                )
+            key = (rel[0].upper(), rel[1], rel[2].lower(),
+                   Path(rel[4]).stem)
+            sensor = rel[3].lower()
+            if sensor in grouped.setdefault(key, {}):
+                raise ValueError(f"Duplicate {sensor} entry in archive: {key}")
+            grouped[key][sensor] = (info, Path(*rel))
+
+        options = sorted((key, group) for key, group in grouped.items()
+                         if len(group) == 2)
+        if not options:
+            raise ValueError(
+                f"No exact original treadmill IMU/force pairs for {subject_id}."
+            )
+        count = min(max_pairs, len(options))
+        indices = np.linspace(0, len(options) - 1, count, dtype=int)
+        selected = [options[int(i)] for i in indices]
+        total = sum(info.file_size for _, group in selected
+                    for info, _ in group.values())
+        if total > max_extract_bytes:
+            raise ValueError(
+                f"Selected trial files require {total} unpacked bytes; "
+                "reduce max_pairs or review the original archive."
+            )
+        extracted = []
+        for key, group in selected:
+            row = {"subject_id": key[0], "session_id": key[1],
+                   "condition": key[2], "trial_id": key[3]}
+            for sensor in ("imu", "fp"):
+                info, rel = group[sensor]
+                target = root / rel
+                target.parent.mkdir(parents=True, exist_ok=True)
+                if (not target.is_file()
+                        or target.stat().st_size != info.file_size):
+                    with bundle.open(info) as source:
+                        with tempfile.NamedTemporaryFile(
+                            dir=target.parent, delete=False
+                        ) as handle:
+                            temporary = Path(handle.name)
+                            shutil.copyfileobj(source, handle)
+                    temporary.replace(target)
+                row[f"{sensor}_path"] = str(target)
+            extracted.append(row)
+        return extracted
+
+
+def participant_pair_counts(source_root: Path,
+                            subject_ids: list[str] | tuple[str, ...]
+                            ) -> dict[str, int]:
+    """Count completed original source pairs by participant, not files."""
+    allowed = {str(p).upper() for p in subject_ids}
+    inventory = inventory_files(source_root) if Path(source_root).is_dir() \
+        else pd.DataFrame()
+    matched = paired_trials(inventory)
+    counts = {p: 0 for p in sorted(allowed)}
+    if not matched.empty:
+        complete = matched.loc[
+            matched.candidate_pair &
+            matched.subject_id.isin(allowed) &
+            matched.condition.eq("treadmill")
+        ]
+        for name, count in complete.subject_id.value_counts().items():
+            counts[str(name)] = int(count)
+    return counts
