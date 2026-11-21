@@ -408,6 +408,7 @@ def download_mendeley_pilot_archive(
                 )
                 mode = "ab" if resume else "wb"
                 count = existing if resume else 0
+                next_report = count + 100 * 1024 * 1024
                 print(f"Fetching Camargo {filename} (version {version}) "
                       "directly from the official public source.")
                 with partial.open(mode) as stream:
@@ -422,6 +423,13 @@ def download_mendeley_pilot_archive(
                                 "configured maximum size."
                             )
                         stream.write(block)
+                        if count >= next_report:
+                            if expected_size:
+                                print(f"Received {count / 1e6:.0f} MB / "
+                                      f"{expected_size / 1e6:.0f} MB")
+                            else:
+                                print(f"Received {count / 1e6:.0f} MB")
+                            next_report = count + 100 * 1024 * 1024
             if expected_size is not None and count != expected_size:
                 attempts.append(
                     f"Incomplete response: {count} of {expected_size} bytes"
