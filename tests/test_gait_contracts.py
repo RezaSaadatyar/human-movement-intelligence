@@ -21,6 +21,7 @@ SOURCE = REPO / "gait_analysis" / "code" / "src"
 sys.path.insert(0, str(SOURCE))
 
 from camargo_source import (inventory_files, paired_trials, validate_timebase,
+    inspect_columns,
     read_sensor_table,
     extract_pilot_trial_from_zip, locate_pilot_source_archive,
     download_mendeley_pilot_archive, PART1_V1_SUBJECT_ARCHIVES,
@@ -457,6 +458,95 @@ class GaitContractTests(unittest.TestCase):
         )
         self.assertEqual(len(rows), 1)
         self.assertTrue(np.isfinite(participant_selection_score(rows)))
+
+    def test_source_audit_covers_every_paired_trial_offline(self):
+        """Notebook 01 audits all available original source pairs, not one."""
+        folder = REPO / "gait_analysis/code/notebooks"
+        notebook = json.loads((folder /
+            "01_source_and_reference_eligibility.ipynb").read_text())
+        cell = next(c for c in notebook["cells"]
+                    if c.get("id") == "c-01-05")
+        with tempfile.TemporaryDirectory() as tmp:
+            root = Path(tmp)
+            output = root / "output"
+            output.mkdir()
+            records = []
+            for person in ("AB06", "AB07"):
+                for sensor in ("imu", "fp"):
+                    rel = Path(person) / "session" / "treadmill" / sensor / "trial.csv"
+                    dest = root / rel
+                    dest.parent.mkdir(parents=True, exist_ok=True)
+                    time = np.arange(1, 2, .005 if sensor == "imu" else .001)
+                    name = "foot_Gyro_Y" if sensor == "imu" else "Treadmill_R_vy"
+                    pd.DataFrame({"Header": time, name: np.sin(time)}).to_csv(
+                        dest, index=False
+                    )
+                records.append({
+                    "subject_id": person, "session_id": "session",
+                    "condition": "treadmill", "trial_id": "trial",
+                    "imu_path": f"{person}/session/treadmill/imu/trial.csv",
+                    "fp_path": f"{person}/session/treadmill/fp/trial.csv",
+                    "candidate_pair": True,
+                })
+            variables = {
+                "pairs": pd.DataFrame(records), "source_root": root,
+                "output_dir": output, "read_sensor_table": read_sensor_table,
+                "validate_timebase": validate_timebase,
+                "inspect_columns": inspect_columns,
+                "candidate_channels": candidate_channels,
+                "np": np, "pd": pd, "display": lambda *args: None,
+            }
+            exec(compile("".join(cell["source"]), "nb01_stage05", "exec"),
+                 variables)
+            audit = pd.read_csv(output / "01_trial_timebase_audit.csv")
+            self.assertEqual(len(audit), 2)
+            self.assertEqual(set(audit.subject_id), {"AB06", "AB07"})
+            self.assertTrue(
+                (audit.status == "readable_with_time_overlap").all()
+            )
+            observed = pd.read_csv(output / "01_observed_columns.csv")
+            self.assertEqual(set(observed.subject_id), {"AB06", "AB07"})
+
+    def test_notebook02_contract_review_is_descriptive_and_gated(self):
+        """Section 02 records candidates; Section 03 still protects labels."""
+        path = REPO / "gait_analysis/code/notebooks" / (
+            "02_alignment_and_event_reference.ipynb"
+        )
+        notebook = json.loads(path.read_text(encoding="utf8"))
+        review = next(c for c in notebook["cells"]
+                      if c.get("id") == "c-02-03")
+        reference = next(c for c in notebook["cells"]
+                         if c.get("id") == "c-02-04")
+        with tempfile.TemporaryDirectory() as tmp:
+            output = Path(tmp)
+            rows = [{
+                "subject_id": "AB06", "session_id": "session",
+                "condition": "treadmill", "trial_id": "trial",
+                "imu_path": "imu.csv", "fp_path": "fp.csv",
+                "candidate_pair": True,
+            }]
+            pd.DataFrame(rows).to_csv(
+                output / "01_candidate_pairs.csv", index=False
+            )
+            pd.DataFrame([
+                {"column": "foot_Gyro_Y", "modality": "imu"},
+                {"column": "Treadmill_R_vy", "modality": "fp"},
+            ]).to_csv(output / "01_observed_columns.csv", index=False)
+            variables = {
+                "output_dir": output, "np": np, "pd": pd,
+                "display": lambda *args: None,
+            }
+            exec(compile("".join(review["source"]), "nb02_stage02", "exec"),
+                 variables)
+            contract = pd.read_csv(output / "02_source_contract_review.csv")
+            self.assertEqual(len(contract), 6)
+            self.assertIn("FORCE_UPWARD_SIGN", set(contract.setting))
+            self.assertFalse(variables["IMU_FORCE_TIMEBASE_CONFIRMED"])
+            with self.assertRaisesRegex(
+                ValueError, "reference construction remains unavailable"
+            ):
+                exec(compile("".join(reference["source"]),
+                             "nb02_stage03", "exec"), variables)
 
     def test_source_summary_and_download_share_notebook_final_section(self):
         """Gait Notebook 01 ends in one numbered scientific summary step."""
