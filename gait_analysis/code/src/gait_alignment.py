@@ -15,10 +15,34 @@ from camargo_source import read_sensor_table, validate_timebase
 def candidate_channels(table: pd.DataFrame, modality: str) -> list[str]:
     """Identify review candidates, not scientifically approved channel mappings."""
     term = (r"gyr|gyro|angular|foot|shank" if modality == "imu"
-            else r"force|fz|vertical|fp[0-9]")
+            else r"force|fz|vertical|fp[0-9]|treadmill_[rl]_v[xyz]")
     return [str(col) for col in table.columns
             if re.search(term, str(col), flags=re.I)
             and col not in ("Header", "time_s")]
+
+
+def preview_channels(table: pd.DataFrame, modality: str) -> list[str]:
+    """Select real field names for inspection, not scientific event labels.
+
+    Treadmill v_y is an observed component, not a validated vertical
+    force reference without independent axis/sign documentation.
+    """
+    if modality not in {"imu", "fp"}:
+        raise ValueError("Unrecognised source modality.")
+    preferred = (
+        ("foot_Gyro_Y", "shank_Gyro_Y") if modality == "imu"
+        else ("Treadmill_R_vy", "Treadmill_L_vy")
+    )
+    observed = [
+        col for col in preferred
+        if col in table.columns and pd.api.types.is_numeric_dtype(table[col])
+    ]
+    if observed:
+        return observed
+    return [
+        col for col in candidate_channels(table, modality)
+        if pd.api.types.is_numeric_dtype(table[col])
+    ][:2]
 
 
 def mapped_series(table: pd.DataFrame, column: str, kind: str):

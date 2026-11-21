@@ -24,7 +24,7 @@ from camargo_source import (inventory_files, paired_trials, validate_timebase,
     read_sensor_table,
     extract_pilot_trial_from_zip, locate_pilot_source_archive,
     download_mendeley_pilot_archive)
-from gait_alignment import mapped_series, validated_overlap
+from gait_alignment import mapped_series, validated_overlap, candidate_channels, preview_channels
 from gait_reference import force_contact_events, reference_strides, stride_summary
 from gait_event_detectors import peak_events, candidate_features
 from gait_evaluation import (
@@ -278,6 +278,28 @@ class GaitContractTests(unittest.TestCase):
         )), mock.patch.dict(sys.modules, {"matio": fake}):
             with self.assertRaisesRegex(ValueError, "ambiguous multiple"):
                 read_sensor_table(Path("ambiguous_imu.mat"))
+
+    def test_treadmill_source_preview_channel_names(self):
+        """Find real AB06 v-component names without inventing vertical GRF."""
+        force = pd.DataFrame({
+            "Header": [11.99, 11.991, 11.992],
+            "Treadmill_R_vy": [0.0, 410.0, 615.0],
+            "Treadmill_L_vy": [430.0, 80.0, 0.0],
+        })
+        imu = pd.DataFrame({
+            "Header": [11.99, 11.995, 12.0],
+            "foot_Gyro_Y": [0.0, 1.0, 0.0],
+            "shank_Gyro_Y": [0.0, 0.5, 0.0],
+        })
+        self.assertIn("Treadmill_R_vy", candidate_channels(force, "fp"))
+        self.assertEqual(
+            preview_channels(force, "fp"), ["Treadmill_R_vy", "Treadmill_L_vy"]
+        )
+        self.assertEqual(
+            preview_channels(imu, "imu"), ["foot_Gyro_Y", "shank_Gyro_Y"]
+        )
+        with self.assertRaises(ValueError):
+            preview_channels(imu, "invalid")
 
     def test_time_contract_requires_monotonicity_and_actual_overlap(self):
         frame = pd.DataFrame({"Header": [0.0, 0.1, 0.2],
