@@ -81,13 +81,6 @@ def fit_classical_candidate_model(training_trials, seed=42):
 
 
 # ========================== 03. Classical Comparisons ======================
-PARAMETER_GRID = (
-    {"polarity": p, "prominence": level, "min_interval_s": 0.45,
-     "cutoff_hz": 10.0}
-    for p in (-1, 1) for level in (0.3, 0.6, 1.0, 1.5)
-)
-
-
 def parameter_grid():
     """Return the same predefined, finite candidate grid on every call."""
     return [dict(polarity=p, prominence=level,
@@ -116,16 +109,19 @@ def participant_selection_score(results):
     """
     if results.empty:
         return float("inf")
-    by_person = results.groupby("subject_id", sort=True).apply(
-        lambda x: pd.Series({
-            "n_ref": x.n_reference.sum(), "n_pred": x.n_predicted.sum(),
-            "n_match": x.n_matched.sum(),
-            "mae": np.average(
-                x.loc[x.n_matched > 0, "timing_mae_ms"],
-                weights=x.loc[x.n_matched > 0, "n_matched"],
-            ) if x.n_matched.sum() else 1000.0,
-        }), include_groups=False,
-    )
+    aggregates = []
+    for subject_id, group in results.groupby("subject_id", sort=True):
+        valid = group.loc[group.n_matched > 0]
+        matched = int(group.n_matched.sum())
+        aggregates.append({
+            "subject_id": subject_id,
+            "n_ref": group.n_reference.sum(),
+            "n_pred": group.n_predicted.sum(),
+            "n_match": matched,
+            "mae": (float(np.average(valid.timing_mae_ms,
+                      weights=valid.n_matched)) if matched else 1000.0),
+        })
+    by_person = pd.DataFrame(aggregates)
     sens = by_person.n_match / by_person.n_ref.replace(0, np.nan)
     prec = by_person.n_match / by_person.n_pred.replace(0, np.nan)
     penalty = 150.0 * (2.0 - sens.fillna(0) - prec.fillna(0))
