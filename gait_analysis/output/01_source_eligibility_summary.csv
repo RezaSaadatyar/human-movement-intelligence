@@ -1,9 +1,9 @@
 item,value
 source_participants_target,9
-source_participants_observed,6
-source_participants_with_selected_pairs,6
-source_acquisition_complete,False
-candidate_imu_force_pairs,18
-readable_pairs_with_native_time_overlap,18
+source_participants_observed,9
+source_participants_with_selected_pairs,9
+source_acquisition_complete,True
+candidate_imu_force_pairs,27
+readable_pairs_with_native_time_overlap,27
 validated_reference_pairs,not yet independently established
 force_contact_event_results,not generated in source inspection
