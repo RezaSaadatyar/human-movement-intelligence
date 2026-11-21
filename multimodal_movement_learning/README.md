@@ -62,7 +62,7 @@ The no-signal Training-prior baseline achieved **0.0350**. The Development-selec
 
 ## 4. Running and Reviewing the Study
 
-**Available evidence:** Notebooks 01–05 have saved execution evidence, including the complete frozen Test outputs in the study `output/` directory. The original Notebook 03 `03_oof_probabilities.npz` is now tracked in the study `output/` directory and is validated by Notebook 04 against its keyed predictions. Other large NPZ inputs and temporal signal caches remain untracked. Notebook 05's frozen classical comparators use the two tracked Notebook 02 statistical feature arrays; Test scores and figures are now available.
+**Available evidence:** All five notebooks retain their original-source, Development or Test results, with the principal tables and figures in `output/`. The original Notebook 03 OOF probabilities required by Notebook 04 are available as `03_oof_probabilities.npz`; Notebook 05 uses the two tracked Notebook 02 statistical feature matrices. The recorded results can be reviewed without downloading the full original sensor recordings.
 
 **Reproducing the workflow:**
 1. Use the root `requirements.txt` with a supported Python/Colab environment. Notebook 01 reads one official source ZIP; Notebook 02 incrementally reads E1 recordings across the 40-person source cohort.
@@ -88,16 +88,16 @@ Loading all 40 source archives simultaneously is not required. The Dryad listing
 | `code/notebooks/` | Five research notebooks, all retaining their recorded source, Development or Test execution evidence |
 | `code/src/` | Source reader, paired data, neural architectures, trained fusion orchestration and evaluation helpers |
 | `images/` | Five editable notebook-specific scientific workflow SVG diagrams |
-| `output/` | Tracked `01_*`–`05_*` source, Development, fusion and frozen Test CSV/PNG evidence plus `03_oof_probabilities.npz`; Notebook 04 model-specific NPZ files remain in its separate Colab archive |
+| `output/` | Recorded `01_*`–`05_*` source, Development, fusion and frozen Test CSV/PNG results and Notebook 03 OOF probabilities |
 | `data/raw/ninapro_db2/` | Original participant ZIPs acquired during execution; local runtime cache, not distributed with the repository |
 | `data/processed/ninapro_db2/` | Two tracked Notebook 02 48/96-column feature matrices for classical Test; source-length recordings remain local/untracked |
 | [Shared core](../python_modules/core/) | Existing candidate splitting, grouped evaluation, plotting and setup utilities; reuse must be checked against DB2 |
 
-The repository retains executed Notebook 01–05 evidence, the original Notebook 03 aggregate OOF probability NPZ, the two frozen Test feature matrices, Notebook 04's selected Development recipes and scientific diagrams. It does not distribute large source recordings, dense temporal caches or the Notebook 04 model-specific NPZ archive. **Frozen-model Test scores and figures have now been recorded and committed; they are not external or clinical validation.**
+The repository contains the five executed notebooks, their main numerical summaries and figures, the OOF probabilities used for Development fusion, the two statistical feature matrices required by the frozen Test, and the scientific workflow diagrams. Original sensor recordings are accessed through the cited NinaPro sources if a full source-data re-execution is needed. **Frozen-model Test scores and figures are recorded; they do not constitute external or clinical validation.**
 
 ## 6. Interpretation and Scope
 
-This study is designed to measure **whether acceleration adds information to sEMG in a specific person-independent, prompted hand-movement classification task**, using classical models alongside compact deep temporal and multimodal fusion architectures. The enrolled NinaPro DB2 population consists of intact volunteers, so future results would not alone establish amputee performance, prosthesis control, clinical usefulness, online operation or generalisation across acquisition devices.
+This study evaluates **whether acceleration adds information to sEMG in a person-independent, prompted hand-movement classification task**, comparing classical and compact deep multimodal models. The final Test used **five independent participants reserved before model selection**, out of 40 total participants. This limited number of independent Test people constrains the precision and wider generalisability of the observed performance difference. The dataset contains intact volunteers, and the offline findings do not establish real-time prosthesis or clinical performance.
 
 The released signals were already processed for synchronisation and sEMG interference removal. Any additional filtering must be justified against those original processing steps. The corrected labels may have been aligned from sEMG, so this provenance must be reported when comparing modalities. Modality row correspondence, corrected E1 label codes, source eligibility and participant-disjoint assignments have been inspected and recorded for the present cohort. Equal released sample rows do not independently establish native sensor synchronisation accuracy; the recorded frozen Test comparison demonstrates only offline, within-dataset participant independence, not real-time or cross-device reliability.
 
