@@ -85,9 +85,9 @@ def paired_trials(inventory: pd.DataFrame) -> pd.DataFrame:
 
 # ========================== 02. Signal Table Reader =========================
 def _dict_to_dataframe(data: dict) -> pd.DataFrame:
-    """Accept numeric vector columns only; reject ambiguous MATLAB objects."""
+    """Convert an explicit numeric MATLAB field mapping without guessing axes."""
     if "Header" not in data and "time_s" not in data:
-        raise ValueError("No numeric 'Header' or 'time_s' field was decoded.")
+        raise ValueError("No 'Header' or 'time_s' field in numeric mapping.")
     values = {}
     for key, value in data.items():
         if str(key).startswith("__"):
@@ -97,13 +97,83 @@ def _dict_to_dataframe(data: dict) -> pd.DataFrame:
             arr = arr.reshape(-1)
         if arr.ndim == 1 and np.issubdtype(arr.dtype, np.number):
             values[str(key)] = arr.astype(float)
-    if not values or len(set(map(len, values.values()))) != 1:
-        raise ValueError("MATLAB field vectors have inconsistent lengths.")
+    time_col = "Header" if "Header" in data else "time_s"
+    if time_col not in values:
+        raise ValueError(f"Timestamp {time_col} is not a numeric vector.")
+    if len(set(map(len, values.values()))) != 1:
+        raise ValueError("MATLAB numeric field vectors have different lengths.")
     return pd.DataFrame(values)
 
 
+def _find_source_table(value, source_name="root", depth=0):
+    """Identify a single real named Camargo table in decoded MATLAB content.
+
+    SciPy handles plain numeric structs; mat-io additionally decodes MATLAB
+    table/MCOS objects into pandas DataFrames. Source column names and row
+    order are kept unchanged. A second eligible table is ambiguous and
+    must not be silently chosen.
+    """
+    if depth > 5:
+        return []
+    if isinstance(value, pd.DataFrame):
+        if "Header" in value.columns or "time_s" in value.columns:
+            if value.columns.has_duplicates:
+                raise ValueError("MATLAB table has duplicate source columns.")
+            return [(source_name, value.copy())]
+        return []
+    if isinstance(value, dict):
+        if "Header" in value or "time_s" in value:
+            try:
+                table = _dict_to_dataframe(value)
+            except (TypeError, ValueError):
+                pass
+            else:
+                return [(source_name, table)]
+        results = []
+        for name, nested in value.items():
+            if str(name).startswith("__"):
+                continue
+            results.extend(
+                _find_source_table(nested, f"{source_name}.{name}", depth + 1)
+            )
+        return results
+    if isinstance(value, (tuple, list)) and len(value) <= 12:
+        results = []
+        for idx, nested in enumerate(value):
+            results.extend(
+                _find_source_table(nested, f"{source_name}[{idx}]", depth + 1)
+            )
+        return results
+    return []
+
+
+def _unambiguous_source_table(decoded, path: Path, reader: str):
+    candidates = _find_source_table(decoded)
+    if not candidates:
+        if isinstance(decoded, dict):
+            names = [str(k) for k in decoded if not str(k).startswith("__")]
+        else:
+            names = [type(decoded).__name__]
+        raise ValueError(
+            f"{reader}: no named numeric time table was decoded from "
+            f"{path.name}; decoded top-level fields: {names[:12]}"
+        )
+    if len(candidates) != 1:
+        raise ValueError(
+            f"{reader}: ambiguous multiple time tables in {path.name}: "
+            f"{[name for name, _ in candidates]}"
+        )
+    return candidates[0][1]
+
+
 def read_sensor_table(path: Path) -> pd.DataFrame:
-    """Read a source sensor table, without assuming its physical channel map."""
+    """Load source-named sensor columns from CSV, Parquet or MATLAB tables.
+
+    Many original Camargo MAT files store a MATLAB classdef/MCOS table.
+    scipy.io.loadmat does not reconstruct the table object, even when the
+    outer MAT-file is a standard v7 file. Use mat-io only if the simpler
+    scipy path cannot expose an unambiguous numeric time table.
+    """
     path = Path(path)
     suffix = path.suffix.lower()
     if suffix == ".csv":
@@ -111,24 +181,43 @@ def read_sensor_table(path: Path) -> pd.DataFrame:
     elif suffix == ".parquet":
         data = pd.read_parquet(path)
     elif suffix == ".mat":
+        from scipy.io import loadmat
+
+        scipy_issue = None
         try:
-            from scipy.io import loadmat
-            content = loadmat(path, simplify_cells=True)
-            if "data" in content and isinstance(content["data"], dict):
-                content = content["data"]
-            data = _dict_to_dataframe(content)
-        except (NotImplementedError, ValueError, TypeError) as error:
-            raise ValueError(
-                f"Cannot decode this MATLAB table directly: {path}. "
-                "Export the source table as CSV with its original Header "
-                "timestamps using MATLAB/Octave, or supply a validated "
-                "numeric table decoder; do not reconstruct timestamps. "
-                f"Original error: {error}"
-            ) from error
+            decoded = loadmat(path, simplify_cells=True)
+            data = _unambiguous_source_table(decoded, path, "scipy")
+        except (NotImplementedError, TypeError, ValueError) as error:
+            scipy_issue = error
+            try:
+                from matio import load_from_mat
+            except ImportError as dependency_error:
+                raise ImportError(
+                    "The original Camargo file contains a MATLAB table/MCOS "
+                    "object rather than plain numeric fields. Install "
+                    "'mat-io==1.0.2' in this Colab runtime, or rerun the "
+                    "Notebook 01 Imports and Research Environment cell. "
+                    f"SciPy detail: {scipy_issue}"
+                ) from dependency_error
+            try:
+                decoded = load_from_mat(str(path), raw_data=False)
+                data = _unambiguous_source_table(decoded, path, "mat-io")
+            except (TypeError, ValueError, OSError, RuntimeError) as error:
+                raise ValueError(
+                    "Failed to decode the original Camargo MATLAB table. "
+                    "Do not synthesise a timestamp or rename an unknown "
+                    "sensor channel. Inspect the original MAT variables and "
+                    "table type before modifying the scientific mapping. "
+                    f"SciPy detail: {scipy_issue}; mat-io detail: {error}"
+                ) from error
     else:
         raise ValueError(f"Unsupported sensor file: {path.name}")
     if data.empty:
         raise ValueError(f"Empty sensor table: {path}")
+    if "Header" not in data.columns and "time_s" not in data.columns:
+        raise ValueError(
+            f"{path.name}: decoded table has no original Header/time_s column."
+        )
     return data
 
 
