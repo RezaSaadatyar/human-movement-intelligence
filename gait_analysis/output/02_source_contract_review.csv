@@ -1,8 +1,8 @@
 setting,candidate,observed,unresolved
-GYRO_COLUMN,foot_Gyro_Y,True,Verify the selected gyroscope axis and instrumented side.
+GYRO_COLUMN,foot_Gyro_Y,True,Fixed observed model-input axis; do not claim anatomical orientation or Test-derived selection.
 VERTICAL_FORCE_COLUMN,Treadmill_R_vy,True,"Verify physical vertical axis, source units and belt side."
-FOOT_SIDE,right (candidate),,Confirm physical IMU foot side and force-plate R/L mapping.
+FOOT_SIDE,right (author-reported),,Right-sided wearable IMU in Camargo et al. (2021); verify R/L treadmill belt correspondence.
 FORCE_UPWARD_SIGN,positive (candidate),,Verify the real loading polarity and swing-phase baseline.
-TIME_UNIT_IN_SECONDS,1.0 (candidate),,Confirm Header time units with original 200/1000-Hz rates.
+TIME_UNIT_IN_SECONDS,1.0 (seconds in source paper),,Header time in seconds reported by Camargo et al. (2021); native 200/1000-Hz steps observed.
 IMU_FORCE_TIMEBASE_CONFIRMED,not confirmed,,Confirm a common event-level clock for retained trials.
 FORCE_SCALE_TO_NEWTONS,not confirmed,,Confirm conversion from original force units to newtons.
