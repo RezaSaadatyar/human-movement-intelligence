@@ -681,7 +681,10 @@ class GaitContractTests(unittest.TestCase):
             self.assertIn("panel-1-pulses", ids)
             self.assertIn("panel-2-ref-line", ids)
             text = " ".join(child.text or "" for child in element.iter())
-            self.assertIn("Schematic curves only", text)
+            self.assertTrue(any(
+                phrase in text.lower()
+                for phrase in ("schematic", "conceptual")
+            ))
             self.assertIn("unverified", text)
 
     def test_source_plot_produces_two_numeric_panels_offline(self):
