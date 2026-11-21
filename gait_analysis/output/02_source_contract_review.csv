@@ -1,0 +1,7 @@
+setting,candidate,observed,unresolved
+GYRO_COLUMN,foot_Gyro_Y,True,Verify the selected gyroscope axis and instrumented side.
+VERTICAL_FORCE_COLUMN,Treadmill_R_vy,True,"Verify physical vertical axis, source units and belt side."
+FOOT_SIDE,right (candidate),,Confirm physical IMU foot side and force-plate R/L mapping.
+FORCE_UPWARD_SIGN,positive (candidate),,Verify the real loading polarity and swing-phase baseline.
+TIME_UNIT_IN_SECONDS,1.0 (candidate),,Confirm Header time units with original 200/1000-Hz rates.
+IMU_FORCE_TIMEBASE_CONFIRMED,not confirmed,,Confirm a common event-level clock for retained trials.
