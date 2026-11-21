@@ -255,3 +255,184 @@ def locate_pilot_source_archive(source_root: Path, subject_id="AB06",
         Path("/content") / name,
     ]
     return next((p for p in candidates if p.is_file()), None)
+
+
+# =================== 04. Official Mendeley Pilot Acquisition =================
+def _mendeley_public_file_metadata(
+    filename="AB06.zip", dataset_id="fcgm3chfff", version=1,
+    opener=None,
+) -> dict:
+    """Find one file in a pinned published Mendeley dataset version.
+
+    This reads official public metadata only; it does not download the ZIP.
+    No unverified hard-coded file UUID or time-limited signed URL is used.
+    """
+    import json
+    from urllib.request import Request, urlopen
+
+    opener = opener or urlopen
+    urls = [
+        f"https://api.data.mendeley.com/datasets/publics/{dataset_id}/files"
+        f"?version={int(version)}",
+        f"https://api.data.mendeley.com/datasets/{dataset_id}/files"
+        f"?version={int(version)}",
+        f"https://api.data.mendeley.com/datasets/{dataset_id}"
+        f"?version={int(version)}",
+    ]
+    errors = []
+    for url in urls:
+        request = Request(
+            url, headers={"Accept": "application/json",
+                          "User-Agent": "HumanMovementIntelligence/1.0"}
+        )
+        try:
+            with opener(request, timeout=35) as response:
+                payload = json.load(response)
+        except (OSError, ValueError) as error:
+            errors.append(f"{url}: {type(error).__name__}: {error}")
+            continue
+        if isinstance(payload, list):
+            records = payload
+        elif isinstance(payload, dict):
+            records = next(
+                (payload[key] for key in (
+                    "files", "items", "results", "content", "data"
+                ) if isinstance(payload.get(key), list)),
+                [],
+            )
+        else:
+            records = []
+        for file in records:
+            if (isinstance(file, dict) and
+                    file.get("filename", file.get("name")) == filename):
+                return file
+        errors.append(f"{url}: {filename} absent from public response")
+    raise RuntimeError(
+        f"Mendeley API could not locate {filename} in published dataset "
+        f"{dataset_id} version {version}. Network access or the public "
+        "API may be restricted. Download this file manually from "
+        f"https://data.mendeley.com/datasets/{dataset_id}/{version} "
+        "and put it in /content/, or set PILOT_ZIP_PATH to its mounted "
+        "Google Drive location. API diagnostics: " + " | ".join(errors)
+    )
+
+
+def download_mendeley_pilot_archive(
+    destination: Path, filename="AB06.zip",
+    dataset_id="fcgm3chfff", version=1,
+    max_bytes=1_600_000_000, opener=None,
+) -> Path:
+    """Download exactly one official public participant ZIP to Colab.
+
+    Streams into a partial file; retries may resume only if HTTP Range is
+    actually honoured. Verifies archive format, expected size and SHA256 when
+    Mendeley provides it. Never downloads the dataset-wide combined archive.
+    The caller must explicitly enable this transfer in the notebook.
+    """
+    import hashlib
+    import shutil
+    from urllib.request import Request, urlopen
+
+    destination = Path(destination)
+    if filename != "AB06.zip" or dataset_id != "fcgm3chfff" or version != 1:
+        raise ValueError(
+            "The initial pilot downloader is pinned to Camargo "
+            "Part 1 Version 1, AB06.zip only."
+        )
+    if max_bytes > 1_600_000_000 or max_bytes <= 0:
+        raise ValueError("Invalid maximum allowed pilot archive size.")
+    destination.mkdir(parents=True, exist_ok=True)
+    target = destination / filename
+    if target.is_file() and zipfile.is_zipfile(target):
+        print("Reusing existing valid Camargo ZIP:", target)
+        return target
+    if target.is_file():
+        raise ValueError(
+            f"{target} exists but is not a valid ZIP; inspect before retrying."
+        )
+    metadata = _mendeley_public_file_metadata(
+        filename, dataset_id, version, opener=opener
+    )
+    size = metadata.get("size") or (
+        metadata.get("content_details") or {}).get("size")
+    expected_size = int(size) if size else None
+    if expected_size is not None and expected_size > max_bytes:
+        raise ValueError(
+            f"Official {filename} is {expected_size} bytes, larger "
+            "than the allowed single-participant pilot limit."
+        )
+    details = metadata.get("content_details") or {}
+    digest = details.get("sha256_hash") or metadata.get("sha256_hash")
+    file_id = metadata.get("id")
+    if not file_id:
+        raise ValueError("Mendeley response lacks an identifiable file UUID.")
+    url = (
+        f"https://api.data.mendeley.com/datasets/{dataset_id}/files/"
+        f"{file_id}/file_downloaded?version={version}"
+    )
+    opener = opener or urlopen
+    partial = destination / f"{filename}.part"
+    start = partial.stat().st_size if partial.exists() else 0
+    if start > max_bytes:
+        raise ValueError(f"Unexpectedly large partial download: {partial}")
+    headers = {"User-Agent": "HumanMovementIntelligence/1.0"}
+    if start:
+        headers["Range"] = f"bytes={start}-"
+    try:
+        with opener(Request(url, headers=headers), timeout=90) as response:
+            code = response.getcode()
+            content_range = response.headers.get("Content-Range", "")
+            resume = (
+                start > 0 and code == 206 and
+                content_range.startswith(f"bytes {start}-")
+            )
+            if start and not resume:
+                start = 0
+            mode = "ab" if resume else "wb"
+            size_written = start
+            print(f"Downloading official {filename} from Mendeley "
+                  f"(version {version}, approximately 1.12 GB).")
+            with partial.open(mode) as stream:
+                while True:
+                    block = response.read(2 * 1024 * 1024)
+                    if not block:
+                        break
+                    size_written += len(block)
+                    if size_written > max_bytes:
+                        raise ValueError("Download exceeded pilot ZIP size limit.")
+                    stream.write(block)
+    except OSError as error:
+        raise RuntimeError(
+            "Official Mendeley transfer failed or was blocked. "
+            f"The partial file, if any, is at {partial}. "
+            "You may instead download AB06.zip from "
+            "https://data.mendeley.com/datasets/fcgm3chfff/1 "
+            "and place it in /content/, or specify a Google Drive path. "
+            f"Original error: {error}"
+        ) from error
+    if expected_size is not None and partial.stat().st_size != expected_size:
+        raise RuntimeError(
+            f"Incomplete participant download: received "
+            f"{partial.stat().st_size} of {expected_size} bytes. "
+            "Run the cell again to resume if the provider supports ranges."
+        )
+    if not zipfile.is_zipfile(partial):
+        partial.unlink(missing_ok=True)
+        raise RuntimeError(
+            "Mendeley did not return a valid ZIP archive. "
+            "It may have returned an access page or proxy error; "
+            "download AB06.zip manually from the original Version 1 page."
+        )
+    if digest and len(str(digest)) == 64:
+        sha = hashlib.sha256()
+        with partial.open("rb") as stream:
+            for block in iter(lambda: stream.read(4 * 1024 * 1024), b""):
+                sha.update(block)
+        if sha.hexdigest().lower() != str(digest).lower():
+            raise RuntimeError(
+                "Downloaded AB06.zip does not match the source SHA256. "
+                "Do not use this file; verify or obtain a fresh copy."
+            )
+    partial.replace(target)
+    print("Validated original Camargo ZIP:", target)
+    return target
