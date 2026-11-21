@@ -13,7 +13,7 @@ A Python-based research portfolio maintained by **Reza Saadatyar**. Each study h
 | **Multimodal Movement Learning (NinaPro DB2)** | **Five executed notebooks (01–05):** source audit, 40,000 aligned E1 windows from 40 people, eleven unimodal and nine fusion Development candidates, and frozen Test on five reserved people. Early fusion `F1_rf` recorded **0.3126** participant-mean Test macro F1 versus **0.2512** for sEMG-only `B1_rf` (**+0.0614** paired mean). Offline same-source evidence, not external or clinical validation. | [Study README](multimodal_movement_learning/README.md) · [Scientific methods and evidence](multimodal_movement_learning/MULTIMODAL_RESEARCH_METHODS_AND_EVIDENCE.md) · [Complete study diagram](multimodal_movement_learning/images/study_overview.svg) |
 | **Gait Analysis (Camargo)** | **Notebook 01 source-audit complete for selected pilot:** AB06–AB14, 27 candidate treadmill IMU/force pairs and their published source-timebase evidence; Notebook 02 source-contract diagnostics executed, independent contact references pending; five notebooks and gait-event reference/evaluation modules are implemented. The primary endpoint is participant-mean Initial Contact timing MAE (ms), accompanied by event coverage. No original Camargo timing or Test scores are yet claimed. | [Study README](gait_analysis/README.md) · [Scientific methods](gait_analysis/GAIT_RESEARCH_METHODS_AND_EVIDENCE.md) · [Workflow diagram](gait_analysis/images/study_overview.svg) |
 
-**Other planned research directions:** Markerless motion capture; neurorehabilitation and motor function. These are proposals, **not completed implementations**. Each of the three established studies above has its own methods, results, diagrams and evaluation boundaries.
+**Other planned research directions:** Markerless motion capture; neurorehabilitation and motor function. These are proposals, **not completed implementations**. Each established study above has its own methods, evidence and limitations. Gait Analysis remains at the source-contract stage, while the other three studies have recorded model-evaluation outputs.
 
 ## Selected HARTH evidence
 
@@ -70,7 +70,7 @@ human-movement-intelligence/
 ├── gait_analysis/
 │   ├── README.md
 │   ├── GAIT_RESEARCH_METHODS_AND_EVIDENCE.md
-│   ├── code/notebooks/                # Five prepared, unexecuted source-to-Test notebooks
+│   ├── code/notebooks/                # Five stages: 01 executed, 02 diagnostic, 03–05 pending
 │   ├── code/src/                      # Gait-specific source, reference and evaluation modules
 │   └── images/                        # Study-wide and five stage-specific SVGs
 ├── multimodal_movement_learning/

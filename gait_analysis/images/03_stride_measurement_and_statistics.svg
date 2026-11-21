@@ -117,10 +117,10 @@ text{font-family:'DejaVu Sans',Arial,sans-serif}
 <g id="panel-2">
 <rect id="panel-2-border" x="968" y="272" width="324" height="254" rx="12" fill="#FFFFFF" stroke="#B6CFDE" stroke-width="1.5"/>
 <path id="panel-2-cap" d="M980 272 H1280 Q1292 272 1292 284 V305 H968 V284 Q968 272 Z" fill="#174B70"/>
-<text id="panel-2-head" x="1130" y="294" class="card-heading" text-anchor="middle">IMU event comparison</text>
-<text id="panel-2-lab" x="990" y="329" class="chart-label">One-to-one timing comparison</text>
+<text id="panel-2-head" x="1130" y="294" class="card-heading" text-anchor="middle">Reference stride timing</text>
+<text id="panel-2-lab" x="990" y="329" class="chart-label">Same-foot IC intervals</text>
 <text id="panel-2-ref-label" x="990" y="362" class="chart-label">Force IC</text>
-<text id="panel-2-pred-label" x="990" y="418" class="chart-label">IMU peaks</text>
+<text id="panel-2-pred-label" x="990" y="418" class="chart-label">Next IC</text>
 <path id="panel-2-ref-line" d="M1068 370 H1270" fill="none" stroke="#66879D" stroke-width="1.2" stroke-linecap="round" stroke-linejoin="round"/>
 <path id="panel-2-pred-line" d="M1068 425 H1270" fill="none" stroke="#66879D" stroke-width="1.2" stroke-linecap="round" stroke-linejoin="round"/>
 <circle id="panel-2-reference-0" cx="1102" cy="370" r="5.7" fill="#E87929"/>
@@ -132,22 +132,22 @@ text{font-family:'DejaVu Sans',Arial,sans-serif}
 <circle id="panel-2-reference-2" cx="1215" cy="370" r="5.7" fill="#E87929"/>
 <circle id="panel-2-estimate-2" cx="1220" cy="425" r="5.7" fill="#236CDE"/>
 <path id="panel-2-pair-2" d="M1215 375 L1220 420" fill="none" stroke="#66879D" stroke-width="1.3" stroke-linecap="round" stroke-linejoin="round" stroke-dasharray="3 4"/>
-<text id="panel-2-foot1" x="990" y="479" class="card-body">B0 fixed versus B1 tuned</text>
-<text id="panel-2-foot2" x="990" y="503" class="card-body">Misses and extra events matter</text>
+<text id="panel-2-foot1" x="990" y="479" class="card-body">No IMU detector fitted</text>
+<text id="panel-2-foot2" x="990" y="503" class="card-body">Review excluded intervals</text>
 </g>
 <g id="panel-3">
 <rect id="panel-3-border" x="1306" y="272" width="356" height="254" rx="12" fill="#FFFFFF" stroke="#B6CFDE" stroke-width="1.5"/>
 <path id="panel-3-cap" d="M1318 272 H1650 Q1662 272 1662 284 V305 H1306 V284 Q1306 272 Z" fill="#174B70"/>
-<text id="panel-3-head" x="1484" y="294" class="card-heading" text-anchor="middle">Held-out evaluation</text>
-<text id="panel-3-lab" x="1328" y="329" class="chart-label">Person-disjoint evaluation</text>
+<text id="panel-3-head" x="1484" y="294" class="card-heading" text-anchor="middle">Development summary</text>
+<text id="panel-3-lab" x="1328" y="329" class="chart-label">Participant-level summaries</text>
 <rect id="panel-3-dev-box" x="1328" y="348" width="312" height="32" rx="5" fill="#EEF4F8" stroke="#D9E6EF"/>
 <rect id="panel-3-test-box" x="1328" y="396" width="312" height="32" rx="5" fill="#EEF4F8" stroke="#D9E6EF"/>
 <text id="panel-3-dev-label" x="1340" y="370" class="chart-label">Development people</text>
-<text id="panel-3-test-label" x="1340" y="418" class="chart-label">Reserved Test people</text>
+<text id="panel-3-test-label" x="1340" y="418" class="chart-label">Reserved Test excluded</text>
 <circle id="panel-3-dev-dot" cx="1620" cy="364" r="7" fill="#236CDE"/>
 <circle id="panel-3-test-dot" cx="1620" cy="412" r="7" fill="#E87929"/>
-<text id="panel-3-foot1" x="1328" y="479" class="card-body">Participant-mean timing MAE</text>
-<text id="panel-3-foot2" x="1328" y="503" class="card-body">Coverage and uncertainty</text>
+<text id="panel-3-foot1" x="1328" y="479" class="card-body">Reference stride duration</text>
+<text id="panel-3-foot2" x="1328" y="503" class="card-body">Trial-level cadence and CV</text>
 </g>
 <rect id="scientific-note-bg" x="301" y="540" width="1361" height="25" rx="12" fill="#E0F2EC" stroke="#D3EAE2" stroke-width="1.5"/>
 <circle id="scientific-info" cx="324" cy="552" r="9" fill="#23749A"/>

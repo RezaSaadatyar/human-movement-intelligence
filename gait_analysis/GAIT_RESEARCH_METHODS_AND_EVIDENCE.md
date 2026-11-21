@@ -30,6 +30,11 @@ The data hierarchy is **participant → session → locomotor condition → tria
 
 ### Cross-trial source diagnostics (implemented; original-data execution pending)
 
+Notebook 02's Section 01 now has a non-destructive fallback for a missing source-contract module in a dirty Colab checkout. It retrieves just that source file into an isolated runtime path; it does not fast-forward the repository, refresh original MAT data or validate the force-reference contract. The historical saved six-setting CSV remains descriptive. Once Section 02 is rerun, the contract candidate table also records the outstanding force-to-newton scaling requirement.
+
+Notebook 03 has an explicit prerequisite check for the three validated `02_*` reference/role files. After those files exist, it filters to eligible Development participants and their original trial keys, excluding reserved Test events. Its existing participant-condition summary uses the **unweighted mean of trial-level stride means and trial-level coefficients of variation**, not a pooled within-participant CV. This descriptive definition has not been changed merely to improve presentation.
+
+
 Notebook 02 now contains a source-only **02A** audit of the selected original trial pairs, describing native `Header` increments, overlap, right/left treadmill `vx`/`vy`/`vz` component distributions and observed foot gyroscope axes. When original recordings are available it writes `02_contract_evidence_by_trial.csv`, `02_force_component_evidence.csv` and a representative `02_all_force_axes_source_probe.png`. These are descriptive candidates, **not** independently validated vertical force or contact labels. The new **02B** source-contract cell retains unknown mapping fields and records an explicit conversion from recorded force units to newtons only after physical documentation and signal evidence support it. The threshold in the reference extractor is applied after that conversion. No original MAT data were run for this extension at the time of publication; the established reference, participant-role and downstream outputs remain pending.
 
 ### Independent force-contact reference

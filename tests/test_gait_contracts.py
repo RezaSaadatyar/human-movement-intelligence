@@ -540,8 +540,9 @@ class GaitContractTests(unittest.TestCase):
                 exec(compile("".join(cell[stage]["source"]),
                              stage, "exec"), variables)
             review = pd.read_csv(output / "02_source_contract_review.csv")
-            self.assertEqual(len(review), 6)
+            self.assertEqual(len(review), 7)
             self.assertIn("FORCE_UPWARD_SIGN", set(review.setting))
+            self.assertIn("FORCE_SCALE_TO_NEWTONS", set(review.setting))
             self.assertFalse(variables["IMU_FORCE_TIMEBASE_CONFIRMED"])
             self.assertFalse(variables["reference_ready"])
             self.assertTrue(variables["eligible"].empty)
