@@ -134,6 +134,20 @@ class GaitContractTests(unittest.TestCase):
             self.assertEqual(nb["cells"][0]["cell_type"], "markdown")
             code = [c for c in nb["cells"] if c["cell_type"] == "code"]
             self.assertTrue(code)
+            environment = "".join(code[1]["source"])
+            self.assertIn(
+                "from python_modules.core.colab_setup import setup_colab",
+                environment,
+            )
+            self.assertNotIn("from core.colab_setup import setup_colab", environment)
+            for cell in code:
+                headings = [
+                    line for line in "".join(cell["source"]).splitlines()
+                    if line.startswith("# ") and
+                    (line[2:4] == "==" or line[2:4] == "--")
+                ]
+                self.assertTrue(headings)
+                self.assertTrue(all(len(line) == 79 for line in headings))
             for cell in code:
                 source = "".join(cell["source"])
                 # Replace Colab's valid IPython magic for standard Python AST.
