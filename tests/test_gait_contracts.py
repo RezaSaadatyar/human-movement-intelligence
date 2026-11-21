@@ -9,6 +9,7 @@ import io
 import hashlib
 import zipfile
 import unittest
+import types
 from unittest import mock
 from pathlib import Path
 
