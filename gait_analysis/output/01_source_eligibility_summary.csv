@@ -1,5 +1,5 @@
 item,value
-source_participants_observed,1
-candidate_imu_force_pairs,1
+source_participants_observed,3
+candidate_imu_force_pairs,9
 validated_reference_pairs,pending original-time/channel/side inspection
 force_contact_event_results,not generated in source inspection

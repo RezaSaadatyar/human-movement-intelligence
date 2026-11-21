@@ -1,2 +1,10 @@
 subject_id,session_id,condition,trial_id,imu_path,fp_path,candidate_pair,pair_issue
 AB06,10_09_18,treadmill,treadmill_01_01,AB06/10_09_18/treadmill/imu/treadmill_01_01.mat,AB06/10_09_18/treadmill/fp/treadmill_01_01.mat,True,
+AB06,10_09_18,treadmill,treadmill_04_01,AB06/10_09_18/treadmill/imu/treadmill_04_01.mat,AB06/10_09_18/treadmill/fp/treadmill_04_01.mat,True,
+AB06,10_09_18,treadmill,treadmill_08_01,AB06/10_09_18/treadmill/imu/treadmill_08_01.mat,AB06/10_09_18/treadmill/fp/treadmill_08_01.mat,True,
+AB07,10_14_18,treadmill,treadmill_01_01,AB07/10_14_18/treadmill/imu/treadmill_01_01.mat,AB07/10_14_18/treadmill/fp/treadmill_01_01.mat,True,
+AB07,10_14_18,treadmill,treadmill_04_2_01,AB07/10_14_18/treadmill/imu/treadmill_04_2_01.mat,AB07/10_14_18/treadmill/fp/treadmill_04_2_01.mat,True,
+AB07,10_14_18,treadmill,treadmill_08_01,AB07/10_14_18/treadmill/imu/treadmill_08_01.mat,AB07/10_14_18/treadmill/fp/treadmill_08_01.mat,True,
+AB08,10_21_2018,treadmill,treadmill_01_01,AB08/10_21_2018/treadmill/imu/treadmill_01_01.mat,AB08/10_21_2018/treadmill/fp/treadmill_01_01.mat,True,
+AB08,10_21_2018,treadmill,treadmill_04_01,AB08/10_21_2018/treadmill/imu/treadmill_04_01.mat,AB08/10_21_2018/treadmill/fp/treadmill_04_01.mat,True,
+AB08,10_21_2018,treadmill,treadmill_07_01,AB08/10_21_2018/treadmill/imu/treadmill_07_01.mat,AB08/10_21_2018/treadmill/fp/treadmill_07_01.mat,True,
