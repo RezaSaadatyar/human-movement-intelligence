@@ -5,3 +5,4 @@ FOOT_SIDE,right (candidate),,Confirm physical IMU foot side and force-plate R/L 
 FORCE_UPWARD_SIGN,positive (candidate),,Verify the real loading polarity and swing-phase baseline.
 TIME_UNIT_IN_SECONDS,1.0 (candidate),,Confirm Header time units with original 200/1000-Hz rates.
 IMU_FORCE_TIMEBASE_CONFIRMED,not confirmed,,Confirm a common event-level clock for retained trials.
+FORCE_SCALE_TO_NEWTONS,not confirmed,,Confirm conversion from original force units to newtons.
