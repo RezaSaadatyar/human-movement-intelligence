@@ -28,6 +28,10 @@ The data hierarchy is **participant → session → locomotor condition → tria
 
 [Alignment](code/src/gait_alignment.py) compares actual IMU/force time domains. This step requires explicit assignment of the gyroscope channel, vertical-force column, foot side, upward force sign and timestamp unit. It does **not** select a time offset by maximising IMU/Test agreement. Source pairing and eligible trials are recorded in `02_eligible_trials.csv`; failed/ambiguous trials in `02_exclusions.csv`.
 
+### Cross-trial source diagnostics (implemented; original-data execution pending)
+
+Notebook 02 now contains a source-only **02A** audit of the selected original trial pairs, describing native `Header` increments, overlap, right/left treadmill `vx`/`vy`/`vz` component distributions and observed foot gyroscope axes. When original recordings are available it writes `02_contract_evidence_by_trial.csv`, `02_force_component_evidence.csv` and a representative `02_all_force_axes_source_probe.png`. These are descriptive candidates, **not** independently validated vertical force or contact labels. The new **02B** source-contract cell retains unknown mapping fields and records an explicit conversion from recorded force units to newtons only after physical documentation and signal evidence support it. The threshold in the reference extractor is applied after that conversion. No original MAT data were run for this extension at the time of publication; the established reference, participant-role and downstream outputs remain pending.
+
 ### Independent force-contact reference
 
 [Force reference extraction](code/src/gait_reference.py) applies a documented vertical-force threshold. The initial proposed value is **20 N**, with minimum continuous-contact **0.08 s** and swing-gap **0.06 s**; these are **study planning settings** and must be reviewed against observed raw force signs and sample rates before scientific use. Changes belong to Development/source analysis, not final Test outcomes.
