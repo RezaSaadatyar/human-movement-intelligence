@@ -5,6 +5,7 @@ import importlib.util
 import json
 import sys
 import tempfile
+import zipfile
 import unittest
 from pathlib import Path
 
@@ -15,7 +16,8 @@ REPO = Path(__file__).resolve().parents[1]
 SOURCE = REPO / "gait_analysis" / "code" / "src"
 sys.path.insert(0, str(SOURCE))
 
-from camargo_source import inventory_files, paired_trials, validate_timebase
+from camargo_source import (inventory_files, paired_trials, validate_timebase,
+    extract_pilot_trial_from_zip, locate_pilot_source_archive)
 from gait_alignment import mapped_series, validated_overlap
 from gait_reference import force_contact_events, reference_strides, stride_summary
 from gait_event_detectors import peak_events, candidate_features
@@ -56,6 +58,42 @@ class GaitContractTests(unittest.TestCase):
             self.assertEqual(len(pairs), 1)
             self.assertTrue(bool(pairs.candidate_pair.iloc[0]))
             self.assertEqual(pairs.subject_id.iloc[0], "AB06")
+
+    def test_extract_single_original_pilot_trial_from_zip(self):
+        """Preserve Camargo paths and extract one matched treadmill pair only."""
+        with tempfile.TemporaryDirectory() as tmp:
+            base = Path(tmp)
+            zip_path = base / "AB06.zip"
+            src = "AB06/10_21_2018/treadmill"
+            with zipfile.ZipFile(zip_path, "w") as archive:
+                for trial in ("treadmill_01_01", "treadmill_01_02"):
+                    for sensor in ("imu", "fp"):
+                        archive.writestr(
+                            f"{src}/{sensor}/{trial}.csv",
+                            "Header,signal\\n0,1\\n0.1,2\\n0.2,3\\n",
+                        )
+            target = base / "extracted"
+            self.assertEqual(locate_pilot_source_archive(target, "AB06",
+                                                          zip_path), zip_path)
+            result = extract_pilot_trial_from_zip(zip_path, target)
+            self.assertEqual(result["subject_id"], "AB06")
+            files = sorted(target.rglob("*.csv"))
+            self.assertEqual(len(files), 2)
+            self.assertEqual(
+                sorted(x.parent.name for x in files), ["fp", "imu"]
+            )
+            pairs = paired_trials(inventory_files(target))
+            self.assertEqual(int(pairs.candidate_pair.sum()), 1)
+            self.assertEqual(pairs.trial_id.iloc[0], "treadmill_01_01")
+
+    def test_pilot_zip_rejects_path_traversal(self):
+        with tempfile.TemporaryDirectory() as tmp:
+            base = Path(tmp)
+            z = base / "AB06.zip"
+            with zipfile.ZipFile(z, "w") as archive:
+                archive.writestr("../unsafe.csv", "a")
+            with self.assertRaises(ValueError):
+                extract_pilot_trial_from_zip(z, base / "out")
 
     def test_time_contract_requires_monotonicity_and_actual_overlap(self):
         frame = pd.DataFrame({"Header": [0.0, 0.1, 0.2],
