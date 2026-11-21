@@ -62,7 +62,7 @@ The no-signal Training-prior baseline achieved **0.0350**. The Development-selec
 
 ## 4. Running and Reviewing the Study
 
-**Available evidence:** All five notebooks retain their original-source, Development or Test results, with the principal tables and figures in `output/`. The original Notebook 03 OOF probabilities required by Notebook 04 are available as `03_oof_probabilities.npz`; Notebook 05 uses the two tracked Notebook 02 statistical feature matrices. The recorded results can be reviewed without downloading the full original sensor recordings.
+**Available evidence:** All five notebooks retain their original-source, Development or Test results, with the principal tables and figures in `output/`. Notebook 05 uses the two tracked Notebook 02 statistical feature matrices. The recorded results can be reviewed without downloading the full original sensor recordings. Technical input details for reproducing individual stages are given below.
 
 **Reproducing the workflow:**
 1. Use the root `requirements.txt` with a supported Python/Colab environment. Notebook 01 reads one official source ZIP; Notebook 02 incrementally reads E1 recordings across the 40-person source cohort.
