@@ -1,0 +1,227 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<svg xmlns="http://www.w3.org/2000/svg" width="1700" height="816" viewBox="0 0 1700 816" role="img" aria-labelledby="figure-title figure-desc">
+<title id="figure-title">Multimodal Movement Learning: complete NinaPro DB2 E1 five-notebook study</title>
+<desc id="figure-desc">Editable five-band scientific overview covering source audit in Notebook 01, paired windows and participant partitions in Notebook 02, unimodal Development models in Notebook 03, fusion Development models and frozen selection in Notebook 04, and independent five-person Test in Notebook 05. Bar lengths use saved participant-mean fixed-18-class Macro F1 values. Forearm illustration is schematic.</desc>
+<defs><marker id="arr" markerUnits="userSpaceOnUse" markerWidth="6" markerHeight="6" refX="5.5" refY="3" orient="auto"><path d="M0 0 L6 3 L0 6 Z" fill="#245E9D"/></marker>
+<style>
+text{font-family:DejaVu Sans,Arial,sans-serif;font-weight:400}
+.figure-title{font-size:23px;font-weight:700;fill:#173453}
+.subtitle{font-size:15px;fill:#54738A}
+.source-heading{font-size:11.5px;font-weight:700;fill:#53738A}
+.source-label{font-size:13px;fill:#173453}
+.context-heading{font-size:15px;font-weight:700;fill:#173453}
+.context-body{font-size:13.5px;fill:#506C7E}
+.section-label{font-size:13.2px;font-weight:700;fill:#FFFFFF}
+.focus-heading{font-size:16.5px;font-weight:700;fill:#173453}
+.focus-body{font-size:13.1px;fill:#506C7E}
+.qualification{font-size:11.5px;font-weight:700;fill:#506C7E}
+.card-heading{font-size:13.5px;font-weight:700;fill:#FFFFFF}
+.card-body{font-size:12.1px;fill:#506C7E}
+.chart-label{font-size:11.8px;fill:#506C7E}
+.scientific-note{font-size:12.1px;font-weight:700;fill:#173453}
+.workflow-id{font-size:12.5px;font-weight:700;fill:#506C7E}
+.workflow-heading{font-size:15px;font-weight:700;fill:#173453}
+.workflow-body{font-size:12.1px;fill:#506C7E}
+.terminal-id{font-size:12.5px;font-weight:700;fill:#DBF2EF}
+.terminal-heading{font-size:15px;font-weight:700;fill:#FFFFFF}
+.terminal-body{font-size:12.1px;fill:#DBF2EF}
+.footer{font-size:13.3px;fill:#54738A}
+</style></defs>
+<rect id="canvas" x="0" y="0" width="1700" height="816" rx="20" fill="#F4F9FD"/>
+<g id="band-0-header">
+<text id="title-main" x="30" y="38" class="figure-title">MULTIMODAL MOVEMENT LEARNING | NINAPRO DB2 E1</text>
+<text id="subtitle-main" x="30" y="67" class="subtitle">Five executed notebooks · paired sEMG and acceleration · Development model choice · five-person held-out Test</text>
+</g>
+<g id="band-1-context">
+<rect id="context-container" x="24" y="84" width="1652" height="160" rx="16" fill="#EAF3FA" stroke="#C7D9E6" stroke-width="2"/>
+<g id="source-schematic" role="group" aria-label="Generic forearm and hand illustrating original wearable sensor data">
+<text id="source-header" x="153" y="110" class="source-heading">WEARABLE SIGNAL SOURCE</text>
+<path id="schematic-forearm" d="M82 225 L81 191 C81 185 73 181 73 170 L73 142 Q73 137 78 137 Q83 137 83 142 L84 163 L88 132 Q89 126 94 126 Q99 127 98 133 L98 160 L102 128 Q103 122 108 122 Q113 124 111 131 L110 159 L116 140 Q118 134 123 137 Q127 141 124 147 L120 165 Q130 159 134 163 Q137 167 133 172 L119 190 L116 225 Z" fill="#D9E7F1" stroke="#7298B0" stroke-width="2.5" stroke-linejoin="round" stroke-linecap="round"/>
+<rect id="sensor-symbol" x="83" y="190" width="29" height="19" rx="5" fill="#245E9D" stroke="#FFFFFF" stroke-width="1.1"/>
+<path id="sensor-symbol-signal" d="M87 200 L92 200 L96 194 L100 206 L104 198 L108 198" fill="none" stroke="#FFFFFF" stroke-width="1.7" stroke-linecap="round" stroke-linejoin="round"/>
+<text id="source-line-1" x="153" y="157" class="source-label">12 sEMG channels</text>
+<text id="source-line-2" x="153" y="182" class="source-label">36 acceleration columns</text>
+<text id="source-line-3" x="153" y="207" class="source-label">40 E1 participants</text>
+</g>
+<path d="M340 103 V229" stroke="#C7D9E6" stroke-width="1.5"/>
+<path d="M670 103 V229" stroke="#C7D9E6" stroke-width="1.5"/>
+<path d="M1000 103 V229" stroke="#C7D9E6" stroke-width="1.5"/>
+<path d="M1330 103 V229" stroke="#C7D9E6" stroke-width="1.5"/>
+<g id="context-window">
+<text id="context-window-title" x="358" y="115" class="context-heading">PAIRED SOURCE WINDOWS</text>
+<text id="context-window-line-0" x="358" y="148" class="context-body">337,853 eligible intervals</text>
+<text id="context-window-line-1" x="358" y="174" class="context-body">300 ms / 100 ms step</text>
+<text id="context-window-line-2" x="358" y="200" class="context-body">40,000 retained windows</text>
+</g>
+<g id="context-dev">
+<text id="context-dev-title" x="688" y="115" class="context-heading">UNIMODAL DEVELOPMENT</text>
+<text id="context-dev-line-0" x="688" y="148" class="context-body">35 people / 35,000 windows</text>
+<text id="context-dev-line-1" x="688" y="174" class="context-body">Five participant-grouped folds</text>
+<text id="context-dev-line-2" x="688" y="200" class="context-body">11 candidate methods</text>
+</g>
+<g id="context-fusion">
+<text id="context-fusion-title" x="1018" y="115" class="context-heading">FUSION SELECTION</text>
+<text id="context-fusion-line-0" x="1018" y="148" class="context-body">Nine fusion candidates</text>
+<text id="context-fusion-line-1" x="1018" y="174" class="context-body">F1_rf early fusion selected</text>
+<text id="context-fusion-line-2" x="1018" y="200" class="context-body">B1_rf sEMG reference</text>
+</g>
+<g id="context-test">
+<text id="context-test-title" x="1348" y="115" class="context-heading">HELD-OUT TEST</text>
+<text id="context-test-line-0" x="1348" y="148" class="context-body">5 people / 5,000 windows</text>
+<text id="context-test-line-1" x="1348" y="174" class="context-body">Development-only refits</text>
+<text id="context-test-line-2" x="1348" y="200" class="context-body">Fixed 18-class macro F1</text>
+</g>
+</g>
+<g id="band-2-analysis">
+<rect id="analysis-container" x="24" y="258" width="1652" height="314" rx="16" fill="#EDF6FB" stroke="#B4CFE0" stroke-width="1.5"/>
+<rect id="focus-title-bg" x="38" y="272" width="238" height="32" rx="9" fill="#173453" stroke="#173453" stroke-width="1.5"/>
+<text id="focus-title" x="157" y="293" class="section-label" text-anchor="middle">SCIENTIFIC EVIDENCE</text>
+<rect id="focus-container" x="38" y="312" width="238" height="215" rx="10" fill="#F7FAFD" stroke="#DFEAF0" stroke-width="1.5"/>
+<text id="focus-heading" x="54" y="344" class="focus-heading">Analysis focus</text>
+<text id="focus-line-1" x="54" y="389" class="focus-body">Same paired windows</text>
+<text id="focus-line-2" x="54" y="416" class="focus-body">Unseen participants</text>
+<text id="focus-line-3" x="54" y="443" class="focus-body">18 fixed E1 classes</text>
+<text id="focus-line-4" x="54" y="470" class="focus-body">Participant-mean F1</text>
+<text id="focus-qualification" x="54" y="508" class="qualification">Offline · same-source only</text>
+<g id="evidence-panel-cohort">
+<rect id="panel-cohort-border" x="292" y="272" width="324" height="254" rx="12" fill="#FFFFFF" stroke="#B6CFDE" stroke-width="1.5"/>
+<path id="panel-cohort-heading-bg" d="M304 272 H604 Q616 272 616 284 V305 H292 V284 Q292 272 304 272 Z" fill="#174B70"/>
+<text id="panel-cohort-heading" x="454" y="294" class="card-heading" text-anchor="middle">Source cohort and split</text>
+<text id="cohort-head" x="310" y="335" class="card-body">40 participants · 40,000 paired windows</text>
+<rect id="cohort-dev-bar" x="311" y="350" width="250" height="29" rx="5" fill="#236CDE"/>
+<rect id="cohort-test-bar" x="561" y="350" width="35" height="29" rx="5" fill="#E87929"/>
+<text id="cohort-dev-count" x="316" y="369" class="card-heading">35</text>
+<text id="cohort-test-count" x="578" y="369" class="card-heading" text-anchor="middle">5</text>
+<text id="cohort-development-label" x="310" y="405" class="card-body">Development: 35 people, 35,000 windows</text>
+<text id="cohort-test-label" x="310" y="432" class="card-body">Test: 5 people, 5,000 windows</text>
+<text id="cohort-classes-label" x="310" y="459" class="card-body">Corrected labels 0–17</text>
+<text id="cohort-split-note" x="310" y="491" class="chart-label">Test people excluded from selection</text>
+</g>
+<g id="evidence-panel-uni">
+<rect id="panel-uni-border" x="630" y="272" width="324" height="254" rx="12" fill="#FFFFFF" stroke="#B6CFDE" stroke-width="1.5"/>
+<path id="panel-uni-heading-bg" d="M642 272 H942 Q954 272 954 284 V305 H630 V284 Q630 272 642 272 Z" fill="#174B70"/>
+<text id="panel-uni-heading" x="792" y="294" class="card-heading" text-anchor="middle">Unimodal Development</text>
+<text id="uni-unit" x="648" y="326" class="chart-label">Mean participant macro F1 (0–0.30)</text>
+<text id="uni-item-0-name" x="648" y="367" class="chart-label">B1_rf</text>
+<rect id="uni-item-0-track" x="721" y="357" width="160" height="15" rx="3" fill="#EEF4F8"/>
+<rect id="uni-item-0-bar" x="721" y="357" width="125.24586666666667" height="15" rx="3" fill="#236CDE"/>
+<text id="uni-item-0-score" x="890" y="368" class="chart-label">0.2348</text>
+<text id="uni-item-1-name" x="648" y="416" class="chart-label">D1 CNN</text>
+<rect id="uni-item-1-track" x="721" y="406" width="160" height="15" rx="3" fill="#EEF4F8"/>
+<rect id="uni-item-1-bar" x="721" y="406" width="116.36053333333335" height="15" rx="3" fill="#E87929"/>
+<text id="uni-item-1-score" x="890" y="417" class="chart-label">0.2182</text>
+<text id="uni-item-2-name" x="648" y="465" class="chart-label">B2_rf</text>
+<rect id="uni-item-2-track" x="721" y="455" width="160" height="15" rx="3" fill="#EEF4F8"/>
+<rect id="uni-item-2-bar" x="721" y="455" width="68.78826666666667" height="15" rx="3" fill="#168C5B"/>
+<text id="uni-item-2-score" x="890" y="466" class="chart-label">0.1290</text>
+<text id="uni-bottom" x="648" y="501" class="chart-label">11 candidates · 35 people</text>
+</g>
+<g id="evidence-panel-fusion">
+<rect id="panel-fusion-border" x="968" y="272" width="324" height="254" rx="12" fill="#FFFFFF" stroke="#B6CFDE" stroke-width="1.5"/>
+<path id="panel-fusion-heading-bg" d="M980 272 H1280 Q1292 272 1292 284 V305 H968 V284 Q968 272 980 272 Z" fill="#174B70"/>
+<text id="panel-fusion-heading" x="1130" y="294" class="card-heading" text-anchor="middle">Fusion Development</text>
+<text id="fusion-unit" x="986" y="326" class="chart-label">Mean participant macro F1 (0–0.30)</text>
+<text id="fusion-item-0-name" x="986" y="367" class="chart-label">F1_rf</text>
+<rect id="fusion-item-0-track" x="1059" y="357" width="160" height="15" rx="3" fill="#EEF4F8"/>
+<rect id="fusion-item-0-bar" x="1059" y="357" width="140.2730666666667" height="15" rx="3" fill="#236CDE"/>
+<text id="fusion-item-0-score" x="1228" y="368" class="chart-label">0.2630</text>
+<text id="fusion-item-1-name" x="986" y="416" class="chart-label">F2_rf</text>
+<rect id="fusion-item-1-track" x="1059" y="406" width="160" height="15" rx="3" fill="#EEF4F8"/>
+<rect id="fusion-item-1-bar" x="1059" y="406" width="131.31359999999998" height="15" rx="3" fill="#E87929"/>
+<text id="fusion-item-1-score" x="1228" y="417" class="chart-label">0.2462</text>
+<text id="fusion-item-2-name" x="986" y="465" class="chart-label">B1_rf</text>
+<rect id="fusion-item-2-track" x="1059" y="455" width="160" height="15" rx="3" fill="#EEF4F8"/>
+<rect id="fusion-item-2-bar" x="1059" y="455" width="125.24586666666667" height="15" rx="3" fill="#168C5B"/>
+<text id="fusion-item-2-score" x="1228" y="466" class="chart-label">0.2348</text>
+<text id="fusion-bottom" x="986" y="501" class="chart-label">9 candidates · 35 people</text>
+</g>
+<g id="evidence-panel-test">
+<rect id="panel-test-border" x="1306" y="272" width="356" height="254" rx="12" fill="#FFFFFF" stroke="#B6CFDE" stroke-width="1.5"/>
+<path id="panel-test-heading-bg" d="M1318 272 H1650 Q1662 272 1662 284 V305 H1306 V284 Q1306 272 1318 272 Z" fill="#174B70"/>
+<text id="panel-test-heading" x="1484" y="294" class="card-heading" text-anchor="middle">Frozen five-person Test</text>
+<text id="test-eval-head" x="1324" y="327" class="card-body">Participant-mean fixed-18-class F1</text>
+<text id="test-0-name" x="1324" y="361" class="chart-label">B1_rf</text>
+<rect id="test-0-track" x="1393" y="348" width="174" height="20" rx="4" fill="#EEF4F8"/>
+<rect id="test-0-bar" x="1393" y="348" width="124.8713485714286" height="20" rx="4" fill="#E87929"/>
+<text id="test-0-value" x="1577" y="361" class="chart-label">0.2512</text>
+<text id="test-1-name" x="1324" y="415" class="chart-label">F1_rf</text>
+<rect id="test-1-track" x="1393" y="402" width="174" height="20" rx="4" fill="#EEF4F8"/>
+<rect id="test-1-bar" x="1393" y="402" width="155.40685714285715" height="20" rx="4" fill="#236CDE"/>
+<text id="test-1-value" x="1577" y="415" class="chart-label">0.3126</text>
+<text id="test-delta" x="1324" y="469" class="card-body">Paired mean difference: +0.0614</text>
+<text id="test-pair" x="1324" y="497" class="chart-label">5 / 5 positive · descriptive Test only</text>
+</g>
+<rect id="note-bg" x="301" y="540" width="1361" height="25" rx="12" fill="#E0F2EC" stroke="#D3EAE2" stroke-width="1.5"/>
+<circle id="note-icon-bg" cx="324" cy="552" r="9" fill="#23749A"/>
+<text id="note-icon" x="324" y="556" class="section-label" text-anchor="middle">i</text>
+<text id="note-text" x="342" y="556" class="scientific-note">Schematic forearm only; bar lengths use saved participant-mean Macro F1, not pooled-window accuracy. Test includes five people.</text>
+</g>
+<g id="band-3-workflow">
+<rect id="workflow-container" x="24" y="588" width="1652" height="174" rx="16" fill="#EAF3FA" stroke="#C7D9E6" stroke-width="2"/>
+<g id="workflow-node-0" role="group" aria-label="INPUT NinaPro DB2 E1">
+<rect id="workflow-node-0-container" x="38" y="613" width="208" height="132" rx="15" fill="#173453" stroke="#173453" stroke-width="1.8"/>
+<text id="workflow-node-0-identifier" x="142" y="636" class="terminal-id" text-anchor="middle">INPUT</text>
+<text id="workflow-node-0-title" x="142" y="662" class="terminal-heading" text-anchor="middle">NinaPro DB2 E1</text>
+<text id="workflow-node-0-line-0" x="142" y="684" class="terminal-body" text-anchor="middle">12 sEMG / 36 Acc</text>
+<text id="workflow-node-0-line-1" x="142" y="704" class="terminal-body" text-anchor="middle">Corrected classes 0–17</text>
+<text id="workflow-node-0-line-2" x="142" y="724" class="terminal-body" text-anchor="middle">40 original participants</text>
+</g>
+<path id="connector-0" d="M252 679 H266" fill="none" stroke="#245E9D" stroke-width="2.2" stroke-linecap="round" marker-end="url(#arr)"/>
+<g id="workflow-node-1" role="group" aria-label="NOTEBOOK 01 Source audit">
+<rect id="workflow-node-1-container" x="274" y="613" width="208" height="132" rx="15" fill="#FFFFFF" stroke="#B8CFDE" stroke-width="1.8"/>
+<text id="workflow-node-1-identifier" x="378" y="636" class="workflow-id" text-anchor="middle">NOTEBOOK 01</text>
+<text id="workflow-node-1-title" x="378" y="662" class="workflow-heading" text-anchor="middle">Source audit</text>
+<text id="workflow-node-1-line-0" x="378" y="684" class="workflow-body" text-anchor="middle">MATLAB field inspection</text>
+<text id="workflow-node-1-line-1" x="378" y="704" class="workflow-body" text-anchor="middle">Paired source rows</text>
+<text id="workflow-node-1-line-2" x="378" y="724" class="workflow-body" text-anchor="middle">Labels and repetitions</text>
+</g>
+<path id="connector-1" d="M488 679 H502" fill="none" stroke="#245E9D" stroke-width="2.2" stroke-linecap="round" marker-end="url(#arr)"/>
+<g id="workflow-node-2" role="group" aria-label="NOTEBOOK 02 Paired windows">
+<rect id="workflow-node-2-container" x="510" y="613" width="208" height="132" rx="15" fill="#FFFFFF" stroke="#B8CFDE" stroke-width="1.8"/>
+<text id="workflow-node-2-identifier" x="614" y="636" class="workflow-id" text-anchor="middle">NOTEBOOK 02</text>
+<text id="workflow-node-2-title" x="614" y="662" class="workflow-heading" text-anchor="middle">Paired windows</text>
+<text id="workflow-node-2-line-0" x="614" y="684" class="workflow-body" text-anchor="middle">300 ms / 100 ms step</text>
+<text id="workflow-node-2-line-1" x="614" y="704" class="workflow-body" text-anchor="middle">40,000 keyed windows</text>
+<text id="workflow-node-2-line-2" x="614" y="724" class="workflow-body" text-anchor="middle">35 Dev / 5 Test people</text>
+</g>
+<path id="connector-2" d="M724 679 H738" fill="none" stroke="#245E9D" stroke-width="2.2" stroke-linecap="round" marker-end="url(#arr)"/>
+<g id="workflow-node-3" role="group" aria-label="NOTEBOOK 03 Unimodal models">
+<rect id="workflow-node-3-container" x="746" y="613" width="208" height="132" rx="15" fill="#FFFFFF" stroke="#B8CFDE" stroke-width="1.8"/>
+<text id="workflow-node-3-identifier" x="850" y="636" class="workflow-id" text-anchor="middle">NOTEBOOK 03</text>
+<text id="workflow-node-3-title" x="850" y="662" class="workflow-heading" text-anchor="middle">Unimodal models</text>
+<text id="workflow-node-3-line-0" x="850" y="684" class="workflow-body" text-anchor="middle">11 model candidates</text>
+<text id="workflow-node-3-line-1" x="850" y="704" class="workflow-body" text-anchor="middle">5 grouped Dev folds</text>
+<text id="workflow-node-3-line-2" x="850" y="724" class="workflow-body" text-anchor="middle">B1_rf selected</text>
+</g>
+<path id="connector-3" d="M960 679 H974" fill="none" stroke="#245E9D" stroke-width="2.2" stroke-linecap="round" marker-end="url(#arr)"/>
+<g id="workflow-node-4" role="group" aria-label="NOTEBOOK 04 Fusion models">
+<rect id="workflow-node-4-container" x="982" y="613" width="208" height="132" rx="15" fill="#FFFFFF" stroke="#B8CFDE" stroke-width="1.8"/>
+<text id="workflow-node-4-identifier" x="1086" y="636" class="workflow-id" text-anchor="middle">NOTEBOOK 04</text>
+<text id="workflow-node-4-title" x="1086" y="662" class="workflow-heading" text-anchor="middle">Fusion models</text>
+<text id="workflow-node-4-line-0" x="1086" y="684" class="workflow-body" text-anchor="middle">9 fusion candidates</text>
+<text id="workflow-node-4-line-1" x="1086" y="704" class="workflow-body" text-anchor="middle">Matched Development</text>
+<text id="workflow-node-4-line-2" x="1086" y="724" class="workflow-body" text-anchor="middle">F1_rf selected</text>
+</g>
+<path id="connector-4" d="M1196 679 H1210" fill="none" stroke="#245E9D" stroke-width="2.2" stroke-linecap="round" marker-end="url(#arr)"/>
+<g id="workflow-node-5" role="group" aria-label="NOTEBOOK 05 Frozen Test">
+<rect id="workflow-node-5-container" x="1218" y="613" width="208" height="132" rx="15" fill="#FFFFFF" stroke="#B8CFDE" stroke-width="1.8"/>
+<text id="workflow-node-5-identifier" x="1322" y="636" class="workflow-id" text-anchor="middle">NOTEBOOK 05</text>
+<text id="workflow-node-5-title" x="1322" y="662" class="workflow-heading" text-anchor="middle">Frozen Test</text>
+<text id="workflow-node-5-line-0" x="1322" y="684" class="workflow-body" text-anchor="middle">Refit on 35 Dev people</text>
+<text id="workflow-node-5-line-1" x="1322" y="704" class="workflow-body" text-anchor="middle">Evaluate 5 held-out</text>
+<text id="workflow-node-5-line-2" x="1322" y="724" class="workflow-body" text-anchor="middle">Participant-level F1</text>
+</g>
+<path id="connector-5" d="M1432 679 H1446" fill="none" stroke="#245E9D" stroke-width="2.2" stroke-linecap="round" marker-end="url(#arr)"/>
+<g id="workflow-node-6" role="group" aria-label="OUTPUT Saved evidence">
+<rect id="workflow-node-6-container" x="1454" y="613" width="208" height="132" rx="15" fill="#176363" stroke="#176363" stroke-width="1.8"/>
+<text id="workflow-node-6-identifier" x="1558" y="636" class="terminal-id" text-anchor="middle">OUTPUT</text>
+<text id="workflow-node-6-title" x="1558" y="662" class="terminal-heading" text-anchor="middle">Saved evidence</text>
+<text id="workflow-node-6-line-0" x="1558" y="684" class="terminal-body" text-anchor="middle">F1_rf Test: 0.3126</text>
+<text id="workflow-node-6-line-1" x="1558" y="704" class="terminal-body" text-anchor="middle">B1_rf Test: 0.2512</text>
+<text id="workflow-node-6-line-2" x="1558" y="724" class="terminal-body" text-anchor="middle">Paired gain: +0.0614</text>
+</g>
+</g>
+<g id="band-4-summary">
+<text id="summary-line" x="30" y="792" class="footer">Source audit → paired E1 cohort → unimodal Development → multimodal fusion selection → frozen five-person Test evidence</text>
+</g>
+</svg>
