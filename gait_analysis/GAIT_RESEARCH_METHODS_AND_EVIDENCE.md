@@ -1,6 +1,6 @@
 # Gait Analysis | Research Methods and Evidence
 
-This document defines the original-source, analytical and evaluation contract for the Camargo gait-event study. It is maintained alongside the [study README](README.md), [five notebooks](code/notebooks/) and [editable study workflow](images/study_overview.svg). **Implementation is present; original-data event-timing results are not yet available.** Text below describes the approved design and current code without asserting that any source-dependent notebook has been executed.
+This document defines the original-source, analytical and evaluation contract for the Camargo gait-event study. It is maintained alongside the [study README](README.md), [five notebooks](code/notebooks/) and [editable study workflow](images/study_overview.svg). **Notebook 01 has been executed using original AB06 treadmill IMU/force recordings**, generating a matched trial inventory, channel audit and recorded signal plot. The downstream notebooks remain to be executed on an eligible cohort; independent force-contact event results and participant-level timing metrics are not yet available.
 
 ## 1. Research Objective and Scope
 
@@ -18,13 +18,13 @@ The primary source is the [Camargo et al. (2021) dataset](https://www.epic.gatec
 
 The published source describes approximately **200-Hz IMU** and **1,000-Hz force-plate** data. The actual timestamp column, time units, source clock relationship, exact vertical-force axis, side and sign must be established from **the original reviewed files**. Different sampling rates alone do not preclude a valid comparison, but arbitrary resampling or phase alignment is not evidence of synchronisation.
 
-The data hierarchy is **participant → session → locomotor condition → trial → individual contact → predicted event**. Person is the independent evaluation unit. The full original count of 22 is **not** an assertion that every person has eligible paired reference records. The eligibility and actual retained count will be reported from source-derived `01_*` and `02_*` files once executed.
+The data hierarchy is **participant → session → locomotor condition → trial → individual contact → predicted event**. Person is the independent evaluation unit. The full original count of 22 is **not** an assertion that every person has eligible paired reference records. The executed `01_*` source audit includes **one AB06 participant and one candidate same-trial IMU/force pair**, not yet an eligible evaluation cohort. Final trial exclusions and independent participant assignments require later `02_*` source-contract analysis.
 
 ## 3. Data Preparation and Representations
 
 ### Original source and reviewed channels
 
-[Source inspection](code/notebooks/01_source_and_reference_eligibility.ipynb) enumerates participant directories and sensors, preserves original relative file paths and audits numeric channel columns and timestamp monotonicity. The [source adapter](code/src/camargo_source.py) reads original CSV/Parquet and simple numeric MATLAB dictionaries through SciPy. For MATLAB table/MCOS objects, Notebook 01 and Notebook 02 install the pinned `mat-io==1.0.2` reader when needed; the adapter accepts only an unambiguous decoded table containing the original numeric `Header` or `time_s` column and retains its actual channel names. Source-format conversion has been tested with synthetic MATLAB structures and simulated decoded tables, but decoding the original Camargo MATLAB tables remains subject to the first source-data execution.
+[Source inspection](code/notebooks/01_source_and_reference_eligibility.ipynb) enumerates participant directories and sensors, preserves original relative file paths and audits numeric channel columns and timestamp monotonicity. The [source adapter](code/src/camargo_source.py) reads original CSV/Parquet and simple numeric MATLAB dictionaries through SciPy. For MATLAB table/MCOS objects, Notebook 01 and Notebook 02 install the pinned `mat-io==1.0.2` reader when needed; the adapter accepts only an unambiguous decoded table containing the original numeric `Header` or `time_s` column and retains its actual channel names. Original AB06 IMU and treadmill force-platform MATLAB tables were successfully decoded in the executed Notebook 01, retaining the recorded `Header` timestamps and channel names. Software tests support the decoder logic, but file readability alone does not establish vertical-force orientation, side mapping or a shared sensor clock.
 
 [Alignment](code/src/gait_alignment.py) compares actual IMU/force time domains. This step requires explicit assignment of the gyroscope channel, vertical-force column, foot side, upward force sign and timestamp unit. It does **not** select a time offset by maximising IMU/Test agreement. Source pairing and eligible trials are recorded in `02_eligible_trials.csv`; failed/ambiguous trials in `02_exclusions.csv`.
 
@@ -68,7 +68,9 @@ The study-specific source, alignment, reference, detector, experiment and evalua
 
 ## 6. Results and Comparative Analysis
 
-**No original-data model result is currently reported.** The five notebooks and their output interfaces have been authored, but the actual eligible source cohort, independent reference event counts and participant-level timing metrics are not yet established.
+**Executed source audit, Notebook 01:** [`01_trial_inventory.csv`](output/01_trial_inventory.csv) contains two original MATLAB sensor files for `AB06/10_09_18/treadmill/treadmill_01_01`. The [candidate-pairs table](output/01_candidate_pairs.csv) records **one source-matched IMU/force pair**. The [column audit](output/01_observed_columns.csv) contains 24 named IMU measurement fields and 18 force-platform measurement fields, plus an original `Header` field in each recording. Observed median `Header` increments were 0.005 and 0.001 source-time units for IMU and force respectively. The [recorded signal preview](output/01_sensor_source_preview.png) shows `foot_Gyro_Y`, `shank_Gyro_Y`, `Treadmill_R_vy` and `Treadmill_L_vy`.
+
+These are **source-inspection observations, not event-detection results**. Neither matching trial filenames nor overlapping plotted `Header` ranges establish an independently validated force reference. The full eligible cohort, force-contact event counts, participant-level timing errors and final Test results remain undetermined.
 
 After original-data execution, the mandatory evidence will include: the original [Notebook 01](code/notebooks/01_source_and_reference_eligibility.ipynb) file/channel inventory; [Notebook 02](code/notebooks/02_alignment_and_event_reference.ipynb) verified contact events and exclusions; [Notebook 03](code/notebooks/03_stride_measurement_and_statistics.ipynb) reference gait profiles; [Notebook 04](code/notebooks/04_imu_event_baselines_and_grouped_validation.ipynb) held-out Development participant timing and event coverage; and [Notebook 05](code/notebooks/05_frozen_test_and_research_synthesis.ipynb) final frozen participant results.
 
@@ -84,9 +86,9 @@ No robustness result, superiority interval, clinical generalisability or actual 
 
 ## 8. Current Outputs and Reproducibility
 
-| Stage | Current-file output interface (produced only after execution) |
+| Stage | Current-file outputs and execution status |
 | --- | --- |
-| 01 | `01_trial_inventory.csv`, `01_candidate_pairs.csv`, `01_observed_columns.csv`, `01_sensor_source_preview.png` |
+| 01, **executed on AB06** | [`01_trial_inventory.csv`](output/01_trial_inventory.csv), [`01_candidate_pairs.csv`](output/01_candidate_pairs.csv), [`01_observed_columns.csv`](output/01_observed_columns.csv), [`01_sensor_source_preview.png`](output/01_sensor_source_preview.png), [`01_source_eligibility_summary.csv`](output/01_source_eligibility_summary.csv) |
 | 02 | `02_eligible_trials.csv`, `02_exclusions.csv`, `02_reference_events.csv`, `02_participant_roles.csv`, `02_development_folds.csv` |
 | 03 | `03_reference_strides.csv`, `03_reference_trial_metrics.csv`, `03_subject_condition_metrics.csv` |
 | 04 | `04_development_trial_metrics.csv`, `04_development_participant_metrics.csv`, `04_selected_configuration.csv` |
@@ -94,11 +96,11 @@ No robustness result, superiority interval, clinical generalisability or actual 
 
 The study's reproducible method scripts and notebooks are tracked; original source data are obtained from [Georgia Tech](https://www.epic.gatech.edu/opensource-biomechanics-camargo-et-al/). The repository-root `data/raw/camargo/` contains local original files when provided, while `data/processed/camargo/paired_trials/` holds numeric trial caches that the source-aware Notebook 02 produces. Small numerical tables and figures belong in the study's `output/`.
 
-The first run should inspect **one original ABxx participant**, not automatically acquire all Mendeley repository parts. Follow the [README execution guidance](README.md#4-running-and-reviewing-the-study). Stage-to-stage files are explicit and overwritten by their owning notebook; a missing file produces a clear instruction to execute its producer. Complete original-data reproduction and any source-specific MATLAB conversion remain to be validated against observed field layouts.
+The first run has inspected **one original AB06 participant**, without acquiring the entire Mendeley dataset. Follow the [README execution guidance](README.md#4-running-and-reviewing-the-study). Stage-to-stage files are explicit and overwritten by their owning notebook; a missing file produces a clear instruction to execute its producer. Original AB06 MATLAB table decoding is verified at the source-inspection level; end-to-end force-event reference extraction and participant-independent evaluation are not yet verified.
 
 ## 9. Discussion, Limitations and Future Work
 
-The current contribution is a defined, staged **implementation and evaluation design**, not yet a measured gait-event accuracy result. Its central scientific dependency is a **genuinely independent, native-time aligned force contact reference** for the exact IMU trial/side. Camargo's published sensor inventory alone does not guarantee every trial satisfies this requirement.
+The current contribution includes an **executed original-source audit** and a staged implementation/evaluation design, but not yet a measured gait-event accuracy result. Its central scientific dependency is a **genuinely independent, native-time aligned force contact reference** for the exact IMU trial/side. Camargo's published sensor inventory alone does not guarantee every trial satisfies this requirement.
 
 The source population consists of **healthy volunteers**, the first proposed setting is offline treadmill walking, and the current rule filtering is non-causal. Therefore this study cannot assert diagnosis, neurological rehabilitation benefit, fall-risk forecasting, real-time operation or external clinical validity. Event timings derived from force thresholds are reference estimates with operational definitions, not universally unambiguous anatomical heel strikes.
 

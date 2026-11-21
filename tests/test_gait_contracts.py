@@ -380,6 +380,28 @@ class GaitContractTests(unittest.TestCase):
         self.assertEqual(len(rows), 1)
         self.assertTrue(np.isfinite(participant_selection_score(rows)))
 
+    def test_source_summary_and_download_share_notebook_final_section(self):
+        """Gait Notebook 01 ends in one numbered scientific summary step."""
+        path = REPO / "gait_analysis/code/notebooks" / (
+            "01_source_and_reference_eligibility.ipynb"
+        )
+        nb = json.loads(path.read_text(encoding="utf8"))
+        self.assertEqual(len(nb["cells"]), 17)
+        self.assertEqual(nb["cells"][-2]["id"], "m-01-07")
+        self.assertEqual(nb["cells"][-1]["id"], "c-01-07")
+        self.assertIn(
+            "**07. Research Summary and Output Download**",
+            "".join(nb["cells"][-2]["source"]),
+        )
+        code = "".join(nb["cells"][-1]["source"])
+        self.assertIn("01_source_eligibility_summary.csv", code)
+        self.assertIn("download_outputs_from_colab(", code)
+        self.assertNotIn("Next: review", code)
+        self.assertFalse(any(
+            "Research Summary and Output Download" in "".join(c["source"])
+            for c in nb["cells"][:-2]
+        ))
+
     def test_gait_final_cells_package_their_own_outputs(self):
         """Each numbered notebook ends with the approved download helper."""
         folder = REPO / "gait_analysis" / "code" / "notebooks"

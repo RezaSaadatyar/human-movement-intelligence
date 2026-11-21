@@ -6,7 +6,7 @@
 
 This study implements a **reference-anchored, participant-independent gait-event measurement workflow** using [Camargo et al.'s wearable and laboratory biomechanics dataset](https://www.epic.gatech.edu/opensource-biomechanics-camargo-et-al/). Its objective is to estimate initial-contact timing from foot/shank inertial signals, compare it with independent ground-force contact evidence, and assess variation across observed walking conditions.
 
-**Implementation status (November 2026):** Five Python/Jupyter notebooks, reusable source and evaluation modules, stage-specific diagrams and offline tests have been prepared. **Original Camargo data have not yet been executed through the new pipeline**. Timed IMU-versus-force comparisons and final Test metrics remain unavailable until the original channel/side/timebase contract is verified. No numerical performance result is asserted.
+**Study status (November 2026):** Five notebooks and reusable evaluation modules are implemented. **Notebook 01 has been executed with original AB06 treadmill IMU/force files**, producing a source-matched trial inventory, channel audit and recorded signal plot. Physical force-axis interpretation, independent contact references, the eligible cohort and final Test metrics still require subsequent investigation. No event-detection performance is claimed.
 
 ## 1. Dataset and Experimental Protocol
 
@@ -38,13 +38,23 @@ Individual workflow diagrams are in [`images/`](images/). They show method stage
 
 ## 3. Main Results
 
-**No original-data event-detection results have been generated at this stage.** No number of eligible participants, valid force-contact events, final held-out people or measured timing error is yet established.
+**Notebook 01 source-audit results (executed, not a model evaluation):** The tracked [trial inventory](output/01_trial_inventory.csv), [candidate pairs](output/01_candidate_pairs.csv), [observed columns](output/01_observed_columns.csv), [recorded signal preview](output/01_sensor_source_preview.png) and [eligibility summary](output/01_source_eligibility_summary.csv) establish:
 
-The following files will be produced by the relevant notebook when the required original source data and valid contracts are available:
+| Source observation | Recorded pilot |
+| --- | --- |
+| Participant and trial | `AB06`, session `10_09_18`, `treadmill_01_01` |
+| Candidate same-trial IMU/force pairs | 1 |
+| Measurement fields, excluding `Header` | IMU: 24; treadmill force-platform: 18 |
+| Median `Header` increments | IMU: 0.005; force platform: 0.001 (source-time units) |
+| Independent force-contact labels and final Test metrics | Not yet generated |
+
+The source pairing is **not yet a validated force-contact reference**. No eligible full-cohort count, force-contact performance or participant-level timing error has been established.
+
+Stage 01 results are now saved and tracked; later stages will produce their own files when the required sources and scientific contracts have been verified:
 
 | Evidence | Intended current output |
 | --- | --- |
-| Inspected original source files and observed channel names | `01_trial_inventory.csv`, `01_observed_columns.csv` |
+| Executed original source inspection | [`01_trial_inventory.csv`](output/01_trial_inventory.csv), [`01_observed_columns.csv`](output/01_observed_columns.csv), [`01_source_eligibility_summary.csv`](output/01_source_eligibility_summary.csv) and [recorded signal figure](output/01_sensor_source_preview.png) |
 | Force-reference eligibility and original contact events | `02_eligible_trials.csv`, `02_reference_events.csv` |
 | Reference-only Development stride measures | `03_reference_trial_metrics.csv`, `03_subject_condition_metrics.csv` |
 | Independent Development comparator | `04_development_participant_metrics.csv`, `04_selected_configuration.csv` |
@@ -68,7 +78,7 @@ Notebook 01 then inventories the actual source columns and displays a genuine pa
 
 Notebooks 03–05 consume explicit current results from their producers. Original raw recordings remain local; the study's useful CSV tables/PNG charts are written under `gait_analysis/output/` and numeric per-trial caches under `data/processed/camargo/paired_trials/`. Execution overwrites each stage's named current outputs; a material source or protocol change requires affected downstream outputs to be recomputed.
 
-Use the repository's existing [dependencies](../requirements.txt) and the [data access guide](../docs/DATASETS.md) for original-source instructions. These commands and paths have been inspected but **an original-data end-to-end run has not yet been verified**.
+Use the repository's existing [dependencies](../requirements.txt) and the [data access guide](../docs/DATASETS.md) for original-source instructions. The original-data **Notebook 01 source inspection has been executed**; the complete source-to-Test experiment has **not** been run or validated.
 
 ## 5. Files and Saved Outputs
 
@@ -78,7 +88,7 @@ Use the repository's existing [dependencies](../requirements.txt) and the [data 
 | [`code/src/`](code/src/) | Source inventory, timebase/force pairing, reference events, detectors and metrics |
 | [`images/study_overview.svg`](images/study_overview.svg) | Study-wide editable five-band method diagram |
 | [`images/`](images/) | Five additional stage-specific editable SVGs |
-| `output/` | Stage-owned current CSV/PNG evidence **when generated** |
+| [`output/`](output/) | Five tracked Notebook 01 CSV/PNG outputs; subsequent-stage outputs when generated |
 | `../data/raw/camargo/` | Original participant files (local or mounted; not tracked) |
 | `../data/processed/camargo/` | Reusable numeric paired-trial arrays (local or mounted) |
 | [Scientific methods document](GAIT_RESEARCH_METHODS_AND_EVIDENCE.md) | Full scientific design, model interfaces, evaluation and limits |
