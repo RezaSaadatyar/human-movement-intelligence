@@ -1,0 +1,90 @@
+# Gait Analysis | Camargo Lower-Limb Biomechanics
+
+![Complete source-to-Test gait measurement workflow](images/study_overview.svg)
+
+*Figure 1. Proposed five-notebook analytical pipeline: source inspection, independently force-derived contact events, reference stride measures, participant-grouped IMU detectors and a reserved final Test. This is an implementation schematic, not recorded performance.*
+
+This study implements a **reference-anchored, participant-independent gait-event measurement workflow** using [Camargo et al.'s wearable and laboratory biomechanics dataset](https://www.epic.gatech.edu/opensource-biomechanics-camargo-et-al/). Its objective is to estimate initial-contact timing from foot/shank inertial signals, compare it with independent ground-force contact evidence, and assess variation across observed walking conditions.
+
+**Implementation status (November 2026):** Five Python/Jupyter notebooks, reusable source and evaluation modules, stage-specific diagrams and offline tests have been prepared. **Original Camargo data have not yet been executed through the new pipeline**. Timed IMU-versus-force comparisons and final Test metrics remain unavailable until the original channel/side/timebase contract is verified. No numerical performance result is asserted.
+
+## 1. Dataset and Experimental Protocol
+
+| Feature | Study definition |
+| --- | --- |
+| Original dataset | [Camargo et al. (2021)](https://doi.org/10.1016/j.jbiomech.2021.110320), 22 healthy participants in the released research dataset |
+| Data access | [Georgia Tech/EPIC](https://www.epic.gatech.edu/opensource-biomechanics-camargo-et-al/) · [Mendeley Part 1 v2](https://doi.org/10.17632/fcgm3chfff.2) (CC BY 4.0) |
+| IMU inputs | Candidate foot/shank gyroscope channels, to be confirmed against original source headers and units |
+| Independent reference | Ground-force-derived contact events with verified vertical-force sign, foot side, native time correspondence and contact threshold |
+| Candidate conditions | Initially treadmill, with separate treatment for ground/ramp/stair experiments if source pairing supports them |
+| Research unit | Participant → condition → original trial → independent force contact → detected event |
+| Primary endpoint | Mean per-participant **Initial Contact absolute timing error (ms)**, for correctly matched events, alongside coverage |
+| Essential secondary metrics | Event sensitivity, precision, missed/extra events, Terminal Contact when supported, stride-time error and cadence/variability |
+| Independence | Participant-disjoint Development folds and held-out Test participants, assigned only after original eligibility is known |
+
+The original release reports roughly 200-Hz inertial and 1,000-Hz force sensing; recorded timestamps and verified units take precedence over those descriptive rates. The right/left foot mapping of each vertical-force channel must be checked. A phase-normalised gait-cycle curve alone is **not** a native-time reference for millisecond-level event accuracy.
+
+## 2. Experimental Programme
+
+| Stage | Notebook | Actual programmed purpose |
+| --- | --- | --- |
+| 01 | [Source and Reference Eligibility](code/notebooks/01_source_and_reference_eligibility.ipynb) | Inventory extracted ABxx archives and original files; inspect paired IMU/force candidate paths, field names and timestamps |
+| 02 | [Alignment and Event Reference](code/notebooks/02_alignment_and_event_reference.ipynb) | Use a **reviewed** sensor/side/time contract; construct force-contact events, reusable trial arrays and participant roles |
+| 03 | [Stride Measurement and Statistics](code/notebooks/03_stride_measurement_and_statistics.ipynb) | Extract force-reference stride intervals, cadence and variability using Development people only |
+| 04 | [IMU Baselines and Grouped Validation](code/notebooks/04_imu_event_baselines_and_grouped_validation.ipynb) | Compare fixed and Training-tuned IMU peak detectors in participant-disjoint Development folds; freeze configuration |
+| 05 | [Frozen Test and Research Synthesis](code/notebooks/05_frozen_test_and_research_synthesis.ipynb) | Apply the chosen Development configuration to reserved people; report event coverage, timing error and descriptive paired uncertainty |
+
+Individual workflow diagrams are in [`images/`](images/). They show method stages only; **no diagram contains synthetic performance figures**.
+
+## 3. Main Results
+
+**No original-data event-detection results have been generated at this stage.** No number of eligible participants, valid force-contact events, final held-out people or measured timing error is yet established.
+
+The following files will be produced by the relevant notebook when the required original source data and valid contracts are available:
+
+| Evidence | Intended current output |
+| --- | --- |
+| Inspected original source files and observed channel names | `01_trial_inventory.csv`, `01_observed_columns.csv` |
+| Force-reference eligibility and original contact events | `02_eligible_trials.csv`, `02_reference_events.csv` |
+| Reference-only Development stride measures | `03_reference_trial_metrics.csv`, `03_subject_condition_metrics.csv` |
+| Independent Development comparator | `04_development_participant_metrics.csv`, `04_selected_configuration.csv` |
+| Frozen Test outcome | `05_test_participant_metrics.csv`, `05_test_model_summary.csv` |
+
+Any result tables will be interpreted alongside event matching support and source exclusions; an artificially low timing MAE obtained by predicting only a few events is not a successful detector.
+
+## 4. Running and Reviewing the Study
+
+**Use Google Colab:** Open [Notebook 01](code/notebooks/01_source_and_reference_eligibility.ipynb), run **00. Colab Repository Setup** and **01. Imports and Research Environment**, then execute in order. The repository uses the established `setup_colab("gait_analysis")` helper.
+
+The official source archives are **not distributed with this repository**. Obtain one participant archive through the official [Georgia Tech dataset portal](https://www.epic.gatech.edu/opensource-biomechanics-camargo-et-al/), extract it under the repository-root `data/raw/camargo/` or configure `CAMARGO_DATA_ROOT` to point to an extracted, mounted directory. Notebook 01 enumerates extracted files and displays a genuine trial and its source columns; it does not download all 22 participants. Native MATLAB table variants may require an explicit, verified CSV export with unchanged source timestamps before further processing.
+
+**Notebook 02 has an intentional source-contract boundary:** the source-dependent gyroscope axis, independently measured vertical-force column, sign, foot side, timestamp scale and shared timebase must be specified after examining Notebook 01. It will stop with an actionable error rather than guessing. Similarly, Notebook 04 cannot run until Notebook 02 has established enough independent eligible people for grouped Development folds. These are scientific validity requirements, not approval/status-file gates.
+
+Notebooks 03–05 consume explicit current results from their producers. Original raw recordings remain local; the study's useful CSV tables/PNG charts are written under `gait_analysis/output/` and numeric per-trial caches under `data/processed/camargo/paired_trials/`. Execution overwrites each stage's named current outputs; a material source or protocol change requires affected downstream outputs to be recomputed.
+
+Use the repository's existing [dependencies](../requirements.txt) and the [data access guide](../docs/DATASETS.md) for original-source instructions. These commands and paths have been inspected but **an original-data end-to-end run has not yet been verified**.
+
+## 5. Files and Saved Outputs
+
+| Location | Responsibility |
+| --- | --- |
+| [`code/notebooks/`](code/notebooks/) | Five numbered Colab/Jupyter scientific stages |
+| [`code/src/`](code/src/) | Source inventory, timebase/force pairing, reference events, detectors and metrics |
+| [`images/study_overview.svg`](images/study_overview.svg) | Study-wide editable five-band method diagram |
+| [`images/`](images/) | Five additional stage-specific editable SVGs |
+| `output/` | Stage-owned current CSV/PNG evidence **when generated** |
+| `../data/raw/camargo/` | Original participant files (local or mounted; not tracked) |
+| `../data/processed/camargo/` | Reusable numeric paired-trial arrays (local or mounted) |
+| [Scientific methods document](GAIT_RESEARCH_METHODS_AND_EVIDENCE.md) | Full scientific design, model interfaces, evaluation and limits |
+
+No Excel stage tracker, administrative approval document or mandatory history/manifest file is part of this study.
+
+## 6. Interpretation and Scope
+
+The programmed research question is **how accurately a simple, source-aligned IMU detector can estimate force-referenced initial contacts for unseen participants**. Measurement must use the same trial, genuine physical time and a validated foot/force assignment. The principal result will be a participant-balanced timing error **together with missed/extra event counts and event sensitivity**.
+
+The analysed population comes from healthy volunteers. This workflow does **not** establish clinical gait validity, fall-risk prediction, pathological gait detection, online inference or deployment. The filtering in the initial detectors is zero-phase and therefore **offline**. Generalisation across terrains is not claimed unless actual eligible source trials support comparisons.
+
+If independent original-time references cannot be constructed, the appropriate next step is to revisit the research question **before** interpreting IMU predictions as contact-timing accuracy. Read [Research Methods and Evidence](GAIT_RESEARCH_METHODS_AND_EVIDENCE.md) for the complete scientific contract and pending original-data validation.
+
+**Source attribution:** Camargo, J., Ramanathan, A., Flanagan, W. and Young, A. (2021), *Journal of Biomechanics*, 119, 110320, [DOI](https://doi.org/10.1016/j.jbiomech.2021.110320); [dataset Part 1 v2](https://doi.org/10.17632/fcgm3chfff.2).
