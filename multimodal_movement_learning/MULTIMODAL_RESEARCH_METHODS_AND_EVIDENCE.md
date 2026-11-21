@@ -206,7 +206,7 @@ An optional second non-force exercise may be studied as an explicitly separate t
 
 ### 8.1 Notebook sequence and file contracts
 
-Notebooks 01–04 have tracked execution evidence: original-source audit, source-paired windows, eleven unimodal Development models and nine fusion Development models. Notebook 03's original aggregate `03_oof_probabilities.npz` is tracked in `output/` despite the general NPZ ignore rule, and Notebook 04's keyed CSV/PNG results and `04_model_selection.csv` are committed. Ten Notebook 04 model-specific/consolidated probability NPZ files remain in its downloadable Colab output archive, not Git. Notebook 05 is **executed** and its ten current `05_*` output files record source-keyed predictions, participant scores, paired uncertainty, per-class metrics and four figures.
+Notebooks 01–05 retain executed evidence: source and paired-window audits, eleven unimodal and nine fusion Development comparisons, and the frozen five-person Test. Original Notebook 03 OOF probabilities (`03_oof_probabilities.npz`) and the main Notebook 04 and 05 CSV/PNG outputs are available in `output/`. Notebook 04 generates its model-specific numerical intermediates during its own execution; the saved tables, figures and selection file are sufficient to inspect the reported comparisons.
 
 | Notebook | Required input and operations | Named output targets |
 | --- | --- | --- |
@@ -230,7 +230,7 @@ Each implemented notebook will contain the established **00. Colab Repository Se
 
 - Local `data/raw/ninapro_db2/`: original subject ZIP archives, downloaded once per available runtime and reused when found.
 - `data/processed/ninapro_db2/`: the two Notebook 02 feature matrices needed for this classical Test are **now tracked in Git**; per-person source-length arrays remain untracked.
-- Study-owned `output/`: tracked `01_*`–`05_*` CSV/PNG files and `03_oof_probabilities.npz`, explicitly exempted from the global NPZ ignore pattern. Notebook 04's other probability NPZ files remain in its Colab archive. Notebook 05 requires only the two Git-tracked feature matrices at `data/processed/ninapro_db2/`, not the original source-length signals.
+- Study-owned `output/`: source, Development and Test CSV/PNG evidence for all five notebooks, and the Notebook 03 OOF probability file required by Development fusion. The frozen classical Test uses only the two tracked feature matrices at `data/processed/ninapro_db2/`.
 - Curated `images/`: five editable notebook-specific workflow SVGs; these are scientific process diagrams, not computed numerical plots.
 - Repository root `requirements.txt`: the scientific environment dependencies used by the implementation; full runtime consistency remains dependent on the executing Colab/Python environment.
 
@@ -238,7 +238,7 @@ The executed sequence first inspected S01, then processed all 40 participants on
 
 ## 9. Discussion, Limitations and Future Work
 
-Original source/cohort processing, the Notebook 03 unimodal and Notebook 04 fusion Development comparisons, and the frozen Notebook 05 Test have recorded execution evidence. The dominant Rest class, participant variability, sEMG-informed corrected boundaries and interpolated acceleration stream complicate interpretation of class-level and modality-specific performance. Successful notebook execution does not establish that a model generalises to independent Test people, different acquisition devices or rehabilitation settings. The observed five-person Test comparison favoured early fusion on participant-mean macro F1, but the limited cohort, dominant Rest class and weak movement-specific performance constrain the conclusion.
+All five study stages have recorded source, Development and Test evidence. The frozen early-fusion model achieved a higher participant-mean macro F1 than the sEMG-only comparator on the reserved Test set. **The Test comprised only five independent participants, fixed before model selection from the 40-person cohort; consequently, the precision and wider generalisability of this person-level comparison are limited.** The prominent Rest class, sEMG-informed corrected boundaries and interpolated acceleration stream also qualify interpretation of individual movement classes. No real-time, external-device or clinical validation was conducted.
 
 The actual S01 and 40-participant E1 inspection supports the current source dimensions, corrected label set and frozen person assignments. Important interpretation limits remain: sEMG-informed corrected boundaries, the interpolated accelerometer stream, the high Rest proportion, and the reduced 1,000-window-per-person modelling cohort. None of these measurements establishes native sensor clock accuracy or performance in real-time prosthetic use.
 
