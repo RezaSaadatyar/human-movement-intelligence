@@ -156,3 +156,102 @@ def inspect_columns(table: pd.DataFrame, path: Path) -> pd.DataFrame:
             "max_observed": float(numeric.max()) if numeric.notna().any() else np.nan,
         })
     return pd.DataFrame(rows)
+
+
+# ======================= 03. Single-Trial Pilot Access =======================
+def extract_pilot_trial_from_zip(
+    archive_path: Path, destination: Path, subject_id="AB06",
+    condition="treadmill", max_member_bytes=250_000_000,
+) -> dict:
+    """Extract only one matching original IMU/FP trial, not a whole ZIP.
+
+    The archive must contain the original <ABxx>/<session>/<mode>/<sensor>/
+    <trial> layout. No path outside destination is written. This prepares
+    physical source files, not a validated force/IMU reference alignment.
+    """
+    archive_path, destination = Path(archive_path), Path(destination)
+    if not archive_path.is_file():
+        raise FileNotFoundError(f"Camargo participant ZIP not found: {archive_path}")
+    subject_id = str(subject_id).upper()
+    choices = {}
+    with zipfile.ZipFile(archive_path) as bundle:
+        for entry in bundle.infolist():
+            if entry.is_dir():
+                continue
+            parts = Path(entry.filename.replace("\\", "/")).parts
+            if (".." in parts or not parts or
+                    Path(entry.filename).is_absolute()):
+                raise ValueError(f"Unsafe archive member: {entry.filename}")
+            matched_subject = next(
+                (i for i, part in enumerate(parts)
+                 if part.upper() == subject_id), None
+            )
+            if matched_subject is None:
+                continue
+            relative = parts[matched_subject:]
+            if len(relative) < 5:
+                continue
+            if (relative[2].lower() != condition.lower() or
+                    relative[3].lower() not in {"imu", "fp"} or
+                    Path(relative[-1]).suffix.lower() not in SUPPORTED):
+                continue
+            if entry.file_size > max_member_bytes:
+                raise ValueError(
+                    f"Pilot file is unexpectedly large: {entry.filename} "
+                    f"({entry.file_size} bytes). Verify the source ZIP."
+                )
+            key = (relative[0].upper(), relative[1],
+                   relative[2].lower(), Path(relative[-1]).stem)
+            choices.setdefault(key, {})[relative[3].lower()] = (
+                entry, Path(*relative)
+            )
+        complete = [(key, pair) for key, pair in choices.items()
+                    if {"imu", "fp"}.issubset(pair)]
+        if not complete:
+            raise ValueError(
+                f"No same-trial original {subject_id}/{condition}/imu+fp "
+                "pair exists inside this ZIP. Use a single-participant "
+                "archive (e.g. AB06.zip), not the combined 9+ GB Part 1 v2 "
+                "archive, and check its internal folder structure."
+            )
+        key, pair = sorted(complete, key=lambda x: x[0])[0]
+        out = {}
+        for sensor in ("imu", "fp"):
+            member, relative = pair[sensor]
+            target = destination / relative
+            target.parent.mkdir(parents=True, exist_ok=True)
+            if not target.is_file() or target.stat().st_size != member.file_size:
+                import shutil
+                import tempfile
+                with bundle.open(member) as source:
+                    with tempfile.NamedTemporaryFile(
+                        dir=target.parent, delete=False
+                    ) as tmp:
+                        temp = Path(tmp.name)
+                        shutil.copyfileobj(source, tmp)
+                temp.replace(target)
+            out[sensor] = target
+    return {
+        "subject_id": key[0], "session_id": key[1],
+        "condition": key[2], "trial_id": key[3],
+        "imu_path": str(out["imu"]), "fp_path": str(out["fp"]),
+    }
+
+
+def locate_pilot_source_archive(source_root: Path, subject_id="AB06",
+                                explicit_archive=None) -> Path | None:
+    """Prefer an explicit path; otherwise only check a few known local spots."""
+    if explicit_archive:
+        archive = Path(explicit_archive).expanduser()
+        if not archive.is_file():
+            raise FileNotFoundError(
+                f"Specified Camargo archive does not exist: {archive}"
+            )
+        return archive
+    name = f"{str(subject_id).upper()}.zip"
+    candidates = [
+        Path(source_root) / name,
+        Path(source_root).parent / name,
+        Path("/content") / name,
+    ]
+    return next((p for p in candidates if p.is_file()), None)
