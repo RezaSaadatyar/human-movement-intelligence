@@ -6,7 +6,7 @@
 
 This study implements a **reference-anchored, participant-independent gait-event measurement workflow** using [Camargo et al.'s wearable and laboratory biomechanics dataset](https://www.epic.gatech.edu/opensource-biomechanics-camargo-et-al/). Its objective is to estimate initial-contact timing from foot/shank inertial signals, compare it with independent ground-force contact evidence, and assess variation across observed walking conditions.
 
-**Study status (November 2026):** Five notebooks and reusable evaluation modules are implemented. **Notebook 01 has been executed with original AB06 treadmill IMU/force files**, producing a source-matched trial inventory, channel audit and recorded signal plot. Physical force-axis interpretation, independent contact references, the eligible cohort and final Test metrics still require subsequent investigation. No event-detection performance is claimed.
+**Study status (November 2026):** Notebook 01's latest committed execution contains **AB06–AB08, three participants and nine treadmill IMU/force candidate pairs**. The proposed nine-person acquisition and the revised complete trial-level timebase audit remain unfinished. Notebook 02 now reports the observed source contract before its scientific force-event gate. Physical force-axis interpretation, independent contact references, the eligible cohort and final Test metrics still require subsequent investigation. No event-detection performance is claimed.
 
 ## 1. Dataset and Experimental Protocol
 
@@ -42,7 +42,7 @@ Individual workflow diagrams are in [`images/`](images/). They show method stage
 
 | Source observation | Recorded pilot |
 | --- | --- |
-| Participant and trial | `AB06`, session `10_09_18`, `treadmill_01_01` |
+| Recorded participants and source pairs | AB06–AB08, nine candidate treadmill IMU/force pairs (three per person) |
 | Candidate same-trial IMU/force pairs | 1 |
 | Measurement fields, excluding `Header` | IMU: 24; treadmill force-platform: 18 |
 | Median `Header` increments | IMU: 0.005; force platform: 0.001 (source-time units) |
@@ -54,7 +54,7 @@ Stage 01 results are now saved and tracked; later stages will produce their own 
 
 | Evidence | Intended current output |
 | --- | --- |
-| Executed original source inspection | [`01_trial_inventory.csv`](output/01_trial_inventory.csv), [`01_observed_columns.csv`](output/01_observed_columns.csv), [`01_source_eligibility_summary.csv`](output/01_source_eligibility_summary.csv) and [recorded signal figure](output/01_sensor_source_preview.png) |
+| Executed source inspection; expanded trial audit pending | [`01_trial_inventory.csv`](output/01_trial_inventory.csv), [`01_candidate_pairs.csv`](output/01_candidate_pairs.csv), [`01_observed_columns.csv`](output/01_observed_columns.csv), [`01_source_eligibility_summary.csv`](output/01_source_eligibility_summary.csv) and [recorded signal figure](output/01_sensor_source_preview.png); `01_trial_timebase_audit.csv` is generated when the revised Notebook 01 Section 05 runs |
 | Force-reference eligibility and original contact events | `02_eligible_trials.csv`, `02_reference_events.csv` |
 | Reference-only Development stride measures | `03_reference_trial_metrics.csv`, `03_subject_condition_metrics.csv` |
 | Independent Development comparator | `04_development_participant_metrics.csv`, `04_selected_configuration.csv` |
@@ -66,19 +66,19 @@ Any result tables will be interpreted alongside event matching support and sourc
 
 **Use Google Colab:** Open [Notebook 01](code/notebooks/01_source_and_reference_eligibility.ipynb), run **00. Colab Repository Setup** and **01. Imports and Research Environment**, then execute in order. The repository uses the established `setup_colab("gait_analysis")` helper.
 
-The original recordings are **not distributed with this repository**. The first completed source audit used AB06 only. The revised Colab Free acquisition workflow targets the **nine separately available AB06–AB14 participant archives** in [Mendeley Part 1, Version 1](https://data.mendeley.com/datasets/fcgm3chfff/1), not all 22 participants and not Part 1 Version 2's 9.38-GB combined archive. The expanded nine-person acquisition is **implemented, not yet executed**.
+The original recordings are **not distributed with this repository**. The first source audit used AB06; the latest committed trial inventory covers AB06–AB08. The revised Colab Free acquisition workflow targets the **nine separately available AB06–AB14 participant archives** in [Mendeley Part 1, Version 1](https://data.mendeley.com/datasets/fcgm3chfff/1), not all 22 participants and not Part 1 Version 2's 9.38-GB combined archive. The expanded nine-person acquisition is **partially executed: three of nine people**.
 
 **Notebook 01, Section 02, prepares the source:** the default bounded workflow downloads **one subject ZIP at a time** and up to **three new participants per cell execution**, extracts at most **three original paired treadmill trials per subject**, and removes only archives newly downloaded and successfully extracted in that execution. Existing source files are reused; rerun Section 02 until the desired nine-person source sample is prepared, then rerun Sections 03–07. The full nine-person acquisition still transfers roughly 9 GB over time, but avoids simultaneous storage of all full ZIPs. Its progress report is descriptive, not a fixed-count scientific eligibility check. Use the same Colab runtime for downstream notebooks, as temporary original data are lost when the runtime is reset. The official API must be accessible; no source data are copied into GitHub.
 
 Notebook 01 then inventories the actual source columns and displays a genuine paired trial. This pilot **does not establish a valid shared sensor clock, foot side, vertical-force sign or final cohort**. Notebook 01 installs the pinned `mat-io==1.0.2` dependency when needed, allowing its source adapter to read MATLAB table/MCOS objects as named tabular data rather than treating the object as a numeric matrix. SciPy remains the reader for simple numeric MATLAB structures. The original `Header` time column and channel names are preserved; actual sensor side, physical units and inter-device timing still need source-based review.
 
-**Notebook 02 has an intentional source-contract boundary:** the source-dependent gyroscope axis, independently measured vertical-force column, sign, foot side, timestamp scale and shared timebase must be specified after examining Notebook 01. It will stop with an actionable error rather than guessing. Similarly, Notebook 04 cannot run until Notebook 02 has established enough independent eligible people for grouped Development folds. These are scientific validity requirements, not approval/status-file gates.
+**Notebook 02 has an intentional source-contract boundary:** Section 02 now writes a descriptive `02_source_contract_review.csv` using original observed fields and trial evidence. Section 03 retains the guard against extracting IC/TC until gyroscope/vertical-force mapping, force sign, foot side, physical timestamps and common event-level time have been verified. Similarly, Notebook 04 cannot run until Notebook 02 has established enough independent eligible people for grouped Development folds. These are scientific validity requirements, not approval/status-file gates.
 
 **Research output download:** Every Notebook now ends with a **Research Summary and Output Download** cell. It packages only that notebook's saved `01_`–`05_` outputs as `/content/gait_analysis_Notebook_XX_Outputs.zip` (where `XX` is the notebook number). Retrieve the ZIP from **Colab Contents / Files**; packaging does not trigger GitHub commit/push or include raw Camargo archives. The Notebook 01 source plot displays observed `foot_Gyro_Y` / `shank_Gyro_Y` and `Treadmill_R_vy` / `Treadmill_L_vy` channels when present. The waveform figure is source evidence, **not** an independently validated vertical-force contact reference.
 
 Notebooks 03–05 consume explicit current results from their producers. Original raw recordings remain local; the study's useful CSV tables/PNG charts are written under `gait_analysis/output/` and numeric per-trial caches under `data/processed/camargo/paired_trials/`. Execution overwrites each stage's named current outputs; a material source or protocol change requires affected downstream outputs to be recomputed.
 
-Use the repository's existing [dependencies](../requirements.txt) and the [data access guide](../docs/DATASETS.md) for original-source instructions. The original-data **Notebook 01 AB06 source inspection has been executed**. The revised nine-person source acquisition has not yet been run; the full source-to-Test experiment has **not** been validated. Under the existing 20% person-disjoint split, nine eligible subjects would give approximately seven Development and two Test people; this is an **exploratory within-dataset pilot**, with substantial Test uncertainty. Do not claim terrain transfer from the treadmill-only sample.
+Use the repository's existing [dependencies](../requirements.txt) and the [data access guide](../docs/DATASETS.md) for original-source instructions. The original-data **Notebook 01 AB06–AB08 source inventory has been executed**. The all-trial timebase audit has not yet run, and six of the nine planned participants remain; the full source-to-Test experiment has **not** been validated. Under the existing 20% person-disjoint split, nine eligible subjects would give approximately seven Development and two Test people; this is an **exploratory within-dataset pilot**, with substantial Test uncertainty. Do not claim terrain transfer from the treadmill-only sample.
 
 ## 5. Files and Saved Outputs
 
