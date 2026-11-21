@@ -8,7 +8,7 @@ import re
 import numpy as np
 import pandas as pd
 
-from .camargo_source import read_sensor_table, validate_timebase
+from camargo_source import read_sensor_table, validate_timebase
 
 
 # ============================ 01. Channel Mapping ===========================
