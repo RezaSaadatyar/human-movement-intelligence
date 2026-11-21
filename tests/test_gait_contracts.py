@@ -23,7 +23,8 @@ sys.path.insert(0, str(SOURCE))
 from camargo_source import (inventory_files, paired_trials, validate_timebase,
     read_sensor_table,
     extract_pilot_trial_from_zip, locate_pilot_source_archive,
-    download_mendeley_pilot_archive)
+    download_mendeley_pilot_archive, PART1_V1_SUBJECT_ARCHIVES,
+    extract_selected_trial_pairs_from_zip, participant_pair_counts)
 from gait_alignment import mapped_series, validated_overlap, candidate_channels, preview_channels
 from gait_reference import force_contact_events, reference_strides, stride_summary
 from gait_event_detectors import peak_events, candidate_features
@@ -48,6 +49,83 @@ class GaitContractTests(unittest.TestCase):
         self.assertEqual(root, REPO.resolve())
         from core.plot_style import plot_style
         self.assertTrue(callable(plot_style))
+
+    def test_part1_original_pilot_subject_ids_are_published_subset(self):
+        """Stay within the independently available Part 1 Version 1 ZIPs."""
+        self.assertEqual(
+            PART1_V1_SUBJECT_ARCHIVES,
+            tuple(f"AB{i:02d}.zip" for i in range(6, 15))
+        )
+
+    def test_multi_trial_extraction_is_bounded_and_idempotent(self):
+        """Select three distinct same-trial sensor pairs, never all ZIP rows."""
+        with tempfile.TemporaryDirectory() as tmp:
+            base = Path(tmp)
+            source_zip = base / "AB08.zip"
+            with zipfile.ZipFile(source_zip, "w") as archive:
+                for trial in range(1, 15):
+                    for sensor in ("imu", "fp"):
+                        archive.writestr(
+                            f"nested/AB08/session/treadmill/{sensor}/"
+                            f"treadmill_{trial:02d}_01.csv",
+                            "Header,signal\n0,1\n0.01,2\n0.02,3\n"
+                        )
+                    archive.writestr(
+                        f"nested/AB08/session/conditions/"
+                        f"treadmill_{trial:02d}_01.csv", "Header,v\n0,1\n"
+                    )
+            dest = base / "raw"
+            records = extract_selected_trial_pairs_from_zip(
+                source_zip, dest, "AB08", max_pairs=3,
+            )
+            self.assertEqual(len(records), 3)
+            self.assertEqual(len(list(dest.rglob("*.csv"))), 6)
+            self.assertEqual(len({r["trial_id"] for r in records}), 3)
+            self.assertEqual(
+                participant_pair_counts(dest, ["AB08", "AB09"]),
+                {"AB08": 3, "AB09": 0},
+            )
+            second = extract_selected_trial_pairs_from_zip(
+                source_zip, dest, "AB08", max_pairs=3,
+            )
+            self.assertEqual(records, second)
+            self.assertEqual(len(list(dest.rglob("*.csv"))), 6)
+
+    def test_selected_trial_extraction_rejects_unsafe_archive(self):
+        """Reject ZIP traversal without writing anything to the target."""
+        with tempfile.TemporaryDirectory() as tmp:
+            base = Path(tmp)
+            path = base / "AB07.zip"
+            with zipfile.ZipFile(path, "w") as archive:
+                archive.writestr("../unsafe.csv", "data")
+            with self.assertRaisesRegex(ValueError, "Unsafe ZIP member"):
+                extract_selected_trial_pairs_from_zip(
+                    path, base / "raw", "AB07",
+                )
+            self.assertFalse((base / "unsafe.csv").exists())
+
+    def test_participant_downloader_rejects_non_part1_subjects(self):
+        """Dataset access must not silently expand to 22 full participants."""
+        with tempfile.TemporaryDirectory() as folder:
+            with self.assertRaisesRegex(ValueError, "Part 1 Version 1"):
+                download_mendeley_pilot_archive(
+                    Path(folder), filename="AB15.zip"
+                )
+
+    def test_notebook_01_acquisition_settings_are_bounded(self):
+        """Source cohort is explicitly exploratory and storage-budgeted."""
+        notebook = REPO / "gait_analysis/code/notebooks" / (
+            "01_source_and_reference_eligibility.ipynb"
+        )
+        cells = json.loads(notebook.read_text(encoding="utf8"))["cells"]
+        cell = next(c for c in cells if c.get("id") == "c-01-pilot-source")
+        source = "".join(cell["source"])
+        self.assertIn("MAX_TRIAL_PAIRS_PER_PERSON = 3", source)
+        self.assertIn("MAX_NEW_SUBJECTS_PER_RUN = 3", source)
+        self.assertIn("DELETE_NEW_ARCHIVE_AFTER_EXTRACTION = True", source)
+        self.assertIn("participant_pair_counts(", source)
+        self.assertIn("shutil.disk_usage", source)
+        self.assertNotIn("range(1, 23)", source)
 
     def test_source_inventory_and_pairing(self):
         with tempfile.TemporaryDirectory() as folder:
