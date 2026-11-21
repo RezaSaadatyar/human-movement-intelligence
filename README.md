@@ -11,8 +11,9 @@ A Python-based research portfolio maintained by **Reza Saadatyar**. Each study h
 | **Wearable Activity Recognition (HARTH v2.0)** | Executed 01–13 notebook programme with 29-person Development model selection, fitted weighted 1D-ResNet and Random Forest, and aligned predictions and qualified metrics for S023/S032. Same-source, previously inspected assessment; no blind external validation. | [Study README](wearable_activity_recognition/README.md) · [Scientific methods and evidence](wearable_activity_recognition/HARTH_RESEARCH_METHODS_AND_EVIDENCE.md) · [How to run](wearable_activity_recognition/README.md#4-running-and-reviewing-the-study) |
 | **Biomechanical Load Estimation (BoneNet / Essex)** | Eight documented original-source research notebooks; **37 participants / 1,729 paired trials**, Training-only model selection, 75 temporal robustness fits and one frozen-before-Test four-person same-source evaluation. Exploratory FE-model regression, not external or clinical validation. | [Study README](biomechanical_load_estimation/README.md) · [Scientific methods and evidence](biomechanical_load_estimation/BONENET_RESEARCH_METHODS_AND_EVIDENCE.md) |
 | **Multimodal Movement Learning (NinaPro DB2)** | **Five executed notebooks (01–05):** source audit, 40,000 aligned E1 windows from 40 people, eleven unimodal and nine fusion Development candidates, and frozen Test on five reserved people. Early fusion `F1_rf` recorded **0.3126** participant-mean Test macro F1 versus **0.2512** for sEMG-only `B1_rf` (**+0.0614** paired mean). Offline same-source evidence, not external or clinical validation. | [Study README](multimodal_movement_learning/README.md) · [Scientific methods and evidence](multimodal_movement_learning/MULTIMODAL_RESEARCH_METHODS_AND_EVIDENCE.md) · [Complete study diagram](multimodal_movement_learning/images/study_overview.svg) |
+| **Gait Analysis (Camargo)** | **Implementation prepared, original-data verification pending:** five research notebooks and gait-event reference, measurement and evaluation modules. The primary endpoint is participant-mean Initial Contact timing MAE (ms), accompanied by event coverage. No original Camargo timing or Test scores are yet claimed. | [Study README](gait_analysis/README.md) · [Scientific methods](gait_analysis/GAIT_RESEARCH_METHODS_AND_EVIDENCE.md) · [Workflow diagram](gait_analysis/images/study_overview.svg) |
 
-**Other planned research directions:** Gait and movement analysis; markerless motion capture; neurorehabilitation and motor function. These are proposals, **not completed implementations**. Each of the three established studies above has its own methods, results, diagrams and evaluation boundaries.
+**Other planned research directions:** Markerless motion capture; neurorehabilitation and motor function. These are proposals, **not completed implementations**. Each of the three established studies above has its own methods, results, diagrams and evaluation boundaries.
 
 ## Selected HARTH evidence
 
@@ -38,6 +39,12 @@ The Development-selected **early-fusion Random Forest (`F1_rf`)** achieved **0.2
 
 For reproducible stage definitions, model configurations and individual class/participant outcomes, see the [scientific methods and evidence](multimodal_movement_learning/MULTIMODAL_RESEARCH_METHODS_AND_EVIDENCE.md), [selected Development models](multimodal_movement_learning/output/04_model_selection.csv), [source-keyed Test predictions](multimodal_movement_learning/output/05_test_predictions.csv) and [study execution instructions](multimodal_movement_learning/README.md#4-running-and-reviewing-the-study).
 
+## Gait Analysis: implemented research workflow
+
+The [Camargo Gait Analysis study](gait_analysis/README.md) now has five source-to-Test notebooks, independent force-contact reference extraction, transparent IMU peak detection, participant-grouped Development comparisons and a frozen evaluation stage. See the [study-wide workflow SVG](gait_analysis/images/study_overview.svg) and [scientific methods](gait_analysis/GAIT_RESEARCH_METHODS_AND_EVIDENCE.md).
+
+**Status:** Implementation and offline scientific tests prepared; original source-format, force-side and IMU timebase eligibility require Notebook 01/02 inspection before numerical performance can be reported. The source-derived held-out Test has **not yet run**. No Gait Analysis scores, subject exclusions or clinical claims have been invented.
+
 ## Repository structure
 
 ```text
@@ -60,6 +67,12 @@ human-movement-intelligence/
 │   ├── output/                         # Recorded research evidence
 │   ├── evidence/
 │   └── images/
+├── gait_analysis/
+│   ├── README.md
+│   ├── GAIT_RESEARCH_METHODS_AND_EVIDENCE.md
+│   ├── code/notebooks/                # Five prepared, unexecuted source-to-Test notebooks
+│   ├── code/src/                      # Gait-specific source, reference and evaluation modules
+│   └── images/                        # Study-wide and five stage-specific SVGs
 ├── multimodal_movement_learning/
 │   ├── README.md
 │   ├── MULTIMODAL_RESEARCH_METHODS_AND_EVIDENCE.md
