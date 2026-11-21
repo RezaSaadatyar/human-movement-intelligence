@@ -33,10 +33,18 @@ text{font-family:'DejaVu Sans',Arial,sans-serif}
 </g>
 <g id="band-1-context">
 <rect id="context-bg" x="24" y="84" width="1652" height="160" rx="16" fill="#EAF3FA" stroke="#C7D9E6" stroke-width="2"/>
-<g id="source-illustration">
-<path id="schematic-shank" d="M88 121 Q78 135 78 161 L84 206 L84 225 L117 225 L126 204 L122 170 Q120 140 114 121" fill="#D9E7F1" stroke="#7298B0" stroke-width="2.5" stroke-linejoin="round"/>
-<path id="schematic-foot" d="M85 219 Q81 232 70 231 L42 232 Q37 232 36 237 Q39 241 48 241 L123 241 L118 219" fill="#D9E7F1" stroke="#7298B0" stroke-width="2.5" stroke-linejoin="round"/>
-<rect id="imu-marker" x="88" y="180" width="28" height="20" rx="5" fill="#245E9D" stroke="#FFFFFF" stroke-width="1.5"/>
+<g id="source-illustration" aria-label="Schematic foot and shank with wearable IMU, outlined shoe and ground contact">
+<ellipse id="schematic-contact-shadow" cx="90" cy="239" rx="52" ry="2.8" fill="#D4E3ED"/>
+<path id="schematic-shank" d="M89 121 C84 132 82 145 85 161 L91 191 C93 201 93 213 89 222 L111 223 C109 214 112 203 116 191 L122 159 C124 143 120 129 117 121" fill="#CDE1EE" stroke="#6B91AD" stroke-width="2.5" stroke-linejoin="round" stroke-linecap="round"/>
+<path id="schematic-calf-shading" d="M114 124 C119 143 116 155 112 174 L105 199 Q108 176 109 164 Q112 141 109 124 Z" fill="#AFCFDF" opacity="0.72"/>
+<path id="schematic-shin-highlight" d="M91 128 C89 143 91 155 94 170 L99 197" fill="none" stroke="#F6FCFF" stroke-width="2.2" stroke-linecap="round" opacity="0.9"/>
+<path id="schematic-foot" d="M89 213 Q88 222 73 225 L52 228 C44 229 41 231 40 234 Q39 238 47 239 L119 239 Q133 239 135 236 Q136 232 128 230 L120 226 Q112 222 110 214 Z" fill="#D6E7F0" stroke="#6B91AD" stroke-width="2.5" stroke-linejoin="round"/>
+<path id="schematic-ankle-line" d="M89 220 Q100 224 110 221" fill="none" stroke="#82A7BF" stroke-width="1.8" stroke-linecap="round"/>
+<path id="schematic-shoe-sole" d="M42 236 Q47 240 57 239 H120 Q130 239 134 235" fill="none" stroke="#477995" stroke-width="2.1" stroke-linecap="round"/>
+<path id="schematic-force-plate" d="M38 242 H139" fill="none" stroke="#789FB5" stroke-width="1.2" stroke-linecap="round"/>
+<rect id="sensor-strap" x="87" y="181" width="31" height="18" rx="6" fill="#85AFC6" stroke="#5A91B1" stroke-width="1.2"/>
+<rect id="imu-marker" x="92" y="178" width="24" height="24" rx="5" fill="#245E9D" stroke="#F2FBFF" stroke-width="1.8"/>
+<path id="imu-signal-line" d="M96 190 H99 L101 186 L104 194 L107 188 H111" fill="none" stroke="#D6EFFD" stroke-width="1.5" stroke-linejoin="round" stroke-linecap="round"/>
 <text id="source-heading" x="153" y="110" class="source-heading">LOWER-LIMB SOURCE</text>
 <text id="source-imu" x="153" y="158" class="source-label">Foot/shank IMU</text>
 <text id="source-force" x="153" y="183" class="source-label">Force contact reference</text>
