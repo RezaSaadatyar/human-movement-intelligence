@@ -287,7 +287,7 @@ def test_neural_fusion_cpu_training_and_predictive_contract(
 
 
 def test_notebook05_frozen_features_and_five_band_figure():
-    """Verify the unexecuted Test stage and its editable scientific diagram."""
+    """Verify Test-stage inputs, recorded execution and editable diagram."""
     study = REPO / "multimodal_movement_learning"
     notebook = json.loads((
         study / "code" / "notebooks"
@@ -295,8 +295,13 @@ def test_notebook05_frozen_features_and_five_band_figure():
     ).read_text(encoding="utf-8"))
     code_cells = [c for c in notebook["cells"] if c["cell_type"] == "code"]
     assert code_cells
-    assert all(c["execution_count"] is None and not c["outputs"]
-               for c in code_cells)
+    # Notebook 05 now retains its recorded Test execution and plots.
+    # A notebook may be published either before or after execution.
+    assert all(isinstance(c.get("outputs"), list) for c in code_cells)
+    assert all(c.get("execution_count") is None
+               or isinstance(c["execution_count"], int) for c in code_cells)
+    assert not any(o.get("output_type") == "error"
+                   for c in code_cells for o in c["outputs"])
     source = "\n".join("".join(c["source"]) for c in code_cells)
     for required in (
         "02_emg_features.npy",
