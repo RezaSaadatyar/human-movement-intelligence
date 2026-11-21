@@ -80,52 +80,79 @@ text{font-family:'DejaVu Sans',Arial,sans-serif}
 <rect id="focus-label-bg" x="38" y="272" width="238" height="32" rx="9" fill="#173453" stroke="#173453" stroke-width="1.5"/>
 <text id="focus-label" x="157" y="293" class="section-label" text-anchor="middle">ANALYSIS FOCUS</text>
 <rect id="focus-card" x="38" y="312" width="238" height="215" rx="10" fill="#F7FAFD" stroke="#DFEAF0" stroke-width="1.5"/>
-<text id="focus-heading" x="54" y="344" class="focus-heading">Stage-specific task</text>
-<text id="focus-p1" x="54" y="389" class="focus-body">When do contacts occur?</text>
-<text id="focus-p2" x="54" y="416" class="focus-body">How accurate is IMU?</text>
-<text id="focus-p3" x="54" y="443" class="focus-body">Do conditions matter?</text>
-<text id="focus-p4" x="54" y="470" class="focus-body">Are people independent?</text>
-<text id="focus-note" x="54" y="508" class="qualification">No scores before execution</text>
+<text id="focus-heading" x="54" y="344" class="focus-heading">Force reference validity</text>
+<text id="focus-p1" x="54" y="389" class="focus-body">Select reviewed fields</text>
+<text id="focus-p2" x="54" y="416" class="focus-body">Check side and axis</text>
+<text id="focus-p3" x="54" y="443" class="focus-body">Derive IC and TC</text>
+<text id="focus-p4" x="54" y="470" class="focus-body">Exclude uncertain trials</text>
+<text id="focus-note" x="54" y="508" class="qualification">Conceptual workflow</text>
 <g id="panel-0">
 <rect id="panel-0-border" x="292" y="272" width="324" height="254" rx="12" fill="#FFFFFF" stroke="#B6CFDE" stroke-width="1.5"/>
-<path id="panel-0-cap" d="M304 272 H604 Q616 272 616 284 V305 H292 V284 Q292 272 304 272 Z" fill="#174B70"/>
-<text id="panel-0-head" x="454" y="294" class="card-heading" text-anchor="middle">Original source</text>
-<text id="panel-0-line-0" x="310" y="340" class="card-body">Camargo et al. (2021)</text>
-<text id="panel-0-line-1" x="310" y="382" class="card-body">22 healthy people reported</text>
-<text id="panel-0-line-2" x="310" y="424" class="card-body">IMU / force recordings</text>
-<text id="panel-0-line-3" x="310" y="466" class="card-body">Data pairing to verify</text>
+<path id="panel-0-cap" d="M304 272 H604 Q616 272 616 284 V305 H292 V284 Q292 272 Z" fill="#174B70"/>
+<text id="panel-0-head" x="454" y="294" class="card-heading" text-anchor="middle">Recorded signals</text>
+<text id="panel-0-lab1" x="314" y="329" class="chart-label">IMU gyroscope (schematic)</text>
+<path id="panel-0-imu-axis" d="M314 382 H594" fill="none" stroke="#66879D" stroke-width="1.1" stroke-linecap="round" stroke-linejoin="round"/>
+<polyline id="panel-0-imu-wave" points="314.0,367.0 320.7,355.8 327.3,357.2 334.0,364.2 340.7,367.1 347.3,370.6 354.0,377.7 360.7,377.2 367.3,364.9 374.0,355.2 380.7,358.3 387.3,364.9 394.0,367.4 400.7,371.6 407.3,378.4 414.0,376.0 420.7,362.9 427.3,354.9 434.0,359.4 440.7,365.5 447.3,367.7 454.0,372.6 460.7,378.9 467.3,374.5 474.0,361.0 480.7,354.9 487.3,360.5 494.0,366.0 500.7,368.1 507.3,373.7 514.0,379.1 520.7,372.7 527.3,359.3 534.0,355.2 540.7,361.6 547.3,366.4 554.0,368.5 560.7,374.8 567.3,379.1 574.0,370.8 580.7,357.8 587.3,355.7 594.0,362.6" fill="none" stroke="#236CDE" stroke-width="2.2" stroke-linejoin="round"/>
+<text id="panel-0-lab2" x="314" y="405" class="chart-label">Treadmill v-component (schematic)</text>
+<path id="panel-0-force-axis" d="M314 449 H594" fill="none" stroke="#66879D" stroke-width="1.1" stroke-linecap="round" stroke-linejoin="round"/>
+<polyline id="panel-0-force-wave" points="314.0,446.0 320.7,446.0 327.3,446.0 334.0,446.0 340.7,416.0 347.3,414.5 354.0,413.1 360.7,412.0 367.3,411.2 374.0,411.0 380.7,411.2 387.3,412.0 394.0,413.1 400.7,414.5 407.3,416.0 414.0,446.0 420.7,446.0 427.3,446.0 434.0,446.0 440.7,446.0 447.3,446.0 454.0,446.0 460.7,446.0 467.3,446.0 474.0,416.0 480.7,414.5 487.3,413.1 494.0,412.0 500.7,411.2 507.3,411.0 514.0,411.2 520.7,412.0 527.3,413.1 534.0,414.5 540.7,416.0 547.3,446.0 554.0,446.0 560.7,446.0 567.3,446.0 574.0,446.0 580.7,446.0 587.3,446.0 594.0,446.0" fill="none" stroke="#E87929" stroke-width="2.2" stroke-linejoin="round"/>
+<text id="panel-0-foot1" x="314" y="479" class="card-body">Original field names retained</text>
+<text id="panel-0-foot2" x="314" y="503" class="card-body">Physical axes pending review</text>
 </g>
 <g id="panel-1">
 <rect id="panel-1-border" x="630" y="272" width="324" height="254" rx="12" fill="#FFFFFF" stroke="#B6CFDE" stroke-width="1.5"/>
-<path id="panel-1-cap" d="M642 272 H942 Q954 272 954 284 V305 H630 V284 Q630 272 642 272 Z" fill="#174B70"/>
-<text id="panel-1-head" x="792" y="294" class="card-heading" text-anchor="middle">Gait contacts</text>
-<text id="panel-1-line-0" x="648" y="340" class="card-body">Reference: force threshold</text>
-<text id="panel-1-line-1" x="648" y="382" class="card-body">Estimator: IMU peaks</text>
-<text id="panel-1-line-2" x="648" y="424" class="card-body">Side + clock must agree</text>
-<text id="panel-1-line-3" x="648" y="466" class="card-body">Event misses kept</text>
+<path id="panel-1-cap" d="M642 272 H942 Q954 272 954 284 V305 H630 V284 Q630 272 Z" fill="#174B70"/>
+<text id="panel-1-head" x="792" y="294" class="card-heading" text-anchor="middle">Force contact logic</text>
+<text id="panel-1-lab" x="652" y="329" class="chart-label">Force threshold to candidate contacts</text>
+<path id="panel-1-force-axis" d="M652 437 H932" fill="none" stroke="#66879D" stroke-width="1.1" stroke-linecap="round" stroke-linejoin="round"/>
+<path id="panel-1-threshold" d="M652 403 H932" fill="none" stroke="#66879D" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round" stroke-dasharray="6 4"/>
+<polyline id="panel-1-pulses" points="652.0,430 670.9,430 689.9,429 702.5,392 729.9,367 773.1,367 794.1,386 810.9,430 841.5,430 858.3,387 887.8,367 917.3,382 932.0,429" fill="none" stroke="#E87929" stroke-width="2.4" stroke-linejoin="round"/>
+<path id="panel-1-ic" d="M702.5263157894736 355 V437" fill="none" stroke="#236CDE" stroke-width="1.3" stroke-linecap="round" stroke-linejoin="round" stroke-dasharray="3 4"/>
+<path id="panel-1-tc" d="M810.9473684210526 355 V437" fill="none" stroke="#168C5B" stroke-width="1.3" stroke-linecap="round" stroke-linejoin="round" stroke-dasharray="3 4"/>
+<text id="panel-1-ic-text" x="702.5263157894736" y="349" class="chart-label" text-anchor="middle">IC</text>
+<text id="panel-1-tc-text" x="810.9473684210526" y="349" class="chart-label" text-anchor="middle">TC</text>
+<text id="panel-1-foot1" x="652" y="479" class="card-body">Reference needs reviewed force</text>
+<text id="panel-1-foot2" x="652" y="503" class="card-body">Side, axis and timebase checked</text>
 </g>
 <g id="panel-2">
 <rect id="panel-2-border" x="968" y="272" width="324" height="254" rx="12" fill="#FFFFFF" stroke="#B6CFDE" stroke-width="1.5"/>
-<path id="panel-2-cap" d="M980 272 H1280 Q1292 272 1292 284 V305 H968 V284 Q968 272 980 272 Z" fill="#174B70"/>
-<text id="panel-2-head" x="1130" y="294" class="card-heading" text-anchor="middle">Development</text>
-<text id="panel-2-line-0" x="986" y="340" class="card-body">Participant-disjoint folds</text>
-<text id="panel-2-line-1" x="986" y="382" class="card-body">B0 fixed detector</text>
-<text id="panel-2-line-2" x="986" y="424" class="card-body">B1 tuned detector</text>
-<text id="panel-2-line-3" x="986" y="466" class="card-body">Match events one-to-one</text>
+<path id="panel-2-cap" d="M980 272 H1280 Q1292 272 1292 284 V305 H968 V284 Q968 272 Z" fill="#174B70"/>
+<text id="panel-2-head" x="1130" y="294" class="card-heading" text-anchor="middle">IMU event comparison</text>
+<text id="panel-2-lab" x="990" y="329" class="chart-label">One-to-one timing comparison</text>
+<text id="panel-2-ref-label" x="990" y="362" class="chart-label">Force IC</text>
+<text id="panel-2-pred-label" x="990" y="418" class="chart-label">IMU peaks</text>
+<path id="panel-2-ref-line" d="M1068 370 H1270" fill="none" stroke="#66879D" stroke-width="1.2" stroke-linecap="round" stroke-linejoin="round"/>
+<path id="panel-2-pred-line" d="M1068 425 H1270" fill="none" stroke="#66879D" stroke-width="1.2" stroke-linecap="round" stroke-linejoin="round"/>
+<circle id="panel-2-reference-0" cx="1102" cy="370" r="5.7" fill="#E87929"/>
+<circle id="panel-2-estimate-0" cx="1106" cy="425" r="5.7" fill="#236CDE"/>
+<path id="panel-2-pair-0" d="M1102 375 L1106 420" fill="none" stroke="#66879D" stroke-width="1.3" stroke-linecap="round" stroke-linejoin="round" stroke-dasharray="3 4"/>
+<circle id="panel-2-reference-1" cx="1156" cy="370" r="5.7" fill="#E87929"/>
+<circle id="panel-2-estimate-1" cx="1148" cy="425" r="5.7" fill="#236CDE"/>
+<path id="panel-2-pair-1" d="M1156 375 L1148 420" fill="none" stroke="#66879D" stroke-width="1.3" stroke-linecap="round" stroke-linejoin="round" stroke-dasharray="3 4"/>
+<circle id="panel-2-reference-2" cx="1215" cy="370" r="5.7" fill="#E87929"/>
+<circle id="panel-2-estimate-2" cx="1220" cy="425" r="5.7" fill="#236CDE"/>
+<path id="panel-2-pair-2" d="M1215 375 L1220 420" fill="none" stroke="#66879D" stroke-width="1.3" stroke-linecap="round" stroke-linejoin="round" stroke-dasharray="3 4"/>
+<text id="panel-2-foot1" x="990" y="479" class="card-body">B0 fixed versus B1 tuned</text>
+<text id="panel-2-foot2" x="990" y="503" class="card-body">Misses and extra events matter</text>
 </g>
 <g id="panel-3">
 <rect id="panel-3-border" x="1306" y="272" width="356" height="254" rx="12" fill="#FFFFFF" stroke="#B6CFDE" stroke-width="1.5"/>
-<path id="panel-3-cap" d="M1318 272 H1650 Q1662 272 1662 284 V305 H1306 V284 Q1306 272 1318 272 Z" fill="#174B70"/>
-<text id="panel-3-head" x="1484" y="294" class="card-heading" text-anchor="middle">Final evaluation</text>
-<text id="panel-3-line-0" x="1324" y="340" class="card-body">Frozen model recipe</text>
-<text id="panel-3-line-1" x="1324" y="382" class="card-body">Held-out participants</text>
-<text id="panel-3-line-2" x="1324" y="424" class="card-body">Initial-contact timing MAE</text>
-<text id="panel-3-line-3" x="1324" y="466" class="card-body">Sensitivity + uncertainty</text>
+<path id="panel-3-cap" d="M1318 272 H1650 Q1662 272 1662 284 V305 H1306 V284 Q1306 272 Z" fill="#174B70"/>
+<text id="panel-3-head" x="1484" y="294" class="card-heading" text-anchor="middle">Held-out evaluation</text>
+<text id="panel-3-lab" x="1328" y="329" class="chart-label">Person-disjoint evaluation</text>
+<rect id="panel-3-dev-box" x="1328" y="348" width="312" height="32" rx="5" fill="#EEF4F8" stroke="#D9E6EF"/>
+<rect id="panel-3-test-box" x="1328" y="396" width="312" height="32" rx="5" fill="#EEF4F8" stroke="#D9E6EF"/>
+<text id="panel-3-dev-label" x="1340" y="370" class="chart-label">Development people</text>
+<text id="panel-3-test-label" x="1340" y="418" class="chart-label">Reserved Test people</text>
+<circle id="panel-3-dev-dot" cx="1620" cy="364" r="7" fill="#236CDE"/>
+<circle id="panel-3-test-dot" cx="1620" cy="412" r="7" fill="#E87929"/>
+<text id="panel-3-foot1" x="1328" y="479" class="card-body">Participant-mean timing MAE</text>
+<text id="panel-3-foot2" x="1328" y="503" class="card-body">Coverage and uncertainty</text>
 </g>
 <rect id="scientific-note-bg" x="301" y="540" width="1361" height="25" rx="12" fill="#E0F2EC" stroke="#D3EAE2" stroke-width="1.5"/>
 <circle id="scientific-info" cx="324" cy="552" r="9" fill="#23749A"/>
 <text id="info-i" x="324" y="556" class="section-label" text-anchor="middle">i</text>
-<text id="scientific-caveat" x="342" y="556" class="scientific-note">Protocol diagram only. Original-time reference eligibility and participant splits must be verified before evaluation.</text>
+<text id="scientific-caveat" x="342" y="556" class="scientific-note">Schematic curves only; Notebook 01 plots the observed AB06 signals. Force-axis interpretation and synchronisation remain unverified.</text>
 </g>
 <g id="band-3-workflow">
 <rect id="workflow-bg" x="24" y="588" width="1652" height="174" rx="16" fill="#EAF3FA" stroke="#C7D9E6" stroke-width="2"/>
