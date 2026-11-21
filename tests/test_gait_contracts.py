@@ -6,10 +6,10 @@ import json
 import sys
 import tempfile
 import io
-import json
 import hashlib
 import zipfile
 import unittest
+from unittest import mock
 from pathlib import Path
 
 import numpy as np
@@ -20,6 +20,7 @@ SOURCE = REPO / "gait_analysis" / "code" / "src"
 sys.path.insert(0, str(SOURCE))
 
 from camargo_source import (inventory_files, paired_trials, validate_timebase,
+    read_sensor_table,
     extract_pilot_trial_from_zip, locate_pilot_source_archive,
     download_mendeley_pilot_archive)
 from gait_alignment import mapped_series, validated_overlap
@@ -218,6 +219,65 @@ class GaitContractTests(unittest.TestCase):
             self.assertEqual(archive.read_bytes(), payload)
             self.assertEqual(len(seen), 3)
 
+    def test_carmargo_matlab_table_mcos_fallback_preserves_original_names(self):
+        """A MATLAB table is decoded without inventing time or IMU axes."""
+        original = pd.DataFrame({
+            "Header": [0.0, 0.005, 0.010, 0.015],
+            "RightFoot_Gyro_X": [0.1, 0.2, 0.5, 0.3],
+            "Shank_accelZ": [-1.0, -0.9, -1.2, -0.7],
+        })
+        fake = types.ModuleType("matio")
+        fake.load_from_mat = lambda path, raw_data=False: {
+            "treadmillData": original
+        }
+        with mock.patch("scipy.io.loadmat", return_value={
+            "None": np.array([1, 2, 3], dtype=np.uint32)
+        }), mock.patch.dict(sys.modules, {"matio": fake}):
+            decoded = read_sensor_table(Path("original_imu.mat"))
+        pd.testing.assert_frame_equal(decoded, original)
+        np.testing.assert_allclose(
+            validate_timebase(decoded), [0.0, 0.005, 0.010, 0.015]
+        )
+
+    def test_matlab_numeric_struct_still_uses_scipy(self):
+        """Existing simple source dictionaries remain readable."""
+        from scipy.io import savemat
+
+        with tempfile.TemporaryDirectory() as folder:
+            path = Path(folder) / "numeric_trial.mat"
+            savemat(path, {"trial": {
+                "Header": np.array([0, 0.01, 0.02, 0.03]),
+                "force_z": np.array([0, 450, 600, 0]),
+            }})
+            frame = read_sensor_table(path)
+        self.assertEqual(frame.columns.tolist(), ["Header", "force_z"])
+        np.testing.assert_allclose(frame["Header"], [0, 0.01, 0.02, 0.03])
+
+    def test_matlab_table_without_source_header_is_rejected(self):
+        """No timestamps may be inferred from an arbitrary sample index."""
+        fake = types.ModuleType("matio")
+        fake.load_from_mat = lambda path, raw_data=False: {
+            "table": pd.DataFrame({"gyro": [1.0, 2.0, 3.0]})
+        }
+        with mock.patch("scipy.io.loadmat", side_effect=ValueError(
+            "Opaque MATLAB table"
+        )), mock.patch.dict(sys.modules, {"matio": fake}):
+            with self.assertRaisesRegex(ValueError, "no named numeric time table"):
+                read_sensor_table(Path("invalid_imu.mat"))
+
+    def test_multiple_matlab_time_tables_are_not_chosen_arbitrarily(self):
+        """Ambiguous MATLAB source objects must fail rather than mix channels."""
+        t = pd.DataFrame({"Header": [0, 1, 2], "signal": [3, 4, 5]})
+        fake = types.ModuleType("matio")
+        fake.load_from_mat = lambda path, raw_data=False: {
+            "a": t, "b": t
+        }
+        with mock.patch("scipy.io.loadmat", side_effect=ValueError(
+            "Opaque MATLAB table"
+        )), mock.patch.dict(sys.modules, {"matio": fake}):
+            with self.assertRaisesRegex(ValueError, "ambiguous multiple"):
+                read_sensor_table(Path("ambiguous_imu.mat"))
+
     def test_time_contract_requires_monotonicity_and_actual_overlap(self):
         frame = pd.DataFrame({"Header": [0.0, 0.1, 0.2],
                               "foot_Gyro_X": [1.0, 2.0, 3.0]})
@@ -313,6 +373,9 @@ class GaitContractTests(unittest.TestCase):
                 environment,
             )
             self.assertNotIn("from core.colab_setup import setup_colab", environment)
+            if path.name.startswith(("01_", "02_")):
+                self.assertIn("mat-io==1.0.2", environment)
+                self.assertIn('find_spec("matio")', environment)
             for cell in code:
                 headings = [
                     line for line in "".join(cell["source"]).splitlines()
