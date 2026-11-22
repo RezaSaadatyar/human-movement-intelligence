@@ -22,6 +22,7 @@ from gait_contract_evidence import (
     compare_original_phase_with_force_candidates,
     compare_phase_by_recorded_force_side, audit_source_contact_filter_loss,
     source_gap_stability_candidates, audit_source_gap_stability,
+    audit_source_gap_phase_timing,
     read_committed_source_evidence,
 )
 
@@ -598,6 +599,62 @@ class GaitSourceEvidenceTests(unittest.TestCase):
                 audit.candidate_channel.eq("Treadmill_L_vy")
             ]
             self.assertTrue(left.n_candidate_contacts.eq(0).all())
+
+
+
+    def test_gap_phase_event_timing_is_source_only(self):
+        """Gap audit reports real event proximity without fitted time shifts."""
+        times = np.arange(0.0, 4.0, 0.001)
+        right = np.zeros_like(times)
+        right[(times >= .5) & (times < .80)] = 500.
+        right[(times >= .82) & (times < 1.15)] = 500.
+        right[(times >= 2.0) & (times < 2.7)] = 500.
+        force = pd.DataFrame({
+            "Header": times, "Treadmill_R_vy": right,
+            "Treadmill_L_vy": np.zeros_like(right),
+        })
+        keys = {
+            "subject_id": "AB06", "session_id": "s1",
+            "condition": "treadmill", "trial_id": "t1",
+        }
+        phase = pd.DataFrame([
+            {**keys, "phase_wrap_header": .5},
+            {**keys, "phase_wrap_header": 2.0},
+        ])
+        with tempfile.TemporaryDirectory() as folder:
+            root = Path(folder)
+            (root / "force.mat").write_bytes(b"synthetic")
+            pairs = pd.DataFrame([{
+                **keys, "fp_path": "force.mat", "candidate_pair": True,
+            }])
+            audit = audit_source_gap_phase_timing(
+                pairs, root, lambda _: force,
+                lambda table, _: table.Header.to_numpy(float),
+                phase, gap_durations_s=(0.0, 0.03),
+                threshold_recorded=20., tolerance_s=.150,
+            )
+        self.assertEqual(len(audit), 4)
+        self.assertFalse(audit.independent_reference_verified.any())
+        right_rows = audit.loc[
+            audit.candidate_channel.eq("Treadmill_R_vy")
+        ].sort_values("max_internal_gap_s")
+        self.assertEqual(
+            right_rows.n_recorded_force_candidates.tolist(), [1, 2]
+        )
+        self.assertEqual(
+            right_rows.n_time_near_matches.tolist(), [1, 2]
+        )
+        self.assertEqual(
+            right_rows.n_matches_within_25ms.tolist(), [1, 2]
+        )
+        left_rows = audit.loc[
+            audit.candidate_channel.eq("Treadmill_L_vy")
+        ]
+        self.assertTrue(left_rows.n_time_near_matches.eq(0).all())
+        self.assertTrue(
+            right_rows.median_abs_time_difference_ms.isna().eq(False).all()
+        )
+        self.assertTrue((right_rows.matching_tolerance_s == .150).all())
 
 
 
