@@ -685,3 +685,118 @@ def participant_pair_counts(source_root: Path,
         for name, count in complete.subject_id.value_counts().items():
             counts[str(name)] = int(count)
     return counts
+
+
+# =================== 08. Same-Trial Auxiliary Source Extraction =============
+def extract_selected_auxiliary_sources_from_zip(
+    archive_path: Path, source_root: Path, selected_pairs,
+    *, sensors=("gcRight", "gcLeft", "conditions"),
+    max_member_bytes=250_000_000,
+    max_extract_bytes=750_000_000,
+) -> pd.DataFrame:
+    """Extract optional original same-trial streams for selected IMU/FP pairs.
+
+    Selection is established by Notebook 01's original IMU/FP pair IDs.
+    Extra streams never determine the cohort or become reference labels.
+    Missing optional streams are reported rather than fabricated; existing
+    source files are not overwritten when they match original ZIP size.
+    """
+    import shutil
+    import tempfile
+
+    archive_path, source_root = Path(archive_path), Path(source_root)
+    if not archive_path.is_file():
+        raise FileNotFoundError(f"Original subject archive missing: {archive_path}")
+    allowed = {"gcRight", "gcLeft", "conditions"}
+    requested = tuple(sensors)
+    if not requested or len(set(requested)) != len(requested) or (
+        set(requested) - allowed
+    ):
+        raise ValueError("Auxiliary sensors must be unique original stream names")
+    keys = ("subject_id", "session_id", "condition", "trial_id")
+    if isinstance(selected_pairs, pd.DataFrame):
+        if set(keys).difference(selected_pairs.columns):
+            raise ValueError("Selected pair identifiers missing")
+        entries = selected_pairs.to_dict("records")
+    else:
+        entries = list(selected_pairs)
+    identities = {
+        tuple(str(row[k]) for k in keys) for row in entries
+    }
+    if not identities or len(identities) != len(entries):
+        raise ValueError("Selected pairs missing or contain duplicate trial IDs")
+    if any(name != "treadmill" for _, _, name, _ in identities):
+        raise ValueError("Only the selected original treadmill pairs are supported")
+
+    original = {}
+    with zipfile.ZipFile(archive_path) as bundle:
+        for info in bundle.infolist():
+            if info.is_dir():
+                continue
+            raw_name = info.filename.replace("\\", "/")
+            parts = Path(raw_name).parts
+            if not parts or ".." in parts or Path(raw_name).is_absolute():
+                raise ValueError(f"Unsafe ZIP member: {raw_name}")
+            subjects = [i for i, part in enumerate(parts)
+                        if re.fullmatch(r"AB\d{2}", part, re.I)]
+            if len(subjects) != 1:
+                continue
+            rel = parts[subjects[0]:]
+            if len(rel) != 5:
+                continue
+            subject, session, condition, sensor, filename = rel
+            identity = (subject.upper(), session, condition.lower(),
+                        Path(filename).stem)
+            if (identity not in identities or sensor not in requested
+                    or Path(filename).suffix.lower() not in SUPPORTED):
+                continue
+            key = (identity, sensor)
+            if key in original:
+                raise ValueError(f"Duplicate original auxiliary stream: {key}")
+            if info.file_size > max_member_bytes:
+                raise ValueError(f"Oversize source auxiliary member: {raw_name}")
+            original[key] = (info, Path(*rel))
+        selected_size = sum(info.file_size for info, _ in original.values())
+        if selected_size > max_extract_bytes:
+            raise ValueError(
+                "Selected original auxiliary members exceed the "
+                "configured extraction budget"
+            )
+        results = []
+        for identity in sorted(identities):
+            for sensor in requested:
+                item = original.get((identity, sensor))
+                row = dict(zip(keys, identity))
+                row["sensor"] = sensor
+                row["source_status"] = "not_in_original_archive"
+                row["relative_path"] = ""
+                if item:
+                    info, relative = item
+                    destination = source_root / relative
+                    destination.parent.mkdir(parents=True, exist_ok=True)
+                    if (destination.is_file() and
+                            destination.stat().st_size == info.file_size):
+                        row["source_status"] = "already_present"
+                    else:
+                        with bundle.open(info) as source:
+                            with tempfile.NamedTemporaryFile(
+                                dir=destination.parent, delete=False
+                            ) as handle:
+                                temporary = Path(handle.name)
+                                try:
+                                    shutil.copyfileobj(source, handle)
+                                except BaseException:
+                                    temporary.unlink(missing_ok=True)
+                                    raise
+                        if temporary.stat().st_size != info.file_size:
+                            temporary.unlink(missing_ok=True)
+                            raise ValueError(
+                                f"Incomplete original source file: {relative}"
+                            )
+                        temporary.replace(destination)
+                        row["source_status"] = "extracted"
+                    row["relative_path"] = relative.as_posix()
+                results.append(row)
+    return pd.DataFrame(results, columns=list(keys) + [
+        "sensor", "source_status", "relative_path",
+    ])

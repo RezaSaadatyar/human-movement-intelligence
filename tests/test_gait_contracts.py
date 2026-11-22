@@ -25,7 +25,8 @@ from camargo_source import (inventory_files, paired_trials, validate_timebase,
     read_sensor_table,
     extract_pilot_trial_from_zip, locate_pilot_source_archive,
     download_mendeley_pilot_archive, PART1_V1_SUBJECT_ARCHIVES,
-    extract_selected_trial_pairs_from_zip, participant_pair_counts)
+    extract_selected_trial_pairs_from_zip, participant_pair_counts,
+    extract_selected_auxiliary_sources_from_zip)
 from gait_alignment import mapped_series, validated_overlap, candidate_channels, preview_channels
 from gait_reference import force_contact_events, reference_strides, stride_summary
 from gait_event_detectors import peak_events, candidate_features
@@ -122,7 +123,10 @@ class GaitContractTests(unittest.TestCase):
         cell = next(c for c in cells if c.get("id") == "c-01-pilot-source")
         source = "".join(cell["source"])
         self.assertIn("MAX_TRIAL_PAIRS_PER_PERSON = 3", source)
-        self.assertIn("MAX_NEW_SUBJECTS_PER_RUN = 3", source)
+        self.assertIn("MAX_NEW_SUBJECTS_PER_RUN = len(TARGET_SUBJECTS)", source)
+        self.assertIn("extract_selected_auxiliary_sources_from_zip(", source)
+        self.assertIn("01_auxiliary_source_inventory.csv", source)
+        self.assertNotIn("google.colab import drive", source)
         self.assertIn("DELETE_NEW_ARCHIVE_AFTER_EXTRACTION = True", source)
         self.assertIn("participant_pair_counts(", source)
         self.assertIn("shutil.disk_usage", source)
@@ -507,47 +511,77 @@ class GaitContractTests(unittest.TestCase):
             observed = pd.read_csv(output / "01_observed_columns.csv")
             self.assertEqual(set(observed.subject_id), {"AB06", "AB07"})
 
-    def test_notebook02_contract_review_is_descriptive_and_gated(self):
-        """Source-inspection run completes without invalid contact labels."""
+    def test_notebook02_requires_original_mat_before_source_outputs(self):
+        """Notebook 01 must prepare raw source before Notebook 02 writes."""
         path = REPO / "gait_analysis/code/notebooks" / (
             "02_alignment_and_event_reference.ipynb"
         )
-        notebook = json.loads(path.read_text(encoding="utf8"))
-        cell = {
-            c["id"]: c for c in notebook["cells"]
-            if c.get("cell_type") == "code"
-        }
-        with tempfile.TemporaryDirectory() as tmp:
-            output = Path(tmp)
-            rows = [{
+        cells = json.loads(path.read_text(encoding="utf8"))["cells"]
+        stage = next(c for c in cells if c.get("id") == "c-02-03")
+        with tempfile.TemporaryDirectory() as folder:
+            output = Path(folder)
+            pd.DataFrame([{
                 "subject_id": "AB06", "session_id": "session",
                 "condition": "treadmill", "trial_id": "trial",
-                "imu_path": "imu.csv", "fp_path": "fp.csv",
+                "imu_path": "AB06/session/treadmill/imu/trial.mat",
+                "fp_path": "AB06/session/treadmill/fp/trial.mat",
                 "candidate_pair": True,
-            }]
-            pd.DataFrame(rows).to_csv(
-                output / "01_candidate_pairs.csv", index=False
-            )
+            }]).to_csv(output / "01_candidate_pairs.csv", index=False)
             pd.DataFrame([
                 {"column": "foot_Gyro_Y", "modality": "imu"},
                 {"column": "Treadmill_R_vy", "modality": "fp"},
             ]).to_csv(output / "01_observed_columns.csv", index=False)
-            variables = {
+            context = {
                 "output_dir": output, "source_root": output,
                 "np": np, "pd": pd, "display": lambda *args: None,
             }
-            for stage in ("c-02-03", "c-02-04", "c-02-05", "c-02-06"):
-                exec(compile("".join(cell[stage]["source"]),
-                             stage, "exec"), variables)
-            review = pd.read_csv(output / "02_source_contract_review.csv")
-            self.assertEqual(len(review), 7)
-            self.assertIn("FORCE_UPWARD_SIGN", set(review.setting))
-            self.assertIn("FORCE_SCALE_TO_NEWTONS", set(review.setting))
-            self.assertFalse(variables["IMU_FORCE_TIMEBASE_CONFIRMED"])
-            self.assertFalse(variables["reference_ready"])
-            self.assertTrue(variables["eligible"].empty)
-            self.assertFalse((output / "02_reference_events.csv").exists())
-            self.assertFalse((output / "02_participant_roles.csv").exists())
+            with self.assertRaisesRegex(FileNotFoundError, "SAME runtime"):
+                exec(compile("".join(stage["source"]), "02", "exec"), context)
+            self.assertFalse(
+                (output / "02_source_contract_review.csv").exists()
+            )
+
+    def test_same_trial_auxiliary_extraction_is_selected_and_non_destructive(self):
+        """Only original matching gait-cycle/conditions source is extracted."""
+        with tempfile.TemporaryDirectory() as folder:
+            root = Path(folder)
+            archive = root / "AB06.zip"
+            base = "collection/AB06/s1/treadmill"
+            with zipfile.ZipFile(archive, "w") as zf:
+                for sensor in ("gcRight", "gcLeft", "conditions"):
+                    zf.writestr(f"{base}/{sensor}/t1.mat",
+                                f"real-{sensor}".encode("utf-8"))
+                    zf.writestr(f"{base}/{sensor}/t2.mat",
+                                b"unselected-source")
+                zf.writestr(f"{base}/imu/t1.mat", b"untouched-imu")
+            selected = [{
+                "subject_id": "AB06", "session_id": "s1",
+                "condition": "treadmill", "trial_id": "t1",
+            }]
+            dst = root / "raw"
+            result = extract_selected_auxiliary_sources_from_zip(
+                archive, dst, selected
+            )
+            self.assertEqual(len(result), 3)
+            self.assertTrue(result.source_status.eq("extracted").all())
+            for sensor in ("gcRight", "gcLeft", "conditions"):
+                self.assertTrue(
+                    (dst / "AB06/s1/treadmill" / sensor / "t1.mat").is_file()
+                )
+                self.assertFalse(
+                    (dst / "AB06/s1/treadmill" / sensor / "t2.mat").exists()
+                )
+            self.assertFalse((dst / "AB06/s1/treadmill/imu/t1.mat").exists())
+            second = extract_selected_auxiliary_sources_from_zip(
+                archive, dst, selected
+            )
+            self.assertTrue(second.source_status.eq("already_present").all())
+            with zipfile.ZipFile(root / "unsafe.zip", "w") as zf:
+                zf.writestr("../unsafe.txt", b"unsafe")
+            with self.assertRaisesRegex(ValueError, "Unsafe ZIP member"):
+                extract_selected_auxiliary_sources_from_zip(
+                    root / "unsafe.zip", dst, selected
+                )
 
     def test_notebook02_source_diagnostic_uses_real_recorded_fields(self):
         """Inspect genuine numeric source streams without fabricated events."""

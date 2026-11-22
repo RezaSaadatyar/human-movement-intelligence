@@ -417,81 +417,28 @@ class GaitSourceEvidenceTests(unittest.TestCase):
                     audit, intervals, pd.DataFrame(),
                 )
 
-    def test_current_commit_evidence_review_without_raw_mat(self):
-        """No original MAT or saved 02A/02A.1 data is rewritten by QC."""
-        import matplotlib
-        matplotlib.use("Agg")
-        import matplotlib.pyplot as plt
-
-        original = read_committed_source_evidence(
-            REPO, "02_candidate_contact_intervals.csv"
-        )
-        self.assertFalse(original.empty)
-        with self.assertRaisesRegex(ValueError, "Not a published"):
-            read_committed_source_evidence(REPO, "../unknown.csv")
-        notebook = REPO / "gait_analysis/code/notebooks" / (
+    def test_notebook02_requires_raw_source_for_current_quality_review(self):
+        """The source validation code must never fall back to old CSVs."""
+        path = REPO / "gait_analysis/code/notebooks" / (
             "02_alignment_and_event_reference.ipynb"
         )
-        cells = json.loads(notebook.read_text(encoding="utf-8"))["cells"]
+        cells = json.loads(path.read_text(encoding="utf-8"))["cells"]
         source = {c["id"]: "".join(c["source"]) for c in cells
                   if c.get("cell_type") == "code"}
-        pairs = pd.read_csv(REPO / "gait_analysis/output/01_candidate_pairs.csv")
-        pairs = pairs.loc[
-            pairs.candidate_pair & pairs.condition.eq("treadmill")
-        ].copy()
-        with tempfile.TemporaryDirectory() as folder:
-            out = Path(folder) / "output"
-            out.mkdir()
-            names = ["subject_id", "session_id", "condition", "trial_id"]
-            ctx = {
-                "original_mat_ready": False,
-                "root": REPO, "source_root": Path(folder) / "raw_absent",
-                "output_dir": out, "pairs": pairs, "pair_keys": names,
-                "pd": pd, "np": np, "plt": plt, "Path": Path,
-                "display": lambda *args: None,
-                "read_committed_source_evidence":
-                    read_committed_source_evidence,
-                "audit_original_gc_right": audit_original_gc_right,
-                "audit_contact_candidate_quality":
-                    audit_contact_candidate_quality,
-                "compare_original_phase_with_force_candidates":
-                    compare_original_phase_with_force_candidates,
-                "read_sensor_table": lambda path: (
-                    (_ for _ in ()).throw(
-                        AssertionError("No original MAT read permitted")
-                    )
-                ),
-                "validate_timebase": lambda *args: (
-                    (_ for _ in ()).throw(
-                        AssertionError("No original MAT timebase permitted")
-                    )
-                ),
-                "save_figure": lambda fig, path: fig.savefig(path),
-            }
-            try:
-                for stage in ("gait-02a-source-code",
-                              "gait-02a1-candidate-code",
-                              "gait-02a2-quality-code"):
-                    exec(compile(source[stage], stage, "exec"), ctx)
-            finally:
-                plt.close("all")
-            self.assertFalse(ctx["candidate_intervals"].empty)
-            self.assertFalse(ctx["quality_review"].empty)
-            self.assertEqual(len(list(out.glob("02_candidate_contact_*"))), 0)
-            self.assertFalse(
-                (out / "02_contract_evidence_by_trial.csv").exists()
-            )
-            self.assertTrue(
-                (out / "02_candidate_quality_review.csv").is_file()
-            )
-            self.assertTrue(
-                (out / "02_original_gcright_source_audit.csv").is_file()
-            )
-            self.assertTrue(
-                ctx["original_gc_audit"].source_status.eq(
-                    "original_file_unavailable"
-                ).all()
-            )
+        for stage in ("c-02-02", "gait-02a-source-code",
+                      "gait-02a1-candidate-code",
+                      "gait-02a2-quality-code"):
+            self.assertNotIn("read_committed_source_evidence", source[stage])
+            self.assertNotIn("download_mendeley_pilot_archive", source[stage])
+            self.assertNotIn("google.colab import drive", source[stage])
+        self.assertNotIn(
+            "RESTORE_ONE_ORIGINAL_GCRIGHT_ARCHIVE",
+            source["gait-02a2-quality-code"],
+        )
+        self.assertIn("audit_original_gc_right",
+                      source["gait-02a2-quality-code"])
+        self.assertIn("audit_contact_candidate_quality",
+                      source["gait-02a2-quality-code"])
 
     def test_notebook_extension_preserves_deferred_scientific_boundary(self):
         notebook = REPO / "gait_analysis/code/notebooks" / (
