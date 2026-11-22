@@ -35,6 +35,7 @@ from gait_reference import force_contact_events, reference_strides, stride_summa
 from gait_event_detectors import peak_events, candidate_features
 from gait_evaluation import (
     match_events, event_metrics, participant_roles, development_folds,
+    source_quality_sensitivity,
 )
 from gait_experiments import (
     save_prepared_trial, read_prepared_trial,
@@ -678,6 +679,43 @@ class GaitContractTests(unittest.TestCase):
         )
         self.assertEqual(len(rows), 1)
         self.assertTrue(np.isfinite(participant_selection_score(rows)))
+
+    def test_quality_flag_sensitivity_never_replaces_headline(self):
+        """Post-hoc QC sensitivity retains flagged trials in main scores."""
+        rows = []
+        for model in ("B0_fixed", "B1_tuned"):
+            for subject, trial, flagged, ref, match in [
+                ("AB06", "t1", True, 4, 2),
+                ("AB07", "t2", False, 5, 4),
+            ]:
+                rows.append({
+                    "subject_id": subject,
+                    "trial_key": trial,
+                    "review_source_quality": flagged,
+                    "model_id": model,
+                    "n_reference": ref,
+                    "n_predicted": 5,
+                    "n_matched": match,
+                    "timing_mae_ms": 35.0 if flagged else 14.0,
+                })
+        scores = pd.DataFrame(rows)
+        summary = source_quality_sensitivity(scores)
+        self.assertEqual(len(summary), 4)
+        full = summary.loc[
+            summary.source_quality_scenario.eq("all_source_trials")
+        ]
+        limited = summary.loc[
+            summary.source_quality_scenario.eq(
+                "unflagged_source_trials_only"
+            )
+        ]
+        self.assertTrue(full.n_trials.eq(2).all())
+        self.assertTrue(limited.n_trials.eq(1).all())
+        self.assertTrue(full.n_participants.eq(2).all())
+        self.assertTrue(limited.n_participants.eq(1).all())
+        self.assertFalse(summary.independent_force_reference_verified.any())
+        self.assertEqual(len(scores), 4)
+        self.assertEqual(int(scores.review_source_quality.sum()), 2)
 
     def test_source_phase_trial_cache_does_not_masquerade_as_force_reference(self):
         """Use a separate event-array key for processed source annotations."""
