@@ -445,6 +445,11 @@ def download_mendeley_pilot_archive(
     destination.mkdir(parents=True, exist_ok=True)
     target = destination / filename
     if target.is_file() and zipfile.is_zipfile(target):
+        if target.stat().st_size > max_bytes:
+            raise ValueError(
+                "Existing ZIP exceeds this version-specific size budget; "
+                "check for a mismatched published dataset version."
+            )
         print("Reusing existing valid Camargo ZIP:", target)
         return target
     if target.is_file():
@@ -945,8 +950,19 @@ def review_official_scripts_zip(archive_path: Path, *,
     if max_hits < 1 or max_hits > 250 or max_total_text_bytes < 1:
         raise ValueError("Invalid bounded script-inspection limits.")
     rows, total = [], 0
+    def provenance_priority(info):
+        name = info.filename.lower()
+        if name.endswith("/strides.m") or name == "strides.m":
+            return (0, name)
+        if any(word in name for word in (
+            "gait", "event", "heel", "strike", "force", "contact",
+            "sync", "process",
+        )):
+            return (1, name)
+        return (2, name)
+
     with zipfile.ZipFile(Path(archive_path)) as bundle:
-        for info in sorted(bundle.infolist(), key=lambda x: x.filename):
+        for info in sorted(bundle.infolist(), key=provenance_priority):
             if info.is_dir():
                 continue
             name = info.filename.replace("\\", "/")
