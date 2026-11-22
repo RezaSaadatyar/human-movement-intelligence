@@ -732,6 +732,7 @@ def compare_original_phase_with_force_candidates(
     force_candidates: pd.DataFrame,
     *,
     tolerance_s: float = 0.150,
+    candidate_channel: str = "Treadmill_R_vy",
 ) -> pd.DataFrame:
     """Descriptive, one-to-one clock comparison without fitting a time shift.
 
@@ -755,8 +756,10 @@ def compare_original_phase_with_force_candidates(
         raise ValueError("Force candidates missing required original fields")
     if not np.isfinite(tolerance_s) or tolerance_s <= 0:
         raise ValueError("Invalid fixed source-clock diagnostic tolerance")
+    if candidate_channel not in ("Treadmill_R_vy", "Treadmill_L_vy"):
+        raise ValueError("Unsupported source-labelled force channel.")
     forces = force_candidates.loc[
-        force_candidates.candidate_channel.eq("Treadmill_R_vy")
+        force_candidates.candidate_channel.eq(candidate_channel)
     ].copy()
     results = []
     for identity, group in phase_resets.groupby(keys, sort=True):
@@ -796,6 +799,102 @@ def compare_original_phase_with_force_candidates(
             "independent_reference_verified": False,
         })
     return pd.DataFrame(results, columns=columns)
+
+
+def compare_phase_by_recorded_force_side(
+    phase_resets: pd.DataFrame,
+    force_candidates: pd.DataFrame,
+    *,
+    tolerance_s: float = 0.150,
+) -> pd.DataFrame:
+    """Describe both treadmill sides against right gait-phase resets.
+
+    The same fixed clock tolerance is used for both sides. No channel is
+    selected or validated by this diagnostic; it is not a contact label.
+    """
+    sides = ("Treadmill_R_vy", "Treadmill_L_vy")
+    tables = []
+    for channel in sides:
+        table = compare_original_phase_with_force_candidates(
+            phase_resets, force_candidates, tolerance_s=tolerance_s,
+            candidate_channel=channel,
+        )
+        table.insert(4, "candidate_channel", channel)
+        tables.append(table)
+    return pd.concat(tables, ignore_index=True)
+
+
+def audit_source_contact_filter_loss(
+    pairs: pd.DataFrame, source_root: Path,
+    read_sensor_table: Callable, validate_timebase: Callable,
+    *, threshold_recorded: float = 20.0,
+    min_contact_s: float = 0.08, min_swing_s: float = 0.06,
+) -> pd.DataFrame:
+    """Count complete source-threshold segments removed by duration checks.
+
+    This analysis does not change the detector, threshold or reference
+    eligibility. All forces remain in original units pending calibration.
+    """
+    if (threshold_recorded <= 0 or min_contact_s <= 0 or min_swing_s <= 0
+            or not np.isfinite([threshold_recorded, min_contact_s,
+                                min_swing_s]).all()):
+        raise ValueError("Invalid descriptive contact-filter settings.")
+    keys = ("subject_id", "session_id", "condition", "trial_id")
+    if set(keys + ("fp_path", "candidate_pair")) - set(pairs.columns):
+        raise ValueError("Original trial registry lacks required fields.")
+    rows = []
+    for record in pairs.itertuples(index=False):
+        if record.condition != "treadmill" or not bool(record.candidate_pair):
+            continue
+        original = Path(source_root) / record.fp_path
+        if not original.is_file():
+            raise FileNotFoundError(f"Original source force missing: {original}")
+        force = read_sensor_table(original)
+        t = np.asarray(validate_timebase(force, "force"), dtype=float)
+        for channel in ("Treadmill_R_vy", "Treadmill_L_vy"):
+            if channel not in force.columns:
+                raise ValueError(f"Missing source force component: {channel}")
+            values = pd.to_numeric(force[channel], errors="raise").to_numpy(float)
+            if (len(t) != len(values) or len(t) < 4
+                    or not np.isfinite(t).all()
+                    or not np.isfinite(values).all()
+                    or (np.diff(t) <= 0).any()):
+                raise ValueError(f"Invalid force data for {channel}: {original}")
+            active = values >= threshold_recorded
+            changes = np.r_[
+                0, np.flatnonzero(np.diff(active.astype(np.int8))) + 1,
+                len(t),
+            ]
+            segments = [
+                (int(a), int(b), bool(active[a]))
+                for a, b in zip(changes[:-1], changes[1:])
+            ]
+            raw_complete = short_contact = short_swing = kept = 0
+            for i, (a, b, loaded) in enumerate(segments):
+                if not loaded or i == 0 or i == len(segments) - 1:
+                    continue
+                raw_complete += 1
+                previous, following = segments[i - 1], segments[i + 1]
+                duration = t[b - 1] - t[a]
+                pre = t[a] - t[previous[0]]
+                post = t[following[1] - 1] - t[following[0]]
+                if duration < min_contact_s:
+                    short_contact += 1
+                elif min(pre, post) < min_swing_s:
+                    short_swing += 1
+                else:
+                    kept += 1
+            rows.append({
+                **{k: str(getattr(record, k)) for k in keys},
+                "candidate_channel": channel,
+                "threshold_recorded_units": float(threshold_recorded),
+                "n_complete_loaded_segments": raw_complete,
+                "n_rejected_short_contact": short_contact,
+                "n_rejected_short_swing": short_swing,
+                "n_retained_candidates": kept,
+                "physical_reference_validated": False,
+            })
+    return pd.DataFrame(rows)
 
 
 # ==================== 08. Current Committed Source Evidence ===================
