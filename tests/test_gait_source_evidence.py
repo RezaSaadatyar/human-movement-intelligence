@@ -21,6 +21,7 @@ from gait_contract_evidence import (
     audit_original_gc_right, restore_selected_original_gc_right,
     compare_original_phase_with_force_candidates,
     compare_phase_by_recorded_force_side, audit_source_contact_filter_loss,
+    source_gap_stability_candidates, audit_source_gap_stability,
     read_committed_source_evidence,
 )
 
@@ -523,6 +524,80 @@ class GaitSourceEvidenceTests(unittest.TestCase):
         self.assertEqual(int(right_audit.n_retained_candidates), 1)
         self.assertEqual(len(saved), 1)
         self.assertFalse(audit.physical_reference_validated.any())
+
+
+    def test_source_gap_stability_bridges_only_bounded_internal_gaps(self):
+        """The source-only option retains the old zero-gap behaviour."""
+        times = np.arange(0.0, 4.0, 0.001)
+        force = np.zeros_like(times)
+        force[(times >= 0.5) & (times < 0.80)] = 500.0
+        force[(times >= 0.82) & (times < 1.15)] = 500.0
+        force[(times >= 2.0) & (times < 2.70)] = 500.0
+        original = recorded_unit_contact_candidates(
+            times, force, threshold_recorded=20.0
+        )
+        zero, zero_meta = source_gap_stability_candidates(
+            times, force, threshold_recorded=20.0,
+            max_internal_gap_s=0.0,
+        )
+        short, short_meta = source_gap_stability_candidates(
+            times, force, threshold_recorded=20.0,
+            max_internal_gap_s=0.01,
+        )
+        merged, merged_meta = source_gap_stability_candidates(
+            times, force, threshold_recorded=20.0,
+            max_internal_gap_s=0.03,
+        )
+        pd.testing.assert_frame_equal(original, zero)
+        self.assertEqual(zero_meta["n_internal_gaps_bridged"], 0)
+        self.assertEqual(len(original), 1)
+        self.assertEqual(len(short), 1)
+        self.assertEqual(short_meta["n_internal_gaps_bridged"], 0)
+        self.assertEqual(len(merged), 2)
+        self.assertEqual(merged_meta["n_internal_gaps_bridged"], 1)
+        self.assertEqual(merged_meta["n_samples_bridged"], 20)
+        self.assertTrue(np.allclose(
+            merged.candidate_onset_header, (0.5, 2.0), atol=0.001
+        ))
+        with self.assertRaisesRegex(ValueError, "non-negative"):
+            source_gap_stability_candidates(
+                times, force, max_internal_gap_s=-0.001,
+            )
+
+    def test_source_gap_audit_keeps_both_sides_and_unverified_status(self):
+        """Compare source-unit options without event-reference promotion."""
+        times = np.arange(0.0, 4.0, 0.001)
+        force = np.zeros_like(times)
+        force[(times >= 0.5) & (times < 0.80)] = 500.0
+        force[(times >= 0.82) & (times < 1.15)] = 500.0
+        force[(times >= 2.0) & (times < 2.70)] = 500.0
+        frame = pd.DataFrame({
+            "Header": times, "Treadmill_R_vy": force,
+            "Treadmill_L_vy": np.zeros_like(force),
+        })
+        with tempfile.TemporaryDirectory() as folder:
+            root = Path(folder)
+            (root / "source.mat").write_bytes(b"mock source")
+            pairs = pd.DataFrame([{
+                "subject_id": "AB06", "session_id": "s1",
+                "condition": "treadmill", "trial_id": "t1",
+                "fp_path": "source.mat", "candidate_pair": True,
+            }])
+            audit = audit_source_gap_stability(
+                pairs, root, lambda p: frame,
+                lambda table, _: table.Header.to_numpy(float),
+                gap_durations_s=(0.0, 0.01, 0.04),
+            )
+            self.assertEqual(len(audit), 6)
+            self.assertFalse(audit.physical_reference_validated.any())
+            right = audit.loc[
+                audit.candidate_channel.eq("Treadmill_R_vy")
+            ].sort_values("max_internal_gap_s")
+            self.assertEqual(right.n_candidate_contacts.tolist(), [1, 1, 2])
+            left = audit.loc[
+                audit.candidate_channel.eq("Treadmill_L_vy")
+            ]
+            self.assertTrue(left.n_candidate_contacts.eq(0).all())
 
 
 
