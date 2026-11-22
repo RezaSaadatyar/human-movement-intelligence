@@ -693,7 +693,7 @@ class GaitContractTests(unittest.TestCase):
             ]).to_csv(base / "01_observed_columns.csv", index=False)
             saved = []
             variables = {
-                "np": np, "pd": pd, "plt": plt,
+                "np": np, "pd": pd, "plt": plt, "Path": Path,
                 "display": lambda *args: None,
                 "output_dir": base, "source_root": raw,
                 "read_sensor_table": read_sensor_table,
