@@ -985,3 +985,270 @@ def review_official_scripts_zip(archive_path: Path, *,
         "archive_name", "source_path", "line_number", "matched_terms",
         "source_excerpt", "provenance_verified",
     ])
+
+
+# ================= 10. Optional Bounded Remote ZIP Access ===================
+class VerifiedHTTPRangeZIP:
+    """Seekable, bounded Range reader; fails closed if the server ignores Range.
+
+    This reader is only an opt-in acquisition optimisation, not a source
+    synchronisation, sensor-verification or dataset-version selector. A
+    small cache avoids issuing one request per small ZIP header read.
+    """
+
+    def __init__(self, url: str, *, opener=None, block_bytes=1_048_576,
+                 cache_blocks=6, max_archive_bytes=1_600_000_000,
+                 max_transfer_bytes=650_000_000):
+        from collections import OrderedDict
+        from urllib.parse import urlsplit
+
+        parsed = urlsplit(str(url))
+        if (parsed.scheme != "https" or not parsed.netloc
+                or parsed.username or parsed.password):
+            raise ValueError("Remote Camargo ZIP requires a trusted HTTPS URL.")
+        if (block_bytes < 65536 or block_bytes > 4_194_304
+                or cache_blocks < 1 or cache_blocks > 16
+                or max_archive_bytes <= 0 or max_transfer_bytes <= 0):
+            raise ValueError("Unsafe remote ZIP resource bounds.")
+        self.url = str(url)
+        self._opener = opener
+        self.block_bytes = int(block_bytes)
+        self.cache_blocks = int(cache_blocks)
+        self.max_archive_bytes = int(max_archive_bytes)
+        self.max_transfer_bytes = int(max_transfer_bytes)
+        self._cache = OrderedDict()
+        self.n_requests = 0
+        self.n_transferred_bytes = 0
+        self.position = 0
+        # Real one-byte probe; HTTP 200 is not interpreted as Range support.
+        response, _, total = self._request(0, 0)
+        if len(response) != 1 or total > max_archive_bytes:
+            raise ValueError("Remote ZIP size exceeds bounded published archive.")
+        self.length = total
+
+    def _request(self, first: int, last: int):
+        from urllib.request import Request, urlopen
+        import re as regex
+
+        if first < 0 or last < first:
+            raise ValueError("Invalid remote byte interval.")
+        expected = last - first + 1
+        if expected > self.max_transfer_bytes - self.n_transferred_bytes:
+            raise ValueError("Remote ZIP byte-transfer budget exhausted.")
+        request = Request(self.url, headers={
+            "User-Agent": "HumanMovementIntelligence/1.0",
+            "Range": f"bytes={first}-{last}",
+            "Accept-Encoding": "identity",
+        })
+        opener = self._opener or urlopen
+        with opener(request, timeout=45) as response:
+            code = getattr(response, "status", None)
+            if code is None and hasattr(response, "getcode"):
+                code = response.getcode()
+            content_range = response.headers.get("Content-Range", "")
+            match = regex.fullmatch(
+                r"bytes (\d+)-(\d+)/(\d+)", content_range.strip()
+            )
+            if (code != 206 or match is None
+                    or int(match[1]) != first or int(match[2]) != last
+                    or int(match[3]) <= 0):
+                raise RuntimeError(
+                    "HTTP Range is not verified; refuse remote partial ZIP. "
+                    "Use the existing full-subject ZIP fallback."
+                )
+            content = response.read(expected + 1)
+        if len(content) != expected:
+            raise RuntimeError("Remote Range response was truncated or oversized.")
+        self.n_requests += 1
+        self.n_transferred_bytes += len(content)
+        return content, expected, int(match[3])
+
+    def _block(self, index: int):
+        if index in self._cache:
+            self._cache.move_to_end(index)
+            return self._cache[index]
+        first = index * self.block_bytes
+        last = min(self.length, first + self.block_bytes) - 1
+        content, _, total = self._request(first, last)
+        if total != self.length:
+            raise RuntimeError("Remote ZIP length changed during acquisition.")
+        self._cache[index] = content
+        if len(self._cache) > self.cache_blocks:
+            self._cache.popitem(last=False)
+        return content
+
+    def seekable(self):
+        return True
+
+    def readable(self):
+        return True
+
+    def tell(self):
+        return self.position
+
+    def seek(self, offset: int, whence=0):
+        if whence == 0:
+            position = offset
+        elif whence == 1:
+            position = self.position + offset
+        elif whence == 2:
+            position = self.length + offset
+        else:
+            raise ValueError("Invalid ZIP seek mode.")
+        if position < 0:
+            raise ValueError("Negative ZIP seek.")
+        self.position = int(position)
+        return self.position
+
+    def read(self, size=-1):
+        if self.position >= self.length:
+            return b""
+        if size is None or size < 0:
+            size = self.length - self.position
+        size = min(int(size), self.length - self.position)
+        parts = []
+        while size:
+            index = self.position // self.block_bytes
+            block = self._block(index)
+            within = self.position % self.block_bytes
+            chunk = block[within:within + size]
+            if not chunk:
+                raise RuntimeError("Remote ZIP returned an empty cached block.")
+            parts.append(chunk)
+            consumed = len(chunk)
+            self.position += consumed
+            size -= consumed
+        return b"".join(parts)
+
+    def close(self):
+        self._cache.clear()
+
+
+def acquire_selected_camargo_trials_by_http_range(
+    subject_id: str, source_root: Path, *,
+    required_streams=("imu", "fp", "gcRight", "gcLeft", "conditions"),
+    max_pairs=3, dataset_id="fcgm3chfff", version=1,
+    opener=None, max_member_bytes=250_000_000,
+    max_extract_bytes=750_000_000, max_transfer_bytes=650_000_000,
+) -> tuple[pd.DataFrame, dict]:
+    """Acquire selected original MAT entries only if genuine Range works.
+
+    An unsupported server raises before downloading the subject archive.
+    Notebook 01 may then use its existing verified whole-ZIP fallback.
+    """
+    import shutil
+    import tempfile
+    from urllib.parse import urlsplit
+
+    subject_id = str(subject_id).upper()
+    if (not re.fullmatch(r"AB\d{2}", subject_id)
+            or f"{subject_id}.zip" not in PART1_V1_SUBJECT_ARCHIVES
+            or dataset_id != "fcgm3chfff" or version != 1):
+        raise ValueError("Unsupported pinned Camargo subject/version.")
+    if max_pairs < 1 or max_pairs > 5:
+        raise ValueError("Maximum selected paired trials must be 1..5.")
+    meta = _mendeley_public_file_metadata(
+        f"{subject_id}.zip", dataset_id, version, opener=opener
+    )
+    details = meta.get("content_details") or {}
+    url = details.get("download_url") or meta.get("download_url")
+    if not url:
+        file_id = meta.get("id")
+        if not file_id:
+            raise ValueError("Official Mendeley file ID not available.")
+        url = (f"https://api.data.mendeley.com/datasets/{dataset_id}/files/"
+               f"{file_id}/file_downloaded?version={version}")
+    target = urlsplit(url)
+    if target.scheme != "https" or target.username or target.password:
+        raise ValueError("Publisher supplied an unsafe download URL.")
+    reader = VerifiedHTTPRangeZIP(
+        url, opener=opener, max_transfer_bytes=max_transfer_bytes
+    )
+    source_root = Path(source_root)
+    report = {}
+    try:
+        with zipfile.ZipFile(reader) as bundle:
+            manifest = choose_archive_trial_manifest(
+                inspect_archive_trial_manifest(
+                    bundle, subject_id, condition="treadmill"
+                ), required_streams=required_streams, max_pairs=max_pairs
+            )
+            chosen = manifest.loc[manifest.selected].copy()
+            if len(chosen) != max_pairs:
+                raise ValueError(
+                    f"Only {len(chosen)} metadata-complete paired trials "
+                    f"were available for {subject_id}; expected {max_pairs}."
+                )
+            entries = {}
+            selected_keys = set(tuple(str(v) for v in (
+                r.subject_id, r.session_id, r.condition, r.trial_id
+            )) for r in chosen.itertuples(index=False))
+            for info in bundle.infolist():
+                if info.is_dir():
+                    continue
+                normalized = info.filename.replace("\\", "/")
+                parts = Path(normalized).parts
+                if not parts or ".." in parts or Path(normalized).is_absolute():
+                    raise ValueError("Unsafe original Mendeley archive path.")
+                markers = [i for i, part in enumerate(parts)
+                           if part.upper() == subject_id]
+                if len(markers) != 1:
+                    continue
+                rel = parts[markers[0]:]
+                if (len(rel) != 5
+                        or Path(rel[-1]).suffix.lower() not in SUPPORTED):
+                    continue
+                key = (rel[0].upper(), rel[1], rel[2].lower(),
+                       Path(rel[4]).stem)
+                if key not in selected_keys or rel[3] not in required_streams:
+                    continue
+                slot = (key, rel[3])
+                if slot in entries:
+                    raise ValueError(f"Ambiguous required source entry: {slot}")
+                if info.file_size > max_member_bytes:
+                    raise ValueError(f"Oversized original source: {normalized}")
+                entries[slot] = (info, Path(*rel))
+            if (len(entries) != len(selected_keys) * len(required_streams)
+                    or sum(info.file_size for info, _ in entries.values())
+                       > max_extract_bytes):
+                raise ValueError("Required trial streams are absent or over budget.")
+            saved = []
+            for (key, sensor), (info, relative) in sorted(entries.items()):
+                destination = source_root / relative
+                destination.parent.mkdir(parents=True, exist_ok=True)
+                if destination.is_file() and destination.stat().st_size == info.file_size:
+                    status = "already_present"
+                else:
+                    with bundle.open(info) as source:
+                        with tempfile.NamedTemporaryFile(
+                            dir=destination.parent, delete=False
+                        ) as handle:
+                            temp = Path(handle.name)
+                            try:
+                                shutil.copyfileobj(source, handle)
+                            except BaseException:
+                                temp.unlink(missing_ok=True)
+                                raise
+                    if temp.stat().st_size != info.file_size:
+                        temp.unlink(missing_ok=True)
+                        raise ValueError(f"Truncated original member: {relative}")
+                    temp.replace(destination)
+                    status = "downloaded_selected_bytes"
+                saved.append({
+                    "subject_id": key[0], "session_id": key[1],
+                    "condition": key[2], "trial_id": key[3],
+                    "sensor": sensor, "relative_path": relative.as_posix(),
+                    "source_status": status,
+                })
+            report = {
+                "archive_total_bytes": reader.length,
+                "range_requests": reader.n_requests,
+                "range_transferred_bytes": reader.n_transferred_bytes,
+                "selected_trials": len(chosen),
+                "selected_streams": len(saved),
+                "selection_is_model_independent": True,
+            }
+        return pd.DataFrame(saved), report
+    finally:
+        reader.close()
+
