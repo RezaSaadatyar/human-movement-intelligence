@@ -594,7 +594,7 @@ class GaitContractTests(unittest.TestCase):
             if c.get("id") == "c-02-03"
         ))
         first = source.index(
-            "# ------------- 1B. Check Original Auxiliary Source Paths"
+            "# ----------------- 1B. Check Original Auxiliary Source Paths -----------------"
         )
         last = source.index("imu_names = set(", first)
         audited = source[first:last]
