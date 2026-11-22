@@ -489,6 +489,213 @@ def plot_source_gap_stability_probe(
     return target
 
 
+def _fixed_source_clock_proximity(
+    phase_header: np.ndarray, force_onsets_header: np.ndarray,
+    *, tolerance_s: float,
+) -> dict:
+    """Descriptive monotonic one-to-one proximity, with no fitted offset."""
+    phase = np.sort(np.asarray(phase_header, dtype=float))
+    onset = np.sort(np.asarray(force_onsets_header, dtype=float))
+    if (phase.ndim != 1 or onset.ndim != 1
+            or not np.isfinite(phase).all()
+            or not np.isfinite(onset).all()
+            or not np.isfinite(tolerance_s) or tolerance_s <= 0):
+        raise ValueError("Invalid source-clock comparison inputs.")
+    i = j = 0
+    differences_ms = []
+    while i < len(phase) and j < len(onset):
+        difference = float(phase[i] - onset[j])
+        if abs(difference) <= tolerance_s:
+            differences_ms.append(1000.0 * difference)
+            i += 1
+            j += 1
+        elif difference < -tolerance_s:
+            i += 1
+        else:
+            j += 1
+    measured = np.asarray(differences_ms, dtype=float)
+    return {
+        "n_phase_wrap_candidates": int(len(phase)),
+        "n_recorded_force_candidates": int(len(onset)),
+        "n_time_near_matches": int(measured.size),
+        "n_matches_within_25ms": int((np.abs(measured) <= 25).sum()),
+        "n_matches_within_50ms": int((np.abs(measured) <= 50).sum()),
+        "n_unmatched_phase_wraps": int(len(phase) - measured.size),
+        "n_unmatched_force_candidates": int(len(onset) - measured.size),
+        "median_abs_time_difference_ms": (
+            float(np.median(np.abs(measured))) if measured.size else np.nan
+        ),
+        "p95_abs_time_difference_ms": (
+            float(np.percentile(np.abs(measured), 95))
+            if measured.size else np.nan
+        ),
+        "median_signed_phase_minus_force_ms": (
+            float(np.median(measured)) if measured.size else np.nan
+        ),
+        "phase_near_match_fraction": (
+            float(measured.size / len(phase)) if len(phase) else np.nan
+        ),
+    }
+
+
+def audit_source_gap_phase_timing(
+    pairs: pd.DataFrame, source_root: Path,
+    read_sensor_table: Callable, validate_timebase: Callable,
+    original_phase_resets: pd.DataFrame,
+    *, gap_durations_s=(0.0, 0.01, 0.02, 0.04, 0.06),
+    threshold_recorded=20.0, tolerance_s=0.150,
+) -> pd.DataFrame:
+    """Compare every gap option with source phase wraps, never ground truth.
+
+    This is a clock/provenance diagnostic, NOT independent event accuracy.
+    It never fits a shift, selects a threshold, assigns eligibility or
+    creates IMU-model labels. All trial/side/gap results remain visible.
+    """
+    keys = ("subject_id", "session_id", "condition", "trial_id")
+    required = set(keys + ("fp_path", "candidate_pair"))
+    if required - set(pairs.columns):
+        raise ValueError("Missing selected force-source trial keys.")
+    if (original_phase_resets.empty or
+            set(keys + ("phase_wrap_header",))
+            - set(original_phase_resets.columns)):
+        raise ValueError("Original same-trial phase wraps are required.")
+    if (not gap_durations_s or len(set(gap_durations_s)) != len(gap_durations_s)
+            or any(not np.isfinite(g) or g < 0 for g in gap_durations_s)):
+        raise ValueError("Invalid gap-sensitivity grid.")
+    if not np.isfinite(tolerance_s) or tolerance_s <= 0:
+        raise ValueError("Invalid fixed matching tolerance.")
+    phases = original_phase_resets.copy()
+    for key in keys:
+        phases[key] = phases[key].astype(str)
+    phases["phase_wrap_header"] = pd.to_numeric(
+        phases.phase_wrap_header, errors="raise"
+    )
+    if not np.isfinite(phases.phase_wrap_header.to_numpy(float)).all():
+        raise ValueError("Non-finite original phase timestamps.")
+    grouped = {
+        identity: group.phase_wrap_header.to_numpy(float)
+        for identity, group in phases.groupby(list(keys), sort=False)
+    }
+    records = []
+    identities = set()
+    for row in pairs.itertuples(index=False):
+        if row.condition != "treadmill" or not bool(row.candidate_pair):
+            continue
+        identity = tuple(str(getattr(row, key)) for key in keys)
+        if identity in identities:
+            raise ValueError("Duplicate original force trial identity.")
+        identities.add(identity)
+        phase = grouped.get(identity)
+        if phase is None or not len(phase):
+            raise ValueError(f"Missing original phase resets for {identity}.")
+        path = Path(source_root) / row.fp_path
+        if not path.is_file():
+            raise FileNotFoundError(f"Original force MAT unavailable: {path}")
+        table = read_sensor_table(path)
+        time_s = np.asarray(
+            validate_timebase(table, "force"), dtype=float
+        )
+        if (np.min(phase) < time_s[0] - tolerance_s
+                or np.max(phase) > time_s[-1] + tolerance_s):
+            raise ValueError(
+                f"Original phase timestamps outside trial force clock: {identity}"
+            )
+        for channel in ("Treadmill_R_vy", "Treadmill_L_vy"):
+            if channel not in table:
+                raise ValueError(f"Missing source force channel: {channel}")
+            values = pd.to_numeric(
+                table[channel], errors="raise"
+            ).to_numpy(float)
+            for gap_s in gap_durations_s:
+                intervals, _ = source_gap_stability_candidates(
+                    time_s, values,
+                    threshold_recorded=threshold_recorded,
+                    max_internal_gap_s=float(gap_s),
+                )
+                comparison = _fixed_source_clock_proximity(
+                    phase, intervals.candidate_onset_header.to_numpy(float),
+                    tolerance_s=tolerance_s,
+                )
+                records.append({
+                    **dict(zip(keys, identity)),
+                    "candidate_channel": channel,
+                    "max_internal_gap_s": float(gap_s),
+                    "threshold_recorded_units": float(threshold_recorded),
+                    "matching_tolerance_s": float(tolerance_s),
+                    **comparison,
+                    "independent_reference_verified": False,
+                    "analysis_role": "descriptive source-clock QC only",
+                })
+    return pd.DataFrame.from_records(records)
+
+
+def plot_original_gap_phase_probe(
+    force_table: pd.DataFrame, time_s,
+    original_phase_header, out_path: Path,
+    *, channel="Treadmill_R_vy", threshold_recorded=20.0,
+    gap_durations_s=(0.0, 0.02, 0.06), window_s=8.0,
+) -> Path:
+    """Display actual original force, phase wraps and gap-onset candidates."""
+    import matplotlib.pyplot as plt
+
+    if channel not in force_table:
+        raise ValueError(f"Missing plotted original force channel: {channel}")
+    t = np.asarray(time_s, dtype=float)
+    phase = np.sort(np.asarray(original_phase_header, dtype=float))
+    values = pd.to_numeric(
+        force_table[channel], errors="raise"
+    ).to_numpy(float)
+    if (t.ndim != 1 or t.size != len(values) or t.size < 4
+            or not np.isfinite(t).all() or not np.isfinite(values).all()
+            or (np.diff(t) <= 0).any() or not np.isfinite(phase).all()
+            or not len(phase) or not np.isfinite(window_s) or window_s <= 0):
+        raise ValueError("Invalid original source plot inputs.")
+    start = max(float(t[0]), float(phase[0]) - 0.75)
+    if start + window_s > t[-1]:
+        start = max(float(t[0]), float(t[-1]) - window_s)
+    stop = start + window_s
+    use = (t >= start) & (t <= stop)
+    fig, (ax, event_ax) = plt.subplots(
+        2, 1, figsize=(12, 6.5), sharex=True, layout="constrained",
+        gridspec_kw={"height_ratios": [3, 2]},
+    )
+    ax.plot(t[use], values[use], lw=0.8, label=channel)
+    ax.axhline(threshold_recorded, ls="--", lw=0.9,
+               label="Exploratory threshold (recorded units)")
+    ax.set_ylabel("Source recorded units")
+    ax.legend(loc="upper right", fontsize=8)
+    ax.grid(alpha=0.2)
+    phase_shown = phase[(phase >= start) & (phase <= stop)]
+    event_ax.vlines(phase_shown, 3.8, 4.2, linewidth=1.2,
+                    label="Original gcRight phase wrap")
+    yticks = [4.0]
+    labels = ["gcRight phase"]
+    for pos, gap_s in enumerate(gap_durations_s):
+        events, _ = source_gap_stability_candidates(
+            t, values, threshold_recorded=threshold_recorded,
+            max_internal_gap_s=float(gap_s),
+        )
+        onset = events.candidate_onset_header.to_numpy(float)
+        onset = onset[(onset >= start) & (onset <= stop)]
+        y = float(3 - pos)
+        event_ax.vlines(onset, y - 0.18, y + 0.18, linewidth=1.2)
+        yticks.append(y)
+        labels.append(f"Gap <= {1000 * gap_s:g} ms")
+    event_ax.set_yticks(yticks, labels)
+    event_ax.set_ylim(-0.5, 4.5)
+    event_ax.set_ylabel("Source event markers")
+    event_ax.set_xlabel("Original Header time (source-reported seconds)")
+    event_ax.grid(alpha=0.2, axis="x")
+    ax.set_title(
+        "Actual force and source gait-phase proximity; NOT verified IC accuracy"
+    )
+    out_path = Path(out_path)
+    out_path.parent.mkdir(parents=True, exist_ok=True)
+    fig.savefig(out_path, dpi=145, bbox_inches="tight")
+    plt.close(fig)
+    return out_path
+
+
 def audit_recorded_force_candidates(pairs: pd.DataFrame, source_root: Path,
                                     read_sensor_table: Callable,
                                     validate_timebase: Callable,
