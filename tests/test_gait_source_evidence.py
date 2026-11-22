@@ -110,7 +110,7 @@ class GaitSourceEvidenceTests(unittest.TestCase):
             "".join(cell["source"]) for cell in cells
             if cell.get("id") == "gait-02a-source-code"
         )
-        heading = "# --------------- 3. Summarise Observed Force-Channel Evidence"
+        heading = "# ------------------ 3. Summarise Measured Source Channels"
         self.assertIn(heading, source)
         snippet = source[source.index(heading):]
         with tempfile.TemporaryDirectory() as folder:
