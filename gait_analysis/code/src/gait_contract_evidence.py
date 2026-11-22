@@ -397,7 +397,16 @@ def audit_recorded_force_candidates(pairs: pd.DataFrame, source_root: Path,
                 "physical_reference_validated": False,
                 "inspection_note": str(error),
             })
-    return pd.DataFrame.from_records(records), pd.DataFrame.from_records(events)
+    # Preserve the event schema even when source files are unavailable.
+    # An empty table must never be interpreted as verified zero contacts.
+    event_fields = [
+        "subject_id", "session_id", "condition", "trial_id",
+        "candidate_channel", "threshold_recorded_units",
+        "candidate_onset_header", "candidate_offset_header",
+        "physical_reference_validated",
+    ]
+    return (pd.DataFrame.from_records(records),
+            pd.DataFrame.from_records(events, columns=event_fields))
 
 
 def plot_recorded_force_candidate_probe(
@@ -458,6 +467,14 @@ def audit_contact_candidate_quality(
         "threshold_recorded_units", "n_contact_candidates",
         "inspection_status",
     ])
+    if trial_audit.empty or candidate_intervals.empty:
+        raise ValueError(
+            "No usable source-contact evidence: original Camargo MAT files "
+            "may be missing from this Colab runtime. Do not overwrite "
+            "previously published 02_* source outputs with empty tables. "
+            "Use the current committed evidence-only review or restore "
+            "the original selected IMU/force MAT pairs."
+        )
     if required.difference(trial_audit.columns):
         raise ValueError("Candidate audit is missing required source columns")
     expected = set(columns + [
@@ -779,3 +796,60 @@ def compare_original_phase_with_force_candidates(
             "independent_reference_verified": False,
         })
     return pd.DataFrame(results, columns=columns)
+
+
+# ==================== 08. Current Committed Source Evidence ===================
+
+def read_committed_source_evidence(
+    repo_root: Path,
+    filename: str,
+) -> pd.DataFrame:
+    """Read the current Git HEAD's published stage-02 CSV without modifying it.
+
+    Use only for a clearly labelled evidence-only quality review when
+    original MAT recordings are absent from an ephemeral Colab runtime.
+    This is NOT a historical fallback, fresh source extraction, or a
+    replacement for original data in force-reference construction.
+    The current checked-out commit is the provenance of every read.
+    """
+    import subprocess
+    from io import BytesIO
+
+    allowed = {
+        "02_contract_evidence_by_trial.csv",
+        "02_force_component_evidence.csv",
+        "02_force_channel_screening.csv",
+        "02_candidate_contact_trial_audit.csv",
+        "02_candidate_contact_intervals.csv",
+    }
+    if filename not in allowed:
+        raise ValueError(f"Not a published source-evidence input: {filename}")
+    repo_root = Path(repo_root)
+    relative = f"gait_analysis/output/{filename}"
+    try:
+        fetched = subprocess.run(
+            ["git", "show", f"HEAD:{relative}"],
+            cwd=repo_root, capture_output=True, check=True,
+        )
+    except (OSError, subprocess.CalledProcessError) as error:
+        raise FileNotFoundError(
+            f"Cannot read published {relative} at current local Git HEAD. "
+            "Synchronise the repository without discarding local edits, "
+            "or restore original MAT recordings before retrying."
+        ) from error
+    if not fetched.stdout or len(fetched.stdout) > 8_000_000:
+        raise ValueError(f"Unexpected published CSV size for {filename}")
+    try:
+        evidence = pd.read_csv(BytesIO(fetched.stdout))
+    except (pd.errors.EmptyDataError, UnicodeError) as error:
+        raise ValueError(
+            f"Current committed {filename} is not a readable source CSV"
+        ) from error
+    if evidence.empty:
+        raise ValueError(
+            f"Current committed {filename} has no scientific evidence rows"
+        )
+    for field in ("subject_id", "session_id", "trial_id", "condition"):
+        if field in evidence.columns:
+            evidence[field] = evidence[field].astype(str)
+    return evidence
