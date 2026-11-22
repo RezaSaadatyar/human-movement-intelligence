@@ -438,3 +438,273 @@ def plot_recorded_force_candidate_probe(
     fig.savefig(output, dpi=130, bbox_inches="tight")
     plt.close(fig)
     return output
+
+
+# ======================== 07. Reference Quality Review =======================
+
+def audit_contact_candidate_quality(
+    trial_audit: pd.DataFrame,
+    candidate_intervals: pd.DataFrame,
+    paired_timebases: pd.DataFrame,
+) -> pd.DataFrame:
+    """Review per-trial sensitivity without treating source units as newtons.
+
+    Flags describe evidence for source inspection, not automatic exclusions,
+    selected parameters or force-reference approval.
+    """
+    keys = ["subject_id", "session_id", "condition", "trial_id"]
+    columns = keys + ["candidate_channel"]
+    required = set(columns + [
+        "threshold_recorded_units", "n_contact_candidates",
+        "inspection_status",
+    ])
+    if required.difference(trial_audit.columns):
+        raise ValueError("Candidate audit is missing required source columns")
+    expected = set(columns + [
+        "candidate_onset_header", "candidate_offset_header",
+        "physical_reference_validated",
+    ])
+    if expected.difference(candidate_intervals.columns):
+        raise ValueError("Candidate intervals are missing source columns")
+    if set(keys + ["overlap_header"]).difference(paired_timebases.columns):
+        raise ValueError("Trial timebase metadata missing")
+    if trial_audit.duplicated(columns + [
+        "threshold_recorded_units"
+    ]).any():
+        raise ValueError("Duplicate source trial/side/threshold entries")
+    if paired_timebases.duplicated(keys).any():
+        raise ValueError("Duplicate source trial timebase entries")
+    if not trial_audit.inspection_status.eq("inspected").all():
+        raise ValueError("Uninspected source trial needs separate review")
+    if candidate_intervals.physical_reference_validated.astype(
+        str
+    ).str.lower().eq("true").any():
+        raise ValueError("Source candidate unexpectedly claims verification")
+    audit = trial_audit.copy()
+    audit["threshold_recorded_units"] = pd.to_numeric(
+        audit.threshold_recorded_units, errors="raise"
+    )
+    audit["n_contact_candidates"] = pd.to_numeric(
+        audit.n_contact_candidates, errors="raise"
+    )
+    if (audit.n_contact_candidates.isna().any()
+            or (audit.n_contact_candidates < 0).any()):
+        raise ValueError("Invalid source contact counts")
+    count_table = audit.pivot(
+        index=columns,
+        columns="threshold_recorded_units",
+        values="n_contact_candidates",
+    ).reset_index()
+    for level in (10.0, 20.0, 30.0):
+        if level not in count_table.columns:
+            raise ValueError(f"Missing exploratory threshold {level}")
+    intervals = candidate_intervals.copy()
+    for field in ("candidate_onset_header", "candidate_offset_header"):
+        intervals[field] = pd.to_numeric(intervals[field], errors="raise")
+    measured_times = intervals[[
+        "candidate_onset_header", "candidate_offset_header"
+    ]].to_numpy(float)
+    if (not np.isfinite(measured_times).all() or
+            (measured_times[:, 1] <= measured_times[:, 0]).any()):
+        raise ValueError("Invalid candidate onset/offset times")
+    intervals["contact_duration_header"] = (
+        intervals.candidate_offset_header -
+        intervals.candidate_onset_header
+    )
+    measured = intervals.groupby(columns, dropna=False).agg(
+        n_saved_candidates=("candidate_onset_header", "size"),
+        median_contact_duration_header=("contact_duration_header", "median"),
+    ).reset_index()
+    quality = count_table.merge(
+        measured, on=columns, how="left", validate="one_to_one"
+    )
+    quality["n_saved_candidates"] = (
+        quality.n_saved_candidates.fillna(0).astype(int)
+    )
+    if not np.array_equal(
+        quality[20.0].to_numpy(int),
+        quality.n_saved_candidates.to_numpy(int),
+    ):
+        raise ValueError("Saved 20-unit candidate rows disagree with trial audit")
+    durations = paired_timebases[keys + ["overlap_header"]].copy()
+    durations["overlap_header"] = pd.to_numeric(
+        durations.overlap_header, errors="raise"
+    )
+    if (not np.isfinite(durations.overlap_header).all()
+            or (durations.overlap_header <= 0).any()):
+        raise ValueError("Non-positive original trial overlap")
+    quality = quality.merge(durations, on=keys, validate="many_to_one")
+    quality["candidates_per_minute"] = (
+        60 * quality[20.0] / quality.overlap_header
+    )
+    quality["count_ratio_30_over_10"] = (
+        (quality[30.0] + 1) / (quality[10.0] + 1)
+    )
+    quality["threshold_sensitive_review"] = (
+        quality.count_ratio_30_over_10 > 1.5
+    )
+    quality["low_yield_review"] = quality.candidates_per_minute < 10
+    quality["physical_reference_validated"] = False
+    quality["role"] = "descriptive QC only; not reference exclusion"
+    return quality.sort_values(columns, kind="stable").reset_index(drop=True)
+
+
+def audit_original_gc_right(
+    pairs: pd.DataFrame,
+    source_root: Path,
+    read_sensor_table: Callable,
+    validate_timebase: Callable,
+) -> tuple[pd.DataFrame, pd.DataFrame]:
+    """Inspect existing original gcRight streams and possible phase resets.
+
+    No download, fitted time shift or automatic acceptance of original gait
+    cycle phase as an independent force-derived ground-truth event.
+    """
+    keys = ["subject_id", "session_id", "condition", "trial_id"]
+    if set(keys + ["fp_path", "candidate_pair"]) - set(pairs.columns):
+        raise ValueError("Source pairs missing identifiers or force paths")
+    rows, resets = [], []
+    for row in pairs.itertuples(index=False):
+        if not (bool(row.candidate_pair) and row.condition == "treadmill"):
+            continue
+        identity = {k: str(getattr(row, k)) for k in keys}
+        fp_rel = Path(row.fp_path)
+        gc_rel = fp_rel.parent.parent / "gcRight" / fp_rel.name
+        gc_path = Path(source_root) / gc_rel
+        record = {
+            **identity, "gc_right_path": str(gc_rel),
+            "source_status": "original_file_unavailable",
+            "observed_columns": "",
+            "n_phase_wrap_candidates": 0,
+            "independent_reference_verified": False,
+        }
+        if gc_path.is_file():
+            try:
+                data = read_sensor_table(gc_path)
+                t = np.asarray(validate_timebase(data, "gcRight"), float)
+                record["observed_columns"] = ",".join(map(str, data.columns))
+                if "HeelStrike" in data.columns:
+                    p = pd.to_numeric(
+                        data["HeelStrike"], errors="coerce"
+                    ).to_numpy(float)
+                    if (p.size == t.size and np.isfinite(p).all()
+                            and p.min() >= -1 and p.max() <= 101):
+                        hits = np.flatnonzero(np.diff(p) < -50) + 1
+                        record["n_phase_wrap_candidates"] = len(hits)
+                        record["source_status"] = "original_phase_inspected"
+                        resets.extend({
+                            **identity, "phase_wrap_header": float(t[i]),
+                            "source_channel": "gcRight.HeelStrike",
+                            "physical_reference_validated": False,
+                        } for i in hits)
+                    else:
+                        record["source_status"] = "unknown_phase_scale"
+                else:
+                    record["source_status"] = "no_heelstrike_column"
+            except (OSError, KeyError, ValueError, TypeError) as exc:
+                record["source_status"] = (
+                    f"read_error: {type(exc).__name__}: {exc}"
+                )
+        rows.append(record)
+    return (pd.DataFrame(rows),
+            pd.DataFrame(resets, columns=keys + [
+                "phase_wrap_header", "source_channel",
+                "physical_reference_validated",
+            ]))
+
+
+def restore_selected_original_gc_right(
+    archive_path: Path,
+    source_root: Path,
+    selected_pairs: pd.DataFrame,
+    *,
+    max_member_bytes: int = 30_000_000,
+) -> pd.DataFrame:
+    """Restore only exact, same-trial original gcRight members from one ZIP.
+
+    Existing recordings are never overwritten, and no unrelated source
+    member, original archive or paired IMU/force file is removed.
+    """
+    import shutil
+    import tempfile
+    import zipfile
+
+    keys = ["subject_id", "session_id", "condition", "trial_id"]
+    if set(keys).difference(selected_pairs.columns):
+        raise ValueError("Source pairing identifiers missing")
+    archive_path, source_root = Path(archive_path), Path(source_root)
+    if not archive_path.is_file():
+        raise FileNotFoundError(f"Original Camargo ZIP absent: {archive_path}")
+    wanted = {
+        tuple(str(getattr(row, k)) for k in keys)
+        for row in selected_pairs.itertuples(index=False)
+        if str(row.condition) == "treadmill"
+    }
+    if not wanted:
+        raise ValueError("No same-trial original treadmill IDs supplied")
+    results = []
+    matched = set()
+    with zipfile.ZipFile(archive_path) as package:
+        for entry in package.infolist():
+            if entry.is_dir():
+                continue
+            raw_name = entry.filename.replace("\\", "/")
+            source_parts = Path(raw_name).parts
+            if (".." in source_parts or
+                    Path(raw_name).is_absolute()):
+                raise ValueError(f"Unsafe original archive member {raw_name}")
+            possible_subjects = [
+                i for i, part in enumerate(source_parts)
+                if part.startswith("AB") and part[2:].isdigit()
+            ]
+            if len(possible_subjects) != 1:
+                continue
+            rel_parts = source_parts[possible_subjects[0]:]
+            if (len(rel_parts) != 5 or
+                    rel_parts[2].lower() != "treadmill" or
+                    rel_parts[3].lower() != "gcright" or
+                    Path(rel_parts[4]).suffix.lower() != ".mat"):
+                continue
+            identity = (
+                rel_parts[0], rel_parts[1], "treadmill",
+                Path(rel_parts[4]).stem,
+            )
+            if identity not in wanted:
+                continue
+            if identity in matched:
+                raise ValueError(f"Duplicate original gcRight member {identity}")
+            matched.add(identity)
+            if entry.file_size > max_member_bytes:
+                raise ValueError(
+                    f"Original gcRight exceeds bounded limit: {raw_name}"
+                )
+            # Preserve the original case and exact source relative path.
+            destination = source_root / Path(*rel_parts)
+            destination.parent.mkdir(parents=True, exist_ok=True)
+            status = "already_present"
+            if not destination.is_file():
+                with package.open(entry) as stream:
+                    with tempfile.NamedTemporaryFile(
+                        dir=destination.parent, delete=False
+                    ) as f:
+                        temporary = Path(f.name)
+                        try:
+                            shutil.copyfileobj(stream, f)
+                        except BaseException:
+                            temporary.unlink(missing_ok=True)
+                            raise
+                if temporary.stat().st_size != entry.file_size:
+                    temporary.unlink(missing_ok=True)
+                    raise ValueError(
+                        f"Incomplete gcRight member extraction: {raw_name}"
+                    )
+                temporary.replace(destination)
+                status = "restored_from_original_archive"
+            results.append({
+                **dict(zip(keys, identity)),
+                "source_relative_path": str(Path(*rel_parts)),
+                "status": status,
+            })
+    return pd.DataFrame(results, columns=keys + [
+        "source_relative_path", "status",
+    ])

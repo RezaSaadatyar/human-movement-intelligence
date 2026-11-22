@@ -17,7 +17,8 @@ sys.path.insert(0, str(SRC))
 from gait_contract_evidence import (
     audit_candidate_pairs, inspect_source_pair, inspect_timestamp,
     validate_explicit_contract, recorded_unit_contact_candidates,
-    audit_recorded_force_candidates,
+    audit_recorded_force_candidates, audit_contact_candidate_quality,
+    audit_original_gc_right, restore_selected_original_gc_right,
 )
 
 
@@ -266,6 +267,103 @@ class GaitSourceEvidenceTests(unittest.TestCase):
             self.assertTrue(saved[0].endswith("02_provisional_imu_contact_overlay.png"))
             self.assertFalse((output / "02_reference_events.csv").exists())
             self.assertFalse((output / "02_participant_roles.csv").exists())
+
+    def test_source_candidate_quality_requires_consistent_counts(self):
+        """Original-source QC flags are not certified IC/TC event labels."""
+        common = dict(subject_id="AB06", session_id="s1",
+                      condition="treadmill", trial_id="t1",
+                      candidate_channel="Treadmill_R_vy")
+        audit = pd.DataFrame([
+            {**common, "threshold_recorded_units": x,
+             "n_contact_candidates": n, "inspection_status": "inspected"}
+            for x, n in ((10., 1), (20., 2), (30., 5))
+        ])
+        intervals = pd.DataFrame([
+            {**common, "threshold_recorded_units": 20.,
+             "candidate_onset_header": start,
+             "candidate_offset_header": start + 0.5,
+             "physical_reference_validated": False}
+            for start in (1., 3.)
+        ])
+        timebase = pd.DataFrame([{k: common[k] for k in
+                                 ("subject_id", "session_id",
+                                  "condition", "trial_id")} |
+                                 {"overlap_header": 100.}])
+        qc = audit_contact_candidate_quality(audit, intervals, timebase)
+        self.assertEqual(len(qc), 1)
+        self.assertEqual(int(qc.n_saved_candidates.iloc[0]), 2)
+        self.assertTrue(bool(qc.threshold_sensitive_review.iloc[0]))
+        self.assertTrue(bool(qc.low_yield_review.iloc[0]))
+        self.assertFalse(bool(qc.physical_reference_validated.iloc[0]))
+        self.assertFalse(bool(qc.role.iloc[0] == "verified reference"))
+        audit.loc[audit.threshold_recorded_units.eq(20.),
+                  "n_contact_candidates"] = 3
+        with self.assertRaisesRegex(ValueError, "disagree"):
+            audit_contact_candidate_quality(audit, intervals, timebase)
+
+    def test_original_gc_review_and_bounded_archive_recovery(self):
+        """Original same-trial gait phase is optional, not an IC gold standard."""
+        import zipfile
+
+        with tempfile.TemporaryDirectory() as folder:
+            root = Path(folder)
+            pair = pd.DataFrame([{
+                "subject_id": "AB06", "session_id": "s1",
+                "condition": "treadmill", "trial_id": "t1",
+                "candidate_pair": True,
+                "fp_path": "AB06/s1/treadmill/fp/t1.mat",
+            }])
+            read = lambda p: pd.DataFrame({
+                "Header": np.arange(0, 3, .005),
+                "HeelStrike": np.mod(np.arange(0, 3, .005) * 100, 100),
+            })
+            times = lambda x, name: x.Header.to_numpy(float)
+            before, resets = audit_original_gc_right(
+                pair, root, read, times
+            )
+            self.assertEqual(before.source_status.iloc[0],
+                             "original_file_unavailable")
+            self.assertTrue(resets.empty)
+            archive = root / "AB06.zip"
+            with zipfile.ZipFile(archive, "w") as zf:
+                zf.writestr(
+                    "collection/AB06/s1/treadmill/gcRight/t1.mat",
+                    b"synthetic placeholder",
+                )
+                zf.writestr(
+                    "collection/AB06/s1/treadmill/fp/t1.mat",
+                    b"must not be extracted",
+                )
+            recovered = restore_selected_original_gc_right(
+                archive, root, pair
+            )
+            self.assertEqual(len(recovered), 1)
+            self.assertTrue(
+                (root / "AB06/s1/treadmill/gcRight/t1.mat").is_file()
+            )
+            self.assertFalse(
+                (root / "AB06/s1/treadmill/fp/t1.mat").exists()
+            )
+            after, resets = audit_original_gc_right(
+                pair, root, read, times
+            )
+            self.assertEqual(after.source_status.iloc[0],
+                             "original_phase_inspected")
+            self.assertGreater(len(resets), 0)
+            self.assertFalse(resets.physical_reference_validated.any())
+
+    def test_new_quality_stage_preserves_force_reference_boundary(self):
+        notebook = REPO / "gait_analysis/code/notebooks" / (
+            "02_alignment_and_event_reference.ipynb"
+        )
+        cells = json.loads(notebook.read_text(encoding="utf-8"))["cells"]
+        ids = [c.get("id") for c in cells]
+        self.assertLess(ids.index("gait-02a2-quality-code"),
+                        ids.index("gait-02b-contract-code"))
+        code = "".join(cells[ids.index("gait-02a2-quality-code")]["source"])
+        self.assertIn("audit_contact_candidate_quality", code)
+        self.assertIn("02_original_gcright_source_audit.csv", code)
+        self.assertNotIn("02_reference_events.csv", code)
 
     def test_notebook_extension_preserves_deferred_scientific_boundary(self):
         notebook = REPO / "gait_analysis/code/notebooks" / (
