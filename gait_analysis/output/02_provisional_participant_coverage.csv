@@ -1,0 +1,10 @@
+subject_id,n_candidate_trials,n_candidate_contacts,n_plausible_intervals,eligible_for_reference
+AB06,3,100,61,False
+AB07,3,188,155,False
+AB08,3,62,31,False
+AB09,3,87,49,False
+AB10,3,63,41,False
+AB11,3,187,159,False
+AB12,3,97,59,False
+AB13,3,192,156,False
+AB14,3,169,129,False
