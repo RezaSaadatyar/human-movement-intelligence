@@ -20,6 +20,7 @@ from gait_contract_evidence import (
     audit_recorded_force_candidates, audit_contact_candidate_quality,
     audit_original_gc_right, restore_selected_original_gc_right,
     compare_original_phase_with_force_candidates,
+    compare_phase_by_recorded_force_side, audit_source_contact_filter_loss,
     read_committed_source_evidence,
 )
 
@@ -458,6 +459,71 @@ class GaitSourceEvidenceTests(unittest.TestCase):
         self.assertTrue(any("IMU_FORCE_TIMEBASE_CONFIRMED = False"
                             in t for t in texts))
         self.assertFalse(any("reference_ready = True" in t for t in texts))
+
+
+    def test_phase_proximity_compares_both_sides_without_reference_claim(self):
+        keys = {
+            "subject_id": "AB06", "session_id": "s1",
+            "condition": "treadmill", "trial_id": "t1",
+        }
+        phase = pd.DataFrame([
+            {**keys, "phase_wrap_header": t} for t in (1.0, 2.0, 3.0)
+        ])
+        candidate = pd.DataFrame([
+            {**keys, "candidate_channel": "Treadmill_R_vy",
+             "candidate_onset_header": t} for t in (1.008, 2.010)
+        ] + [
+            {**keys, "candidate_channel": "Treadmill_L_vy",
+             "candidate_onset_header": t} for t in (1.5, 2.5)
+        ])
+        audit = compare_phase_by_recorded_force_side(
+            phase, candidate, tolerance_s=0.05
+        )
+        right = audit.loc[
+            audit.candidate_channel.eq("Treadmill_R_vy")
+        ].iloc[0]
+        left = audit.loc[
+            audit.candidate_channel.eq("Treadmill_L_vy")
+        ].iloc[0]
+        self.assertEqual(int(right.n_time_near_matches), 2)
+        self.assertEqual(int(left.n_time_near_matches), 0)
+        self.assertFalse(audit.independent_reference_verified.any())
+
+    def test_source_contact_filter_loss_identifies_short_gaps(self):
+        t = np.arange(0.0, 4.0, 0.001)
+        right = np.zeros_like(t)
+        right[(t >= 0.5) & (t < 1.2)] = 550.0
+        right[(t >= 0.85) & (t < 0.875)] = 0.0
+        right[(t >= 2.0) & (t < 2.6)] = 550.0
+        frame = pd.DataFrame({
+            "Header": t,
+            "Treadmill_R_vy": right,
+            "Treadmill_L_vy": np.zeros_like(t),
+        })
+        with tempfile.TemporaryDirectory() as folder:
+            root = Path(folder)
+            (root / "trial.mat").write_bytes(b"synthetic")
+            pairs = pd.DataFrame([{
+                "subject_id": "AB06", "session_id": "s1",
+                "condition": "treadmill", "trial_id": "t1",
+                "fp_path": "trial.mat", "candidate_pair": True,
+            }])
+            audit = audit_source_contact_filter_loss(
+                pairs, root, lambda _: frame,
+                lambda table, _: table.Header.to_numpy(float),
+            )
+            saved = recorded_unit_contact_candidates(
+                t, right, threshold_recorded=20.0,
+            )
+        right_audit = audit.loc[
+            audit.candidate_channel.eq("Treadmill_R_vy")
+        ].iloc[0]
+        self.assertEqual(int(right_audit.n_complete_loaded_segments), 3)
+        self.assertEqual(int(right_audit.n_rejected_short_swing), 2)
+        self.assertEqual(int(right_audit.n_retained_candidates), 1)
+        self.assertEqual(len(saved), 1)
+        self.assertFalse(audit.physical_reference_validated.any())
+
 
 
 if __name__ == "__main__":
