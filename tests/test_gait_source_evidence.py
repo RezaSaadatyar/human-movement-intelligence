@@ -191,6 +191,75 @@ class GaitSourceEvidenceTests(unittest.TestCase):
                 set(diag.threshold_recorded_units) == {10, 20, 30}
             )
 
+    def test_provisional_stages_do_not_create_verified_reference_outputs(self):
+        """Run the source-only 03/04/05 paths with synthetic candidate data."""
+        import matplotlib
+        matplotlib.use("Agg")
+        import matplotlib.pyplot as plt
+
+        path = REPO / "gait_analysis/code/notebooks" / (
+            "02_alignment_and_event_reference.ipynb"
+        )
+        cells = json.loads(path.read_text(encoding="utf8"))["cells"]
+        cell = {c["id"]: "".join(c["source"]) for c in cells
+                if c.get("cell_type") == "code"}
+        with tempfile.TemporaryDirectory() as folder:
+            output = Path(folder)
+            onsets = np.array([1., 2., 3., 4.])
+            candidates = pd.DataFrame({
+                "subject_id": ["AB06"] * 4,
+                "session_id": ["session"] * 4,
+                "condition": ["treadmill"] * 4,
+                "trial_id": ["trial"] * 4,
+                "candidate_channel": ["Treadmill_R_vy"] * 4,
+                "candidate_onset_header": onsets,
+                "candidate_offset_header": onsets + .5,
+                "physical_reference_validated": [False] * 4,
+            })
+            pairs = pd.DataFrame([{
+                "subject_id": "AB06", "session_id": "session",
+                "condition": "treadmill", "trial_id": "trial",
+                "imu_path": "imu.csv",
+            }])
+            imu_t = np.arange(0, 6, .005)
+            imu = pd.DataFrame({
+                "Header": imu_t, "foot_Gyro_Y": np.sin(imu_t),
+            })
+            saved = []
+            context = {
+                "np": np, "pd": pd, "plt": plt,
+                "display": lambda *args: None,
+                "candidate_intervals": candidates,
+                "pairs": pairs, "reference_ready": False,
+                "missing": ["VERTICAL_FORCE_COLUMN", "FORCE_SCALE_TO_NEWTONS"],
+                "output_dir": output, "source_root": output,
+                "read_sensor_table": lambda p: imu,
+                "validate_timebase": lambda x, label: x.Header.to_numpy(float),
+                "save_figure": lambda fig, path: saved.append(str(path)),
+            }
+            try:
+                for stage in ("c-02-04", "c-02-05", "c-02-06"):
+                    exec(compile(cell[stage], stage, "exec"), context)
+            finally:
+                plt.close("all")
+            self.assertTrue(context["eligible"].empty)
+            self.assertTrue(context["references"].empty)
+            self.assertEqual(len(context["provisional_events"]), 4)
+            self.assertEqual(len(context["provisional_trials"]), 1)
+            self.assertEqual(
+                int(context["provisional_participants"].n_candidate_contacts.sum()),
+                4,
+            )
+            self.assertTrue(
+                (output / "02_provisional_contact_candidates.csv").exists()
+            )
+            self.assertTrue(
+                (output / "02_provisional_participant_coverage.csv").exists()
+            )
+            self.assertTrue(saved[0].endswith("02_provisional_imu_contact_overlay.png"))
+            self.assertFalse((output / "02_reference_events.csv").exists())
+            self.assertFalse((output / "02_participant_roles.csv").exists())
+
     def test_notebook_extension_preserves_deferred_scientific_boundary(self):
         notebook = REPO / "gait_analysis/code/notebooks" / (
             "02_alignment_and_event_reference.ipynb"
