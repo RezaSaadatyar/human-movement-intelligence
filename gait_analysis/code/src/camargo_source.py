@@ -417,6 +417,7 @@ def download_mendeley_pilot_archive(
     destination: Path, filename="AB06.zip",
     dataset_id="fcgm3chfff", version=1,
     max_bytes=1_600_000_000, opener=None,
+    allow_scripts_archive=False,
 ) -> Path:
     """Download exactly one official public participant ZIP to Colab.
 
@@ -430,7 +431,10 @@ def download_mendeley_pilot_archive(
     from urllib.request import Request, urlopen
 
     destination = Path(destination)
-    if (filename not in PART1_V1_SUBJECT_ARCHIVES or
+    allowed = set(PART1_V1_SUBJECT_ARCHIVES)
+    if allow_scripts_archive:
+        allowed.add("scripts.zip")
+    if (filename not in allowed or
             dataset_id != "fcgm3chfff" or version != 1):
         raise ValueError(
             "The bounded source downloader only accepts Camargo "
@@ -799,4 +803,177 @@ def extract_selected_auxiliary_sources_from_zip(
                 results.append(row)
     return pd.DataFrame(results, columns=list(keys) + [
         "sensor", "source_status", "relative_path",
+    ])
+
+
+# ================= 08. Metadata-First Trial Selection =======================
+def inspect_archive_trial_manifest(archive, subject_id: str,
+                                   condition="treadmill") -> pd.DataFrame:
+    """Inspect ZIP central-directory names and sizes; do not unpack recordings.
+
+    Accepts a local ZIP filename or a ZipFile backed by an explicitly
+    verified seekable HTTP Range reader. Existence of files is not a signal
+    quality or physical-reference certification.
+    """
+    from contextlib import nullcontext
+
+    subject_id = str(subject_id).upper()
+    if not re.fullmatch(r"AB\d{2}", subject_id):
+        raise ValueError("Expected one Camargo ABxx subject ID.")
+    names = ("imu", "fp", "gcRight", "gcLeft", "conditions")
+    cols = ["subject_id", "session_id", "condition", "trial_id"] + [
+        f"has_{name}" for name in names
+    ] + ["required_source_bytes", "available_source_bytes"]
+    archive_context = (
+        nullcontext(archive) if isinstance(archive, zipfile.ZipFile)
+        else zipfile.ZipFile(Path(archive))
+    )
+    grouped = {}
+    with archive_context as bundle:
+        for item in bundle.infolist():
+            if item.is_dir():
+                continue
+            raw = item.filename.replace("\\", "/")
+            parts = Path(raw).parts
+            if not parts or ".." in parts or Path(raw).is_absolute():
+                raise ValueError(f"Unsafe Camargo ZIP member path: {raw}")
+            markers = [i for i, val in enumerate(parts)
+                       if val.upper() == subject_id]
+            if len(markers) != 1:
+                continue
+            relative = parts[markers[0]:]
+            if (len(relative) != 5
+                    or relative[2].lower() != str(condition).lower()
+                    or relative[3] not in names
+                    or Path(relative[4]).suffix.lower() not in SUPPORTED):
+                continue
+            key = (relative[0].upper(), relative[1],
+                   relative[2].lower(), Path(relative[4]).stem)
+            entries = grouped.setdefault(key, {})
+            sensor = relative[3]
+            if sensor in entries:
+                raise ValueError(f"Duplicate source stream in archive: {key}, {sensor}")
+            entries[sensor] = item
+    rows = []
+    for key, group in sorted(grouped.items()):
+        row = dict(zip(cols[:4], key))
+        row.update({f"has_{name}": name in group for name in names})
+        row["required_source_bytes"] = sum(
+            group[name].file_size for name in ("imu", "fp")
+            if name in group
+        )
+        row["available_source_bytes"] = sum(x.file_size for x in group.values())
+        rows.append(row)
+    return pd.DataFrame(rows, columns=cols)
+
+
+def choose_archive_trial_manifest(manifest: pd.DataFrame, *,
+                                  required_streams=("imu", "fp", "gcRight"),
+                                  max_pairs=3) -> pd.DataFrame:
+    """Select only metadata-eligible trials without inspecting any event labels.
+
+    Each participant is handled separately; selection is deterministic by
+    session/trial identity, not walking outcome, IMU performance or FP value.
+    """
+    allowed = ("imu", "fp", "gcRight", "gcLeft", "conditions")
+    required = tuple(required_streams)
+    if (not required or len(required) != len(set(required))
+            or set(required) - set(allowed)):
+        raise ValueError("Unknown or duplicate required sensor streams.")
+    if not isinstance(max_pairs, int) or max_pairs < 1 or max_pairs > 5:
+        raise ValueError("Select between one and five trials per participant.")
+    if manifest.empty:
+        return manifest.assign(selected=False, selection_reason=pd.Series(
+            dtype=str))
+    keys = ["subject_id", "session_id", "condition", "trial_id"]
+    if set(keys + [f"has_{sensor}" for sensor in required]) - set(manifest.columns):
+        raise ValueError("Incomplete original ZIP trial inventory.")
+    if manifest[keys].duplicated().any():
+        raise ValueError("Duplicate source trial identities in archive.")
+    rows = manifest.sort_values(keys).copy()
+    rows["selected"] = False
+    rows["selection_reason"] = "missing_required_stream"
+    exists = rows[[f"has_{sensor}" for sensor in required]].all(axis=1)
+    rows.loc[exists, "selection_reason"] = "available_not_selected"
+    for _, indices in rows.loc[exists].groupby("subject_id", sort=True).groups.items():
+        positions = np.asarray(list(indices))
+        chosen = positions[np.linspace(
+            0, len(positions) - 1,
+            min(max_pairs, len(positions)), dtype=int
+        )]
+        rows.loc[chosen, "selected"] = True
+        rows.loc[chosen, "selection_reason"] = "selected_by_source_availability"
+    return rows.reset_index(drop=True)
+
+
+# ===================== 09. Publisher Script Inspection ======================
+def download_official_camargo_scripts(destination: Path, *,
+                                      dataset_id="fcgm3chfff", version=1,
+                                      max_bytes=32_000_000, opener=None) -> Path:
+    """Get only original Part-1 v1 scripts.zip, never a subject or all-data ZIP."""
+    if (dataset_id != "fcgm3chfff" or version != 1
+            or max_bytes > 32_000_000 or max_bytes <= 0):
+        raise ValueError("Only bounded Camargo Part-1 Version-1 scripts are supported.")
+    return download_mendeley_pilot_archive(
+        destination, filename="scripts.zip", dataset_id=dataset_id,
+        version=version, max_bytes=max_bytes, opener=opener,
+        allow_scripts_archive=True,
+    )
+
+
+def review_official_scripts_zip(archive_path: Path, *,
+                                max_total_text_bytes=8_000_000,
+                                max_hits=80) -> pd.DataFrame:
+    """Inspect .m/.txt script text for relevant source provenance clues.
+
+    Reports literal context lines, not conclusions about calibration,
+    force polarity, independence or the origins of gait-cycle labels.
+    """
+    keywords = (
+        "grf", "force", "newton", "treadmill", "heelstrike",
+        "heel_strike", "toeoff", "toe_off", "strides", "gcRight",
+        "vertical", "threshold", "vy", "fpTable", "sync",
+    )
+    if max_hits < 1 or max_hits > 250 or max_total_text_bytes < 1:
+        raise ValueError("Invalid bounded script-inspection limits.")
+    rows, total = [], 0
+    with zipfile.ZipFile(Path(archive_path)) as bundle:
+        for info in sorted(bundle.infolist(), key=lambda x: x.filename):
+            if info.is_dir():
+                continue
+            name = info.filename.replace("\\", "/")
+            parts = Path(name).parts
+            if not parts or ".." in parts or Path(name).is_absolute():
+                raise ValueError(f"Unsafe script ZIP entry: {name}")
+            if Path(name).suffix.lower() not in {".m", ".txt", ".md"}:
+                continue
+            if info.file_size > 2_000_000:
+                continue
+            total += info.file_size
+            if total > max_total_text_bytes:
+                raise ValueError("Script text exceeds bounded review budget.")
+            with bundle.open(info) as stream:
+                content = stream.read(info.file_size + 1)
+            if len(content) != info.file_size:
+                raise ValueError(f"Truncated script entry: {name}")
+            for line_number, line in enumerate(
+                content.decode("utf-8", errors="replace").splitlines(), 1
+            ):
+                matched = [word for word in keywords if word.lower() in line.lower()]
+                if not matched:
+                    continue
+                rows.append({
+                    "archive_name": Path(archive_path).name,
+                    "source_path": name, "line_number": line_number,
+                    "matched_terms": ";".join(matched),
+                    "source_excerpt": line.strip()[:260],
+                    "provenance_verified": False,
+                })
+                if len(rows) >= max_hits:
+                    break
+            if len(rows) >= max_hits:
+                break
+    return pd.DataFrame(rows, columns=[
+        "archive_name", "source_path", "line_number", "matched_terms",
+        "source_excerpt", "provenance_verified",
     ])
