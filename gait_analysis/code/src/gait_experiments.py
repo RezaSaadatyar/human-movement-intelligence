@@ -12,35 +12,39 @@ from gait_evaluation import event_metrics, match_events
 
 
 # ========================= 01. Prepared Trial Inputs ========================
-def read_prepared_trial(cache_dir: Path, trial_key: str):
-    """Read aligned, verified original-time trial vectors saved by Notebook 02."""
+def read_prepared_trial(cache_dir: Path, trial_key: str, *, event_key="reference_ic_s"):
+    """Read aligned trial vectors with an explicit event-provenance key."""
     path = Path(cache_dir) / f"{trial_key}.npz"
     if not path.exists():
         raise FileNotFoundError(
             f"Missing {path}; run Notebook 02 for eligible paired trials first."
         )
     with np.load(path, allow_pickle=False) as arr:
-        required = {"imu_time_s", "gyro", "reference_ic_s"}
+        if event_key not in {"reference_ic_s", "annotation_ic_s"}:
+            raise ValueError("Unsupported event provenance key.")
+        required = {"imu_time_s", "gyro", event_key}
         if not required.issubset(arr.files):
             raise ValueError(f"{path}: required numeric arrays absent.")
         t, g, ic = [np.asarray(arr[k], float) for k in
-                    ("imu_time_s", "gyro", "reference_ic_s")]
+                    ("imu_time_s", "gyro", event_key)]
     if len(t) != len(g) or not np.all(np.diff(t) > 0):
         raise ValueError(f"{trial_key}: invalid IMU signal/time mapping.")
     return t, g, ic
 
 
 def save_prepared_trial(cache_dir: Path, trial_key: str, imu_time_s,
-                        gyro, reference_ic_s):
-    """Store only reusable numerical arrays; no unreviewed source header edits."""
+                        gyro, reference_ic_s, *, event_key="reference_ic_s"):
+    """Save a numeric trial while retaining the explicit target-provenance key."""
     root = Path(cache_dir)
     root.mkdir(parents=True, exist_ok=True)
     if "/" in trial_key or "\\" in trial_key or trial_key in ("", ".", ".."):
         raise ValueError("Use a portable, single-component trial key.")
+    if event_key not in {"reference_ic_s", "annotation_ic_s"}:
+        raise ValueError("Unsupported event provenance key.")
     np.savez_compressed(root / f"{trial_key}.npz",
                         imu_time_s=np.asarray(imu_time_s, float),
                         gyro=np.asarray(gyro, float),
-                        reference_ic_s=np.asarray(reference_ic_s, float))
+                        **{event_key: np.asarray(reference_ic_s, float)})
 
 
 # ============================ 02. Detector Fitting ===========================
@@ -147,11 +151,13 @@ FIXED_BASELINE = {
 }
 
 
-def load_trial_collection(cache_root, eligible_rows):
+def load_trial_collection(cache_root, eligible_rows, *, event_key="reference_ic_s"):
     """Load precomputed signals with identifying columns from the trial table."""
     records = []
     for row in eligible_rows.itertuples(index=False):
-        t, gyro, refs = read_prepared_trial(cache_root, row.trial_key)
+        t, gyro, refs = read_prepared_trial(
+            cache_root, row.trial_key, event_key=event_key
+        )
         meta = {k: getattr(row, k) for k in
                 ("subject_id", "session_id", "condition", "trial_id", "trial_key")}
         records.append((meta, (t, gyro, refs)))
