@@ -463,6 +463,65 @@ class GaitContractTests(unittest.TestCase):
         self.assertEqual(len(rows), 1)
         self.assertTrue(np.isfinite(participant_selection_score(rows)))
 
+    def test_source_phase_trial_cache_does_not_masquerade_as_force_reference(self):
+        """Use a separate event-array key for processed source annotations."""
+        t = np.arange(0, 8.0, .005)
+        gyro = np.sin(2 * np.pi * t)
+        annotated = np.array([.5, 1.5, 2.5, 3.5, 4.5, 5.5, 6.5])
+        with tempfile.TemporaryDirectory() as directory:
+            root = Path(directory)
+            save_prepared_trial(
+                root, "AB06_phase_trial", t, gyro, annotated,
+                event_key="annotation_ic_s",
+            )
+            with self.assertRaisesRegex(ValueError, "required numeric arrays"):
+                read_prepared_trial(root, "AB06_phase_trial")
+            t_read, g_read, annotations = read_prepared_trial(
+                root, "AB06_phase_trial", event_key="annotation_ic_s",
+            )
+            np.testing.assert_array_equal(annotations, annotated)
+            np.testing.assert_array_equal(t_read, t)
+            np.testing.assert_array_equal(g_read, gyro)
+            with np.load(root / "AB06_phase_trial.npz") as saved:
+                self.assertIn("annotation_ic_s", saved.files)
+                self.assertNotIn("reference_ic_s", saved.files)
+            with self.assertRaisesRegex(ValueError, "Unsupported event"):
+                read_prepared_trial(
+                    root, "AB06_phase_trial", event_key="unlabelled_target",
+                )
+
+    def test_source_phase_notebooks_keep_distinct_exploratory_outputs(self):
+        """Source-phase results never replace validated-force output names."""
+        folder = REPO / "gait_analysis/code/notebooks"
+        for step in ("02_alignment_and_event_reference.ipynb",
+                     "03_stride_measurement_and_statistics.ipynb",
+                     "04_imu_event_baselines_and_grouped_validation.ipynb",
+                     "05_frozen_test_and_research_synthesis.ipynb"):
+            notebook = json.loads((folder / step).read_text(encoding="utf8"))
+            source = "\n".join("".join(cell["source"])
+                               for cell in notebook["cells"])
+            self.assertIn("source_phase_annotation", source)
+            self.assertIn("independent", source.lower())
+        nb02 = json.loads(
+            (folder / "02_alignment_and_event_reference.ipynb").read_text()
+        )
+        code = next(c for c in nb02["cells"]
+                    if c.get("id") == "gait-02a5-phase-benchmark-code")
+        body = "".join(code["source"])
+        for marker in ("02_phase_annotation_events.csv",
+                       "02_phase_annotation_trials.csv",
+                       "02_phase_participant_roles.csv",
+                       "02_phase_development_folds.csv"):
+            self.assertIn(marker, body)
+        self.assertIn('event_key="annotation_ic_s"', body)
+        self.assertIn("review_source_quality", body)
+        self.assertFalse(code["outputs"])
+        for number in ("03", "04", "05"):
+            nb = next(folder.glob(number + "_*.ipynb"))
+            text = "\n".join("".join(x["source"])
+                             for x in json.loads(nb.read_text())["cells"])
+            self.assertIn(f"{number}_phase", text)
+
     def test_source_audit_covers_every_paired_trial_offline(self):
         """Notebook 01 audits all available original source pairs, not one."""
         folder = REPO / "gait_analysis/code/notebooks"
