@@ -295,6 +295,200 @@ def recorded_unit_contact_candidates(
     ])
 
 
+def source_gap_stability_candidates(
+    time_s, force_recorded, *, threshold_recorded=20.0,
+    max_internal_gap_s=0.0, min_contact_s=0.08, min_swing_s=0.06,
+) -> tuple[pd.DataFrame, dict]:
+    """Review internal unloaded-gap bridging in original recorded units.
+
+    This is source-only morphology, not a physically verified GRF reference.
+    Zero bridging is exactly the existing candidate extractor. Closing a
+    gap never alters the threshold, accepts an edge-censored contact, or
+    establishes sensor units, side or clock synchronisation.
+    """
+    t = np.asarray(time_s, dtype=float)
+    f = np.asarray(force_recorded, dtype=float)
+    if (t.ndim != 1 or f.ndim != 1 or t.size != f.size
+            or t.size < 4 or not np.isfinite(t).all()
+            or not np.isfinite(f).all() or np.any(np.diff(t) <= 0)):
+        raise ValueError("Invalid original source force/time arrays.")
+    if (not np.isfinite(max_internal_gap_s)
+            or max_internal_gap_s < 0):
+        raise ValueError("Internal gap duration must be non-negative.")
+    if max_internal_gap_s == 0:
+        events = recorded_unit_contact_candidates(
+            t, f, threshold_recorded=threshold_recorded,
+            min_contact_s=min_contact_s, min_swing_s=min_swing_s,
+        )
+        return events, {"n_internal_gaps_bridged": 0,
+                        "n_samples_bridged": 0}
+
+    # Only gaps bounded by measured above-threshold samples can be closed.
+    active = f >= threshold_recorded
+    edges = np.r_[
+        0, np.flatnonzero(np.diff(active.astype(np.int8))) + 1, len(t)
+    ]
+    merged = active.copy()
+    n_gaps, n_samples = 0, 0
+    for a, b in zip(edges[:-1], edges[1:]):
+        a, b = int(a), int(b)
+        if (a == 0 or b == len(t) or active[a]
+                or t[b] - t[a] > max_internal_gap_s):
+            continue
+        merged[a:b] = True
+        n_gaps += 1
+        n_samples += b - a
+
+    # Reuse the original duration/edge-censoring rules with a binary
+    # threshold mask. These proxy values are never returned as force data.
+    synthetic_margin = max(1.0, abs(float(threshold_recorded)) * 0.01)
+    mask_as_values = np.where(
+        merged, threshold_recorded + synthetic_margin,
+        threshold_recorded - synthetic_margin,
+    )
+    events = recorded_unit_contact_candidates(
+        t, mask_as_values, threshold_recorded=threshold_recorded,
+        min_contact_s=min_contact_s, min_swing_s=min_swing_s,
+    )
+    return events, {"n_internal_gaps_bridged": n_gaps,
+                    "n_samples_bridged": n_samples}
+
+
+def audit_source_gap_stability(
+    pairs: pd.DataFrame, source_root: Path,
+    read_sensor_table: Callable, validate_timebase: Callable,
+    *, gap_durations_s=(0.0, 0.01, 0.02, 0.04, 0.06),
+    threshold_recorded=20.0,
+) -> pd.DataFrame:
+    """Compare source-unit morphology without selecting a final method.
+
+    Reads each selected original force trial once. Every gap setting and
+    both labelled belt sides are retained, including poor-quality trials.
+    The review never creates ground-truth labels or eligibility decisions.
+    """
+    keys = ("subject_id", "session_id", "condition", "trial_id")
+    if set(keys + ("fp_path", "candidate_pair")) - set(pairs.columns):
+        raise ValueError("Source registry lacks trial identity fields.")
+    if (not gap_durations_s or any(
+            not np.isfinite(g) or g < 0 for g in gap_durations_s)):
+        raise ValueError("Invalid source-only gap duration grid.")
+    if len(set(gap_durations_s)) != len(gap_durations_s):
+        raise ValueError("Duplicate gap settings.")
+    rows = []
+    for row in pairs.itertuples(index=False):
+        if row.condition != "treadmill" or not bool(row.candidate_pair):
+            continue
+        path = Path(source_root) / row.fp_path
+        if not path.is_file():
+            raise FileNotFoundError(f"Original treadmill source missing: {path}")
+        table = read_sensor_table(path)
+        t = np.asarray(validate_timebase(table, "force"), dtype=float)
+        for channel in ("Treadmill_R_vy", "Treadmill_L_vy"):
+            if channel not in table:
+                raise ValueError(f"Source-labelled channel missing: {channel}")
+            values = pd.to_numeric(
+                table[channel], errors="raise"
+            ).to_numpy(float)
+            for gap_s in gap_durations_s:
+                candidates, meta = source_gap_stability_candidates(
+                    t, values, threshold_recorded=threshold_recorded,
+                    max_internal_gap_s=float(gap_s),
+                )
+                onsets = candidates.candidate_onset_header.to_numpy(float)
+                stride_intervals = np.diff(onsets)
+                plausible = stride_intervals[
+                    (stride_intervals >= 0.35) &
+                    (stride_intervals <= 3.0)
+                ]
+                rows.append({
+                    **{key: str(getattr(row, key)) for key in keys},
+                    "candidate_channel": channel,
+                    "threshold_recorded_units": float(threshold_recorded),
+                    "max_internal_gap_s": float(gap_s),
+                    "n_internal_gaps_bridged":
+                        meta["n_internal_gaps_bridged"],
+                    "n_samples_bridged": meta["n_samples_bridged"],
+                    "n_candidate_contacts": int(len(candidates)),
+                    "n_plausible_same_side_intervals": int(len(plausible)),
+                    "median_contact_duration_s": (
+                        float(candidates.candidate_duration_header.median())
+                        if len(candidates) else np.nan
+                    ),
+                    "physical_reference_validated": False,
+                })
+    return pd.DataFrame(rows)
+
+
+def plot_source_gap_stability_probe(
+    force_table: pd.DataFrame, original_header, out_path: Path,
+    *, channel="Treadmill_R_vy", threshold_recorded=20.0,
+    bridged_gap_s=0.04, window_s=5.0,
+) -> Path:
+    """Plot an actual recorded force trace against source-only gap options."""
+    import matplotlib.pyplot as plt
+    t = np.asarray(original_header, dtype=float)
+    if channel not in force_table:
+        raise ValueError(f"Missing recorded channel: {channel}")
+    values = pd.to_numeric(
+        force_table[channel], errors="raise"
+    ).to_numpy(float)
+    if (t.ndim != 1 or t.size != values.size or t.size < 4
+            or not np.isfinite(t).all() or not np.isfinite(values).all()
+            or (np.diff(t) <= 0).any()):
+        raise ValueError("Invalid raw time/force data for diagnostic.")
+    raw, _ = source_gap_stability_candidates(
+        t, values, threshold_recorded=threshold_recorded,
+    )
+    bridged, _ = source_gap_stability_candidates(
+        t, values, threshold_recorded=threshold_recorded,
+        max_internal_gap_s=bridged_gap_s,
+    )
+    if not np.isfinite(window_s) or window_s <= 0:
+        raise ValueError("Invalid display duration.")
+    begin = float(t[0])
+    use = (t >= begin) & (t <= begin + window_s)
+    fig, axes = plt.subplots(
+        3, 1, figsize=(11, 7), sharex=True, layout="constrained"
+    )
+    axes[0].plot(t[use], values[use], lw=0.7, label=channel)
+    axes[0].axhline(
+        threshold_recorded, ls="--", lw=1.0,
+        label="Exploratory threshold (recorded units)"
+    )
+    axes[0].set_ylabel("Recorded units")
+    axes[0].legend(loc="upper right", fontsize=8)
+    axes[1].plot(t[use], values[use], lw=0.7, color="#245E9D")
+    axes[1].axhline(threshold_recorded, ls="--", lw=1.0)
+    axes[1].set_ylim(
+        threshold_recorded - 50, threshold_recorded + 110
+    )
+    axes[1].set_ylabel("Threshold vicinity")
+    for ax, candidates, label in (
+        (axes[2], raw, "No gap closing"),
+        (axes[2], bridged, f"Internal gaps ≤{bridged_gap_s:.3f} s"),
+    ):
+        times = candidates.candidate_onset_header.to_numpy(float)
+        times = times[(times >= begin) & (times <= begin + window_s)]
+        y = 1 if label == "No gap closing" else 0
+        ax.vlines(times, y - 0.15, y + 0.15, lw=1.0)
+    axes[2].set_yticks([0, 1], [
+        f"≤{bridged_gap_s * 1000:.0f} ms", "Original"
+    ])
+    axes[2].set_ylim(-0.5, 1.5)
+    axes[2].set_xlabel("Original Header time (source-reported seconds)")
+    axes[2].set_ylabel("Onset candidates")
+    axes[0].set_title(
+        "Original treadmill source: gap sensitivity, not verified IC/TC"
+    )
+    for ax in axes:
+        ax.grid(alpha=0.2)
+    target = Path(out_path)
+    target.parent.mkdir(parents=True, exist_ok=True)
+    fig.savefig(target, dpi=140, bbox_inches="tight")
+    plt.close(fig)
+    return target
+
+
 def audit_recorded_force_candidates(pairs: pd.DataFrame, source_root: Path,
                                     read_sensor_table: Callable,
                                     validate_timebase: Callable,
