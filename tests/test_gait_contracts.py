@@ -26,7 +26,10 @@ from camargo_source import (inventory_files, paired_trials, validate_timebase,
     extract_pilot_trial_from_zip, locate_pilot_source_archive,
     download_mendeley_pilot_archive, PART1_V1_SUBJECT_ARCHIVES,
     extract_selected_trial_pairs_from_zip, participant_pair_counts,
-    extract_selected_auxiliary_sources_from_zip)
+    extract_selected_auxiliary_sources_from_zip,
+    inspect_archive_trial_manifest, choose_archive_trial_manifest,
+    download_official_camargo_scripts, review_official_scripts_zip,
+    VerifiedHTTPRangeZIP, acquire_selected_camargo_trials_by_http_range)
 from gait_alignment import mapped_series, validated_overlap, candidate_channels, preview_channels
 from gait_reference import force_contact_events, reference_strides, stride_summary
 from gait_event_detectors import peak_events, candidate_features
@@ -58,6 +61,198 @@ class GaitContractTests(unittest.TestCase):
             PART1_V1_SUBJECT_ARCHIVES,
             tuple(f"AB{i:02d}.zip" for i in range(6, 15))
         )
+
+    def test_archive_preflight_selects_complete_source_trials_only(self):
+        """Read only ZIP central-directory metadata; no MAT signal is opened."""
+        with tempfile.TemporaryDirectory() as tmp:
+            path = Path(tmp) / "AB06.zip"
+            with zipfile.ZipFile(path, "w", zipfile.ZIP_DEFLATED) as archive:
+                for index in range(1, 6):
+                    trial = f"treadmill_{index:02d}_01.mat"
+                    streams = ("imu", "fp", "gcRight", "gcLeft", "conditions")
+                    if index == 3:
+                        streams = ("imu", "fp", "gcLeft", "conditions")
+                    for stream in streams:
+                        archive.writestr(
+                            f"AB06/session/treadmill/{stream}/{trial}",
+                            (stream + trial).encode(),
+                        )
+            inventory = inspect_archive_trial_manifest(path, "AB06")
+            self.assertEqual(len(inventory), 5)
+            self.assertFalse(inventory.loc[
+                inventory.trial_id.eq("treadmill_03_01"),
+                "has_gcRight",
+            ].iloc[0])
+            result = choose_archive_trial_manifest(
+                inventory, required_streams=(
+                    "imu", "fp", "gcRight", "gcLeft", "conditions"
+                ), max_pairs=3,
+            )
+            self.assertEqual(int(result.selected.sum()), 3)
+            self.assertFalse(result.loc[
+                result.trial_id.eq("treadmill_03_01"),
+                "selected",
+            ].iloc[0])
+            with tempfile.TemporaryDirectory() as root:
+                extracted = extract_selected_trial_pairs_from_zip(
+                    path, Path(root), subject_id="AB06", max_pairs=3,
+                    required_streams=(
+                        "imu", "fp", "gcRight", "gcLeft", "conditions"
+                    ),
+                )
+                self.assertEqual(len(extracted), 3)
+                self.assertNotIn("treadmill_03_01",
+                                 [r["trial_id"] for r in extracted])
+                self.assertTrue(all(Path(r["imu_path"]).is_file()
+                                    and Path(r["fp_path"]).is_file()
+                                    for r in extracted))
+
+    def test_official_script_review_is_version_pinned_and_limited(self):
+        """A source-code string match is not a verified force calibration."""
+        with tempfile.TemporaryDirectory() as tmp:
+            scripts = Path(tmp) / "scripts.zip"
+            with zipfile.ZipFile(scripts, "w") as archive:
+                archive.writestr(
+                    "scripts/STRIDES.m",
+                    "grf = Treadmill_R_vy;\n% HeelStrike contact threshold\n",
+                )
+                archive.writestr("scripts/other.txt", "No sensor mapping here")
+            found = review_official_scripts_zip(scripts)
+            self.assertGreaterEqual(len(found), 2)
+            self.assertFalse(found.provenance_verified.any())
+            self.assertIn("STRIDES.m", found.source_path.iloc[0])
+            with mock.patch(
+                "camargo_source.download_mendeley_pilot_archive",
+                return_value=scripts,
+            ) as download:
+                self.assertEqual(
+                    download_official_camargo_scripts(Path(tmp)), scripts
+                )
+                kwargs = download.call_args.kwargs
+                self.assertEqual(kwargs["filename"], "scripts.zip")
+                self.assertEqual(kwargs["version"], 1)
+                self.assertTrue(kwargs["allow_scripts_archive"])
+            with self.assertRaisesRegex(ValueError, "Version-1 scripts"):
+                download_official_camargo_scripts(Path(tmp), version=2)
+
+    def test_http_range_zip_is_really_partial_and_refuses_http_200(self):
+        """Only explicit correct 206 ranges permit remote ZIP inspection."""
+        content = io.BytesIO()
+        with zipfile.ZipFile(content, "w", zipfile.ZIP_DEFLATED) as bundle:
+            bundle.writestr(
+                "AB06/session/treadmill/imu/treadmill_01_01.mat", b"imu"
+            )
+            bundle.writestr(
+                "AB06/session/treadmill/fp/treadmill_01_01.mat", b"fp"
+            )
+        payload = content.getvalue()
+        requests = []
+
+        class Response:
+            def __init__(self, a, b, good=True):
+                self.status = 206 if good else 200
+                self.headers = {
+                    "Content-Range": f"bytes {a}-{b}/{len(payload)}"
+                }
+                self._stream = io.BytesIO(payload[a:b + 1])
+
+            def __enter__(self):
+                return self
+
+            def __exit__(self, *_):
+                return False
+
+            def read(self, n=-1):
+                return self._stream.read(n)
+
+        def source(request, timeout=45):
+            import re
+            asked = request.get_header("Range")
+            match = re.fullmatch(r"bytes=(\d+)-(\d+)", asked)
+            self.assertIsNotNone(match)
+            first, last = (int(v) for v in match.groups())
+            requests.append((first, last))
+            return Response(first, last)
+
+        reader = VerifiedHTTPRangeZIP(
+            "https://example.org/AB06.zip", opener=source,
+            block_bytes=65536, max_transfer_bytes=200_000,
+        )
+        with zipfile.ZipFile(reader) as bundle:
+            table = inspect_archive_trial_manifest(bundle, "AB06")
+            self.assertEqual(len(table), 1)
+            self.assertTrue(table.has_imu.all() and table.has_fp.all())
+        self.assertGreaterEqual(len(requests), 1)
+        self.assertTrue(reader.n_transferred_bytes <= 200_000)
+        reader.close()
+        with self.assertRaisesRegex(RuntimeError, "HTTP Range"):
+            VerifiedHTTPRangeZIP(
+                "https://example.org/AB06.zip",
+                opener=lambda req, timeout: Response(0, 0, good=False),
+                block_bytes=65536,
+            )
+
+    def test_remote_acquisition_extracts_only_required_source_streams(self):
+        """Stream selected original trial bytes without whole-archive writes."""
+        content = io.BytesIO()
+        with zipfile.ZipFile(content, "w", zipfile.ZIP_DEFLATED) as bundle:
+            for trial in range(1, 5):
+                for sensor in ("imu", "fp", "gcRight", "gcLeft", "conditions"):
+                    bundle.writestr(
+                        f"AB06/session/treadmill/{sensor}/"
+                        f"treadmill_{trial:02d}_01.mat",
+                        sensor.encode() + str(trial).encode(),
+                    )
+        payload = content.getvalue()
+
+        class Response:
+            def __init__(self, first, last):
+                self.status = 206
+                self.headers = {
+                    "Content-Range": (
+                        f"bytes {first}-{last}/{len(payload)}"
+                    )
+                }
+                self._stream = io.BytesIO(payload[first:last + 1])
+
+            def __enter__(self):
+                return self
+
+            def __exit__(self, *_):
+                return False
+
+            def read(self, n=-1):
+                return self._stream.read(n)
+
+        def source(request, timeout=45):
+            import re
+            match = re.fullmatch(
+                r"bytes=(\d+)-(\d+)", request.get_header("Range")
+            )
+            self.assertIsNotNone(match)
+            a, b = map(int, match.groups())
+            return Response(a, b)
+
+        with tempfile.TemporaryDirectory() as tmp:
+            with mock.patch(
+                "camargo_source._mendeley_public_file_metadata",
+                return_value={"id": "original-test", "content_details": {
+                    "download_url": "https://example.org/AB06.zip",
+                }},
+            ):
+                saved, counts = acquire_selected_camargo_trials_by_http_range(
+                    "AB06", Path(tmp), max_pairs=3, opener=source,
+                    max_transfer_bytes=250_000,
+                )
+            self.assertEqual(counts["selected_trials"], 3)
+            self.assertEqual(counts["selected_streams"], 15)
+            self.assertEqual(len(saved), 15)
+            self.assertFalse((Path(tmp) / "AB06.zip").exists())
+            self.assertEqual(saved.trial_id.nunique(), 3)
+            self.assertTrue(all(
+                (Path(tmp) / rel).is_file()
+                for rel in saved.relative_path
+            ))
 
     def test_multi_trial_extraction_is_bounded_and_idempotent(self):
         """Select three distinct same-trial sensor pairs, never all ZIP rows."""
