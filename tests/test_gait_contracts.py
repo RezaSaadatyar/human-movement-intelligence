@@ -583,6 +583,70 @@ class GaitContractTests(unittest.TestCase):
                     root / "unsafe.zip", dst, selected
                 )
 
+    def test_notebook02_checks_original_same_trial_auxiliary_files(self):
+        """Audit auxiliary paths without promoting files to contact labels."""
+        notebook_path = REPO / "gait_analysis/code/notebooks" / (
+            "02_alignment_and_event_reference.ipynb"
+        )
+        notebook = json.loads(notebook_path.read_text(encoding="utf8"))
+        source = "".join(next(
+            c["source"] for c in notebook["cells"]
+            if c.get("id") == "c-02-03"
+        ))
+        first = source.index(
+            "# ------------- 1B. Check Original Auxiliary Source Paths"
+        )
+        last = source.index("imu_names = set(", first)
+        audited = source[first:last]
+        with tempfile.TemporaryDirectory() as folder:
+            base = Path(folder)
+            output = base / "output"
+            output.mkdir()
+            src = base / "raw"
+            trial = "treadmill_01_01.mat"
+            identity = {
+                "subject_id": "AB06", "session_id": "s1",
+                "condition": "treadmill",
+                "trial_id": "treadmill_01_01",
+                "fp_path": f"AB06/s1/treadmill/fp/{trial}",
+            }
+            expected = []
+            for sensor in ("gcRight", "gcLeft", "conditions"):
+                rel = f"AB06/s1/treadmill/{sensor}/{trial}"
+                path = src / rel
+                path.parent.mkdir(parents=True, exist_ok=True)
+                path.write_bytes(b"original-source-test")
+                expected.append({
+                    **{k: identity[k] for k in (
+                        "subject_id", "session_id",
+                        "condition", "trial_id")},
+                    "sensor": sensor, "relative_path": rel,
+                    "source_status": "available",
+                })
+            manifest = output / "01_auxiliary_source_inventory.csv"
+            pd.DataFrame(expected).to_csv(manifest, index=False)
+            state = {
+                "pd": pd, "Path": Path, "source_root": src,
+                "output_dir": output, "pairs": pd.DataFrame([identity]),
+                "pair_keys": [
+                    "subject_id", "session_id", "condition", "trial_id"
+                ],
+            }
+            exec(compile(audited, "auxiliary_check", "exec"), state)
+            check = pd.read_csv(output / "02_auxiliary_source_crosscheck.csv")
+            self.assertEqual(len(check), len(expected))
+            self.assertTrue(check.present_in_runtime.all())
+            self.assertFalse(check.independent_reference_verified.any())
+            (src / expected[-1]["relative_path"]).unlink()
+            exec(compile(audited, "auxiliary_check", "exec"), state)
+            check = pd.read_csv(output / "02_auxiliary_source_crosscheck.csv")
+            self.assertEqual(int(check.present_in_runtime.sum()), 2)
+            bad = pd.DataFrame(expected)
+            bad.loc[0, "relative_path"] = "AB06/other.mat"
+            bad.to_csv(manifest, index=False)
+            with self.assertRaisesRegex(ValueError, "inconsistent"):
+                exec(compile(audited, "auxiliary_check", "exec"), state)
+
     def test_notebook02_source_diagnostic_uses_real_recorded_fields(self):
         """Inspect genuine numeric source streams without fabricated events."""
         import matplotlib
