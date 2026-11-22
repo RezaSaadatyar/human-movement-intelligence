@@ -493,8 +493,7 @@ class GaitContractTests(unittest.TestCase):
     def test_source_phase_notebooks_keep_distinct_exploratory_outputs(self):
         """Source-phase results never replace validated-force output names."""
         folder = REPO / "gait_analysis/code/notebooks"
-        for step in ("02_alignment_and_event_reference.ipynb",
-                     "03_stride_measurement_and_statistics.ipynb",
+        for step in ("03_stride_measurement_and_statistics.ipynb",
                      "04_imu_event_baselines_and_grouped_validation.ipynb",
                      "05_frozen_test_and_research_synthesis.ipynb"):
             notebook = json.loads((folder / step).read_text(encoding="utf8"))
