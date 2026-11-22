@@ -43,7 +43,7 @@ For reproducible stage definitions, model configurations and individual class/pa
 
 The [Camargo Gait Analysis study](gait_analysis/README.md) now has five source-to-Test notebooks, independent force-contact reference extraction, transparent IMU peak detection, participant-grouped Development comparisons and a frozen evaluation stage. See the [study-wide workflow SVG](gait_analysis/images/study_overview.svg) and [scientific methods](gait_analysis/GAIT_RESEARCH_METHODS_AND_EVIDENCE.md).
 
-**Status:** Notebook 01 and its six source-audit outputs now cover AB06–AB14 and 27 recorded trial pairs. Notebook 02's physical source-contract inspection and recorded diagnostic are published, while force-derived IC/TC references and participant roles remain scientifically unresolved. Source-channel interpretation, force/foot mapping, inter-device time alignment, wider cohort eligibility and the independent Test remain unverified. No Gait event-detection scores or clinical claims are reported.
+**Status:** Notebook 01 and its seven source-audit outputs now cover AB06–AB14 and 27 recorded trial pairs. Notebook 02's 19 published source/QC outputs now cover all 27 selected treadmill trials, including auxiliary-file checks, force-threshold sensitivity and original gait-phase proximity. Independent IC/TC references and participant roles remain scientifically unresolved. Source-channel interpretation, force/foot mapping, inter-device time alignment, wider cohort eligibility and the independent Test remain unverified. No Gait event-detection scores or clinical claims are reported.
 
 ## Repository structure
 
