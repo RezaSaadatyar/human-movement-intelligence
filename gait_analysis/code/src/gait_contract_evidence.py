@@ -708,3 +708,74 @@ def restore_selected_original_gc_right(
     return pd.DataFrame(results, columns=keys + [
         "source_relative_path", "status",
     ])
+
+
+def compare_original_phase_with_force_candidates(
+    phase_resets: pd.DataFrame,
+    force_candidates: pd.DataFrame,
+    *,
+    tolerance_s: float = 0.150,
+) -> pd.DataFrame:
+    """Descriptive, one-to-one clock comparison without fitting a time shift.
+
+    Both signals may share upstream processing: matched phase resets cannot
+    establish independent validation or justify force-unit assumptions.
+    """
+    keys = ["subject_id", "session_id", "condition", "trial_id"]
+    columns = keys + [
+        "n_phase_wrap_candidates", "n_recorded_force_candidates",
+        "n_time_near_matches", "median_absolute_difference_ms",
+        "unmatched_phase_wraps", "unmatched_force_candidates",
+        "independent_reference_verified",
+    ]
+    if phase_resets.empty:
+        return pd.DataFrame(columns=columns)
+    if set(keys + ["phase_wrap_header"]) - set(phase_resets.columns):
+        raise ValueError("Phase wraps missing source trial identifiers")
+    if set(keys + ["candidate_channel", "candidate_onset_header"]) - set(
+        force_candidates.columns
+    ):
+        raise ValueError("Force candidates missing required original fields")
+    if not np.isfinite(tolerance_s) or tolerance_s <= 0:
+        raise ValueError("Invalid fixed source-clock diagnostic tolerance")
+    forces = force_candidates.loc[
+        force_candidates.candidate_channel.eq("Treadmill_R_vy")
+    ].copy()
+    results = []
+    for identity, group in phase_resets.groupby(keys, sort=True):
+        selected = forces.copy()
+        for field, value in zip(keys, identity):
+            selected = selected.loc[selected[field].astype(str).eq(str(value))]
+        phase = np.sort(pd.to_numeric(
+            group.phase_wrap_header, errors="raise"
+        ).to_numpy(float))
+        force = np.sort(pd.to_numeric(
+            selected.candidate_onset_header, errors="raise"
+        ).to_numpy(float))
+        if not np.isfinite(phase).all() or not np.isfinite(force).all():
+            raise ValueError("Non-finite recorded phase or force timestamps")
+        i = j = 0
+        diffs = []
+        while i < len(phase) and j < len(force):
+            delta = float(phase[i] - force[j])
+            if abs(delta) <= tolerance_s:
+                diffs.append(abs(delta) * 1000)
+                i += 1
+                j += 1
+            elif delta < -tolerance_s:
+                i += 1
+            else:
+                j += 1
+        results.append({
+            **dict(zip(keys, identity)),
+            "n_phase_wrap_candidates": len(phase),
+            "n_recorded_force_candidates": len(force),
+            "n_time_near_matches": len(diffs),
+            "median_absolute_difference_ms": (
+                float(np.median(diffs)) if diffs else np.nan
+            ),
+            "unmatched_phase_wraps": len(phase) - len(diffs),
+            "unmatched_force_candidates": len(force) - len(diffs),
+            "independent_reference_verified": False,
+        })
+    return pd.DataFrame(results, columns=columns)

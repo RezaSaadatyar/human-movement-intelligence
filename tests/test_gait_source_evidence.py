@@ -19,6 +19,7 @@ from gait_contract_evidence import (
     validate_explicit_contract, recorded_unit_contact_candidates,
     audit_recorded_force_candidates, audit_contact_candidate_quality,
     audit_original_gc_right, restore_selected_original_gc_right,
+    compare_original_phase_with_force_candidates,
 )
 
 
@@ -351,6 +352,36 @@ class GaitSourceEvidenceTests(unittest.TestCase):
                              "original_phase_inspected")
             self.assertGreater(len(resets), 0)
             self.assertFalse(resets.physical_reference_validated.any())
+
+    def test_phase_force_candidate_comparison_keeps_independence_unverified(self):
+        common = {"subject_id": "AB06", "session_id": "s1",
+                  "condition": "treadmill", "trial_id": "t1"}
+        phase = pd.DataFrame([
+            {**common, "phase_wrap_header": t}
+            for t in (1.04, 2.04, 3.0)
+        ])
+        force = pd.DataFrame([
+            {**common, "candidate_channel": "Treadmill_R_vy",
+             "candidate_onset_header": t}
+            for t in (1.0, 2.0, 5.0)
+        ])
+        matched = compare_original_phase_with_force_candidates(
+            phase, force, tolerance_s=0.150
+        )
+        self.assertEqual(int(matched.n_time_near_matches.iloc[0]), 2)
+        self.assertEqual(int(matched.unmatched_phase_wraps.iloc[0]), 1)
+        self.assertAlmostEqual(
+            float(matched.median_absolute_difference_ms.iloc[0]), 40.0,
+            places=5,
+        )
+        self.assertFalse(
+            bool(matched.independent_reference_verified.iloc[0])
+        )
+        self.assertTrue(
+            compare_original_phase_with_force_candidates(
+                pd.DataFrame(), force
+            ).empty
+        )
 
     def test_new_quality_stage_preserves_force_reference_boundary(self):
         notebook = REPO / "gait_analysis/code/notebooks" / (
