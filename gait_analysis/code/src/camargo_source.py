@@ -583,6 +583,7 @@ def extract_selected_trial_pairs_from_zip(
     archive_path: Path, destination: Path, subject_id: str,
     condition="treadmill", max_pairs=3,
     max_member_bytes=250_000_000, max_extract_bytes=750_000_000,
+    required_streams=("imu", "fp"),
 ) -> list[dict]:
     """Extract a bounded, reproducible set of original IMU/FP trial pairs.
 
@@ -633,15 +634,22 @@ def extract_selected_trial_pairs_from_zip(
                 raise ValueError(f"Duplicate {sensor} entry in archive: {key}")
             grouped[key][sensor] = (info, Path(*rel))
 
-        options = sorted((key, group) for key, group in grouped.items()
-                         if len(group) == 2)
-        if not options:
+        metadata = choose_archive_trial_manifest(
+            inspect_archive_trial_manifest(bundle, subject_id, condition),
+            required_streams=required_streams, max_pairs=max_pairs,
+        )
+        chosen = set(tuple(str(x) for x in (
+            row.subject_id, row.session_id, row.condition, row.trial_id
+        )) for row in metadata.loc[metadata.selected].itertuples(index=False))
+        selected = sorted(
+            (key, group) for key, group in grouped.items()
+            if len(group) == 2 and key in chosen
+        )
+        if not selected:
             raise ValueError(
-                f"No exact original treadmill IMU/force pairs for {subject_id}."
+                f"No original {condition} trial with required streams "
+                f"{required_streams} for {subject_id}."
             )
-        count = min(max_pairs, len(options))
-        indices = np.linspace(0, len(options) - 1, count, dtype=int)
-        selected = [options[int(i)] for i in indices]
         total = sum(info.file_size for _, group in selected
                     for info, _ in group.values())
         if total > max_extract_bytes:
