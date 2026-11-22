@@ -71,6 +71,57 @@ def participant_metrics(trial_metrics: pd.DataFrame) -> pd.DataFrame:
     return pd.DataFrame(rows)
 
 
+def source_quality_sensitivity(trial_scores: pd.DataFrame) -> pd.DataFrame:
+    """Descriptive full-versus-source-QC sensitivity; never model selection.
+
+    Source flags are assigned from original phase/force correspondence,
+    before IMU scoring. The unflagged subset is a post-hoc sensitivity
+    check, not permission to remove difficult trials from headline scores.
+    """
+    required = {
+        "subject_id", "model_id", "review_source_quality",
+        "n_reference", "n_predicted", "n_matched", "timing_mae_ms",
+    }
+    if required - set(trial_scores.columns):
+        raise ValueError("Source quality sensitivity requires explicit trial flags.")
+    if trial_scores.empty or trial_scores.review_source_quality.isna().any():
+        raise ValueError("Source quality flags must be complete.")
+    if not trial_scores.review_source_quality.isin([True, False]).all():
+        raise ValueError("Source quality flags must be boolean.")
+    rows = []
+    for label, subset in (
+        ("all_source_trials", trial_scores),
+        ("unflagged_source_trials_only", trial_scores.loc[
+            ~trial_scores.review_source_quality.astype(bool)
+        ]),
+    ):
+        for model in sorted(trial_scores.model_id.unique()):
+            selected = subset.loc[subset.model_id.eq(model)]
+            persons = participant_metrics(selected)
+            rows.append({
+                "source_quality_scenario": label,
+                "model_id": str(model),
+                "n_trials": int(len(selected)),
+                "n_participants": int(persons.subject_id.nunique()),
+                "n_matched_events": int(selected.n_matched.sum()),
+                "mean_participant_mae_ms": (
+                    float(persons.timing_mae_ms.mean())
+                    if len(persons) else np.nan
+                ),
+                "mean_participant_sensitivity": (
+                    float(persons.sensitivity.mean())
+                    if len(persons) else np.nan
+                ),
+                "mean_participant_precision": (
+                    float(persons.precision.mean())
+                    if len(persons) else np.nan
+                ),
+                "status": "posthoc_descriptive_source_annotation_sensitivity",
+                "independent_force_reference_verified": False,
+            })
+    return pd.DataFrame(rows)
+
+
 def paired_subject_bootstrap(table: pd.DataFrame, model_a: str, model_b: str,
                              draws=2000, seed=42):
     """Descriptive paired whole-person bootstrap of model B minus model A MAE."""
